@@ -1,0 +1,194 @@
+{
+  "version": 2,
+  "selection": "ABBBBBB",
+  "integrationStatus": "asset_library_for_one_independent_desktop_pet",
+  "nativeCodexBindingAvailable": false,
+  "defaultState": "default_work",
+  "unknownActivityBehavior": "default_work",
+  "states": [
+    {
+      "id": "thinking",
+      "label": "思考／规划",
+      "choice": "A · 托腮思考",
+      "asset": "thinking.webp",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "sequence": [
+        0,
+        1,
+        2,
+        1,
+        0
+      ],
+      "durationsMs": [
+        2400,
+        200,
+        300,
+        200,
+        1800
+      ],
+      "loop": true,
+      "holdLastFrame": false
+    },
+    {
+      "id": "read_file",
+      "label": "读取文件",
+      "choice": "B · 桌前读书",
+      "asset": "read_file.webp",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "sequence": [
+        0,
+        1,
+        2,
+        1,
+        0
+      ],
+      "durationsMs": [
+        2400,
+        200,
+        300,
+        200,
+        1800
+      ],
+      "loop": true,
+      "holdLastFrame": false
+    },
+    {
+      "id": "view_image",
+      "label": "查看图像",
+      "choice": "B · 放大镜检查",
+      "asset": "view_image.webp",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "sequence": [
+        0,
+        1,
+        2,
+        1,
+        0
+      ],
+      "durationsMs": [
+        2400,
+        200,
+        300,
+        200,
+        1800
+      ],
+      "loop": true,
+      "holdLastFrame": false
+    },
+    {
+      "id": "write_file",
+      "label": "修改／写入文件",
+      "choice": "B · 纸上书写",
+      "asset": "write_file.webp",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "sequence": [
+        0,
+        1,
+        2,
+        1,
+        0
+      ],
+      "durationsMs": [
+        2400,
+        200,
+        300,
+        200,
+        1800
+      ],
+      "loop": true,
+      "holdLastFrame": false
+    },
+    {
+      "id": "verify",
+      "label": "测试／验证",
+      "choice": "B · 对照检查",
+      "asset": "verify.webp",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "sequence": [
+        0,
+        1,
+        2,
+        1,
+        0
+      ],
+      "durationsMs": [
+        2400,
+        200,
+        300,
+        200,
+        1800
+      ],
+      "loop": true,
+      "holdLastFrame": false
+    },
+    {
+      "id": "read_web",
+      "label": "阅读网页",
+      "choice": "B · 平板浏览",
+      "asset": "read_web.webp",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "sequence": [
+        0,
+        1,
+        2,
+        1,
+        0
+      ],
+      "durationsMs": [
+        2400,
+        200,
+        300,
+        200,
+        1800
+      ],
+      "loop": true,
+      "holdLastFrame": false,
+      "poseCorrection": "Tablet front screen faces upward; supporting hand beneath edge; operating index fingertip on screen surface."
+    },
+    {
+      "id": "respond",
+      "label": "整理／输出回答",
+      "choice": "B · 递交报告",
+      "asset": "respond.webp",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "sequence": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "durationsMs": [
+        1200,
+        220,
+        220,
+        1200
+      ],
+      "loop": false,
+      "holdLastFrame": true
+    },
+    {
+      "id": "default_work",
+      "label": "其余工作活动",
+      "choice": "稳定电脑桌",
+      "asset": "computer-desk.png",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "sequence": [
+        0
+      ],
+      "durationsMs": [
+        1000
+      ],
+      "loop": false,
+      "holdLastFrame": true
+    }
+  ],
+  "runtimeImplemented": false
+}

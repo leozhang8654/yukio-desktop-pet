@@ -1,0 +1,195 @@
+{
+  "frameWidth": 192,
+  "frameHeight": 208,
+  "neutral": "neutral.png",
+  "animations": [
+    {
+      "id": "idle",
+      "asset": "idle.webp",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "frameCount": 6,
+      "nativeRow": 0,
+      "nativeDurationsMs": [
+        1680,
+        660,
+        660,
+        840,
+        840,
+        1920
+      ]
+    },
+    {
+      "id": "running-right",
+      "asset": "running-right.webp",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "frameCount": 8,
+      "nativeRow": 1,
+      "nativeDurationsMs": [
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        220
+      ]
+    },
+    {
+      "id": "running-left",
+      "asset": "running-left.webp",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "frameCount": 8,
+      "nativeRow": 2,
+      "nativeDurationsMs": [
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        220
+      ]
+    },
+    {
+      "id": "quiet-response",
+      "asset": "quiet-response.webp",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "frameCount": 4,
+      "nativeRow": 3,
+      "nativeDurationsMs": [
+        140,
+        140,
+        140,
+        280
+      ]
+    },
+    {
+      "id": "calm-blink",
+      "asset": "calm-blink.webp",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "frameCount": 5,
+      "nativeRow": 4,
+      "nativeDurationsMs": [
+        140,
+        140,
+        140,
+        140,
+        280
+      ],
+      "notes": "Calm replacement, not a jumping animation"
+    },
+    {
+      "id": "failed",
+      "asset": "failed.webp",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "frameCount": 8,
+      "nativeRow": 5,
+      "nativeDurationsMs": [
+        140,
+        140,
+        140,
+        140,
+        140,
+        140,
+        140,
+        240
+      ]
+    },
+    {
+      "id": "waiting",
+      "asset": "waiting.webp",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "frameCount": 6,
+      "nativeRow": 6,
+      "nativeDurationsMs": [
+        150,
+        150,
+        150,
+        150,
+        150,
+        260
+      ]
+    },
+    {
+      "id": "native-working-thinking",
+      "asset": "native-working-thinking.webp",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "frameCount": 6,
+      "nativeRow": 7,
+      "nativeDurationsMs": [
+        120,
+        120,
+        120,
+        120,
+        120,
+        220
+      ],
+      "notes": "Temporary native workaround; independent runtime should use activity routing"
+    },
+    {
+      "id": "native-review-desk",
+      "asset": "native-review-desk.webp",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "frameCount": 6,
+      "nativeRow": 8,
+      "nativeDurationsMs": [
+        150,
+        150,
+        150,
+        150,
+        150,
+        280
+      ]
+    },
+    {
+      "id": "look-directions-a",
+      "asset": "look-directions-a.webp",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "frameCount": 8,
+      "nativeRow": 9,
+      "nativeDurationsMs": null,
+      "notes": "Static direction frames, not timed animation"
+    },
+    {
+      "id": "look-directions-b",
+      "asset": "look-directions-b.webp",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "frameCount": 8,
+      "nativeRow": 10,
+      "nativeDurationsMs": null,
+      "notes": "Static direction frames, not timed animation"
+    }
+  ],
+  "lookAnglesDegrees": [
+    0,
+    22.5,
+    45,
+    67.5,
+    90,
+    112.5,
+    135,
+    157.5,
+    180,
+    202.5,
+    225,
+    247.5,
+    270,
+    292.5,
+    315,
+    337.5
+  ],
+  "lookZero": "up; clockwise; front-neutral uses neutral.png"
+}

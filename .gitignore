@@ -1,0 +1,12 @@
+# 编译产物（重新运行 swift build / scripts/build-app.sh 即可生成）
+YukioPlayer/.build/
+YukioPlayer/build/
+.swiftpm/
+
+# Python 缓存
+__pycache__/
+*.pyc
+
+# 系统文件与本地设置
+.DS_Store
+.claude/
