@@ -1,6 +1,7 @@
 # 编译产物（重新运行 swift build / scripts/build-app.sh 即可生成）
 YukioPlayer/.build/
 YukioPlayer/build/
+YukioPlayer/dist/
 .swiftpm/
 
 # Python 缓存

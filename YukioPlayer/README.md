@@ -8,7 +8,7 @@
 ```sh
 cd YukioPlayer
 swift test                     # 54 个核心测试（路由、防抖、分类、解析、文件跟随、资源、气泡文字、动作时间线）
-./scripts/build-app.sh         # 生成 build/Yukio.app（资源已打包进应用）
+./scripts/build-app.sh         # 生成 build/Yukio.app（资源与图标已打包进应用）
 open build/Yukio.app
 ```
 
@@ -90,6 +90,15 @@ open build/Yukio.app
 
 文字跟着雪绪正在显示的动作变（已防抖），不会抢在动作前面；同一动作里细节变得太快时（连续读几个文件），每段文字至少停留 1.2 秒。出错时显示“出错：那次调用”，回答后显示“已回答”。气泡只显示文件名、命令前几个词和网址域名，不显示文件内容；点击会穿透到后面的窗口。
 
+## 应用图标
+
+`Resources/AppIcon.icns` 是访达、聚焦、“打开方式”里显示的封面，由 `tools/icon/make_icon.py` 生成（需要 numpy、Pillow 和系统自带的 iconutil）；打包脚本把它复制进应用，并在 Info.plist 里写 `CFBundleIconFile`。
+
+画面取 `sources/read_web-corrected-source-2x2.png` 左上格（627×627，仓库里雪绪分辨率最高的一张）：差值抠掉洋红底并解出前景色，边缘不留紫；裁成头肩半身，桌沿压在图标下边。外框是 1024 画布里 824 的连续圆角方块（超椭圆指数 5，与本机系统图标实测一致），背后浅冰蓝渐变加一点头后柔光与平板冷光，下面一层淡投影。16–1024 十个尺寸都由同一张 1024 缩出来，≤64 的再补一点锐度。
+
+- 默认是浅色版；`--style night` 出深蓝版；`--png out.png` 只导出 1024 大图；`--preview p.png` 输出各尺寸对照图，用来目测小图标还认不认得出。
+- 应用是 LSUIElement（不进程序坞），所以这张封面主要出现在访达和聚焦里；菜单栏的小头像仍是从动作图条里取的（`SpriteLibrary.avatarImage()`）。
+
 ## 结构
 
 ```
@@ -103,7 +112,9 @@ Sources/YukioCore/            与界面无关，可完整测试
 Sources/YukioPlayer/          macOS 窗口、头顶气泡、拖动、菜单栏、命令行模式
 Resources/Assets/            从接续包复制的最终素材（七套活动、电脑桌、基础动作）
 Resources/Assets/motion/     生成的小幅动作图条与 motion.json（覆盖同名动画）
+Resources/AppIcon.icns       应用图标（访达里显示的封面）
 tools/motion/                动作生成脚本（Python：底图 + 局部平滑变形 + 眨眼）
+tools/icon/                  图标生成脚本（Python：抠像 + 圆角方块 + 十个尺寸）
 integrations/claude-hooks/   可选的官方 hooks 接入（默认未启用）
 ```
 
