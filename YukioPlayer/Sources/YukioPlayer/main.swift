@@ -112,7 +112,8 @@ func runBubbleSnapshot(path: String) -> Never {
                              current: "$ swift test --filter RouterTests", progress: nil)),
         (.thinking, StatusLine(title: nil, current: "思考中", progress: nil)),
         (.failed, StatusLine(title: "桌宠缺失状态", current: "出错：$ swift test", progress: .init(done: 7, total: 7))),
-        (.idle, StatusLine(title: "桌宠缺失状态", current: "等你回答", progress: nil)),
+        (.question_for_user, StatusLine(title: "桌宠缺失状态", current: "等你回答", progress: nil)),
+        (.task_complete, StatusLine(title: "桌宠缺失状态", current: "已完成", progress: .init(done: 7, total: 7))),
     ]
     let cellW: CGFloat = 240, cellH: CGFloat = 208 + 64, px: CGFloat = 2
     let width = Int(cellW * CGFloat(samples.count) * px), height = Int(cellH * px)

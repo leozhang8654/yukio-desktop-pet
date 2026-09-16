@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "selection": "ABBBBBB",
   "integrationStatus": "asset_library_for_one_independent_desktop_pet",
   "nativeCodexBindingAvailable": false,
@@ -178,6 +178,38 @@
       "label": "其余工作活动",
       "choice": "稳定电脑桌",
       "asset": "computer-desk.png",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "sequence": [
+        0
+      ],
+      "durationsMs": [
+        1000
+      ],
+      "loop": false,
+      "holdLastFrame": true
+    },
+    {
+      "id": "question_for_user",
+      "label": "等你回答",
+      "choice": "C · 立起问号卡",
+      "asset": "question_for_user.webp",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "sequence": [
+        0
+      ],
+      "durationsMs": [
+        1000
+      ],
+      "loop": false,
+      "holdLastFrame": true
+    },
+    {
+      "id": "task_complete",
+      "label": "完成任务",
+      "choice": "C · 展示勾选卡",
+      "asset": "task_complete.webp",
       "frameWidth": 192,
       "frameHeight": 208,
       "sequence": [

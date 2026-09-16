@@ -11,6 +11,9 @@ public struct RouterConfig: Sendable {
     public var toolGraceMs: Double = 3500
     /// 任务结束后“递交报告”保持这么久，然后回空闲。
     public var respondLingerMs: Double = 8000
+    /// 任务结束后先显示“递交报告”这么久（够播完整理文件那一下），之后换成“完成任务”的勾选卡，
+    /// 直到 respondLingerMs 结束。须小于 respondLingerMs。
+    public var respondHoldMs: Double = 3000
     /// 工具失败后沮丧最多显示这么久；期间开始新工具会立即接替，之后回到思考。
     public var failedHoldMs: Double = 4000
     /// 本轮因错误中止后沮丧停留这么久，然后回空闲。
@@ -299,7 +302,8 @@ public final class ActivityRouter {
             return .thinking
         }
         if s.finalAnswerAt != nil, let end = s.taskEndedAt, now - end < config.respondLingerMs {
-            return .respond
+            // 先递交报告（整理文件那一下），再举勾选卡停住。
+            return now - end < min(config.respondHoldMs, config.respondLingerMs) ? .respond : .task_complete
         }
         if let f = s.failedAt, now - f < config.failedLingerMs { return .failed }
         return .idle
@@ -363,7 +367,7 @@ public final class ActivityRouter {
     public func statusLine(now: Double) -> StatusLine? {
         guard let f = focusedSession, let s = sessions[f] else { return nil }
         // AskUserQuestion 等“等你回答”的调用显示空闲动作，但任务仍在进行。
-        let waitingForUser = s.taskActive && s.open.last?.state == .idle
+        let waitingForUser = s.taskActive && s.open.last?.state == .question_for_user
         if displayed == .idle && !waitingForUser { return nil }
 
         let progress = s.todos.isEmpty ? nil : StatusLine.Progress(
@@ -375,8 +379,10 @@ public final class ActivityRouter {
             current = s.failedDetail.map { "出错：\($0)" } ?? "出错了"
         case .respond:
             current = s.taskActive ? "整理回答" : "已回答"
-        case .idle:
+        case .idle, .question_for_user:
             current = s.open.last?.detail ?? "等你回答"
+        case .task_complete:
+            current = "已完成"
         case .thinking:
             current = inProgress ?? "思考中"
         default:
@@ -396,6 +402,8 @@ public final class ActivityRouter {
         case .thinking: return "思考中"
         case .respond: return "整理回答"
         case .failed: return "出错了"
+        case .question_for_user: return "等你回答"
+        case .task_complete: return "已完成"
         case .idle: return "等你回答"
         }
     }

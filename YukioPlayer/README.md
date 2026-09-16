@@ -1,13 +1,13 @@
 # 雪绪桌面播放器（Claude 兼容版）
 
-一只雪绪，根据 **Claude Code** 当前在做的事自动切换动作：七类活动各有动作，其余工作显示电脑桌，出错时沮丧，没有任务时空闲。每个动作都在小幅、连续地动（写字、敲键盘、转头、眨眼），头顶的小气泡显示大任务、当前任务和进度。
+一只雪绪，根据 **Claude Code** 当前在做的事自动切换动作：七类活动各有动作，其余工作显示电脑桌，出错时沮丧，要你拿主意时立起问号卡，答完举起勾选卡，没有任务时空闲。每个动作都在小幅、连续地动（写字、敲键盘、转头、眨眼），头顶的小气泡显示大任务、当前任务和进度。
 原生 Swift / AppKit，只需 Xcode Command Line Tools，无第三方依赖。
 
 ## 构建与运行
 
 ```sh
 cd YukioPlayer
-swift test                     # 52 个核心测试（路由、防抖、分类、解析、文件跟随、资源、气泡文字、动作时间线）
+swift test                     # 54 个核心测试（路由、防抖、分类、解析、文件跟随、资源、气泡文字、动作时间线）
 ./scripts/build-app.sh         # 生成 build/Yukio.app（资源已打包进应用）
 open build/Yukio.app
 ```
@@ -43,10 +43,12 @@ open build/Yukio.app
 | `write_file` | B 纸上书写 | Write、Edit、MultiEdit、NotebookEdit；写入类命令（重定向到文件、sed -i、cp、mv、mkdir、git commit…） |
 | `verify` | B 对照检查 | 测试／检查命令（swift test、pytest、npm test、cargo test、`*verify*`/`*test*` 脚本…） |
 | `read_web` | B 平板浏览 | WebFetch、WebSearch；浏览器类 MCP；curl/wget |
-| `respond` | B 递交报告 | 最终回答（`end_turn` 文本）；递出一次后停住，任务结束后保持 8 秒再回空闲 |
+| `respond` | B 递交报告 | 最终回答（`end_turn` 文本）；递出一次后停住，3 秒后换成勾选卡 |
+| `task_complete` | C 展示勾选卡 | 接在递交报告后面，停到任务结束满 8 秒再回空闲 |
+| `question_for_user` | C 立起问号卡 | `AskUserQuestion`：任务仍在进行，但在等你拿主意 |
 | `default_work` | 稳定电脑桌 | 其他一切工作（构建、安装依赖、Agent、Skill、未知 MCP…） |
 | `failed` | 沮丧（基础图条 `failed`，垂眼一次后停住） | 工具报错（非零退出、编辑找不到原文、文件不存在…）：下一个工具开始就接替，最多 4 秒后回思考；API 报错导致本轮中止：停留 8 秒再回空闲。拒绝授权、中断不算失败 |
-| `idle` | 基础待机 | 没有进行中的任务；等待用户回答（AskUserQuestion）；失联回退 |
+| `idle` | 基础待机 | 没有进行中的任务；失联回退 |
 
 拖动时使用原版左右跑动，松手回到当前活动。分类规则见 `Sources/YukioCore/ClaudeToolClassifier.swift`，有限且逐条有测试；无法确定时回电脑桌，不会把任意命令当成测试。
 
@@ -68,6 +70,8 @@ open build/Yukio.app
 | `read_web` | 手指在平板上往上划两下（翻页），停一会儿，眼睛跟着往下扫 |
 | `default_work` | 两只手轮流抬起、敲下，在键位间左右挪，节奏不齐，敲一阵停一下 |
 | `respond` | 先整理文件：后面两张没对齐的纸伸在外面，拿着整叠在桌上磕两下、慢慢对齐；然后停住只眨眼，不来回递纸 |
+| `question_for_user` | 指着问号卡的手点两下，然后抬眼看你、停住 |
+| `task_complete` | 双手托着勾选卡轻轻抬起来给你看一眼再放回，头跟着一点点 |
 | `idle` | 偶尔向左、向右看一看，头跟着歪，眨眼 |
 | `failed` | 垂眼一次后停住，慢慢叹气、慢眨眼 |
 
@@ -110,7 +114,8 @@ integrations/claude-hooks/   可选的官方 hooks 接入（默认未启用）
 | `debounceMs` | 400 | 候选状态稳定这么久才切换 |
 | `minHoldMs` | 1500 | 每个显示状态至少保持这么久 |
 | `toolGraceMs` | 3500 | 工具结束后仍算作该活动，合并连续同类调用（真实转录中调用间隔多为 2–4 秒） |
-| `respondLingerMs` | 8000 | 回答后“递交报告”停留时间 |
+| `respondLingerMs` | 8000 | 回答后这一段的总停留时间（递交报告 + 勾选卡） |
+| `respondHoldMs` | 3000 | 其中前这么久显示“递交报告”，够播完整理文件那一下，之后换成勾选卡 |
 | `failedHoldMs` | 4000 | 工具失败后沮丧最多显示多久（下一个工具开始就接替），之后回思考 |
 | `failedLingerMs` | 8000 | 本轮因 API 报错中止后沮丧停留时间，然后回空闲 |
 | `staleNoToolMs` / `staleOpenToolMs` | 10 分钟 / 30 分钟 | 无事件多久视为失联，回空闲 |
@@ -136,7 +141,8 @@ integrations/claude-hooks/   可选的官方 hooks 接入（默认未启用）
 
 ## 已知限制
 
-- 素材为 192×208 的 1 倍图，在 Retina 屏上是放大显示，会略软；更清晰需要从 `sources/` 高分辨率源图重新提取 2 倍图。
+- 素材为 192×208 的 1 倍图，在 Retina 屏上是放大显示，会略软；更清晰需要从 `sources/` 高分辨率源图重新提取 2 倍图（`question_for_user`、`task_complete` 已有 384×416 的源图）。
+- `question_for_user`、`task_complete` 的底图和其余坐姿状态不是同一批画的，桌腿位置差两三像素；这个差距落在现有状态彼此之间的范围内（`read_web` 与 `write_file` 差 1208 像素，这两个是 1303 和 1936），切换时不比现在更明显。
 - 动作是底图上的小幅变形，只适合 2 像素以内的移动；翻页、换姿势这类大动作需要重新画图。
 - 思考块在消息完成后才写入转录，所以“思考”是推断的（任务进行中且无工具在跑）；最终回答也在写完后才出现，流式输出期间显示思考。
 - 气泡的任务清单是从转录重建的：启动时每个会话只回放最后 1 MB，很长的会话里较早建立的任务可能漏掉，进度会少算，直到 Claude 再次更新清单。

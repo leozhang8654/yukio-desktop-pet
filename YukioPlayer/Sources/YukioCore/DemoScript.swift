@@ -1,7 +1,7 @@
 import Foundation
 
 /// 可重复的模拟事件脚本：用于演示和测试，不代表真实 Claude 活动。
-/// 故意包含连续短调用、同类合并、快速交替、失败后修正和结束保持等情形；
+/// 故意包含连续短调用、同类合并、快速交替、失败后修正、提问等待和结束保持等情形；
 /// 前半段没有任务清单（气泡显示当前活动），7.5 秒起建立清单（气泡显示进行中的一项与进度）。
 public enum DemoScript {
     public static let source = "sim"
@@ -59,11 +59,12 @@ public enum DemoScript {
         tool(39000, 43000, .default_work, "Bash", "$ swift build")           // 未识别工作 → 电脑桌
         todo(44000, "3", status: .completed)
         add(44500, .thinking)
-        add(47500, .finalAnswer)                                           // 递交报告，递出后停住
-        add(47500, .taskEnd)
+        tool(45500, 48500, .question_for_user, "AskUserQuestion", "等你回答")  // 立问号卡，指着它等你回答
+        add(49500, .finalAnswer)                                           // 先递交报告，再举勾选卡
+        add(49500, .taskEnd)
         return out
     }
 
     /// 脚本全长（最后一个事件之后再留出报告停留与回空闲的时间）。
-    public static let durationMs: Double = 47500 + 8000 + 3000
+    public static let durationMs: Double = 49500 + 8000 + 3000
 }

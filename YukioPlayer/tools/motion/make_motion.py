@@ -29,8 +29,8 @@ from PIL import Image, ImageDraw
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from motionlib import (H, W, Frame, Part, Rotate, Shift, assemble, clean_plate, compose, detect_eye,  # noqa: E402
-                       disk_mask, ease, flood_mask, keys, load_frame, max_step, paint_blink, polygon_mask,
-                       render, save_strip, scalar, sheet_image, to_image, unpremul_rgb, vec)
+                       disk_mask, ease, extend_rows, flood_mask, keys, load_frame, max_step, paint_blink,
+                       polygon_mask, render, save_strip, scalar, sheet_image, to_image, unpremul_rgb, vec)
 
 ROOT = Path(__file__).resolve().parents[2]
 ASSETS = ROOT / 'Resources' / 'Assets'
@@ -45,6 +45,7 @@ class Rig:
     handles: list = field(default_factory=list)   # 局部变形（作用在补齐后的底图上）
     parts: list = field(default_factory=list)     # 整块移动的部件（叠在最上面）
     behind: list = field(default_factory=list)    # 叠在底图与部件之间的层（后面那几张纸）
+    fix: object = None                            # (底图, 补齐后的背景, 挖掉的范围) -> 修过的背景
 
 
 @dataclass
@@ -240,6 +241,34 @@ def respond(plate, eyes):
                        Part(ones, (97, 120), loose(3.0, 4.5), image=sheet)])
 
 
+def question_for_user(plate, eyes):
+    # 等你回答：问号卡立在桌上，指着卡的手点两下，然后抬眼看你、停住。
+    P = 4.2
+    tap = keys([(0, 0, 0, 0), (0.5, 0, 0, 0), (0.70, 1.7, -1.3, 0), (0.98, 0, 0, 0), (1.18, 0, 0, 0),
+                (1.38, 1.7, -1.3, 0), (1.66, 0, 0, 0), (4.2, 0, 0, 0)], P)
+    # 抬头看你：头往上一点，眼珠跟着多抬一点，然后一直保持到这一轮结束。
+    look = vec([(0, 0, 0), (2.0, 0, 0), (2.6, 0, -0.9), (4.2, 0, -0.9)], P)
+    hand = Part(flood_mask(plate, [(74, 108), (78, 106), (72, 111), (82, 105)],
+                           region=[(66, 97), (92, 97), (95, 105), (92, 118), (66, 118)]), (80, 108), tap)
+    return Rig(handles=[head((94, 50), (56, 14, 132, 86), look),
+                        *irises(eyes, lambda t: (0.28 * tap(t)[0], 1.5 * look(t)[1]))],
+               parts=[hand])
+
+
+def task_complete(plate, eyes):
+    # 完成任务：双手托着勾选卡轻轻抬起来给你看一眼，再放回桌上；抬起时头微微跟一下。
+    P = 5.0
+    show = keys([(0, 0, 0, 0), (1.0, 0, 0, 0), (1.5, 0, -2.6, 0), (3.0, 0, -2.6, 0), (3.5, 0, 0, 0),
+                 (5.0, 0, 0, 0)], P)
+    card = polygon_mask([(77, 89), (112, 89), (112, 118), (77, 118)])
+    unit = Part(flood_mask(plate, [(80, 107), (84, 110), (76, 110), (110, 107), (114, 111), (117, 112)],
+                           region=[(66, 96), (126, 96), (126, 120), (66, 120)], add=(card,)), (94, 118), show)
+    return Rig(handles=[head((94, 50), (56, 14, 132, 86), lambda t: (0.0, 0.3 * show(t)[1])),
+                        *irises(eyes, lambda t: (0.0, 0.5 * show(t)[1]))],
+               parts=[unit],
+               fix=lambda plate, base, hole: extend_rows(plate, base, hole, 100, 124))
+
+
 def idle(plate, eyes):
     # 空闲：偶尔向左、向右看一看（轮廓、五官、眼珠依次多移一点，像是转头），头跟着歪。
     look = vec([(0, 0, 0), (2.6, 0, 0), (3.3, -2.0, 0), (5.0, -2.0, 0), (5.7, 0, 0),
@@ -273,6 +302,10 @@ STATES = [
           4.0, 1, 15, [1.6], respond, intro=1.4, intro_fps=30),
     State('default_work', ('activities/computer-desk.png', 0), [(92, 62, 102, 75), (110, 57, 122, 72)],
           2.4, 2, 20, [4.25], default_work),
+    State('question_for_user', ('activities/question_for_user.webp', 0), [(77, 63, 90, 77), (99, 63, 112, 77)],
+          4.2, 1, 20, [3.1], question_for_user),
+    State('task_complete', ('activities/task_complete.webp', 0), [(76, 63, 90, 78), (99, 63, 112, 78)],
+          5.0, 1, 20, [4.2], task_complete),
     State('idle', ('base/idle.webp', 0), [(78, 54, 90, 68), (97, 50, 109, 64)],
           12.0, 1, 12, [1.3, 5.2, 7.3, 10.9], idle),
     State('failed', ('base/failed.webp', 3), [(78, 56, 91, 68), (98, 52, 110, 64)],
@@ -300,6 +333,8 @@ class Scene:
         for p in self.rig.parts:
             self.hole = np.maximum(self.hole, p.mask)
         self.base = clean_plate(self.plate, self.hole) if self.rig.parts else self.plate
+        if self.rig.fix is not None:
+            self.base = self.rig.fix(self.plate, self.base, self.hole)
         self._blink = {}
 
     def frame(self, t: float, blink: float = 0.0) -> np.ndarray:

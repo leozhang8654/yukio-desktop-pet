@@ -52,7 +52,7 @@ import Testing
         #expect(c("Bash", ["command": "swift test"]) == .activity(.verify))
         #expect(c("TaskOutput") == .continuePrevious)
         #expect(c("TodoWrite") == .activity(.thinking))
-        #expect(c("AskUserQuestion") == .activity(.idle))
+        #expect(c("AskUserQuestion") == .activity(.question_for_user))
         #expect(c("Agent") == .activity(.default_work))
         #expect(c("SomethingNew") == .activity(.default_work))
     }

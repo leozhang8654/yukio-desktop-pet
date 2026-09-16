@@ -36,7 +36,7 @@ public enum ClaudeToolClassifier {
             return .activity(.thinking)
         case "AskUserQuestion":
             // 等待用户回答：不是在工作。
-            return .activity(.idle)
+            return .activity(.question_for_user)
         default:
             break
         }

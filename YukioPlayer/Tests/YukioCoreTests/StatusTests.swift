@@ -63,10 +63,17 @@ extension Harness {
         h.event(.activityFailed, id: "t")
         h.run(to: 4000)
         #expect(h.line?.current == "出错：$ swift test")
-        h.event(.activityStart, id: "q", .idle, detail: "等你回答")
+        h.event(.activityStart, id: "q", .question_for_user, detail: "等你回答")
         h.run(to: 7000)
-        #expect(h.router.displayed == .idle)
+        #expect(h.router.displayed == .question_for_user)
         #expect(h.line?.current == "等你回答")
+        // 回答完成：先递交报告，再举勾选卡，气泡跟着说“已完成”。
+        h.event(.activityEnd, id: "q")
+        h.event(.finalAnswer)
+        h.event(.taskEnd)
+        h.run(to: 12000)
+        #expect(h.router.displayed == .task_complete)
+        #expect(h.line?.current == "已完成")
     }
 }
 

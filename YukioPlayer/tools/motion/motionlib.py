@@ -424,6 +424,27 @@ def clean_plate(plate: np.ndarray, hole: np.ndarray, radius: float = 3) -> np.nd
     return out
 
 
+def extend_rows(plate: np.ndarray, base: np.ndarray, hole: np.ndarray, y0: int, y1: int) -> np.ndarray:
+    """把 y0..y1 之间挖掉的像素，按同一行左右两侧最近的完好像素线性补齐。
+    桌沿、桌面这种横向均匀的背景，这样比 inpaint 的糊团更接近原来的样子（部件抬起时露出的就是这条带）。"""
+    out = base.copy()
+    solid = hole <= 0.04
+    for y in range(max(y0, 0), min(y1, H)):
+        keep = np.nonzero(solid[y])[0]
+        if len(keep) == 0:
+            continue
+        for x in np.nonzero(~solid[y])[0]:
+            left = keep[keep < x]
+            right = keep[keep > x]
+            if len(left) and len(right):
+                a, b = int(left[-1]), int(right[0])
+                k = (x - a) / (b - a)
+                out[y, x] = plate[y, a] * (1 - k) + plate[y, b] * k
+            else:
+                out[y, x] = plate[y, int(left[-1]) if len(left) else int(right[0])]
+    return out
+
+
 @dataclass
 class Part:
     """整块移动的一层：按 mask 从 src 抠出，绕 pivot 顺时针转 angle 度，再平移 (dx, dy)。motion(t) → (dx, dy, angle)。"""

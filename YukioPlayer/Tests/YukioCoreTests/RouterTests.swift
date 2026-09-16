@@ -90,17 +90,45 @@ final class Harness {
         #expect(h.states == [.write_file])
     }
 
-    @Test func respondIsHeldAfterTaskEndThenReturnsToIdle() {
+    @Test func respondThenTaskCompleteAfterTaskEndThenReturnsToIdle() {
         var config = RouterConfig()
         config.respondLingerMs = 8000
+        config.respondHoldMs = 3000
+        let h = Harness(config: config)
+        h.send(.taskStart)
+        h.run(to: 3000)
+        h.send(.finalAnswer); h.send(.taskEnd)
+        h.run(to: 20000)
+        // 先递交报告，够播完整理文件那一下，再举勾选卡停到停留结束。
+        #expect(h.states == [.thinking, .respond, .task_complete, .idle])
+        let respondAt = h.transitions[1].t, cardAt = h.transitions[2].t, idleAt = h.transitions[3].t
+        #expect(cardAt - respondAt >= 2900 && cardAt - respondAt <= 3600)
+        #expect(idleAt - respondAt >= 7500)
+    }
+
+    @Test func respondHoldLongerThanLingerNeverShowsTheCard() {
+        var config = RouterConfig()
+        config.respondLingerMs = 3000
+        config.respondHoldMs = 8000
         let h = Harness(config: config)
         h.send(.taskStart)
         h.run(to: 3000)
         h.send(.finalAnswer); h.send(.taskEnd)
         h.run(to: 20000)
         #expect(h.states == [.thinking, .respond, .idle])
-        let respondAt = h.transitions[1].t, idleAt = h.transitions[2].t
-        #expect(idleAt - respondAt >= 7500)
+    }
+
+    @Test func askUserQuestionShowsTheQuestionCardWhileTheTaskStaysOpen() {
+        let h = Harness()
+        h.send(.taskStart)
+        h.send(.activityStart, id: "q", .question_for_user)
+        h.run(to: 4000)
+        #expect(h.states == [.question_for_user])
+        #expect(h.router.statusLine(now: h.now)?.current == "等你回答")
+        h.send(.activityEnd, id: "q")
+        h.send(.thinking)
+        h.run(to: 8000)
+        #expect(h.states == [.question_for_user, .thinking])
     }
 
     @Test func abortGoesToIdleWithoutReport() {
@@ -289,7 +317,8 @@ final class Harness {
         let shown = Set(h.states)
         for s in PetState.allCases where s != .idle { #expect(shown.contains(s), "演示中没有出现 \(s)") }
         #expect(h.states.last == .idle)
-        #expect(h.states.dropLast().last == .respond)
+        #expect(h.states.dropLast().last == .task_complete)
+        #expect(h.states.dropLast(2).last == .respond)
         for (a, b) in zip(h.transitions, h.transitions.dropFirst()) {
             #expect(b.t - a.t >= 1500, "\(a.state) 只显示了 \(b.t - a.t) ms")
         }

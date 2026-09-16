@@ -14,8 +14,12 @@ public enum PetState: String, CaseIterable, Codable, Sendable {
     case default_work
     /// 工具报错或本轮因错误中止：沮丧（基础图条 failed）。
     case failed
+    /// AskUserQuestion：把问号卡立在桌上、指着它等你回答。
+    case question_for_user
+    /// 一轮任务结束：递交报告之后举起勾选卡，直到回空闲。
+    case task_complete
 
-    public var isWork: Bool { self != .idle }
+    public var isWork: Bool { self != .idle && self != .question_for_user && self != .task_complete }
 }
 
 /// Claude 任务清单中的一条（TodoWrite，或 TaskCreate／TaskUpdate）。
