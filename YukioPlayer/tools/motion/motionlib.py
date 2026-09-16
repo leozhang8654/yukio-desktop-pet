@@ -332,3 +332,138 @@ def paint_blink(plate: np.ndarray, eyes: list, amount: float, S: int = 4) -> np.
     out = np.clip(out, 0, 1)
     out[..., :3] = np.minimum(out[..., :3], out[..., 3:4])
     return out
+
+
+# ---------- 整块移动的部件：从底图抠出来，背后补齐，按时间平移、旋转 ----------
+# 变形只适合 1–2 像素；手、笔、放大镜、纸要动几像素时，把它们当成一层单独移动，
+# 原位置用四周像素补齐（移开时露出来的就是补出来的背景），这样不会拉扯周围的画面。
+
+def polygon_mask(points: list, S: int = 4) -> np.ndarray:
+    """多边形蒙版（1 倍坐标），4 倍超采样画再缩回，边缘抗锯齿。"""
+    m = np.zeros((H * S, W * S), np.uint8)
+    pts = np.round(np.array(points, np.float32) * S).astype(np.int32)
+    cv2.fillPoly(m, [pts], 255, lineType=cv2.LINE_AA)
+    return cv2.resize(m.astype(np.float32) / 255, (W, H), interpolation=cv2.INTER_AREA)
+
+
+def disk_mask(center: Vec, radius: float, S: int = 4) -> np.ndarray:
+    m = np.zeros((H * S, W * S), np.uint8)
+    cv2.circle(m, (int(round(center[0] * S)), int(round(center[1] * S))), int(round(radius * S)), 255, -1,
+               lineType=cv2.LINE_AA)
+    return cv2.resize(m.astype(np.float32) / 255, (W, H), interpolation=cv2.INTER_AREA)
+
+
+def pick_pixels(plate: np.ndarray, rule) -> np.ndarray:
+    """按颜色选像素：rule(r, g, b, alpha, 亮度) → 布尔图（颜色为未预乘值）。"""
+    rgb = unpremul_rgb(plate)
+    r, g, b = rgb[..., 0], rgb[..., 1], rgb[..., 2]
+    lum = 0.299 * r + 0.587 * g + 0.114 * b
+    return rule(r, g, b, plate[..., 3], lum).astype(np.float32)
+
+
+def part_mask(plate: np.ndarray, region: list, rule=None, grow: int = 1, add=(), feather: float = 0.5) -> np.ndarray:
+    """部件蒙版：region 多边形内按颜色 rule 选出部件，再向外长 grow 像素把描边带上；add 为整块加入的形状。"""
+    area = polygon_mask(region)
+    if rule is None:
+        m = area
+    else:
+        sel = pick_pixels(plate, rule)
+        if grow > 0:
+            k = 2 * grow + 1
+            sel = cv2.dilate(sel, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (k, k)))
+        m = np.minimum(sel, area)
+    for shape in add:
+        m = np.maximum(m, shape)
+    if feather > 0:
+        m = cv2.GaussianBlur(m, (0, 0), feather)
+    return np.clip(m, 0, 1).astype(np.float32)
+
+
+def flood_mask(plate: np.ndarray, seeds: list, tol: float = 0.2, region: Optional[list] = None,
+               grow: int = 1, add=(), feather: float = 0.5, min_lum: float = 0.6) -> np.ndarray:
+    """从部件内部的种子点出发，选出与种子颜色相差不超过 tol 的相连像素（固定范围：抗锯齿的描边是一级级渐变，
+    按相邻像素比较会顺着渐变一路漫到袖子上；和种子比就挡得住），得到整块手套或纸；
+    再向外长 grow 像素把描边带上。region 限定范围；比 min_lum 暗的种子（多半点到了描边或背景上）跳过。"""
+    rgb = np.clip(unpremul_rgb(plate), 0, 1)
+    rgb8 = np.round(rgb * 255).astype(np.uint8)
+    lum = rgb @ np.array([0.299, 0.587, 0.114], np.float32)
+    d = int(round(tol * 255))
+    total = np.zeros((H + 2, W + 2), np.uint8)
+    for x, y in seeds:
+        if lum[int(y), int(x)] < min_lum:
+            print(f'  跳过种子 ({x}, {y})：亮度 {lum[int(y), int(x)]:.2f}')
+            continue
+        m = np.zeros((H + 2, W + 2), np.uint8)
+        cv2.floodFill(rgb8.copy(), m, (int(x), int(y)), (0, 0, 0), (d, d, d), (d, d, d),
+                      flags=4 | cv2.FLOODFILL_MASK_ONLY | cv2.FLOODFILL_FIXED_RANGE | (255 << 8))
+        total = np.maximum(total, m)
+    sel = total[1:-1, 1:-1].astype(np.float32) / 255
+    if grow > 0:
+        k = 2 * grow + 1
+        sel = cv2.dilate(sel, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (k, k)))
+    if region is not None:
+        sel = np.minimum(sel, polygon_mask(region))
+    for shape in add:
+        sel = np.maximum(sel, shape)
+    if feather > 0:
+        sel = cv2.GaussianBlur(sel, (0, 0), feather)
+    return np.clip(sel, 0, 1).astype(np.float32)
+
+
+def clean_plate(plate: np.ndarray, hole: np.ndarray, radius: float = 3) -> np.ndarray:
+    """把部件挖掉，用四周像素补齐（OpenCV inpaint，Telea）。部件移开时露出来的就是这里。"""
+    h = hole > 0.04
+    m8 = h.astype(np.uint8) * 255
+    rgb8 = np.round(np.clip(unpremul_rgb(plate), 0, 1) * 255).astype(np.uint8)
+    a8 = np.round(np.clip(plate[..., 3], 0, 1) * 255).astype(np.uint8)
+    rgb = cv2.inpaint(rgb8, m8, radius, cv2.INPAINT_TELEA).astype(np.float32) / 255
+    al = cv2.inpaint(a8, m8, radius, cv2.INPAINT_TELEA).astype(np.float32)[..., None] / 255
+    fill = np.concatenate([rgb * al, al], axis=2)
+    out = plate.copy()
+    out[h] = fill[h]
+    return out
+
+
+@dataclass
+class Part:
+    """整块移动的一层：按 mask 从 src 抠出，绕 pivot 顺时针转 angle 度，再平移 (dx, dy)。motion(t) → (dx, dy, angle)。"""
+    mask: np.ndarray
+    pivot: Vec
+    motion: Callable[[float], tuple]
+    image: Optional[np.ndarray] = None   # 不从底图抠、而是另外画好的一层（例如整理文件时后面那几张纸）
+
+    def layer(self, src: np.ndarray, t: float) -> np.ndarray:
+        dx, dy, angle = self.motion(t)
+        piece = (self.image if self.image is not None else src) * self.mask[..., None]
+        M = cv2.getRotationMatrix2D(self.pivot, -angle, 1.0)
+        M[0, 2] += dx
+        M[1, 2] += dy
+        return cv2.warpAffine(piece, M, (W, H), flags=cv2.INTER_CUBIC,
+                              borderMode=cv2.BORDER_CONSTANT, borderValue=(0, 0, 0, 0))
+
+
+def compose(base: np.ndarray, layers: list) -> np.ndarray:
+    out = base
+    for L in layers:
+        L = np.clip(L, 0, 1)
+        L[..., :3] = np.minimum(L[..., :3], L[..., 3:4])
+        out = L + out * (1 - L[..., 3:4])
+    out = np.clip(out, 0, 1)
+    out[..., :3] = np.minimum(out[..., :3], out[..., 3:4])
+    return out
+
+
+def sheet_image(rect: tuple, fill, ink, lines: int = 5, S: int = 4) -> np.ndarray:
+    """画一张纸（米白底、灰边、几行字），预乘 RGBA。用来做整理文件时叠在后面、没对齐的纸。"""
+    x0, y0, x1, y1 = rect
+    img = np.zeros((H * S, W * S, 4), np.float32)
+    p0 = (int(round(x0 * S)), int(round(y0 * S)))
+    p1 = (int(round(x1 * S)), int(round(y1 * S)))
+    cv2.rectangle(img, p0, p1, tuple(float(v) for v in fill), -1, lineType=cv2.LINE_AA)
+    cv2.rectangle(img, p0, p1, tuple(float(v) for v in ink), max(1, S // 2), lineType=cv2.LINE_AA)
+    faint = tuple(float(v) * 0.35 + float(f) * 0.65 for v, f in zip(ink, fill))
+    for i in range(lines):
+        yy = int(round((y0 + 4 + i * (y1 - y0 - 8) / max(lines - 1, 1)) * S))
+        cv2.line(img, (p0[0] + 3 * S, yy), (p1[0] - 3 * S - (i % 2) * 3 * S, yy), faint, max(1, S // 2),
+                 lineType=cv2.LINE_AA)
+    return cv2.resize(img, (W, H), interpolation=cv2.INTER_AREA)

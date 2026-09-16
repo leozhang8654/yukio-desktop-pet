@@ -2,7 +2,8 @@ import AppKit
 import ImageIO
 import YukioCore
 
-/// 预先裁好的全部帧。窗口显示前一次性加载完成，切换动作时不会出现空白帧或越界图格。
+/// 动画帧库。图条在要显示时才解码成一帧一张的独立小位图，最近用过的几段留在内存里，其余只记位置：
+/// 动作图条帧数多，全部预先解码要一两百 MB。切到还没解码的动作时当场同步解码（几十毫秒），不会出现空白帧。
 final class SpriteLibrary {
     struct Frame {
         let image: CGImage
@@ -30,64 +31,106 @@ final class SpriteLibrary {
     }
 
     let catalog: AnimationCatalog
-    private var frames: [String: [Frame]] = [:]
-
     /// 各状态动作里人物最高点距帧顶的像素数（取最小）。头顶气泡贴着这条线放，换动作时气泡不上下跳。
-    private(set) lazy var headTopInset: CGFloat = self.topInset(where: { !Self.runningIDs.contains($0) })
+    let headTopInset: CGFloat
     /// 拖动跑动时的最高点：跑起来头发扬起，比站姿高十来个像素，气泡要跟着抬高。
-    private(set) lazy var runningTopInset: CGFloat = self.topInset(where: { Self.runningIDs.contains($0) })
-    private static let runningIDs: Set<String> = [AnimationCatalog.runningLeftID, AnimationCatalog.runningRightID]
+    let runningTopInset: CGFloat
 
-    private func topInset(where include: (String) -> Bool) -> CGFloat {
-        var top = Int.max
-        for (id, list) in frames where include(id) {
-            for f in list {
-                for y in 0..<f.height where (0..<f.width).contains(where: { f.isOpaque(x: $0, y: y) }) {
-                    top = min(top, y)
-                    break
-                }
-            }
-        }
-        return top == .max ? 0 : CGFloat(top)
-    }
+    private static let runningIDs: Set<String> = [AnimationCatalog.runningLeftID, AnimationCatalog.runningRightID]
+    /// 同时留在内存里的动画段数。
+    private static let keepDecoded = 4
+
+    private let urls: [String: URL]
+    private let counts: [String: Int]
+    private var decoded: [String: [Frame]] = [:]
+    private var recent: [String] = []
 
     init(catalog: AnimationCatalog, assetsRoot: URL) throws {
         self.catalog = catalog
+        var urls: [String: URL] = [:]
+        var counts: [String: Int] = [:]
+        var headTop = Int.max, runTop = Int.max
+        // 启动时逐段解码一次：检查尺寸与帧索引、量出头顶线，然后丢掉，只记帧数和位置。
         for spec in catalog.specs.values {
             let url = assetsRoot.appendingPathComponent(spec.assetPath)
-            guard let src = CGImageSourceCreateWithURL(url as CFURL, nil),
-                  let sheet = CGImageSourceCreateImageAtIndex(src, 0, nil) else {
-                throw LoadError.unreadable(spec.assetPath)
-            }
-            let count = sheet.width / spec.frameWidth
-            guard sheet.height == spec.frameHeight, spec.maxFrameIndex < count else {
-                throw LoadError.outOfBounds("\(spec.id) \(sheet.width)×\(sheet.height)")
-            }
-            var list: [Frame] = []
-            for i in 0..<count {
-                let rect = CGRect(x: i * spec.frameWidth, y: 0, width: spec.frameWidth, height: spec.frameHeight)
-                // 每帧复制成独立的小位图，图层只持有这一帧（192×208）。直接用 cropping 的子图时，
-                // 显示每一帧都会连带整条图条的解码结果，小幅动作的长图条会让内存涨到两三百 MB。
-                guard let cropped = sheet.cropping(to: rect),
-                      let ctx = CGContext(data: nil, width: spec.frameWidth, height: spec.frameHeight, bitsPerComponent: 8,
-                                          bytesPerRow: spec.frameWidth * 4, space: CGColorSpace(name: CGColorSpace.sRGB)!,
-                                          bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else {
-                    throw LoadError.outOfBounds("\(spec.id)#\(i)")
-                }
-                ctx.draw(cropped, in: CGRect(x: 0, y: 0, width: spec.frameWidth, height: spec.frameHeight))
-                guard let image = ctx.makeImage() else { throw LoadError.outOfBounds("\(spec.id)#\(i)") }
-                list.append(Frame(image: image, width: spec.frameWidth, height: spec.frameHeight,
-                                  alpha: Self.alphaMask(image)))
-            }
-            frames[spec.id] = list
+            let sheet = try Self.decodeSheet(url, spec)
+            urls[spec.id] = url
+            counts[spec.id] = sheet.width / spec.frameWidth
+            let top = Self.firstOpaqueRow(sheet)
+            if Self.runningIDs.contains(spec.id) { runTop = min(runTop, top) } else { headTop = min(headTop, top) }
         }
+        self.urls = urls
+        self.counts = counts
+        headTopInset = headTop == .max ? 0 : CGFloat(headTop)
+        runningTopInset = runTop == .max ? 0 : CGFloat(runTop)
     }
 
-    func frameCount(_ specID: String) -> Int { frames[specID]?.count ?? 0 }
+    func frameCount(_ specID: String) -> Int { counts[specID] ?? 0 }
 
     func frame(_ specID: String, _ index: Int) -> Frame {
-        let list = frames[specID] ?? frames[PetState.default_work.rawValue]!
+        let id = urls[specID] != nil ? specID : PetState.default_work.rawValue
+        let list: [Frame]
+        if let cached = decoded[id] {
+            list = cached
+        } else {
+            let fresh = decodeFrames(id)
+            list = fresh.isEmpty ? [Self.blankFrame(catalog.specs[id])] : fresh
+            decoded[id] = list
+        }
+        if recent.last != id {
+            recent.removeAll { $0 == id }
+            recent.append(id)
+            while recent.count > Self.keepDecoded { decoded.removeValue(forKey: recent.removeFirst()) }
+        }
         return list[min(max(index, 0), list.count - 1)]
+    }
+
+    private func decodeFrames(_ id: String) -> [Frame] {
+        guard let spec = catalog.specs[id], let url = urls[id], let sheet = try? Self.decodeSheet(url, spec) else { return [] }
+        var list: [Frame] = []
+        for i in 0..<(sheet.width / spec.frameWidth) {
+            let rect = CGRect(x: i * spec.frameWidth, y: 0, width: spec.frameWidth, height: spec.frameHeight)
+            // 每帧复制成独立的小位图，图层只持有这一帧（192×208）。直接用 cropping 的子图时，
+            // 显示每一帧都会连带整条图条的解码结果，内存会涨到两三百 MB。
+            guard let cropped = sheet.cropping(to: rect),
+                  let ctx = CGContext(data: nil, width: spec.frameWidth, height: spec.frameHeight, bitsPerComponent: 8,
+                                      bytesPerRow: spec.frameWidth * 4, space: CGColorSpace(name: CGColorSpace.sRGB)!,
+                                      bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else { continue }
+            ctx.draw(cropped, in: CGRect(x: 0, y: 0, width: spec.frameWidth, height: spec.frameHeight))
+            guard let image = ctx.makeImage() else { continue }
+            list.append(Frame(image: image, width: spec.frameWidth, height: spec.frameHeight, alpha: Self.alphaMask(image)))
+        }
+        return list
+    }
+
+    private static func decodeSheet(_ url: URL, _ spec: AnimationSpec) throws -> CGImage {
+        guard let src = CGImageSourceCreateWithURL(url as CFURL, nil),
+              let sheet = CGImageSourceCreateImageAtIndex(src, 0, nil) else {
+            throw LoadError.unreadable(spec.assetPath)
+        }
+        let count = sheet.width / spec.frameWidth
+        guard sheet.height == spec.frameHeight, spec.maxFrameIndex < count else {
+            throw LoadError.outOfBounds("\(spec.id) \(sheet.width)×\(sheet.height)")
+        }
+        return sheet
+    }
+
+    /// 整条图条里第一行有不透明像素的行号（= 各帧最高点的最小值）。
+    private static func firstOpaqueRow(_ image: CGImage, threshold: UInt8 = 24) -> Int {
+        let alpha = alphaMask(image)
+        let w = image.width
+        for y in 0..<image.height where alpha[(y * w)..<((y + 1) * w)].contains(where: { $0 > threshold }) {
+            return y
+        }
+        return Int.max
+    }
+
+    private static func blankFrame(_ spec: AnimationSpec?) -> Frame {
+        let w = spec?.frameWidth ?? 192, h = spec?.frameHeight ?? 208
+        let ctx = CGContext(data: nil, width: w, height: h, bitsPerComponent: 8, bytesPerRow: w * 4,
+                            space: CGColorSpace(name: CGColorSpace.sRGB)!,
+                            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)!
+        return Frame(image: ctx.makeImage()!, width: w, height: h, alpha: [UInt8](repeating: 0, count: w * h))
     }
 
     private static func alphaMask(_ image: CGImage) -> [UInt8] {

@@ -1,14 +1,18 @@
 #!/usr/bin/env python3
-"""生成雪绪的小幅动作图条（Resources/Assets/motion/ 与 motion.json）。
+"""生成雪绪的动作图条（Resources/Assets/motion/ 与 motion.json）。
 
 用法（在 YukioPlayer 目录）：
   python3 tools/motion/make_motion.py                  生成全部动作
-  python3 tools/motion/make_motion.py --eyes out.png   只画眨眼检测图（检查眼睛框）
-  python3 tools/motion/make_motion.py --sheet 目录      每个动作画一张放大对照图（检查动的部位与幅度）
+  python3 tools/motion/make_motion.py --eyes out.png   眨眼检测图（检查眼睛框）
+  python3 tools/motion/make_motion.py --parts 目录      每个动作的部件蒙版、补齐后的背景和几个时刻的放大局部
+  python3 tools/motion/make_motion.py --sheet 目录      局部变形的放大对照图
   python3 tools/motion/make_motion.py --html out.html  新旧动作并排播放的预览页
 
-需要 numpy、opencv-python、Pillow。每个动作只用一张已确认的底图：桌椅与身体逐像素不动，
-手、笔、头、眼按时间曲线做 2 像素以内的平滑变形；眨眼盖在变形之前，眼皮跟着头动。
+需要 numpy、opencv-python、Pillow。每个动作只用一张已确认的底图，桌椅逐像素不动：
+- 手、笔、放大镜、纸这类要明显移动的东西抠成一层单独平移、旋转（从部件内部的点漫延选取，遇描边即停），
+  原位置用四周像素补齐；
+- 头、眼这类只动 1–2 像素的用局部平滑变形；
+- 眨眼画在底图上，眼皮跟着头动。
 """
 from __future__ import annotations
 
@@ -24,8 +28,9 @@ import numpy as np
 from PIL import Image, ImageDraw
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from motionlib import (H, W, Frame, Rotate, Shift, assemble, detect_eye, ease, load_frame,  # noqa: E402
-                       max_step, paint_blink, render, save_strip, scalar, to_image, vec)
+from motionlib import (H, W, Frame, Part, Rotate, Shift, assemble, clean_plate, compose, detect_eye,  # noqa: E402
+                       disk_mask, ease, flood_mask, keys, load_frame, max_step, paint_blink, polygon_mask,
+                       render, save_strip, scalar, sheet_image, to_image, unpremul_rgb, vec)
 
 ROOT = Path(__file__).resolve().parents[2]
 ASSETS = ROOT / 'Resources' / 'Assets'
@@ -36,17 +41,25 @@ SLOW_BLINK = [(0.5, 70), (1.0, 110), (0.5, 110)]     # 思考、沮丧：慢一�
 
 
 @dataclass
+class Rig:
+    handles: list = field(default_factory=list)   # 局部变形（作用在补齐后的底图上）
+    parts: list = field(default_factory=list)     # 整块移动的部件（叠在最上面）
+    behind: list = field(default_factory=list)    # 叠在底图与部件之间的层（后面那几张纸）
+
+
+@dataclass
 class State:
     id: str
     plate: tuple                   # (相对 Assets 的路径, 帧号)
     eyes: list                     # 两只眼的搜索框 (x0, y0, x1, y1)，1 倍坐标
-    period: float                  # 动作一轮的秒数（period × fps 须为整数）
+    period: float                  # 循环一轮的秒数（period × fps 须为整数）
     cycles: int                    # 时间轴重复几轮；各轮相同的帧只存一份
     fps: int
-    blinks: list                   # 眨眼时刻（动作时间，秒）
-    handles: object                # eyes -> 位移把手列表
+    blinks: list                   # 眨眼时刻（循环时间，秒）
+    rig: object                    # (plate, eyes) -> Rig；时间 t < 0 表示开场（intro），t ≥ 0 是循环
     blink: list = field(default_factory=lambda: BLINK)
-    intro: list = field(default_factory=list)   # [(路径, 帧号, 毫秒)]：先播一次，之后循环
+    intro: float = 0.0             # 开场只播一次的秒数
+    intro_fps: int = 30
 
 
 def irises(eyes, motion, sigma=(2.2, 2.0)):
@@ -58,141 +71,216 @@ def scaled(motion, kx=1.0, ky=1.0):
     return lambda t: (motion(t)[0] * kx, motion(t)[1] * ky)
 
 
+def head(center, region, motion, sigma=(24, 22)):
+    return Shift(center, sigma, motion, region=region, feather=5)
+
+
 # ---------- 各动作 ----------
 
-def thinking(eyes):
-    # 托腮：头绕托着下巴的手慢慢歪一点又回来，眼睛偶尔往上看。幅度都很小。
-    tilt = scalar([(0, 0), (1.2, 0), (2.6, 1.1), (4.4, 1.1), (5.8, 0)], 7.0)
-    gaze = vec([(0, 0, 0), (1.6, 0, 0), (2.2, -0.55, -0.35), (3.8, -0.55, -0.35), (4.4, 0, 0)], 7.0)
-    return [Rotate((96, 88), (88, 50), (26, 24), tilt, region=(50, 14, 134, 86), feather=5),
-            *irises(eyes, gaze)]
+def thinking(plate, eyes):
+    # 托腮：头绕托着下巴的手慢慢歪一点又回来，眼睛偶尔往上看。幅度小。
+    tilt = scalar([(0, 0), (1.2, 0), (2.6, 1.5), (4.4, 1.5), (5.8, 0)], 7.0)
+    gaze = vec([(0, 0, 0), (1.6, 0, 0), (2.2, -0.8, -0.5), (3.8, -0.8, -0.5), (4.4, 0, 0)], 7.0)
+    return Rig(handles=[Rotate((96, 88), (88, 50), (26, 24), tilt, region=(50, 14, 134, 86), feather=5),
+                        *irises(eyes, gaze)])
 
 
-def read_file(eyes):
-    # 读书：视线和指头沿一行从左到右，读完快速回到行首；头跟着微微转。
-    line = vec([(0, -0.7, 0), (2.0, 0.7, 0.15)], 2.5)
-    return [Shift((92, 50), (24, 22), scaled(line, 0.35, 0), region=(54, 14, 130, 84), feather=5),
-            *irises(eyes, scaled(line, 0.55, 0.3)),
-            Shift((71, 110), (7, 5), line, region=(59, 101, 84, 119), feather=2.5)]
+def read_file(plate, eyes):
+    # 读书：指着书的手沿一行从左划到右，读完回到行首；视线和头跟着。
+    trace = keys([(0, -3.0, -0.3, 0), (1.75, 3.0, 0.3, 0)], 2.2)
+    hand = Part(flood_mask(plate, [(68, 107), (74, 108), (78, 111), (65, 110)], region=[(56, 98), (86, 98), (90, 118), (56, 118)]),
+                (70, 104), trace)
+    return Rig(handles=[head((92, 50), (54, 14, 130, 84), lambda t: (0.3 * trace(t)[0], 0)),
+                        *irises(eyes, lambda t: (0.45 * trace(t)[0], 0.2))],
+               parts=[hand])
 
 
-def view_image(eyes):
-    # 放大镜：拿镜子的手沿小椭圆慢慢移动，视线跟着镜片。
-    loop = lambda t: (1.1 * math.cos(2 * math.pi * t / 3.0), 0.7 * math.sin(2 * math.pi * t / 3.0))
-    return [Shift((74, 97), (12, 10), loop, region=(50, 83, 97, 110), feather=4),
-            *irises(eyes, scaled(loop, 0.35, 0.3))]
+def view_image(plate, eyes):
+    # 放大镜：拿镜子的手带着镜片在照片上方来回扫，微微走弧线，手腕跟着转；视线跟着镜片。
+    P = 2.8
+
+    def sweep(t):
+        u = (t % P) / P
+        return (-4.0 * math.cos(2 * math.pi * u), -0.7 * math.sin(2 * math.pi * u) ** 2,
+                2.0 * math.sin(2 * math.pi * u))
+
+    handle = polygon_mask([(68, 96), (77, 101), (71, 109), (63, 104)])
+    lens = Part(flood_mask(plate, [(62, 104), (66, 108), (60, 110), (64, 101)],
+                           region=[(52, 94), (74, 93), (78, 104), (72, 116), (52, 116)],
+                           add=(disk_mask((82.5, 92), 12.8), handle)), (64, 106), sweep)
+    return Rig(handles=[head((92, 50), (54, 14, 130, 80), lambda t: (0.15 * sweep(t)[0], 0)),
+                        *irises(eyes, lambda t: (0.22 * sweep(t)[0], 0.15))],
+               parts=[lens])
 
 
-def write_file(eyes):
-    # 写字：握笔的手带着笔尖一边小幅上下抖一边往右写，写完一行快速回到左边。
-    P, END = 2.4, 2.0
+def write_file(plate, eyes):
+    # 写字：握笔的手带着笔一边写笔画（笔尖只往上挑，不越过纸边）、笔杆跟着微微摆，一边往右移，写完一行回到左边。
+    P, END = 2.0, 1.6
 
-    def hand(t):
+    def pen(t):
         t %= P
         if t < END:
             u = t / END
-            return (1.6 * u, 0.35 * math.sin(math.pi * u) * math.sin(2 * math.pi * 3.0 * t))
-        return (1.6 * (1 - ease((t - END) / (P - END))), 0.0)
+            env = math.sin(math.pi * u)
+            stroke = 0.5 - 0.5 * math.cos(2 * math.pi * 3.5 * t)
+            return (-1.6 + 3.2 * u, -1.0 * env * stroke, 2.0 * env * math.sin(2 * math.pi * 3.5 * t + 0.6))
+        return (1.6 - 3.2 * ease((t - END) / (P - END)), 0.0, 0.0)
 
-    def tip(t):
-        t %= P
-        if t >= END:
-            return (0.0, 0.0)
-        u = t / END
-        return (0.0, 0.25 * math.sin(math.pi * u) * math.sin(2 * math.pi * 3.0 * t + 0.8))
-
-    return [Shift((70, 108), (10, 11), hand, region=(55, 88, 92, 120), feather=3),
-            Shift((80, 118), (3.5, 3.5), tip, region=(73, 111, 87, 123), feather=1.5),
-            Shift((92, 50), (24, 22), scaled(hand, 0.2, 0.25), region=(54, 14, 130, 84), feather=5),
-            *irises(eyes, scaled(hand, 0.35, 0.2))]
-
-
-def verify(eyes):
-    # 对照检查：头在左右两份文件之间转来转去（五官比轮廓多移一点，看起来像转头），手按着正在看的那份。
-    look = vec([(0, -1.0, 0), (1.3, -1.0, 0), (1.9, 1.0, 0), (3.0, 1.0, 0)], 3.6)
-    return [Shift((88, 50), (26, 24), look, region=(50, 14, 130, 86), feather=5),
-            Shift((90, 73), (14, 7), scaled(look, 0.5, 0), region=(70, 63, 110, 84), feather=3),
-            *irises(eyes, scaled(look, 0.5, 0)),
-            Shift((68, 111), (6, 5), lambda t: (0, 0.45 * max(0.0, -look(t)[0])), region=(58, 103, 80, 118), feather=2),
-            Shift((111, 111), (6, 5), lambda t: (0, 0.45 * max(0.0, look(t)[0])), region=(100, 103, 122, 118), feather=2)]
+    # 笔杆带宽一些，笔杆的描边和金色条纹都要整条带走，否则笔移开后原位置会留下淡淡的笔影。
+    shaft = polygon_mask([(59, 86), (68, 85), (79, 103), (72, 108)])
+    nib = polygon_mask([(82, 115), (89, 115), (89, 123), (82, 123)])
+    hand = Part(flood_mask(plate, [(66, 112), (72, 110), (78, 114), (62, 116), (74, 117)],
+                           region=[(56, 101), (72, 99), (82, 101), (89, 109), (89, 123), (60, 123), (55, 112)],
+                           add=(shaft, nib)), (74, 110), pen)
+    return Rig(handles=[head((92, 50), (54, 14, 130, 84), lambda t: (0.3 * pen(t)[0], 0)),
+                        *irises(eyes, lambda t: (0.45 * pen(t)[0], 0.2))],
+               parts=[hand])
 
 
-def read_web(eyes):
-    # 平板：点着屏幕的手指往上划两下，停一会儿（浏览翻页）；眼睛跟着往下扫。
-    swipe = vec([(0, 0, 0), (0.5, 0, 0), (0.78, -0.4, -1.1), (1.25, 0, 0), (1.45, 0, 0),
-                 (1.73, -0.4, -1.1), (2.2, 0, 0)], 2.6)
-    return [Shift((87, 107), (8, 6), swipe, region=(73, 99, 99, 116), feather=2.5),
-            *irises(eyes, scaled(swipe, 0.2, -0.2))]
+def verify(plate, eyes):
+    # 对照检查：头在左右两份文件之间转来转去；正在看的那份，手指顺着往下点着核对。
+    look = vec([(0, -1.4, 0), (1.3, -1.4, 0), (1.9, 1.4, 0), (3.0, 1.4, 0)], 3.6)
+
+    def tracer(side):
+        def f(t):
+            w = max(0.0, side * look(t)[0] / 1.4)
+            return (1.2 * w + 0.5 * w * math.sin(2 * math.pi * 2.0 * t), 1.8 * w, 0.0)
+        return f
+
+    left = Part(flood_mask(plate, [(66, 108), (72, 110), (78, 112)], region=[(55, 99), (86, 99), (88, 119), (55, 119)]),
+                (70, 104), tracer(-1))
+    right = Part(flood_mask(plate, [(104, 108), (110, 110), (116, 112)], region=[(96, 99), (126, 99), (126, 119), (96, 119)]),
+                 (110, 104), tracer(1))
+    return Rig(handles=[Shift((88, 50), (26, 24), look, region=(50, 14, 130, 86), feather=5),
+                        Shift((90, 73), (14, 7), scaled(look, 0.5, 0), region=(70, 63, 110, 84), feather=3),
+                        *irises(eyes, scaled(look, 0.5, 0))],
+               parts=[left, right])
 
 
-def default_work(eyes):
-    # 敲键盘：左右手交替、节奏不齐地轻敲，停一小会儿再敲；眼睛在屏幕上左右扫。
+def read_web(plate, eyes):
+    # 平板：点着屏幕的手指往上划两下（翻页），停一会儿；眼睛跟着往下扫。
+    swipe = keys([(0, 0, 0, 0), (0.45, 0, 0, 0), (0.62, -1.0, -3.0, -3.0), (1.1, 0, 0, 0), (1.3, 0, 0, 0),
+                  (1.47, -1.0, -3.0, -3.0), (1.95, 0, 0, 0)], 2.4)
+    # 种子只点在手套上：指尖旁边就是浅色屏幕，点到屏幕会把一块屏幕跟手一起抠走。
+    hand = Part(flood_mask(plate, [(70, 100), (78, 102), (66, 104), (74, 106)],
+                           region=[(56, 92), (86, 92), (93, 99), (93, 111), (84, 114), (56, 114)]),
+                (70, 100), swipe)
+    return Rig(handles=[*irises(eyes, lambda t: (0.25 * swipe(t)[0], -0.15 * swipe(t)[1]))], parts=[hand])
+
+
+def default_work(plate, eyes):
+    # 敲键盘：两只手轮流抬起、敲下，一边在键位间左右挪，节奏不齐，敲一阵停一下；眼睛在屏幕上扫。
     P = 2.4
+    L = [(0.00, -1.0), (0.27, 0.6), (0.55, -0.4), (0.80, 1.0), (1.07, 0.0), (1.55, -1.0)]
+    R = [(0.13, 0.6), (0.41, -0.8), (0.68, 0.8), (0.93, 0.0), (1.33, 1.0), (1.47, -0.5)]
 
-    def tapper(times, depth=0.8):
+    def stroke(u):
+        """一次敲键：抬起 2.2 像素、稍停、敲下略过头、回位。"""
+        if u < 0.06:
+            return -2.2 * ease(u / 0.06)
+        if u < 0.09:
+            return -2.2
+        if u < 0.14:
+            return -2.2 + 2.6 * ease((u - 0.09) / 0.05)
+        if u < 0.22:
+            return 0.4 * (1 - ease((u - 0.14) / 0.08))
+        return 0.0
+
+    def hand(strokes):
         def f(t):
             t %= P
-            d = 0.0
-            for s in times:
-                u = t - s
-                if 0 <= u < 0.04:
-                    d = max(d, ease(u / 0.04))
-                elif 0.04 <= u < 0.15:
-                    d = max(d, 1 - ease((u - 0.04) / 0.11))
-            return (0.0, depth * d)
+            done = [s for s in strokes if s[0] <= t]
+            if not done:
+                return (0.0, 0.0, 0.0)
+            s, kx = done[-1]
+            prev = done[-2][1] if len(done) > 1 else 0.0
+            x = prev + (kx - prev) * ease((t - s) / 0.06)
+            if t > 1.9:   # 停一下：手慢慢回到正中
+                x *= 1 - ease((t - 1.9) / 0.4)
+            return (x, stroke(t - s), 0.0)
         return f
 
     scan = vec([(0, -0.3, 0), (1.2, 0.3, 0)], P)
-    return [Shift((85, 108), (6, 5), tapper([0.00, 0.27, 0.80, 1.07, 1.60]), region=(75, 100, 95, 117), feather=2),
-            Shift((112, 108), (6, 5), tapper([0.13, 0.53, 0.93, 1.33, 1.47]), region=(102, 100, 122, 117), feather=2),
-            *irises(eyes, scan)]
+    left = Part(flood_mask(plate, [(93, 106), (98, 104), (90, 109)], region=[(85, 99), (106, 99), (106, 116), (85, 116)]),
+                (94, 101), hand(L))
+    right = Part(flood_mask(plate, [(113, 107), (119, 108), (123, 110)], region=[(106, 100), (128, 100), (128, 118), (106, 118)]),
+                 (115, 102), hand(R))
+    return Rig(handles=[*irises(eyes, scan)], parts=[left, right])
 
 
-def idle(eyes):
-    # 空闲：偶尔向左、向右看一看（轮廓、五官、眼珠依次多移一点，像是转头），头跟着微微歪。
-    look = vec([(0, 0, 0), (2.6, 0, 0), (3.3, -1.0, 0), (5.0, -1.0, 0), (5.7, 0, 0),
-                (8.4, 0, 0), (9.1, 1.0, 0), (10.6, 1.0, 0), (11.3, 0, 0)], 12.0)
-    return [Rotate((93, 80), (93, 44), (26, 24), lambda t: 0.8 * look(t)[0], region=(54, 8, 134, 80), feather=5),
-            Shift((93, 44), (26, 24), look, region=(54, 8, 134, 80), feather=5),
-            Shift((93, 60), (14, 8), scaled(look, 0.5, 0), region=(72, 49, 114, 73), feather=3),
-            *irises(eyes, scaled(look, 0.6, 0))]
+def respond(plate, eyes):
+    # 递交报告：先整理文件——后面两张没对齐的纸从两侧伸出来，拿着整叠在桌上磕两下，纸慢慢对齐；然后停住只眨眼。
+    INTRO = 1.4
+    lift = keys([(0, 0, 0, 0), (0.25, 0, 0, 0), (0.45, 0, -2.2, 0), (0.58, 0, 0, 0), (0.78, 0, -1.6, 0),
+                 (0.9, 0, 0, 0), (1.4, 0, 0, 0)], 10.0)
+    fan = scalar([(0, 1.0), (0.3, 1.0), (0.58, 0.5), (0.9, 0.12), (1.1, 0.0), (1.4, 0.0)], 10.0)
+
+    def main(t):
+        return lift(t + INTRO) if t < 0 else (0.0, 0.0, 0.0)
+
+    def loose(dx, angle):
+        def f(t):
+            if t >= 0:
+                return (0.0, 0.0, 0.0)
+            k = fan(t + INTRO)
+            return (dx * k, lift(t + INTRO)[1], angle * k)
+        return f
+
+    rgb = unpremul_rgb(plate)
+    paper_px = rgb[95:110, 88:106].reshape(-1, 3)
+    fill = np.median(paper_px[paper_px.mean(axis=1) > 0.8], axis=0)
+    ink = np.array([0.42, 0.42, 0.50])
+    sheet = sheet_image((79, 80, 116, 120), np.append(fill, 1.0), np.append(ink, 1.0))
+    ones = np.ones((H, W), np.float32)
+    stack = Part(flood_mask(plate, [(97, 84), (90, 95), (104, 102), (92, 112), (100, 117), (86, 88), (110, 90),
+                                    (77, 106), (80, 110), (114, 106), (117, 110)],
+                            region=[(68, 79), (124, 79), (124, 121), (68, 121)]), (97, 110), main)
+    return Rig(parts=[stack],
+               behind=[Part(ones, (97, 120), loose(-3.4, -5.0), image=sheet),
+                       Part(ones, (97, 120), loose(3.0, 4.5), image=sheet)])
 
 
-def failed(eyes):
-    # 沮丧：垂眼停住后，慢慢叹一口气（头往下沉半个像素再回来），慢慢眨眼。
-    sigh = vec([(0, 0, 0), (1.5, 0, 0), (2.7, 0, 0.55), (4.4, 0, 0)], 5.5)
-    return [Shift((93, 46), (26, 24), sigh, region=(54, 8, 134, 80), feather=5)]
+def idle(plate, eyes):
+    # 空闲：偶尔向左、向右看一看（轮廓、五官、眼珠依次多移一点，像是转头），头跟着歪。
+    look = vec([(0, 0, 0), (2.6, 0, 0), (3.3, -2.0, 0), (5.0, -2.0, 0), (5.7, 0, 0),
+                (8.4, 0, 0), (9.1, 2.0, 0), (10.6, 2.0, 0), (11.3, 0, 0)], 12.0)
+    return Rig(handles=[Rotate((93, 80), (93, 44), (26, 24), lambda t: 0.8 * look(t)[0], region=(54, 8, 134, 80), feather=5),
+                        Shift((93, 44), (26, 24), look, region=(54, 8, 134, 80), feather=5),
+                        Shift((93, 60), (14, 8), scaled(look, 0.5, 0), region=(72, 49, 114, 73), feather=3),
+                        *irises(eyes, scaled(look, 0.6, 0))])
 
 
-def static(eyes):
-    return []
+def failed(plate, eyes):
+    # 沮丧：垂眼停住后，慢慢叹一口气（头往下沉再回来），慢慢眨眼。
+    sigh = vec([(0, 0, 0), (1.5, 0, 0), (2.7, 0, 0.9), (4.4, 0, 0)], 5.5)
+    return Rig(handles=[Shift((93, 46), (26, 24), sigh, region=(54, 8, 134, 80), feather=5)])
 
 
 STATES = [
     State('thinking', ('activities/thinking.webp', 0), [(76, 63, 88, 77), (95, 63, 107, 77)],
           7.0, 1, 8, [0.9, 4.9], thinking, blink=SLOW_BLINK),
     State('read_file', ('activities/read_file.webp', 0), [(77, 64, 89, 78), (97, 64, 109, 78)],
-          2.5, 2, 12, [4.55], read_file),
+          2.2, 2, 20, [4.25], read_file),
     State('view_image', ('activities/view_image.webp', 0), [(77, 64, 89, 78), (97, 64, 109, 78)],
-          3.0, 2, 12, [1.9, 5.2], view_image),
+          2.8, 2, 15, [1.4, 4.2], view_image),
     State('write_file', ('activities/write_file.webp', 0), [(76, 64, 88, 78), (97, 64, 109, 78)],
-          2.4, 2, 20, [4.45], write_file),
+          2.0, 2, 30, [3.7], write_file),
     State('verify', ('activities/verify.webp', 0), [(74, 66, 87, 79), (93, 68, 108, 79)],
           3.6, 1, 15, [1.6], verify),
     State('read_web', ('activities/read_web.webp', 0), [(78, 66, 90, 77), (99, 66, 111, 77)],
-          2.6, 2, 15, [3.9], read_web),
+          2.4, 2, 20, [3.5], read_web),
     State('respond', ('activities/respond.webp', 3), [(77, 65, 89, 79), (97, 65, 109, 79)],
-          4.0, 1, 15, [1.6], static,
-          intro=[('activities/respond.webp', 0, 1200), ('activities/respond.webp', 1, 220),
-                 ('activities/respond.webp', 2, 220)]),
+          4.0, 1, 15, [1.6], respond, intro=1.4, intro_fps=30),
     State('default_work', ('activities/computer-desk.png', 0), [(92, 62, 102, 75), (110, 57, 122, 72)],
-          2.4, 2, 15, [4.15], default_work),
+          2.4, 2, 20, [4.25], default_work),
     State('idle', ('base/idle.webp', 0), [(78, 54, 90, 68), (97, 50, 109, 64)],
           12.0, 1, 12, [1.3, 5.2, 7.3, 10.9], idle),
     State('failed', ('base/failed.webp', 3), [(78, 56, 91, 68), (98, 52, 110, 64)],
-          5.5, 1, 10, [0.9], failed, blink=SLOW_BLINK,
-          intro=[('base/failed.webp', 0, 240), ('base/failed.webp', 2, 180)]),
+          5.5, 1, 10, [0.9], failed, blink=SLOW_BLINK),
 ]
+
+# 沮丧先垂眼一次（原图条的中立 → 过渡帧），再循环。
+FAILED_INTRO = [('base/failed.webp', 0, 240), ('base/failed.webp', 2, 180)]
 
 
 # ---------- 生成 ----------
@@ -202,31 +290,57 @@ def plate_and_eyes(st: State):
     return plate, [detect_eye(plate, b) for b in st.eyes]
 
 
+class Scene:
+    """一个动作的底图、补齐后的背景和部件；按时间和眨眼程度出帧。"""
+
+    def __init__(self, st: State):
+        self.plate, self.eyes = plate_and_eyes(st)
+        self.rig = st.rig(self.plate, self.eyes)
+        self.hole = np.zeros((H, W), np.float32)
+        for p in self.rig.parts:
+            self.hole = np.maximum(self.hole, p.mask)
+        self.base = clean_plate(self.plate, self.hole) if self.rig.parts else self.plate
+        self._blink = {}
+
+    def frame(self, t: float, blink: float = 0.0) -> np.ndarray:
+        k = round(blink, 3)
+        if k not in self._blink:
+            self._blink[k] = paint_blink(self.base, self.eyes, blink)
+        base = render(self._blink[k], self.rig.handles, t)
+        layers = [p.layer(self.plate, t) for p in self.rig.behind] + [p.layer(self.plate, t) for p in self.rig.parts]
+        return compose(base, layers) if layers else base
+
+    def step(self, t0: float, t1: float) -> float:
+        """两帧之间最大的移动（像素）：变形位移的变化，加上部件平移与转角（按 15 像素力臂折算）的变化。"""
+        worst = max_step(self.rig.handles, t0, t1)
+        for p in self.rig.parts + self.rig.behind:
+            a, b = p.motion(t0), p.motion(t1)
+            worst = max(worst, math.hypot(b[0] - a[0], b[1] - a[1]) + abs(b[2] - a[2]) * math.pi / 180 * 15)
+        return worst
+
+
 def build(st: State):
-    plate, eyes = plate_and_eyes(st)
-    handles = st.handles(eyes)
+    scene = Scene(st)
     per = int(round(st.period * st.fps))
     assert abs(per - st.period * st.fps) < 1e-6, f'{st.id}: period × fps 须为整数'
-    cache = {}
-
-    def src(a):
-        k = round(a, 3)
-        if k not in cache:
-            cache[k] = paint_blink(plate, eyes, a)
-        return cache[k]
-
-    intro = [Frame(load_frame(str(ASSETS / p), i), ms) for p, i, ms in st.intro]
-    loop, pending, worst = [], sorted(st.blinks), 0.0
+    intro = [Frame(load_frame(str(ASSETS / p), i), ms) for p, i, ms in (FAILED_INTRO if st.id == 'failed' else [])]
+    n_intro = int(round(st.intro * st.intro_fps))
+    worst = 0.0
+    for k in range(n_intro):
+        t = -st.intro + k / st.intro_fps
+        intro.append(Frame(scene.frame(t), 1000 / st.intro_fps))
+        worst = max(worst, scene.step(t, t + 1 / st.intro_fps))
+    loop, pending = [], sorted(st.blinks)
     for k in range(per * st.cycles):
         phase = (k % per) / st.fps
         m = k / st.fps
         while pending and pending[0] <= m + 1e-9:
             pending.pop(0)
             for a, ms in st.blink:
-                loop.append(Frame(render(src(a), handles, phase), ms))
-        loop.append(Frame(render(src(0), handles, phase), 1000 / st.fps))
-        worst = max(worst, max_step(handles, phase, ((k + 1) % per) / st.fps))
-    return plate, eyes, handles, intro, loop, worst
+                loop.append(Frame(scene.frame(phase, a), ms))
+        loop.append(Frame(scene.frame(phase), 1000 / st.fps))
+        worst = max(worst, scene.step(phase, ((k + 1) % per) / st.fps))
+    return scene, intro, loop, worst
 
 
 def combine(intro, loop):
@@ -240,23 +354,26 @@ def generate():
     OUT.mkdir(exist_ok=True)
     entries = []
     for st in STATES:
-        plate, eyes, handles, intro, loop, worst = build(st)
+        scene, intro, loop, worst = build(st)
         uniques, seq, dur, loop_start = combine(intro, loop)
         save_strip(uniques, str(OUT / f'{st.id}.webp'))
         # 桌腿、椅子一带（y ≥ 126）必须与底图逐像素相同：不许抽搐。
-        base = np.round(plate * 255)
-        moved = max(int((np.abs(np.round(f.image * 255) - base)[126:].max(axis=2) > 0).sum()) for f in loop)
+        # 只查由底图生成的帧；沮丧开场那两帧是原图条原样拷贝的站姿，不在此列。
+        base = np.round(scene.plate * 255)
+        copied = len(FAILED_INTRO) if st.id == 'failed' else 0
+        moved = max(int((np.abs(np.round(f.image * 255) - base)[126:].max(axis=2) > 0).sum())
+                    for f in intro[copied:] + loop)
         entries.append({'id': st.id, 'asset': f'{st.id}.webp', 'frameWidth': W, 'frameHeight': H,
                         'sequence': seq, 'durationsMs': dur, 'loop': True, 'loopStart': loop_start})
         cycle = sum(dur[loop_start:])
         print(f'{st.id:13s} 不重复帧 {len(uniques):3d}  步数 {len(seq):3d}  一轮 {cycle / 1000:5.2f}s  '
-              f'相邻帧最大位移 {worst:.2f}px  桌腿区变化像素 {moved}')
+              f'相邻帧最大移动 {worst:.2f}px  桌腿区变化像素 {moved}')
         if moved:
             raise SystemExit(f'{st.id}: 桌腿区被改动了')
     (OUT / 'motion.json').write_text(json.dumps({
-        'version': 1,
+        'version': 2,
         'generator': 'tools/motion/make_motion.py',
-        'note': '每个动作只用一张底图，局部平滑变形生成；桌椅与身体逐像素不动。',
+        'note': '每个动作只用一张底图：要明显移动的手、笔、放大镜、纸抠成一层单独移动，原位置补齐；头眼用局部变形；桌椅逐像素不动。',
         'states': entries,
     }, ensure_ascii=False, indent=1) + '\n')
     print('写入', OUT / 'motion.json')
@@ -303,12 +420,51 @@ def eyes_sheet(path):
     sheet.save(path)
 
 
-def motion_sheets(folder):
-    """每个动作：六个相位的放大局部（上）与相对底图的差异（下，红色越深变化越大）。"""
+def _on_white(p: np.ndarray) -> Image.Image:
+    im = Image.new('RGBA', (W, H), (255, 255, 255, 255))
+    im.alpha_composite(to_image(p))
+    return im
+
+
+def parts_sheets(folder):
+    """有部件的动作：蒙版（红）、补齐后的背景、以及几个时刻的放大局部。"""
     Path(folder).mkdir(parents=True, exist_ok=True)
     for st in STATES:
-        plate, eyes = plate_and_eyes(st)
-        handles = st.handles(eyes)
+        scene = Scene(st)
+        if not scene.rig.parts:
+            continue
+        hole = scene.hole
+        ys, xs = np.nonzero(hole > 0.04)
+        x0, x1 = max(xs.min() - 8, 0), min(xs.max() + 9, W)
+        y0, y1 = max(ys.min() - 8, 0), min(ys.max() + 9, H)
+        z = 4
+        overlay = np.asarray(_on_white(scene.plate)).astype(np.float32)
+        overlay[..., 0] = overlay[..., 0] * (1 - 0.5 * hole) + 255 * 0.5 * hole
+        overlay[..., 1] = overlay[..., 1] * (1 - 0.5 * hole)
+        overlay[..., 2] = overlay[..., 2] * (1 - 0.5 * hole)
+        tiles = [('蒙版', Image.fromarray(overlay.astype(np.uint8))), ('补齐的背景', _on_white(scene.base))]
+        times = ([-st.intro + st.intro * j / 3 for j in range(3)] if st.intro else []) + \
+                [st.period * j / (6 if not st.intro else 3) for j in range(6 if not st.intro else 3)]
+        for t in times:
+            tiles.append((f't={t:.2f}s', _on_white(scene.frame(t))))
+        cw, ch = (x1 - x0) * z, (y1 - y0) * z
+        cols = 4
+        rows = (len(tiles) + cols - 1) // cols
+        sheet = Image.new('RGBA', (cols * (cw + 8), rows * (ch + 18)), (230, 230, 230, 255))
+        d = ImageDraw.Draw(sheet)
+        for i, (label, im) in enumerate(tiles):
+            X, Y = (i % cols) * (cw + 8), (i // cols) * (ch + 18)
+            d.text((X + 2, Y + 2), f'{st.id} {label}', fill=(0, 0, 0))
+            sheet.alpha_composite(im.crop((x0, y0, x1, y1)).resize((cw, ch), Image.NEAREST), (X, Y + 16))
+        sheet.save(Path(folder) / f'{st.id}.png')
+
+
+def motion_sheets(folder):
+    """局部变形：六个相位的放大局部（上）与相对底图的差异（下，红色越深变化越大）。"""
+    Path(folder).mkdir(parents=True, exist_ok=True)
+    for st in STATES:
+        scene = Scene(st)
+        handles = scene.rig.handles
         if not handles:
             continue
         wsum = sum(h.w for h in handles)
@@ -319,11 +475,9 @@ def motion_sheets(folder):
         tiles = []
         for j in range(6):
             t = st.period * j / 6
-            f = render(plate, handles, t)
-            im = Image.new('RGBA', (W, H), (255, 255, 255, 255))
-            im.alpha_composite(to_image(f))
-            crop = im.crop((x0, y0, x1, y1)).resize(((x1 - x0) * z, (y1 - y0) * z), Image.NEAREST)
-            diff = np.abs(f - plate).max(axis=2)[y0:y1, x0:x1]
+            f = scene.frame(t)
+            crop = _on_white(f).crop((x0, y0, x1, y1)).resize(((x1 - x0) * z, (y1 - y0) * z), Image.NEAREST)
+            diff = np.abs(f - scene.plate).max(axis=2)[y0:y1, x0:x1]
             heat = np.full((y1 - y0, x1 - x0, 3), 255, np.uint8)
             k = np.clip(diff * 4, 0, 1)
             heat[..., 1] = (255 * (1 - k)).astype(np.uint8)
@@ -379,14 +533,14 @@ h1{font-size:18px;margin:0 0 4px} p{margin:0 0 14px;color:#56627a}
 .pair{display:flex;gap:8px}.pair div{text-align:center;font-size:11px;color:#6b7690}
 canvas{width:192px;height:208px;background:repeating-conic-gradient(#f4f4f4 0 25%,#fff 0 50%) 0 0/16px 16px;border-radius:6px}
 </style>
-<h1>雪绪 · 新旧动作对照</h1><p>左：现在的动作；右：新的小幅动作。按图条的真实时长播放，放大显示和桌面一致。</p>
+<h1>雪绪 · 新旧动作对照</h1><p>左：原来的动作；右：新的动作。按图条的真实时长播放，放大显示和桌面一致。</p>
 <div class="grid" id="g"></div>
 <script>
 const items = __ITEMS__;
 const players = [];
 for (const it of items) {
   const card = document.createElement('div'); card.className = 'card';
-  card.innerHTML = `<h2>${it.id}</h2><div class="pair"><div><canvas width="384" height="416"></canvas><br>现在</div><div><canvas width="384" height="416"></canvas><br>新</div></div>`;
+  card.innerHTML = `<h2>${it.id}</h2><div class="pair"><div><canvas width="384" height="416"></canvas><br>原来</div><div><canvas width="384" height="416"></canvas><br>新</div></div>`;
   document.getElementById('g').appendChild(card);
   const cs = card.querySelectorAll('canvas');
   for (const [k, spec] of [[0, it.old], [1, it.new]]) {
@@ -418,11 +572,14 @@ requestAnimationFrame(frame);
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument('--eyes')
+    ap.add_argument('--parts')
     ap.add_argument('--sheet')
     ap.add_argument('--html')
     args = ap.parse_args()
     if args.eyes:
         eyes_sheet(args.eyes)
+    elif args.parts:
+        parts_sheets(args.parts)
     elif args.sheet:
         motion_sheets(args.sheet)
     elif args.html:
