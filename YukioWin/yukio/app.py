@@ -83,6 +83,7 @@ class PetApp:
         x, y = self._restored_origin()
         self.pet.x, self.pet.y = x, y
         self._render(now_ms())
+        self._write_state_file()
         if "--demo" in argv:
             self.start_demo()
 
@@ -289,6 +290,10 @@ class PetApp:
 
     def _on_control_message(self, msg: int, wparam: int, lparam: int) -> Optional[int]:
         w = self.win32
+        control = getattr(self, "control", None)
+        if control is None:
+            # CreateWindowEx 建窗口的过程中就会发消息进来，这时 __init__ 还没走完。
+            return None
         if msg == w.WM_TIMER:
             try:
                 self.tick()
@@ -301,9 +306,11 @@ class PetApp:
                 self.show_menu()
             return 0
         if msg == getattr(w, "TASKBAR_CREATED", -1):
-            self.tray.re_add()
+            tray = getattr(self, "tray", None)
+            if tray is not None:
+                tray.re_add()
             return 0
-        if msg == self.control.show_menu_message:
+        if msg == control.show_menu_message:
             # 又双击了一次 Yukio.exe：把菜单弹出来（而不是再开一只）。
             self.show_menu()
             return 0
@@ -314,6 +321,8 @@ class PetApp:
 
     def _pet_proc(self, hwnd, msg, wparam, lparam):
         w = self.win32
+        if getattr(self, "pet", None) is None:
+            return w.user32.DefWindowProcW(hwnd, msg, wparam, lparam)
         try:
             if msg == w.WM_LBUTTONDOWN:
                 w.user32.SetCapture(hwnd)

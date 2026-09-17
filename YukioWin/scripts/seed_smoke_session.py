@@ -19,7 +19,11 @@ SESSION = "11111111-2222-4333-8444-555555555555"
 
 
 def stamp(seconds_ago: float) -> str:
-    when = dt.datetime.utcnow() - dt.timedelta(seconds=seconds_ago)
+    try:
+        now = dt.datetime.now(dt.timezone.utc)
+    except AttributeError:  # 很老的 Python
+        now = dt.datetime.utcnow()
+    when = now - dt.timedelta(seconds=seconds_ago)
     return when.strftime("%Y-%m-%dT%H:%M:%S.") + "%03dZ" % (when.microsecond // 1000)
 
 
