@@ -68,6 +68,12 @@ def write(projects_dir: str) -> str:
 
 
 def main() -> int:
+    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    try:
+        from yukio.console import force_utf8_console
+        force_utf8_console()
+    except ImportError:
+        pass
     if len(sys.argv) > 1:
         projects = sys.argv[1]
     else:

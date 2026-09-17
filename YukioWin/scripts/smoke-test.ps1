@@ -24,8 +24,12 @@ $appData = Join-Path $env:LOCALAPPDATA "Yukio"
 if (Test-Path $appData) { Remove-Item -Recurse -Force $appData }
 
 Write-Host "== 造一份 Deep Code 会话"
+$previous = $ErrorActionPreference
+$ErrorActionPreference = "Continue"
 python scripts\seed_smoke_session.py
-if ($LASTEXITCODE -ne 0) { throw "造会话失败" }
+$seedExit = $LASTEXITCODE
+$ErrorActionPreference = $previous
+if ($seedExit -ne 0) { throw "造会话失败" }
 
 $stateFile = Join-Path $out "state.txt"
 if (Test-Path $stateFile) { Remove-Item $stateFile }
@@ -137,12 +141,18 @@ try {
 if ((Test-Path $shot) -and $petRect -and $state) {
     $checkArgs = @($shot, $state[0], $petRect.left, $petRect.top, $petRect.width, $petRect.height)
     $stderrFile = Join-Path $out "pixels-stderr.txt"
-    $pixels = python scripts\check_screenshot.py @checkArgs 2>$stderrFile | Out-String
+    # 本机命令只要往 stderr 写一个字，ErrorActionPreference=Stop 就会把它当错误抛出来，
+    # 所以这一段临时放宽，自己看退出码。
+    $previous = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+    $pixels = (python scripts\check_screenshot.py @checkArgs 2>$stderrFile | Out-String)
+    $pixelExit = $LASTEXITCODE
+    $ErrorActionPreference = $previous
     if ((Test-Path $stderrFile) -and (Get-Item $stderrFile).Length -gt 0) {
         $report.Add("像素比对的 stderr：" + ((Get-Content $stderrFile -Raw).Trim()))
     }
     $report.Add("像素比对：" + $pixels.Trim())
-    if ($LASTEXITCODE -ne 0) { $failures.Add("截屏上那一块不是她（像素比对没过）") }
+    if ($pixelExit -ne 0) { $failures.Add("截屏上那一块不是她（像素比对没过，退出码 $pixelExit）") }
 }
 
 $log = Join-Path $appData "error.log"

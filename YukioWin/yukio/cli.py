@@ -18,6 +18,7 @@ from typing import List, Optional
 
 from .bridge import BridgeParser
 from .catalog import AnimationCatalog, CatalogError, assets_root
+from .console import force_utf8_console
 from .events import ALL_STATES, Kind, PetEvent, PetState
 from .parsers_claude import ClaudeTranscriptParser
 from .parsers_deepcode import DeepCodeMessageParser
@@ -25,25 +26,6 @@ from .router import ActivityRouter, HeldValue, RouterConfig
 from .sources import default_sources
 from .sprites import SpriteError, SpriteLibrary
 from .tailer import JSONObjectStream
-
-
-def force_utf8_console() -> None:
-    """Windows 控制台默认是本地代码页（英文机 cp1252、中文机 cp936），直接打中文会抛
-    UnicodeEncodeError 把程序弄崩。这里把它掰成 UTF-8，并且打不出的字符也只替换、不报错。"""
-    if os.name == "nt":
-        try:
-            import ctypes
-            ctypes.WinDLL("kernel32").SetConsoleOutputCP(65001)
-        except Exception:
-            pass
-    for stream in (sys.stdout, sys.stderr):
-        if stream is None:
-            continue
-        try:
-            # 输出重定向到文件时也逐行写出，便于一边跑 --watch 一边看。
-            stream.reconfigure(encoding="utf-8", errors="replace", line_buffering=True)
-        except (AttributeError, ValueError):
-            pass
 
 
 def now_ms() -> float:

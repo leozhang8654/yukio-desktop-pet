@@ -11,6 +11,11 @@ on:
 permissions:
   contents: write
 
+env:
+  # Windows 跑起来的 Python 默认按本地代码页输出，中文会炸；这里统一成 UTF-8。
+  PYTHONIOENCODING: utf-8
+  PYTHONUTF8: "1"
+
 jobs:
   build:
     runs-on: windows-latest

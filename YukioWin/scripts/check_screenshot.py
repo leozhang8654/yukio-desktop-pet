@@ -16,6 +16,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from PIL import Image
 
 from yukio.catalog import AnimationCatalog, assets_root
+from yukio.console import force_utf8_console
 from yukio.sprites import SpriteLibrary
 
 #: 允许的单通道色差（截屏和色彩管理可能差一两个数）。
@@ -46,6 +47,7 @@ def static_pixels(library: SpriteLibrary, spec_id: str, limit: int = 12):
 
 
 def main() -> int:
+    force_utf8_console()
     if len(sys.argv) < 7:
         print(__doc__)
         return 2
