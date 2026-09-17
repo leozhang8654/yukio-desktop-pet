@@ -84,8 +84,19 @@ class PetApp:
         self.pet.x, self.pet.y = x, y
         self._render(now_ms())
         self._write_state_file()
-        if "--demo" in argv:
+        if "--demo" in argv or self._should_greet():
             self.start_demo()
+        # 记下“来过一次”，下次就不再自动演示了。
+        self.settings.save()
+
+    def _should_greet(self) -> bool:
+        """第一次打开、又没有任何会话记录可跟时，先自己演一遍。
+
+        不然刚下载的人双击完只看到一个坐着不动的小人，会以为坏了。
+        """
+        if os.path.exists(self.settings.path):
+            return False
+        return not any(getattr(source, "available", False) for source in self.sources)
 
     # MARK: 设置
 

@@ -37,19 +37,23 @@ def advance(application, ticks: int, step: float = 33.0):
         application.tick()
 
 
-def make_app(argv=None, dpi=1.0, **overrides):
+def make_app(argv=None, dpi=1.0, first_run=False, sources=None, **overrides):
+    """first_run=False 时先放一份设置文件：这样就不是“第一次打开”，不会自动播演示。"""
     fake_win32.QUIT[:] = []
     fake_win32.CURSOR[:] = [0, 0]
     fake_win32.DPI = dpi
     CLOCK[0] = 1_780_000_000_000.0
     app_module.now_ms = now
     settings_path = os.path.join(tempfile.mkdtemp(prefix="yukio-test-"), "settings.json")
+    if not first_run:
+        with open(settings_path, "w", encoding="utf-8") as fh:
+            fh.write("{}")
     application = object.__new__(app_module.PetApp)
     # 用临时设置文件，不碰用户自己的设置；来源用空列表，事件由测试直接喂。
     original_settings = Settings
     try:
         app_module.Settings = lambda: original_settings(settings_path)
-        app_module.default_sources = lambda which: []
+        app_module.default_sources = lambda which: list(sources or [])
         application.__init__(argv or [])
     finally:
         app_module.Settings = original_settings
@@ -240,3 +244,36 @@ class SettingsTests(unittest.TestCase):
             fh.write("{ 这不是 JSON")
         s = Settings(path)
         self.assertEqual(s.get("scale"), 1.0)
+
+
+class FirstRunTests(unittest.TestCase):
+    def test_first_run_without_any_agent_plays_the_demo(self):
+        """刚下载的人可能两个工具都没装：先演一遍，别让她干坐着。"""
+        a = make_app(first_run=True)
+        self.assertIsNotNone(a.demo)
+        advance(a, 40)
+        self.assertNotEqual(a.shown_state, PetState.idle)
+
+    def test_second_run_does_not(self):
+        a = make_app(first_run=True)
+        # 第一次跑完会写下设置；拿同一份设置再开一次就不该再演示。
+        again = object.__new__(app_module.PetApp)
+        original = app_module.Settings
+        try:
+            app_module.Settings = lambda: original(a.settings.path)
+            again.__init__([])
+        finally:
+            app_module.Settings = original
+        self.assertIsNone(again.demo)
+
+    def test_an_available_source_means_no_demo(self):
+        class FakeSource:
+            label = "假来源"
+            available = True
+            status = type("S", (), {"events_received": 0})()
+
+            def poll(self, now):
+                return []
+
+        a = make_app(first_run=True, sources=[FakeSource()])
+        self.assertIsNone(a.demo)
