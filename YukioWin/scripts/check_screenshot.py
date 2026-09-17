@@ -30,17 +30,18 @@ def static_pixels(library: SpriteLibrary, spec_id: str, limit: int = 12):
     frames = [library.frame(spec_id, i).image for i in range(count)]
     if not frames:
         return []
-    first = frames[0]
-    width, height = first.size
-    data = [list(f.getdata()) for f in frames]
+    width, height = frames[0].size
+    data = [f.tobytes() for f in frames]   # RGBA，每像素 4 字节
+    base = data[0]
     out = []
     for i in range(width * height):
-        r, g, b, a = data[0][i]
-        if a != 255:
+        j = i * 4
+        if base[j + 3] != 255:
             continue
-        if any(d[i] != (r, g, b, a) for d in data[1:]):
+        pixel = base[j:j + 4]
+        if any(d[j:j + 4] != pixel for d in data[1:]):
             continue
-        out.append((i % width, i // width, (r, g, b)))
+        out.append((i % width, i // width, (pixel[0], pixel[1], pixel[2])))
     return out
 
 

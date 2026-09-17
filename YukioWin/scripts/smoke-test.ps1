@@ -75,6 +75,8 @@ public class YukioProbe {
 $report = New-Object System.Collections.Generic.List[string]
 $failures = New-Object System.Collections.Generic.List[string]
 
+try {
+
 if ($process.HasExited) { $failures.Add("程序启动后就退出了，退出码 $($process.ExitCode)") }
 
 $rows = [YukioProbe]::ListWindows("Yukio")
@@ -134,7 +136,11 @@ try {
 # 屏幕上那一块像素，和图条逐点比
 if ((Test-Path $shot) -and $petRect -and $state) {
     $checkArgs = @($shot, $state[0], $petRect.left, $petRect.top, $petRect.width, $petRect.height)
-    $pixels = python scripts\check_screenshot.py @checkArgs 2>&1 | Out-String
+    $stderrFile = Join-Path $out "pixels-stderr.txt"
+    $pixels = python scripts\check_screenshot.py @checkArgs 2>$stderrFile | Out-String
+    if ((Test-Path $stderrFile) -and (Get-Item $stderrFile).Length -gt 0) {
+        $report.Add("像素比对的 stderr：" + ((Get-Content $stderrFile -Raw).Trim()))
+    }
     $report.Add("像素比对：" + $pixels.Trim())
     if ($LASTEXITCODE -ne 0) { $failures.Add("截屏上那一块不是她（像素比对没过）") }
 }
@@ -149,13 +155,17 @@ if (Test-Path $log) {
 $settings = Join-Path $appData "settings.json"
 if (Test-Path $settings) { $report.Add("settings.json：$((Get-Content $settings -Raw) -replace "`r`n", " ")") }
 
-if (-not $process.HasExited) { Stop-Process -Id $process.Id -Force }
-Get-Process -Name "Yukio" -ErrorAction SilentlyContinue | Stop-Process -Force
-
-$report.Add("失败项：" + $(if ($failures.Count) { $failures -join "；" } else { "无" }))
-$text = $report -join "`r`n"
-Set-Content -Path (Join-Path $out "window.txt") -Value $text -Encoding UTF8
-Write-Host $text
+} catch {
+    $failures.Add("冒烟脚本自己出错了：$($_.Exception.Message)")
+    $report.Add("异常：$($_ | Out-String)")
+} finally {
+    if (-not $process.HasExited) { Stop-Process -Id $process.Id -Force -ErrorAction SilentlyContinue }
+    Get-Process -Name "Yukio" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+    $report.Add("失败项：" + $(if ($failures.Count) { $failures -join "；" } else { "无" }))
+    $text = $report -join "`r`n"
+    Set-Content -Path (Join-Path $out "window.txt") -Value $text -Encoding UTF8
+    Write-Host $text
+}
 
 if ($failures.Count) { exit 1 }
 Write-Host "== 冒烟测试通过：窗口在、分层、尺寸对、动作跟对了、屏幕上画的确实是她"
