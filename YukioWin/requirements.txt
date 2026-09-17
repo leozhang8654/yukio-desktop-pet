@@ -1,0 +1,2 @@
+# 运行只需要 Pillow（解码 WebP 图条、画气泡）。窗口、托盘、菜单都用 ctypes 直接调 Windows API。
+pillow>=9.0

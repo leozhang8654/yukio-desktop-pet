@@ -35,11 +35,24 @@ open build/Yukio.app
 
 默认只读本机的 Claude Code 会话记录（`~/.claude/projects`），不修改 Claude 的任何文件或设置。活动映射、头顶气泡、动作生成、事件来源与调度参数见 [YukioPlayer/README.md](YukioPlayer/README.md)。
 
+## Windows / DeepSeek 版
+
+同一只雪绪也有 Windows 版，跟随 **DeepSeek 的 Deep Code CLI**（`deepcode`，DeepSeek 文档里给的终端版编码助手），也能跟 Claude Code——把 Claude Code 指向 DeepSeek 的 Anthropic 兼容端点时同样有效。素材、活动映射、防抖与保持时间和 macOS 版完全一样，换掉的是读谁的会话记录和用什么画窗口（Windows 分层窗口，逐像素透明）。
+
+```bat
+cd YukioWin
+pip install pillow
+python run.py
+```
+
+也可以用 `scripts\build-exe.ps1` 打成一个 `Yukio.exe` 发给别人双击。细节、活动映射与已知限制见 [YukioWin/README.md](YukioWin/README.md)。
+
 ## 目录
 
 | 路径 | 内容 |
 | --- | --- |
 | `YukioPlayer/` | 播放器工程：源码、测试、打包进应用的素材与应用图标、动作与图标生成脚本（`tools/motion/`、`tools/icon/`）、打包与发布脚本（`scripts/`） |
+| `YukioWin/` | Windows / DeepSeek 版播放器（Python + ctypes，只依赖 Pillow）：跟随 Deep Code 与 Claude Code 的会话记录，共用同一套素材 |
 | `assets/` | 最终透明素材：七套活动图条、电脑桌、问号卡与勾选卡底图、基础动作 |
 | `sources/` | 高分辨率生成源图（洋红底，需要抠图后使用） |
 | `references/` | 动作总览、平板修正图、生成提示词、图片清单 |
