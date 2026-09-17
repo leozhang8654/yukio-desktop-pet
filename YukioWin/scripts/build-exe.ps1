@@ -1,4 +1,4 @@
-# 在 Windows 上把雪绪打成一个 Yukio.exe。
+﻿# 在 Windows 上把雪绪打成一个 Yukio.exe。
 #
 #   cd YukioWin
 #   powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1

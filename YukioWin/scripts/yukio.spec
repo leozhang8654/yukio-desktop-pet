@@ -37,15 +37,19 @@ a = Analysis(
               "pytest", "setuptools", "pip", "PIL.ImageQt", "PIL.ImageTk"],
     noarchive=False,
 )
-pyz = PYZ(a.pure, a.zipped_data)
+# PyInstaller 6 起 Analysis 不再有 zipped_data / zipfiles，5.x 还有，这里两边都认。
+try:
+    pyz = PYZ(a.pure, a.zipped_data)
+except AttributeError:
+    pyz = PYZ(a.pure)
+
+parts = [pyz, a.scripts, a.binaries]
+if hasattr(a, "zipfiles"):
+    parts.append(a.zipfiles)
+parts += [a.datas, []]
 
 exe = EXE(
-    pyz,
-    a.scripts,
-    a.binaries,
-    a.zipfiles,
-    a.datas,
-    [],
+    *parts,
     name="Yukio",
     debug=False,
     bootloader_ignore_signals=False,

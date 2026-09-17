@@ -1,4 +1,4 @@
-# 在真 Windows 上实跑一遍打好的 Yukio.exe，确认她真的出来了、而且跟对了动作。
+﻿# 在真 Windows 上实跑一遍打好的 Yukio.exe，确认她真的出来了、而且跟对了动作。
 #
 #   powershell -ExecutionPolicy Bypass -File scripts\smoke-test.ps1 -Exe dist\Yukio.exe
 #
