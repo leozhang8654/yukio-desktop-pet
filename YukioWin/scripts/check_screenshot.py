@@ -25,12 +25,18 @@ TOLERANCE = 6
 REQUIRED_RATIO = 0.90
 
 
-def static_pixels(library: SpriteLibrary, spec_id: str, limit: int = 12):
-    """各帧都不透明且颜色一致的像素：[(x, y, (r, g, b)), …]。"""
+def static_pixels(library: SpriteLibrary, spec_id: str, size=None, limit: int = 12):
+    """各帧都不透明且颜色一致的像素：[(x, y, (r, g, b)), …]。
+
+    size：屏幕上她实际占的像素尺寸。放大显示时先按播放器同样的办法（双线性）缩到这个尺寸
+    再比，否则插值出来的颜色对不上。
+    """
     count = min(library.frame_count(spec_id), limit)
     frames = [library.frame(spec_id, i).image for i in range(count)]
     if not frames:
         return []
+    if size and tuple(size) != frames[0].size:
+        frames = [f.resize(tuple(size), Image.BILINEAR) for f in frames]
     width, height = frames[0].size
     data = [f.tobytes() for f in frames]   # RGBA，每像素 4 字节
     base = data[0]
@@ -66,17 +72,15 @@ def main() -> int:
         return 1
 
     screen = Image.open(path).convert("RGB")
-    pixels = static_pixels(library, spec_id)
+    pixels = static_pixels(library, spec_id, (width, height))
     if not pixels:
         print("这个动作没有可比对的静止像素")
         return 1
-    scale_x = width / spec.frame_width
-    scale_y = height / spec.frame_height
 
     hit = miss = outside = 0
     for x, y, (r, g, b) in pixels:
-        sx = int(left + (x + 0.5) * scale_x)
-        sy = int(top + (y + 0.5) * scale_y)
+        sx = left + x
+        sy = top + y
         if not (0 <= sx < screen.size[0] and 0 <= sy < screen.size[1]):
             outside += 1
             continue

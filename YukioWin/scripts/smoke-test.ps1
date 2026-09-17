@@ -9,7 +9,10 @@
 param(
     [string]$Exe = "dist\Yukio.exe",
     [string]$OutDir = "smoke",
-    [int]$WaitSeconds = 10
+    [int]$WaitSeconds = 10,
+    # 放大倍数：默认 100%。设成 1.5 就是模拟“菜单里选了 150%”，走的是放大绘制那条路
+    # （高分屏上系统缩放 150% 走的也是这条）。
+    [double]$Scale = 1.0
 )
 
 $ErrorActionPreference = "Stop"
@@ -22,6 +25,12 @@ if (-not (Test-Path $Exe)) { throw "没找到 $Exe" }
 # 干净的第一次运行：清掉上次的设置和日志
 $appData = Join-Path $env:LOCALAPPDATA "Yukio"
 if (Test-Path $appData) { Remove-Item -Recurse -Force $appData }
+if ($Scale -ne 1.0) {
+    New-Item -ItemType Directory -Force -Path $appData | Out-Null
+    $json = "{`"follow`": true, `"showBubble`": true, `"scale`": $Scale, `"source`": `"auto`", `"originX`": null, `"originY`": null}"
+    Set-Content -Path (Join-Path $appData "settings.json") -Value $json -Encoding UTF8
+    Write-Host "== 这一遍按 $($Scale * 100)% 放大跑"
+}
 
 Write-Host "== 造一份 Deep Code 会话"
 $previous = $ErrorActionPreference
@@ -102,8 +111,10 @@ if (-not $pet) {
     $petRect = @{ left = [int]$f[3]; top = [int]$f[4]; width = [int]$f[5]; height = [int]$f[6] }
     $ex = [Convert]::ToInt64($f[7].Substring(2), 16)
     if (-not $visible) { $failures.Add("雪绪的窗口没显示出来") }
-    if ($petRect.width -lt 150 -or $petRect.height -lt 150) {
-        $failures.Add("窗口尺寸不对：$($petRect.width)x$($petRect.height)（应该 192x208 左右）")
+    $wantW = [int][Math]::Round(192 * $Scale)
+    $wantH = [int][Math]::Round(208 * $Scale)
+    if ([Math]::Abs($petRect.width - $wantW) -gt 2 -or [Math]::Abs($petRect.height - $wantH) -gt 2) {
+        $failures.Add("窗口尺寸不对：$($petRect.width)x$($petRect.height)，按 $($Scale * 100)% 应该是 ${wantW}x${wantH}")
     }
     if (($ex -band 0x80000) -eq 0) { $failures.Add("窗口没有 WS_EX_LAYERED，逐像素透明不生效") }
 }

@@ -40,16 +40,22 @@ jobs:
         working-directory: YukioWin
         run: python -m PyInstaller --noconfirm --clean scripts/yukio.spec
 
-      - name: 实跑一遍（找窗口、量尺寸、截屏）
+      - name: 实跑一遍（找窗口、量尺寸、核对动作、截屏比对像素）
         working-directory: YukioWin
         run: powershell -ExecutionPolicy Bypass -File scripts/smoke-test.ps1 -Exe dist/Yukio.exe
+
+      - name: 再按 150% 放大跑一遍（高分屏走的是这条路）
+        working-directory: YukioWin
+        run: powershell -ExecutionPolicy Bypass -File scripts/smoke-test.ps1 -Exe dist/Yukio.exe -Scale 1.5 -OutDir smoke-150
 
       - name: 留下实跑的截屏与日志
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: smoke-test
-          path: YukioWin/smoke/
+          path: |
+            YukioWin/smoke/
+            YukioWin/smoke-150/
           if-no-files-found: warn
 
       - name: 留下 exe
