@@ -6,7 +6,13 @@
 
 只依赖 Pillow 一个库。窗口、托盘、菜单都用 ctypes 直接调 Windows API，没有别的界面框架。
 
-## 跑起来
+## 下载（不用装 Python）
+
+到 [Releases](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest) 下载 `Yukio-0.1.0-Windows.exe`（约 21 MB），放哪儿都行，双击就开。Python、Pillow、素材都打包在里面了，需要 Windows 10 或更新的 64 位系统。
+
+第一次打开 Windows 可能弹蓝色的「Windows 已保护你的电脑」——这个程序没买代码签名证书，点「更多信息」→「仍要运行」，以后不再问。
+
+## 从源码跑
 
 需要 Windows 10 或更新、Python 3.9 或更新（安装时勾上「Add python.exe to PATH」）。
 
@@ -133,7 +139,8 @@ Resources/Yukio.ico        exe 的图标（从 macOS 版的封面图裁的）
 
 ## 已知限制
 
-- **窗口层没有在真机上跑过。** 我（写这版的 Claude）手边只有 macOS：核心逻辑、解析、路由、气泡排版、播放器主循环都有自动测试（窗口层用替身），素材和气泡是用 `--snapshot`／`--bubble` 出图目测的；但 `yukio/win32.py` 里真正的分层窗口、托盘图标、右键菜单只在 Windows 上才会执行。第一次在 Windows 上跑，请从源码跑（`python run.py`），窗口出不来时终端会打出完整报错。
+- **实机验到哪一步**：每次构建都会在 GitHub 的 Windows 机器（Windows Server 2025）上把打好的 exe 真跑一遍——枚举出雪绪、气泡、宿主三个窗口，核对尺寸与 `WS_EX_LAYERED`，确认她按造出来的 Deep Code 会话显示「纸上书写 · 编辑 login.py」，再截屏、拿屏幕上的像素和图条逐点比（100% 与 150% 两种缩放，匹配率 99% 以上）。没覆盖到的是人手才能试的部分：托盘菜单点开长什么样、拖动手感、多显示器、资源管理器重启、非整百的系统缩放。这些出问题时，先从源码跑 `python run.py`，终端里有完整报错（双击 exe 时报错写在 `%LOCALAPPDATA%\Yukio\error.log`）。
+- 窗口类名是进程内注册的，所以 `FindWindow("YukioPet")` 在别的进程里找不到她（要用 `EnumWindows` + `GetClassName`，`scripts/smoke-test.ps1` 就是这么做的）。
 - Deep Code 把一批工具调用的结果攒到全跑完才写进会话记录，所以同一批里几个很短的调用可能只看到最后一个的结束时间；单个工具的开始是实时的。
 - 会话记录不是公开 API，Deep Code 升级后字段可能变。变了的话 `--replay` 一份新记录就能看出来解析还准不准。
 - 素材是 192×208 的 1 倍图，放大到 150%／200% 时是插值放大，会略软。

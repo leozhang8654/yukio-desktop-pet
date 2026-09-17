@@ -6,7 +6,16 @@
 
 ## 下载（不用编译）
 
-到 [Releases](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest) 下载 `Yukio-0.1.0-macOS.zip`（约 6 MB），双击解压，把 `Yukio.app` 拖进「应用程序」再打开。Apple 芯片与 Intel 通用二进制，需要 macOS 13 或更新。
+到 [Releases](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest) 下载对应的那个：
+
+| 系统 | 文件 | 怎么开 |
+| --- | --- | --- |
+| macOS 13 或更新 | `Yukio-0.1.0-macOS.zip`（约 6 MB） | 解压后把 `Yukio.app` 拖进「应用程序」，按下面放行一次 |
+| Windows 10/11（64 位） | `Yukio-0.1.0-Windows.exe`（约 21 MB） | 直接双击。第一次可能弹「Windows 已保护你的电脑」，点「更多信息」→「仍要运行」 |
+
+macOS 版跟随 Claude Code，Windows 版跟随 DeepSeek 的 Deep Code CLI（也认 Claude Code）。下面先讲 macOS；Windows 的说明见 [YukioWin/README.md](YukioWin/README.md)。
+
+`Yukio-0.1.0-macOS.zip` 是 Apple 芯片与 Intel 通用二进制，需要 macOS 13 或更新。
 
 第一次打开会被系统拦下：「Apple 无法验证“Yukio”是否包含可能危害 Mac 安全或泄漏隐私的恶意软件」。这是因为它只有本机临时签名、没有做苹果公证（要 Apple 开发者账号），不是因为它做了什么。放行一次，以后正常双击：
 
