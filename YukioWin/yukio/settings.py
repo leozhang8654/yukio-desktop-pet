@@ -23,7 +23,7 @@ class Settings:
         self.path = path or os.path.join(app_data_dir(), "settings.json")
         self._values = dict(DEFAULTS)
         try:
-            with open(self.path, "r", encoding="utf-8") as fh:
+            with open(self.path, "r", encoding="utf-8-sig") as fh:
                 stored = json.load(fh)
             if isinstance(stored, dict):
                 for key in DEFAULTS:

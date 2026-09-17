@@ -204,7 +204,7 @@ class DeepCodeSource(JsonlProjectsSource):
         first_look = path not in self._index_mtime
         self._index_mtime[path] = mtime
         try:
-            with open(path, "r", encoding="utf-8") as fh:
+            with open(path, "r", encoding="utf-8-sig") as fh:
                 data = json.load(fh)
         except (OSError, ValueError):
             return

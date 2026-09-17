@@ -72,7 +72,7 @@ class AnimationCatalog:
 
         activities_path = os.path.join(assets_root, "activities", "activities.json")
         try:
-            with open(activities_path, "r", encoding="utf-8") as fh:
+            with open(activities_path, "r", encoding="utf-8-sig") as fh:
                 activities = json.load(fh)
         except (OSError, ValueError) as exc:
             raise CatalogError("缺少资源：%s（%s）" % (activities_path, exc))
@@ -86,7 +86,7 @@ class AnimationCatalog:
 
         base_path = os.path.join(assets_root, "base", "base-animations.json")
         try:
-            with open(base_path, "r", encoding="utf-8") as fh:
+            with open(base_path, "r", encoding="utf-8-sig") as fh:
                 base = json.load(fh)
         except (OSError, ValueError) as exc:
             raise CatalogError("缺少资源：%s（%s）" % (base_path, exc))
@@ -113,7 +113,7 @@ class AnimationCatalog:
         motion_path = os.path.join(assets_root, "motion", "motion.json")
         if os.path.exists(motion_path):
             try:
-                with open(motion_path, "r", encoding="utf-8") as fh:
+                with open(motion_path, "r", encoding="utf-8-sig") as fh:
                     motion = json.load(fh)
             except (OSError, ValueError) as exc:
                 raise CatalogError("动作文件读不出来：%s（%s）" % (motion_path, exc))

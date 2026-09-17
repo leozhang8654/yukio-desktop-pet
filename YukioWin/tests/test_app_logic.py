@@ -220,3 +220,23 @@ class StateFileTests(unittest.TestCase):
             lines = fh.read().splitlines()
         self.assertEqual(lines[0], "write_file")
         self.assertEqual(lines[2], "编辑 login.py")
+
+
+class SettingsTests(unittest.TestCase):
+    def test_settings_file_with_a_bom_still_loads(self):
+        """Windows 上的记事本和 PowerShell 写 UTF-8 会带 BOM，不能因此把设置悄悄重置。"""
+        from yukio.settings import Settings
+        path = os.path.join(tempfile.mkdtemp(prefix="yukio-bom-"), "settings.json")
+        with open(path, "wb") as fh:
+            fh.write(b"\xef\xbb\xbf" + b'{"scale": 1.5, "follow": false}')
+        s = Settings(path)
+        self.assertEqual(s.get("scale"), 1.5)
+        self.assertFalse(s.get("follow"))
+
+    def test_broken_settings_fall_back_to_defaults(self):
+        from yukio.settings import Settings
+        path = os.path.join(tempfile.mkdtemp(prefix="yukio-bad-"), "settings.json")
+        with open(path, "w", encoding="utf-8") as fh:
+            fh.write("{ 这不是 JSON")
+        s = Settings(path)
+        self.assertEqual(s.get("scale"), 1.0)
