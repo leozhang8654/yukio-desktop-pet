@@ -269,8 +269,10 @@ def run_watch(seconds: float, which: str = "auto") -> int:
         for src in sources:
             for e in src.poll(now):
                 router.ingest(e, min(e.ts, now))
-                print("%s  事件 [%s] %s  写入延迟≈%d ms" %
-                      (time_string(now), e.session[:8], describe_event(e), int(now - e.ts)))
+                # 会话标题这类事件不带时间戳（ts=0），不算延迟。
+                lag = "  写入延迟≈%d ms" % int(now - e.ts) if e.ts > 0 else ""
+                print("%s  事件 [%s] %s%s" %
+                      (time_string(now), e.session[:8], describe_event(e), lag))
         s = router.tick(now)
         if s:
             line = router.status_line(now)
