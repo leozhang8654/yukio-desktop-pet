@@ -191,7 +191,7 @@ Resources/Yukio.ico        exe 的图标（从 macOS 版的封面图裁的）
 ## 已知限制
 
 - **和真的 Deep Code 对过一次**：2026-09-17 在本机装上 `@vegamo/deepcode-cli` 0.4.0，用一个本地假模型（说 OpenAI 流式协议，不连 DeepSeek 的服务器、不需要密钥）驱动它真跑了一轮「读文件 → 回答」，然后拿雪绪去跟它写下的会话记录：`--replay` 解析无误，`--watch` 实时跟随依次走出 思考 → 阅读 hello.txt → 递交报告 → 勾选卡 → 空闲，事件写入延迟 30–80 ms。字段与这里写的完全一致（`messageParams.tool_calls`／`reasoning_content`、`tool_call_id`、结果 JSON 里的 `ok`）。它发给模型的工具名实测是 bash、read、write、edit、WebSearch、UpdatePlan、skill、UnderstandImage／ReadImage，分类规则都认。
-- **实机验到哪一步**：每次构建都会在 GitHub 的 Windows 机器（Windows Server 2025）上把打好的 exe 真跑一遍——枚举出雪绪、气泡、宿主三个窗口，核对尺寸与 `WS_EX_LAYERED`，确认她按造出来的 Deep Code 会话显示「纸上书写 · 编辑 login.py」，再截屏、拿屏幕上的像素和图条逐点比（100% 与 150% 两种缩放，匹配率 99% 以上）。没覆盖到的是人手才能试的部分：托盘菜单点开长什么样、拖动手感、多显示器、资源管理器重启、非整百的系统缩放。这些出问题时，先从源码跑 `python run.py`，终端里有完整报错（双击 exe 时报错写在 `%LOCALAPPDATA%\Yukio\error.log`）。
+- **实机验到哪一步**：每次构建都会在 GitHub 的 Windows 机器（Windows Server 2025）上把打好的 exe 真跑一遍——枚举出雪绪、气泡、那摞卡、宿主四个窗口，核对尺寸与 `WS_EX_LAYERED`（只有一条聊天时那摞卡是隐藏的 1×1 窗口），确认她按造出来的 Deep Code 会话显示「纸上书写 · 编辑 login.py」，再截屏、拿屏幕上的像素和图条逐点比（100% 与 150% 两种缩放，最近一次是 98.6% 与 99.9%，门槛 90%）。没覆盖到的是人手才能试的部分：托盘菜单点开长什么样、拖动手感、多显示器、资源管理器重启、非整百的系统缩放。这些出问题时，先从源码跑 `python run.py`，终端里有完整报错（双击 exe 时报错写在 `%LOCALAPPDATA%\Yukio\error.log`）。
 - 窗口类名是进程内注册的，所以 `FindWindow("YukioPet")` 在别的进程里找不到她（要用 `EnumWindows` + `GetClassName`，`scripts/smoke-test.ps1` 就是这么做的）。
 - Deep Code 把一批工具调用的结果攒到全跑完才写进会话记录，所以同一批里几个很短的调用可能只看到最后一个的结束时间；单个工具的开始是实时的。
 - 会话记录不是公开 API，Deep Code 升级后字段可能变。变了的话 `--replay` 一份新记录就能看出来解析还准不准。
