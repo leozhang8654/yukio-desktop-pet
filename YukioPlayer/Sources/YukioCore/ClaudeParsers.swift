@@ -181,25 +181,31 @@ public struct ClaudeHookParser: Sendable {
             }
             return out
         case "PostToolUse":
-            var out = [ev(.activityEnd, id: obj["tool_use_id"] as? String, tool: obj["tool_name"] as? String)]
+            // Claude Code 只在工具成功后触发 PostToolUse，失败时通常不发这条；
+            // 工具失败与整轮失败由会话转录的 is_error / API 报错条目补上（两个来源按 tool_use_id 去重）。
+            // 万一响应里带了错误信息，这里也认出来。
+            var out = [ev(Self.isFailure(obj["tool_response"]) ? .activityFailed : .activityEnd,
+                          id: obj["tool_use_id"] as? String, tool: obj["tool_name"] as? String)]
             if let item = ClaudeTasks.created(fromResult: obj["tool_response"]) {
                 out.append(ev(.todoUpdate, todos: [item]))
             }
             return out
-        case "PostToolUseFailure":
-            // 输入带 is_interrupt：中断不算失败。
-            let kind: PetEvent.Kind = obj["is_interrupt"] as? Bool == true ? .activityEnd : .activityFailed
-            return [ev(kind, id: obj["tool_use_id"] as? String, tool: obj["tool_name"] as? String)]
         case "Stop":
             return [ev(.finalAnswer), ev(.taskEnd)]
-        case "StopFailure":
-            // 本轮因 API 报错等中止。
-            return [ev(.taskFailed)]
         case "SessionEnd":
             return [ev(.taskAbort)]
         default:
             return []
         }
+    }
+
+    /// hook 的 tool_response 是否表示失败：带 is_error 或非空 error 字段。
+    /// 你拒绝授权、主动中断都不算她的失败。
+    static func isFailure(_ response: Any?) -> Bool {
+        guard let dict = response as? [String: Any], dict["is_interrupt"] as? Bool != true else { return false }
+        let text = (dict["error"] as? String) ?? ""
+        guard dict["is_error"] as? Bool == true || !text.isEmpty else { return false }
+        return !(text.contains("doesn't want to proceed") || text.hasPrefix("[Request interrupted"))
     }
 }
 

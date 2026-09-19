@@ -65,6 +65,6 @@ public enum DemoScript {
         return out
     }
 
-    /// 脚本全长（最后一个事件之后再留出报告停留与回空闲的时间）。
+    /// 脚本全长（最后一个事件之后再留出递交报告与举起勾选卡的时间；牌子会一直举到演示结束）。
     public static let durationMs: Double = 49500 + 8000 + 3000
 }

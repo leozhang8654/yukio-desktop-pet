@@ -56,6 +56,21 @@
       ]
     },
     {
+      "id": "held",
+      "asset": "held.png",
+      "frameWidth": 192,
+      "frameHeight": 240,
+      "frameCount": 1,
+      "nativeDurationsMs": [
+        1000
+      ],
+      "grip": {
+        "x": 96.0,
+        "y": 9.7,
+        "headTop": 16
+      }
+    },
+    {
       "id": "quiet-response",
       "asset": "quiet-response.webp",
       "frameWidth": 192,

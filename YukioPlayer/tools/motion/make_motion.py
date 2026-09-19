@@ -105,10 +105,12 @@ def view_image(plate, eyes):
         return (-4.0 * math.cos(2 * math.pi * u), -0.7 * math.sin(2 * math.pi * u) ** 2,
                 2.0 * math.sin(2 * math.pi * u))
 
+    # 圆盘要罩住整圈镜框（镜框外缘：圆心 (89, 94.5)、半径约 12.5），手套往外长 2 像素把自己的描边带上，
+    # 否则镜子扫开后原位置会留下一圈镜框的影子，手的下沿也拖着一道。
     handle = polygon_mask([(68, 96), (77, 101), (71, 109), (63, 104)])
-    lens = Part(flood_mask(plate, [(62, 104), (66, 108), (60, 110), (64, 101)],
-                           region=[(52, 94), (74, 93), (78, 104), (72, 116), (52, 116)],
-                           add=(disk_mask((82.5, 92), 12.8), handle)), (64, 106), sweep)
+    lens = Part(flood_mask(plate, [(62, 104), (66, 108), (70, 104), (64, 101)],
+                           region=[(52, 93), (76, 93), (80, 104), (75, 117), (52, 117)], grow=2,
+                           add=(disk_mask((89, 94.5), 13.0), handle)), (64, 106), sweep)
     return Rig(handles=[head((92, 50), (54, 14, 130, 80), lambda t: (0.15 * sweep(t)[0], 0)),
                         *irises(eyes, lambda t: (0.22 * sweep(t)[0], 0.15))],
                parts=[lens])

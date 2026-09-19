@@ -67,9 +67,9 @@ func runSnapshot(path: String) -> Never {
     let (catalog, root) = loadCatalogOrExit()
     let library: SpriteLibrary
     do { library = try SpriteLibrary(catalog: catalog, assetsRoot: root) } catch { print("失败：\(error)"); exit(1) }
-    let specs = PetState.allCases.map { catalog.spec(for: $0) }
-        + [catalog.specs[AnimationCatalog.runningLeftID]!, catalog.specs[AnimationCatalog.runningRightID]!]
-    let cellW = 192, cellH = 208, labelH = 26, maxCols = 10
+    let specs = PetState.allCases.map { catalog.spec(for: $0) } + [catalog.specs[AnimationCatalog.heldID]!]
+    // 「被拎起来」那一帧比常规帧高（领口的尖在头顶上方、腿垂下来），格子按最高的那段算。
+    let cellW = 192, cellH = specs.map(\.frameHeight).max() ?? 208, labelH = 26, maxCols = 10
     let cols = min(maxCols, specs.map { library.frameCount($0.id) }.max() ?? 1)
     let width = cols * cellW, height = specs.count * (cellH + labelH)
     guard let ctx = CGContext(data: nil, width: width, height: height, bitsPerComponent: 8, bytesPerRow: 0,
@@ -88,7 +88,9 @@ func runSnapshot(path: String) -> Never {
         (title as NSString).draw(at: NSPoint(x: 6, y: top - labelH + 6),
                                  withAttributes: [.font: NSFont.systemFont(ofSize: 13), .foregroundColor: NSColor.black])
         for (i, f) in picks.enumerated() {
-            ctx.draw(library.frame(spec.id, f).image, in: CGRect(x: i * cellW, y: top - labelH - cellH, width: cellW, height: cellH))
+            ctx.draw(library.frame(spec.id, f).image,
+                     in: CGRect(x: i * cellW, y: top - labelH - spec.frameHeight,
+                                width: spec.frameWidth, height: spec.frameHeight))
         }
     }
     // 第一行有空位时画菜单栏头像：放大版与实际 18 pt 大小（Retina 下 36 px）。
@@ -99,6 +101,183 @@ func runSnapshot(path: String) -> Never {
     }
     NSGraphicsContext.current = nil
     exit(savePNG(ctx, to: path) ? 0 : 1)
+}
+
+/// --hang <输出.png>：把「被大手拎着」按几个倾角画出来，外面套上实际会用的窗口框。
+/// 用来核对：抓手点是不是在领口被捏起的那个尖上、晃到两边会不会被窗口切掉、上边缘是否与平时那块对齐。
+func runHangSnapshot(path: String) -> Never {
+    let (catalog, root) = loadCatalogOrExit()
+    let library: SpriteLibrary
+    do { library = try SpriteLibrary(catalog: catalog, assetsRoot: root) } catch { print("失败：\(error)"); exit(1) }
+    let spec = catalog.specs[AnimationCatalog.heldID]!
+    let pet = NSSize(width: 192, height: 208)
+    let tuning = HangSwing.Tuning()
+    let geo = HangGeometry.make(petSize: pet, held: spec, scale: 1,
+                                sagRoom: library.hangLength * CGFloat(tuning.maxSagRatio))
+    let maxAngle = tuning.maxAngleDeg
+    let angles: [Double] = [-maxAngle, -maxAngle / 2, 0, maxAngle / 2, maxAngle]
+    let labelH = 26
+    let cellW = Int(geo.panelSize.width.rounded(.up)), cellH = Int(geo.panelSize.height.rounded(.up))
+    let width = cellW * angles.count, height = cellH + labelH
+    guard let ctx = CGContext(data: nil, width: width, height: height, bitsPerComponent: 8, bytesPerRow: 0,
+                              space: CGColorSpace(name: CGColorSpace.sRGB)!,
+                              bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else { exit(1) }
+    fillCheckerboard(ctx, width: width, height: height)
+    NSGraphicsContext.current = NSGraphicsContext(cgContext: ctx, flipped: false)
+    ctx.setFillColor(gray: 1, alpha: 1)
+    ctx.fill(CGRect(x: 0, y: height - labelH, width: width, height: labelH))
+    let title = "held · 摆长 \(Int(library.hangLength)) px · 一摆 \(String(format: "%.2f", tuning.periodSec)) 秒 · " +
+        "最多坠 \(Int(library.hangLength * CGFloat(tuning.maxSagRatio))) px · 窗口 \(cellW)×\(cellH)（平时 192×208）· 抓手点 " +
+        "(\(Int(geo.pivot.x)), 上边下 \(Int(geo.panelSize.height - geo.pivot.y))) · 倾角 " +
+        angles.map { "\(Int($0))°" }.joined(separator: " ")
+    (title as NSString).draw(at: NSPoint(x: 6, y: height - labelH + 6),
+                             withAttributes: [.font: NSFont.systemFont(ofSize: 13), .foregroundColor: NSColor.black])
+    let frame = library.frame(spec.id, 0)
+    for (i, deg) in angles.enumerated() {
+        let dx = CGFloat(i * cellW)
+        // 平时那块 192×208 的位置：窗口框减去放大时的偏移。
+        let normal = NSRect(x: dx - geo.offset.x, y: -geo.offset.y, width: pet.width, height: pet.height)
+        ctx.setStrokeColor(red: 0.2, green: 0.5, blue: 1, alpha: 0.8)
+        ctx.setLineWidth(1)
+        ctx.stroke(normal.insetBy(dx: 0.5, dy: 0.5))
+        ctx.setStrokeColor(red: 1, green: 0.2, blue: 0.2, alpha: 0.6)
+        ctx.stroke(CGRect(x: dx + 0.5, y: 0.5, width: CGFloat(cellW) - 1, height: CGFloat(cellH) - 1))
+        let pivot = NSPoint(x: dx + geo.pivot.x, y: geo.pivot.y)
+        ctx.saveGState()
+        ctx.translateBy(x: pivot.x, y: pivot.y)
+        ctx.rotate(by: CGFloat(deg * .pi / 180))
+        ctx.translateBy(x: -pivot.x, y: -pivot.y)
+        ctx.draw(frame.image, in: geo.spriteRect.offsetBy(dx: dx, dy: 0))
+        ctx.restoreGState()
+        ctx.setFillColor(red: 1, green: 0.4, blue: 0, alpha: 1)
+        ctx.fillEllipse(in: CGRect(x: pivot.x - 3, y: pivot.y - 3, width: 6, height: 6))
+    }
+    NSGraphicsContext.current = nil
+    guard savePNG(ctx, to: path) else { exit(1) }
+    exit(checkSwingDirection(frame: frame, geo: geo) ? 0 : 1)
+}
+
+/// 摆动方向自检：正角必须让脚偏向右边。
+///
+/// 这件事只错过一次就够难看的——曾经把旋转写成 -angle，屏幕上成了「脚朝着移动方向甩出去」，
+/// 与真实的钟摆相反。所以这里两条路都量一遍：画到位图上量脚的位置，再直接算一次 PetView 用的那个矩阵。
+func checkSwingDirection(frame: SpriteLibrary.Frame, geo: HangGeometry) -> Bool {
+    /// 把图按给定角度绕抓手点画一遍，返回「下半身横向重心 − 上半身横向重心」（正数＝脚偏右）。
+    func feetOffset(_ deg: Double) -> Double {
+        let w = Int(geo.panelSize.width.rounded(.up)), h = Int(geo.panelSize.height.rounded(.up))
+        guard let ctx = CGContext(data: nil, width: w, height: h, bitsPerComponent: 8, bytesPerRow: 0,
+                                  space: CGColorSpace(name: CGColorSpace.sRGB)!,
+                                  bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else { return 0 }
+        ctx.translateBy(x: geo.pivot.x, y: geo.pivot.y)
+        ctx.rotate(by: CGFloat(deg * .pi / 180))
+        ctx.translateBy(x: -geo.pivot.x, y: -geo.pivot.y)
+        ctx.draw(frame.image, in: geo.spriteRect)
+        guard let image = ctx.makeImage(), let data = image.dataProvider?.data,
+              let bytes = CFDataGetBytePtr(data) else { return 0 }
+        let stride = image.bytesPerRow
+        var rows: [(y: Int, sum: Double, count: Double)] = []
+        for y in 0..<h {
+            var sum = 0.0, count = 0.0
+            for x in 0..<w where bytes[y * stride + x * 4 + 3] > 24 { sum += Double(x); count += 1 }
+            if count > 0 { rows.append((y, sum, count)) }
+        }
+        guard rows.count > 10 else { return 0 }
+        // CGBitmapContext 的坐标系 y 向上，但缓冲区第一行是画面最**顶**上那行，所以 rows 开头是头、结尾是脚。
+        let cut = max(1, rows.count / 5)
+        func centroid(_ part: ArraySlice<(y: Int, sum: Double, count: Double)>) -> Double {
+            let s = part.reduce(0.0) { $0 + $1.sum }, c = part.reduce(0.0) { $0 + $1.count }
+            return c > 0 ? s / c : 0
+        }
+        return centroid(rows.suffix(cut)) - centroid(rows.prefix(cut))
+    }
+
+    var ok = true
+    for deg in [-20.0, 20.0] {
+        let drawn = feetOffset(deg)
+        // PetView 用的就是这个矩阵，这里对「抓手点正下方 100 点」算一次。
+        let t = CATransform3DGetAffineTransform(CATransform3DMakeRotation(CGFloat(deg * .pi / 180), 0, 0, 1))
+        let layer = CGPoint(x: 0, y: -100).applying(t).x
+        let good = drawn * deg > 0 && layer * deg > 0
+        ok = ok && good
+        print(String(format: "方向自检 %+.0f°：画出来脚偏%@ %.0f px，图层矩阵偏%@ %.0f px %@",
+                     deg, drawn > 0 ? "右" : "左", abs(drawn),
+                     layer > 0 ? "右" : "左", abs(layer), good ? "✓" : "✗ 反了"))
+    }
+    if !ok { print("摆动方向反了：正角必须让脚偏向右边（手往右甩时角度为负，脚应当落在后面）") }
+    return ok
+}
+
+/// --hang-gif <输出.gif>：用真实的摆动逻辑演一遍「拎起来拖一段再放下」，存成 30 fps 的 GIF。
+/// 本机没有录屏权限，这是唯一能直接看到晃动手感的方式：手的轨迹写死，角度由 HangSwing 算。
+func runHangGIF(path: String) -> Never {
+    let (catalog, root) = loadCatalogOrExit()
+    let library: SpriteLibrary
+    do { library = try SpriteLibrary(catalog: catalog, assetsRoot: root) } catch { print("失败：\(error)"); exit(1) }
+    let spec = catalog.specs[AnimationCatalog.heldID]!
+    let pet = NSSize(width: 192, height: 208)
+    let tuning = HangSwing.Tuning()
+    let geo = HangGeometry.make(petSize: pet, held: spec, scale: 1,
+                                sagRoom: library.hangLength * CGFloat(tuning.maxSagRatio))
+
+    // 手的轨迹（毫秒，速度 点/秒，y 向上为正）：
+    // 停一下 → 往右拖 → 顿住 → 松手荡停 → 再抓住猛地往上一提（看「坠」）→ 往左甩 → 松手。
+    let script: [(ms: Double, vx: Double, vy: Double, release: Bool)] = [
+        (200, 0, 0, false), (450, 900, 0, false), (250, 0, 0, false), (900, 0, 0, true),
+        (150, 0, 0, false), (220, 0, 700, false), (330, 0, 0, false),
+        (250, -1500, 0, false), (200, 0, 0, false), (1200, 0, 0, true),
+    ]
+    let fps = 30.0, step = 1000.0 / fps
+    var swing = HangSwing(now: 0, length: Double(library.hangLength))
+    var now = 0.0, handX = 60.0, handY = 60.0
+    var minX = handX, maxX = handX, minY = handY, maxY = handY
+    var frames: [(x: CGFloat, y: CGFloat, angle: Double, sag: Double)] = []
+    var grabbed = true
+    for part in script {
+        if part.release { swing.release(); grabbed = false } else if !grabbed { swing.grab(); grabbed = true }
+        var left = part.ms
+        while left > 0 {
+            let h = min(step, left)
+            left -= h
+            now += h
+            handX += part.vx * h / 1000
+            handY += part.vy * h / 1000
+            swing.advance(to: now, handX: handX, handY: handY)
+            minX = min(minX, handX); maxX = max(maxX, handX)
+            minY = min(minY, handY); maxY = max(maxY, handY)
+            frames.append((CGFloat(handX), CGFloat(handY), swing.angle, swing.sag))
+        }
+    }
+
+    let width = Int((maxX - minX + geo.panelSize.width).rounded(.up)) + 40
+    let height = Int((maxY - minY + geo.panelSize.height).rounded(.up)) + 20
+    guard let dest = CGImageDestinationCreateWithURL(URL(fileURLWithPath: path) as CFURL,
+                                                     "com.compuserve.gif" as CFString, frames.count, nil) else { exit(1) }
+    CGImageDestinationSetProperties(dest, [kCGImagePropertyGIFDictionary: [kCGImagePropertyGIFLoopCount: 0]] as CFDictionary)
+    let frame = library.frame(spec.id, 0)
+    for f in frames {
+        guard let ctx = CGContext(data: nil, width: width, height: height, bitsPerComponent: 8, bytesPerRow: 0,
+                                  space: CGColorSpace(name: CGColorSpace.sRGB)!,
+                                  bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else { exit(1) }
+        ctx.setFillColor(gray: 0.96, alpha: 1)
+        ctx.fill(CGRect(x: 0, y: 0, width: width, height: height))
+        ctx.setFillColor(gray: 0.88, alpha: 1)
+        ctx.fill(CGRect(x: 0, y: 0, width: width, height: 10))          // 一条“桌面”，好看出横向移动
+        // 窗口左下角：手的位置减去抓手点在窗口里的位置。
+        let origin = NSPoint(x: f.x - minX + 20 - geo.pivot.x, y: f.y - minY + 10)
+        let pivot = NSPoint(x: origin.x + geo.pivot.x, y: origin.y + geo.pivot.y)
+        ctx.saveGState()
+        ctx.translateBy(x: pivot.x, y: pivot.y)
+        ctx.rotate(by: CGFloat(f.angle))
+        ctx.translateBy(x: -pivot.x, y: -pivot.y)
+        ctx.draw(frame.image, in: geo.spriteRect.offsetBy(dx: origin.x, dy: origin.y - CGFloat(f.sag)))
+        ctx.restoreGState()
+        guard let image = ctx.makeImage() else { exit(1) }
+        CGImageDestinationAddImage(dest, image, [kCGImagePropertyGIFDictionary:
+            [kCGImagePropertyGIFUnclampedDelayTime: 1.0 / fps]] as CFDictionary)
+    }
+    guard CGImageDestinationFinalize(dest) else { exit(1) }
+    print("\(path)：\(frames.count) 帧 / \(String(format: "%.1f", Double(frames.count) / fps)) 秒，\(width)×\(height)")
+    exit(0)
 }
 
 /// --bubble <输出.png>：把几种头顶气泡画在对应动作上方，按 Retina 2 倍输出（检查排版、截断、位置）。
@@ -112,8 +291,8 @@ func runBubbleSnapshot(path: String) -> Never {
                              current: "$ swift test --filter RouterTests", progress: nil)),
         (.thinking, StatusLine(title: nil, current: "思考中", progress: nil)),
         (.failed, StatusLine(title: "桌宠缺失状态", current: "出错：$ swift test", progress: .init(done: 7, total: 7))),
-        (.question_for_user, StatusLine(title: "桌宠缺失状态", current: "等你回答", progress: nil)),
-        (.task_complete, StatusLine(title: "桌宠缺失状态", current: "已完成", progress: .init(done: 7, total: 7))),
+        (.question_for_user, StatusLine(title: "桌宠缺失状态", current: "等你回答 · 点我打开对话", progress: nil)),
+        (.task_complete, StatusLine(title: "桌宠缺失状态", current: "已完成 · 点我打开对话", progress: .init(done: 7, total: 7))),
     ]
     let cellW: CGFloat = 240, cellH: CGFloat = 208 + 64, px: CGFloat = 2
     let width = Int(cellW * CGFloat(samples.count) * px), height = Int(cellH * px)
@@ -130,7 +309,50 @@ func runBubbleSnapshot(path: String) -> Never {
         let pet = CGRect(x: CGFloat(i) * cellW + (cellW - 192) / 2, y: 0, width: 192, height: 208)
         ctx.draw(frame.image, in: pet)
         let layout = BubbleLayout(line)
-        let origin = BubbleLayout.origin(size: layout.size, petFrame: pet, headTop: library.headTopInset)
+        let origin = BubbleLayout.origin(size: layout.size, petFrame: pet, headTop: library.headTopInset(for: spec.id))
+        layout.draw(in: NSRect(origin: origin, size: layout.size))
+    }
+    NSGraphicsContext.current = nil
+    exit(savePNG(ctx, to: path) ? 0 : 1)
+}
+
+/// --cards <输出.png>：把雪绪旁边那叠通知卡画出来（收起与展开各一格），按 2 倍分辨率输出，
+/// 检查排版、截断、状态颜色和与气泡的关系。
+func runCardsSnapshot(path: String) -> Never {
+    let (catalog, root) = loadCatalogOrExit()
+    let library: SpriteLibrary
+    do { library = try SpriteLibrary(catalog: catalog, assetsRoot: root) } catch { print("失败：\(error)"); exit(1) }
+    let cards: [ActivityCard] = [
+        .init(session: "a", title: "问题牌子点击跳转聊天", subtitle: "等你挑一个方案", status: .waiting, quietMs: 20_000),
+        .init(session: "b", title: "跑一遍 Windows 打包", subtitle: "出错：$ pwsh build.ps1", status: .failed, quietMs: 60_000),
+        .init(session: "c", title: "写个备份脚本", subtitle: "点开看看", status: .ready, quietMs: 8_000),
+        .init(session: "d", title: "桌宠移动动画与晃动效果", subtitle: "编辑 HangSwing.swift", status: .running, quietMs: 2_000),
+        .init(session: "e", title: "会话 5c534545…", subtitle: "$ swift test --filter RouterTests", status: .running, quietMs: 4_000),
+    ]
+    let line = StatusLine(title: "多个聊天同时运行时的选择功能", current: "编辑 main.swift",
+                          progress: .init(done: 3, total: 5))
+    let px: CGFloat = 2, cellW: CGFloat = 260, cellH: CGFloat = 480
+    let width = Int(cellW * 2 * px), height = Int(cellH * px)
+    guard let ctx = CGContext(data: nil, width: width, height: height, bitsPerComponent: 8, bytesPerRow: 0,
+                              space: CGColorSpace(name: CGColorSpace.sRGB)!,
+                              bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else { exit(1) }
+    fillCheckerboard(ctx, width: width, height: height)
+    ctx.scaleBy(x: px, y: px)
+    ctx.interpolationQuality = .high
+    NSGraphicsContext.current = NSGraphicsContext(cgContext: ctx, flipped: false)
+    for (i, expanded) in [false, true].enumerated() {
+        let cell = NSRect(x: CGFloat(i) * cellW, y: 0, width: cellW, height: cellH)
+        let spec = catalog.spec(for: expanded ? .thinking : .write_file)
+        let pet = NSRect(x: cell.minX + (cellW - 192) / 2, y: 8, width: 192, height: 208)
+        ctx.draw(library.frame(spec.id, spec.sequence.last ?? 0).image, in: pet)
+        let bubble = BubbleLayout(line)
+        let bubbleRect = NSRect(origin: BubbleLayout.origin(size: bubble.size, petFrame: pet,
+                                                            headTop: library.headTopInset(for: spec.id)),
+                                size: bubble.size)
+        bubble.draw(in: bubbleRect)
+        let layout = CardStackLayout(cards: cards, expanded: expanded)
+        let origin = CardStackLayout.origin(size: layout.size, petFrame: pet,
+                                            bubbleTop: bubbleRect.maxY, visible: cell)
         layout.draw(in: NSRect(origin: origin, size: layout.size))
     }
     NSGraphicsContext.current = nil
@@ -171,7 +393,7 @@ func runReplay(path: String) -> Never {
     for (i, e) in events.enumerated() {
         router.ingest(e, now: e.ts)
         tick(e.ts)
-        let next = i + 1 < events.count ? events[i + 1].ts : e.ts + config.respondLingerMs + 3000
+        let next = i + 1 < events.count ? events[i + 1].ts : e.ts + config.completeArmMs + 3000
         // 事件之间：前 20 秒逐 100 ms 推进（覆盖防抖、保持、合并窗口、报告停留），之后跳到失联阈值。
         var t = e.ts + 100
         while t < next && t < e.ts + 20_000 { tick(t); t += 100 }
@@ -180,6 +402,48 @@ func runReplay(path: String) -> Never {
     }
     print("—— 共 \(events.count) 个事件；各状态出现次数：",
           PetState.allCases.compactMap { s in counts[s].map { "\(s.rawValue)=\($0)" } }.joined(separator: " "))
+    exit(0)
+}
+
+/// --chat-link <会话 ID>：打印点举牌时会打开的链接（只查不开），用来确认转录会话认到了哪条聊天。
+/// 会话 ID 就是 ~/.claude/projects/<项目>/<会话>.jsonl 的文件名。
+func runChatLink(session: String) -> Never {
+    let links = ClaudeSessionLinks()
+    print("会话记录目录 \(links.sessionsDir.path)")
+    guard let id = links.desktopSessionID(forTranscriptSession: session) else {
+        print("没找到对应的聊天：点举牌只会把 Claude 带到前面（在终端里跑的会话就是这样）")
+        exit(1)
+    }
+    print("对应聊天 \(id)")
+    print("点击打开 \(ClaudeSessionLinks.chatURL(desktopSession: id)?.absoluteString ?? "-")")
+    exit(0)
+}
+
+/// --chats [秒]：列出最近的聊天（菜单“跟随的聊天”里的那一份），标出此刻会跟哪条。
+/// 先跟着转录看几秒，免得只拿到启动那一瞬的样子。
+func runChats(seconds: Double) -> Never {
+    let source = ClaudeTranscriptSource()
+    let hooks = HookInboxSource()
+    let start = nowMs()
+    let router = ActivityRouter(now: start)
+    for e in source.poll(now: start) { router.ingest(e, now: min(e.ts, start)) }
+    router.settle(now: start)
+    while nowMs() - start < seconds * 1000 {
+        let now = nowMs()
+        for e in source.poll(now: now) + hooks.poll(now: now) { router.ingest(e, now: min(e.ts, now)) }
+        router.tick(now: now)
+        Thread.sleep(forTimeInterval: 0.1)
+    }
+    let now = nowMs()
+    print("目录 \(source.projectsDir.path) 存在=\(source.status.directoryFound) 追踪文件=\(source.status.trackedFiles)")
+    let chats = router.sessionSummaries(now: now, quietWithinMs: 30 * 60 * 1000, limit: 10)
+    if chats.isEmpty {
+        print("最近没有聊天在跑")
+        exit(0)
+    }
+    for c in chats {
+        print("\(c.focused ? "→" : " ") \(c.id)  \(c.menuLabel)")
+    }
     exit(0)
 }
 
@@ -194,6 +458,7 @@ func runWatch(seconds: Double) -> Never {
     router.settle(now: start)
     print("\(timeString(start))  目录 \(source.projectsDir.path) 存在=\(source.status.directoryFound) 追踪文件=\(source.status.trackedFiles)")
     print("\(timeString(start))  启动状态 \(router.displayed.rawValue)（\(catalog.label(for: router.displayed))） 会话 \(router.focusedSession?.prefix(8) ?? "-")")
+    var focus = router.focusedSession
     while nowMs() - start < seconds * 1000 {
         let now = nowMs()
         for e in source.poll(now: now) + hooks.poll(now: now) {
@@ -204,6 +469,10 @@ func runWatch(seconds: Double) -> Never {
         if let s = router.tick(now: now) {
             print("\(timeString(now))  显示 \(s.rawValue)（\(catalog.label(for: s))）")
         }
+        if router.focusedSession != focus {
+            focus = router.focusedSession
+            print("\(timeString(now))  跟随切到 [\(focus?.prefix(8) ?? "-")]")
+        }
         Thread.sleep(forTimeInterval: 0.1)
     }
     exit(0)
@@ -211,29 +480,88 @@ func runWatch(seconds: Double) -> Never {
 
 // MARK: - 桌面播放器
 
+/// 拎起来时那张图与窗口的摆放。图比常规帧高：领口被捏起的尖在头顶上方，两条腿垂到下面；
+/// 上边缘与平时那块 192×208 对齐，所以抓起来的一瞬间头不会跳。窗口按最大倾角扫过的范围放大，
+/// 晃到两边也不会被窗口切掉（多出来的部分是透明的，看不见）。
+struct HangGeometry {
+    let panelSize: NSSize
+    /// 放大后的窗口左下角相对平时窗口左下角的位移（通常是负数）。
+    let offset: NSPoint
+    /// 图在视图里占的矩形，以及绕着转的那一点（都是视图坐标）。
+    let spriteRect: NSRect
+    let pivot: NSPoint
+
+    /// sagRoom：身体最多能往下坠多少点，窗口底下要留出这段。
+    static func make(petSize pet: NSSize, held spec: AnimationSpec, scale s: CGFloat, sagRoom: CGFloat = 0,
+                     maxAngleDeg: Double = HangSwing.Tuning().maxAngleDeg) -> HangGeometry {
+        let anchors = spec.hang ?? HangAnchors(gripX: Double(spec.frameWidth) / 2, gripY: 0, headTop: 0)
+        let sprite = NSRect(x: (pet.width - CGFloat(spec.frameWidth) * s) / 2,
+                            y: pet.height - CGFloat(spec.frameHeight) * s,
+                            width: CGFloat(spec.frameWidth) * s,
+                            height: CGFloat(spec.frameHeight) * s)
+        let pivot = NSPoint(x: sprite.minX + CGFloat(anchors.gripX) * s,
+                            y: sprite.maxY - CGFloat(anchors.gripY) * s)
+        let limit = CGFloat(maxAngleDeg * .pi / 180)
+        var box = sprite
+        for i in -12...12 {
+            box = box.union(rotate(sprite, around: pivot, by: limit * CGFloat(i) / 12))
+        }
+        box = box.insetBy(dx: -1, dy: -1)
+        box = NSRect(x: box.minX, y: box.minY - sagRoom, width: box.width, height: box.height + sagRoom)
+        return HangGeometry(panelSize: box.size,
+                            offset: NSPoint(x: box.minX, y: box.minY),
+                            spriteRect: sprite.offsetBy(dx: -box.minX, dy: -box.minY),
+                            pivot: NSPoint(x: pivot.x - box.minX, y: pivot.y - box.minY))
+    }
+
+    /// 矩形绕一点旋转后的外接矩形。
+    static func rotate(_ rect: NSRect, around p: NSPoint, by angle: CGFloat) -> NSRect {
+        let c = cos(angle), s = sin(angle)
+        var minX = CGFloat.greatestFiniteMagnitude, minY = minX
+        var maxX = -CGFloat.greatestFiniteMagnitude, maxY = maxX
+        for corner in [NSPoint(x: rect.minX, y: rect.minY), NSPoint(x: rect.maxX, y: rect.minY),
+                       NSPoint(x: rect.minX, y: rect.maxY), NSPoint(x: rect.maxX, y: rect.maxY)] {
+            let dx = corner.x - p.x, dy = corner.y - p.y
+            let x = p.x + dx * c - dy * s, y = p.y + dx * s + dy * c
+            minX = min(minX, x); maxX = max(maxX, x)
+            minY = min(minY, y); maxY = max(maxY, y)
+        }
+        return NSRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
+    }
+}
+
+
 final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private let catalog: AnimationCatalog
     private let library: SpriteLibrary
     private let router = ActivityRouter(now: nowMs())
     private let transcript = ClaudeTranscriptSource()
     private let hooks = HookInboxSource()
+    private let links = ClaudeSessionLinks()
     private let defaults = UserDefaults.standard
 
     private var panel: PetPanel!
     private var view: PetView!
     private var bubble: BubblePanel!
+    private var cardStack: CardStackPanel!
     private var statusItem: NSStatusItem!
     private var timer: Timer?
     private var tickCount = 0
 
     private var shownState: PetState = .idle
     private var stateTimeline: SpriteTimeline
-    private var runTimeline: SpriteTimeline?
-    private var runningRight = true
-    private var directionAccum: CGFloat = 0
-    private var directionDecided = false
+    /// 被大手拎着时的摆动与图条；两个都是 nil 表示正常站／坐着。
+    private var swing: HangSwing?
+    private var heldTimeline: SpriteTimeline?
+    private var hangGeo: HangGeometry?
+    /// 松手的时刻；晃停或超时后放回原来的动作。
+    private var releasedAt: Double?
     /// 气泡正在显示的内容。出现和消失立即生效；内容变化每段至少停留 1.2 秒，连续读几个文件时不逐个闪过。
     private var bubbleHold = HeldValue<StatusLine?>(nil, minHoldMs: 1200)
+    /// 旁边那叠卡正在显示的内容。多一条少一条立刻生效，卡上的字跟气泡一样至少停留 1.2 秒。
+    private var cardsHold = HeldValue<[ActivityCard]>([], minHoldMs: 1200)
+    /// “还有 N 条”展开着没有。
+    private var cardsExpanded = false
 
     private struct Simulation {
         let start: Double
@@ -248,12 +576,17 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         set { defaults.set(newValue, forKey: "followClaude") }
     }
     private var scale: CGFloat {
-        get { CGFloat(defaults.object(forKey: "scale") as? Double ?? 1.0) }
+        // 设置坏掉或来自旧版本时夹回滑条的范围，不会出现 0 或大得离谱的雪绪。
+        get { CGFloat(ScaleSliderView.snap(defaults.object(forKey: "scale") as? Double ?? 1.0)) }
         set { defaults.set(Double(newValue), forKey: "scale") }
     }
     private var showBubble: Bool {
         get { defaults.object(forKey: "showBubble") as? Bool ?? true }
         set { defaults.set(newValue, forKey: "showBubble") }
+    }
+    private var showCards: Bool {
+        get { defaults.object(forKey: "showCards") as? Bool ?? true }
+        set { defaults.set(newValue, forKey: "showCards") }
     }
 
     init(catalog: AnimationCatalog, library: SpriteLibrary) {
@@ -278,6 +611,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         panel.orderFrontRegardless()
         setUpBubble()
         updateBubble(now: now)
+        setUpCards()
+        updateCards(now: now)
 
         // 30 Hz：小幅动作一帧约 67 ms、眨眼一帧 50–110 ms，都能按时换帧。
         let t = Timer(timeInterval: 1.0 / 30, repeats: true) { [weak self] _ in self?.tick() }
@@ -300,8 +635,9 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         panel.contentView = view
         panel.setFrameOrigin(restoredOrigin())
 
+        view.onClick = { [weak self] in self?.petClicked() }
         view.onDragBegan = { [weak self] in self?.dragBegan() }
-        view.onDragMoved = { [weak self] dx in self?.dragMoved(dx) }
+        view.onDragOriginChanged = { [weak self] in self?.panel.frame.origin ?? .zero }
         view.onDragEnded = { [weak self] in self?.dragEnded() }
         view.onContextMenu = { [weak self] event in
             guard let self else { return }
@@ -322,22 +658,28 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         return NSScreen.screens.contains(where: { $0.visibleFrame.intersects(frame) }) ? frame.origin : defaultOrigin()
     }
 
-    private func clampToScreen() {
-        let f = panel.frame
+    /// 把一块窗口挪回它所在那块屏幕里。拎着时窗口是放大的，传入的始终是平时那块 192×208。
+    private func clamped(_ f: NSRect) -> NSRect {
         let center = NSPoint(x: f.midX, y: f.midY)
         let screen = NSScreen.screens.first(where: { $0.frame.contains(center) }) ?? NSScreen.main ?? NSScreen.screens[0]
         let vf = screen.visibleFrame
         let x = min(max(f.minX, vf.minX), vf.maxX - f.width)
         let y = min(max(f.minY, vf.minY), vf.maxY - f.height)
-        panel.setFrameOrigin(NSPoint(x: x, y: y))
+        return NSRect(origin: NSPoint(x: x, y: y), size: f.size)
     }
 
-    private func savePosition() {
-        defaults.set(Double(panel.frame.minX), forKey: "originX")
-        defaults.set(Double(panel.frame.minY), forKey: "originY")
+    private func clampToScreen() {
+        panel.setFrameOrigin(clamped(panel.frame).origin)
+    }
+
+    private func savePosition(_ origin: NSPoint? = nil) {
+        let o = origin ?? panel.frame.origin
+        defaults.set(Double(o.x), forKey: "originX")
+        defaults.set(Double(o.y), forKey: "originY")
     }
 
     private func applyScale(_ s: CGFloat) {
+        finishHang()
         let old = panel.frame
         scale = s
         let size = petSize
@@ -348,46 +690,111 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         clampToScreen()
         savePosition()
         positionBubble()
+        positionCards()
     }
 
-    // MARK: 拖动：复用原版左右跑动
+    // MARK: 点击举着的牌子：跳到对应的聊天
 
-    private func dragBegan() {
-        directionDecided = false
-        directionAccum = 0
-        startRun(right: runningRight)
-    }
-
-    private func startRun(right: Bool) {
-        runningRight = right
-        let id = right ? AnimationCatalog.runningRightID : AnimationCatalog.runningLeftID
-        runTimeline = SpriteTimeline(spec: catalog.specs[id]!, now: nowMs())
-        render()
-    }
-
-    private func dragMoved(_ dx: CGFloat) {
-        guard dx != 0 else { return }
-        if !directionDecided {
-            directionDecided = true
-            if (dx > 0) != runningRight { startRun(right: dx > 0) }
+    /// 举着牌子时点雪绪：打开这块牌子对应的那条 Claude 聊天。
+    /// 勾选卡点完放下（那一轮已经结束）；问号卡不放下——问题还等着你答，卡片等你答完自己收。
+    /// 其余状态点击不做事。
+    private func petClicked() {
+        let now = nowMs()
+        if let sim = simulation {
+            // 演示里没有真实会话可跳，只把牌子放下。
+            sim.router.dismissCompletion(now: now)
             return
         }
-        // 反向移动累计超过 6 pt 才转身，避免手抖来回翻转。
-        if runningRight {
-            directionAccum = min(0, directionAccum + dx)
-            if directionAccum < -6 { directionAccum = 0; startRun(right: false) }
-        } else {
-            directionAccum = max(0, directionAccum + dx)
-            if directionAccum > 6 { directionAccum = 0; startRun(right: true) }
+        guard following else { return }
+        if shownState == .task_complete, let session = router.completedSession {
+            openChat(session: session)
+            router.dismissCompletion(now: now)
+            return
         }
+        if shownState == .question_for_user, let session = router.askingSession {
+            openChat(session: session)
+        }
+    }
+
+    /// 用桌面版 Claude 注册的深链打开这条聊天。认不出会话时（例如在终端里跑的 Claude Code），
+    /// 至少把 Claude 带到前面，不乱跳到别的聊天。
+    private func openChat(session: String) {
+        if let url = links.chatURL(forTranscriptSession: session) {
+            NSWorkspace.shared.open(url)
+            return
+        }
+        guard let app = NSWorkspace.shared.urlForApplication(withBundleIdentifier: Self.claudeBundleID) else { return }
+        NSWorkspace.shared.openApplication(at: app, configuration: NSWorkspace.OpenConfiguration())
+    }
+
+    private static let claudeBundleID = "com.anthropic.claudefordesktop"
+
+    // MARK: 拖动：被一只看不见的大手拎起来
+
+    private var heldSpec: AnimationSpec { catalog.specs[AnimationCatalog.heldID]! }
+
+    /// 松手后最多再晃这么久就放下：万一参数改得收敛很慢，也不会一直挂着。
+    private static let hangSettleLimitMs: Double = 2400
+
+    /// 放大的窗口换算回平时那块 192×208。
+    private func normalFrame() -> NSRect {
+        guard let geo = hangGeo else { return panel.frame }
+        let f = panel.frame
+        return NSRect(origin: NSPoint(x: f.minX - geo.offset.x, y: f.minY - geo.offset.y), size: petSize)
+    }
+
+    private func dragBegan() {
+        let now = nowMs()
+        // 上一次还在晃就又被抓住：窗口已经是放大的，只要把手重新握上。
+        if swing != nil {
+            releasedAt = nil
+            swing?.grab()
+            return
+        }
+        let geo = HangGeometry.make(petSize: petSize, held: heldSpec, scale: scale,
+                                    sagRoom: library.hangLength * scale * CGFloat(HangSwing.Tuning().maxSagRatio))
+        hangGeo = geo
+        let f = panel.frame
+        panel.setFrame(NSRect(origin: NSPoint(x: f.minX + geo.offset.x, y: f.minY + geo.offset.y),
+                              size: geo.panelSize), display: false)
+        view.frame = NSRect(origin: .zero, size: geo.panelSize)
+        swing = HangSwing(now: now, length: Double(library.hangLength * scale))
+        heldTimeline = SpriteTimeline(spec: heldSpec, now: now)
+        releasedAt = nil
+        render()
+        positionBubble()
+        positionCards()
+        updateStatusTitle()
     }
 
     private func dragEnded() {
-        runTimeline = nil
-        clampToScreen()
-        savePosition()
+        guard swing != nil else { return }
+        // 贴边和保存位置都按平时那块算；放大的窗口跟着挪同样的距离。
+        let normal = clamped(normalFrame())
+        if let geo = hangGeo {
+            panel.setFrameOrigin(NSPoint(x: normal.minX + geo.offset.x, y: normal.minY + geo.offset.y))
+        }
+        savePosition(normal.origin)
+        swing?.release()
+        releasedAt = nowMs()
         positionBubble()
+        positionCards()
+    }
+
+    /// 晃停了（或超时、要改大小了）：窗口还原成平时那块，切回当前活动的动作。
+    private func finishHang() {
+        guard swing != nil else { return }
+        let normal = normalFrame()
+        swing = nil
+        heldTimeline = nil
+        hangGeo = nil
+        releasedAt = nil
+        panel.setFrame(normal, display: false)
+        view.frame = NSRect(origin: .zero, size: normal.size)
         render()
+        positionBubble()
+        positionCards()
+        updateStatusTitle()
     }
 
     // MARK: 主循环
@@ -418,28 +825,50 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         if target != shownState {
             shownState = target
             stateTimeline = SpriteTimeline(spec: catalog.spec(for: target), now: now)
+            // 站着和坐着的头顶线不一样（待机是站姿，比坐着高一截），气泡与卡叠跟着重贴。
+            positionBubble()
+            positionCards()
             updateStatusTitle()
         }
         stateTimeline.advance(to: now)
-        runTimeline?.advance(to: now)
+        if let geo = hangGeo {
+            // 手的横向位置就是抓手那一点在屏幕上的位置；30 Hz 采一次，摆动按它的加速度算。
+            swing?.advance(to: now,
+                           handX: Double(panel.frame.minX + geo.pivot.x),
+                           handY: Double(panel.frame.minY + geo.pivot.y))
+            heldTimeline?.advance(to: now)
+            if let released = releasedAt,
+               swing?.settled == true || now - released > Self.hangSettleLimitMs {
+                finishHang()
+            }
+        }
         render()
         updateMousePassThrough()
         updateBubble(now: now)
+        updateCards(now: now)
     }
 
     private func render() {
-        let frame: SpriteLibrary.Frame
-        if let run = runTimeline {
-            frame = library.frame(run.spec.id, run.frame)
+        if let held = heldTimeline, let geo = hangGeo, let swing {
+            // 坠下去时整张图往下挪，旋转中心仍是抓手那一点（相当于那截布被拉长了）。
+            view.show(library.frame(held.spec.id, held.frame),
+                      SpritePlacement(rect: geo.spriteRect.offsetBy(dx: 0, dy: -CGFloat(swing.sag)),
+                                      pivot: geo.pivot, angle: CGFloat(swing.angle)))
         } else {
-            frame = library.frame(stateTimeline.spec.id, stateTimeline.frame)
+            view.show(library.frame(stateTimeline.spec.id, stateTimeline.frame), .filling(view.bounds))
         }
-        view.show(frame)
     }
 
     private func updateMousePassThrough() {
-        if view.dragging { panel.ignoresMouseEvents = false; return }
         let m = NSEvent.mouseLocation
+        if let cardStack {
+            // 卡片上（含 ✕ 和“还有 N 条”）才收点击，卡与卡之间的缝隙照样穿透。
+            let c = cardStack.frame
+            let overCard = cardStack.alphaValue > 0.5 && c.contains(m)
+                && cardStack.stackView.hit(at: NSPoint(x: m.x - c.minX, y: m.y - c.minY)) != nil
+            if cardStack.ignoresMouseEvents == overCard { cardStack.ignoresMouseEvents = !overCard }
+        }
+        if view.dragging { panel.ignoresMouseEvents = false; return }
         let f = panel.frame
         let over = f.contains(m) && view.isOpaque(at: NSPoint(x: m.x - f.minX, y: m.y - f.minY))
         if panel.ignoresMouseEvents == over { panel.ignoresMouseEvents = !over }
@@ -453,11 +882,11 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         panel.addChildWindow(bubble, ordered: .above)
     }
 
-    /// 上次摆放气泡时是否在拖动。拖动开始和结束时各重新摆一次。
-    private var bubblePlacedForDrag = false
+    /// 上次摆放气泡时是否被拎着。拎起和放下时各重新摆一次。
+    private var bubblePlacedForHang = false
 
     private func updateBubble(now: Double) {
-        if view.dragging != bubblePlacedForDrag { positionBubble() }
+        if (swing != nil) != bubblePlacedForHang { positionBubble(); positionCards() }
         let source: ActivityRouter? = simulation?.router ?? (following ? router : nil)
         let line = showBubble ? source?.statusLine(now: now) : nil
         let visibilityChanged = (line == nil) != (bubbleHold.value == nil)
@@ -467,16 +896,23 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             positionBubble()
             fadeBubble(to: 1)
         } else {
-            fadeBubble(to: 0)
+            fadeBubble(to: 0)   // 内容留着，让它淡出去而不是瞬间消失
         }
+        // 上面那摞卡压着气泡放，气泡一变高矮或隐去就跟着挪。
+        positionCards()
     }
 
     private func positionBubble() {
-        bubblePlacedForDrag = view.dragging
+        bubblePlacedForHang = swing != nil
         guard let bubble, let size = bubble.bubbleView.layout?.size else { return }
-        // 跑动时头发扬起，气泡抬高，免得压住头顶；松手后回到站姿／坐姿的高度。
-        let headTop = view.dragging ? library.runningTopInset : library.headTopInset
-        var origin = BubbleLayout.origin(size: size, petFrame: panel.frame, headTop: headTop * scale)
+        // 被拎着时图更高，气泡改贴在被捏起的领口上方；晃动时气泡不跟着歪，免得字在抖。
+        var pet = panel.frame
+        var headTop = library.headTopInset(for: stateTimeline.spec.id)
+        if let geo = hangGeo, swing != nil {
+            pet = geo.spriteRect.offsetBy(dx: panel.frame.minX, dy: panel.frame.minY)
+            headTop = CGFloat(heldSpec.hang?.gripY ?? 0)
+        }
+        var origin = BubbleLayout.origin(size: size, petFrame: pet, headTop: headTop * scale)
         if let vf = (panel.screen ?? NSScreen.main)?.visibleFrame {
             // 雪绪靠近屏幕边缘时气泡仍留在屏幕内（顶到上边时会压在头上）。
             origin.x = min(max(origin.x, vf.minX + 4), vf.maxX - size.width - 4)
@@ -490,6 +926,94 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             ctx.duration = 0.18
             self.bubble.animator().alphaValue = alpha
         }
+    }
+
+    // MARK: 旁边那叠通知卡
+
+    private func setUpCards() {
+        cardStack = CardStackPanel()
+        panel.addChildWindow(cardStack, ordered: .above)
+        cardStack.stackView.onOpen = { [weak self] i in self?.cardTapped(i, open: true) }
+        cardStack.stackView.onDismiss = { [weak self] i in self?.cardTapped(i, open: false) }
+        cardStack.stackView.onToggleExpand = { [weak self] in
+            guard let self else { return }
+            self.cardsExpanded.toggle()
+            self.updateCards(now: nowMs(), immediate: true)
+        }
+        cardStack.stackView.onContextMenu = { [weak self] i, event in
+            guard let self, let card = self.cardsHold.value[safe: i] else { return }
+            let menu = NSMenu()
+            menu.addItem(self.info(card.title))
+            let mute = self.action("不再提醒这条聊天", #selector(self.menuMuteChat(_:)))
+            mute.representedObject = card.session
+            menu.addItem(mute)
+            NSMenu.popUpContextMenu(menu, with: event, for: self.cardStack.stackView)
+        }
+    }
+
+    /// 点了第 i 张卡：open=true 去那条聊天，否则只收起这张。
+    private func cardTapped(_ i: Int, open: Bool) {
+        guard simulation == nil, let card = cardsHold.value[safe: i] else { return }
+        let now = nowMs()
+        if open { openChat(session: card.session) }
+        router.dismissCard(session: card.session, now: now)
+        updateCards(now: now, immediate: true)
+    }
+
+    private func updateCards(now: Double, immediate: Bool = false) {
+        guard let cardStack else { return }
+        let cards = (showCards && following && simulation == nil) ? router.cards(now: now) : []
+        if cards.count <= CardStackLayout.collapsedCount { cardsExpanded = false }
+        // 多一条少一条立刻生效；只是卡上的字变了就按最短停留，免得一直闪。
+        let appeared = cards.map(\.session) != cardsHold.value.map(\.session)
+        guard cardsHold.update(cards, now: now, immediate: immediate || appeared) else { return }
+        let value = cardsHold.value
+        guard !value.isEmpty else {
+            fade(cardStack, to: 0)
+            return
+        }
+        let layout = CardStackLayout(cards: value, expanded: cardsExpanded)
+        cardStack.stackView.layout = layout
+        positionCards(layout)
+        fade(cardStack, to: 1)
+    }
+
+    /// 雪绪挪了、变大小了、被拎起放下了：照当前这叠重摆一次。
+    private func positionCards() {
+        guard let layout = cardStack?.stackView.layout else { return }
+        positionCards(layout)
+    }
+
+    private func positionCards(_ layout: CardStackLayout) {
+        guard let cardStack, layout.size.height > 0 else { return }
+        let visible = (panel.screen ?? NSScreen.main)?.visibleFrame
+            ?? NSRect(x: 0, y: 0, width: 1440, height: 900)
+        var pet = panel.frame
+        var headTop = library.headTopInset(for: stateTimeline.spec.id)
+        if let geo = hangGeo, swing != nil {
+            pet = geo.spriteRect.offsetBy(dx: panel.frame.minX, dy: panel.frame.minY)
+            headTop = CGFloat(heldSpec.hang?.gripY ?? 0)
+        }
+        // 接着气泡往上叠；气泡关掉或没内容时，从头顶线开始。
+        let bubbleTop = (bubble?.alphaValue ?? 0) > 0.01 && bubble.bubbleView.layout != nil
+            ? bubble.frame.maxY : pet.maxY - headTop * scale + 3
+        let origin = CardStackLayout.origin(size: layout.size, petFrame: pet,
+                                            bubbleTop: bubbleTop, visible: visible)
+        cardStack.setFrame(NSRect(origin: origin, size: layout.size), display: true)
+    }
+
+    private func fade(_ window: NSWindow, to alpha: CGFloat) {
+        guard window.alphaValue != alpha else { return }
+        NSAnimationContext.runAnimationGroup { ctx in
+            ctx.duration = 0.18
+            window.animator().alphaValue = alpha
+        }
+    }
+
+    @objc private func menuMuteChat(_ sender: NSMenuItem) {
+        guard let id = sender.representedObject as? String else { return }
+        router.muteCards(session: id)
+        updateCards(now: nowMs(), immediate: true)
     }
 
     // MARK: 模拟演示
@@ -537,7 +1061,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         } else {
             button.title = simulation != nil ? "雪绪·模拟" : "雪绪"
         }
-        button.toolTip = "雪绪：\(catalog.label(for: shownState))"
+        button.toolTip = "雪绪：\(swing != nil ? heldSpec.label : catalog.label(for: shownState))"
     }
 
     /// 再次打开 Yukio.app（Finder、Spotlight、open 命令）时，在雪绪身旁弹出菜单。
@@ -562,6 +1086,51 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         return item
     }
 
+    /// 菜单里列多久之内的聊天、最多几条。
+    private static let chatListWindowMs: Double = 30 * 60 * 1000
+    private static let chatListLimit = 10
+
+    /// “跟随的聊天”子菜单：多个聊天同时跑时挑一条跟。
+    /// 默认自动——谁答完、谁在等你拿主意就先给你看，都没有时跟最近在干活的那条。
+    private func chatPickerItem(_ chats: [SessionSummary]) -> NSMenuItem {
+        let live = chats.filter(\.live).count
+        let wants = chats.filter(\.wantsYou).count
+        // 标题顺带报数：有几条在等你，没人等你时报有几条在跑。
+        let title: String
+        if wants > 0 {
+            title = "跟随的聊天（\(wants) 条等你）"
+        } else if live > 1 {
+            title = "跟随的聊天（\(live) 条在跑）"
+        } else {
+            title = "跟随的聊天"
+        }
+        let item = NSMenuItem(title: title, action: nil, keyEquivalent: "")
+        let sub = NSMenu()
+        let auto = action("自动（完成和提问优先）", #selector(menuPickChat(_:)), on: router.pinnedSession == nil)
+        auto.representedObject = ""
+        sub.addItem(auto)
+        sub.addItem(.separator())
+        if chats.isEmpty {
+            sub.addItem(info("最近没有聊天在跑"))
+        }
+        for c in chats {
+            let row = action(c.menuLabel, #selector(menuPickChat(_:)))
+            row.representedObject = c.id
+            // 挑定的那条打勾；自动模式下此刻跟着的那条画一横。
+            row.state = c.pinned ? .on : (c.focused ? .mixed : .off)
+            sub.addItem(row)
+        }
+        item.submenu = sub
+        return item
+    }
+
+    /// 大小滑条那一行。菜单每次打开都重新建，滑块停在当前大小上。
+    private func scaleSliderItem() -> NSMenuItem {
+        let item = NSMenuItem()
+        item.view = ScaleSliderView(scale: scale) { [weak self] s in self?.applyScale(s) }
+        return item
+    }
+
     private func action(_ title: String, _ selector: Selector, key: String = "", on: Bool? = nil) -> NSMenuItem {
         let item = NSMenuItem(title: title, action: selector, keyEquivalent: key)
         item.target = self
@@ -571,7 +1140,16 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     private func buildMenu() -> NSMenu {
         let menu = NSMenu()
-        menu.addItem(info("雪绪 · \(catalog.label(for: shownState))"))
+        let chats = simulation == nil ? router.sessionSummaries(now: nowMs(), quietWithinMs: Self.chatListWindowMs,
+                                                                limit: Self.chatListLimit) : []
+        menu.addItem(info("雪绪 · \(swing != nil ? heldSpec.label : catalog.label(for: shownState))"))
+        if simulation == nil, following, router.completedSession != nil {
+            menu.addItem(action("打开这条聊天并放下牌子", #selector(menuOpenChat)))
+            menu.addItem(action("先放下牌子，不打开聊天", #selector(menuDropSign)))
+        } else if simulation == nil, following, router.askingSession != nil {
+            // 问号卡不收：答完之后它自己收，这里只把聊天打开。
+            menu.addItem(action("打开这条聊天去回答", #selector(menuOpenChat)))
+        }
         if simulation != nil {
             menu.addItem(info("正在播放模拟演示（不是真实 Claude 活动）"))
         } else if !following {
@@ -580,9 +1158,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             menu.addItem(info("未找到 \(transcript.projectsDir.path)"))
         } else {
             menu.addItem(info("跟随 Claude Code（只读会话转录）"))
-            let snap = router.snapshot()
-            if let s = snap.focusedSession {
-                menu.addItem(info("会话 \(s.prefix(8))… · \(snap.taskActive ? "进行中" : "已结束") · 未完成工具 \(snap.openTools)"))
+            if let focused = chats.first(where: \.focused) {
+                menu.addItem(info("正在跟：\(focused.menuLabel)\(focused.pinned ? "（挑定的）" : "")"))
             }
             if hooks.isPresent {
                 menu.addItem(info("Claude hooks 收件箱：已收到 \(hooks.eventsReceived) 个事件"))
@@ -595,34 +1172,38 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             menu.addItem(action("停止模拟演示", #selector(menuStopDemo)))
         }
         menu.addItem(action("跟随 Claude 活动", #selector(menuToggleFollow), on: following))
+        if simulation == nil { menu.addItem(chatPickerItem(chats)) }
         menu.addItem(action("头顶显示任务", #selector(menuToggleBubble), on: showBubble))
+        menu.addItem(action("头顶显示别的聊天", #selector(menuToggleCards), on: showCards))
 
-        let sizeItem = NSMenuItem(title: "大小", action: nil, keyEquivalent: "")
-        let sizeMenu = NSMenu()
-        for s in [1.0, 1.25, 1.5, 2.0] {
-            let item = action("\(Int(s * 100))%", #selector(menuScale(_:)), on: abs(Double(scale) - s) < 0.01)
-            item.representedObject = s
-            sizeMenu.addItem(item)
-        }
-        sizeItem.submenu = sizeMenu
-        menu.addItem(sizeItem)
+        menu.addItem(scaleSliderItem())
         menu.addItem(action("回到屏幕右下角", #selector(menuResetPosition)))
         menu.addItem(.separator())
         menu.addItem(action("退出雪绪", #selector(menuQuit), key: "q"))
         return menu
     }
 
+    @objc private func menuOpenChat() { petClicked() }
+    @objc private func menuDropSign() { router.dismissCompletion(now: nowMs()) }
+    /// 空的 representedObject 表示“自动”。
+    @objc private func menuPickChat(_ sender: NSMenuItem) {
+        let id = sender.representedObject as? String
+        router.pinSession(id?.isEmpty == false ? id : nil, now: nowMs())
+    }
     @objc private func menuStartDemo() { startDemo() }
     @objc private func menuStopDemo() { stopDemo() }
     @objc private func menuToggleFollow() { following.toggle() }
     @objc private func menuToggleBubble() { showBubble.toggle() }
-    @objc private func menuScale(_ sender: NSMenuItem) {
-        if let s = sender.representedObject as? Double { applyScale(CGFloat(s)) }
+    @objc private func menuToggleCards() {
+        showCards.toggle()
+        updateCards(now: nowMs(), immediate: true)
     }
     @objc private func menuResetPosition() {
+        finishHang()
         panel.setFrameOrigin(defaultOrigin())
         savePosition()
         positionBubble()
+        positionCards()
     }
     @objc private func menuQuit() { NSApp.terminate(nil) }
 }
@@ -636,7 +1217,14 @@ let args = CommandLine.arguments
 if args.contains("--check") { runCheck() }
 if let i = args.firstIndex(of: "--snapshot"), i + 1 < args.count { runSnapshot(path: args[i + 1]) }
 if let i = args.firstIndex(of: "--bubble"), i + 1 < args.count { runBubbleSnapshot(path: args[i + 1]) }
+if let i = args.firstIndex(of: "--cards"), i + 1 < args.count { runCardsSnapshot(path: args[i + 1]) }
+if let i = args.firstIndex(of: "--hang"), i + 1 < args.count { runHangSnapshot(path: args[i + 1]) }
+if let i = args.firstIndex(of: "--hang-gif"), i + 1 < args.count { runHangGIF(path: args[i + 1]) }
 if let i = args.firstIndex(of: "--replay"), i + 1 < args.count { runReplay(path: args[i + 1]) }
+if let i = args.firstIndex(of: "--chat-link"), i + 1 < args.count { runChatLink(session: args[i + 1]) }
+if let i = args.firstIndex(of: "--chats") {
+    runChats(seconds: i + 1 < args.count ? Double(args[i + 1]) ?? 3 : 3)
+}
 if let i = args.firstIndex(of: "--watch") {
     runWatch(seconds: i + 1 < args.count ? Double(args[i + 1]) ?? 60 : 60)
 }
@@ -659,7 +1247,9 @@ do {
 }
 
 let app = NSApplication.shared
-app.setActivationPolicy(.accessory)
+// 平时是 .accessory（不进 Dock、不抢前台）；YUKIO_DOCK=1 时临时当普通 App，见 DockMode。
+app.setActivationPolicy(DockMode.isEnabled ? .regular : .accessory)
 let controller = AppController(catalog: catalog, library: library)
 app.delegate = controller
+DockMode.armIfEnabled()
 app.run()
