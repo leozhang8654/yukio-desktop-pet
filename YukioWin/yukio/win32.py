@@ -645,6 +645,20 @@ def message_box(text: str, title: str = "雪绪") -> None:
         pass
 
 
+def open_url(url: str) -> bool:
+    """交给系统按协议打开（`claude://…` 由桌面版 Claude 自己注册）。
+
+    只接受这几种协议，免得把任意字符串交给 ShellExecute 去执行。
+    """
+    if not any(url.startswith(p) for p in ("claude://", "https://", "http://")):
+        return False
+    try:
+        # SW_SHOWNORMAL = 1；返回值 > 32 才算成功。
+        return shell32.ShellExecuteW(None, "open", url, None, None, 1) > 32
+    except Exception:
+        return False
+
+
 def loword(value: int) -> int:
     return value & 0xFFFF
 

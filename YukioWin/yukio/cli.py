@@ -3,8 +3,12 @@
     python -m yukio --check                 加载并裁切全部素材，确认帧不越界
     python -m yukio --snapshot out.png      把实际使用的动画画在棋盘格上
     python -m yukio --bubble out.png        画几种头顶气泡样例，检查排版与位置
+    python -m yukio --cards out.png         画“气泡 + 上面那摞别的聊天”，检查排版与层次
+    python -m yukio --hang out.png          把被拎着的几个倾角画出来，并自查摆动方向
     python -m yukio --replay 会话.jsonl     用虚拟时钟回放一份会话记录，打印状态序列
     python -m yukio --watch 60              实时跟随，打印事件与状态切换（不打印对话内容）
+    python -m yukio --chats 3               列出最近的聊天，标出此刻会跟哪条
+    python -m yukio --chat-link <会话ID>    查这条聊天对应桌面版 Claude 的哪一条（点牌子跳哪去）
     python -m yukio --selftest              跑核心测试
 """
 
@@ -17,9 +21,10 @@ import time
 from typing import List, Optional
 
 from .bridge import BridgeParser
-from .catalog import AnimationCatalog, CatalogError, assets_root
+from .catalog import AnimationCatalog, CatalogError, HELD_ID, assets_root
 from .console import force_utf8_console
 from .events import ALL_STATES, Kind, PetEvent, PetState
+from .hang import HangGeometry, Tuning as HangTuning, feet_offset_at
 from .parsers_claude import ClaudeTranscriptParser
 from .parsers_deepcode import DeepCodeMessageParser
 from .router import ActivityRouter, HeldValue, RouterConfig
@@ -88,7 +93,10 @@ def run_check() -> int:
             print("问题：%s" % p)
         return 1
     print("OK：%d 段动画，素材目录 %s" % (len(catalog.specs), root))
-    print("头顶线 %.0f 像素，跑动时 %.0f 像素" % (library.head_top_inset, library.running_top_inset))
+    print("头顶线：站姿 %.0f 像素、坐姿 %.0f 像素（各段分开量，气泡贴各自的头）"
+          % (library.head_top_inset_for("idle"), library.head_top_inset_for("thinking")))
+    print("被拎起来：摆长 %.0f 像素，最多坠 %.0f 像素"
+          % (library.hang_length, library.hang_length * HangTuning().max_sag_ratio))
     from .bubble import font_file
     print("气泡字体：%s" % (font_file() or "（没找到中文字体，会退回西文位图字体）",))
     return 0
@@ -110,9 +118,9 @@ def run_snapshot(path: str) -> int:
     from PIL import ImageDraw
     from .bubble import load_font
     catalog, library, _ = load_library_or_exit()
-    specs = [catalog.spec(s) for s in ALL_STATES]
-    specs += [catalog.specs["running-left"], catalog.specs["running-right"]]
-    cell_w, cell_h, label_h, max_cols = 192, 208, 26, 10
+    specs = [catalog.spec(s) for s in ALL_STATES] + [catalog.specs[HELD_ID]]
+    # 「被拎起来」那一帧比常规帧高（领口的尖在头顶上方、腿垂下来），格子按最高的那段算。
+    cell_w, cell_h, label_h, max_cols = 192, max(s.frame_height for s in specs), 26, 10
     cols = min(max_cols, max(library.frame_count(s.id) for s in specs))
     width, height = cols * cell_w, len(specs) * (cell_h + label_h)
     sheet = _checkerboard(width, height)
@@ -129,7 +137,8 @@ def run_snapshot(path: str) -> int:
             "循环" if spec.loop else "播一次后停住")
         draw.text((6, top + 5), title, font=font, fill=(0, 0, 0, 255))
         for i, f in enumerate(picks):
-            sheet.alpha_composite(library.frame(spec.id, f).image, (i * cell_w, top + label_h))
+            sheet.alpha_composite(library.frame(spec.id, f).image,
+                                  (i * cell_w, top + label_h + cell_h - spec.frame_height))
     avatar = library.avatar_image(96)
     if avatar is not None and library.frame_count(specs[0].id) + 2 <= cols:
         sheet.alpha_composite(avatar, (6 * cell_w + 20, 30))
@@ -151,7 +160,7 @@ def run_bubble_snapshot(path: str) -> int:
         (PetState.thinking, StatusLine(None, "思考中", None)),
         (PetState.failed, StatusLine("桌宠缺失状态", "出错：$ pytest -q", Progress(7, 7))),
         (PetState.question_for_user, StatusLine("Deep Code 会话", "等你批准", None)),
-        (PetState.task_complete, StatusLine("桌宠缺失状态", "已完成", Progress(7, 7))),
+        (PetState.task_complete, StatusLine("桌宠缺失状态", "已完成 · 点我打开对话", Progress(7, 7))),
     ]
     px = 2
     cell_w, cell_h = 240, 208 + 64
@@ -163,11 +172,140 @@ def run_bubble_snapshot(path: str) -> int:
         pet_y = cell_h - 208
         sheet.alpha_composite(frame.image.resize((192 * px, 208 * px)), (pet_x * px, pet_y * px))
         layout = BubbleLayout(line, scale=px)
-        ox, oy = BubbleLayout.origin(layout.size_pt, (pet_x, pet_y, 192, 208), library.head_top_inset)
+        ox, oy = BubbleLayout.origin(layout.size_pt, (pet_x, pet_y, 192, 208),
+                                     library.head_top_inset_for(spec.id))
         sheet.alpha_composite(layout.render(), (int(ox * px), int(oy * px)))
     sheet.save(path)
     print("已写出 %s（%d×%d）" % (path, sheet.size[0], sheet.size[1]))
     return 0
+
+
+def run_cards_snapshot(path: str) -> int:
+    """画“气泡 + 上面那摞别的聊天”：收起与展开各一格，按 2 倍分辨率输出。"""
+    from .bubble import BubbleLayout
+    from .cards import ActivityCard, CardStatus
+    from .cardstack import CardStackLayout
+    from .router import Progress, StatusLine
+    catalog, library, _ = load_library_or_exit()
+    # 顺序就是 router.cards() 给的那套档位：等你回答 → 出错 → 答完 → 在跑，
+    # 最要紧的那张挨着气泡（也就是画在最下面）。
+    cards = [
+        ActivityCard("ask", "要不要换个库", "等你挑一个", CardStatus.waiting, 12000),
+        ActivityCard("bad", "跑个构建", "出错：$ npm run build", CardStatus.failed, 60000),
+        ActivityCard("done", "写个备份脚本", "点开看看", CardStatus.ready, 4000),
+        ActivityCard("work", "改登录页", "编辑 login.py", CardStatus.running, 800),
+    ]
+    line = StatusLine("桌宠缺失状态", "实现头顶气泡", Progress(3, 7))
+    px = 2
+    cell_w, cell_h = 260, 208 + 210
+    sheet = _checkerboard(cell_w * 2 * px, cell_h * px)
+    spec = catalog.spec(PetState.write_file)
+    for i, expanded in enumerate((False, True)):
+        pet_x = i * cell_w + (cell_w - 192) // 2
+        pet_y = cell_h - 208
+        sheet.alpha_composite(library.frame(spec.id, spec.sequence[0]).image.resize((192 * px, 208 * px)),
+                              (pet_x * px, pet_y * px))
+        bubble = BubbleLayout(line, scale=px)
+        bx, by = BubbleLayout.origin(bubble.size_pt, (pet_x, pet_y, 192, 208),
+                                     library.head_top_inset_for(spec.id))
+        sheet.alpha_composite(bubble.render(), (int(bx * px), int(by * px)))
+        stack = CardStackLayout(cards, expanded=expanded, scale=px)
+        sx, sy = CardStackLayout.origin(stack.size_pt, (pet_x, pet_y, 192, 208), by)
+        sheet.alpha_composite(stack.render(), (int(sx * px), int(sy * px)))
+    sheet.save(path)
+    print("已写出 %s（%d×%d）：左边收起、右边展开" % (path, sheet.size[0], sheet.size[1]))
+    return 0
+
+
+def run_hang_snapshot(path: str) -> int:
+    """把「被大手拎着」按几个倾角画出来，外面套上实际会用的窗口框，并自查摆动方向。
+
+    用来核对：抓手点是不是在头发顶端上方、晃到两边会不会被窗口切掉、上边缘是否与平时那块对齐。
+    """
+    from PIL import Image, ImageDraw
+    from .bubble import load_font
+    catalog, library, _ = load_library_or_exit()
+    spec = catalog.specs[HELD_ID]
+    tuning = HangTuning()
+    sag_room = library.hang_length * tuning.max_sag_ratio
+    geo = HangGeometry.make((192, 208), (spec.frame_width, spec.frame_height),
+                            spec.hang.grip, scale=1.0, sag_room=sag_room)
+    angles = [-tuning.max_angle_deg, -tuning.max_angle_deg / 2, 0,
+              tuning.max_angle_deg / 2, tuning.max_angle_deg]
+    cell_w, cell_h, label_h = geo.panel_size[0], geo.panel_size[1], 26
+    sheet = _checkerboard(cell_w * len(angles), cell_h + label_h)
+    draw = ImageDraw.Draw(sheet)
+    draw.rectangle((0, 0, sheet.size[0], label_h), fill=(255, 255, 255, 255))
+    title = ("held · 摆长 %d px · 一摆 %.2f 秒 · 最多坠 %d px · 窗口 %d×%d（平时 192×208）· "
+             "抓手点 (%d, 上边下 %d) · 倾角 %s") % (
+        library.hang_length, tuning.period_sec, sag_room, cell_w, cell_h,
+        geo.pivot[0], geo.pivot[1], " ".join("%d°" % a for a in angles))
+    draw.text((6, 5), title, font=load_font(13), fill=(0, 0, 0, 255))
+
+    frame = library.frame(spec.id, 0).image
+    for i, deg in enumerate(angles):
+        dx = i * cell_w
+        canvas = Image.new("RGBA", geo.panel_size, (0, 0, 0, 0))
+        canvas.alpha_composite(frame, (int(round(geo.sprite_rect[0])), int(round(geo.sprite_rect[1]))))
+        if abs(deg) > 0.01:
+            canvas = canvas.rotate(deg, resample=Image.BICUBIC, center=geo.pivot)
+        sheet.alpha_composite(canvas, (dx, label_h))
+        # 平时那块 192×208 的位置（蓝框）与放大后的窗口（红框）。
+        nx, ny = dx - geo.offset[0], label_h - geo.offset[1]
+        draw.rectangle((nx, ny, nx + 191, ny + 207), outline=(51, 128, 255, 204))
+        draw.rectangle((dx, label_h, dx + cell_w - 1, label_h + cell_h - 1), outline=(255, 51, 51, 153))
+        px_, py_ = dx + geo.pivot[0], label_h + geo.pivot[1]
+        draw.ellipse((px_ - 3, py_ - 3, px_ + 3, py_ + 3), fill=(255, 102, 0, 255))
+    sheet.save(path)
+    print("已写出 %s（%d×%d）" % (path, sheet.size[0], sheet.size[1]))
+    return 0 if _check_swing_direction(frame, geo) else 1
+
+
+def _check_swing_direction(frame, geo: HangGeometry) -> bool:
+    """摆动方向自检：正角必须让脚偏向右边。
+
+    这件事只错过一次就够难看的——macOS 版曾经把旋转写成 -angle，屏幕上成了
+    「脚朝着移动方向甩出去」，与真实的钟摆相反。所以这里两条路都量一遍：
+    画到位图上量脚的位置，再直接按渲染用的换算算一次。
+    """
+    from PIL import Image
+
+    def feet_offset(deg: float) -> float:
+        """把图按给定角度绕抓手点画一遍，返回「下半身横向重心 − 上半身横向重心」（正数＝脚偏右）。"""
+        canvas = Image.new("RGBA", geo.panel_size, (0, 0, 0, 0))
+        canvas.alpha_composite(frame, (int(round(geo.sprite_rect[0])), int(round(geo.sprite_rect[1]))))
+        canvas = canvas.rotate(deg, resample=Image.BICUBIC, center=geo.pivot)
+        alpha = canvas.getchannel("A").point(lambda v: 255 if v > 24 else 0)
+        w, h = alpha.size
+        data = alpha.tobytes()
+        rows = []
+        for y in range(h):
+            row = data[y * w:(y + 1) * w]
+            total = sum(x for x in range(w) if row[x])
+            count = sum(1 for x in range(w) if row[x])
+            if count:
+                rows.append((total, count))
+        if len(rows) <= 10:
+            return 0.0
+        cut = max(1, len(rows) // 5)
+
+        def centroid(part):
+            s = sum(t for t, _ in part)
+            c = sum(c for _, c in part)
+            return s / c if c else 0.0
+
+        # 位图第一行是画面最顶上那行，所以 rows 开头是头、结尾是脚。
+        return centroid(rows[-cut:]) - centroid(rows[:cut])
+
+    ok = True
+    for deg in (-20.0, 20.0):
+        drawn = feet_offset(deg)
+        computed = feet_offset_at(deg)
+        good = drawn * deg > 0 and computed * deg > 0
+        print("  倾角 %+d°：画出来脚偏 %+.1f px、按矩阵算偏 %+.1f px %s"
+              % (deg, drawn, computed, "✓" if good else "✗ 方向反了"))
+        ok = ok and good
+    return ok
 
 
 # MARK: 回放与跟随
@@ -235,7 +373,7 @@ def run_replay(path: str, with_bubble: bool = False) -> int:
     for i, e in enumerate(events):
         router.ingest(e, e.ts)
         tick(e.ts)
-        next_ts = events[i + 1].ts if i + 1 < len(events) else e.ts + config.respond_linger_ms + 3000
+        next_ts = events[i + 1].ts if i + 1 < len(events) else e.ts + config.complete_arm_ms + 3000
         # 事件之间：前 20 秒逐 100 ms 推进，之后跳到失联阈值。
         t = e.ts + 100
         while t < next_ts and t < e.ts + 20000:
@@ -246,6 +384,52 @@ def run_replay(path: str, with_bubble: bool = False) -> int:
             tick(stale_at)
             tick(stale_at + config.debounce_ms + 100)
     print("—— 各状态出现次数：" + " ".join("%s=%d" % (s.value, counts[s]) for s in ALL_STATES if s in counts))
+    return 0
+
+
+def run_chats(seconds: float, which: str = "auto") -> int:
+    """列出最近的聊天（托盘菜单“跟随的聊天”里的那一份），→ 标出此刻会跟哪条。
+
+    先跟着记录看几秒，免得只拿到启动那一瞬的样子。
+    """
+    sources = default_sources(which)
+    start = now_ms()
+    router = ActivityRouter(now=start)
+    for src in sources:
+        for e in src.poll(start):
+            router.ingest(e, min(e.ts, start))
+    router.settle(start)
+    while now_ms() - start < seconds * 1000:
+        now = now_ms()
+        for src in sources:
+            for e in src.poll(now):
+                router.ingest(e, min(e.ts, now))
+        router.tick(now)
+        time.sleep(0.1)
+    for src in sources:
+        where = getattr(src, "projects_dir", None) or getattr(src, "path", "")
+        print("%s：%s 存在=%s" % (src.label, where, src.available))
+    chats = router.session_summaries(now_ms(), quiet_within_ms=30 * 60 * 1000.0, limit=10)
+    if not chats:
+        print("最近没有聊天在跑")
+        return 0
+    for c in chats:
+        print("%s %s  %s" % ("→" if c.focused else " ", c.id, c.menu_label))
+    return 0
+
+
+def run_chat_link(session: str) -> int:
+    """查一条转录会话对应桌面版 Claude 的哪条聊天（点举着的牌子时就是跳到那里）。"""
+    from .chatlinks import ChatLinks, chat_url_for_desktop_session, default_sessions_dir
+    links = ChatLinks()
+    print("桌面版会话记录：%s（存在=%s）" % (links.sessions_dir, os.path.isdir(links.sessions_dir)))
+    found = links.desktop_session_id(session)
+    if not found:
+        print("对不上桌面版的聊天：%s" % session)
+        print("（在终端里跑的 Claude Code、以及 Deep Code 的会话本来就没有这种链接，点了只放下牌子。）")
+        return 1
+    print("%s → %s" % (session, found))
+    print("点牌子会打开：%s" % chat_url_for_desktop_session(found))
     return 0
 
 
@@ -264,6 +448,7 @@ def run_watch(seconds: float, which: str = "auto") -> int:
     print("%s  启动状态 %s（%s） 会话 %s" % (time_string(start), router.displayed.value,
                                           catalog.label(router.displayed),
                                           (router.focused_session or "-")[:8]))
+    focus = router.focused_session
     while now_ms() - start < seconds * 1000:
         now = now_ms()
         for src in sources:
@@ -278,6 +463,9 @@ def run_watch(seconds: float, which: str = "auto") -> int:
             line = router.status_line(now)
             text = ("  气泡 %s" % line.current) if line else ""
             print("%s  显示 %s（%s）%s" % (time_string(now), s.value, catalog.label(s), text))
+        if router.focused_session != focus:
+            focus = router.focused_session
+            print("%s  跟随切到 [%s]" % (time_string(now), (focus or "-")[:8]))
         time.sleep(0.1)
     return 0
 
@@ -316,6 +504,10 @@ def main(argv: Optional[List[str]] = None) -> int:
         return run_snapshot(value_after("--snapshot"))
     if value_after("--bubble"):
         return run_bubble_snapshot(value_after("--bubble"))
+    if value_after("--cards"):
+        return run_cards_snapshot(value_after("--cards"))
+    if value_after("--hang"):
+        return run_hang_snapshot(value_after("--hang"))
     if value_after("--replay"):
         return run_replay(value_after("--replay"), "--with-bubble" in argv)
     if "--watch" in argv:
@@ -325,6 +517,15 @@ def main(argv: Optional[List[str]] = None) -> int:
         except ValueError:
             seconds = 60.0
         return run_watch(seconds, value_after("--source") or "auto")
+    if "--chats" in argv:
+        seconds = value_after("--chats")
+        try:
+            seconds = float(seconds) if seconds else 3.0
+        except ValueError:
+            seconds = 3.0
+        return run_chats(seconds, value_after("--source") or "auto")
+    if value_after("--chat-link"):
+        return run_chat_link(value_after("--chat-link"))
     if "--selftest" in argv:
         return run_selftest()
 

@@ -15,20 +15,38 @@ from typing import Callable, Dict, List, Optional, Tuple
 
 from .events import ALL_STATES, PetState
 
-RUNNING_LEFT_ID = "running-left"
-RUNNING_RIGHT_ID = "running-right"
+#: 拖动时显示的动作：被一只看不见的大手拎着。
+HELD_ID = "held"
 
 
 class CatalogError(Exception):
     pass
 
 
+class HangAnchors:
+    """被大手拎住时要用的两个锚点，单位是帧内像素、左上角为原点。"""
+
+    __slots__ = ("grip_x", "grip_y", "head_top")
+
+    def __init__(self, grip_x: float, grip_y: float, head_top: float):
+        #: 抓住的那一点：领口被捏起来的那个尖。摆动绕它转。
+        self.grip_x = float(grip_x)
+        self.grip_y = float(grip_y)
+        #: 头发顶端所在行。这一帧比常规帧高，按上边缘对齐摆放，所以画的时候
+        #: 要让这条线与站立图一致。
+        self.head_top = float(head_top)
+
+    @property
+    def grip(self):
+        return (self.grip_x, self.grip_y)
+
+
 class AnimationSpec:
     __slots__ = ("id", "label", "asset_path", "frame_width", "frame_height",
-                 "sequence", "durations_ms", "loop", "hold_last_frame", "loop_start")
+                 "sequence", "durations_ms", "loop", "hold_last_frame", "loop_start", "hang")
 
     def __init__(self, id, label, asset_path, frame_width, frame_height,
-                 sequence, durations_ms, loop, hold_last_frame, loop_start=0):
+                 sequence, durations_ms, loop, hold_last_frame, loop_start=0, hang=None):
         self.id = id
         self.label = label
         #: 相对资源根目录的路径，例如 "activities/thinking.webp"。
@@ -41,6 +59,8 @@ class AnimationSpec:
         self.hold_last_frame = hold_last_frame
         #: 循环时回到的步序号：前面的步只播一次（例如先递出报告，再循环眨眼）。
         self.loop_start = loop_start
+        #: 只有「被拎起来」这一段有：抓手点与头顶线。
+        self.hang = hang
 
     @property
     def max_frame_index(self) -> int:
@@ -56,8 +76,7 @@ class AnimationSpec:
 #: 等于每 1.2 秒低落又恢复一次；这里只垂眼一次并停住。
 _USED_BASE = {
     "idle": ("空闲", None),
-    RUNNING_LEFT_ID: ("向左跑动", None),
-    RUNNING_RIGHT_ID: ("向右跑动", None),
+    HELD_ID: ("被大手拎着", None),
     "failed": ("失败／沮丧", ([0, 2, 3], [240.0, 180.0, 1000.0])),
 }
 
@@ -95,11 +114,13 @@ class AnimationCatalog:
             if not use:
                 continue
             label, once = use
+            grip = a.get("grip")
+            hang = HangAnchors(grip["x"], grip["y"], grip["headTop"]) if grip else None
             if once:
                 sequence, durations = once
                 specs[a["id"]] = AnimationSpec(a["id"], label, "base/" + a["asset"],
                                                a["frameWidth"], a["frameHeight"],
-                                               list(sequence), list(durations), False, True)
+                                               list(sequence), list(durations), False, True, hang=hang)
                 continue
             durations = a.get("nativeDurationsMs")
             if not durations or len(durations) != a["frameCount"]:
@@ -107,7 +128,7 @@ class AnimationCatalog:
             specs[a["id"]] = AnimationSpec(a["id"], label, "base/" + a["asset"],
                                            a["frameWidth"], a["frameHeight"],
                                            list(range(a["frameCount"])), [float(d) for d in durations],
-                                           True, False)
+                                           True, False, hang=hang)
 
         # 小幅动作覆盖同名动画；没有这个文件时按原图条播放。
         motion_path = os.path.join(assets_root, "motion", "motion.json")
@@ -127,15 +148,18 @@ class AnimationCatalog:
                 specs[m["id"]] = AnimationSpec(
                     m["id"], previous.label if previous else m["id"], "motion/" + m["asset"],
                     m["frameWidth"], m["frameHeight"], list(m["sequence"]),
-                    [float(d) for d in m["durationsMs"]], bool(m["loop"]), not bool(m["loop"]), loop_start)
+                    [float(d) for d in m["durationsMs"]], bool(m["loop"]), not bool(m["loop"]), loop_start,
+                    hang=previous.hang if previous else None)
 
         catalog = AnimationCatalog(specs)
         for state in ALL_STATES:
             if state.value not in specs:
                 raise CatalogError("状态 %s 没有对应动画" % state.value)
-        for id in (RUNNING_LEFT_ID, RUNNING_RIGHT_ID):
-            if id not in specs:
-                raise CatalogError("基础动画 %s" % id)
+        held = specs.get(HELD_ID)
+        if held is None:
+            raise CatalogError("基础动画 %s" % HELD_ID)
+        if held.hang is None:
+            raise CatalogError("%s：缺少 grip（抓手点与头顶线）" % HELD_ID)
         return catalog
 
     def spec(self, state: PetState) -> AnimationSpec:

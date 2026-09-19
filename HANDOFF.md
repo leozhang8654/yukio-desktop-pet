@@ -104,6 +104,18 @@
 - 2026-09-18：用户反馈“待机时腿的比例跟拎起来时不一样”，要求把站姿改成和移动（被拎起来）时一个比例。量过三套：待机头宽 75、坐姿 84–87、拎起来 76——**待机和拎起来的头一样大，差的是身子和腿**（待机裙摆到鞋底 50 px，拎起来 77 px）。没有重画，新增 `YukioPlayer/tools/proportion/restretch_idle.py`：只把裙摆下、靴口上那截白袜纵向拉长（20 → 34 px，纯白，拉了看不出接缝），头／上身／裙／吊带／袜口／靴子逐像素不动，整体上移让头顶顶到 y2，**鞋底仍在 y195**（站的位置不变）。待机和沮丧两套都改了（都是站姿，只改一套会互相打架），`base/` 与 `motion/` 同名文件一起，原图备份在 `sources/pre-restretch/`。腿占身高从 22% 提到 33%（拎起来是 38%）；要完全一致得让站姿也用 240 高的画面并改窗口高度与地面线，没做。
   连带改动：站姿头顶线从 y16 变成 y2，和坐姿（y22）差一截，原来全局取最小值的做法会把所有气泡顶高 14 px，所以 `SpriteLibrary` 改成按段记头顶线（`headTopInset(for:)`），气泡与身侧卡叠贴各自那一段，换动作时重新贴一次。92 个测试通过；`--check`、`--snapshot`、`--bubble` 离屏都看过。
 
+- 2026-09-18：把上面这一整批（9-16 起）同步到 Windows 版 `YukioWin/`。此前那边只跟到「挑一条聊天跟」，之后的都没过去。逐条对齐：
+  **举着的牌子**：`RouterConfig.respond_linger_ms` → `complete_arm_ms`（含义同 macOS：只决定多久之内结束的任务才举牌），`_Session.sign` 三态（没举／举着／点过了）+ `sign_raised_at` + `sign_yield_ms`（15 分钟让位），`completed_session`／`asking_session`／`dismiss_completion`。勾选卡不再停 8 秒自己放下。
+  **档位与不丢牌**：`_attention_rank`（等你回答 → 出错停住 → 答完举牌）、`_failed_pending`、`_arm_pending_signs`，焦点与聊天列表、卡叠共用这一套。
+  **头顶那摞卡**：`yukio/cards.py`（`ActivityCard`／`CardStatus`）+ 路由上的 `cards()`／`dismiss_card`／`mute_cards` + `yukio/cardstack.py`（纯排版的 `CardStackLayout`，和气泡共用 `bubble.py` 那套圆角、描边、字号）。第三个分层窗口 `YukioCards` 收点击，卡与卡之间的缝隙靠透明像素穿透；点正文＝去那条聊天并收起，点 ✕＝只收起，右键＝静音那条聊天。菜单多一条「头顶显示别的聊天」。
+  **点一下跳回聊天**：`yukio/chatlinks.py` 照着 `ClaudeSessionLinks.swift` 写，路径换成 `%APPDATA%\Claude\claude-code-sessions`，深链仍是 `claude://code/continue?session=local_…`，`win32.open_url()` 走 ShellExecute（只放行 claude/http/https 三种协议）。**在这台 Mac 上拿真实记录验过解析**（`--chat-link` 查得出 `local_…`，和 Swift 版同一个结果）；Windows 上的路径与协议注册没有实机验过，对不上时只放下牌子。Deep Code 的会话跑在终端里，本来就没有这种链接。
+  **被拎起来**：`yukio/hang.py` 是 `HangSwing.swift` 与 main.swift 里 `HangGeometry` 的移植，参数逐个照抄（0.9 秒一摆、阻尼 0.13/0.4、空气阻力 0.43、handCoupling 0.11、最大 20°、坠最多摆长的 16%）。窗口几何算出来和 macOS 一样是 340×309，摆长 95 px。渲染用 Pillow 的 `rotate(+angle)`：y 向下的位图里「视觉逆时针」正好等于脚偏右，和 macOS 那边 CoreGraphics 的正角同向；`--hang` 每次画完自查一遍方向（画出来量脚的位置 + 按矩阵算各一次，反了就非零退出），免得重蹈 macOS 那次把旋转写成 `-angle` 的覆辙。左右跑动的图条不再加载（`_USED_BASE` 换成 `held`），文件还在。
+  **比例与头顶线**：素材本来就跟 macOS 版共用一份，拉长腿的那次自动跟着变；`SpriteLibrary` 同样改成按段记头顶线（`head_top_inset_for`），`head_top_inset` 只作兜底，`held` 不参与取最小值。顺带把仓库根 `assets/base/` 里的 `idle.webp`／`failed.webp` 也换成拉长后的那两张（此前只改了 `YukioPlayer/Resources/Assets`，两处不一致）。
+  **大小**：Win32 的托盘菜单是系统原生弹出菜单，塞不进 macOS 那条 50%–200% 的滑条。跟用户确认后改成七个整档（50/75/100/125/150/175/200%）加「放大一点／缩小一点」各 ±5%，范围与步进和滑条一致，读设置时同样夹一次（设置坏掉不会出现 0 或大得离谱的雪绪）。要完全一致得另开一个设置窗口，没做。
+  **命令行**：新增 `--cards`（气泡 + 上面那摞，收起与展开各一格）、`--hang`（五个倾角并排 + 方向自查）、`--chat-link <会话ID>`；`--check` 改报各段头顶线与摆长。
+  129 个测试通过（原 89 → 新增卡叠 6、摆动与几何 16、深链 4、聊天挑选 5、播放器逻辑 5，另有若干条按新语义改写）。离屏画过 `--cards`、`--hang`、`--bubble`、`--snapshot`；`--replay` 走完样例记录，结尾停在举着的勾选卡上；`--chats` 对着本机真实的 Claude 会话列得出名字与状态。没测到的仍是 Windows 上的系统调用本身（分层窗口、托盘、弹菜单、深链注册）。
+  顺手修掉一个小问题：`tools/proportion/restretch_idle.py` 里 `ROOT` 少退了一层，备份写到了 `YukioPlayer/Sources/pre-restretch/`（macOS 文件名不分大小写，混进了 `Sources/`）。改成仓库根，已有的两份备份挪回 `sources/pre-restretch/`。
+
 ## 已完成与未完成
 
 已完成：生成、提取与保存七套活动素材；静态电脑桌；基础跑动与待机图条；手动 HTML 预览；单宠物原生图集快照。

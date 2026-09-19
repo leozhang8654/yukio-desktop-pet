@@ -19,6 +19,7 @@ WM_MOUSEMOVE = 0x0200
 WM_LBUTTONDOWN = 0x0201
 WM_LBUTTONUP = 0x0202
 WM_RBUTTONUP = 0x0205
+WM_RBUTTONDOWN = 0x0204
 WM_LBUTTONDBLCLK = 0x0203
 WM_APP = 0x8000
 WM_TRAY = WM_APP + 1
@@ -165,6 +166,15 @@ LAST_MENU: List[MenuItem] = []
 
 def show_menu(hwnd, items, x=None, y=None):
     LAST_MENU[:] = items
+
+
+#: 点击举着的牌子时“打开”的链接，测试里对着看。
+OPENED_URLS: List[str] = []
+
+
+def open_url(url: str) -> bool:
+    OPENED_URLS.append(url)
+    return True
 
 
 class ControlWindow:

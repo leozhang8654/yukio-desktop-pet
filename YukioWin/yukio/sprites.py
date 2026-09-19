@@ -6,12 +6,13 @@
 
 from __future__ import annotations
 
+import math
 import os
 from typing import Dict, List, Optional, Tuple
 
 from PIL import Image
 
-from .catalog import AnimationCatalog, AnimationSpec, RUNNING_LEFT_ID, RUNNING_RIGHT_ID
+from .catalog import AnimationCatalog, AnimationSpec, HELD_ID
 from .events import PetState
 
 #: 同时留在内存里的动画段数。
@@ -46,23 +47,35 @@ class SpriteLibrary:
         self._decoded: Dict[str, List[Frame]] = {}
         self._recent: List[str] = []
         head_top = None
-        run_top = None
-        # 启动时逐段解码一次：检查尺寸与帧索引、量出头顶线，然后丢掉，只记帧数和位置。
+        self._head_tops: Dict[str, float] = {}
+        hang_length = 0.0
+        # 启动时逐段解码一次：检查尺寸与帧索引、量出头顶线与重心，然后丢掉，只记帧数和位置。
         for spec in catalog.specs.values():
             path = os.path.join(assets_root, *spec.asset_path.split("/"))
             sheet = self._decode_sheet(path, spec)
             self._paths[spec.id] = path
             self._counts[spec.id] = sheet.size[0] // spec.frame_width
-            top = _first_opaque_row(sheet)
-            if spec.id in (RUNNING_LEFT_ID, RUNNING_RIGHT_ID):
-                run_top = top if run_top is None else min(run_top, top)
+            if spec.id == HELD_ID and spec.hang is not None:
+                # 重心按不透明像素取平均：图换了（重画、改姿势）摆长自己跟着变，不用手填数字。
+                cx, cy = _centroid(sheet, spec.frame_width)
+                hang_length = max(math.hypot(cx - spec.hang.grip_x, cy - spec.hang.grip_y), 1.0)
             else:
+                top = _first_opaque_row(sheet)
+                self._head_tops[spec.id] = float(top)
                 head_top = top if head_top is None else min(head_top, top)
             sheet.close()
-        #: 各状态动作里人物最高点距帧顶的像素数（取最小）。头顶气泡贴着这条线放，换动作时不上下跳。
+        #: 各状态动作里人物最高点距帧顶的像素数（取最小）。没量到那一段时退回它。
+        #: 不含「被拎起来」：那一帧领口的尖比头还高，算进来会把平时的气泡整体顶上去。
         self.head_top_inset = float(head_top or 0)
-        #: 拖动跑动时的最高点：跑起来头发扬起，比坐姿高十来个像素，气泡要跟着抬高。
-        self.running_top_inset = float(run_top or 0)
+        #: 「被拎起来」那一帧里，抓手点到人物重心的距离（像素）。摆动就是绕抓手点吊着这段长度。
+        self.hang_length = hang_length
+
+    def head_top_inset_for(self, spec_id: str) -> float:
+        """这一段自己的头顶线（气泡与卡叠贴着它放）。
+
+        站着的待机比坐着高一截，气泡要贴各自的头，不能共用一条线。
+        """
+        return self._head_tops.get(spec_id, self.head_top_inset)
 
     @staticmethod
     def _decode_sheet(path: str, spec: AnimationSpec) -> Image.Image:
@@ -125,6 +138,26 @@ class SpriteLibrary:
         x = max(0, min(f.width - side, (min_x + max_x) // 2 - side // 2))
         head = f.image.crop((x, min_y, x + side, min(min_y + side, f.height)))
         return head.resize((size, size), Image.LANCZOS)
+
+
+def _centroid(image: Image.Image, frame_width: int,
+              threshold: int = OPAQUE_THRESHOLD) -> Tuple[float, float]:
+    """图条第一帧里不透明像素的重心（帧内像素，左上原点）。"""
+    frame = image.crop((0, 0, min(frame_width, image.size[0]), image.size[1]))
+    alpha = frame.getchannel("A").point(lambda v: 255 if v > threshold else 0)
+    w, h = alpha.size
+    data = alpha.tobytes()
+    sum_x = sum_y = count = 0
+    for y in range(h):
+        row = data[y * w:(y + 1) * w]
+        for x in range(w):
+            if row[x]:
+                sum_x += x
+                sum_y += y
+                count += 1
+    if not count:
+        return (frame_width / 2.0, image.size[1] / 2.0)
+    return (sum_x / count, sum_y / count)
 
 
 def _first_opaque_row(image: Image.Image, threshold: int = OPAQUE_THRESHOLD) -> int:

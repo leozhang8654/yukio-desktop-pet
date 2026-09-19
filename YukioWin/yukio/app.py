@@ -12,9 +12,11 @@ import time
 import traceback
 from typing import List, Optional, Tuple
 
-from .catalog import AnimationCatalog, RUNNING_LEFT_ID, RUNNING_RIGHT_ID, SpriteTimeline, assets_root
+from .catalog import AnimationCatalog, HELD_ID, SpriteTimeline, assets_root
+from .chatlinks import ChatLinks
 from .demo import DEMO_DURATION_MS, demo_steps
 from .events import PetState
+from .hang import SETTLE_LIMIT_MS, HangGeometry, HangSwing, Tuning as HangTuning
 from .router import ActivityRouter, HeldValue
 from .settings import Settings
 from .sources import app_data_dir, default_sources
@@ -42,6 +44,7 @@ class PetApp:
         self.catalog = AnimationCatalog.load(root)
         self.library = SpriteLibrary(self.catalog, root)
         self.sources = default_sources(self.settings.get("source"))
+        self.links = ChatLinks()
 
         start = now_ms()
         self.router = ActivityRouter(now=start)
@@ -53,17 +56,28 @@ class PetApp:
 
         self.shown_state = self.router.displayed if self.follow else PetState.idle
         self.timeline = SpriteTimeline(self.catalog.spec(self.shown_state), start)
-        self.run_timeline: Optional[SpriteTimeline] = None
-        self.running_right = True
-        self._direction_accum = 0.0
-        self._direction_decided = False
-        self._painted: Optional[Tuple[str, int, int, int]] = None
+        #: 被大手拎着时的摆动与图条；都是 None 表示正常站／坐着。
+        self.swing: Optional[HangSwing] = None
+        self.held_timeline: Optional[SpriteTimeline] = None
+        self.hang_geo: Optional[HangGeometry] = None
+        #: 松手的时刻；晃停或超时后放回原来的动作。
+        self._released_at: Optional[float] = None
+        self._painted = None
 
         self.bubble_hold = HeldValue(None, min_hold_ms=1200)
         self._bubble_image = None
         self._bubble_alpha = 0.0
         self._bubble_target = 0.0
         self._bubble_placed_for_drag = False
+
+        #: 头顶那摞“别的聊天”的卡。多一条少一条立刻生效，卡上的字跟气泡一样至少停留 1.2 秒。
+        self.cards_hold = HeldValue([], min_hold_ms=1200)
+        self.cards_layout = None
+        self._cards_image = None
+        self._cards_alpha = 0.0
+        self._cards_target = 0.0
+        #: “还有 N 条”展开着没有。
+        self.cards_expanded = False
 
         self.demo = None            # (start_ms, steps, next_index, router)
         self.tick_count = 0
@@ -78,6 +92,8 @@ class PetApp:
         self.control = win32.ControlWindow(self._on_control_message)
         self.pet = win32.LayeredWindow("YukioPet", wnd_proc=self._pet_proc)
         self.bubble = win32.LayeredWindow("YukioBubble", click_through=True)
+        # 卡片要能点，所以不是穿透窗口；卡与卡之间的缝隙靠分层窗口的透明像素穿透。
+        self.cards = win32.LayeredWindow("YukioCards", wnd_proc=self._cards_proc)
         self.tray = win32.TrayIcon(self.control.hwnd, self._tray_icon_path(), self._tray_tip())
 
         x, y = self._restored_origin()
@@ -109,11 +125,12 @@ class PetApp:
         return bool(self.settings.get("showBubble", True))
 
     @property
+    def show_cards(self) -> bool:
+        return bool(self.settings.get("showCards", True))
+
+    @property
     def user_scale(self) -> float:
-        try:
-            return float(self.settings.get("scale", 1.0))
-        except (TypeError, ValueError):
-            return 1.0
+        return self.snap_scale(self.settings.get("scale", 1.0))
 
     @property
     def scale(self) -> float:
@@ -159,7 +176,10 @@ class PetApp:
     # MARK: 画面
 
     def _render(self, now: float) -> None:
-        timeline = self.run_timeline or self.timeline
+        if self.swing is not None and self.hang_geo is not None and self.held_timeline is not None:
+            self._render_hanging()
+            return
+        timeline = self.timeline
         spec_id, index = timeline.spec.id, timeline.frame
         w, h = self.pet_size
         key = (spec_id, index, w, h)
@@ -173,29 +193,72 @@ class PetApp:
         self.pet.show_image(image, self.pet.x, self.pet.y)
         self._painted = key
 
+    def _render_hanging(self) -> None:
+        """被拎着的那一帧：绕抓手点转 angle 度，整张图按 sag 往下挪。
+
+        坠下去时旋转中心仍是抓手那一点（相当于那截布被拉长了）。
+        Pillow 的 rotate 正角是逆时针，在 y 向下的位图里正好等于「脚偏右」，
+        和摆动里的约定一致（见 hang.rotate_point）。
+        """
+        from PIL import Image
+        geo, swing, held = self.hang_geo, self.swing, self.held_timeline
+        # 角度和下坠量量化到 0.5°／0.5 px：同一格里不重画，省掉一次旋转。
+        key = (held.spec.id, held.frame, geo.panel_size,
+               round(swing.angle_degrees * 2), round(swing.sag * 2))
+        if key == self._painted:
+            return
+        frame = self.library.frame(held.spec.id, held.frame)
+        sx, sy, sw, sh = geo.sprite_rect
+        sprite = frame.image
+        if (int(round(sw)), int(round(sh))) != sprite.size:
+            sprite = sprite.resize((max(1, int(round(sw))), max(1, int(round(sh)))), Image.BILINEAR)
+        canvas = Image.new("RGBA", geo.panel_size, (0, 0, 0, 0))
+        canvas.alpha_composite(sprite, (int(round(sx)), int(round(sy + swing.sag))))
+        if abs(swing.angle_degrees) > 0.01:
+            canvas = canvas.rotate(swing.angle_degrees, resample=Image.BICUBIC, center=geo.pivot)
+        self.pet.show_image(canvas, self.pet.x, self.pet.y)
+        self._painted = key
+
     def _position_bubble(self) -> None:
         from .bubble import BubbleLayout
-        self._bubble_placed_for_drag = self._dragging
+        self._bubble_placed_for_drag = self.swing is not None
         if self._bubble_image is None:
             return
         s = self.scale
         size_pt = (self._bubble_image.size[0] / s, self._bubble_image.size[1] / s)
-        # 跑动时头发扬起，气泡抬高，免得压住头顶；松手后回到坐姿的高度。
-        head_top = self.library.running_top_inset if self._dragging else self.library.head_top_inset
-        w, h = self.pet_size
-        x, y = BubbleLayout.origin(size_pt, (self.pet.x / s, self.pet.y / s, w / s, h / s), head_top)
+        px, py, w, h = self._pet_rect()
+        # 站着和坐着的头顶线不一样（待机是站姿，比坐着高一截），气泡贴各自那一段。
+        head_top = self._head_top_points()
+        x, y = BubbleLayout.origin(size_pt, (px / s, py / s, w / s, h / s), head_top)
         x, y = x * s, y * s
-        left, top, right, bottom = self.win32.work_area(self.pet.x + w // 2, self.pet.y + h // 2)
+        left, top, right, bottom = self.win32.work_area(px + w // 2, py + h // 2)
         bw, bh = self._bubble_image.size
         x = min(max(x, left + 4), max(left, right - bw - 4))
         y = max(y, top + 2)
         self.bubble.x, self.bubble.y = int(x), int(y)
 
+    def _pet_rect(self) -> Tuple[int, int, int, int]:
+        """雪绪这会儿占的那块（像素）。被拎着时是那张更高的图，不是放大的窗口。"""
+        if self.hang_geo is not None and self.swing is not None:
+            sx, sy, sw, sh = self.hang_geo.sprite_rect
+            return (int(self.pet.x + sx), int(self.pet.y + sy), int(round(sw)), int(round(sh)))
+        w, h = self.pet_size
+        return (self.pet.x, self.pet.y, w, h)
+
+    def _head_top_points(self) -> float:
+        """这会儿的头顶线（点）：气泡与卡叠贴着它放。"""
+        if self.hang_geo is not None and self.swing is not None:
+            # 被拎着时贴在被捏起的领口上方。
+            return self.held_spec.hang.grip_y
+        return self.library.head_top_inset_for(self.timeline.spec.id)
+
     def _update_bubble(self, now: float) -> None:
         from .bubble import BubbleLayout
-        if self._dragging != self._bubble_placed_for_drag:
+        # 拎起和放下时各重新摆一次（图的高矮变了）。
+        if (self.swing is not None) != self._bubble_placed_for_drag:
             self._position_bubble()
             self._paint_bubble()
+            self._position_cards()
         source = self.demo[3] if self.demo else (self.router if self.follow else None)
         line = source.status_line(now) if (self.show_bubble and source) else None
         visibility_changed = (line is None) != (self.bubble_hold.value is None)
@@ -226,6 +289,163 @@ class PetApp:
             alpha = image.getchannel("A").point(lambda v, k=self._bubble_alpha: int(v * k))
             image.putalpha(alpha)
         self.bubble.show_image(image, self.bubble.x, self.bubble.y)
+
+    # MARK: 点击举着的牌子：跳到对应的聊天
+
+    def _pet_clicked(self) -> None:
+        """举着牌子时点雪绪：打开这块牌子对应的那条聊天。
+
+        勾选卡点完放下（那一轮已经结束）；问号卡不放下——问题还等着你答，
+        卡片等你答完自己收。其余状态点击不做事。
+        """
+        now = now_ms()
+        if self.demo:
+            # 演示里没有真实会话可跳，只把牌子放下。
+            self.demo[3].dismiss_completion(now)
+            return
+        if not self.follow:
+            return
+        if self.shown_state is PetState.task_complete:
+            session = self.router.completed_session
+            if session:
+                self._open_chat(session)
+                self.router.dismiss_completion(now)
+            return
+        if self.shown_state is PetState.question_for_user:
+            session = self.router.asking_session
+            if session:
+                self._open_chat(session)
+
+    def _open_chat(self, session: str) -> None:
+        """用桌面版 Claude 注册的深链打开这条聊天。
+
+        认不出会话时（终端里跑的 Claude Code、Deep Code 的会话）什么都不做，不乱跳到别的聊天。
+        """
+        try:
+            url = self.links.chat_url(session)
+        except Exception:
+            traceback.print_exc()
+            return
+        if not url:
+            return
+        try:
+            self.win32.open_url(url)
+        except Exception:
+            traceback.print_exc()
+
+    # MARK: 头顶那摞别的聊天
+
+    def _update_cards(self, now: float, immediate: bool = False) -> None:
+        from .cardstack import COLLAPSED_COUNT, CardStackLayout
+        want = self.router.cards(now) if (self.show_cards and self.follow and not self.demo) else []
+        if len(want) <= COLLAPSED_COUNT:
+            self.cards_expanded = False
+        # 多一条少一条立刻生效；只是卡上的字变了就按最短停留，免得一直闪。
+        appeared = [c.session for c in want] != [c.session for c in self.cards_hold.value]
+        if self.cards_hold.update(want, now, immediate=immediate or appeared):
+            cards = self.cards_hold.value
+            if not cards:
+                self._cards_target = 0.0          # 内容留着，让它淡出去而不是瞬间消失
+            else:
+                self.cards_layout = CardStackLayout(cards, expanded=self.cards_expanded,
+                                                    scale=self.scale)
+                self._cards_image = self.cards_layout.render()
+                self._cards_target = 1.0
+                self._position_cards()
+                self._paint_cards()
+        self._fade_cards()
+
+    def _position_cards(self) -> None:
+        """雪绪挪了、变大小了、被拎起放下了：照当前这叠重摆一次。
+
+        接着气泡往上叠；气泡关掉或没内容时，从头顶线开始。
+        """
+        from .cardstack import CardStackLayout
+        if self.cards_layout is None or self._cards_image is None:
+            return
+        s = self.scale
+        px, py, w, h = self._pet_rect()
+        if self._bubble_image is not None and self._bubble_alpha > 0.01:
+            bubble_top = self.bubble.y
+        else:
+            bubble_top = py + self._head_top_points() * s - 3 * s
+        x, y = CardStackLayout.origin(self.cards_layout.size_pt,
+                                      (px / s, py / s, w / s, h / s), bubble_top / s)
+        x, y = x * s, y * s
+        left, top, right, bottom = self.win32.work_area(px + w // 2, py + h // 2)
+        cw, ch = self._cards_image.size
+        x = min(max(x, left + 4), max(left, right - cw - 4))
+        y = min(max(y, top + 4), max(top, bottom - ch - 4))
+        self.cards.x, self.cards.y = int(x), int(y)
+
+    def _paint_cards(self) -> None:
+        if self._cards_image is None or self._cards_alpha <= 0.01:
+            self.cards.hide()
+            return
+        image = self._cards_image
+        if self._cards_alpha < 0.99:
+            image = image.copy()
+            alpha = image.getchannel("A").point(lambda v, k=self._cards_alpha: int(v * k))
+            image.putalpha(alpha)
+        self.cards.show_image(image, self.cards.x, self.cards.y)
+
+    def _fade_cards(self) -> None:
+        if self._cards_alpha == self._cards_target:
+            return
+        step = FRAME_MS / BUBBLE_FADE_MS
+        if self._cards_alpha < self._cards_target:
+            self._cards_alpha = min(self._cards_target, self._cards_alpha + step)
+        else:
+            self._cards_alpha = max(self._cards_target, self._cards_alpha - step)
+        self._paint_cards()
+
+    def _cards_proc(self, hwnd, msg, wparam, lparam):
+        """点卡片：正文＝打开那条聊天并收起，✕＝只收起，“还有 N 条”＝展开／收起。"""
+        w = self.win32
+        if getattr(self, "cards", None) is None or self.cards_layout is None:
+            return w.user32.DefWindowProcW(hwnd, msg, wparam, lparam)
+        try:
+            if msg in (w.WM_LBUTTONUP, w.WM_RBUTTONUP):
+                mx, my = w.cursor_pos()
+                hit = self.cards_layout.hit(mx - self.cards.x, my - self.cards.y)
+                if hit is None:
+                    return 0
+                if hit.kind == "expand":
+                    self.cards_expanded = not self.cards_expanded
+                    self._update_cards(now_ms(), immediate=True)
+                    return 0
+                card = self.cards_hold.value[hit.index] if hit.index < len(self.cards_hold.value) else None
+                if card is None:
+                    return 0
+                if msg == w.WM_RBUTTONUP:
+                    self._card_context_menu(card)
+                    return 0
+                self._card_tapped(card, open_chat=hit.kind == "card")
+                return 0
+        except Exception:
+            traceback.print_exc()
+        return w.user32.DefWindowProcW(hwnd, msg, wparam, lparam)
+
+    def _card_tapped(self, card, open_chat: bool) -> None:
+        if self.demo:
+            return
+        now = now_ms()
+        if open_chat:
+            self._open_chat(card.session)
+        self.router.dismiss_card(card.session, now)
+        self._update_cards(now, immediate=True)
+
+    def _card_context_menu(self, card) -> None:
+        w = self.win32
+        Item = w.MenuItem
+        w.show_menu(self.control.hwnd, [
+            Item(card.title, None),
+            Item("不再提醒这条聊天", lambda id=card.session: self._mute_chat(id)),
+        ])
+
+    def _mute_chat(self, session: str) -> None:
+        self.router.mute_cards(session)
+        self._update_cards(now_ms(), immediate=True)
 
     # MARK: 主循环
 
@@ -261,11 +481,16 @@ class PetApp:
             self.timeline = SpriteTimeline(self.catalog.spec(target), now)
             self.tray.set_tip(self._tray_tip())
             self._write_state_file()
+            # 站着和坐着的头顶线不一样，气泡与卡叠跟着重贴。
+            self._position_bubble()
+            self._paint_bubble()
+            self._position_cards()
         self.timeline.advance(now)
-        if self.run_timeline:
-            self.run_timeline.advance(now)
+        if self.swing is not None:
+            self._advance_hang(now)
         self._render(now)
         self._update_bubble(now)
+        self._update_cards(now)
 
     def _write_state_file(self) -> None:
         if not self._state_file:
@@ -291,6 +516,7 @@ class PetApp:
         try:
             self.control.stop_timer()
             self.tray.remove()
+            self.cards.destroy()
             self.bubble.destroy()
             self.pet.destroy()
             self.control.destroy()
@@ -348,14 +574,16 @@ class PetApp:
                 dx, dy = mx - self._drag_start[0], my - self._drag_start[1]
                 if not self._dragging and (dx * dx + dy * dy) > 9:
                     self._dragging = True
-                    self._direction_decided = False
-                    self._direction_accum = 0.0
-                    self._start_run(self.running_right)
+                    self._drag_began()
+                    # 拎起来之后窗口放大、原点往左上挪了一截，基准跟着换成新的那个。
+                    self._origin_start = (self.pet.x, self.pet.y)
                 if self._dragging:
                     self.pet.move(self._origin_start[0] + dx, self._origin_start[1] + dy)
+                    self._advance_hang(now_ms())
+                    self._render(now_ms())
                     self._position_bubble()
                     self._paint_bubble()
-                    self._drag_moved(mx - self._last_mouse_x)
+                    self._position_cards()
                     self._last_mouse_x = mx
                 return 0
             if msg == w.WM_LBUTTONUP:
@@ -364,13 +592,10 @@ class PetApp:
                 self._drag_pending = False
                 self._dragging = False
                 if was_dragging:
-                    self.run_timeline = None
-                    self._painted = None
-                    self._clamp_to_screen()
-                    self._save_position()
-                    self._position_bubble()
-                    self._paint_bubble()
-                    self._render(now_ms())
+                    self._drag_ended()
+                else:
+                    # 没拖动，就是点了她一下：举着牌子时跳回那条聊天。
+                    self._pet_clicked()
                 return 0
             if msg in (w.WM_RBUTTONUP, w.WM_LBUTTONDBLCLK):
                 self.show_menu()
@@ -382,34 +607,88 @@ class PetApp:
             traceback.print_exc()
         return w.user32.DefWindowProcW(hwnd, msg, wparam, lparam)
 
-    # MARK: 拖动时的跑动
+    # MARK: 拖动：被一只看不见的大手拎起来
 
-    def _start_run(self, right: bool) -> None:
-        self.running_right = right
-        spec = self.catalog.specs[RUNNING_RIGHT_ID if right else RUNNING_LEFT_ID]
-        self.run_timeline = SpriteTimeline(spec, now_ms())
+    @property
+    def held_spec(self):
+        return self.catalog.specs[HELD_ID]
+
+    def _normal_frame(self) -> Tuple[int, int]:
+        """放大的窗口换算回平时那块 192×208 的左上角。"""
+        if self.hang_geo is None:
+            return (self.pet.x, self.pet.y)
+        return (self.pet.x - self.hang_geo.offset[0], self.pet.y - self.hang_geo.offset[1])
+
+    def _drag_began(self) -> None:
+        now = now_ms()
+        # 上一次还在晃就又被抓住：窗口已经是放大的，只要把手重新握上。
+        if self.swing is not None:
+            self._released_at = None
+            self.swing.grab()
+            return
+        spec = self.held_spec
+        s = self.scale
+        length = self.library.hang_length * s
+        geo = HangGeometry.make(self.pet_size, (spec.frame_width, spec.frame_height),
+                                spec.hang.grip, scale=s,
+                                sag_room=length * HangTuning().max_sag_ratio)
+        self.hang_geo = geo
+        # 窗口临时放大，容下摆动与下坠；多出来的部分是透明的，看不见也不挡点击。
+        self.pet.x += geo.offset[0]
+        self.pet.y += geo.offset[1]
+        self.swing = HangSwing(now, length=length)
+        self.held_timeline = SpriteTimeline(spec, now)
+        self._released_at = None
+        self._painted = None
+        self._render(now)
+        self._position_bubble()
+        self._paint_bubble()
+        self.tray.set_tip(self._tray_tip())
+
+    def _drag_ended(self) -> None:
+        if self.swing is None:
+            return
+        # 贴边和保存位置都按平时那块算；放大的窗口跟着挪同样的距离。
+        nx, ny = self._normal_frame()
+        w, h = self.pet_size
+        left, top, right, bottom = self.win32.work_area(nx + w // 2, ny + h // 2)
+        nx = min(max(nx, left), max(left, right - w))
+        ny = min(max(ny, top), max(top, bottom - h))
+        self.pet.move(nx + self.hang_geo.offset[0], ny + self.hang_geo.offset[1])
+        self.settings.set("originX", int(nx))
+        self.settings.set("originY", int(ny))
+        self.swing.release()
+        self._released_at = now_ms()
+        self._position_bubble()
+        self._paint_bubble()
+
+    def _finish_hang(self) -> None:
+        """晃停了（或超时、要改大小了）：窗口还原成平时那块，切回当前活动的动作。"""
+        if self.swing is None:
+            return
+        nx, ny = self._normal_frame()
+        self.swing = None
+        self.held_timeline = None
+        self.hang_geo = None
+        self._released_at = None
+        self.pet.x, self.pet.y = nx, ny
+        self._painted = None
         self._render(now_ms())
+        self._position_bubble()
+        self._paint_bubble()
+        self.tray.set_tip(self._tray_tip())
 
-    def _drag_moved(self, dx: float) -> None:
-        if dx == 0:
+    def _advance_hang(self, now: float) -> None:
+        """30 Hz 采一次抓手在屏幕上的位置，摆动按它的加速度算。"""
+        geo, swing = self.hang_geo, self.swing
+        if geo is None or swing is None:
             return
-        if not self._direction_decided:
-            self._direction_decided = True
-            if (dx > 0) != self.running_right:
-                self._start_run(dx > 0)
-            return
-        # 反向移动累计超过 6 点才转身，避免手抖来回翻转。
-        threshold = 6 * self.scale
-        if self.running_right:
-            self._direction_accum = min(0.0, self._direction_accum + dx)
-            if self._direction_accum < -threshold:
-                self._direction_accum = 0.0
-                self._start_run(False)
-        else:
-            self._direction_accum = max(0.0, self._direction_accum + dx)
-            if self._direction_accum > threshold:
-                self._direction_accum = 0.0
-                self._start_run(True)
+        # 摆动用的是「y 向上」的坐标（和 macOS 版同一套公式），屏幕的 y 向下，取反。
+        swing.advance(now, self.pet.x + geo.pivot[0], -(self.pet.y + geo.pivot[1]))
+        if self.held_timeline is not None:
+            self.held_timeline.advance(now)
+        if self._released_at is not None and (swing.settled or now - self._released_at > SETTLE_LIMIT_MS):
+            self._finish_hang()
 
     # MARK: 托盘与菜单
 
@@ -428,7 +707,8 @@ class PetApp:
         return path
 
     def _tray_tip(self) -> str:
-        return "雪绪：%s" % self.catalog.label(self.shown_state)
+        label = self.held_spec.label if self.swing is not None else self.catalog.label(self.shown_state)
+        return "雪绪：%s" % label
 
     def _source_label(self) -> str:
         names = {"auto": "自动（Deep Code 与 Claude Code 都跟）",
@@ -436,10 +716,42 @@ class PetApp:
                  "claude": "只跟 Claude Code"}
         return names.get(self.settings.get("source"), "自动")
 
+    #: 菜单里列多久之内的聊天、最多几条。
+    CHAT_LIST_WINDOW_MS = 30 * 60 * 1000.0
+    CHAT_LIST_LIMIT = 10
+
+    def _chat_picker(self, chats) -> List:
+        """“跟随的聊天”子菜单：多个聊天同时跑时挑一条跟。
+
+        默认自动——谁答完、谁在等你拿主意就先给你看，都没有时跟最近在干活的那条。
+        """
+        Item = self.win32.MenuItem
+        rows = [Item("自动（完成和提问优先）", lambda: self._pick_chat(None),
+                     checked=self.router.pinned_session is None), self.win32.SEPARATOR]
+        if not chats:
+            rows.append(Item("最近没有聊天在跑", None))
+        for c in chats:
+            # 挑定的那条打勾；自动模式下此刻跟着的那条前面画个箭头（Win32 菜单只有打勾一种标记）。
+            text = ("→ " if c.focused and not c.pinned else "") + c.menu_label
+            rows.append(Item(text, lambda id=c.id: self._pick_chat(id), checked=c.pinned))
+        return rows
+
+    def _pick_chat(self, id: Optional[str]) -> None:
+        self.router.pin_session(id, now_ms())
+
     def show_menu(self) -> None:
         w = self.win32
         Item, SEP = w.MenuItem, w.SEPARATOR
-        items: List[w.MenuItem] = [Item("雪绪 · %s" % self.catalog.label(self.shown_state), None)]
+        chats = [] if self.demo else self.router.session_summaries(
+            now_ms(), quiet_within_ms=self.CHAT_LIST_WINDOW_MS, limit=self.CHAT_LIST_LIMIT)
+        label = self.held_spec.label if self.swing is not None else self.catalog.label(self.shown_state)
+        items: List[w.MenuItem] = [Item("雪绪 · %s" % label, None)]
+        if not self.demo and self.follow and self.router.completed_session:
+            items.append(Item("打开这条聊天并放下牌子", self._pet_clicked))
+            items.append(Item("先放下牌子，不打开聊天", self._drop_sign))
+        elif not self.demo and self.follow and self.router.asking_session:
+            # 问号卡不收：答完之后它自己收，这里只把聊天打开。
+            items.append(Item("打开这条聊天去回答", self._pet_clicked))
         if self.demo:
             items.append(Item("正在播放模拟演示（不是真实活动）", None))
         elif not self.follow:
@@ -458,11 +770,10 @@ class PetApp:
                     items.append(Item("没找到 %s 的记录：%s" % (label, where), None))
                 if not missing:
                     items.append(Item("没有可跟随的来源", None))
-            snap = self.router.snapshot()
-            if snap.focused_session:
-                items.append(Item("会话 %s… · %s · 未完成工具 %d" %
-                                  (snap.focused_session[:8], "进行中" if snap.task_active else "已结束",
-                                   snap.open_tools), None))
+            for chat in chats:
+                if chat.focused:
+                    items.append(Item("正在跟：%s%s" % (chat.menu_label, "（挑定的）" if chat.pinned else ""),
+                                      None))
         items.append(SEP)
         if self.demo:
             items.append(Item("停止模拟演示", self.stop_demo))
@@ -470,6 +781,7 @@ class PetApp:
             items.append(Item("播放模拟演示", self.start_demo))
         items.append(Item("跟随 AI 活动", self._toggle_follow, checked=self.follow))
         items.append(Item("头顶显示任务", self._toggle_bubble, checked=self.show_bubble))
+        items.append(Item("头顶显示别的聊天", self._toggle_cards, checked=self.show_cards))
         items.append(Item("跟随对象", None, submenu=[
             Item("自动（哪个有动静跟哪个）", lambda: self._set_source("auto"),
                  checked=self.settings.get("source") == "auto"),
@@ -478,10 +790,18 @@ class PetApp:
             Item("Claude Code", lambda: self._set_source("claude"),
                  checked=self.settings.get("source") == "claude"),
         ]))
-        items.append(Item("大小", None, submenu=[
-            Item("%d%%" % int(s * 100), lambda s=s: self._set_scale(s),
-                 checked=abs(self.user_scale - s) < 0.01)
-            for s in (1.0, 1.25, 1.5, 2.0)]))
+        if not self.demo:
+            # 标题顺带报数：有几条在等你，没人等你时报有几条在跑。
+            live = sum(1 for c in chats if c.live)
+            wants = sum(1 for c in chats if c.wants_you)
+            if wants:
+                title = "跟随的聊天（%d 条等你）" % wants
+            elif live > 1:
+                title = "跟随的聊天（%d 条在跑）" % live
+            else:
+                title = "跟随的聊天"
+            items.append(Item(title, None, submenu=self._chat_picker(chats)))
+        items.append(Item("大小", None, submenu=self._scale_menu()))
         items.append(Item("回到屏幕右下角", self._reset_position))
         items.append(SEP)
         items.append(Item("退出雪绪", self.quit))
@@ -492,6 +812,46 @@ class PetApp:
 
     def _toggle_bubble(self) -> None:
         self.settings.set("showBubble", not self.show_bubble)
+        self._position_cards()
+
+    def _toggle_cards(self) -> None:
+        self.settings.set("showCards", not self.show_cards)
+        self._update_cards(now_ms(), immediate=True)
+
+    def _drop_sign(self) -> None:
+        self.router.dismiss_completion(now_ms())
+
+    #: 大小的可选范围与步长。macOS 版这里是一条 50%–200% 的滑条；
+    #: Win32 的托盘菜单是系统原生弹出菜单，塞不进滑条，所以改成几个整档
+    #: 加上「放大／缩小一点」各 ±5%，覆盖同样的范围与步进。
+    SCALE_MIN, SCALE_MAX, SCALE_STEP = 0.5, 2.0, 0.05
+    SCALE_STOPS = (0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0)
+
+    @classmethod
+    def snap_scale(cls, value: float) -> float:
+        """夹回范围并吸到整 5%（设置坏掉也不会出现 0 或大得离谱的雪绪）。"""
+        try:
+            value = float(value)
+        except (TypeError, ValueError):
+            value = 1.0
+        value = min(max(value, cls.SCALE_MIN), cls.SCALE_MAX)
+        return round(round(value / cls.SCALE_STEP) * cls.SCALE_STEP, 2)
+
+    def _scale_menu(self) -> List:
+        Item = self.win32.MenuItem
+        current = self.user_scale
+        rows = [Item("%d%%" % int(round(s * 100)), lambda s=s: self._set_scale(s),
+                     checked=abs(current - s) < 0.001) for s in self.SCALE_STOPS]
+        rows.append(self.win32.SEPARATOR)
+        rows.append(Item("放大一点（+5%）", lambda: self._nudge_scale(self.SCALE_STEP),
+                         enabled=current < self.SCALE_MAX - 1e-6))
+        rows.append(Item("缩小一点（−5%）", lambda: self._nudge_scale(-self.SCALE_STEP),
+                         enabled=current > self.SCALE_MIN + 1e-6))
+        rows.append(Item("当前 %d%%" % int(round(current * 100)), None))
+        return rows
+
+    def _nudge_scale(self, delta: float) -> None:
+        self._set_scale(self.snap_scale(self.user_scale + delta))
 
     def _set_source(self, which: str) -> None:
         self.settings.set("source", which)
@@ -502,6 +862,10 @@ class PetApp:
                 self.router.ingest(e, min(e.ts, now))
 
     def _set_scale(self, scale: float) -> None:
+        scale = self.snap_scale(scale)
+        if abs(scale - self.user_scale) < 1e-9:
+            return
+        self._finish_hang()          # 放大的窗口先还原，免得按错的尺寸算锚点
         old_w, old_h = self.pet_size
         self.settings.set("scale", scale)
         new_w, new_h = self.pet_size
@@ -516,13 +880,21 @@ class PetApp:
         self._bubble_image = None
         self._bubble_alpha = 0.0
         self.bubble.hide()
+        self.cards_hold.value = []
+        self.cards_layout = None
+        self._cards_image = None
+        self._cards_alpha = 0.0
+        self.cards.hide()
 
     def _reset_position(self) -> None:
+        self._finish_hang()
         x, y = self._default_origin()
         self.pet.move(x, y)
         self._save_position()
         self._position_bubble()
         self._paint_bubble()
+        self._position_cards()
+        self._paint_cards()
 
     def start_demo(self) -> None:
         now = now_ms()

@@ -97,24 +97,72 @@ class RouterTests(unittest.TestCase):
         h.run(h.now + 100)
         self.assertEqual(h.states, [PetState.write_file])
 
-    def test_respond_then_task_complete_then_idle(self):
+    def test_respond_then_task_complete_holds_the_card_until_the_user_clicks(self):
         cfg = RouterConfig()
-        cfg.respond_linger_ms = 8000
+        cfg.complete_arm_ms = 8000
         cfg.respond_hold_ms = 3000
         h = Harness(cfg)
         h.send(Kind.task_start)
         h.run(3000)
         h.send(Kind.final_answer)
         h.send(Kind.task_end)
-        h.run(20000)
-        self.assertEqual(h.states, [PetState.thinking, PetState.respond, PetState.task_complete, PetState.idle])
-        respond_at, card_at, idle_at = h.transitions[1][0], h.transitions[2][0], h.transitions[3][0]
+        # 先递交报告，够播完整理文件那一下，再举勾选卡；一小时不点也不放下。
+        h.run(3600000)
+        self.assertEqual(h.states, [PetState.thinking, PetState.respond, PetState.task_complete])
+        respond_at, card_at = h.transitions[1][0], h.transitions[2][0]
         self.assertTrue(2900 <= card_at - respond_at <= 3600)
-        self.assertGreaterEqual(idle_at - respond_at, 7500)
+        self.assertEqual(h.router.completed_session, h.session)
 
-    def test_respond_hold_longer_than_linger_never_shows_the_card(self):
+        # 点一下：立刻放下，回到空闲，再也不会自己举回来。
+        self.assertTrue(h.router.dismiss_completion(h.now))
+        self.assertIs(h.router.displayed, PetState.idle)
+        self.assertIsNone(h.router.completed_session)
+        h.run(h.now + 20000)
+        self.assertEqual(h.states, [PetState.thinking, PetState.respond, PetState.task_complete])
+
+    def test_clicking_right_after_the_card_goes_up_still_puts_it_down(self):
+        h = Harness()
+        h.send(Kind.task_start)
+        h.run(3000)
+        h.send(Kind.final_answer)
+        h.send(Kind.task_end)
+        h.run(7000)
+        self.assertIs(h.router.displayed, PetState.task_complete)
+        # 还在“多久之内的完成才举牌”窗口里点：不能马上又举回来。
+        self.assertTrue(h.router.dismiss_completion(h.now))
+        h.run(20000)
+        self.assertIs(h.router.displayed, PetState.idle)
+
+    def test_a_completion_older_than_the_arm_window_never_raises_the_card(self):
+        # 启动时回放旧记录：任务是十分钟前结束的，不该举一块过期的牌。
+        h = Harness()
+        h.send(Kind.task_start)
+        h.run(3000)
+        h.send(Kind.final_answer)
+        h.send(Kind.task_end)
+        h.now += 600000
+        h.router.settle(h.now)
+        self.assertIs(h.router.displayed, PetState.idle)
+        h.run(h.now + 20000)
+        self.assertIsNone(h.router.completed_session)
+
+    def test_a_new_request_puts_the_card_down_by_itself(self):
+        h = Harness()
+        h.send(Kind.task_start)
+        h.run(3000)
+        h.send(Kind.final_answer)
+        h.send(Kind.task_end)
+        h.run(8000)
+        self.assertIs(h.router.displayed, PetState.task_complete)
+        # 用户不点牌子，直接在聊天里发下一条：牌子让位给新任务。
+        h.send(Kind.task_start)
+        h.run(12000)
+        self.assertIs(h.router.displayed, PetState.thinking)
+        self.assertIsNone(h.router.completed_session)
+
+    def test_respond_hold_longer_than_the_arm_window_never_shows_the_card(self):
         cfg = RouterConfig()
-        cfg.respond_linger_ms = 3000
+        cfg.complete_arm_ms = 3000
         cfg.respond_hold_ms = 8000
         h = Harness(cfg)
         h.send(Kind.task_start)
@@ -130,7 +178,12 @@ class RouterTests(unittest.TestCase):
         h.send(Kind.activity_start, id="q", activity=PetState.question_for_user)
         h.run(4000)
         self.assertEqual(h.states, [PetState.question_for_user])
-        self.assertEqual(h.line.current, "等你回答")
+        self.assertEqual(h.line.current, "等你回答 · 点我打开对话")
+        # 立着问号卡时点雪绪：跳到这条聊天去回答，卡片不收（也没有勾选卡可放下）。
+        self.assertEqual(h.router.asking_session, h.session)
+        self.assertIsNone(h.router.completed_session)
+        self.assertFalse(h.router.dismiss_completion(h.now))
+        self.assertIs(h.router.displayed, PetState.question_for_user)
         h.send(Kind.activity_end, id="q")
         h.send(Kind.thinking)
         h.run(8000)
@@ -305,9 +358,9 @@ class RouterTests(unittest.TestCase):
         for s in ALL_STATES:
             if s is not PetState.idle:
                 self.assertIn(s, shown, "演示中没有出现 %s" % s)
-        self.assertEqual(h.states[-1], PetState.idle)
-        self.assertEqual(h.states[-2], PetState.task_complete)
-        self.assertEqual(h.states[-3], PetState.respond)
+        # 演示结尾：递交报告 → 举勾选卡，然后一直举着等人点。
+        self.assertEqual(h.states[-1], PetState.task_complete)
+        self.assertEqual(h.states[-2], PetState.respond)
         for (ta, _), (tb, sb) in zip(h.transitions, h.transitions[1:]):
             self.assertGreaterEqual(tb - ta, 1500)
         reads = [t for t, s in h.transitions if t < 9000 and s is PetState.read_file]
@@ -334,6 +387,10 @@ class StatusLineTests(unittest.TestCase):
         h.run(6000)
         self.assertEqual(h.line.current, "已回答")
         h.run(20000)
+        # 牌子一直举着，气泡跟着说“点我打开对话”；点掉之后才回空闲、气泡收起。
+        self.assertEqual(h.line.current, "已完成 · 点我打开对话")
+        h.router.dismiss_completion(h.now)
+        h.run(h.now + 2000)
         self.assertIsNone(h.line)
 
     def test_todo_list_gives_current_item_and_progress(self):
@@ -364,13 +421,13 @@ class StatusLineTests(unittest.TestCase):
         h.send(Kind.activity_start, id="q", activity=PetState.question_for_user, detail="等你回答")
         h.run(7000)
         self.assertEqual(h.router.displayed, PetState.question_for_user)
-        self.assertEqual(h.line.current, "等你回答")
+        self.assertEqual(h.line.current, "等你回答 · 点我打开对话")
         h.send(Kind.activity_end, id="q")
         h.send(Kind.final_answer)
         h.send(Kind.task_end)
         h.run(12000)
         self.assertEqual(h.router.displayed, PetState.task_complete)
-        self.assertEqual(h.line.current, "已完成")
+        self.assertEqual(h.line.current, "已完成 · 点我打开对话")
 
 
 class HeldValueTests(unittest.TestCase):

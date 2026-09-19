@@ -28,7 +28,7 @@ jobs:
       - name: 装依赖
         run: python -m pip install --upgrade pip pillow pyinstaller
 
-      - name: 自测（72 个核心测试 + 播放器逻辑）
+      - name: 自测（129 个核心测试 + 播放器逻辑）
         working-directory: YukioWin
         run: python run.py --selftest
 
