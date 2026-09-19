@@ -123,11 +123,15 @@ import Testing
                                   "tool_input": ["file_path": "a"], "tool_use_id": "t1"], receivedAt: 5)
         #expect(pre.map(\.kind) == [.activityStart] && pre[0].activity == .write_file && pre[0].eventID == "t1" && pre[0].ts == 5)
         #expect(p.events(from: ["hook_event_name": "PostToolUse", "session_id": "S", "tool_use_id": "t1"], receivedAt: 6).map(\.kind) == [.activityEnd])
-        #expect(p.events(from: ["hook_event_name": "PostToolUseFailure", "session_id": "S", "tool_use_id": "t1",
-                                "error": "Exit code 1"], receivedAt: 6).map(\.kind) == [.activityFailed])
-        #expect(p.events(from: ["hook_event_name": "PostToolUseFailure", "session_id": "S", "tool_use_id": "t1",
-                                "is_interrupt": true], receivedAt: 6).map(\.kind) == [.activityEnd])
-        #expect(p.events(from: ["hook_event_name": "StopFailure", "session_id": "S"], receivedAt: 9).map(\.kind) == [.taskFailed])
+        // 工具失败一般没有 PostToolUse（由转录补）；响应里带错误时这里也认出来。
+        #expect(p.events(from: ["hook_event_name": "PostToolUse", "session_id": "S", "tool_use_id": "t1",
+                                "tool_response": ["is_error": true, "error": "Exit code 1"]], receivedAt: 6).map(\.kind) == [.activityFailed])
+        #expect(p.events(from: ["hook_event_name": "PostToolUse", "session_id": "S", "tool_use_id": "t1",
+                                "tool_response": ["is_error": true, "error": "The user doesn't want to proceed with this tool use."]], receivedAt: 6).map(\.kind) == [.activityEnd])
+        #expect(p.events(from: ["hook_event_name": "PostToolUse", "session_id": "S", "tool_use_id": "t1",
+                                "tool_response": ["is_interrupt": true]], receivedAt: 6).map(\.kind) == [.activityEnd])
+        // Claude Code 并没有 PostToolUseFailure / StopFailure 这两个事件名。
+        #expect(p.events(from: ["hook_event_name": "PostToolUseFailure", "session_id": "S"], receivedAt: 6).isEmpty)
         #expect(p.events(from: ["hook_event_name": "UserPromptSubmit", "session_id": "S"], receivedAt: 1).map(\.kind) == [.taskStart])
         #expect(p.events(from: ["hook_event_name": "Stop", "session_id": "S"], receivedAt: 9).map(\.kind) == [.finalAnswer, .taskEnd])
         #expect(p.events(from: ["hook_event_name": "Notification", "session_id": "S"], receivedAt: 9).isEmpty)
@@ -184,8 +188,13 @@ import Testing
         #expect(catalog.spec(for: .respond).loopStart > 0)
         #expect(catalog.spec(for: .failed).loopStart > 0)
         #expect(catalog.spec(for: .thinking).loopStart == 0)
-        // 拖动跑动仍是原版图条。
-        #expect(catalog.specs[AnimationCatalog.runningLeftID]?.assetPath == "base/running-left.webp")
+        // 拖动时被大手拎着：这一帧比常规帧高，还带着抓手点与头顶线。
+        let held = catalog.specs[AnimationCatalog.heldID]
+        #expect(held?.assetPath == "base/held.png")
+        #expect(held?.frameHeight == 240)
+        // 抓手点在头发顶端上方的空处（那只大手看不见），头顶线与站立图一致。
+        #expect(held?.hang?.headTop == 16)
+        #expect((held?.hang?.gripY ?? 99) < (held?.hang?.headTop ?? 0))
     }
 
     @Test func loopingTimelineCycles() {

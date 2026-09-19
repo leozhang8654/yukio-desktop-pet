@@ -1,5 +1,20 @@
 import Foundation
 
+/// 被大手拎住时要用的两个锚点，单位是帧内像素、左上角为原点。
+public struct HangAnchors: Equatable, Sendable {
+    /// 抓住的那一点：领口被捏起来的那个尖。摆动绕它转。
+    public let gripX: Double
+    public let gripY: Double
+    /// 头发顶端所在行。这一帧比常规帧高，按上边缘对齐摆放，所以画的时候要让这条线与站立图一致。
+    public let headTop: Double
+
+    public init(gripX: Double, gripY: Double, headTop: Double) {
+        self.gripX = gripX
+        self.gripY = gripY
+        self.headTop = headTop
+    }
+}
+
 /// 一段图条动画：横向图条中按 sequence 取帧，每步停留 durationsMs。
 public struct AnimationSpec: Equatable, Sendable {
     public let id: String
@@ -14,6 +29,8 @@ public struct AnimationSpec: Equatable, Sendable {
     public let holdLastFrame: Bool
     /// 循环时回到的步序号：前面的步只播一次（例如先递出报告，再循环眨眼）。
     public var loopStart: Int = 0
+    /// 只有「被拎起来」这一段有：抓手点与头顶线。
+    public var hang: HangAnchors? = nil
 
     public var maxFrameIndex: Int { sequence.max() ?? 0 }
 }
@@ -34,8 +51,8 @@ public enum CatalogError: Error, CustomStringConvertible {
 public struct AnimationCatalog: Sendable {
     public let specs: [String: AnimationSpec]
 
-    public static let runningLeftID = "running-left"
-    public static let runningRightID = "running-right"
+    /// 拖动时显示的动作：被一只看不见的大手拎着。
+    public static let heldID = "held"
 
     private struct ActivitiesFile: Decodable {
         struct State: Decodable {
@@ -60,6 +77,13 @@ public struct AnimationCatalog: Sendable {
             let frameHeight: Int
             let frameCount: Int
             let nativeDurationsMs: [Double]?
+            let grip: Grip?
+        }
+
+        struct Grip: Decodable {
+            let x: Double
+            let y: Double
+            let headTop: Double
         }
         let animations: [Anim]
     }
@@ -89,8 +113,7 @@ public struct AnimationCatalog: Sendable {
     /// 基础图条中播放器实际使用的动画。其余（旧原生槽位、视线方向）不加载。
     private static let usedBase: [String: BaseUse] = [
         "idle": BaseUse(label: "空闲"),
-        runningLeftID: BaseUse(label: "向左跑动"),
-        runningRightID: BaseUse(label: "向右跑动"),
+        heldID: BaseUse(label: "被大手拎着"),
         // 原生图条是 中立 #0–1 → 过渡 #2 → 垂眼 #3–5（三帧相同）→ 过渡 #6 → 中立 #7，140 ms 一帧循环，
         // 等于每 1.2 秒低落又恢复一次。这里只垂眼一次并停住，与“递交报告”一样播完保持。
         "failed": BaseUse(label: "失败／沮丧", once: (sequence: [0, 2, 3], durationsMs: [240, 180, 1000])),
@@ -126,6 +149,7 @@ public struct AnimationCatalog: Sendable {
         let base = try JSONDecoder().decode(BaseFile.self, from: baseData)
         for a in base.animations {
             guard let use = usedBase[a.id] else { continue }
+            let hang = a.grip.map { HangAnchors(gripX: $0.x, gripY: $0.y, headTop: $0.headTop) }
             if let once = use.once {
                 guard once.sequence.count == once.durationsMs.count, !once.sequence.isEmpty else {
                     throw CatalogError.invalid("\(a.id)：sequence 与 durationsMs 长度不一致")
@@ -134,7 +158,7 @@ public struct AnimationCatalog: Sendable {
                     id: a.id, label: use.label, assetPath: "base/\(a.asset)",
                     frameWidth: a.frameWidth, frameHeight: a.frameHeight,
                     sequence: once.sequence, durationsMs: once.durationsMs,
-                    loop: false, holdLastFrame: true)
+                    loop: false, holdLastFrame: true, hang: hang)
                 continue
             }
             guard let durations = a.nativeDurationsMs, durations.count == a.frameCount else {
@@ -144,7 +168,7 @@ public struct AnimationCatalog: Sendable {
                 id: a.id, label: use.label, assetPath: "base/\(a.asset)",
                 frameWidth: a.frameWidth, frameHeight: a.frameHeight,
                 sequence: Array(0..<a.frameCount), durationsMs: durations,
-                loop: true, holdLastFrame: false)
+                loop: true, holdLastFrame: false, hang: hang)
         }
 
         // 小幅动作覆盖同名动画；没有这个文件时按原图条播放。
@@ -163,7 +187,8 @@ public struct AnimationCatalog: Sendable {
                     id: m.id, label: specs[m.id]?.label ?? m.id, assetPath: "motion/\(m.asset)",
                     frameWidth: m.frameWidth, frameHeight: m.frameHeight,
                     sequence: m.sequence, durationsMs: m.durationsMs,
-                    loop: m.loop, holdLastFrame: !m.loop, loopStart: loopStart)
+                    loop: m.loop, holdLastFrame: !m.loop, loopStart: loopStart,
+                    hang: specs[m.id]?.hang)
             }
         }
 
@@ -171,8 +196,11 @@ public struct AnimationCatalog: Sendable {
         for state in PetState.allCases where catalog.specs[state.rawValue] == nil {
             throw CatalogError.missing("状态 \(state.rawValue) 没有对应动画")
         }
-        for id in [runningLeftID, runningRightID] where specs[id] == nil {
-            throw CatalogError.missing("基础动画 \(id)")
+        guard let held = specs[heldID] else {
+            throw CatalogError.missing("基础动画 \(heldID)")
+        }
+        guard held.hang != nil else {
+            throw CatalogError.invalid("\(heldID)：缺少 grip（抓手点与头顶线）")
         }
         return catalog
     }

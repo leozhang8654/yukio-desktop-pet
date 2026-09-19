@@ -1,25 +1,56 @@
 {
   "hooks": {
     "UserPromptSubmit": [
-      { "hooks": [ { "type": "command", "command": "\"$HOME/Library/Application Support/YukioPlayer/yukio-hook.sh\"" } ] }
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/Library/Application Support/YukioPlayer/yukio-hook.sh\""
+          }
+        ]
+      }
     ],
     "PreToolUse": [
-      { "matcher": "*", "hooks": [ { "type": "command", "command": "\"$HOME/Library/Application Support/YukioPlayer/yukio-hook.sh\"" } ] }
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/Library/Application Support/YukioPlayer/yukio-hook.sh\""
+          }
+        ]
+      }
     ],
     "PostToolUse": [
-      { "matcher": "*", "hooks": [ { "type": "command", "command": "\"$HOME/Library/Application Support/YukioPlayer/yukio-hook.sh\"" } ] }
-    ],
-    "PostToolUseFailure": [
-      { "matcher": "*", "hooks": [ { "type": "command", "command": "\"$HOME/Library/Application Support/YukioPlayer/yukio-hook.sh\"" } ] }
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/Library/Application Support/YukioPlayer/yukio-hook.sh\""
+          }
+        ]
+      }
     ],
     "Stop": [
-      { "hooks": [ { "type": "command", "command": "\"$HOME/Library/Application Support/YukioPlayer/yukio-hook.sh\"" } ] }
-    ],
-    "StopFailure": [
-      { "hooks": [ { "type": "command", "command": "\"$HOME/Library/Application Support/YukioPlayer/yukio-hook.sh\"" } ] }
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/Library/Application Support/YukioPlayer/yukio-hook.sh\""
+          }
+        ]
+      }
     ],
     "SessionEnd": [
-      { "hooks": [ { "type": "command", "command": "\"$HOME/Library/Application Support/YukioPlayer/yukio-hook.sh\"" } ] }
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/Library/Application Support/YukioPlayer/yukio-hook.sh\""
+          }
+        ]
+      }
     ]
   }
 }
