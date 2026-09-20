@@ -35,7 +35,7 @@ extension Harness {
         #expect(h.line?.current == "已回答")
         h.run(to: 20000)
         // 勾选卡一直举着，气泡跟着留着；点一下才一起收走。
-        #expect(h.line?.current == "已完成 · 点我打开对话")
+        #expect(h.line?.current == "已完成 · 点她跳过去")
         #expect(h.router.dismissCompletion(now: h.now))
         #expect(h.line == nil)
     }
@@ -69,14 +69,14 @@ extension Harness {
         h.event(.activityStart, id: "q", .question_for_user, detail: "等你回答")
         h.run(to: 7000)
         #expect(h.router.displayed == .question_for_user)
-        #expect(h.line?.current == "等你回答 · 点我打开对话")
+        #expect(h.line?.current == "等你回答 · 点她跳过去")
         // 回答完成：先递交报告，再举勾选卡，气泡跟着说“已完成”。
         h.event(.activityEnd, id: "q")
         h.event(.finalAnswer)
         h.event(.taskEnd)
         h.run(to: 12000)
         #expect(h.router.displayed == .task_complete)
-        #expect(h.line?.current == "已完成 · 点我打开对话")
+        #expect(h.line?.current == "已完成 · 点她跳过去")
     }
 }
 

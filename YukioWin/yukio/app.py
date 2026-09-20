@@ -24,6 +24,9 @@ from .sprites import SpriteLibrary
 
 FRAME_MS = 33          # 约 30 Hz：小幅动作一帧 33–67 ms，眨眼 50–110 ms，都能按时换帧
 POLL_EVERY_TICKS = 8   # 约每 0.27 秒读一次会话记录
+OPEN_CHAT_EVERY_TICKS = 60   # 约每 2 秒看一次"此刻开着哪条聊天"
+#: 桌面版 Claude 的可执行文件名。它在最前面、且选中的就是那条聊天时，那条不举牌。
+CLAUDE_DESKTOP_EXE = "Claude.exe"
 BUBBLE_FADE_MS = 180.0
 PET_W, PET_H = 192, 208
 
@@ -449,9 +452,30 @@ class PetApp:
 
     # MARK: 主循环
 
+    def _refresh_open_chat(self) -> None:
+        """桌面版 Claude 就在最前面时，把它此刻选中的那条聊天告诉路由——那条不举牌。
+
+        人没在看 Claude 时直接给 None，连记录都不用翻。读记录是文件操作，所以两秒才做一次；
+        任何一步取不到就当"没开在眼前"，照常举牌。
+        """
+        try:
+            if os.name != "nt":
+                self.router.open_chat_session = None
+                return
+            from .win32 import foreground_process_name
+            front = foreground_process_name()
+            if not front or front.lower() != CLAUDE_DESKTOP_EXE.lower():
+                self.router.open_chat_session = None
+                return
+            self.router.open_chat_session = self.links.focused_session()
+        except Exception:
+            self.router.open_chat_session = None
+
     def tick(self) -> None:
         now = now_ms()
         self.tick_count += 1
+        if self.tick_count % OPEN_CHAT_EVERY_TICKS == 0:
+            self._refresh_open_chat()
         if self.tick_count % POLL_EVERY_TICKS == 0:
             # 事件始终进入路由器；暂停跟随只影响显示。
             for source in self.sources:

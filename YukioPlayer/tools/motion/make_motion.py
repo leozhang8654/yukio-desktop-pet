@@ -233,14 +233,17 @@ def respond(plate, eyes):
     paper_px = rgb[95:110, 88:106].reshape(-1, 3)
     fill = np.median(paper_px[paper_px.mean(axis=1) > 0.8], axis=0)
     ink = np.array([0.42, 0.42, 0.50])
-    sheet = sheet_image((79, 80, 116, 120), np.append(fill, 1.0), np.append(ink, 1.0))
+    # 后面那两张纸要能完全躲回整叠后面：按整叠的实心范围（x 78..107、y 85..118）往里收着画，
+    # 转动的支点也放到整叠的底边上。原来画成 (79, 80, 116, 120)，比整叠还大一圈——纸对齐之后
+    # 仍有一圈灰边框套在报告外面收不回去，散开时纸角还会转到桌面下边去。
+    sheet = sheet_image((79, 86, 106, 116), np.append(fill, 1.0), np.append(ink, 1.0))
     ones = np.ones((H, W), np.float32)
     stack = Part(flood_mask(plate, [(97, 84), (90, 95), (104, 102), (92, 112), (100, 117), (86, 88), (110, 90),
                                     (77, 106), (80, 110), (114, 106), (117, 110)],
                             region=[(68, 79), (124, 79), (124, 121), (68, 121)]), (97, 110), main)
     return Rig(parts=[stack],
-               behind=[Part(ones, (97, 120), loose(-3.4, -5.0), image=sheet),
-                       Part(ones, (97, 120), loose(3.0, 4.5), image=sheet)])
+               behind=[Part(ones, (97, 117), loose(-6.0, -6.0), image=sheet),
+                       Part(ones, (97, 117), loose(5.0, 5.0), image=sheet)])
 
 
 def question_for_user(plate, eyes):

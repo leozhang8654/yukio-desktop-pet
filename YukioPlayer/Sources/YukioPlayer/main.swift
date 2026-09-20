@@ -291,8 +291,8 @@ func runBubbleSnapshot(path: String) -> Never {
                              current: "$ swift test --filter RouterTests", progress: nil)),
         (.thinking, StatusLine(title: nil, current: "思考中", progress: nil)),
         (.failed, StatusLine(title: "桌宠缺失状态", current: "出错：$ swift test", progress: .init(done: 7, total: 7))),
-        (.question_for_user, StatusLine(title: "桌宠缺失状态", current: "等你回答 · 点我打开对话", progress: nil)),
-        (.task_complete, StatusLine(title: "桌宠缺失状态", current: "已完成 · 点我打开对话", progress: .init(done: 7, total: 7))),
+        (.question_for_user, StatusLine(title: "桌宠缺失状态", current: "等你回答 · 点她跳过去", progress: nil)),
+        (.task_complete, StatusLine(title: "桌宠缺失状态", current: "已完成 · 点她跳过去", progress: .init(done: 7, total: 7))),
     ]
     let cellW: CGFloat = 240, cellH: CGFloat = 208 + 64, px: CGFloat = 2
     let width = Int(cellW * CGFloat(samples.count) * px), height = Int(cellH * px)
@@ -331,7 +331,7 @@ func runCardsSnapshot(path: String) -> Never {
     ]
     let line = StatusLine(title: "多个聊天同时运行时的选择功能", current: "编辑 main.swift",
                           progress: .init(done: 3, total: 5))
-    let px: CGFloat = 2, cellW: CGFloat = 260, cellH: CGFloat = 480
+    let px: CGFloat = 2, cellW: CGFloat = 260, cellH: CGFloat = 560
     let width = Int(cellW * 2 * px), height = Int(cellH * px)
     guard let ctx = CGContext(data: nil, width: width, height: height, bitsPerComponent: 8, bytesPerRow: 0,
                               space: CGColorSpace(name: CGColorSpace.sRGB)!,
@@ -340,7 +340,7 @@ func runCardsSnapshot(path: String) -> Never {
     ctx.scaleBy(x: px, y: px)
     ctx.interpolationQuality = .high
     NSGraphicsContext.current = NSGraphicsContext(cgContext: ctx, flipped: false)
-    for (i, expanded) in [false, true].enumerated() {
+    for (i, expanded) in [false, true].enumerated() {   // 左：平时（收起）；右：点一下摊开
         let cell = NSRect(x: CGFloat(i) * cellW, y: 0, width: cellW, height: cellH)
         let spec = catalog.spec(for: expanded ? .thinking : .write_file)
         let pet = NSRect(x: cell.minX + (cellW - 192) / 2, y: 8, width: 192, height: 208)
@@ -350,12 +350,20 @@ func runCardsSnapshot(path: String) -> Never {
                                                             headTop: library.headTopInset(for: spec.id)),
                                 size: bubble.size)
         bubble.draw(in: bubbleRect)
-        let layout = CardStackLayout(cards: cards, expanded: expanded)
+        let layout = CardStackLayout(cards: cards, expanded: expanded, pinned: expanded)
         let origin = CardStackLayout.origin(size: layout.size, petFrame: pet,
                                             bubbleTop: bubbleRect.maxY, visible: cell)
         layout.draw(in: NSRect(origin: origin, size: layout.size))
     }
     NSGraphicsContext.current = nil
+    // 顺便自查点击分区：摊开那摞里，每张卡中心该落在 card(i)，右上角该落在 dismiss(i)。
+    let probe = CardStackLayout(cards: cards, expanded: true, pinned: true)
+    let box = NSRect(origin: .zero, size: probe.size)
+    var lines: [String] = []
+    for (name, point) in CardStackLayout.probePoints(probe, in: box) {
+        lines.append("\(name) → \(String(describing: probe.hit(at: point, in: box)))")
+    }
+    print("点击分区自查：\n  " + lines.joined(separator: "\n  "))
     exit(savePNG(ctx, to: path) ? 0 : 1)
 }
 
@@ -416,6 +424,22 @@ func runChatLink(session: String) -> Never {
     }
     print("对应聊天 \(id)")
     print("点击打开 \(ClaudeSessionLinks.chatURL(desktopSession: id)?.absoluteString ?? "-")")
+    exit(0)
+}
+
+/// --open-chat：打印桌面版 Claude 此刻选中的那条聊天。
+/// 这条聊天答完时雪绪不举牌——人已经看着它了，再举一块只是挡路。
+/// 注意只有桌面版 Claude 在最前面时才算"开在眼前"，这里只查记录，不管谁在前台。
+func runOpenChat() -> Never {
+    let links = ClaudeSessionLinks()
+    print("会话记录目录 \(links.sessionsDir.path)")
+    guard let session = links.focusedTranscriptSession() else {
+        print("认不出此刻开着哪条聊天：照常举牌")
+        exit(1)
+    }
+    print("此刻开着的聊天 \(session)")
+    let front = NSWorkspace.shared.frontmostApplication?.bundleIdentifier ?? "-"
+    print("最前面的应用 \(front)\(front == "com.anthropic.claudefordesktop" ? "（算开在眼前，这条不举牌）" : "（没在看 Claude，照常举牌）")")
     exit(0)
 }
 
@@ -538,6 +562,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private let transcript = ClaudeTranscriptSource()
     private let hooks = HookInboxSource()
     private let links = ClaudeSessionLinks()
+    /// refreshOpenChat 的后台读取是否还在路上。
+    private var openChatBusy = false
     private let defaults = UserDefaults.standard
 
     private var panel: PetPanel!
@@ -560,8 +586,11 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private var bubbleHold = HeldValue<StatusLine?>(nil, minHoldMs: 1200)
     /// 旁边那叠卡正在显示的内容。多一条少一条立刻生效，卡上的字跟气泡一样至少停留 1.2 秒。
     private var cardsHold = HeldValue<[ActivityCard]>([], minHoldMs: 1200)
-    /// “还有 N 条”展开着没有。
+    /// 这摞卡展开着没有（平时收起，只有头顶那张气泡）。
     private var cardsExpanded = false
+    /// 展开的时刻：一阵没人点就自己收起来。
+    private var cardsExpandedAt: Double = 0
+    private static let cardsAutoCollapseMs: Double = 12_000
 
     private struct Simulation {
         let start: Double
@@ -620,6 +649,10 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         RunLoop.main.add(t, forMode: .common)
         timer = t
 
+        NotificationCenter.default.addObserver(
+            forName: NSApplication.didChangeScreenParametersNotification, object: nil, queue: .main
+        ) { [weak self] _ in self?.screensChanged() }
+
         if CommandLine.arguments.contains("--demo") { startDemo() }
     }
 
@@ -670,6 +703,21 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     private func clampToScreen() {
         panel.setFrameOrigin(clamped(panel.frame).origin)
+    }
+
+    /// 接显示器、拔显示器、改分辨率：她可能整个落在屏幕外（拔掉外接屏最容易撞上），
+    /// 那样点应用也只会被“单实例”挡掉，看着就像打不开。屏幕一变就把她挪回来。
+    private func screensChanged() {
+        finishHang()
+        let f = panel.frame
+        if !NSScreen.screens.contains(where: { $0.visibleFrame.intersects(f) }) {
+            panel.setFrameOrigin(defaultOrigin())
+        } else {
+            clampToScreen()
+        }
+        savePosition()
+        positionBubble()
+        positionCards()
     }
 
     private func savePosition(_ origin: NSPoint? = nil) {
@@ -799,9 +847,39 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     // MARK: 主循环
 
+    /// 桌面版 Claude 就在最前面时，把它此刻选中的那条聊天告诉路由——那条不举牌。
+    /// 人没在看 Claude 时直接给 nil，连记录都不用翻。
+    ///
+    /// 翻记录是文件读取，放到后台做，别让 30 Hz 的动作掉帧；上一次还没回来就跳过这一轮。
+    private func refreshOpenChat() {
+        let front = NSWorkspace.shared.frontmostApplication?.bundleIdentifier
+        guard front == "com.anthropic.claudefordesktop" else {
+            router.openChatSession = nil
+            return
+        }
+        guard !openChatBusy else { return }
+        openChatBusy = true
+        let links = self.links
+        DispatchQueue.global(qos: .utility).async {
+            let session = links.focusedTranscriptSession()
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                self.openChatBusy = false
+                // 回来的路上人可能已经切走了，那就不算"开在眼前"。
+                if NSWorkspace.shared.frontmostApplication?.bundleIdentifier == "com.anthropic.claudefordesktop" {
+                    self.router.openChatSession = session
+                } else {
+                    self.router.openChatSession = nil
+                }
+            }
+        }
+    }
+
     private func tick() {
         let now = nowMs()
         tickCount += 1
+        // 约每 2 秒看一次"此刻开着哪条聊天"。
+        if tickCount % 60 == 0 { refreshOpenChat() }
         if tickCount % 8 == 0 {
             // 约每 0.27 秒读一次转录。事件始终进入路由器；暂停跟随只影响显示。
             for e in transcript.poll(now: now) + hooks.poll(now: now) { router.ingest(e, now: min(e.ts, now)) }
@@ -861,6 +939,12 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     private func updateMousePassThrough() {
         let m = NSEvent.mouseLocation
+        if let bubble {
+            // 平时气泡照旧穿透；有别的聊天可挑（或正摊开着）时才收点击。
+            let canTap = following && simulation == nil && (cardsExpanded || !cardsHold.value.isEmpty)
+            let overBubble = canTap && bubble.alphaValue > 0.5 && bubble.frame.contains(m)
+            if bubble.ignoresMouseEvents == overBubble { bubble.ignoresMouseEvents = !overBubble }
+        }
         if let cardStack {
             // 卡片上（含 ✕ 和“还有 N 条”）才收点击，卡与卡之间的缝隙照样穿透。
             let c = cardStack.frame
@@ -880,6 +964,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         bubble = BubblePanel()
         // 子窗口：拖动雪绪时跟着走。
         panel.addChildWindow(bubble, ordered: .above)
+        // 点头顶这张卡＝摊开挑聊天。点雪绪本人仍是“跳到那条聊天并放下牌子”，两处不打架。
+        bubble.bubbleView.onClick = { [weak self] in self?.toggleCards() }
     }
 
     /// 上次摆放气泡时是否被拎着。拎起和放下时各重新摆一次。
@@ -933,17 +1019,21 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private func setUpCards() {
         cardStack = CardStackPanel()
         panel.addChildWindow(cardStack, ordered: .above)
-        cardStack.stackView.onOpen = { [weak self] i in self?.cardTapped(i, open: true) }
-        cardStack.stackView.onDismiss = { [weak self] i in self?.cardTapped(i, open: false) }
-        cardStack.stackView.onToggleExpand = { [weak self] in
+        cardStack.stackView.onOpen = { [weak self] i in self?.cardTapped(i, pick: true) }
+        cardStack.stackView.onDismiss = { [weak self] i in self?.cardTapped(i, pick: false) }
+        cardStack.stackView.onToggleExpand = { [weak self] in self?.toggleCards() }
+        cardStack.stackView.onPickAuto = { [weak self] in
             guard let self else { return }
-            self.cardsExpanded.toggle()
-            self.updateCards(now: nowMs(), immediate: true)
+            self.router.pinSession(nil, now: nowMs())
+            self.collapseCards()
         }
         cardStack.stackView.onContextMenu = { [weak self] i, event in
             guard let self, let card = self.cardsHold.value[safe: i] else { return }
             let menu = NSMenu()
             menu.addItem(self.info(card.title))
+            let open = self.action("打开这条聊天", #selector(self.menuOpenListedChat(_:)))
+            open.representedObject = card.session
+            menu.addItem(open)
             let mute = self.action("不再提醒这条聊天", #selector(self.menuMuteChat(_:)))
             mute.representedObject = card.session
             menu.addItem(mute)
@@ -951,19 +1041,41 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
     }
 
-    /// 点了第 i 张卡：open=true 去那条聊天，否则只收起这张。
-    private func cardTapped(_ i: Int, open: Bool) {
+    /// 点了摊开的第 i 张卡：pick=true 把她换到那条聊天（顶掉原来那条），否则只收起这一张提醒。
+    private func cardTapped(_ i: Int, pick: Bool) {
         guard simulation == nil, let card = cardsHold.value[safe: i] else { return }
         let now = nowMs()
-        if open { openChat(session: card.session) }
+        if pick {
+            router.pinSession(card.session, now: now)
+            collapseCards()
+            return
+        }
         router.dismissCard(session: card.session, now: now)
         updateCards(now: now, immediate: true)
+    }
+
+    /// 点头顶那张卡（或“还有 N 条”）：摊开挑聊天；再点一下收起。
+    /// 点雪绪本人还是“跳到那条聊天并放下牌子”，两处各管各的。
+    private func toggleCards() {
+        guard simulation == nil, following else { return }
+        if cardsExpanded { collapseCards(); return }
+        guard !router.cards(now: nowMs()).isEmpty else { return }
+        cardsExpanded = true
+        cardsExpandedAt = nowMs()
+        updateCards(now: nowMs(), immediate: true)
+    }
+
+    private func collapseCards() {
+        cardsExpanded = false
+        updateCards(now: nowMs(), immediate: true)
     }
 
     private func updateCards(now: Double, immediate: Bool = false) {
         guard let cardStack else { return }
         let cards = (showCards && following && simulation == nil) ? router.cards(now: now) : []
-        if cards.count <= CardStackLayout.collapsedCount { cardsExpanded = false }
+        if cards.isEmpty { cardsExpanded = false }
+        // 摊开后一阵没人点就自己收起来，免得一直挡着。
+        if cardsExpanded, now - cardsExpandedAt > Self.cardsAutoCollapseMs { cardsExpanded = false }
         // 多一条少一条立刻生效；只是卡上的字变了就按最短停留，免得一直闪。
         let appeared = cards.map(\.session) != cardsHold.value.map(\.session)
         guard cardsHold.update(cards, now: now, immediate: immediate || appeared) else { return }
@@ -972,7 +1084,10 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             fade(cardStack, to: 0)
             return
         }
-        let layout = CardStackLayout(cards: value, expanded: cardsExpanded)
+        let anchor = cardsAnchor()
+        let layout = CardStackLayout(cards: value, expanded: cardsExpanded,
+                                     pinned: router.pinnedSession != nil,
+                                     maxHeight: anchor.visible.maxY - anchor.bubbleTop - CardLook.stackGap - 6)
         cardStack.stackView.layout = layout
         positionCards(layout)
         fade(cardStack, to: 1)
@@ -984,8 +1099,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         positionCards(layout)
     }
 
-    private func positionCards(_ layout: CardStackLayout) {
-        guard let cardStack, layout.size.height > 0 else { return }
+    /// 这摞卡从哪儿往上长：气泡的上边（气泡关掉或没内容时用头顶线），以及这块屏幕的可见范围。
+    private func cardsAnchor() -> (pet: NSRect, bubbleTop: CGFloat, visible: NSRect) {
         let visible = (panel.screen ?? NSScreen.main)?.visibleFrame
             ?? NSRect(x: 0, y: 0, width: 1440, height: 900)
         var pet = panel.frame
@@ -994,11 +1109,16 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             pet = geo.spriteRect.offsetBy(dx: panel.frame.minX, dy: panel.frame.minY)
             headTop = CGFloat(heldSpec.hang?.gripY ?? 0)
         }
-        // 接着气泡往上叠；气泡关掉或没内容时，从头顶线开始。
         let bubbleTop = (bubble?.alphaValue ?? 0) > 0.01 && bubble.bubbleView.layout != nil
             ? bubble.frame.maxY : pet.maxY - headTop * scale + 3
-        let origin = CardStackLayout.origin(size: layout.size, petFrame: pet,
-                                            bubbleTop: bubbleTop, visible: visible)
+        return (pet, bubbleTop, visible)
+    }
+
+    private func positionCards(_ layout: CardStackLayout) {
+        guard let cardStack, layout.size.height > 0 else { return }
+        let a = cardsAnchor()
+        let origin = CardStackLayout.origin(size: layout.size, petFrame: a.pet,
+                                            bubbleTop: a.bubbleTop, visible: a.visible)
         cardStack.setFrame(NSRect(origin: origin, size: layout.size), display: true)
     }
 
@@ -1008,6 +1128,12 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             ctx.duration = 0.18
             window.animator().alphaValue = alpha
         }
+    }
+
+    @objc private func menuOpenListedChat(_ sender: NSMenuItem) {
+        guard let id = sender.representedObject as? String else { return }
+        openChat(session: id)
+        collapseCards()
     }
 
     @objc private func menuMuteChat(_ sender: NSMenuItem) {
@@ -1222,6 +1348,7 @@ if let i = args.firstIndex(of: "--hang"), i + 1 < args.count { runHangSnapshot(p
 if let i = args.firstIndex(of: "--hang-gif"), i + 1 < args.count { runHangGIF(path: args[i + 1]) }
 if let i = args.firstIndex(of: "--replay"), i + 1 < args.count { runReplay(path: args[i + 1]) }
 if let i = args.firstIndex(of: "--chat-link"), i + 1 < args.count { runChatLink(session: args[i + 1]) }
+if args.contains("--open-chat") { runOpenChat() }
 if let i = args.firstIndex(of: "--chats") {
     runChats(seconds: i + 1 < args.count ? Double(args[i + 1]) ?? 3 : 3)
 }

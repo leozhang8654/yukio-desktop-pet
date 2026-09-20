@@ -146,6 +146,8 @@ final class SessionModel {
         let detail: String?
     }
 
+    /// 这条聊天的转录会话 ID，也就是 sessions 字典里的键。判断"这条是不是正开在眼前"要用。
+    let id: String
     let source: String
     var taskActive = false
     var taskStartedAt: Double = -.infinity
@@ -176,7 +178,8 @@ final class SessionModel {
     private var endedIDs: [String] = []
     private var endedSet: Set<String> = []
 
-    init(source: String, now: Double) {
+    init(id: String, source: String, now: Double) {
+        self.id = id
         self.source = source
         self.lastEventAt = now
     }
@@ -259,6 +262,13 @@ public final class ActivityRouter {
     /// 只在本次运行内有效，重启回到自动——和“举着的牌子”一样，是此刻的选择。
     public private(set) var pinnedSession: String?
 
+    /// 此刻正开在眼前的那条聊天（转录会话 ID）。由播放器每隔一会儿填：桌面版 Claude 在最前面、
+    /// 且选中的就是这条时才有值，否则 nil。
+    ///
+    /// 举牌是为了"这条答完了、点我跳过去看"。要是那条聊天本来就开在眼前，人自己已经看见了，
+    /// 再举一块牌只是挡路——所以这条聊天不举牌；已经举着的，等你切过去也就放下。
+    public var openChatSession: String?
+
     var sessions: [String: SessionModel] = [:]
     private var anonymousCounter = 0
     /// 被点掉／划掉的卡：会话 → 那一轮的 key，下一轮会重新出现（见 ActivityCards.swift）。
@@ -286,7 +296,7 @@ public final class ActivityRouter {
         if let existing = sessions[e.session] {
             s = existing
         } else {
-            s = SessionModel(source: e.source, now: now)
+            s = SessionModel(id: e.session, source: e.source, now: now)
             sessions[e.session] = s
         }
         s.lastEventAt = max(s.lastEventAt, now)
@@ -408,13 +418,24 @@ public final class ActivityRouter {
             if age < min(config.respondHoldMs, config.completeArmMs) { return .respond }
             // 举起来就不放下：等用户点击（点击后 dismissCompletion 把它记成 .dismissed）。
             // 举牌只发生在任务刚结束时，所以启动时回放到的旧记录不会举牌。
-            if s.sign == .raised { return .task_complete }
-            if s.sign == .none && age < config.completeArmMs {
-                if arming {
-                    s.sign = .raised
-                    s.signRaisedAt = now
+            // 那条聊天正开在眼前：答完的结果他自己看得见，不举牌；已经举着的也就此放下。
+            let inSight = openChatSession != nil && openChatSession == s.id
+            if s.sign == .raised {
+                if inSight {
+                    if arming { s.sign = .dismissed }
+                } else {
+                    return .task_complete
                 }
-                return .task_complete
+            } else if s.sign == .none && age < config.completeArmMs {
+                if inSight {
+                    if arming { s.sign = .dismissed }
+                } else {
+                    if arming {
+                        s.sign = .raised
+                        s.signRaisedAt = now
+                    }
+                    return .task_complete
+                }
             }
         }
         if let f = s.failedAt, now - f < config.failedLingerMs { return .failed }
@@ -468,6 +489,11 @@ public final class ActivityRouter {
             guard s.finalAnswerAt != nil, let end = s.taskEndedAt else { continue }
             let age = now - end
             guard age >= config.respondHoldMs, age < config.completeArmMs else { continue }
+            // 那条聊天正开在眼前：人已经看见了，这一轮就不举牌（也不进身侧那叠卡）。
+            if openChatSession == s.id {
+                s.sign = .dismissed
+                continue
+            }
             s.sign = .raised
             s.signRaisedAt = now
         }
@@ -645,9 +671,9 @@ public final class ActivityRouter {
             current = s.taskActive ? "整理回答" : "已回答"
         case .idle, .question_for_user:
             // 问号卡也能点（跳到这条聊天去回答），和勾选卡一样在气泡里说一声，不然没人知道能点。
-            current = "\(s.open.last?.detail ?? "等你回答") · 点我打开对话"
+            current = "\(s.open.last?.detail ?? "等你回答") · 点她跳过去"
         case .task_complete:
-            current = "已完成 · 点我打开对话"
+            current = "已完成 · 点她跳过去"
         case .thinking:
             current = inProgress ?? "思考中"
         default:
@@ -669,7 +695,7 @@ public final class ActivityRouter {
         case .respond: return "整理回答"
         case .failed: return "出错了"
         case .question_for_user: return "等你回答"
-        case .task_complete: return "已完成 · 点我打开对话"
+        case .task_complete: return "已完成 · 点她跳过去"
         case .idle: return "等你回答"
         }
     }

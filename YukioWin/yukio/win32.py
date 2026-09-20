@@ -21,6 +21,38 @@ from typing import Callable, Dict, List, Optional, Tuple
 user32 = ctypes.WinDLL("user32", use_last_error=True)
 gdi32 = ctypes.WinDLL("gdi32", use_last_error=True)
 kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+
+def foreground_process_name() -> Optional[str]:
+    """最前面那个窗口属于哪个可执行文件（只要文件名，如 "Claude.exe"）。取不到时 None。
+
+    判断"那条聊天是不是正开在眼前"要用：桌面版 Claude 得真在最前面，人才看得见。
+    拿不到就当没在看，照常举牌——宁可多举一块牌，也别把该提醒的吞掉。
+
+    这个函数只在 Windows 上有意义；别的平台上调用方不会走到这里（app 里先判 os.name）。
+    """
+    try:
+        hwnd = user32.GetForegroundWindow()
+        if not hwnd:
+            return None
+        pid = c_ulong(0)
+        user32.GetWindowThreadProcessId(c_void_p(hwnd), byref(pid))
+        if not pid.value:
+            return None
+        # PROCESS_QUERY_LIMITED_INFORMATION：只问名字，不要更大的权限，免得被拒。
+        handle = kernel32.OpenProcess(0x1000, False, pid.value)
+        if not handle:
+            return None
+        try:
+            size = c_ulong(260)
+            buf = ctypes.create_unicode_buffer(size.value)
+            if not kernel32.QueryFullProcessImageNameW(c_void_p(handle), 0, buf, byref(size)):
+                return None
+            return os.path.basename(buf.value) or None
+        finally:
+            kernel32.CloseHandle(c_void_p(handle))
+    except Exception:
+        return None
+
 shell32 = ctypes.WinDLL("shell32", use_last_error=True)
 
 # MARK: 常量

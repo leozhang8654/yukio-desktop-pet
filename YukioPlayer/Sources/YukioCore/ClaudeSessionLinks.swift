@@ -18,6 +18,10 @@ public struct ClaudeSessionLinks: Sendable {
     public var headBytes = 64 << 10
     /// 最多翻这么多份记录（按最近修改排序，刚结束的那条通常是第一份）。
     public var maxFiles = 400
+    /// 判断"此刻开着哪条聊天"时只翻这么多份（见 focusedTranscriptSession）。
+    public var maxFocusScan = 24
+    /// 判断焦点时每份只读这么多字节：lastFocusedAt 和 cliSessionId 都在记录最前面。
+    public var focusHeadBytes = 4 << 10
 
     public init(sessionsDir: URL = ClaudeSessionLinks.defaultSessionsDir()) {
         self.sessionsDir = sessionsDir
@@ -51,6 +55,43 @@ public struct ClaudeSessionLinks: Sendable {
     public static func chatURL(desktopSession id: String) -> URL? {
         guard isDesktopSessionID(id) else { return nil }
         return URL(string: "claude://code/continue?session=\(id)")
+    }
+
+    /// 桌面版此刻选中的那条聊天，返回它的转录会话 ID。认不出时 nil。
+    ///
+    /// 依据是记录里的 `lastFocusedAt`（桌面版切到某条聊天时更新它），取最大的那条。
+    /// 和 `desktopSessionID` 一样，这是桌面版的内部记录、不是公开接口，读不到就当没有。
+    ///
+    /// 只翻最近改动的 `maxFocusScan` 份：刚被切到的那条一定在里面，而全部记录有几十份、
+    /// 这个判断要反复做，翻全部太浪费。
+    public func focusedTranscriptSession() -> String? {
+        var best: (session: String, at: Double)?
+        for url in records().prefix(maxFocusScan) {
+            guard let head = Self.readHead(url, bytes: focusHeadBytes),
+                  let at = Self.number(of: "lastFocusedAt", in: head),
+                  let session = Self.value(of: "cliSessionId", in: head),
+                  Self.isTranscriptSessionID(session) else { continue }
+            if best == nil || at > best!.at { best = (session, at) }
+        }
+        return best?.session
+    }
+
+    /// 取出 JSON 顶层 `"键":数字` 里的值。`value(of:)` 只认带引号的值，时间戳是裸数字。
+    static func number(of key: String, in data: Data) -> Double? {
+        let bytes = [UInt8](data)
+        let needle = [UInt8]("\"\(key)\"".utf8)
+        guard var i = firstRange(of: needle, in: bytes)?.upperBound else { return nil }
+        func skipSpaces() { while i < bytes.count, bytes[i] == 0x20 || bytes[i] == 0x09 || bytes[i] == 0x0A || bytes[i] == 0x0D { i += 1 } }
+        skipSpaces()
+        guard i < bytes.count, bytes[i] == UInt8(ascii: ":") else { return nil }
+        i += 1
+        skipSpaces()
+        var out: [UInt8] = []
+        while i < bytes.count, bytes[i] == UInt8(ascii: ".") || (bytes[i] >= 0x30 && bytes[i] <= 0x39) {
+            out.append(bytes[i])
+            i += 1
+        }
+        return out.isEmpty ? nil : Double(String(decoding: out, as: UTF8.self))
     }
 
     /// 全部会话记录，最近修改的在前。

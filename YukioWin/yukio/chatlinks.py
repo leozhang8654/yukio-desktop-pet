@@ -30,6 +30,10 @@ from typing import List, Optional
 HEAD_BYTES = 64 << 10
 #: 最多翻这么多份记录（按最近修改排序，刚结束的那条通常是第一份）。
 MAX_FILES = 400
+#: 判断"此刻开着哪条聊天"时只翻这么多份（见 ChatLinks.focused_session）。
+MAX_FOCUS_SCAN = 24
+#: 判断焦点时每份只读这么多字节：lastFocusedAt 和 cliSessionId 都在记录最前面。
+FOCUS_HEAD_BYTES = 4 << 10
 
 _HEX = set("0123456789abcdefABCDEF")
 _ID_EXTRA = set("-")
@@ -98,11 +102,40 @@ def value_of(key: str, data: bytes) -> Optional[str]:
     return None
 
 
+def number_of(key: str, data: bytes) -> Optional[float]:
+    """取出 JSON 顶层 `"键":数字` 里的值。`value_of` 只认带引号的值，时间戳是裸数字。"""
+    needle = ('"%s"' % key).encode("utf-8")
+    at = data.find(needle)
+    if at < 0:
+        return None
+    i = at + len(needle)
+    n = len(data)
+    while i < n and data[i:i + 1] in (b" ", b"\t", b"\n", b"\r"):
+        i += 1
+    if i >= n or data[i:i + 1] != b":":
+        return None
+    i += 1
+    while i < n and data[i:i + 1] in (b" ", b"\t", b"\n", b"\r"):
+        i += 1
+    out = bytearray()
+    while i < n and (data[i:i + 1] == b"." or b"0" <= data[i:i + 1] <= b"9"):
+        out += data[i:i + 1]
+        i += 1
+    if not out:
+        return None
+    try:
+        return float(out.decode("ascii"))
+    except ValueError:
+        return None
+
+
 class ChatLinks:
     def __init__(self, sessions_dir: Optional[str] = None):
         self.sessions_dir = sessions_dir or default_sessions_dir()
         self.head_bytes = HEAD_BYTES
         self.max_files = MAX_FILES
+        self.max_focus_scan = MAX_FOCUS_SCAN
+        self.focus_head_bytes = FOCUS_HEAD_BYTES
 
     def desktop_session_id(self, session: str) -> Optional[str]:
         """转录会话 ID → 桌面版会话 ID（`local_…`）。找不到时 None。"""
@@ -119,6 +152,29 @@ class ChatLinks:
             stem = os.path.splitext(os.path.basename(path))[0]
             return stem if is_desktop_session_id(stem) else None
         return None
+
+    def focused_session(self) -> Optional[str]:
+        """桌面版此刻选中的那条聊天，返回它的转录会话 ID。认不出时 None。
+
+        依据是记录里的 `lastFocusedAt`（桌面版切到某条聊天时更新它），取最大的那条。
+        和 `desktop_session_id` 一样，这是桌面版的内部记录、不是公开接口，读不到就当没有。
+
+        只翻最近改动的 `max_focus_scan` 份：刚被切到的那条一定在里面，而全部记录有几十份、
+        这个判断要反复做，翻全部太浪费。
+        """
+        best_session: Optional[str] = None
+        best_at = float("-inf")
+        for path in self._records()[:self.max_focus_scan]:
+            head = self._read_head(path, self.focus_head_bytes)
+            if head is None:
+                continue
+            at = number_of("lastFocusedAt", head)
+            session = value_of("cliSessionId", head)
+            if at is None or not session or not is_transcript_session_id(session):
+                continue
+            if at > best_at:
+                best_at, best_session = at, session
+        return best_session
 
     def chat_url(self, session: str) -> Optional[str]:
         """点击举着的牌子时要打开的链接。认不出会话时 None。"""
@@ -143,10 +199,10 @@ class ChatLinks:
         found.sort(reverse=True)
         return [path for _mtime, path in found[:self.max_files]]
 
-    def _read_head(self, path: str) -> Optional[bytes]:
+    def _read_head(self, path: str, size: Optional[int] = None) -> Optional[bytes]:
         try:
             with open(path, "rb") as fh:
-                return fh.read(self.head_bytes)
+                return fh.read(self.head_bytes if size is None else size)
         except OSError:
             return None
 

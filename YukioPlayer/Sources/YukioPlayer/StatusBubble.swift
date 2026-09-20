@@ -31,10 +31,22 @@ final class BubbleView: NSView {
         didSet { needsDisplay = true }
     }
 
+    /// 点这张卡：摊开别的聊天来挑。平时窗口是穿透的，由控制器按需打开。
+    var onClick: (() -> Void)?
+
     override var isOpaque: Bool { false }
+    override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }
 
     override func draw(_ dirtyRect: NSRect) {
         layout?.draw(in: bounds)
+    }
+
+    override func mouseDown(with event: NSEvent) {
+        // 和点雪绪一样，在 mouseUp 里处理。
+    }
+
+    override func mouseUp(with event: NSEvent) {
+        onClick?()
     }
 }
 

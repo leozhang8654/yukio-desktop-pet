@@ -38,8 +38,10 @@ final class CardStackView: NSView {
     var onOpen: ((Int) -> Void)?
     /// 点了第几张卡的 ✕（只收起这张）。
     var onDismiss: ((Int) -> Void)?
-    /// 点了“还有 N 条”。
+    /// 点了“还有 N 条 / 收起”。
     var onToggleExpand: (() -> Void)?
+    /// 点了“自动：谁要紧跟谁”。
+    var onPickAuto: (() -> Void)?
     /// 在第几张卡上右键（静音那条聊天）。
     var onContextMenu: ((Int, NSEvent) -> Void)?
 
@@ -63,6 +65,7 @@ final class CardStackView: NSView {
         switch hit(at: convert(event.locationInWindow, from: nil)) {
         case .card(let i): onOpen?(i)
         case .dismiss(let i): onDismiss?(i)
+        case .auto: onPickAuto?()
         case .expand: onToggleExpand?()
         case nil: break
         }
@@ -76,23 +79,34 @@ final class CardStackView: NSView {
 }
 
 /// 这摞卡的排版与绘制，与窗口无关（`--cards` 快照也用它）。
+///
+/// 平时（收起）只有头顶那张气泡，这里画的仅仅是气泡上面一条“还有 N 条”的小条；
+/// 点一下展开，才把别的聊天一条一张摊出来，每张点一下就把她换到那条聊天上。
 /// 每张卡就是气泡那张卡的样子：上行聊天名（淡色小字），下行在做什么（深色粗字）。
 struct CardStackLayout {
     enum Hit: Equatable {
+        /// 选这条聊天当主题聊天。
         case card(Int)
+        /// 只收起这一张提醒。
         case dismiss(Int)
+        /// 回到自动（谁要紧跟谁）。
+        case auto
+        /// 展开／收起整摞。
         case expand
     }
 
     /// 和气泡同宽，叠起来是一摞齐的。
     static let width = CardLook.maxWidth
-    /// 收起时最多显示几张，其余折进“还有 N 条”。
-    static let collapsedCount = 3
+    /// 展开后最多摊几张。
+    static let maxExpanded = 8
     private static let gap = CardLook.stackGap
     private static let stripe: CGFloat = 3
     private static let stripeGap: CGFloat = 5
     private static let closeBox: CGFloat = 15
-    private static let moreHeight: CGFloat = 18
+    private static let rowHeight: CGFloat = 20
+    /// 两条胶囊各自往里缩多少：画和命中用同一个数。
+    private static let autoInset: CGFloat = 10
+    private static let pillInset: CGFloat = 26
 
     static func color(for status: ActivityCard.Status) -> NSColor {
         switch status {
@@ -103,23 +117,34 @@ struct CardStackLayout {
         }
     }
 
-    /// 这摞里显示出来的卡（收起时是前几张）。
+    /// 摊出来的卡（收起时是空的）。
     let shown: [ActivityCard]
-    /// 折进“还有 N 条”的张数。
+    /// 收起时折着的张数。
     let hidden: Int
     let expanded: Bool
+    /// 展开时是否给一条“回到自动”。
+    let showsAuto: Bool
     let size: NSSize
-    /// 每张卡的矩形（左下原点，第 0 张在最下面、离气泡最近）。
+    /// 每张卡的矩形（左下原点，第 0 张在最下面、挨着气泡）。
     private let cardRects: [NSRect]
-    private let moreRect: NSRect?
+    private let autoRect: NSRect?
+    private let pillRect: NSRect?
 
-    init(cards: [ActivityCard], expanded: Bool) {
+    /// maxHeight：气泡上面还剩多少地方。摊开后放不下就少摊几张（先扔最不要紧的，
+    /// 也就是离气泡最远那几张），绝不压到气泡上。
+    init(cards: [ActivityCard], expanded: Bool, pinned: Bool = false, maxHeight: CGFloat = .infinity) {
         self.expanded = expanded
-        let limit = expanded ? cards.count : min(Self.collapsedCount, cards.count)
-        shown = Array(cards.prefix(limit))
-        hidden = cards.count - shown.count
+        showsAuto = expanded && pinned
         let cardHeight = 2 * CardLook.padY + CardLook.lineHeight(CardLook.titleFont)
             + CardLook.lineGap + CardLook.lineHeight(CardLook.currentFont)
+        var room = Self.maxExpanded
+        if expanded, maxHeight.isFinite {
+            var left = maxHeight - Self.rowHeight                      // “收起”那条
+            if showsAuto { left -= Self.rowHeight + Self.gap }
+            room = max(1, Int(floor((left + Self.gap) / (cardHeight + Self.gap))))
+        }
+        shown = expanded ? Array(cards.prefix(min(Self.maxExpanded, room))) : []
+        hidden = cards.count - shown.count
 
         var rects: [NSRect] = []
         var y: CGFloat = 0
@@ -128,11 +153,18 @@ struct CardStackLayout {
             y += cardHeight + Self.gap
         }
         cardRects = rects
-        if hidden > 0 || expanded {
-            moreRect = NSRect(x: 0, y: y, width: Self.width, height: Self.moreHeight)
-            y += Self.moreHeight
+        if showsAuto {
+            autoRect = NSRect(x: 0, y: y, width: Self.width, height: Self.rowHeight)
+            y += Self.rowHeight + Self.gap
         } else {
-            moreRect = nil
+            autoRect = nil
+        }
+        // 收起时只剩这一条；展开时它是“收起”。没有别的聊天就整个不画。
+        if expanded || hidden > 0 {
+            pillRect = NSRect(x: 0, y: y, width: Self.width, height: Self.rowHeight)
+            y += Self.rowHeight
+        } else {
+            pillRect = nil
             if y > 0 { y -= Self.gap }
         }
         size = NSSize(width: Self.width, height: max(0, ceil(y)))
@@ -154,7 +186,13 @@ struct CardStackLayout {
             guard r.contains(point) else { continue }
             return Self.closeRect(r).contains(point) ? .dismiss(i) : .card(i)
         }
-        if let m = moreRect, m.offsetBy(dx: bounds.minX, dy: bounds.minY).contains(point) { return .expand }
+        // 只认画出来的那颗胶囊；两侧的透明边照旧穿透过去。
+        if let a = autoRect, Self.pill(a.offsetBy(dx: bounds.minX, dy: bounds.minY), inset: Self.autoInset).contains(point) {
+            return .auto
+        }
+        if let p = pillRect, Self.pill(p.offsetBy(dx: bounds.minX, dy: bounds.minY), inset: Self.pillInset).contains(point) {
+            return .expand
+        }
         return nil
     }
 
@@ -162,12 +200,39 @@ struct CardStackLayout {
         for (i, card) in shown.enumerated() {
             draw(card, in: cardRects[i].offsetBy(dx: bounds.minX, dy: bounds.minY))
         }
-        guard let m = moreRect?.offsetBy(dx: bounds.minX, dy: bounds.minY) else { return }
-        let pill = NSRect(x: m.minX + 30, y: m.minY + 1, width: m.width - 60, height: m.height - 2)
+        if let a = autoRect?.offsetBy(dx: bounds.minX, dy: bounds.minY) {
+            drawRow("自动", in: a, inset: Self.autoInset)
+        }
+        if let p = pillRect?.offsetBy(dx: bounds.minX, dy: bounds.minY) {
+            drawRow(expanded ? "收起" : "还有 \(hidden) 条", in: p, inset: Self.pillInset)
+        }
+    }
+
+    /// 一条胶囊的实际矩形（画与命中共用）。
+    private static func pill(_ rect: NSRect, inset: CGFloat) -> NSRect {
+        NSRect(x: rect.minX + inset, y: rect.minY + 1, width: rect.width - 2 * inset, height: rect.height - 2)
+    }
+
+    private func drawRow(_ text: String, in rect: NSRect, inset: CGFloat) {
+        let pill = Self.pill(rect, inset: inset)
         CardLook.box(pill, radius: pill.height / 2)
         let h = CardLook.lineHeight(CardLook.titleFont)
-        CardLook.draw(expanded ? "收起" : "还有 \(hidden) 条", CardLook.titleFont, CardLook.muted,
+        CardLook.draw(text, CardLook.titleFont, CardLook.muted,
                       in: NSRect(x: pill.minX, y: pill.midY - h / 2, width: pill.width, height: h), center: true)
+    }
+
+    /// 自查用：给出几个代表点（每张卡的正文、✕，自动那条，收起那条）。
+    static func probePoints(_ layout: CardStackLayout, in bounds: NSRect) -> [(String, NSPoint)] {
+        var out: [(String, NSPoint)] = []
+        for (i, rect) in layout.cardRects.enumerated() {
+            let r = rect.offsetBy(dx: bounds.minX, dy: bounds.minY)
+            out.append(("第\(i)张正文", NSPoint(x: r.midX, y: r.midY)))
+            out.append(("第\(i)张的✕", NSPoint(x: closeRect(r).midX, y: closeRect(r).midY)))
+        }
+        if let a = layout.autoRect { out.append(("自动", NSPoint(x: a.midX, y: a.midY))) }
+        if let p = layout.pillRect { out.append(("收起/还有N条", NSPoint(x: p.midX, y: p.midY))) }
+        out.append(("空白处", NSPoint(x: bounds.minX + 2, y: bounds.maxY - 1)))
+        return out
     }
 
     private static func closeRect(_ card: NSRect) -> NSRect {

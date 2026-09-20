@@ -171,7 +171,7 @@ final class Harness {
         h.send(.activityStart, id: "q", .question_for_user)
         h.run(to: 4000)
         #expect(h.states == [.question_for_user])
-        #expect(h.router.statusLine(now: h.now)?.current == "等你回答 · 点我打开对话")
+        #expect(h.router.statusLine(now: h.now)?.current == "等你回答 · 点她跳过去")
         // 立着问号卡时点雪绪：跳到这条聊天去回答，卡片不收（也没有勾选卡可放下）。
         #expect(h.router.askingSession == h.session)
         #expect(h.router.completedSession == nil)

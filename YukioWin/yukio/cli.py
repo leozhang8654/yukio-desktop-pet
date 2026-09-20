@@ -9,6 +9,7 @@
     python -m yukio --watch 60              实时跟随，打印事件与状态切换（不打印对话内容）
     python -m yukio --chats 3               列出最近的聊天，标出此刻会跟哪条
     python -m yukio --chat-link <会话ID>    查这条聊天对应桌面版 Claude 的哪一条（点牌子跳哪去）
+    python -m yukio --open-chat            查桌面版 Claude 此刻开着哪条聊天（那条不举牌）
     python -m yukio --selftest              跑核心测试
 """
 
@@ -433,6 +434,31 @@ def run_chat_link(session: str) -> int:
     return 0
 
 
+def run_open_chat() -> int:
+    """查桌面版 Claude 此刻选中的是哪条聊天。
+
+    那条聊天答完时雪绪不举牌——人已经看着它了，再举一块只是挡路。
+    还要求桌面版 Claude 真在最前面才算"开在眼前"，这里一并打印出来。
+    """
+    from .chatlinks import ChatLinks
+    links = ChatLinks()
+    print("桌面版会话记录：%s（存在=%s）" % (links.sessions_dir, os.path.isdir(links.sessions_dir)))
+    session = links.focused_session()
+    if not session:
+        print("认不出此刻开着哪条聊天：照常举牌")
+        return 1
+    print("此刻开着的聊天：%s" % session)
+    if os.name != "nt":
+        print("（这里不是 Windows，最前面那个程序查不了；Windows 上会一并判断。）")
+        return 0
+    from .win32 import foreground_process_name
+    front = foreground_process_name() or "-"
+    from .app import CLAUDE_DESKTOP_EXE
+    in_sight = front.lower() == CLAUDE_DESKTOP_EXE.lower()
+    print("最前面的程序：%s%s" % (front, "（算开在眼前，这条不举牌）" if in_sight else "（没在看 Claude，照常举牌）"))
+    return 0
+
+
 def run_watch(seconds: float, which: str = "auto") -> int:
     catalog, _ = load_catalog_or_exit()
     sources = default_sources(which)
@@ -526,6 +552,8 @@ def main(argv: Optional[List[str]] = None) -> int:
         return run_chats(seconds, value_after("--source") or "auto")
     if value_after("--chat-link"):
         return run_chat_link(value_after("--chat-link"))
+    if "--open-chat" in argv:
+        return run_open_chat()
     if "--selftest" in argv:
         return run_selftest()
 
