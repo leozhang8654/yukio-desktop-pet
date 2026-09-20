@@ -17,6 +17,7 @@ from .bubble import (ACCENT, INK, MUTED, PAD_X, PAD_Y, PAPER, LINE_GAP, MAX_WIDT
                      CURRENT_SIZE, TITLE_SIZE, PROGRESS_SIZE, _fit, _line_height, _single_line,
                      _text_width, load_font)
 from .cards import ActivityCard, CardStatus
+from .l10n import tr
 
 #: 和气泡同宽，叠起来是一摞齐的。
 WIDTH = MAX_WIDTH
@@ -138,7 +139,7 @@ class CardStackLayout:
             pill = (rx + 30 * s, ry + s, rx + rw - 30 * s, ry + rh - s)
             draw.rounded_rectangle(pill, radius=(pill[3] - pill[1]) / 2, fill=PAPER,
                                    outline=INK + (41,), width=max(1, int(round(s))))
-            text = "收起" if self.expanded else "还有 %d 条" % self.hidden
+            text = tr("Collapse", "收起") if self.expanded else tr("%d more", "还有 %d 条") % self.hidden
             tw = _text_width(draw, text, self._title_font)
             th = _line_height(self._title_font)
             draw.text(((pill[0] + pill[2]) / 2 - tw / 2, (pill[1] + pill[3]) / 2 - th / 2),

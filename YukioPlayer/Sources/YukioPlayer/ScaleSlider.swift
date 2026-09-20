@@ -1,4 +1,5 @@
 import AppKit
+import YukioCore
 
 /// 菜单里那一行大小滑条：左边写“大小”，中间一条滑条，右边是当前百分比。
 /// 拖动时雪绪实时跟着变大变小，松手即生效——不用再在几个固定档位里挑。
@@ -25,7 +26,7 @@ final class ScaleSliderView: NSView {
         super.init(frame: NSRect(x: 0, y: 0, width: 260, height: 30))
 
         let menuFont = NSFont.menuFont(ofSize: 0)
-        let title = NSTextField(labelWithString: "大小")
+        let title = NSTextField(labelWithString: tr("Size", "大小"))
         title.font = menuFont
         title.textColor = .labelColor
 

@@ -26,6 +26,7 @@ from typing import Any, Dict, List, Optional
 
 from .classify import CONTINUE_PREVIOUS, classify, describe
 from .events import Kind, PetEvent, PetState, TodoItem, TodoStatus, parse_timestamp
+from .l10n import tr
 
 SOURCE = "deepcode"
 
@@ -255,7 +256,7 @@ class DeepCodeIndexParser:
             # 等你批准／等你回答：立问号卡。消息文件里这一刻没有任何记录。
             call_id = "wait:%s:%s" % (session, int(ts))
             self._waiting[session] = call_id
-            detail = "等你批准" if status == STATUS_ASK_PERMISSION else "等你回答"
+            detail = tr("Needs your approval", "等你批准") if status == STATUS_ASK_PERMISSION else tr("Needs your answer", "等你回答")
             out.append(ev(Kind.activity_start, event_id=call_id,
                           activity=PetState.question_for_user, detail=detail))
         elif status == STATUS_INTERRUPTED or status == STATUS_PERMISSION_DENIED:

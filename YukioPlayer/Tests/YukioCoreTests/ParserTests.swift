@@ -4,6 +4,7 @@ import Testing
 @testable import YukioCore
 
 @Suite struct ShellClassifierTests {
+    init() { L10n.language = .chinese }   // 这些测试按中文文案断言
     @Test(arguments: [
         ("swift test", PetState.verify),
         ("pytest -q", .verify),
@@ -38,6 +39,7 @@ import Testing
 }
 
 @Suite struct ToolClassifierTests {
+    init() { L10n.language = .chinese }   // 这些测试按中文文案断言
     func c(_ tool: String, _ input: [String: Any] = [:]) -> ToolClassification {
         ClaudeToolClassifier.classify(tool: tool, input: input)
     }
@@ -68,6 +70,7 @@ import Testing
 }
 
 @Suite struct TranscriptParserTests {
+    init() { L10n.language = .chinese }   // 这些测试按中文文案断言
     let p = ClaudeTranscriptParser()
 
     func line(_ json: String) -> [PetEvent] { p.events(fromLine: Data(json.utf8)) }
@@ -117,6 +120,7 @@ import Testing
 }
 
 @Suite struct HookParserTests {
+    init() { L10n.language = .chinese }   // 这些测试按中文文案断言
     @Test func hookEvents() {
         let p = ClaudeHookParser()
         let pre = p.events(from: ["hook_event_name": "PreToolUse", "session_id": "S", "tool_name": "Edit",
@@ -139,6 +143,7 @@ import Testing
 }
 
 @Suite struct JSONObjectStreamTests {
+    init() { L10n.language = .chinese }   // 这些测试按中文文案断言
     @Test func splitsAcrossChunksAndHandlesBracesInStrings() {
         var s = JSONObjectStream()
         let text = #"{"a":"}{","b":[1,{"c":2}]}"# + "\n" + #"{"x":"\"quoted\""}"# + "\n{\n  \"multi\": true\n}"
@@ -162,6 +167,7 @@ import Testing
 }
 
 @Suite struct TimelineAndCatalogTests {
+    init() { L10n.language = .chinese }   // 这些测试按中文文案断言
     static var assetsRoot: URL {
         URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent()
             .deletingLastPathComponent().appendingPathComponent("Resources/Assets")

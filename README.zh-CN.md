@@ -57,7 +57,7 @@ xattr -dr com.apple.quarantine /Applications/Yukio.app
 
 每个文件的 SHA-256 都写在发布页上，想核对的话对一下。
 
-打开后雪绪出现在屏幕右下角，macOS 的菜单栏、Windows 的托盘里多一个她的小头像。在她身上右键、点那个小头像、或者再打开一次应用，三种方式都能出菜单。想先看看效果，菜单里点「播放模拟演示」，60 秒走一遍所有动作。
+打开后雪绪出现在屏幕右下角，macOS 的菜单栏、Windows 的托盘里多一个她的小头像。在她身上右键、点那个小头像、或者再打开一次应用，三种方式都能出菜单。界面默认英文，菜单里的「Language」选「中文」就切过来，选择会记住。想先看看效果，菜单里点「播放模拟演示」（英文界面下是 Play demo），60 秒走一遍所有动作。
 
 ## 她会做什么
 
@@ -87,11 +87,11 @@ xattr -dr com.apple.quarantine /Applications/Yukio.app
 
 ## 头顶气泡与那摞卡
 
-<img src="docs/readme/bubble.png" width="900" alt="六种头顶气泡：带 3/7 进度的当前一步、被截短的长标题、思考中、swift test 出错、等你回答的问号卡、已完成的勾选卡">
+<img src="docs/readme/bubble-zh.png" width="900" alt="六种头顶气泡：带 3/7 进度的当前一步、被截短的长标题、思考中、swift test 出错、等你回答的问号卡、已完成的勾选卡">
 
-<img src="docs/readme/cards.png" width="470" alt="左：气泡上方只有一条“还有 5 条”。右：摊开后五条别的聊天叠在气泡上，左边色带标出等你回答、出错、答完了、在跑">
+<img src="docs/readme/cards-zh.png" width="470" alt="左：气泡上方只有一条“还有 5 条”。右：摊开后五条别的聊天叠在气泡上，左边色带标出等你回答、出错、答完了、在跑">
 
-左边是平时的样子：气泡上面只多一条细细的“还有 5 条”。右边是摊开之后，最要紧的那张挨着气泡。橙色是等你回答，红色是出错停住，绿色是答完了，蓝色是还在跑。✕ 只收起那一张，那条聊天下一轮有动静时会再出现；12 秒没人点会自己收起。
+上面两张是切成中文之后的样子。左边是平时：气泡上面只多一条细细的“还有 5 条”。右边是摊开之后，最要紧的那张挨着气泡。橙色是等你回答，红色是出错停住，绿色是答完了，蓝色是还在跑。✕ 只收起那一张，那条聊天下一轮有动静时会再出现；12 秒没人点会自己收起。
 
 ## 拎起来
 
@@ -114,7 +114,7 @@ xattr -dr com.apple.quarantine /Applications/Yukio.app
 ```sh
 git clone https://github.com/leozhang8654/yukio-desktop-pet
 cd yukio-desktop-pet/YukioPlayer
-swift test                      # 92 个测试：路由、防抖、分类、解析、气泡文字、动作时间线、聊天选择
+swift test                      # 101 个测试：路由、防抖、分类、解析、气泡文字、动作时间线、聊天选择
 ./scripts/build-app.sh          # 生成 build/Yukio.app
 open build/Yukio.app
 ./scripts/package-release.sh    # 打通用二进制的发布压缩包到 dist/
@@ -126,7 +126,7 @@ open build/Yukio.app
 cd yukio-desktop-pet\YukioWin
 pip install pillow
 python run.py
-python run.py --selftest                                          # 129 个测试，任何系统上都能跑
+python run.py --selftest                                          # 141 个测试，任何系统上都能跑
 powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1    # 打出 dist\Yukio.exe，素材已包含
 ```
 
@@ -149,7 +149,7 @@ powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1    # 打出 dist\
 
 ## 先说清楚的几件事
 
-- 界面是中文的：菜单、气泡文字、卡片标签都是。
+- 界面默认英文，右键菜单里的「Language」可以切成中文，选择会记住。已经写进事件里的说明文字（比如“阅读 main.swift”）要到下一条事件才换语言。
 - 素材是 192×208 的 1 倍图，在 Retina／高分屏上放大时会略软。
 - 点一下跳回聊天需要桌面版 Claude。在终端里跑的 Claude Code 没有聊天窗口可开，点了只把 Claude 带到最前面；Deep Code 的聊天也在终端里，所以 Windows 上点一下只是放下牌子。这套跳转在 macOS 上实测过，Windows 那边照同一套写的，还没在实机上验过。
 - 大小：macOS 是 50%–200% 的滑条，Windows 是七个整档加 ±5%，因为 Win32 的原生菜单塞不进滑条。

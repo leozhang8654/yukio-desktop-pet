@@ -57,7 +57,7 @@ The exe is not code-signed. Click **More info**, then **Run anyway**. Windows as
 
 The SHA-256 of every file is on the release page if you want to check a download.
 
-Once running, Yukio appears in the bottom-right corner of the screen and a small avatar of her appears in the macOS menu bar or the Windows tray. Right-click her, click that avatar, or launch the app a second time: any of the three opens the menu. Want a tour first? Pick 播放模拟演示 (play demo) from the menu and she walks through every state in 60 seconds.
+Once running, Yukio appears in the bottom-right corner of the screen and a small avatar of her appears in the macOS menu bar or the Windows tray. Right-click her, click that avatar, or launch the app a second time: any of the three opens the menu. Want a tour first? Pick **Play demo** from the menu and she walks through every state in 60 seconds. The menu also has a **Language** entry: English is the default, 中文 is one click away, and the choice is remembered.
 
 ## What she does
 
@@ -87,11 +87,11 @@ These are the actual motion strips the app plays, exported at a slightly lower f
 
 ## The bubble and the card stack
 
-<img src="docs/readme/bubble.png" width="900" alt="Six bubble samples above Yukio: a step with 3 of 7 done, a long title cut short, thinking, an error on swift test, the question card with 'waiting for your answer', and the done card with 'done, click her to jump back'">
+<img src="docs/readme/bubble.png" width="900" alt="Six bubble samples above Yukio: a step with 3 of 7 done, a long title cut short, thinking, an error on swift test, the question card with 'Your turn · click to open', and the done card with 'Done · click to open'">
 
 <img src="docs/readme/cards.png" width="470" alt="Left: the bubble with a '5 more' hint above it. Right: fanned out, five other chats stacked over the bubble, each with a colour bar for its state: waiting, failed, ready, running">
 
-Menus and bubble text are in Chinese for now, as in these renders. Left: normally there is just the bubble and a thin "5 more" hint. Right: fanned out, with the most urgent chat closest to the bubble. Orange is waiting for you, red stopped on an error, green finished, blue still running. The ✕ dismisses one card until that chat does something new. Cards fold back after 12 seconds on their own.
+Left: normally there is just the bubble and a thin "5 more" hint. Right: fanned out, with the most urgent chat closest to the bubble. Orange is waiting for you, red stopped on an error, green finished, blue still running. The ✕ dismisses one card until that chat does something new. Cards fold back after 12 seconds on their own.
 
 ## Picking her up
 
@@ -114,7 +114,7 @@ These logs are internal to those tools, not public APIs. If a format changes she
 ```sh
 git clone https://github.com/leozhang8654/yukio-desktop-pet
 cd yukio-desktop-pet/YukioPlayer
-swift test                      # 92 tests: routing, debounce, classification, parsers, bubble text, timelines, chat picking
+swift test                      # 101 tests: routing, debounce, classification, parsers, bubble text, timelines, chat picking
 ./scripts/build-app.sh          # build/Yukio.app
 open build/Yukio.app
 ./scripts/package-release.sh    # universal binary zip in dist/
@@ -126,7 +126,7 @@ open build/Yukio.app
 cd yukio-desktop-pet\YukioWin
 pip install pillow
 python run.py
-python run.py --selftest                                          # 129 tests, runs on any OS
+python run.py --selftest                                          # 141 tests, runs on any OS
 powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1    # dist\Yukio.exe, artwork included
 ```
 
@@ -138,8 +138,8 @@ Both players have window-less modes for poking around: `--demo`, `--replay sessi
 
 | Path | What is in it |
 | --- | --- |
-| `YukioPlayer/` | macOS player: Swift sources and tests, bundled artwork and app icon, the motion, icon, and drag-pose generators under `tools/`, build and release scripts. [README (Chinese)](YukioPlayer/README.md) |
-| `YukioWin/` | Windows player: Python and ctypes layered window, tests, PyInstaller spec, the smoke test CI runs. [README (Chinese)](YukioWin/README.md) |
+| `YukioPlayer/` | macOS player: Swift sources and tests, bundled artwork and app icon, the motion, icon, and drag-pose generators under `tools/`, build and release scripts. [README](YukioPlayer/README.md) |
+| `YukioWin/` | Windows player: Python and ctypes layered window, tests, PyInstaller spec, the smoke test CI runs. [README](YukioWin/README.md) |
 | `assets/` | Final transparent artwork: the seven activity strips, the desk, the two cards, the base poses |
 | `sources/` | High-resolution generation sources, magenta-keyed |
 | `references/` | Contact sheet, generation prompts, image inventory |
@@ -149,7 +149,7 @@ Both players have window-less modes for poking around: `--demo`, `--replay sessi
 
 ## Good to know
 
-- The UI language is Chinese: menus, bubble text, and card labels.
+- English by default. The right-click menu has a Language entry with 中文, and the choice is remembered. Descriptions already attached to earlier events keep their language until the next event arrives. The command-line check modes still print their diagnostics in Chinese.
 - The artwork is 192×208 at 1x, so she looks a little soft on Retina and HiDPI screens at large sizes.
 - Click-to-jump needs the Claude desktop app. Claude Code run in a terminal has no chat window to open, so a click only brings Claude to the front. Deep Code chats live in the terminal too, so on Windows a click simply lowers the card. Verified on macOS; the Windows path is written the same way but has not been tried on a real machine yet.
 - Size is a 50 to 200% slider on macOS and seven steps plus ±5% nudges on Windows, because a native Win32 menu cannot hold a slider.

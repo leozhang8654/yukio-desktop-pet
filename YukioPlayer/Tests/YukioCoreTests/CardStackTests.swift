@@ -13,6 +13,7 @@ private extension Harness {
 
 /// 雪绪旁边那叠通知卡。
 @Suite struct CardStackTests {
+    init() { L10n.language = .chinese }   // 这些测试按中文文案断言
     /// 三条聊天各有话说：等你回答的排最前，然后出错的、答完的，最后还在干活的。
     private func threeChats() -> Harness {
         let h = Harness()

@@ -3,7 +3,7 @@
 
 来源：
   YukioPlayer/Resources/Assets/motion/   应用实际播放的动作图条 → states-*.png、desk.gif
-  macOS 播放器的离屏渲染 --bubble / --cards / --hang-gif → bubble.png、cards.png、drag.gif
+  macOS 播放器的离屏渲染 --bubble / --cards（英文与中文界面各一份）/ --hang-gif → bubble*.png、cards*.png、drag.gif
     不传 --renders 时用 YukioPlayer/.build/release/YukioPlayer 现场渲染（先 swift build -c release）。
 需要 Pillow 与 numpy。
 """
@@ -183,29 +183,38 @@ def drag_gif(src, path, win_w=236):
     save_gif(out, durs, path)
 
 
-def render(dst):
+def render(dst, lang):
+    """用发行版二进制现场渲染 --bubble / --cards（按 lang 的界面语言）和 --hang-gif（无文字，只渲染一次）。"""
     exe = ROOT / "YukioPlayer" / ".build" / "release" / "YukioPlayer"
     if not exe.exists():
         sys.exit("没有 YukioPlayer/.build/release/YukioPlayer：先 swift build -c release，或用 --renders 指向已有的渲染图目录")
-    env = dict(os.environ, YUKIO_ASSETS=str(ROOT / "YukioPlayer" / "Resources" / "Assets"))
-    for flag, name in (("--bubble", "bubble.png"), ("--cards", "cards.png"), ("--hang-gif", "hang.gif")):
+    env = dict(os.environ, YUKIO_ASSETS=str(ROOT / "YukioPlayer" / "Resources" / "Assets"), YUKIO_LANG=lang)
+    jobs = [("--bubble", f"bubble-{lang}.png"), ("--cards", f"cards-{lang}.png")]
+    if lang == "en":
+        jobs.append(("--hang-gif", "hang.gif"))
+    for flag, name in jobs:
         subprocess.run([str(exe), flag, str(dst / name)], check=True, env=env, stdout=subprocess.DEVNULL)
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--renders", type=Path, help="已有的 bubble.png / cards.png / hang.gif 所在目录（默认现场渲染）")
+    ap.add_argument("--renders", type=Path,
+                    help="已有的 bubble-en.png / cards-en.png / bubble-zh.png / cards-zh.png / hang.gif 所在目录（默认现场渲染）")
     args = ap.parse_args()
     DOCS.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory() as tmp:
         renders = args.renders or Path(tmp)
         if not args.renders:
-            render(renders)
+            render(renders, "en")
+            render(renders, "zh")
         grid("en", DOCS / "states-en.png")
         grid("zh", DOCS / "states-zh.png")
         desk_gif(DOCS / "desk.gif")
-        panel(key_checker(renders / "bubble.png")).save(DOCS / "bubble.png", optimize=True)
-        panel(key_checker(renders / "cards.png")).save(DOCS / "cards.png", optimize=True)
+        # 英文界面的渲染是默认那份（README.md 用），中文界面的带 -zh 后缀（README.zh-CN.md 用）。
+        panel(key_checker(renders / "bubble-en.png")).save(DOCS / "bubble.png", optimize=True)
+        panel(key_checker(renders / "cards-en.png")).save(DOCS / "cards.png", optimize=True)
+        panel(key_checker(renders / "bubble-zh.png")).save(DOCS / "bubble-zh.png", optimize=True)
+        panel(key_checker(renders / "cards-zh.png")).save(DOCS / "cards-zh.png", optimize=True)
         drag_gif(renders / "hang.gif", DOCS / "drag.gif")
     for p in sorted(DOCS.iterdir()):
         if p.suffix in (".png", ".gif"):

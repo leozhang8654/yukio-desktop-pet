@@ -1,6 +1,6 @@
-# 在 GitHub 的 Windows 机器上打出 Yukio.exe，并实跑一遍确认窗口真的画得出来。
-# 手动触发（Actions 页面点 Run workflow），或推一个 win-v* 的标签（会顺带建 Release）。
-name: 打包 Windows 版雪绪
+# Build Yukio.exe on a GitHub Windows runner and actually run it once to make sure the windows draw.
+# Trigger by hand (Run workflow on the Actions page) or by pushing a win-v* tag (which also creates a Release).
+name: Build Windows Yukio
 
 on:
   workflow_dispatch:
@@ -12,7 +12,7 @@ permissions:
   contents: write
 
 env:
-  # Windows 跑起来的 Python 默认按本地代码页输出，中文会炸；这里统一成 UTF-8。
+  # Python on Windows prints in the local code page by default and chokes on Chinese; force UTF-8.
   PYTHONIOENCODING: utf-8
   PYTHONUTF8: "1"
 
@@ -25,30 +25,30 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: 装依赖
+      - name: Install dependencies
         run: python -m pip install --upgrade pip pillow pyinstaller
 
-      - name: 自测（129 个核心测试 + 播放器逻辑）
+      - name: Self-test (core tests + player logic)
         working-directory: YukioWin
         run: python run.py --selftest
 
-      - name: 素材检查
+      - name: Check artwork
         working-directory: YukioWin
         run: python run.py --check
 
-      - name: 打包
+      - name: Package
         working-directory: YukioWin
         run: python -m PyInstaller --noconfirm --clean scripts/yukio.spec
 
-      - name: 实跑一遍（找窗口、量尺寸、核对动作、截屏比对像素）
+      - name: Smoke test (find the windows, measure, check the pose, compare screenshots pixel by pixel)
         working-directory: YukioWin
         run: powershell -ExecutionPolicy Bypass -File scripts/smoke-test.ps1 -Exe dist/Yukio.exe
 
-      - name: 再按 150% 放大跑一遍（高分屏走的是这条路）
+      - name: Smoke test again at 150% scaling (the HiDPI path)
         working-directory: YukioWin
         run: powershell -ExecutionPolicy Bypass -File scripts/smoke-test.ps1 -Exe dist/Yukio.exe -Scale 1.5 -OutDir smoke-150
 
-      - name: 留下实跑的截屏与日志
+      - name: Keep the smoke-test screenshots and logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -58,13 +58,13 @@ jobs:
             YukioWin/smoke-150/
           if-no-files-found: warn
 
-      - name: 留下 exe
+      - name: Keep the exe
         uses: actions/upload-artifact@v4
         with:
           name: Yukio-Windows
           path: YukioWin/dist/Yukio.exe
 
-      - name: 打 win-v* 标签时顺带发布
+      - name: Publish a Release when a win-v* tag is pushed
         if: startsWith(github.ref, 'refs/tags/win-v')
         uses: softprops/action-gh-release@v2
         with:

@@ -8,6 +8,13 @@ import unittest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from yukio.l10n import set_language  # noqa: E402
+set_language("zh")   # 这些测试按中文文案断言
+
+
+def setUpModule():
+    set_language("zh")   # 前一个模块的应用测试可能把语言切回了英文
+
 from yukio.chatlinks import (ChatLinks, chat_url_for_desktop_session, is_desktop_session_id,
                              is_transcript_session_id, value_of)
 

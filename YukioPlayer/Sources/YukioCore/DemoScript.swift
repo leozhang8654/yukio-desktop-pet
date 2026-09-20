@@ -29,37 +29,37 @@ public enum DemoScript {
             add(t, .todoUpdate, todos: [TodoItem(id: id, subject: subject, status: status)])
         }
 
-        add(0, .sessionTitle, detail: "演示：修复登录页")
-        add(0, .taskStart, detail: "登录页的表单校验有问题，帮我修一下")          // 思考
-        tool(3000, 3150, .read_file, "Read", "阅读 LoginView.swift")         // 一串短读取 → 合并成一次“桌前读书”
-        tool(3300, 3400, .read_file, "Grep", "搜索 validate")
-        tool(3600, 3700, .read_file, "Read", "阅读 Validator.swift")
-        tool(4000, 4200, .read_file, "Glob", "查找 **/*Login*")
-        tool(4500, 4600, .read_file, "Read", "阅读 LoginTests.swift")
+        add(0, .sessionTitle, detail: tr("Demo: fix the login page", "演示：修复登录页"))
+        add(0, .taskStart, detail: tr("The login form validation is broken, please fix it", "登录页的表单校验有问题，帮我修一下"))          // 思考
+        tool(3000, 3150, .read_file, "Read", tr("Reading LoginView.swift", "阅读 LoginView.swift"))         // 一串短读取 → 合并成一次“桌前读书”
+        tool(3300, 3400, .read_file, "Grep", tr("Searching validate", "搜索 validate"))
+        tool(3600, 3700, .read_file, "Read", tr("Reading Validator.swift", "阅读 Validator.swift"))
+        tool(4000, 4200, .read_file, "Glob", tr("Finding **/*Login*", "查找 **/*Login*"))
+        tool(4500, 4600, .read_file, "Read", tr("Reading LoginTests.swift", "阅读 LoginTests.swift"))
         add(6800, .thinking)
-        todo(7500, "1", "查看报错截图和文档")                                  // 建立任务清单
-        todo(7500, "2", "修正表单校验")
-        todo(7500, "3", "跑测试并构建")
+        todo(7500, "1", tr("Check the error screenshot and the docs", "查看报错截图和文档"))                                  // 建立任务清单
+        todo(7500, "2", tr("Fix the form validation", "修正表单校验"))
+        todo(7500, "3", tr("Run the tests and build", "跑测试并构建"))
         todo(7600, "1", status: .inProgress)
-        tool(9000, 12500, .view_image, "Read", "查看 报错截图.png")            // 查看截图
-        tool(14000, 18000, .read_web, "WebFetch", "浏览 developer.apple.com") // 阅读网页
+        tool(9000, 12500, .view_image, "Read", tr("Viewing error-screenshot.png", "查看 报错截图.png"))            // 查看截图
+        tool(14000, 18000, .read_web, "WebFetch", tr("Browsing developer.apple.com", "浏览 developer.apple.com")) // 阅读网页
         todo(18500, "1", status: .completed)
         todo(18500, "2", status: .inProgress)
-        tool(19500, 19800, .write_file, "Edit", "编辑 Validator.swift")       // 连续修改
-        tool(20100, 20500, .write_file, "Write", "写入 LoginRules.swift")
-        tool(20800, 21200, .write_file, "Edit", "编辑 LoginView.swift")
+        tool(19500, 19800, .write_file, "Edit", tr("Editing Validator.swift", "编辑 Validator.swift"))       // 连续修改
+        tool(20100, 20500, .write_file, "Write", tr("Writing LoginRules.swift", "写入 LoginRules.swift"))
+        tool(20800, 21200, .write_file, "Edit", tr("Editing LoginView.swift", "编辑 LoginView.swift"))
         tool(22800, 27500, .verify, "Bash", "$ swift test", fails: true)     // 运行测试，失败 → 沮丧
-        tool(30500, 30900, .write_file, "Edit", "编辑 Validator.swift")       // 修正
+        tool(30500, 30900, .write_file, "Edit", tr("Editing Validator.swift", "编辑 Validator.swift"))       // 修正
         todo(31500, "2", status: .completed)
         todo(31500, "3", status: .inProgress)
         tool(32000, 35500, .verify, "Bash", "$ swift test")                  // 再测一次，通过
-        tool(36600, 36700, .read_file, "Read", "阅读 Package.swift")          // 快速交替：不应逐个闪现
+        tool(36600, 36700, .read_file, "Read", tr("Reading Package.swift", "阅读 Package.swift"))          // 快速交替：不应逐个闪现
         tool(36750, 36850, .default_work, "Bash", "$ swift package resolve")
-        tool(36900, 37000, .read_file, "Read", "阅读 README.md")
+        tool(36900, 37000, .read_file, "Read", tr("Reading README.md", "阅读 README.md"))
         tool(39000, 43000, .default_work, "Bash", "$ swift build")           // 未识别工作 → 电脑桌
         todo(44000, "3", status: .completed)
         add(44500, .thinking)
-        tool(45500, 48500, .question_for_user, "AskUserQuestion", "等你回答")  // 立问号卡，指着它等你回答
+        tool(45500, 48500, .question_for_user, "AskUserQuestion", tr("Needs your answer", "等你回答"))  // 立问号卡，指着它等你回答
         add(49500, .finalAnswer)                                           // 先递交报告，再举勾选卡
         add(49500, .taskEnd)
         return out

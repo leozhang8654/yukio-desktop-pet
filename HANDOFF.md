@@ -165,3 +165,13 @@
 保留当前可用素材、修正源图、原生单宠物快照、可独立打开的预览和接续说明。未包含被撤回的七宠物安装包、错误的平板图、最初变形跳跃、旧聊天日志、账号资料或 Codex 应用程序。
 
 没有可用的桌面工程可以直接接着编译；下一阶段需要创建工程。既有本机脚本含硬编码路径，未作为 Cloud 构建依赖打包。最终透明素材已完整包含，源图也可继续提取或修整。
+
+- 2026-09-20：界面语言改成默认英文、菜单里可切中文。用户的话是「把所有语言改成英文，保留一个可切换的中文版方案；软件运行时默认英文，右键设置里切换中文版」。
+  两个播放器都加了 `tr(en, zh)`（macOS `Sources/YukioCore/L10n.swift`，Windows `yukio/l10n.py`）：菜单、头顶气泡、那摞卡、聊天列表、工具说明、演示脚本、托盘提示全部英文在前、中文在后。
+  语言存在设置里（macOS UserDefaults `language`，Windows settings.json `language`），默认英文，菜单「Language」里选「中文」就切；命令行渲染按环境变量 `YUKIO_LANG`。
+  启动时先定语言再回放会话记录，回放出来的说明文字才是对的语言；已经写进事件里的说明不回溯翻译，下一条事件起换。
+  英文比中文占地方：180 点宽的气泡放不下 "Done · click her to jump back"，改成 "Done · click to open"、问号卡 "Your turn · click to open"，AskUserQuestion 的说明是 "Needs your answer"（Deep Code 等批准是 "Needs your approval"）。
+  菜单第一行与托盘提示里的状态名不再取 activities.json 里的中文标签，改用 `L10n.stateName`／`state_name`（英文 Idle、Working…，中文 空闲、敲键盘…）。
+  测试仍按中文文案断言：Swift 各 @Suite 的 init 里、Python 各测试模块的 setUpModule 里把语言切成中文（Windows 的应用测试给临时设置写 `"language": "zh"`，因为 PetApp 启动会按设置重设语言），另加 L10nTests／test_l10n 验英文默认。macOS 101 个、Windows 141 个测试通过。
+  没动的：命令行诊断输出（--watch、--check、--hang 自检等）与代码注释仍是中文；Windows 版 `--bubble`／`--cards` 的样例文字也仍是中文。
+  文档：根 README、两个播放器的 README 都改成英文默认，中文版为同名 `README.zh-CN.md`，顶部互链；CI 工作流改名 "Build Windows Yukio"；README 配图由 `docs/readme/make_images.py` 生成，英文界面的渲染是默认图，中文界面的带 `-zh` 后缀。

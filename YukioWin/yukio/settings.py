@@ -13,6 +13,7 @@ DEFAULTS: Dict[str, Any] = {
     "showBubble": True,
     "scale": 1.0,
     "source": "auto",      # auto / deepcode / claude
+    "language": "en",      # en / zh：界面语言，默认英文
     "originX": None,
     "originY": None,
 }

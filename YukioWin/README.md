@@ -1,20 +1,22 @@
-# 雪绪 · 桌面宠物（DeepSeek / Windows 版）
+**English** · [简体中文](README.zh-CN.md)
 
-白发蓝眼的管家少女“雪绪”待在 Windows 桌面右下角，跟着 **DeepSeek 的 Deep Code CLI** 当前在做的事切换动作：思考、读文件、看图片、写文件、跑测试、查网页、递交回答；其余工作坐在电脑前敲键盘，出错时沮丧，要你拿主意时立起问号卡，答完举起勾选卡等你——举着牌子时点她一下就把牌子放下（跟的是桌面版 Claude 的聊天时还会跳回那条聊天），那条聊天要是已经开在你眼前就不举牌了，没有任务时空闲。同时开着好几个聊天时，谁答完、谁在等你拿主意就先显示谁，其余的挂成一叠小卡压着气泡往上叠、点一张就去那条聊天，也可以在菜单里挑定一条只跟它。每个动作都在小幅、连续地动（写字、敲键盘、转头、眨眼），头顶的小气泡显示当前任务和进度。
+# Yukio desktop pet (DeepSeek / Windows edition)
 
-素材、活动映射、防抖与保持时间、焦点规则、举牌与那摞卡、被拎起来时的晃动参数，都和 macOS 版（`../YukioPlayer`，Swift）一模一样，换掉的是两头：**读谁的会话记录**（Deep Code 而不是只有 Claude Code）和**用什么画窗口**（Windows 分层窗口而不是 AppKit）。两边仍有差别的只有大小控件（这边是档位、那边是滑条）与点击跳转的实测程度，都写在最后的「已知限制」里。
+Yukio (雪绪), a white-haired, blue-eyed girl in a butler's uniform, sits in the bottom-right corner of your Windows desktop and switches poses to match whatever **DeepSeek's Deep Code CLI** is doing right now: thinking, reading a file, viewing an image, writing a file, running tests, browsing the web, handing in the answer. For any other work she sits at the computer and types. She slumps when something goes wrong, puts up the ❓ question card when a decision is yours to make, and holds up the ✅ done card once the answer is in, waiting for you. While she is holding up the sign, click her and she lowers it (if the chat she is following belongs to the Claude desktop app, she also jumps back to that chat). If that chat is already open in front of you, she doesn't hold up the sign at all. With no task she idles. When several chats are open at once, whichever has just finished or is waiting for your decision is shown first; the rest hang as a stack of small cards piled upward from the bubble, and clicking one takes you to that chat. You can also pin one chat from the menu so she follows only that one. Every pose keeps moving in small, continuous ways (writing, typing, turning her head, blinking), and the small bubble over her head shows the current task and its progress.
 
-只依赖 Pillow 一个库。窗口、托盘、菜单都用 ctypes 直接调 Windows API，没有别的界面框架。
+The artwork, the activity mapping, the debounce and hold times, the focus rules, the sign and the card stack, and the swing parameters for when she is picked up are all identical to the macOS edition (`../YukioPlayer`, Swift). Only the two ends are swapped: **whose session logs she reads** (Deep Code, not just Claude Code) and **what draws the window** (a Windows layered window instead of AppKit). The only differences left are the size control (fixed steps here, a slider there) and how far click-to-jump has been tested on a real machine; both are listed under "Known limitations" at the end.
 
-## 下载（不用装 Python）
+The only dependency is Pillow. The window, the tray and the menus call the Windows API directly through ctypes; there is no other UI framework.
 
-到 [Releases](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest) 下载 `Yukio-0.1.0-Windows.exe`（约 21 MB），放哪儿都行，双击就开。Python、Pillow、素材都打包在里面了，需要 Windows 10 或更新的 64 位系统。
+## Download (no Python needed)
 
-第一次打开 Windows 可能弹蓝色的「Windows 已保护你的电脑」——这个程序没买代码签名证书，点「更多信息」→「仍要运行」，以后不再问。
+Grab `Yukio-0.1.0-Windows.exe` (about 21 MB) from [Releases](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest), put it anywhere, and double-click it. Python, Pillow and the artwork are all packed inside. It needs 64-bit Windows 10 or newer.
 
-## 从源码跑
+The first time you open it, Windows may show the blue "Windows protected your PC" screen. The app has no code-signing certificate; click "More info", then "Run anyway", and it won't ask again.
 
-需要 Windows 10 或更新、Python 3.9 或更新（安装时勾上「Add python.exe to PATH」）。
+## Run from source
+
+You need Windows 10 or newer and Python 3.9 or newer (tick "Add python.exe to PATH" during installation).
 
 ```bat
 git clone https://github.com/leozhang8654/yukio-desktop-pet
@@ -23,182 +25,183 @@ pip install pillow
 python run.py
 ```
 
-雪绪出现在屏幕右下角，任务栏托盘里多一个她的小头像。想要一个能直接双击、别人不用装 Python 的 `Yukio.exe`：
+Yukio appears in the bottom-right corner of the screen, and a small avatar of her appears in the taskbar tray. To get a `Yukio.exe` that anyone can double-click without installing Python:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1
 ```
 
-打出来的是 `dist\Yukio.exe`（约 25 MB，素材已经打包进去）。没有 Windows 开发环境时，也可以在 GitHub 的 Actions 里跑「打包 Windows 版雪绪」，下载它产出的 exe。
+The result is `dist\Yukio.exe` (about 25 MB, artwork included). Without a Windows dev environment, you can also run the "Build Windows Yukio" workflow under GitHub Actions and download the exe it produces.
 
-## 操作
+## How to use
 
-| 想干什么 | 怎么做 |
+| What you want to do | How |
 | --- | --- |
-| 挪位置 | 按住她拖。拖动时像被一只看不见的大手拎着后领，按单摆晃：往右拖脚落在左后方，停下荡过竖直线再收住，猛地往上提会先坠下去再弹回来。松手晃停后回到当前动作，位置会记住 |
-| 点她一下 | 举着勾选卡时：放下牌子（那一轮结束了）；立着问号卡时：卡不收，问题还等你答。跟的是桌面版 Claude 的聊天时，两种都会顺手跳回那条聊天（见下面「点一下跳回聊天」） |
-| 出菜单 | 在她身上右键（或双击），也可以左键点托盘里的小头像 |
-| 换大小 | 菜单 › 大小：50% / 75% / 100% / 125% / 150% / 175% / 200% 七个整档，再加「放大一点 / 缩小一点」各 ±5%，能停在 50%–200% 之间任何一个整 5%。高分屏会自动再乘一次屏幕缩放，不糊 |
-| 暂停跟随 | 菜单 › 跟随 AI 活动。关掉后她保持空闲，但事件照收，重新打开立刻跟上 |
-| 收起气泡 | 菜单 › 头顶显示任务 |
-| 收起别的聊天 | 菜单 › 头顶显示别的聊天。关掉后只剩气泡，不再叠小卡 |
-| 换跟随对象 | 菜单 › 跟随对象（自动 / 只跟 Deep Code / 只跟 Claude Code） |
-| 挑一条聊天跟 | 菜单 › 跟随的聊天。默认「自动（完成和提问优先）」：谁答完、谁在等你拿主意就先显示谁，都没有时跟最近在干活的那条；点一条聊天就挑定它，别的聊天再忙也抢不走，挑定只在这次运行内有效 |
-| 看看效果 | 菜单 › 播放模拟演示：60 秒走一遍所有状态，不是真实活动（第一次打开且两个工具都没装时会自动演一遍） |
-| 退出 | 菜单 › 退出雪绪 |
+| Move her | Press on her and drag. While dragged she looks picked up by an invisible hand by the back of her collar and swings like a pendulum: drag right and her feet trail behind to the left, stop and she swings past vertical before settling, yank her upward and she first drops, then bounces back. Once you let go and the swing dies down she returns to her current pose, and the position is remembered |
+| Click her | While she is holding up the ✅ done card: the sign goes down (that turn is over). While the ❓ question card is up: the card stays, the question is still waiting for you. If the chat she is following belongs to the Claude desktop app, either click also jumps back to that chat (see "Click to jump back to the chat" below) |
+| Open the menu | Right-click her (or double-click), or left-click her small avatar in the tray |
+| Change size | Menu › Size: seven fixed steps, 50% / 75% / 100% / 125% / 150% / 175% / 200%, plus "Bigger (+5%)" and "Smaller (−5%)", so she can stop at any multiple of 5% between 50% and 200%. On high-DPI screens the display scaling is applied on top automatically, so she stays sharp |
+| Change language | Menu › Language: English / 中文. English is the default; the choice is remembered in settings.json as "language". Descriptions already attached to earlier events keep their language until the next event |
+| Pause following | Menu › Follow AI activity. With it off she stays idle but still receives events, so she catches up the moment you turn it back on |
+| Hide the bubble | Menu › Show task bubble |
+| Hide other chats | Menu › Show other chats. With it off only the bubble remains and no cards are stacked |
+| Change the source | Menu › Source: Auto (whichever is active) / Deep Code only (DeepSeek) / Claude Code only |
+| Pick a chat to follow | Menu › Chat to follow. The default is "Auto (done and questions first)": whichever chat has just finished or is waiting for your decision is shown first, and when there is none she follows the one most recently at work. Click a chat to pin it; no other chat can take her away, however busy it gets. A pin lasts only for this run |
+| See it in action | Menu › Play demo: walks through every state in 60 seconds; it is not real activity (it plays once by itself the first time you open her if neither tool is installed) |
+| Quit | Menu › Quit Yukio |
 
-再次双击 `Yukio.exe` 不会开出第二只，而是让已经在跑的那只弹出菜单。
+Double-clicking `Yukio.exe` again doesn't open a second Yukio; it makes the one already running pop up her menu.
 
-设置存在 `%LOCALAPPDATA%\Yukio\settings.json`（位置、大小、跟随开关、显示气泡与小卡）。
+Settings live in `%LOCALAPPDATA%\Yukio\settings.json` (position, size, the follow toggle, whether the bubble and the cards are shown).
 
-> macOS 版那边「大小」是一条 50%–200% 的滑条，拖着走当场变大变小。Win32 的托盘菜单是系统原生弹出菜单，塞不进滑条，所以这边换成七个整档加 ±5% 的两条，范围和步进一样，只是要多点几下。
+> On the macOS edition, "Size" is a 50%–200% slider that resizes her live as you drag. The Win32 tray menu is a native system popup menu and a slider won't fit in it, so this edition uses seven fixed steps plus the two ±5% items instead. The range and the step are the same; it just takes a few more clicks.
 
-## 她从哪里知道 DeepSeek 在做什么
+## How she knows what DeepSeek is doing
 
-### 默认：Deep Code 的本地会话记录（只读，零配置）
+### Default: Deep Code's local session logs (read-only, zero config)
 
-[Deep Code](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/) 是 DeepSeek 文档里给出的终端版编码助手（`npm i -g @vegamo/deepcode-cli`，命令 `deepcode`）。它把每个项目的会话存在：
+[Deep Code](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/) is the terminal coding assistant listed in DeepSeek's docs (`npm i -g @vegamo/deepcode-cli`, command `deepcode`). It keeps each project's sessions in:
 
 ```
-%USERPROFILE%\.deepcode\projects\<项目码>\
-    sessions-index.json     会话列表：标题、状态（processing / ask_permission / failed …）
-    <会话 ID>.jsonl         消息记录，一行一条
+%USERPROFILE%\.deepcode\projects\<project code>\
+    sessions-index.json     session list: title and status (processing / ask_permission / failed …)
+    <session ID>.jsonl      message log, one entry per line
 ```
 
-雪绪只读这两样：从 `.jsonl` 里看角色、时间、工具名与参数、工具有没有报错、`UpdatePlan` 的任务清单；从 `sessions-index.json` 里看标题，以及“正在等你批准 / 已中断 / 本轮失败”这些只写在索引里的状态。**不写入、不修改 Deep Code 的任何文件，也不需要改它的设置。** 对话内容不会被保存或上传——气泡里只出现文件名、命令的前几个词和网址域名。
+Yukio reads only these two. From the `.jsonl` she takes the role, the time, the tool name and arguments, whether the tool reported an error, and the task list from `UpdatePlan`. From `sessions-index.json` she takes the title, plus the states that are only written to the index: "waiting for your approval / interrupted / this turn failed". **She never writes to or modifies any Deep Code file, and none of its settings need to change.** Conversation content is never saved or uploaded; the bubble only ever shows file names, the first few words of a command, and the domain of a URL.
 
-这是 Deep Code 在本地写的会话记录，不是公开 API，字段可能随版本变化；解析不动时只会少事件、不会崩，按失联规则回空闲。
+These are session logs Deep Code writes locally, not a public API, and the fields may change between versions. When something can't be parsed she just misses events rather than crashing, and drops back to idle under the gone-quiet rule.
 
-### 也认 Claude Code 的转录
+### Claude Code transcripts work too
 
-把 Claude Code 指到 DeepSeek 的 Anthropic 兼容端点时（`ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic`），跑的是 DeepSeek 模型，写出来的还是 Claude Code 格式的转录（`%USERPROFILE%\.claude\projects`）。这一路照样跟得上，菜单里可以指定只跟其中一个。
+Point Claude Code at DeepSeek's Anthropic-compatible endpoint (`ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic`) and it runs a DeepSeek model but still writes transcripts in Claude Code's format (`%USERPROFILE%\.claude\projects`). She follows that route just the same, and the menu lets you restrict her to either one.
 
-### 通用收件箱：别的工具也能驱动她
+### Generic inbox: other tools can drive her too
 
-往 `%LOCALAPPDATA%\Yukio\inbox.jsonl` 里追加 JSON（一行一个），雪绪就会照做：
+Append JSON to `%LOCALAPPDATA%\Yukio\inbox.jsonl` (one object per line) and Yukio acts on it:
 
 ```json
-{"kind": "task_start", "session": "build", "detail": "重构登录页"}
+{"kind": "task_start", "session": "build", "detail": "Refactor the login page"}
 {"kind": "activity_start", "id": "t1", "tool": "edit", "input": {"file_path": "a.py"}}
 {"kind": "activity_end", "id": "t1"}
 {"kind": "final_answer"}
 {"kind": "task_end"}
 ```
 
-字段说明见 `yukio/bridge.py` 开头。`scripts\yukio-notify.py` 是给 Deep Code 的 `notify` 用的现成脚本（在 `~/.deepcode/settings.json` 里写 `"notify": "C:\\Users\\你\\.deepcode\\yukio-notify.py"`）——平时用不上，它一轮只响一次，远不如直接读会话记录细；留着是为了万一 Deep Code 换了记录格式，至少“任务结束 / 出错”还在。
+The fields are documented at the top of `yukio/bridge.py`. `scripts\yukio-notify.py` is a ready-made script for Deep Code's `notify` hook (put `"notify": "C:\\Users\\you\\.deepcode\\yukio-notify.py"` in `~/.deepcode/settings.json`). You normally won't need it: it fires only once per turn, far less detail than reading the session log directly. It is kept so that if Deep Code ever changes its log format, at least "task finished / error" still get through.
 
-## 活动映射
+## Activity mapping
 
-| 状态 | 动作 | Deep Code 的来源 | Claude Code 的来源 |
+| State | Pose | Deep Code source | Claude Code source |
 | --- | --- | --- | --- |
-| `thinking` | A 托腮思考 | 任务进行中且没有工具在跑；`reasoning_content`；`UpdatePlan` | 同左；TodoWrite、Task*、计划模式 |
-| `read_file` | B 桌前读书 | `read`；只读 shell 命令（cat、rg、ls、git status…） | Read、Glob、Grep |
-| `view_image` | B 放大镜检查 | `ReadImage`、`UnderstandImage`；截图类 MCP | Read 图片文件 |
-| `write_file` | B 纸上书写 | `write`、`edit`；写入类命令（重定向、sed -i、cp、git commit…） | Write、Edit、MultiEdit |
-| `verify` | B 对照检查 | 测试／检查命令（pytest、npm test、cargo test…） | 同左 |
-| `read_web` | B 平板浏览 | `WebSearch`；curl／wget；浏览器类 MCP | WebFetch、WebSearch |
-| `respond` | B 递交报告 | 没有工具调用、只有正文的助手消息 | `end_turn` 文本 |
-| `task_complete` | C 展示勾选卡 | 接在递交报告后面 | 同左 |
-| `question_for_user` | C 立起问号卡 | `AskUserQuestion`；索引状态 `ask_permission`（等你批准）、`waiting_for_user` | AskUserQuestion |
-| `default_work` | 稳定电脑桌 | 其他一切工作（构建、装依赖、`skill`、未知 MCP…） | 同左 |
-| `failed` | 沮丧 | 工具结果 `"ok": false`；索引状态 `failed`。中断和拒绝授权不算失败 | 工具报错；API 报错 |
-| `idle` | 基础待机 | 没有进行中的任务；失联回退 | 同左 |
+| `thinking` | A: thinking, chin in hand | A task is in progress with no tool running; `reasoning_content`; `UpdatePlan` | Same as left; TodoWrite, Task*, plan mode |
+| `read_file` | B: reading a book at the desk | `read`; read-only shell commands (cat, rg, ls, git status…) | Read, Glob, Grep |
+| `view_image` | B: inspecting with the magnifier | `ReadImage`, `UnderstandImage`; screenshot-type MCP tools | Read on an image file |
+| `write_file` | B: writing on paper | `write`, `edit`; writing commands (redirects, sed -i, cp, git commit…) | Write, Edit, MultiEdit |
+| `verify` | B: checking two sheets against each other | test / check commands (pytest, npm test, cargo test…) | Same as left |
+| `read_web` | B: browsing on the tablet | `WebSearch`; curl / wget; browser-type MCP tools | WebFetch, WebSearch |
+| `respond` | B: handing in the report | An assistant message with body text and no tool calls | `end_turn` text |
+| `task_complete` | C: showing the ✅ done card | Follows handing in the report | Same as left |
+| `question_for_user` | C: putting up the ❓ question card | `AskUserQuestion`; index status `ask_permission` (waiting for your approval), `waiting_for_user` | AskUserQuestion |
+| `default_work` | The steady computer-desk pose | Everything else (builds, installing dependencies, `skill`, unknown MCP tools…) | Same as left |
+| `failed` | Dejected | Tool result `"ok": false`; index status `failed`. Interruptions and denied permissions don't count as failures | Tool errors; API errors |
+| `idle` | Base idle | No task in progress; gone-quiet fallback | Same as left |
 
-分类规则在 `yukio/classify.py`，逐条有测试；拿不准时回电脑桌，不会把任意命令当成测试。
+The classification rules are in `yukio/classify.py`, each with its own test. When unsure she falls back to the computer-desk pose instead of treating an arbitrary command as a test.
 
-## 多个聊天同时跑：跟哪一条
+## Several chats at once: which one she follows
 
-一只雪绪同一时刻只**显示**一条聊天（不然动作会互相串），其余有话要说的挂成小卡贴在气泡上面。
+One Yukio **shows** only one chat at a time (otherwise the poses would get tangled). The other chats with something to say hang as small cards above the bubble.
 
-默认**自动**，顺序按档位，越靠前越先显示（和 ChatGPT 桌面版那只宠物的排法一致）：
+The default is **Auto**. Chats are ranked in tiers, and the higher the tier the sooner a chat is shown (the same ordering the ChatGPT desktop app's pet uses):
 
-1. **等你回答**的（问号卡）
-2. **整轮出错停住**的
-3. **答完举着勾选卡**的
-4. 都没有时，跟**还在干活**的那条：它没停就不换，停了、被中断或失联，才换到最近有动静的另一条
+1. Chats **waiting for your answer** (the ❓ question card)
+2. Chats **stopped on an error** for the whole turn
+3. Chats that have **finished and are holding up the ✅ done card**
+4. When there is none of the above, the chat **still at work**: she doesn't switch while it keeps going; only once it stops, is interrupted or goes quiet does she move to the other chat with the most recent activity
 
-同一档里先给最近的那条；处理掉一条，下一条自己露出来。头顶气泡显示的是**那条聊天**的标题，一眼能看出是谁答完了。
+Within a tier the most recent chat comes first; deal with one and the next surfaces by itself. The head bubble shows **that chat's** title, so you can tell at a glance which one has finished.
 
-**答完了就一直举着牌子**：不再是停 8 秒自己放下，而是举到你点她一下为止（或者那条聊天开始新一轮、被中断、记录被删）。举着的牌子被晾满 15 分钟还没人点，就先让位给还在干活的聊天——牌子不放下，等那条也停下来时再举回来，列表里那条写「举着牌子等你（先让位了）」。答完的那一刻她哪怕正跟着别的聊天，这块牌子也会先举起来存着，不会丢掉那一轮的完成提示。
+**Once a chat finishes, the sign stays up**: instead of lowering itself after 8 seconds, it stays up until you click her (or that chat starts a new turn, is interrupted, or its log is deleted). If a raised sign goes unclicked for a full 15 minutes, she steps aside for a chat that is still at work. The sign is not lowered; it comes back up once that chat stops too, and the list shows that chat as "Holding the sign for you (stepped aside)". Even if she is following another chat at the moment one finishes, that sign is raised and kept, so the completion notice for that turn is never lost.
 
-**头顶那摞小卡**：她正显示的那条不出卡（气泡已经在讲它），其余的一条一张，压着气泡往上叠，最要紧的那张挨着气泡。卡上是聊天名 + 此刻在干什么 + 右边一个短标签（等你回答／出错／答完了／在跑），左边一条同色的竖条。最多叠 3 张，其余折进「还有 N 条」，点它展开。点卡正文＝去那条聊天并收起这张，点 ✕＝只收起（那条聊天下一轮有动静时会再来），在卡上右键＝这条聊天本次运行内不再出卡。菜单 › **头顶显示别的聊天** 可以整个关掉。
+**The card stack over her head**: the chat she is currently showing gets no card (the bubble already covers it); every other chat gets one, stacked upward from the bubble with the most urgent card right next to it. A card shows the chat name, what it is doing right now, a short label on the right (Waiting / Error / Ready / Running), and a bar on the left in the same color. At most 3 cards are stacked; the rest fold into "N more", which you click to expand. Clicking the card body = go to that chat and dismiss the card; clicking ✕ = just dismiss it (it comes back when that chat has activity in its next turn); right-clicking a card = no more cards for that chat during this run. Menu › **Show other chats** turns the whole thing off.
 
-菜单 › **跟随的聊天** 可以自己挑一条：第一条是「自动（完成和提问优先）」；下面列最近半小时内的聊天，最多 10 条，按同一套档位排（等你回答 → 出错 → 答完 → 在跑 → 按安静时间），每条显示聊天名（记录里的会话标题，没有就用请求第一行）和它此刻在干什么；标题里顺带报数（有几条等你／有几条在跑）。点一条就挑定它：立刻切过去，别的聊天再忙也抢不走；挑定的那条停下来时她就空闲等着。挑定只在这次运行里有效，重开回到自动。命令行 `--chats` 可以先看一眼这份列表。
+Menu › **Chat to follow** lets you pick one yourself. The first item is "Auto (done and questions first)"; below it are the chats from the last half hour, up to 10, ranked by the same tiers (waiting for your answer → error → done → running → by how long they have been quiet). Each shows the chat name (the session title from the log, or the first line of the request if there is none) and what it is doing right now; the submenu title also carries a count (how many are waiting for you / how many are running). Click a chat to pin it: she switches to it at once and no other chat can take her away, however busy it gets; when the pinned chat stops, she idles and waits. A pin lasts only for this run; restart and she is back to Auto. The `--chats` command-line flag shows this list ahead of time.
 
-## 点一下跳回聊天
+## Click to jump back to the chat
 
-举着勾选卡或立着问号卡时点她一下（或点头顶那摞里的一张卡），会用**桌面版 Claude 自己注册的深链**打开那条聊天：
+While she is holding up the ✅ done card or the ❓ question card, clicking her (or one of the cards in the stack over her head) opens that chat through **the deep link the Claude desktop app registers itself**:
 
 ```
 claude://code/continue?session=local_…
 ```
 
-转录里的会话 ID（`~/.claude/projects/*/<会话>.jsonl` 的文件名）和桌面版的会话 ID 不是一个，对应关系在桌面版自己的记录里，**只读、不写**：
+The session ID in the transcript (the file name of `~/.claude/projects/*/<session>.jsonl`) is not the same as the desktop app's session ID. The mapping lives in the desktop app's own records, which she **reads and never writes**:
 
 ```
-%APPDATA%\Claude\claude-code-sessions\<账号>\<组织>\local_<id>.json   里面的 cliSessionId
+%APPDATA%\Claude\claude-code-sessions\<account>\<org>\local_<id>.json   the cliSessionId inside
 ```
 
-`python run.py --chat-link <会话ID>` 可以先查一条对不对得上。这是桌面版的内部记录、不是公开接口，可能随版本变化；**对不上时就只把牌子放下，不乱跳到别的聊天**。
+`python run.py --chat-link <session ID>` checks ahead of time whether a session can be matched. These are the desktop app's internal records, not a public interface, and may change between versions; **when there is no match she only lowers the sign and never jumps to the wrong chat**.
 
-在终端里跑的 Claude Code、以及 **Deep Code（DeepSeek）的会话本来就没有这种链接**——那些聊天跑在终端里，点了只是把牌子放下。这套跳转在 macOS 版上实测过；Windows 上的路径与协议是照桌面版同一套写的，没有在 Windows 上实机验证过。
+Claude Code running in a terminal, and **Deep Code (DeepSeek) sessions, have no such link in the first place**: those chats live in a terminal, so a click just lowers the sign. The jump has been tested for real on the macOS edition; on Windows the paths and the protocol follow the desktop app's same scheme, but have not been verified on a real Windows machine.
 
-## 自查（在 Windows 之外也能跑）
+## Self-check (runs outside Windows too)
 
 ```sh
-python run.py --selftest                     # 129 个测试：路由、防抖、分类、解析、跟随、聊天选择、卡叠、摆动、播放器逻辑
-python run.py --check                        # 加载并裁切全部素材，确认帧不越界
-python run.py --snapshot out.png             # 把实际使用的动画画在棋盘格上
-python run.py --bubble out.png               # 画几种头顶气泡，检查排版、截断与位置
-python run.py --cards out.png                # 画“气泡 + 上面那摞别的聊天”，收起与展开各一格
-python run.py --hang out.png                 # 被拎着的五个倾角并排，并自查摆动方向（方向反了就非零退出）
+python run.py --selftest                     # 141 tests: routing, debounce, classification, parsing, following, chat selection, card stack, swing, player logic
+python run.py --check                        # load and crop all artwork, confirm no frame runs out of bounds
+python run.py --snapshot out.png             # draw the animations actually in use on a checkerboard
+python run.py --bubble out.png               # draw several head bubbles to check layout, truncation and position
+python run.py --cards out.png                # draw "bubble + the stack of other chats above it", one panel collapsed and one expanded
+python run.py --hang out.png                 # the five tilt angles while picked up, side by side, plus a self-check of the swing direction (non-zero exit if it is reversed)
 python run.py --replay samples/deepcode-session.jsonl --with-bubble
-python run.py --watch 60                     # 实时跟随，打印事件与状态切换（不打印对话内容）
-python run.py --chats 3                      # 列出最近的聊天，→ 标出此刻会跟哪条
-python run.py --chat-link <会话ID>           # 查这条聊天对应桌面版 Claude 的哪一条（点牌子跳哪去）
+python run.py --watch 60                     # follow live, printing events and state changes (never conversation content)
+python run.py --chats 3                      # list recent chats; → marks the one she would follow right now
+python run.py --chat-link <session ID>       # look up which Claude desktop app chat this session maps to (where a click on the sign would go)
 ```
 
-`--replay` 会自认会话记录是 Deep Code、Claude Code 还是收件箱格式。仓库里的 `samples/deepcode-session.jsonl` 是一份编出来的样例（不含任何真实对话），可以直接拿来看一轮完整的状态序列。
+`--replay` works out by itself whether a log is in Deep Code, Claude Code or inbox format. The `samples/deepcode-session.jsonl` in the repo is a made-up sample (it contains no real conversation) that you can use to watch one complete state sequence. The CLI's own diagnostic output is still in Chinese for now.
 
-## 结构
+## Structure
 
 ```
-yukio/events.py            事件协议（任务开始／结束／失败、活动开始／结束／失败、思考、回答、任务清单）
-yukio/router.py            会话隔离、焦点选择（等你回答／出错／答完举牌优先，可挑定一条）、举着的牌子、
-                           防抖、最短保持、合并窗口、失联回退、气泡内容、聊天列表与那摞卡
-yukio/cards.py             一张通知卡的内容与档位（等你回答 → 出错 → 答完 → 在跑）
-yukio/cardstack.py         那摞卡的排版与绘制（Pillow，和气泡共用一套外观）
-yukio/hang.py              被大手拎着时的单摆晃动与那张图的窗口几何（纯逻辑，可用虚拟时钟测）
-yukio/chatlinks.py         转录会话 → 桌面版 Claude 的那条聊天（只读它的记录，给出 claude:// 深链）
-yukio/classify.py          工具 → 活动与简短说明（Deep Code 与 Claude Code 两套工具名 + shell 分词）
-yukio/parsers_deepcode.py  Deep Code 消息与会话索引 → 事件
-yukio/parsers_claude.py    Claude Code 转录 → 事件
-yukio/bridge.py            通用收件箱的事件格式
-yukio/sources.py           只读跟随会话目录、收件箱
-yukio/tailer.py            按字节跟文件、切出完整 JSON（半行会等下一次读）
-yukio/catalog.py           动画索引与帧时间线（读 macOS 版同一份 activities.json / motion.json）
-yukio/sprites.py           图条 → 逐帧位图，用到才解码，最近 4 段留在内存
-yukio/bubble.py            头顶气泡的排版与绘制（Pillow）
-yukio/win32.py             分层窗口、托盘、菜单、消息循环（ctypes）
-yukio/app.py               主循环、拖动、菜单动作、设置
-tests/                     129 个测试；tests/fake_win32.py 把窗口层换成替身，逻辑在任何平台都能测
-scripts/                   打包（PyInstaller）、Deep Code 的 notify 脚本
-Resources/Yukio.ico        exe 的图标（从 macOS 版的封面图裁的）
+yukio/events.py            event protocol (task start / end / failure, activity start / end / failure, thinking, answer, task list)
+yukio/router.py            session isolation, focus selection (waiting for your answer / error / done and holding the sign first; one chat can be pinned), raised signs,
+                           debounce, minimum hold, merge window, gone-quiet fallback, bubble content, chat list and the card stack
+yukio/cards.py             one notification card's content and tier (waiting for your answer → error → done → running)
+yukio/cardstack.py         layout and drawing of the card stack (Pillow, shares its look with the bubble)
+yukio/hang.py              the pendulum swing while picked up by the invisible hand, and that image's window geometry (pure logic, testable with a fake clock)
+yukio/chatlinks.py         transcript session → the matching chat in the Claude desktop app (reads its records only, produces the claude:// deep link)
+yukio/classify.py          tool → activity and short description (both the Deep Code and the Claude Code tool names + shell tokenizing)
+yukio/parsers_deepcode.py  Deep Code messages and session index → events
+yukio/parsers_claude.py    Claude Code transcripts → events
+yukio/bridge.py            event format of the generic inbox
+yukio/sources.py           read-only following of the session directories and the inbox
+yukio/tailer.py            tails files by byte offset and cuts out complete JSON (a half line waits for the next read)
+yukio/catalog.py           animation index and frame timeline (reads the macOS edition's own activities.json / motion.json)
+yukio/sprites.py           sprite strip → per-frame bitmaps, decoded only when used, the 4 most recent strips kept in memory
+yukio/bubble.py            layout and drawing of the head bubble (Pillow)
+yukio/win32.py             layered window, tray, menus, message loop (ctypes)
+yukio/app.py               main loop, dragging, menu actions, settings
+tests/                     141 tests; tests/fake_win32.py swaps the window layer for a stand-in so the logic can be tested on any platform
+scripts/                   packaging (PyInstaller), the notify script for Deep Code
+Resources/Yukio.ico        the exe's icon (cropped from the macOS edition's cover image)
 ```
 
-素材不另存一份：默认用仓库里 `../YukioPlayer/Resources/Assets`（七套活动图条、电脑桌、基础动作、生成的小幅动作）。打包时会被复制进 exe。想换别处的素材可以设环境变量 `YUKIO_ASSETS`。
+The artwork is not stored twice: by default she uses `../YukioPlayer/Resources/Assets` from the repo (seven activity sprite strips, the computer desk, the base motion, the generated small motions). Packaging copies it into the exe. To use artwork from somewhere else, set the `YUKIO_ASSETS` environment variable.
 
-## 已知限制
+## Known limitations
 
-- **和真的 Deep Code 对过一次**：2026-09-17 在本机装上 `@vegamo/deepcode-cli` 0.4.0，用一个本地假模型（说 OpenAI 流式协议，不连 DeepSeek 的服务器、不需要密钥）驱动它真跑了一轮「读文件 → 回答」，然后拿雪绪去跟它写下的会话记录：`--replay` 解析无误，`--watch` 实时跟随依次走出 思考 → 阅读 hello.txt → 递交报告 → 勾选卡 → 空闲，事件写入延迟 30–80 ms。字段与这里写的完全一致（`messageParams.tool_calls`／`reasoning_content`、`tool_call_id`、结果 JSON 里的 `ok`）。它发给模型的工具名实测是 bash、read、write、edit、WebSearch、UpdatePlan、skill、UnderstandImage／ReadImage，分类规则都认。
-- **"聊天已开在眼前就不举牌"这条在 Windows 上没实测过**：判断分两半——读桌面版的会话记录找出此刻选中哪条聊天（这半边在 macOS 上实测过，`--open-chat` 能当场查，两边用的是同一份记录、同一个 `lastFocusedAt` 字段），以及判断桌面版 Claude 是不是真在最前面（`win32.foreground_process_name()`，只有 Windows 上才跑得到，按 `Claude.exe` 比对）。后半边和 `chat_url` 的深链一样，是照桌面版的同一套写的，没在 Windows 上验过。任何一步取不到都退回**照常举牌**，不会因此少提醒。
-- **实机验到哪一步**：每次构建都会在 GitHub 的 Windows 机器（Windows Server 2025）上把打好的 exe 真跑一遍——枚举出雪绪、气泡、那摞卡、宿主四个窗口，核对尺寸与 `WS_EX_LAYERED`（只有一条聊天时那摞卡是隐藏的 1×1 窗口），确认她按造出来的 Deep Code 会话显示「纸上书写 · 编辑 login.py」，再截屏、拿屏幕上的像素和图条逐点比（100% 与 150% 两种缩放，最近一次是 98.6% 与 99.9%，门槛 90%）。没覆盖到的是人手才能试的部分：托盘菜单点开长什么样、拖动手感、多显示器、资源管理器重启、非整百的系统缩放。这些出问题时，先从源码跑 `python run.py`，终端里有完整报错（双击 exe 时报错写在 `%LOCALAPPDATA%\Yukio\error.log`）。
-- 窗口类名是进程内注册的，所以 `FindWindow("YukioPet")` 在别的进程里找不到她（要用 `EnumWindows` + `GetClassName`，`scripts/smoke-test.ps1` 就是这么做的）。
-- Deep Code 把一批工具调用的结果攒到全跑完才写进会话记录，所以同一批里几个很短的调用可能只看到最后一个的结束时间；单个工具的开始是实时的。
-- 会话记录不是公开 API，Deep Code 升级后字段可能变。变了的话 `--replay` 一份新记录就能看出来解析还准不准。
-- 素材是 192×208 的 1 倍图（被拎起来那张是 192×240），放大到 150%／200% 时是插值放大，会略软。
-- **被拎起来时只有一帧、不眨眼**：`held.png` 是单帧图，晃动是绕抓手点的实时旋转，但人物本身不动。
-- **点一下跳回聊天只在 macOS 上实测过**：Windows 上桌面版 Claude 的记录位置与 `claude://` 协议注册是照同一套写的，没有在 Windows 上实机验过；对不上时只放下牌子，不乱跳。
-- **大小是七个整档 + ±5%，不是滑条**：macOS 版菜单里能塞一条 50%–200% 的滑条，Win32 的原生弹出菜单塞不进去，要完全一致得另开一个设置窗口。范围与 5% 的步进两边一样。
-- 应用没有数字签名，Windows SmartScreen 第一次可能拦一下（「更多信息」→「仍要运行」）。
-- macOS 版在 `../YukioPlayer`（Swift，跟随 Claude Code），两边互不影响。
+- **Checked against the real Deep Code once**: on 2026-09-17, `@vegamo/deepcode-cli` 0.4.0 was installed on this machine and driven through one real "read a file → answer" turn by a local fake model (speaking the OpenAI streaming protocol, never contacting DeepSeek's servers, no key needed). Yukio was then pointed at the session log it wrote: `--replay` parsed it without errors, and `--watch` followed it live through Thinking → Reading hello.txt → handing in the report → the ✅ done card → idle, with 30–80 ms between an event being written and being picked up. The fields matched what is written here exactly (`messageParams.tool_calls` / `reasoning_content`, `tool_call_id`, `ok` in the result JSON). The tool names it actually sends the model are bash, read, write, edit, WebSearch, UpdatePlan, skill, UnderstandImage / ReadImage, and the classification rules recognize all of them.
+- **"No sign when the chat is already open in front of you" has not been tested on Windows**: the check has two halves. One reads the desktop app's session records to find which chat is selected right now (this half has been tested on macOS, `--open-chat` checks it on the spot, and both platforms use the same records and the same `lastFocusedAt` field). The other decides whether the Claude desktop app is really in the foreground (`win32.foreground_process_name()`, which only runs on Windows, compared against `Claude.exe`). That second half, like the `chat_url` deep link, follows the desktop app's same scheme and has not been verified on Windows. If any step comes up empty she falls back to **holding up the sign as usual**, so no reminder is lost.
+- **How far it has been verified on a real machine**: every build actually runs the packaged exe on a GitHub Windows runner (Windows Server 2025). It enumerates the four windows (Yukio, the bubble, the card stack, the host), checks their sizes and `WS_EX_LAYERED` (with only one chat the card stack is a hidden 1×1 window), confirms that she shows "Writing · Editing login.py" for a staged Deep Code session, then takes a screenshot and compares the on-screen pixels against the sprite strip point by point (at 100% and 150% scaling; the last run scored 98.6% and 99.9%, threshold 90%). What it doesn't cover is the part only a human can try: what the tray menu looks like when opened, how dragging feels, multiple monitors, an Explorer restart, system scaling that isn't a multiple of 100%. If any of that goes wrong, run `python run.py` from source first; the full error shows in the terminal (when the exe is double-clicked, errors go to `%LOCALAPPDATA%\Yukio\error.log`).
+- The window class is registered per process, so `FindWindow("YukioPet")` can't find her from another process (use `EnumWindows` + `GetClassName` instead, which is what `scripts/smoke-test.ps1` does).
+- Deep Code holds the results of a batch of tool calls until the whole batch has finished before writing them to the session log, so for several very short calls in one batch you may only see the last one's end time. The start of each individual tool is real-time.
+- The session log is not a public API, and its fields may change after a Deep Code upgrade. If they do, `--replay` on a fresh log shows whether parsing is still accurate.
+- The artwork is 192×208 at 1x (the picked-up image is 192×240); at 150% / 200% it is upscaled by interpolation and looks slightly soft.
+- **While picked up she is a single frame and doesn't blink**: `held.png` is a one-frame image. The swing is a live rotation around the grip point, but the character herself doesn't move.
+- **Click to jump back to the chat has only been tested for real on macOS**: on Windows, the location of the Claude desktop app's records and the `claude://` protocol registration follow the same scheme, but have not been verified on a real Windows machine. When there is no match she only lowers the sign and never jumps to the wrong chat.
+- **Size is seven fixed steps + ±5%, not a slider**: the macOS edition fits a 50%–200% slider in its menu; a native Win32 popup menu can't hold one, and matching it exactly would take a separate settings window. The range and the 5% step are the same on both.
+- The app is not digitally signed, so Windows SmartScreen may block it the first time ("More info" → "Run anyway").
+- The macOS edition lives in `../YukioPlayer` (Swift, follows Claude Code); the two don't affect each other.

@@ -1,336 +1,336 @@
-# 雪绪桌面播放器（Claude 兼容版）
+**English** · [简体中文](README.zh-CN.md)
 
-一只雪绪，根据 **Claude Code** 当前在做的事自动切换动作：七类活动各有动作，其余工作显示电脑桌，出错时沮丧，要你拿主意时立起问号卡，答完举起勾选卡——牌子会一直举着等你，点她一下就跳回那条聊天；那条聊天要是已经开在你眼前，就不举牌了；没有任务时空闲。
-同时开着好几个聊天时，谁答完、谁在等你拿主意，就先显示谁；其余有话要说的，按同一张卡的样子叠在气泡上面，点一张就去那条聊天。也可以在菜单里挑定一条，让她只跟那条。每个动作都在小幅、连续地动（写字、敲键盘、转头、眨眼），头顶的小气泡显示大任务、当前任务和进度。
-原生 Swift / AppKit，只需 Xcode Command Line Tools，无第三方依赖。
+# Yukio desktop player (macOS, follows Claude Code)
 
-## 构建与运行
+One Yukio (雪绪) who changes what she is doing based on what **Claude Code** is doing right now: seven kinds of activity each get their own motion, all other work shows the computer-desk pose, an error makes her sad, she stands up the ❓ question card when she needs your decision, and she holds up the ✅ done card when the answer is in. The sign stays up waiting for you; click her and she jumps back to that chat. If that chat is already open in front of you, she skips the sign. With no task running, she idles.
+With several chats open at once, whichever one has just finished or is waiting for your decision is shown first; the other chats that have something to say stack above the bubble as cards of the same design, and clicking one takes you to that chat. You can also pin one chat in the menu so she follows only that one. Every motion moves gently and continuously (writing, typing, turning her head, blinking), and the small bubble over her head shows the big task, the current task, and progress.
+Native Swift / AppKit. It needs only the Xcode Command Line Tools and has no third-party dependencies.
+
+## Build and run
 
 ```sh
 cd YukioPlayer
-swift test                     # 92 个核心测试（路由、防抖、分类、解析、文件跟随、资源、气泡文字、动作时间线、聊天对应与选择）
-./scripts/build-app.sh         # 生成 build/Yukio.app（资源与图标已打包进应用）
+swift test                     # 101 core tests (routing, debounce, classification, parsing, file following, assets, bubble text, motion timeline, chat matching and selection)
+./scripts/build-app.sh         # produces build/Yukio.app (assets and icon are bundled into the app)
 open build/Yukio.app
 ```
 
-运行后：屏幕右下角出现雪绪；菜单栏出现她的小头像。菜单里有当前状态、正在跟的聊天、模拟演示、暂停跟随、跟随的聊天（挑一条）、头顶显示任务、头顶显示别的聊天、大小、回到右下角、退出；举着勾选卡时最上面多两条“打开这条聊天并放下牌子”“先放下牌子，不打开聊天”，立着问号卡时多一条“打开这条聊天去回答”。大小是一条滑条（50%–200%，每 5% 一档）：拖着走，雪绪当场跟着变大变小，脚下位置不动。
+Once running: Yukio appears in the bottom-right corner of the screen, and her small avatar appears in the menu bar. The menu has the state line ("Yukio · \<state\>"), the chat she is following, "Play demo", "Follow Claude activity" (untick it to pause following), "Chat to follow" (pick one), "Show task bubble", "Show other chats", "Language" (English / 中文; English is the default and the choice is remembered), "Size", "Back to the bottom-right corner", and "Quit Yukio". While she is holding the ✅ done card, two extra items appear at the top, "Open this chat and lower the sign" and "Lower the sign, don't open the chat"; while the ❓ question card is up there is one extra, "Open this chat to answer". Descriptions already attached to earlier events keep their language until the next event arrives. "Size" is a slider (50% to 200% in 5% steps): drag it and Yukio grows or shrinks on the spot, with her feet staying where they are.
 
-菜单的三个入口（任一可用即可）：
+Three ways to open the menu (any one will do):
 
-1. 菜单栏小头像。首次运行默认放在靠右处（距右边缘约 260 点）；按住 ⌘ 拖动可换位置，系统会记住。
-2. 在雪绪身上右键（或 control-点击）。
-3. 再次打开 Yukio.app（Finder、Spotlight 或 `open build/Yukio.app`）：菜单在雪绪身旁弹出。
+1. The menu bar avatar. On first run it sits toward the right (about 260 points from the right edge); hold ⌘ and drag to move it, and the system remembers the spot.
+2. Right-click (or control-click) Yukio herself.
+3. Open Yukio.app again (from Finder, Spotlight, or `open build/Yukio.app`): the menu pops up next to Yukio.
 
-刘海屏菜单栏装满时，macOS 会把放不下的图标挤到刘海下或屏幕外（本机实测：只写文字“雪绪”时被挤到 x=0，完全不可见）。改为头像并靠右放置后可见，但会把最左边的另一个图标挤进刘海。可在“系统设置 › 菜单栏”里关掉不需要的图标腾出位置。
+When the menu bar on a notch display is full, macOS pushes the icons that don't fit under the notch or off the screen (measured on this machine: with a plain text title, which read "雪绪" at the time, it was pushed to x=0 and completely invisible). After switching to the avatar and placing it toward the right it is visible, but it pushes the leftmost of the other icons into the notch. You can turn off icons you don't need in "System Settings › Menu Bar" to free up room.
 
-无窗口的检查模式（开发时可用 `swift run YukioPlayer <参数>`）：
+Window-less check modes (during development, run `swift run YukioPlayer <flag>`). The CLI's own diagnostic output is still in Chinese for now.
 
-| 参数 | 作用 |
+| Flag | What it does |
 | --- | --- |
-| `--check` | 加载并裁切全部资源，确认帧不越界 |
-| `--snapshot out.png` | 把实际使用的动画画在棋盘格上（帧多的均匀抽 10 帧），检查裁切与透明边缘 |
-| `--bubble out.png` | 按 2 倍分辨率画几种头顶气泡样例，检查排版、截断与位置 |
-| `--cards out.png` | 按 2 倍分辨率画头顶那摞卡（气泡 + 别的聊天，收起与展开各一格），检查排版、截断与状态颜色 |
-| `--replay 会话.jsonl` | 用虚拟时钟回放一份 Claude 转录，打印雪绪会显示的状态序列；加 `--with-bubble` 同时打印气泡文字（含标题与文件名） |
-| `--watch 秒数` | 实时跟随 Claude 转录，打印事件、写入延迟和状态切换（不打印对话内容） |
-| `--chat-link 会话ID` | 只查不开：打印这个转录会话对应的聊天和点击时会打开的链接 |
-| `--chats 秒数` | 列出最近的聊天（菜单“跟随的聊天”里的那一份），`→` 标出此刻会跟哪条；默认看 3 秒 |
-| `--demo` | 启动后立即播放模拟演示 |
+| `--check` | Loads and crops every asset and confirms no frame goes out of bounds |
+| `--snapshot out.png` | Draws the animations actually in use on a checkerboard (strips with many frames are sampled evenly down to 10) to check cropping and transparent edges |
+| `--bubble out.png` | Draws a few sample head bubbles at 2x resolution to check layout, truncation, and position |
+| `--cards out.png` | Draws the card stack over her head at 2x resolution (bubble plus other chats, one panel collapsed and one expanded) to check layout, truncation, and state colors |
+| `--replay session.jsonl` | Replays a Claude transcript on a virtual clock and prints the sequence of states Yukio would show; add `--with-bubble` to also print the bubble text (title and file names included) |
+| `--watch seconds` | Follows Claude transcripts live and prints events, write latency, and state switches (never the conversation content) |
+| `--chat-link session-id` | Looks up without opening: prints the chat this transcript session maps to and the link a click would open |
+| `--chats seconds` | Lists recent chats (the same list as the "Chat to follow" menu), with `→` marking the one she would follow right now; watches for 3 seconds by default |
+| `--demo` | Plays the demo right after launch |
 
-## 活动映射
+## Activity mapping
 
-| 状态 | 动作 | Claude Code 来源 |
+| State | Motion | Claude Code source |
 | --- | --- | --- |
-| `thinking` | A 托腮思考 | 任务进行中且没有工具在执行（模型在生成）；TodoWrite、Task*、计划模式、ToolSearch |
-| `read_file` | B 桌前读书 | Read（非图片）、Glob、Grep；只读 shell 命令（cat、sed -n、rg、ls、git status/diff…） |
-| `view_image` | B 放大镜检查 | Read 图片文件；MCP 截图类工具 |
-| `write_file` | B 纸上书写 | Write、Edit、MultiEdit、NotebookEdit；写入类命令（重定向到文件、sed -i、cp、mv、mkdir、git commit…） |
-| `verify` | B 对照检查 | 测试／检查命令（swift test、pytest、npm test、cargo test、`*verify*`/`*test*` 脚本…） |
-| `read_web` | B 平板浏览 | WebFetch、WebSearch；浏览器类 MCP；curl/wget |
-| `respond` | B 递交报告 | 最终回答（`end_turn` 文本）；递出一次后停住，3 秒后换成勾选卡 |
-| `task_complete` | C 展示勾选卡 | 接在递交报告后面，**一直举着**：点她一下跳回那条聊天并放下牌子；不点的话，等你在那条聊天里发下一条时自动让位 |
-| `question_for_user` | C 立起问号卡 | `AskUserQuestion`：任务仍在进行，但在等你拿主意；点她一下跳回那条聊天去回答，卡片留着 |
-| `default_work` | 稳定电脑桌 | 其他一切工作（构建、安装依赖、Agent、Skill、未知 MCP…） |
-| `failed` | 沮丧（基础图条 `failed`，垂眼一次后停住） | 工具报错（非零退出、编辑找不到原文、文件不存在…）：下一个工具开始就接替，最多 4 秒后回思考；API 报错导致本轮中止：停留 8 秒再回空闲。拒绝授权、中断不算失败 |
-| `idle` | 基础待机 | 没有进行中的任务；失联回退 |
+| `thinking` | A: thinking, chin on hand | A task is running and no tool is executing (the model is generating); TodoWrite, Task*, plan mode, ToolSearch |
+| `read_file` | B: reading a book at the desk | Read (non-image), Glob, Grep; read-only shell commands (cat, sed -n, rg, ls, git status/diff, ...) |
+| `view_image` | B: inspecting with a magnifying glass | Read on an image file; MCP screenshot-type tools |
+| `write_file` | B: writing on paper | Write, Edit, MultiEdit, NotebookEdit; writing commands (redirecting to a file, sed -i, cp, mv, mkdir, git commit, ...) |
+| `verify` | B: checking two documents against each other | Test / check commands (swift test, pytest, npm test, cargo test, `*verify*`/`*test*` scripts, ...) |
+| `read_web` | B: browsing on a tablet | WebFetch, WebSearch; browser-type MCP tools; curl/wget |
+| `respond` | B: handing over the report | The final answer (`end_turn` text); hands it over once and holds still, then switches to the ✅ done card after 3 seconds |
+| `task_complete` | C: showing the ✅ done card | Follows the report hand-over and **stays up**: click her to jump back to that chat and lower the sign; if you don't, it steps aside on its own when you send the next message in that chat |
+| `question_for_user` | C: standing up the ❓ question card | `AskUserQuestion`: the task is still running but waiting for your decision; click her to jump back to that chat and answer, and the card stays |
+| `default_work` | Steady computer desk | Everything else (builds, installing dependencies, Agent, Skill, unknown MCP tools, ...) |
+| `failed` | Sad (base sprite strip `failed`; lowers her eyes once and holds) | A tool error (non-zero exit, edit text not found, missing file, ...): the next tool to start takes over, otherwise back to thinking after at most 4 seconds; an API error that aborts the turn: stays 8 seconds, then back to idle. Denied permissions and interruptions don't count as failures |
+| `idle` | Base idle | No task in progress; the fallback after she loses contact |
 
-拖动时不显示活动，改成「被一只看不见的大手拎着」（见下一节），松手停稳后回到当前活动。分类规则见 `Sources/YukioCore/ClaudeToolClassifier.swift`，有限且逐条有测试；无法确定时回电脑桌，不会把任意命令当成测试。
+While being dragged she shows no activity; instead she is "picked up by an invisible hand" (see the next section), and once released and settled she returns to the current activity. The classification rules are in `Sources/YukioCore/ClaudeToolClassifier.swift`; they are finite and each one has a test. When a call can't be classified she falls back to the computer desk, and arbitrary commands are never treated as tests.
 
-## 拖动：被一只看不见的大手拎着
+## Dragging: picked up by an invisible hand
 
-按住她拖，雪绪不再跑，而是像小猫一样被人拎起来：肩膀耸到耳朵边，手和腿松松垂着，脚离地。
-拎住她的那只手是看不见的，抓手点就是她头顶上方一小段的一个空点；整张图绕那一点摆动，
-角度与下坠由 `Sources/YukioCore/HangSwing.swift` 算：
+Press and drag her and Yukio no longer runs; she gets picked up like a kitten: shoulders hunched up to her ears, arms and legs dangling loosely, feet off the ground.
+The hand holding her is invisible; the grip point is an empty spot a short way above the top of her head. The whole image swings around that point, and the angle and sag are computed by `Sources/YukioCore/HangSwing.swift`:
 
-- 手往右一甩，她因为惯性落在后面（脚偏向左）；手停住，她越过竖直方向荡到另一边，来回几次收住。
-- 匀速拖着走时只剩空气阻力，身体稳定地略微后仰；一停就回正。
-- 竖直方向另有一根「会伸缩的布」：手猛地往上一提，她先坠在下面（最多摆长的 16%，约 15 点）再弹回来。
-  纯左右拖不会坠。**沉甸甸的感觉主要来自这一下**，配合 0.9 秒的慢摆。
-- 松手后阻尼加大，自己晃停（约 1 秒）再换回当前活动；还在晃的时候又抓住，接着当前角度继续，不归零。
-- 雪绪放大时重心离抓手更远，同样的甩动摆幅更小（2 倍大小约为一半）。
+- Flick the hand to the right and she lags behind from inertia (feet drifting left); when the hand stops she swings past vertical to the other side and settles after a few swings.
+- When dragged at a steady speed only air drag is left, and her body leans back slightly and steadily; as soon as you stop she straightens up.
+- Vertically there is a separate "stretchy cloth": yank the hand upward and she first sags below (by at most 16% of the pendulum length, about 15 points) and then springs back.
+  Pure sideways dragging never sags. **Most of the sense of weight comes from this sag**, together with the slow 0.9-second swing.
+- After release the damping increases, she swings to a stop on her own (about 1 second) and then switches back to the current activity; grab her again while she is still swinging and she carries on from the current angle instead of resetting to zero.
+- When Yukio is scaled up her center of mass is farther from the grip point, so the same flick swings her less (about half at 2x size).
 
-| 参数（`HangSwing.Tuning`） | 默认 | 说明 |
+| Parameter (`HangSwing.Tuning`) | Default | Notes |
 | --- | --- | --- |
-| `periodSec` | 0.9 | 小幅摆动一个来回的秒数。沉的东西摆得慢，这一项最影响分量感 |
-| `damping` / `releaseDamping` | 0.13 / 0.4 | 拎着时和松手后的阻尼比 |
-| `airDrag` | 0.43 | 匀速移动时后仰多少（600 点/秒约 3°） |
-| `handCoupling` | 0.11 | 手的加速度有多少真的甩到她身上。严格按「一点当一毫米」算，随手一拖就甩到顶格，所以打了折：轻轻挪 3°、正常拖 10°、用力甩才碰上限 |
-| `maxAngleDeg` | 20 | 最大倾角，碰到就像撞上挡块 |
-| `velocitySmoothingSec` | 0.07 | 手速先低通再求加速度（鼠标事件一跳一跳地来）；也让她起步慢半拍 |
-| `sagPeriodSec` / `sagDamping` | 0.42 / 0.32 | 上下那根布伸缩一个来回的秒数与阻尼 |
-| `verticalCoupling` | 0.25 | 手上下动的速度有多少变成「坠」：轻轻提 4–6 点，猛地提 11 点 |
-| `maxSagRatio` | 0.16 | 最多坠摆长的百分之多少（约 15 点，放大时跟着放大） |
+| `periodSec` | 0.9 | Seconds for one back-and-forth of a small swing. Heavy things swing slowly; this setting affects the sense of weight the most |
+| `damping` / `releaseDamping` | 0.13 / 0.4 | Damping ratio while held and after release |
+| `airDrag` | 0.43 | How far she leans back when moving at a steady speed (about 3° at 600 points/second) |
+| `handCoupling` | 0.11 | How much of the hand's acceleration is really thrown into her. Taken literally as "one point equals one millimeter", a casual drag would already hit the limit, so it is discounted: a gentle nudge gives 3°, a normal drag 10°, and only a hard flick reaches the cap |
+| `maxAngleDeg` | 20 | Maximum tilt angle; hitting it feels like hitting a stop |
+| `velocitySmoothingSec` | 0.07 | Hand speed is low-pass filtered before acceleration is derived (mouse events arrive in jumps); it also makes her start half a beat late |
+| `sagPeriodSec` / `sagDamping` | 0.42 / 0.32 | Period and damping of one stretch-and-return of the vertical cloth |
+| `verticalCoupling` | 0.25 | How much of the hand's vertical speed becomes sag: a gentle lift gives 4 to 6 points, a hard yank 11 |
+| `maxSagRatio` | 0.16 | Maximum sag as a fraction of the pendulum length (about 15 points, scaling up with her) |
 
-素材是 `Resources/Assets/base/held.png`（192×240，比常规帧高：两条腿垂到下面）。
-由 `tools/hang/make_held.py` 从 `sources/held-source.png`（GPT 生成的透明立绘）裁出：
+The asset is `Resources/Assets/base/held.png` (192×240, taller than a regular frame because both legs hang down below).
+`tools/hang/make_held.py` crops it out of `sources/held-source.png` (a transparent full-body illustration generated by GPT):
 
-- GPT 把「被捏起的领口」画成头顶一个尖锐的深蓝三角，用户不要，脚本按深蓝色从尖内部漫延选出整块抠掉，
-  连抗锯齿的边缘一起清干净（只清头发轮廓以上的部分，头发描边和呆毛不动）；
-- 按**头宽**而不是整体高度缩放，头一样大，换图时不会觉得人物忽大忽小；
-- 人物重心对到帧的中线（吊起来才是正的），头发顶端对到与站立图相同的行（y=16），所以抓起来的一瞬间头不动。
+- GPT drew the "pinched collar" as a sharp dark-blue triangle above her head, which the user didn't want; the script flood-selects the whole patch by its dark blue, starting from inside the tip, and removes it, cleaning up the anti-aliased edge along with it (only the part above the hair outline is cleared; the hair outline and the little tuft on top are left alone);
+- scaling is by **head width** rather than overall height, so the head stays the same size and she doesn't seem to jump in size when the image switches;
+- her center of mass is aligned to the frame's center line (so she hangs straight), and the top of her hair is aligned to the same row as the standing image (y=16), so her head doesn't move at the instant she is picked up.
 
-抓手点（头顶上方 6 点的空处）与头顶线写在 `base-animations.json` 的 `grip` 里；
-摆长（抓手点到重心）由播放器读图时自己量，改图不用改数字。
+The grip point (the empty spot 6 points above the top of her head) and the head-top line are written in the `grip` entry of `base-animations.json`;
+the pendulum length (grip point to center of mass) is measured by the player itself when it loads the image, so changing the image needs no number changes.
 
-拎起来的一瞬间窗口会临时放大到 340×309（1 倍时，底下那 15 点是留给下坠的），好让她晃到两边也不被窗口切掉；多出来的部分是透明的。
-放下时窗口还原，贴边、记住位置、头顶气泡都按平时那块 192×208 算。命中测试会先把点转回竖直状态，歪着也点得准。
+The instant she is picked up the window temporarily grows to 340×309 (at 1x; the bottom 15 points are reserved for the sag) so she isn't clipped by the window when she swings to either side; the extra area is transparent.
+When she is put down the window returns to normal, and edge snapping, position memory, and the head bubble are all computed from the usual 192×208 block. Hit testing first rotates the point back to the upright frame, so clicks land correctly even while she is tilted.
 
-摆动的**方向**曾经画反过（旋转写成了 `-angle`，屏幕上成了「脚朝着移动方向甩出去」，与真实的钟摆相反）。
-约定是：角度为正＝脚偏向右边；图层坐标 y 向上，所以脚往右要用**正角**转
-（钟面上指向 6 点的指针顺时针是往 7、8、9 走，也就是往左；往右是逆时针）。
-`--hang` 每次都会自检这件事：把图按 ±20° 画出来量脚的横向位置，再单独算一次 `PetView` 用的那个矩阵，
-两边都必须是「正角＝脚偏右」，否则打印「反了」并以非零码退出。
+The swing **direction** was once drawn backwards (the rotation was written as `-angle`, so on screen her feet flew out toward the direction of movement, the opposite of a real pendulum).
+The convention is: a positive angle means feet to the right; layer coordinates have y pointing up, so moving the feet to the right takes a **positive** rotation
+(on a clock face, a hand pointing at 6 moves toward 7, 8, 9 when turned clockwise, which is to the left; going right is counterclockwise).
+`--hang` self-checks this every time: it draws the image at ±20° and measures the horizontal position of the feet, then separately computes the matrix `PetView` uses;
+both must satisfy "positive angle equals feet to the right", otherwise it prints "反了" ("reversed") and exits with a non-zero code.
 
-本机没有录屏权限，所以两个命令行检查代替目测：
+This machine has no screen-recording permission, so two command-line checks stand in for eyeballing it:
 
 ```
-swift run YukioPlayer --hang out.png       # 五个倾角并排，画出窗口框、平时那块的框和抓手点，并自检摆动方向
-swift run YukioPlayer --hang-gif out.gif   # 用真实摆动逻辑演一遍「拖一段、松手、提起来、往回甩」，30 fps
+swift run YukioPlayer --hang out.png       # five tilt angles side by side, with the window frame, the usual block's frame, and the grip point drawn in; also self-checks the swing direction
+swift run YukioPlayer --hang-gif out.gif   # plays "drag a bit, release, lift, flick back" with the real swing logic, at 30 fps
 ```
 
-## 动作
+## Motions
 
-原来每套动作的 4 帧是分别生成的画，整幅线条（连桌腿、椅子）都有 1 像素级漂移，轮播就会“呼吸抽搐”，所以只能长时间停在一帧上。现在每个状态只用其中一张已确认的底图，由 `tools/motion/make_motion.py` 生成连续动作，桌椅逐像素不动（生成时自动检查桌腿一带零变化）：
+Originally the 4 frames of each motion set were separately generated drawings, and every line in the whole picture (desk legs and chair included) drifted at the 1-pixel level, so cycling them produced a "breathing twitch" and the player had to sit on one frame for long stretches. Now each state uses just one approved base image, and `tools/motion/make_motion.py` generates continuous motion from it, with the desk and chair pixel-for-pixel still (the generator automatically checks for zero change around the desk legs):
 
-- 手、笔、放大镜、纸这类要明显移动的东西，从部件内部的点往外选到描边为止，抠成一层单独平移、旋转（2–5 像素），原位置用四周像素补齐；
-- 头、眼这类只动 1–2 像素的，用局部平滑变形；
-- 每帧 33–67 ms（写字 30 帧/秒，敲键盘、平板、读书 20 帧/秒）。
+- Things that need to move visibly (hands, pen, magnifying glass, paper) are selected outward from a point inside the part until the outline, cut out as their own layer, and translated or rotated on their own (2 to 5 pixels); the spot they leave is filled in from the surrounding pixels;
+- Things that move only 1 to 2 pixels (head, eyes) use a local smooth warp;
+- Each frame lasts 33 to 67 ms (writing at 30 fps; typing, tablet, and reading at 20 fps).
 
-| 状态 | 动作 |
+| State | Motion |
 | --- | --- |
-| `thinking` | 托腮，头绕着托下巴的手慢慢歪一点又回来，偶尔往上看，慢眨眼（幅度最小） |
-| `read_file` | 指着书的手沿一行从左划到右，读完回到行首，视线和头跟着 |
-| `view_image` | 拿放大镜的手带着镜片在照片上方来回扫，微微走弧线，手腕跟着转 |
-| `write_file` | 握笔的手一边写笔画、笔杆跟着摆，一边往右移，写完一行回到左边 |
-| `verify` | 在两份文件之间左右转头，正在看的那份手指顺着往下点着核对 |
-| `read_web` | 手指在平板上往上划两下（翻页），停一会儿，眼睛跟着往下扫 |
-| `default_work` | 两只手轮流抬起、敲下，在键位间左右挪，节奏不齐，敲一阵停一下 |
-| `respond` | 先整理文件：后面两张没对齐的纸伸在外面，拿着整叠在桌上磕两下、慢慢对齐；然后停住只眨眼，不来回递纸 |
-| `question_for_user` | 指着问号卡的手点两下，然后抬眼看你、停住 |
-| `task_complete` | 双手托着勾选卡轻轻抬起来给你看一眼再放回，头跟着一点点 |
-| `idle` | 偶尔向左、向右看一看，头跟着歪，眨眼 |
-| `failed` | 垂眼一次后停住，慢慢叹气、慢眨眼 |
+| `thinking` | Chin on hand; her head slowly tilts a little around the hand under her chin and comes back, she occasionally glances up, and she blinks slowly (the smallest amplitude) |
+| `read_file` | The hand pointing at the book sweeps along a line from left to right and returns to the start of the line once it's read; her gaze and head follow |
+| `view_image` | The hand with the magnifying glass sweeps the lens back and forth above the photo in a slight arc, with the wrist turning along |
+| `write_file` | The hand holding the pen writes strokes while the pen shaft sways with them and the hand moves right, returning to the left after finishing a line |
+| `verify` | She turns her head left and right between two documents, and on the one she is reading her finger taps its way down, checking |
+| `read_web` | Her finger swipes up twice on the tablet (turning the page), pauses, and her eyes scan downward |
+| `default_work` | Her two hands take turns lifting and striking, shifting left and right across the keys, in an uneven rhythm with pauses between bursts |
+| `respond` | First she tidies the papers: the two sheets behind stick out unaligned, she taps the stack on the desk twice and slowly squares it up; then she holds still and only blinks, without passing the papers back and forth |
+| `question_for_user` | The hand pointing at the ❓ question card taps twice, then she looks up at you and holds |
+| `task_complete` | Both hands lift the ✅ done card gently to show it to you and set it back, her head nodding along a little |
+| `idle` | She occasionally looks to the left and right, head tilting along, and blinks |
+| `failed` | She lowers her eyes once and holds, sighing slowly with slow blinks |
 
-所有状态都会眨眼：眼皮用各自姿势脸颊的肤色，闭眼线用各自睫毛的颜色。要改动作或幅度，编辑 `tools/motion/make_motion.py` 里对应的函数后重新运行（需要 numpy、opencv-python、Pillow），图条写到 `Resources/Assets/motion/`；`--parts`、`--eyes`、`--sheet`、`--html` 分别画部件蒙版与补齐背景的检查图、眨眼检查图、局部变形对照图和新旧动作并排的预览页。删掉 `Resources/Assets/motion/motion.json` 就回到原来的图条。
+Every state blinks: the eyelids use that pose's cheek skin tone, and the closed-eye line uses that pose's eyelash color. To change a motion or its amplitude, edit the matching function in `tools/motion/make_motion.py` and run it again (needs numpy, opencv-python, and Pillow); the sprite strips are written to `Resources/Assets/motion/`. `--parts`, `--eyes`, `--sheet`, and `--html` respectively draw a check image of the part masks and the filled-in background, a blink check image, a local-warp comparison, and a preview page with old and new motions side by side. Delete `Resources/Assets/motion/motion.json` to go back to the original strips.
 
-### 站姿的腿长（2026-09-18）
+### Leg length of the standing pose (2026-09-18)
 
-原生那套站姿（待机、沮丧）是更 Q 的比例：同样大的头配很短的腿，裙摆到鞋底只有 50 px。被大手拎起来时用的 `base/held.png` 是另一套：头一样大，身子和腿都更长。两下一换，腿长差一截，很明显。
+The original standing poses (idle, sad) have chibi proportions: the same size head on very short legs, only 50 px from hem to sole. `base/held.png`, used when the big hand picks her up, is a different set: the same head, but a longer body and legs. Switching between the two, the difference in leg length is obvious.
 
-`tools/proportion/restretch_idle.py` 把站姿改到跟拎起来那张一个比例，**不重画**：只把裙摆下、靴口上那截白袜纵向拉长（20 → 34 px），头、上身、裙、吊带、袜口和靴子逐像素不动，整体上移到画面顶（头顶从 y16 到 y2）。**鞋底仍落在原来那一行（y195）**，所以她站的位置没变。待机和沮丧两套（`base/` 与 `motion/` 下同名的都算）一起改，原图备份在 `sources/pre-restretch/`。
+`tools/proportion/restretch_idle.py` brings the standing pose to the same proportions as the held image, **without redrawing**: it only stretches the strip of white sock between the hem and the boot tops vertically (20 → 34 px); head, torso, skirt, straps, sock tops, and boots stay pixel-for-pixel the same, and the whole figure moves up to the top of the frame (top of head from y16 to y2). **The soles still land on the original row (y195)**, so where she stands doesn't change. The idle and sad sets are both changed (the same-named files under `base/` and `motion/` alike), and the originals are backed up in `sources/pre-restretch/`.
 
 ```sh
-python3 tools/proportion/restretch_idle.py --preview out.png     # 只看效果
-python3 tools/proportion/restretch_idle.py --apply               # 写回素材
+python3 tools/proportion/restretch_idle.py --preview out.png     # preview only
+python3 tools/proportion/restretch_idle.py --apply               # write back to the assets
 python3 tools/proportion/restretch_idle.py --apply --targets idle,failed
 ```
 
-站姿比拎起来那张还是矮一点（画面只有 208 高，拎起来那张是 240），差在上身长度和靴子大小；腿相对身体的比例从 22% 提到 33%（拎起来是 38%）。要做到分毫不差得让站姿也用 240 的画面，那就得改窗口高度和地面线，是另一件事。
+The standing pose is still a little shorter than the held image (the frame is only 208 tall; the held one is 240); the difference is in torso length and boot size. The leg-to-body ratio went from 22% to 33% (the held image is 38%). Matching it exactly would mean giving the standing pose a 240-tall frame too, which means changing the window height and the ground line, and that is a separate job.
 
-因为站姿的头顶线（y2）和坐姿（y22）差一截，头顶气泡和身侧卡叠改成贴**各自那一段**的头顶线（`SpriteLibrary.headTopInset(for:)`），换动作时重新贴一次。
+Because the head-top line of the standing pose (y2) and the seated pose (y22) differ by a stretch, the head bubble and the card stack beside her now attach to **each segment's own** head-top line (`SpriteLibrary.headTopInset(for:)`) and re-attach whenever the motion changes.
 
-## 头顶气泡
+## The head bubble
 
-雪绪头顶的小气泡最宽 180 点、两行字，有任务时淡入，没有任务时淡出；菜单“头顶显示任务”可以关掉。
+The small bubble over Yukio's head is at most 180 points wide and two lines tall; it fades in when there is a task and fades out when there isn't. "Show task bubble" in the menu turns it off.
 
-| 位置 | 内容 | 来源 |
+| Position | Content | Source |
 | --- | --- | --- |
-| 上行（标题） | 大任务 | Claude 的会话标题（桌面版的会话名或 CLI 自动标题）；没有标题时用这一轮请求的第一行 |
-| 下行 | 当前任务 | Claude 任务清单（TaskCreate／TaskUpdate 或 TodoWrite）里“进行中”的一项 |
-| 下行（没有清单时） | 当前活动 | 正在进行的工具调用：`编辑 main.swift`、`$ swift test`、`浏览 developer.apple.com`、`等你回答 · 点她跳过去`… |
-| 右侧数字与底部细条 | 任务进度 | 清单中已完成／总数；一批全部完成后又新建任务时从头算 |
+| Top line (title) | The big task | Claude's session title (the session name in the desktop app, or the CLI's automatic title); with no title, the first line of this turn's request |
+| Bottom line | The current task | The "in progress" item in Claude's task list (TaskCreate / TaskUpdate or TodoWrite) |
+| Bottom line (no task list) | The current activity | The tool call in progress: `Editing main.swift`, `$ swift test`, `Browsing developer.apple.com`, `Your turn · click to open`, ... |
+| Number on the right and thin bar at the bottom | Task progress | Done / total in the task list; when a whole batch is done and new tasks are created, the count starts over |
 
-文字跟着雪绪正在显示的动作变（已防抖），不会抢在动作前面；同一动作里细节变得太快时（连续读几个文件），每段文字至少停留 1.2 秒。出错时显示“出错：那次调用”，回答后显示“已回答”。气泡只显示文件名、命令前几个词和网址域名，不显示文件内容。没有别的聊天要挑时，点击照旧穿透到后面的窗口；有别的聊天时点它会摊开那一摞（见下一节）。
+The text follows the motion Yukio is currently showing (debounced) and never runs ahead of it; when details change too fast within one motion (reading several files in a row), each piece of text stays for at least 1.2 seconds. On an error it shows "Error: \<that call\>", and after an answer it shows "Answered". The bubble shows only file names, the first few words of a command, and the domain of a URL, never file contents. When there is no other chat to pick from, clicks pass through to the window behind as before; when there are other chats, clicking it fans out the stack (see the next section).
 
-## 点击举牌：跳回那条聊天
+## Clicking the sign: jump back to that chat
 
-轮到你的时候她会举牌：一轮任务答完举勾选卡，`AskUserQuestion` 等你拿主意时立问号卡。两块牌子都能点，点了就跳到那块牌子对应的聊天。
+When it's your turn she holds up a sign: the ✅ done card when a turn's answer is in, and the ❓ question card when `AskUserQuestion` is waiting for your decision. Both signs are clickable, and clicking jumps to the chat that sign belongs to.
 
-一轮任务答完后，雪绪递交报告，3 秒后举起勾选卡，然后**一直举着**——不会自己放下，你离开电脑多久回来都还举着。
+When a turn's answer is in, Yukio hands over the report, raises the ✅ done card 3 seconds later, and then **keeps holding it**. It never comes down on its own; however long you are away from the computer, it's still up when you get back.
 
-只有一种情况不举：**那条聊天已经开在你眼前**——桌面版 Claude 就在最前面，而且它选中的正是这条。
-答完的结果你本来就看着，再举一块牌只是挡路。已经举着的牌子也一样：你自己切过去看那条聊天，
-牌子当场放下，不用再点她一下（这一轮就算看过了，切走也不会再举回来）。
+There is only one case where she doesn't hold it up: **that chat is already open in front of you**, meaning the Claude desktop app is frontmost and the chat it has selected is this very one.
+You're already looking at the finished answer, and a sign would just be in the way. The same goes for a sign already up: switch over to that chat yourself and
+the sign comes down on the spot, no click needed (that turn counts as seen, and switching away won't bring it back up).
 
-怎么知道开着哪条：桌面版把每条会话记在 `~/Library/Application Support/Claude/claude-code-sessions/…/local_*.json`，
-里面的 `lastFocusedAt` 在切到某条聊天时更新，取最大的那条就是当前选中的。
-`./.build/release/YukioPlayer --open-chat` 可以当场查。这是桌面版的内部记录、不是公开接口，
-读不到时**退回照常举牌**——宁可多举一块，也别把该提醒的吞掉。
+How she knows which chat is open: the desktop app records each session in `~/Library/Application Support/Claude/claude-code-sessions/…/local_*.json`,
+where `lastFocusedAt` is updated when you switch to a chat, so the one with the largest value is the currently selected chat.
+`./.build/release/YukioPlayer --open-chat` checks this on the spot. This is the desktop app's internal record, not a public interface;
+when it can't be read she **falls back to holding up the sign as usual**. Better one sign too many than a reminder swallowed.
 
-- **在她身上点一下**（左键单击，不用按住）：打开那一轮任务所在的 Claude 聊天，牌子放下，回到空闲。菜单里的“打开这条聊天并放下牌子”是同一件事，鼠标不好对准时用它。
-- **不点也行**：你直接在那条聊天里发下一条请求，牌子自动让位给新动作。被中断、或那个会话的记录被删掉时同样放下。
-- **晾着也不碍事**：举满 15 分钟还没点，她会先去跟还在干活的聊天，牌子仍举着；那条聊天停下来时牌子自己举回来。
-- **立着问号卡时点她**：打开那条聊天去回答。和勾选卡不同，卡片不收——问题还等着你答，等你在聊天里答完它自己收。菜单里对应“打开这条聊天去回答”。
-- 其余状态点她不做事；拖动、右键菜单、点击穿透都和原来一样（挪动超过 3 点算拖动，不算点击）。
-- 重启播放器会丢掉举着的牌子：举牌只在任务刚结束（`completeArmMs` 之内）时发生，免得启动时把几小时前的旧记录又举起来。
+- **Click her** (a single left click, no holding): opens the Claude chat that turn belongs to, lowers the sign, and returns to idle. "Open this chat and lower the sign" in the menu does the same thing; use it when the mouse is hard to aim.
+- **Not clicking is fine too**: send the next request in that chat and the sign steps aside for the new motion on its own. It also comes down when the turn is interrupted or that session's record is deleted.
+- **Leaving it up doesn't get in the way**: if 15 minutes pass without a click, she goes to follow the chats still working, sign still in hand; when that chat stops, the sign comes back up on its own.
+- **Click her while the ❓ question card is up**: opens that chat so you can answer. Unlike the done card, this card doesn't go away; the question is still waiting for you, and the card clears itself once you answer in the chat. The matching menu item is "Open this chat to answer".
+- In any other state clicking her does nothing; dragging, the right-click menu, and click-through all work as before (moving more than 3 points counts as a drag, not a click).
+- Restarting the player drops any sign she is holding: a sign is raised only when a task has just finished (within `completeArmMs`), so startup doesn't hold up a stale record from hours ago.
 
-跳转靠桌面版 Claude 自己注册的深链 `claude://code/continue?session=local_…`。转录里的会话 ID 和桌面版的会话 ID 不是一个，对应关系读自
-`~/Library/Application Support/Claude/claude-code-sessions/<账号>/<组织>/local_<id>.json` 里的 `cliSessionId`（只读，不写入）。
-这是桌面版的内部记录，不是公开接口，可能随版本变化；对不上时（例如在终端里跑的 Claude Code）只把 Claude 带到前面，不会乱跳到别人的聊天。
-`--chat-link <会话ID>` 可以先查一下认到了哪条。
+The jump uses the deep link the Claude desktop app registers itself, `claude://code/continue?session=local_…`. The session ID in the transcript and the desktop app's session ID are not the same; the mapping is read from `cliSessionId` in
+`~/Library/Application Support/Claude/claude-code-sessions/<account>/<organization>/local_<id>.json` (read only, never written).
+This is the desktop app's internal record, not a public interface, and may change between versions; when nothing matches (for example Claude Code running in a terminal) she only brings Claude to the front and never jumps into someone else's chat.
+`--chat-link <session ID>` lets you check beforehand which chat was recognized.
 
-## 多个聊天同时跑：跟哪一条
+## Several chats running at once: which one to follow
 
-一只雪绪同一时刻只跟一条聊天（不然动作会互相串）。默认**自动**，顺序是：
+One Yukio follows only one chat at a time (otherwise the motions would get mixed up). The default is **Auto**, in this order:
 
-1. **等你处理的优先**：别的聊天正干得热火朝天也一样。多条都在等时按档排——**等你拿主意（问号卡）→ 整轮出错停住 → 答完举着勾选卡**，同一档里给最近的那条；处理掉一条，下一条自己露出来。（这个档位顺序照搬 ChatGPT 桌面版那只宠物：`waiting → failed → review → running`。）
-   答完的牌子一定会举起来存着——哪怕那会儿她正跟着别的聊天，也不会因为没轮到就把那一轮的完成提示丢掉。
-2. 都不等你时，跟**还在干活**的那条：它没停就不换，停了、被中断或失联，才换到最近有动静的另一条。
-3. **牌子举了 15 分钟没人点就先让位**（`signYieldMs`）：牌子不放下，只是不再占着她——她转去显示还在干活的那条聊天；等那条也停下来，牌子自己举回来，点它照样跳回原来那条。你离开电脑半小时回来，看到的是“还在干活的那条在干什么”，而不是一块举了半小时的牌子；聊天列表里那条会写“举着牌子等你（先让位了）”。问号卡没有这个 15 分钟：它是整条聊天卡在那儿等你，超过 `staleOpenToolMs`（30 分钟）算失联后自然让位。
+1. **Whatever is waiting on you comes first**, even if other chats are busy at full tilt. When several are waiting they are ranked by tier: **waiting for your decision (❓ question card) → the whole turn stopped on an error → answered and holding the ✅ done card**; within a tier the most recent one is shown. Deal with one and the next surfaces on its own. (This tier order is copied from the ChatGPT desktop app's pet: `waiting → failed → review → running`.)
+   A finished turn's sign is always raised and kept, even if she happened to be following another chat at that moment; a completion reminder is never dropped just because its chat wasn't up.
+2. When nothing is waiting on you, she follows the chat that is **still working**: she doesn't switch while it keeps going; only when it stops, is interrupted, or goes quiet does she switch to the other chat with the most recent activity.
+3. **A sign held for 15 minutes without a click steps aside** (`signYieldMs`): the sign doesn't come down, it just stops occupying her, and she goes to show the chat that is still working; once that one stops too, the sign comes back up on its own, and clicking it still jumps back to the original chat. Come back after half an hour away and you see "what the working chat is doing" rather than a sign that has been up for half an hour; in the chat list that entry reads "Holding the sign for you (stepped aside)". The ❓ question card has no such 15 minutes: the whole chat is stuck there waiting for you, and it steps aside naturally once it counts as gone quiet after `staleOpenToolMs` (30 minutes).
 
-头顶气泡这时很有用：它显示的是**那条聊天**的标题，一眼能看出是谁答完了。举着的牌子点一下就跳回那条聊天；不想现在过去，菜单里有“先放下牌子，不打开聊天”，放下后她立刻回到还在干活的那条。
+The head bubble is handy here: it shows **that chat's** title, so you can tell at a glance which one finished. Click the raised sign and you jump back to that chat; if you'd rather not go now, the menu has "Lower the sign, don't open the chat", and once it's down she goes straight back to the chat that is still working.
 
-想让她盯住某一条，菜单里的 **跟随的聊天** 子菜单可以挑定：
+To keep her on one particular chat, pin it in the **Chat to follow** submenu:
 
-- 第一条是“自动（完成和提问优先）”，也就是上面的默认；打勾表示当前用的是它。子菜单标题顺带报数：有几条在等你（没人等你时报有几条在跑）。
-- 下面列出最近半小时内的聊天，最多 10 条，按上面那套档位排——等你处理的在最前，然后是在跑的，再按安静时间；每条显示聊天名（Claude 的会话标题，没有就用请求第一行）和它此刻在干什么（“修改文件”“举着牌子等你点”“出错停住了”“12 分钟前”）。
-- 点一条就挑定它：立刻切过去，不等防抖；**别的聊天再忙、再怎么答完也抢不走**。挑定的那条停下来时她就空闲等着，不会自己跑去跟别的聊天。
-- 挑定只在这次运行里有效，退出再开回到自动——和举着的牌子一样，是“此刻的选择”。想回自动就再点一次“自动”。
-- 挑定期间别的聊天照样会把牌子举起来存着，只是她不显示；回到自动时按档排队露出来。
+- The first item is "Auto (done and questions first)", the default described above; a checkmark means it's the one in use. The submenu title also reports a count: how many chats are waiting for you (or, when none are, how many are running), as in "Chat to follow (2 waiting for you)" or "(3 running)".
+- Below it are the chats from the last half hour, at most 10, ranked by the tiers above: the ones waiting for you first, then the running ones, then by how long they have been quiet. Each shows the chat name (Claude's session title, or the first line of the request if there is none) and what it is doing right now ("Editing a file", "Holding the sign, click her", "Stopped on an error", "12 min ago").
+- Click one to pin it: she switches immediately without waiting for the debounce, and **no other chat can take her away, however busy it gets or however often it finishes**. When the pinned chat stops she idles and waits, and doesn't wander off to follow another chat.
+- A pin lasts only for this run; quit and relaunch and she is back on Auto. Like a raised sign, it's a "choice for right now". To go back to Auto, click "Auto" again.
+- While a chat is pinned, other chats still raise and keep their signs; she just doesn't show them. Back on Auto they surface in tier order.
 
-### 头顶那摞卡：别的聊天
+### The card stack over her head: other chats
 
-她一次只能演一条聊天，但别的聊天有话要说时不该没人知道。**头顶那张气泡就是最下面一张卡**（她正在跟的那条），其余每条聊天各一张，用同一套圆角、描边、字号和两行排版（`CardLook`）往上叠，最要紧的那张挨着气泡：
+She can only act out one chat at a time, but when other chats have something to say nobody should be left in the dark. **The bubble over her head is the bottom card** (the chat she is following); every other chat gets a card of its own, stacked upward with the same corner radius, outline, font size, and two-line layout (`CardLook`), the most urgent one right next to the bubble:
 
-| 卡上 | 内容 |
+| On the card | Content |
 | --- | --- |
-| 左边一条色带 | 状态：等你回答（橙）、出错（红）、答完了（绿）、在跑（蓝） |
-| 上行（同气泡上行） | 聊天名 |
-| 下行（同气泡下行） | 正在做什么、在等什么，或出错的那一下 |
-| 右下角 | 状态短标签 |
-| 右上角 ✕ | 只收起这张，不打开聊天 |
+| Color band on the left | State: Waiting (orange), Error (red), Ready (green), Running (blue) |
+| Top line (same as the bubble's top line) | Chat name |
+| Bottom line (same as the bubble's bottom line) | What it is doing, what it is waiting for, or the error that stopped it |
+| Bottom right | Short state label |
+| ✕ at top right | Collapses just this card without opening the chat |
 
-**平时只有一张**（就是头顶那张气泡，讲她正在跟的那条聊天）。别的聊天有话要说时，气泡上面多一条细细的“还有 N 条”。
+**Normally there is only one** (the bubble over her head, about the chat she is following). When other chats have something to say, a thin "N more" pill appears above the bubble.
 
-- **点头顶那张卡（或那条提示）**：摊开，别的聊天一条一张列出来，最要紧的挨着气泡。
-- **点摊开后的某一张**：**把她换到那条聊天上**（顶掉原来那条，等于菜单里“跟随的聊天”挑定了它），然后自动收起。
-- **点 ✕**：只收起这一张提醒，不换聊天。收起按“这一轮”记：那条聊天下一轮有动静时会重新出现。
-- **右键一张卡**：打开这条聊天／不再提醒这条聊天（这次运行内）。
-- 挑定之后，摊开时最上面多一条“自动”，点它回到自动（谁要紧跟谁）。
-- 摊开后 12 秒没人点会自己收起；再点一下气泡也收起。最多摊 8 张，上面放不下时少摊几张，绝不压到气泡上。
-- **和点她本人不冲突**：点**她**＝跳到那条聊天并放下举着的牌子；点**头顶的卡**＝摊开挑聊天。两处各管各的。
-- 菜单里的“头顶显示别的聊天”可以整摞关掉；暂停跟随、播放模拟演示时也不显示。气泡关掉时这摞卡从头顶线开始叠。
-- 卡片之间的缝隙照样点得穿透过去，只有卡片本身收点击。
+- **Click the card over her head (or that pill)**: the stack fans out, one card per other chat, the most urgent one next to the bubble.
+- **Click one of the fanned-out cards**: **switches her to that chat** (replacing the previous one, the same as pinning it under "Chat to follow" in the menu), then the stack collapses on its own.
+- **Click ✕**: collapses just that one reminder without switching chats. The dismissal is remembered per turn: the card reappears when that chat has activity in its next turn.
+- **Right-click a card**: "Open this chat" / "Stop reminding about this chat" (for this run).
+- Once a chat is pinned, an extra "Auto" appears at the top of the fanned-out stack; click it to go back to Auto (follow whoever is most urgent).
+- A fanned-out stack collapses by itself after 12 seconds without a click; clicking the bubble again also collapses it. At most 8 cards are fanned out; when there isn't room above, fewer are shown, and they never cover the bubble.
+- **This doesn't conflict with clicking her**: clicking **her** = jump to that chat and lower the raised sign; clicking **the card over her head** = fan out and pick a chat. The two are independent.
+- "Show other chats" in the menu turns the whole stack off; it is also hidden while following is paused or the demo is playing. When the bubble is turned off, the stack starts from the head-top line.
+- Clicks in the gaps between cards still pass through; only the cards themselves take clicks.
 
-排序和她自己跟谁用的是同一套档位，所以**紧挨着气泡那张就是“她下一个会去显示的”**。
+The ordering uses the same tiers as her own choice of whom to follow, so **the card right next to the bubble is "the one she will show next"**.
 
-这套做法照着 ChatGPT 桌面版那只宠物的通知盘：它也是**平时只露最上面那一张**（宠物的动作就取这张的状态，代码里是 `Fo(y[0]).mascotState`），其余收在后面、身上带个数字，点一下才展开（`isNotificationStackCollapsed` / `canExpandActivityStack`，无障碍文案 `Expand activity stack, {count} items`）；排序也是同一套档位（`ld()`：waiting 0 → failed 1 → review 2 → running 3）。不同的是**点开之后选的是“换成主题聊天”**，而不是打开聊天窗口——打开窗口留给右键菜单和点她本人。
+This design follows the notification tray of the ChatGPT desktop app's pet: it too **normally shows only the top card** (the pet's motion takes its state from that card, `Fo(y[0]).mascotState` in the code), keeps the rest tucked behind with a count badge, and expands only on click (`isNotificationStackCollapsed` / `canExpandActivityStack`, accessibility label `Expand activity stack, {count} items`); the ordering is the same set of tiers too (`ld()`: waiting 0 → failed 1 → review 2 → running 3). The difference is that **picking a card after expanding means "make this the chat she follows"** rather than opening the chat window; opening the window is left to the right-click menu and to clicking her herself.
 
-命令行里用 `--chats` 可以先看一眼这份列表（不开窗口）：
-
-```
-→ 924655c8-…  多个聊天同时运行时的选择功能 · 处理中
-  fd060c60-…  问题牌子点击跳转聊天 · 思考中
-  8fcc36d9-…  大小调整滑条 · 4 分钟前
-```
-
-## 应用图标
-
-`Resources/AppIcon.icns` 是访达、聚焦、“打开方式”里显示的封面，由 `tools/icon/make_icon.py` 生成（需要 numpy、Pillow 和系统自带的 iconutil）；打包脚本把它复制进应用，并在 Info.plist 里写 `CFBundleIconFile`。
-
-画面取 `sources/read_web-corrected-source-2x2.png` 左上格（627×627，仓库里雪绪分辨率最高的一张）：差值抠掉洋红底并解出前景色，边缘不留紫；裁成头肩半身，桌沿压在图标下边。外框是 1024 画布里 824 的连续圆角方块（超椭圆指数 5，与本机系统图标实测一致），背后浅冰蓝渐变加一点头后柔光与平板冷光，下面一层淡投影。16–1024 十个尺寸都由同一张 1024 缩出来，≤64 的再补一点锐度。
-
-- 默认是浅色版；`--style night` 出深蓝版；`--png out.png` 只导出 1024 大图；`--preview p.png` 输出各尺寸对照图，用来目测小图标还认不认得出。
-- 应用是 LSUIElement（不进程序坞），所以这张封面主要出现在访达和聚焦里；菜单栏的小头像仍是从动作图条里取的（`SpriteLibrary.avatarImage()`）。
-
-## 结构
+On the command line, `--chats` shows this list without opening a window:
 
 ```
-Sources/YukioCore/            与界面无关，可完整测试
-  Events.swift                事件协议（task_start/end/abort/failed、activity_start/end/failed、thinking、final_answer、source_lost、session_title、todo_list/update）
-  ActivityRouter.swift        会话隔离、焦点选择（完成／提问优先、可挑定一条）、防抖、最短保持、合并窗口、失联回退、气泡内容与聊天列表
-  ClaudeToolClassifier.swift  Claude 工具 → 活动与简短说明
-  ClaudeParsers.swift         转录行 → 事件；hooks JSON → 事件；任务清单；JSON 流切分
-  LiveSources.swift           只读跟随 ~/.claude/projects；可选 hooks 收件箱
-  ClaudeSessionLinks.swift    转录会话 → 桌面版 Claude 的那条聊天（只读，给点击跳转用）
-  HangSwing.swift             被大手拎着时的摆动（单摆 + 阻尼 + 空气阻力，纯数值）
-  ActivityCards.swift         头顶那摞卡：一条聊天一张，排序／收起／静音
+→ 924655c8-…  多个聊天同时运行时的选择功能 · Working
+  fd060c60-…  问题牌子点击跳转聊天 · Thinking
+  8fcc36d9-…  大小调整滑条 · 4 min ago
+```
+
+## App icon
+
+`Resources/AppIcon.icns` is the cover shown in Finder, Spotlight, and "Open With"; `tools/icon/make_icon.py` generates it (needs numpy, Pillow, and the system's own iconutil). The packaging script copies it into the app and writes `CFBundleIconFile` in Info.plist.
+
+The picture is the top-left cell of `sources/read_web-corrected-source-2x2.png` (627×627, the highest-resolution Yukio in the repo): the magenta background is keyed out by difference and the foreground color solved for, leaving no purple fringe; it is cropped to head and shoulders, with the desk edge resting on the bottom of the icon. The frame is a continuous rounded square of 824 on a 1024 canvas (superellipse exponent 5, matching measurements of this machine's system icons), with a light ice-blue gradient behind it, a soft glow behind her head, a cool light from the tablet, and a faint drop shadow underneath. All ten sizes from 16 to 1024 are scaled down from the same 1024 image, and the sizes ≤64 get a little extra sharpening.
+
+- The default is the light version; `--style night` produces a dark blue one; `--png out.png` exports only the 1024 image; `--preview p.png` writes a side-by-side of every size, for eyeballing whether the small icons are still recognizable.
+- The app is an LSUIElement (it doesn't go in the Dock), so this cover mainly shows up in Finder and Spotlight; the menu bar avatar is still taken from the motion sprite strips (`SpriteLibrary.avatarImage()`).
+
+## Structure
+
+```
+Sources/YukioCore/            UI-independent, fully testable
+  Events.swift                Event protocol (task_start/end/abort/failed, activity_start/end/failed, thinking, final_answer, source_lost, session_title, todo_list/update)
+  ActivityRouter.swift        Session isolation, focus selection (done and questions first, one chat can be pinned), debounce, minimum hold, merge window, lost-contact fallback, bubble content and chat list
+  ClaudeToolClassifier.swift  Claude tool → activity and short description
+  ClaudeParsers.swift         Transcript line → events; hooks JSON → events; task list; JSON stream splitting
+  LiveSources.swift           Read-only following of ~/.claude/projects; optional hooks inbox
+  ClaudeSessionLinks.swift    Transcript session → the matching chat in the Claude desktop app (read only, for click-to-jump)
+  HangSwing.swift             The swing while held by the big hand (pendulum + damping + air drag, pure numbers)
+  ActivityCards.swift         The card stack over her head: one card per chat, ordering / collapsing / muting
   Catalog.swift / SpriteTimeline.swift / HeldValue.swift / DemoScript.swift
-Sources/YukioPlayer/          macOS 窗口、头顶气泡、拖动、菜单栏、命令行模式
-Resources/Assets/            从接续包复制的最终素材（七套活动、电脑桌、基础动作）
-Resources/Assets/motion/     生成的小幅动作图条与 motion.json（覆盖同名动画）
-Resources/AppIcon.icns       应用图标（访达里显示的封面）
-tools/motion/                动作生成脚本（Python：底图 + 局部平滑变形 + 眨眼）
-tools/proportion/            站姿腿长（把待机／沮丧拉到和“被拎起来”一个比例）
-tools/hang/                  被拎起来那一帧的裁切脚本（Python：按头宽对齐、量抓手点）
-tools/icon/                  图标生成脚本（Python：抠像 + 圆角方块 + 十个尺寸）
-integrations/claude-hooks/   官方 hooks 接入（本机已启用，见下）
+Sources/YukioPlayer/          macOS window, head bubble, dragging, menu bar, command-line modes
+Resources/Assets/            Final assets copied from the handoff package (seven activity sets, computer desk, base motions)
+Resources/Assets/motion/     Generated small-motion sprite strips and motion.json (override same-named animations)
+Resources/AppIcon.icns       App icon (the cover shown in Finder)
+tools/motion/                Motion generator (Python: base image + local smooth warp + blinking)
+tools/proportion/            Standing-pose leg length (stretches idle / sad to the same proportions as "held")
+tools/hang/                  Cropping script for the held frame (Python: align by head width, measure the grip point)
+tools/icon/                  Icon generator (Python: keying + rounded square + ten sizes)
+integrations/claude-hooks/   Official hooks integration (enabled on this machine, see below)
 ```
 
-## 调度参数（`RouterConfig`，均为待调起点）
+## Scheduling parameters (`RouterConfig`, all starting points for tuning)
 
-| 参数 | 默认 | 说明 |
+| Parameter | Default | Notes |
 | --- | --- | --- |
-| `debounceMs` | 400 | 候选状态稳定这么久才切换 |
-| `minHoldMs` | 1500 | 每个显示状态至少保持这么久 |
-| `toolGraceMs` | 3500 | 工具结束后仍算作该活动，合并连续同类调用（真实转录中调用间隔多为 2–4 秒） |
-| `respondHoldMs` | 3000 | 任务结束后先显示“递交报告”这么久，够播完整理文件那一下，之后换成勾选卡 |
-| `completeArmMs` | 8000 | 只决定“多久之内结束的任务才举牌”：牌子举起后不自己放下，但播放器启动时回放到的旧记录不会举一块过期的牌 |
-| `signYieldMs` | 15 分钟 | 牌子举这么久还没人点，就先让位给还在干活的聊天（牌子不放下，那条停了再举回来） |
-| `failedHoldMs` | 4000 | 工具失败后沮丧最多显示多久（下一个工具开始就接替），之后回思考 |
-| `failedLingerMs` | 8000 | 本轮因 API 报错中止后沮丧停留时间，然后回空闲 |
-| `staleNoToolMs` / `staleOpenToolMs` | 10 分钟 / 30 分钟 | 无事件多久视为失联，回空闲 |
+| `debounceMs` | 400 | The candidate state must stay stable this long before she switches |
+| `minHoldMs` | 1500 | Each displayed state is held at least this long |
+| `toolGraceMs` | 3500 | A finished tool still counts as its activity for this long, merging consecutive calls of the same kind (in real transcripts calls are mostly 2 to 4 seconds apart) |
+| `respondHoldMs` | 3000 | After a task ends, "handing over the report" is shown this long, enough to play the paper-tidying beat, then the ✅ done card takes over |
+| `completeArmMs` | 8000 | Only decides "how recently a task must have finished to raise the sign": once raised the sign doesn't come down by itself, but old records replayed at player startup won't raise an expired sign |
+| `signYieldMs` | 15 min | A sign held this long without a click steps aside for the chats still working (the sign isn't lowered; it comes back up once that chat stops) |
+| `failedHoldMs` | 4000 | How long at most the sad pose shows after a tool failure (the next tool to start takes over), then back to thinking |
+| `failedLingerMs` | 8000 | How long the sad pose lingers after the turn is aborted by an API error, then back to idle |
+| `staleNoToolMs` / `staleOpenToolMs` | 10 min / 30 min | How long without events counts as lost contact, then back to idle |
 
-多个聊天同时跑时只跟一条，规则见下一节。
+With several chats running at once she follows only one; the rules are in "Several chats running at once: which one to follow" above.
 
-## 事件来源
+## Event sources
 
-### 默认：会话转录（只读，零配置）
+### Default: session transcripts (read only, zero configuration)
 
-读取 `~/.claude/projects/<项目>/<会话>.jsonl`（尊重 `CLAUDE_CONFIG_DIR`）。只读、不修改 Claude 的任何文件或设置。启动时回放最近 15 分钟内活跃会话的末尾，恢复“此刻在做什么”。
+Reads `~/.claude/projects/<project>/<session>.jsonl` (honoring `CLAUDE_CONFIG_DIR`). Read only; it never modifies any of Claude's files or settings. At startup it replays the tail of the sessions active in the last 15 minutes to recover "what is happening right now".
 
-注意：这是 Claude Code 在本地写的会话记录，**不是公开 API**，格式可能随版本变化；解析失败时只会少事件，不会崩溃，并按失联规则回空闲。子代理（sidechain）的活动不驱动主角色。
+Note: these are the session records Claude Code writes locally, **not a public API**, and the format may change between versions; a parse failure only means fewer events, never a crash, and she returns to idle under the lost-contact rules. Subagent (sidechain) activity does not drive the main character.
 
-### Claude Code 官方 hooks（本机已启用）
+### Claude Code official hooks (enabled on this machine)
 
-第二个来源，走 Claude Code 官方接口。2026-09-16 经用户同意在本机启用：脚本装在 `~/Library/Application Support/YukioPlayer/yukio-hook.sh`，`~/.claude/settings.json` 里登记了五个事件——`UserPromptSubmit`、`PreToolUse`、`PostToolUse`、`Stop`、`SessionEnd`。改动前的设置备份在 `~/.claude/settings.json.bak-20260916-225949`。
+The second source goes through Claude Code's official interface. It was enabled on this machine on 2026-09-16 with the user's consent: the script is installed at `~/Library/Application Support/YukioPlayer/yukio-hook.sh`, and five events are registered in `~/.claude/settings.json`: `UserPromptSubmit`, `PreToolUse`, `PostToolUse`, `Stop`, and `SessionEnd`. The settings from before the change are backed up at `~/.claude/settings.json.bak-20260916-225949`.
 
-在别的机器上启用：
+To enable it on another machine:
 
 1. `mkdir -p ~/Library/Application\ Support/YukioPlayer && cp integrations/claude-hooks/yukio-hook.sh ~/Library/Application\ Support/YukioPlayer/ && chmod +x ~/Library/Application\ Support/YukioPlayer/yukio-hook.sh`
-2. 把 `integrations/claude-hooks/settings-snippet.json` 中的 `hooks` 合并进 `~/.claude/settings.json`（已有 hooks 时逐项合并，不要覆盖）。
+2. Merge the `hooks` from `integrations/claude-hooks/settings-snippet.json` into `~/.claude/settings.json` (if hooks already exist, merge entry by entry rather than overwriting).
 
-关掉：删掉 `settings.json` 里这几段 hooks 即可，转录来源照常工作。
+To turn it off: just delete those hook entries from `settings.json`; the transcript source keeps working as usual.
 
-脚本只把 hook 输入追加到收件箱 `~/Library/Application Support/YukioPlayer/claude-hooks.jsonl`（超过 5 MB 自动清空）、不输出、始终退出 0，实测每次约 0 ms，不会阻塞 Claude。两个来源同时开启时按 `tool_use_id` 去重。hooks 不带会话标题，只开 hooks 时气泡标题用请求的第一行。
+The script only appends the hook input to the inbox `~/Library/Application Support/YukioPlayer/claude-hooks.jsonl` (cleared automatically past 5 MB), prints nothing, and always exits 0; measured at about 0 ms per call, so it never blocks Claude. With both sources on, events are deduplicated by `tool_use_id`. Hooks carry no session title, so with hooks alone the bubble title uses the first line of the request.
 
-Claude Code 的事件名只有九个：`PreToolUse`、`PostToolUse`、`Notification`、`UserPromptSubmit`、`Stop`、`SubagentStop`、`SessionStart`、`SessionEnd`、`PreCompact`。早先快照里写的 `PostToolUseFailure`、`StopFailure` 并不存在，已删除。`PostToolUse` 只在工具成功后触发，所以工具失败和整轮 API 报错仍由会话转录补上——这也是两个来源都留着的理由。
+Claude Code has only nine event names: `PreToolUse`, `PostToolUse`, `Notification`, `UserPromptSubmit`, `Stop`, `SubagentStop`, `SessionStart`, `SessionEnd`, and `PreCompact`. The `PostToolUseFailure` and `StopFailure` written in an earlier snapshot don't exist and have been removed. `PostToolUse` fires only after a tool succeeds, so tool failures and whole-turn API errors are still filled in from the session transcripts, which is also why both sources are kept.
 
-## 已知限制
+## Known limitations
 
-- 站姿（待机、沮丧）和拎起来那张比例已经对齐，但整体仍矮一点：画面 208 高，拎起来那张 240，差在上身与靴子。坐在桌前那几套是另一批画的，头比站姿大约一成。
-- 素材为 192×208 的 1 倍图，在 Retina 屏上是放大显示，会略软；更清晰需要从 `sources/` 高分辨率源图重新提取 2 倍图（`question_for_user`、`task_complete` 已有 384×416 的源图）。
-- `question_for_user`、`task_complete` 的底图和其余坐姿状态不是同一批画的，桌腿位置差两三像素；这个差距落在现有状态彼此之间的范围内（`read_web` 与 `write_file` 差 1208 像素，这两个是 1303 和 1936），切换时不比现在更明显。
-- 动作是底图上的小幅变形，只适合 2 像素以内的移动；翻页、换姿势这类大动作需要重新画图。
-- 被拎着时只有一帧，不眨眼：`tools/motion` 的流水线按 192×208 写死，拎起来这帧是 192×240，要眨眼得先把那边的尺寸放开。
-- 摆动跟着主循环 30 Hz 算，一个来回 18 帧；快速甩动时能看出是逐帧的。
-- 被拎着的姿势与坐姿不是同一批画的（GPT 新生成），按头宽对齐后头大小一致，四肢比例略长一点。
-- Windows 版（`YukioWin/`）还是原来的左右跑动，这次没改。
-- 思考块在消息完成后才写入转录，所以“思考”是推断的（任务进行中且无工具在跑）；最终回答也在写完后才出现，流式输出期间显示思考。
-- 气泡的任务清单是从转录重建的：启动时每个会话只回放最后 1 MB，很长的会话里较早建立的任务可能漏掉，进度会少算，直到 Claude 再次更新清单。
-- 会话标题由 Claude 生成，一个会话里换了新请求时标题不一定跟着变。
-- 点击跳转只认桌面版 Claude 的会话；在终端里跑的 Claude Code 没有对应的聊天窗口，点击只会把桌面版带到前面。
-- 举着的牌子前 15 分钟会占着她：别的聊天开始干活也抢不走（这是有意的，免得你错过答完的那条）。不想现在过去就点一下，或用菜单“先放下牌子，不打开聊天”；也可以挑定另一条聊天。超过 15 分钟她会先去显示在干活的那条，牌子仍举着，等那条停了再回来。
-- 挑定一条聊天之后不再自动切换，那条停了她就空闲等着。忘了自己挑过时，菜单第二行“正在跟：…（挑定的）”会提醒。
-- 主循环 30 Hz（动作一帧 33–67 ms），本机实测 CPU 约 1%；图条要显示时才解码，最近用过的 4 段留在内存里，内存约 45 MB。
-- 应用为本机临时签名；分发给他人需要正式签名与公证。
+- The standing poses (idle, sad) now match the held image's proportions but are still a little shorter overall: the frame is 208 tall versus 240 for the held one, with the difference in the torso and boots. The seated-at-the-desk sets were drawn as a separate batch, with heads about 10% bigger than the standing pose.
+- The assets are 1x images at 192×208, so on Retina displays they are upscaled and look slightly soft; for a crisper look, 2x images would need to be re-extracted from the high-resolution sources in `sources/` (`question_for_user` and `task_complete` already have 384×416 sources).
+- The base images for `question_for_user` and `task_complete` were not drawn in the same batch as the other seated states, and the desk legs are off by two or three pixels; this gap is within the range the existing states already differ by among themselves (`read_web` and `write_file` differ by 1208 pixels; these two are at 1303 and 1936), so switching is no more noticeable than it is now.
+- The motions are small warps of a base image and only suit movements within 2 pixels; big motions like turning a page or changing pose need new drawings.
+- While held there is only one frame and no blinking: the `tools/motion` pipeline is hard-coded to 192×208, and the held frame is 192×240, so blinking would first need that size limit lifted.
+- The swing is computed at the main loop's 30 Hz, 18 frames per back-and-forth; on a fast flick you can see the individual frames.
+- The held pose was not drawn in the same batch as the seated poses (newly generated by GPT); after aligning by head width the heads match, but the limbs are proportionally a little longer.
+- The Windows version (`YukioWin/`) still has the original left-right running; it was not changed this time.
+- Thinking blocks are only written to the transcript after the message completes, so "Thinking" is inferred (a task is running and no tool is executing); the final answer also appears only once fully written, so Thinking is shown while it streams.
+- The bubble's task list is rebuilt from the transcript: at startup only the last 1 MB of each session is replayed, so in very long sessions tasks created earlier may be missed and progress undercounted until Claude updates the list again.
+- Session titles are generated by Claude, and when a session moves on to a new request the title doesn't necessarily follow.
+- Click-to-jump recognizes only Claude desktop app sessions; Claude Code running in a terminal has no matching chat window, so a click only brings the desktop app to the front.
+- A raised sign occupies her for the first 15 minutes: another chat starting work can't take her away (this is deliberate, so you don't miss the one that finished). If you don't want to go now, click it, or use "Lower the sign, don't open the chat" in the menu; you can also pin another chat. After 15 minutes she goes to show the working chat first, sign still up, and comes back once that one stops.
+- Once a chat is pinned she no longer switches automatically; when it stops she idles and waits. If you forget you pinned one, the menu's second line "Following: … (pinned)" reminds you.
+- The main loop runs at 30 Hz (33 to 67 ms per motion frame); CPU measured on this machine is about 1%. Sprite strips are decoded only when shown, the 4 most recently used strips stay in memory, and memory use is about 45 MB.
+- The app is ad-hoc signed on this machine; distributing it to others needs a proper signature and notarization.

@@ -12,6 +12,7 @@ private extension Harness {
 
 /// 多个聊天同时跑：谁优先、怎么挑一条跟。
 @Suite struct ChatPickTests {
+    init() { L10n.language = .chinese }   // 这些测试按中文文案断言
     @Test func aFinishedChatTakesOverEvenWhileAnotherChatKeepsWorking() {
         let h = Harness()
         h.to("A", .taskStart)

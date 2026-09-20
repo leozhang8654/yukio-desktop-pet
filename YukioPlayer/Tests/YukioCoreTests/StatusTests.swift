@@ -13,6 +13,7 @@ extension Harness {
 }
 
 @Suite struct StatusLineTests {
+    init() { L10n.language = .chinese }   // 这些测试按中文文案断言
     @Test func hiddenWhenIdleAndTextFollowsTheDisplayedPose() {
         let h = Harness()
         #expect(h.line == nil)
@@ -81,6 +82,7 @@ extension Harness {
 }
 
 @Suite struct HeldValueTests {
+    init() { L10n.language = .chinese }   // 这些测试按中文文案断言
     @Test func eachTextStaysThenJumpsToTheLatest() {
         var v = HeldValue<String?>(nil, minHoldMs: 1000)
         var changed = v.update("a", now: 0, immediate: true)
@@ -97,6 +99,7 @@ extension Harness {
 }
 
 @Suite struct DescribeTests {
+    init() { L10n.language = .chinese }   // 这些测试按中文文案断言
     func d(_ tool: String, _ input: [String: Any] = [:]) -> String? {
         ClaudeToolClassifier.describe(tool: tool, input: input)
     }
@@ -140,6 +143,7 @@ extension Harness {
 }
 
 @Suite struct TaskInfoParserTests {
+    init() { L10n.language = .chinese }   // 这些测试按中文文案断言
     let p = ClaudeTranscriptParser()
     func line(_ json: String) -> [PetEvent] { p.events(fromLine: Data(json.utf8)) }
     let head = #""sessionId":"S1","timestamp":"2026-09-13T12:00:00.000Z""#

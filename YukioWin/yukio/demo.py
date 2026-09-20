@@ -9,6 +9,7 @@ from __future__ import annotations
 from typing import List, NamedTuple, Optional
 
 from .events import Kind, PetEvent, PetState, TodoItem, TodoStatus
+from .l10n import tr
 
 SOURCE = "sim"
 #: 脚本全长（最后一个事件之后再留出递交报告与举起勾选卡的时间；牌子会一直举到演示结束）。
@@ -37,37 +38,37 @@ def demo_steps(session: str = "demo", start: float = 0.0) -> List[Step]:
     def todo(t, id, subject=None, status: Optional[TodoStatus] = None):
         add(t, Kind.todo_update, todos=[TodoItem(id, subject, status)])
 
-    add(0, Kind.session_title, detail="演示：修复登录页")
-    add(0, Kind.task_start, detail="登录页的表单校验有问题，帮我修一下")            # 思考
-    call(3000, 3150, PetState.read_file, "read", "阅读 login_view.py")           # 一串短读取 → 合并成一次“桌前读书”
+    add(0, Kind.session_title, detail=tr("Demo: fix the login page", "演示：修复登录页"))
+    add(0, Kind.task_start, detail=tr("The login form validation is broken, please fix it", "登录页的表单校验有问题，帮我修一下"))            # 思考
+    call(3000, 3150, PetState.read_file, "read", tr("Reading login_view.py", "阅读 login_view.py"))           # 一串短读取 → 合并成一次“桌前读书”
     call(3300, 3400, PetState.read_file, "bash", "$ rg validate")
-    call(3600, 3700, PetState.read_file, "read", "阅读 validator.py")
+    call(3600, 3700, PetState.read_file, "read", tr("Reading validator.py", "阅读 validator.py"))
     call(4000, 4200, PetState.read_file, "bash", "$ ls src/login")
-    call(4500, 4600, PetState.read_file, "read", "阅读 test_login.py")
+    call(4500, 4600, PetState.read_file, "read", tr("Reading test_login.py", "阅读 test_login.py"))
     add(6800, Kind.thinking)
-    todo(7500, "1", "查看报错截图和文档")                                          # 建立任务清单
-    todo(7500, "2", "修正表单校验")
-    todo(7500, "3", "跑测试并构建")
+    todo(7500, "1", tr("Check the error screenshot and the docs", "查看报错截图和文档"))                                          # 建立任务清单
+    todo(7500, "2", tr("Fix the form validation", "修正表单校验"))
+    todo(7500, "3", tr("Run the tests and build", "跑测试并构建"))
     todo(7600, "1", status=TodoStatus.in_progress)
-    call(9000, 12500, PetState.view_image, "ReadImage", "查看 报错截图.png")        # 查看截图
-    call(14000, 18000, PetState.read_web, "WebSearch", "搜索网页 表单校验 最佳实践")  # 阅读网页
+    call(9000, 12500, PetState.view_image, "ReadImage", tr("Viewing error-screenshot.png", "查看 报错截图.png"))        # 查看截图
+    call(14000, 18000, PetState.read_web, "WebSearch", tr("Searching the web: form validation best practices", "搜索网页 表单校验 最佳实践"))  # 阅读网页
     todo(18500, "1", status=TodoStatus.completed)
     todo(18500, "2", status=TodoStatus.in_progress)
-    call(19500, 19800, PetState.write_file, "edit", "编辑 validator.py")          # 连续修改
-    call(20100, 20500, PetState.write_file, "write", "写入 login_rules.py")
-    call(20800, 21200, PetState.write_file, "edit", "编辑 login_view.py")
+    call(19500, 19800, PetState.write_file, "edit", tr("Editing validator.py", "编辑 validator.py"))          # 连续修改
+    call(20100, 20500, PetState.write_file, "write", tr("Writing login_rules.py", "写入 login_rules.py"))
+    call(20800, 21200, PetState.write_file, "edit", tr("Editing login_view.py", "编辑 login_view.py"))
     call(22800, 27500, PetState.verify, "bash", "$ pytest -q", fails=True)       # 运行测试，失败 → 沮丧
-    call(30500, 30900, PetState.write_file, "edit", "编辑 validator.py")          # 修正
+    call(30500, 30900, PetState.write_file, "edit", tr("Editing validator.py", "编辑 validator.py"))          # 修正
     todo(31500, "2", status=TodoStatus.completed)
     todo(31500, "3", status=TodoStatus.in_progress)
     call(32000, 35500, PetState.verify, "bash", "$ pytest -q")                   # 再测一次，通过
-    call(36600, 36700, PetState.read_file, "read", "阅读 pyproject.toml")         # 快速交替：不应逐个闪现
+    call(36600, 36700, PetState.read_file, "read", tr("Reading pyproject.toml", "阅读 pyproject.toml"))         # 快速交替：不应逐个闪现
     call(36750, 36850, PetState.default_work, "bash", "$ pip install -e .")
-    call(36900, 37000, PetState.read_file, "read", "阅读 README.md")
+    call(36900, 37000, PetState.read_file, "read", tr("Reading README.md", "阅读 README.md"))
     call(39000, 43000, PetState.default_work, "bash", "$ python -m build")       # 未识别工作 → 电脑桌
     todo(44000, "3", status=TodoStatus.completed)
     add(44500, Kind.thinking)
-    call(45500, 48500, PetState.question_for_user, "AskUserQuestion", "等你回答")  # 立问号卡，指着它等你回答
+    call(45500, 48500, PetState.question_for_user, "AskUserQuestion", tr("Needs your answer", "等你回答"))  # 立问号卡，指着它等你回答
     add(49500, Kind.final_answer)                                                # 先递交报告，再举勾选卡
     add(49500, Kind.task_end)
     out.sort(key=lambda s: s.offset_ms)

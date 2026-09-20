@@ -31,6 +31,7 @@ final class Harness {
 }
 
 @Suite struct RouterTests {
+    init() { L10n.language = .chinese }   // 这些测试按中文文案断言
     @Test func firstSwitchOnlyWaitsForDebounce() {
         let h = Harness()
         h.send(.taskStart)

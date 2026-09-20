@@ -201,10 +201,10 @@ struct CardStackLayout {
             draw(card, in: cardRects[i].offsetBy(dx: bounds.minX, dy: bounds.minY))
         }
         if let a = autoRect?.offsetBy(dx: bounds.minX, dy: bounds.minY) {
-            drawRow("自动", in: a, inset: Self.autoInset)
+            drawRow(tr("Auto", "自动"), in: a, inset: Self.autoInset)
         }
         if let p = pillRect?.offsetBy(dx: bounds.minX, dy: bounds.minY) {
-            drawRow(expanded ? "收起" : "还有 \(hidden) 条", in: p, inset: Self.pillInset)
+            drawRow(expanded ? tr("Collapse", "收起") : tr("\(hidden) more", "还有 \(hidden) 条"), in: p, inset: Self.pillInset)
         }
     }
 

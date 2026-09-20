@@ -16,8 +16,9 @@ from .catalog import AnimationCatalog, HELD_ID, SpriteTimeline, assets_root
 from .chatlinks import ChatLinks
 from .demo import DEMO_DURATION_MS, demo_steps
 from .events import PetState
+from .l10n import set_language, tr
 from .hang import SETTLE_LIMIT_MS, HangGeometry, HangSwing, Tuning as HangTuning
-from .router import ActivityRouter, HeldValue
+from .router import ActivityRouter, HeldValue, held_name, state_name
 from .settings import Settings
 from .sources import app_data_dir, default_sources
 from .sprites import SpriteLibrary
@@ -41,6 +42,7 @@ class PetApp:
         self.win32 = win32
         self.argv = argv
         self.settings = Settings()
+        set_language(self.settings.get("language"))   # 先定语言，回放会话记录时生成的说明文字才是对的语言
         root = assets_root()
         if not root:
             raise SystemExit("找不到素材目录 Assets（可用 YUKIO_ASSETS 指定）")
@@ -443,7 +445,7 @@ class PetApp:
         Item = w.MenuItem
         w.show_menu(self.control.hwnd, [
             Item(card.title, None),
-            Item("不再提醒这条聊天", lambda id=card.session: self._mute_chat(id)),
+            Item(tr("Stop reminding about this chat", "不再提醒这条聊天"), lambda id=card.session: self._mute_chat(id)),
         ])
 
     def _mute_chat(self, session: str) -> None:
@@ -731,14 +733,14 @@ class PetApp:
         return path
 
     def _tray_tip(self) -> str:
-        label = self.held_spec.label if self.swing is not None else self.catalog.label(self.shown_state)
-        return "雪绪：%s" % label
+        label = held_name() if self.swing is not None else state_name(self.shown_state)
+        return tr("Yukio: %s", "雪绪：%s") % label
 
     def _source_label(self) -> str:
-        names = {"auto": "自动（Deep Code 与 Claude Code 都跟）",
-                 "deepcode": "只跟 Deep Code（DeepSeek）",
-                 "claude": "只跟 Claude Code"}
-        return names.get(self.settings.get("source"), "自动")
+        names = {"auto": tr("Auto (Deep Code and Claude Code)", "自动（Deep Code 与 Claude Code 都跟）"),
+                 "deepcode": tr("Deep Code only (DeepSeek)", "只跟 Deep Code（DeepSeek）"),
+                 "claude": tr("Claude Code only", "只跟 Claude Code")}
+        return names.get(self.settings.get("source"), tr("Auto", "自动"))
 
     #: 菜单里列多久之内的聊天、最多几条。
     CHAT_LIST_WINDOW_MS = 30 * 60 * 1000.0
@@ -750,10 +752,10 @@ class PetApp:
         默认自动——谁答完、谁在等你拿主意就先给你看，都没有时跟最近在干活的那条。
         """
         Item = self.win32.MenuItem
-        rows = [Item("自动（完成和提问优先）", lambda: self._pick_chat(None),
+        rows = [Item(tr("Auto (done and questions first)", "自动（完成和提问优先）"), lambda: self._pick_chat(None),
                      checked=self.router.pinned_session is None), self.win32.SEPARATOR]
         if not chats:
-            rows.append(Item("最近没有聊天在跑", None))
+            rows.append(Item(tr("No recent chats", "最近没有聊天在跑"), None))
         for c in chats:
             # 挑定的那条打勾；自动模式下此刻跟着的那条前面画个箭头（Win32 菜单只有打勾一种标记）。
             text = ("→ " if c.focused and not c.pinned else "") + c.menu_label
@@ -768,67 +770,73 @@ class PetApp:
         Item, SEP = w.MenuItem, w.SEPARATOR
         chats = [] if self.demo else self.router.session_summaries(
             now_ms(), quiet_within_ms=self.CHAT_LIST_WINDOW_MS, limit=self.CHAT_LIST_LIMIT)
-        label = self.held_spec.label if self.swing is not None else self.catalog.label(self.shown_state)
-        items: List[w.MenuItem] = [Item("雪绪 · %s" % label, None)]
+        label = held_name() if self.swing is not None else state_name(self.shown_state)
+        items: List[w.MenuItem] = [Item(tr("Yukio", "雪绪") + " · " + label, None)]
         if not self.demo and self.follow and self.router.completed_session:
-            items.append(Item("打开这条聊天并放下牌子", self._pet_clicked))
-            items.append(Item("先放下牌子，不打开聊天", self._drop_sign))
+            items.append(Item(tr("Open this chat and lower the sign", "打开这条聊天并放下牌子"), self._pet_clicked))
+            items.append(Item(tr("Lower the sign, don't open the chat", "先放下牌子，不打开聊天"), self._drop_sign))
         elif not self.demo and self.follow and self.router.asking_session:
             # 问号卡不收：答完之后它自己收，这里只把聊天打开。
-            items.append(Item("打开这条聊天去回答", self._pet_clicked))
+            items.append(Item(tr("Open this chat to answer", "打开这条聊天去回答"), self._pet_clicked))
         if self.demo:
-            items.append(Item("正在播放模拟演示（不是真实活动）", None))
+            items.append(Item(tr("Playing the demo (not real activity)", "正在播放模拟演示（不是真实活动）"), None))
         elif not self.follow:
-            items.append(Item("已暂停跟随，保持空闲", None))
+            items.append(Item(tr("Following paused, staying idle", "已暂停跟随，保持空闲"), None))
         else:
             found = 0
             for source in self.sources:
                 if getattr(source, "available", False):
                     found += 1
                     received = getattr(source.status, "events_received", 0)
-                    items.append(Item("跟随 %s · 已收到 %d 个事件" % (source.label, received), None))
+                    items.append(Item(tr("Following %s · %d events received", "跟随 %s · 已收到 %d 个事件")
+                                      % (tr(source.label, getattr(source, "label_zh", source.label)), received), None))
             if not found:
-                missing = [(s.label, getattr(s, "projects_dir", "")) for s in self.sources
+                missing = [(tr(s.label, getattr(s, "label_zh", s.label)), getattr(s, "projects_dir", "")) for s in self.sources
                            if getattr(s, "projects_dir", "")]
                 for label, where in missing[:2]:
-                    items.append(Item("没找到 %s 的记录：%s" % (label, where), None))
+                    items.append(Item(tr("No %s records found: %s", "没找到 %s 的记录：%s") % (label, where), None))
                 if not missing:
-                    items.append(Item("没有可跟随的来源", None))
+                    items.append(Item(tr("No source to follow", "没有可跟随的来源"), None))
             for chat in chats:
                 if chat.focused:
-                    items.append(Item("正在跟：%s%s" % (chat.menu_label, "（挑定的）" if chat.pinned else ""),
+                    items.append(Item(tr("Following: %s%s", "正在跟：%s%s") % (chat.menu_label, tr(" (pinned)", "（挑定的）") if chat.pinned else ""),
                                       None))
         items.append(SEP)
         if self.demo:
-            items.append(Item("停止模拟演示", self.stop_demo))
+            items.append(Item(tr("Stop demo", "停止模拟演示"), self.stop_demo))
         else:
-            items.append(Item("播放模拟演示", self.start_demo))
-        items.append(Item("跟随 AI 活动", self._toggle_follow, checked=self.follow))
-        items.append(Item("头顶显示任务", self._toggle_bubble, checked=self.show_bubble))
-        items.append(Item("头顶显示别的聊天", self._toggle_cards, checked=self.show_cards))
-        items.append(Item("跟随对象", None, submenu=[
-            Item("自动（哪个有动静跟哪个）", lambda: self._set_source("auto"),
+            items.append(Item(tr("Play demo", "播放模拟演示"), self.start_demo))
+        items.append(Item(tr("Follow AI activity", "跟随 AI 活动"), self._toggle_follow, checked=self.follow))
+        items.append(Item(tr("Show task bubble", "头顶显示任务"), self._toggle_bubble, checked=self.show_bubble))
+        items.append(Item(tr("Show other chats", "头顶显示别的聊天"), self._toggle_cards, checked=self.show_cards))
+        items.append(Item(tr("Source", "跟随对象"), None, submenu=[
+            Item(tr("Auto (whichever is active)", "自动（哪个有动静跟哪个）"), lambda: self._set_source("auto"),
                  checked=self.settings.get("source") == "auto"),
-            Item("Deep Code（DeepSeek）", lambda: self._set_source("deepcode"),
+            Item(tr("Deep Code only (DeepSeek)", "Deep Code（DeepSeek）"), lambda: self._set_source("deepcode"),
                  checked=self.settings.get("source") == "deepcode"),
-            Item("Claude Code", lambda: self._set_source("claude"),
+            Item(tr("Claude Code only", "Claude Code"), lambda: self._set_source("claude"),
                  checked=self.settings.get("source") == "claude"),
+        ]))
+        # 界面语言：默认英文，选择存在 settings.json 的 language 里。
+        items.append(Item(tr("Language", "语言"), None, submenu=[
+            Item("English", lambda: self._set_language("en"), checked=self.settings.get("language") != "zh"),
+            Item("中文", lambda: self._set_language("zh"), checked=self.settings.get("language") == "zh"),
         ]))
         if not self.demo:
             # 标题顺带报数：有几条在等你，没人等你时报有几条在跑。
             live = sum(1 for c in chats if c.live)
             wants = sum(1 for c in chats if c.wants_you)
             if wants:
-                title = "跟随的聊天（%d 条等你）" % wants
+                title = tr("Chat to follow (%d waiting for you)", "跟随的聊天（%d 条等你）") % wants
             elif live > 1:
-                title = "跟随的聊天（%d 条在跑）" % live
+                title = tr("Chat to follow (%d running)", "跟随的聊天（%d 条在跑）") % live
             else:
-                title = "跟随的聊天"
+                title = tr("Chat to follow", "跟随的聊天")
             items.append(Item(title, None, submenu=self._chat_picker(chats)))
-        items.append(Item("大小", None, submenu=self._scale_menu()))
-        items.append(Item("回到屏幕右下角", self._reset_position))
+        items.append(Item(tr("Size", "大小"), None, submenu=self._scale_menu()))
+        items.append(Item(tr("Back to the bottom-right corner", "回到屏幕右下角"), self._reset_position))
         items.append(SEP)
-        items.append(Item("退出雪绪", self.quit))
+        items.append(Item(tr("Quit Yukio", "退出雪绪"), self.quit))
         w.show_menu(self.control.hwnd, items)
 
     def _toggle_follow(self) -> None:
@@ -867,11 +875,11 @@ class PetApp:
         rows = [Item("%d%%" % int(round(s * 100)), lambda s=s: self._set_scale(s),
                      checked=abs(current - s) < 0.001) for s in self.SCALE_STOPS]
         rows.append(self.win32.SEPARATOR)
-        rows.append(Item("放大一点（+5%）", lambda: self._nudge_scale(self.SCALE_STEP),
+        rows.append(Item(tr("Bigger (+5%)", "放大一点（+5%）"), lambda: self._nudge_scale(self.SCALE_STEP),
                          enabled=current < self.SCALE_MAX - 1e-6))
-        rows.append(Item("缩小一点（−5%）", lambda: self._nudge_scale(-self.SCALE_STEP),
+        rows.append(Item(tr("Smaller (−5%)", "缩小一点（−5%）"), lambda: self._nudge_scale(-self.SCALE_STEP),
                          enabled=current > self.SCALE_MIN + 1e-6))
-        rows.append(Item("当前 %d%%" % int(round(current * 100)), None))
+        rows.append(Item(tr("Current %d%%", "当前 %d%%") % int(round(current * 100)), None))
         return rows
 
     def _nudge_scale(self, delta: float) -> None:
@@ -884,6 +892,11 @@ class PetApp:
         for source in self.sources:
             for e in source.poll(now):
                 self.router.ingest(e, min(e.ts, now))
+
+    def _set_language(self, code: str) -> None:
+        self.settings.set("language", code)
+        set_language(code)
+        self.tray.set_tip(self._tray_tip())   # 气泡与卡上的字在下一轮刷新时跟着换
 
     def _set_scale(self, scale: float) -> None:
         scale = self.snap_scale(scale)
@@ -970,9 +983,10 @@ def run_app(argv: List[str]) -> int:
         app = PetApp(argv)
     except Exception as exc:
         traceback.print_exc()
-        sys.stderr.write("雪绪启动失败：%s\n" % exc)
-        win32.message_box("雪绪没能启动：\n\n%s\n\n%s" %
-                          (exc, ("详细报错写在 " + log_path) if log_path
-                           else "从命令行跑 python run.py 可以看到完整报错"))
+        sys.stderr.write(tr("Yukio failed to start: %s\n", "雪绪启动失败：%s\n") % exc)
+        win32.message_box(tr("Yukio could not start:\n\n%s\n\n%s", "雪绪没能启动：\n\n%s\n\n%s") %
+                          (exc, (tr("Details were written to ", "详细报错写在 ") + log_path) if log_path
+                           else tr("Run python run.py from a command line to see the full error",
+                                   "从命令行跑 python run.py 可以看到完整报错")))
         return 1
     return app.run()

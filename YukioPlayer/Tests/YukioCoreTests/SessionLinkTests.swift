@@ -4,6 +4,7 @@ import Testing
 
 /// 用临时目录冒充桌面版的会话记录目录，验证“转录会话 → 那条聊天”的对应。
 @Suite struct SessionLinkTests {
+    init() { L10n.language = .chinese }   // 这些测试按中文文案断言
     private func makeRecords(_ records: [(file: String, json: String)]) throws -> URL {
         let root = URL(fileURLWithPath: NSTemporaryDirectory())
             .appendingPathComponent("yukio-session-links-\(UUID().uuidString)")

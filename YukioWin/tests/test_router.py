@@ -6,6 +6,13 @@ import unittest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from yukio.l10n import set_language  # noqa: E402
+set_language("zh")   # 这些测试按中文文案断言
+
+
+def setUpModule():
+    set_language("zh")   # 前一个模块的应用测试可能把语言切回了英文
+
 from yukio.demo import demo_steps, DEMO_DURATION_MS
 from yukio.events import ALL_STATES, Kind, PetEvent, PetState, TodoItem, TodoStatus
 from yukio.router import ActivityRouter, HeldValue, Progress, RouterConfig, StatusLine

@@ -11,6 +11,13 @@ import unittest
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(HERE))
+
+from yukio.l10n import set_language  # noqa: E402
+set_language("zh")   # 这些测试按中文文案断言
+
+
+def setUpModule():
+    set_language("zh")   # 前一个模块的应用测试可能把语言切回了英文
 sys.path.insert(0, HERE)
 
 import fake_win32
@@ -47,7 +54,7 @@ def make_app(argv=None, dpi=1.0, first_run=False, sources=None, **overrides):
     settings_path = os.path.join(tempfile.mkdtemp(prefix="yukio-test-"), "settings.json")
     if not first_run:
         with open(settings_path, "w", encoding="utf-8") as fh:
-            fh.write("{}")
+            fh.write('{"language": "zh"}')   # 测试按中文文案断言
     application = object.__new__(app_module.PetApp)
     # 用临时设置文件，不碰用户自己的设置；来源用空列表，事件由测试直接喂。
     original_settings = Settings
@@ -55,6 +62,7 @@ def make_app(argv=None, dpi=1.0, first_run=False, sources=None, **overrides):
         app_module.Settings = lambda: original_settings(settings_path)
         app_module.default_sources = lambda which: list(sources or [])
         application.__init__(argv or [])
+        set_language("zh")   # 第一次打开（没有设置文件）时默认英文，测试仍按中文断言
     finally:
         app_module.Settings = original_settings
     for key, value in overrides.items():
@@ -364,7 +372,8 @@ class AppLogicTests(unittest.TestCase):
         a.router.ingest(PetEvent(t, "test", "s", Kind.activity_start, event_id="t",
                                  activity=PetState.verify, detail="$ pytest"), t)
         advance(a, 80)
-        self.assertEqual(a.tray.tip, "雪绪：%s" % a.catalog.label(PetState.verify))
+        from yukio.router import state_name
+        self.assertEqual(a.tray.tip, "雪绪：%s" % state_name(PetState.verify))
 
 
 if __name__ == "__main__":

@@ -105,28 +105,28 @@ public struct SessionSummary: Equatable, Sendable {
     /// 同一套聊天名算法，旁边那叠通知卡也用它。
     public static func displayName(title: String?, id: String, max: Int = 32) -> String {
         guard let t = title?.trimmingCharacters(in: .whitespacesAndNewlines), !t.isEmpty else {
-            return "会话 \(id.prefix(8))…"
+            return tr("Session \(id.prefix(8))…", "会话 \(id.prefix(8))…")
         }
         return t.count > max ? t.prefix(max) + "…" : t
     }
 
     /// 正在做什么：在跑的显示动作，等你处理的说在等什么，其余显示多久没动静。
     public var statusText: String {
-        if signYielded { return "举着牌子等你（先让位了）" }
-        if raisedSign || state == .task_complete { return "举着牌子等你点" }
+        if signYielded { return tr("Holding the sign for you (stepped aside)", "举着牌子等你（先让位了）") }
+        if raisedSign || state == .task_complete { return tr("Holding the sign, click her", "举着牌子等你点") }
         if live { return ActivityRouter.stateText(state) }
         switch state {
-        case .respond: return "刚答完"
-        case .failed: return "出错停住了"
+        case .respond: return tr("Just answered", "刚答完")
+        case .failed: return tr("Stopped on an error", "出错停住了")
         default: return Self.agoText(quietMs)
         }
     }
 
     static func agoText(_ ms: Double) -> String {
         let seconds = Int(max(0, ms) / 1000)
-        if seconds < 60 { return "刚刚" }
-        if seconds < 3600 { return "\(seconds / 60) 分钟前" }
-        return "\(seconds / 3600) 小时前"
+        if seconds < 60 { return tr("just now", "刚刚") }
+        if seconds < 3600 { return tr("\(seconds / 60) min ago", "\(seconds / 60) 分钟前") }
+        return tr("\(seconds / 3600) h ago", "\(seconds / 3600) 小时前")
     }
 }
 
@@ -666,37 +666,37 @@ public final class ActivityRouter {
         let current: String
         switch displayed {
         case .failed:
-            current = s.failedDetail.map { "出错：\($0)" } ?? "出错了"
+            current = s.failedDetail.map { tr("Error: \($0)", "出错：\($0)") } ?? tr("Something went wrong", "出错了")
         case .respond:
-            current = s.taskActive ? "整理回答" : "已回答"
+            current = s.taskActive ? tr("Writing the answer", "整理回答") : tr("Answered", "已回答")
         case .idle, .question_for_user:
             // 问号卡也能点（跳到这条聊天去回答），和勾选卡一样在气泡里说一声，不然没人知道能点。
-            current = "\(s.open.last?.detail ?? "等你回答") · 点她跳过去"
+            current = tr("Your turn · click to open", "\(s.open.last?.detail ?? "等你回答") · 点她跳过去")
         case .task_complete:
-            current = "已完成 · 点她跳过去"
+            current = tr("Done · click to open", "已完成 · 点她跳过去")
         case .thinking:
-            current = inProgress ?? "思考中"
+            current = inProgress ?? tr("Thinking", "思考中")
         default:
             current = inProgress ?? s.lastDetail[displayed] ?? Self.stateText(displayed)
         }
         return StatusLine(title: s.title ?? s.prompt, current: current, progress: progress)
     }
 
-    /// 状态的中文说法：气泡没有更具体的文字时用它，聊天列表里也用它。
+    /// 状态的说法（按界面语言）：气泡没有更具体的文字时用它，聊天列表里也用它。
     public static func stateText(_ state: PetState) -> String {
         switch state {
-        case .read_file: return "阅读文件"
-        case .view_image: return "查看图片"
-        case .write_file: return "修改文件"
-        case .verify: return "运行测试"
-        case .read_web: return "浏览网页"
-        case .default_work: return "处理中"
-        case .thinking: return "思考中"
-        case .respond: return "整理回答"
-        case .failed: return "出错了"
-        case .question_for_user: return "等你回答"
-        case .task_complete: return "已完成 · 点她跳过去"
-        case .idle: return "等你回答"
+        case .read_file: return tr("Reading a file", "阅读文件")
+        case .view_image: return tr("Viewing an image", "查看图片")
+        case .write_file: return tr("Editing a file", "修改文件")
+        case .verify: return tr("Running tests", "运行测试")
+        case .read_web: return tr("Browsing the web", "浏览网页")
+        case .default_work: return tr("Working", "处理中")
+        case .thinking: return tr("Thinking", "思考中")
+        case .respond: return tr("Writing the answer", "整理回答")
+        case .failed: return tr("Something went wrong", "出错了")
+        case .question_for_user: return tr("Waiting for your answer", "等你回答")
+        case .task_complete: return tr("Done · click to open", "已完成 · 点她跳过去")
+        case .idle: return tr("Waiting for your answer", "等你回答")
         }
     }
 

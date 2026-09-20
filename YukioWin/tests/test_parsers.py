@@ -12,6 +12,13 @@ import unittest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from yukio.l10n import set_language  # noqa: E402
+set_language("zh")   # 这些测试按中文文案断言
+
+
+def setUpModule():
+    set_language("zh")   # 前一个模块的应用测试可能把语言切回了英文
+
 from yukio.bridge import BridgeParser
 from yukio.events import Kind, PetState, TodoItem, TodoStatus
 from yukio.parsers_claude import ClaudeTranscriptParser

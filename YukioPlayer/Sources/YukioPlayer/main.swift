@@ -286,13 +286,18 @@ func runBubbleSnapshot(path: String) -> Never {
     let library: SpriteLibrary
     do { library = try SpriteLibrary(catalog: catalog, assetsRoot: root) } catch { print("失败：\(error)"); exit(1) }
     let samples: [(PetState, StatusLine)] = [
-        (.write_file, StatusLine(title: "桌宠缺失状态", current: "实现头顶气泡", progress: .init(done: 3, total: 7))),
-        (.verify, StatusLine(title: "修复登录页的表单校验问题并补充单元测试，顺便整理目录结构",
+        (.write_file, StatusLine(title: tr("Desktop pet: missing states", "桌宠缺失状态"),
+                                 current: tr("Add the head bubble", "实现头顶气泡"), progress: .init(done: 3, total: 7))),
+        (.verify, StatusLine(title: tr("Fix the login form validation, add unit tests, and tidy up the folder layout",
+                                       "修复登录页的表单校验问题并补充单元测试，顺便整理目录结构"),
                              current: "$ swift test --filter RouterTests", progress: nil)),
-        (.thinking, StatusLine(title: nil, current: "思考中", progress: nil)),
-        (.failed, StatusLine(title: "桌宠缺失状态", current: "出错：$ swift test", progress: .init(done: 7, total: 7))),
-        (.question_for_user, StatusLine(title: "桌宠缺失状态", current: "等你回答 · 点她跳过去", progress: nil)),
-        (.task_complete, StatusLine(title: "桌宠缺失状态", current: "已完成 · 点她跳过去", progress: .init(done: 7, total: 7))),
+        (.thinking, StatusLine(title: nil, current: tr("Thinking", "思考中"), progress: nil)),
+        (.failed, StatusLine(title: tr("Desktop pet: missing states", "桌宠缺失状态"),
+                             current: tr("Error: $ swift test", "出错：$ swift test"), progress: .init(done: 7, total: 7))),
+        (.question_for_user, StatusLine(title: tr("Desktop pet: missing states", "桌宠缺失状态"),
+                                        current: tr("Your turn · click to open", "等你回答 · 点她跳过去"), progress: nil)),
+        (.task_complete, StatusLine(title: tr("Desktop pet: missing states", "桌宠缺失状态"),
+                                    current: tr("Done · click to open", "已完成 · 点她跳过去"), progress: .init(done: 7, total: 7))),
     ]
     let cellW: CGFloat = 240, cellH: CGFloat = 208 + 64, px: CGFloat = 2
     let width = Int(cellW * CGFloat(samples.count) * px), height = Int(cellH * px)
@@ -323,13 +328,17 @@ func runCardsSnapshot(path: String) -> Never {
     let library: SpriteLibrary
     do { library = try SpriteLibrary(catalog: catalog, assetsRoot: root) } catch { print("失败：\(error)"); exit(1) }
     let cards: [ActivityCard] = [
-        .init(session: "a", title: "问题牌子点击跳转聊天", subtitle: "等你挑一个方案", status: .waiting, quietMs: 20_000),
-        .init(session: "b", title: "跑一遍 Windows 打包", subtitle: "出错：$ pwsh build.ps1", status: .failed, quietMs: 60_000),
-        .init(session: "c", title: "写个备份脚本", subtitle: "点开看看", status: .ready, quietMs: 8_000),
-        .init(session: "d", title: "桌宠移动动画与晃动效果", subtitle: "编辑 HangSwing.swift", status: .running, quietMs: 2_000),
-        .init(session: "e", title: "会话 5c534545…", subtitle: "$ swift test --filter RouterTests", status: .running, quietMs: 4_000),
+        .init(session: "a", title: tr("Question card opens the chat", "问题牌子点击跳转聊天"),
+              subtitle: tr("Pick an option", "等你挑一个方案"), status: .waiting, quietMs: 20_000),
+        .init(session: "b", title: tr("Run the Windows packaging", "跑一遍 Windows 打包"),
+              subtitle: tr("Error: $ pwsh build.ps1", "出错：$ pwsh build.ps1"), status: .failed, quietMs: 60_000),
+        .init(session: "c", title: tr("Write a backup script", "写个备份脚本"), subtitle: tr("Take a look", "点开看看"), status: .ready, quietMs: 8_000),
+        .init(session: "d", title: tr("Pet drag animation and swing", "桌宠移动动画与晃动效果"),
+              subtitle: tr("Editing HangSwing.swift", "编辑 HangSwing.swift"), status: .running, quietMs: 2_000),
+        .init(session: "e", title: tr("Session 5c534545…", "会话 5c534545…"), subtitle: "$ swift test --filter RouterTests", status: .running, quietMs: 4_000),
     ]
-    let line = StatusLine(title: "多个聊天同时运行时的选择功能", current: "编辑 main.swift",
+    let line = StatusLine(title: tr("Picking a chat when several run at once", "多个聊天同时运行时的选择功能"),
+                          current: tr("Editing main.swift", "编辑 main.swift"),
                           progress: .init(done: 3, total: 5))
     let px: CGFloat = 2, cellW: CGFloat = 260, cellH: CGFloat = 560
     let width = Int(cellW * 2 * px), height = Int(cellH * px)
@@ -617,8 +626,15 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         get { defaults.object(forKey: "showCards") as? Bool ?? true }
         set { defaults.set(newValue, forKey: "showCards") }
     }
+    /// 界面语言：默认英文，菜单「Language」里切换；已经写进事件里的说明到下一条事件才换。
+    private var language: UILanguage {
+        get { UILanguage(code: defaults.string(forKey: "language")) }
+        set { defaults.set(newValue.rawValue, forKey: "language"); L10n.language = newValue }
+    }
 
     init(catalog: AnimationCatalog, library: SpriteLibrary) {
+        // 先定语言，再回放会话记录：回放时生成的说明文字才是对的语言。
+        L10n.language = UILanguage(code: UserDefaults.standard.string(forKey: "language"))
         self.catalog = catalog
         self.library = library
         self.stateTimeline = SpriteTimeline(spec: catalog.spec(for: .idle), now: nowMs())
@@ -1031,10 +1047,10 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             guard let self, let card = self.cardsHold.value[safe: i] else { return }
             let menu = NSMenu()
             menu.addItem(self.info(card.title))
-            let open = self.action("打开这条聊天", #selector(self.menuOpenListedChat(_:)))
+            let open = self.action(tr("Open this chat", "打开这条聊天"), #selector(self.menuOpenListedChat(_:)))
             open.representedObject = card.session
             menu.addItem(open)
-            let mute = self.action("不再提醒这条聊天", #selector(self.menuMuteChat(_:)))
+            let mute = self.action(tr("Stop reminding about this chat", "不再提醒这条聊天"), #selector(self.menuMuteChat(_:)))
             mute.representedObject = card.session
             menu.addItem(mute)
             NSMenu.popUpContextMenu(menu, with: event, for: self.cardStack.stackView)
@@ -1183,11 +1199,11 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             // 只放头像：比文字窄，刘海屏菜单栏拥挤时更不容易被挤到刘海下面。
             button.image = icon
             button.imagePosition = simulation != nil ? .imageLeft : .imageOnly
-            button.title = simulation != nil ? "模拟" : ""
+            button.title = simulation != nil ? tr("demo", "模拟") : ""
         } else {
-            button.title = simulation != nil ? "雪绪·模拟" : "雪绪"
+            button.title = simulation != nil ? tr("Yukio · demo", "雪绪·模拟") : tr("Yukio", "雪绪")
         }
-        button.toolTip = "雪绪：\(swing != nil ? heldSpec.label : catalog.label(for: shownState))"
+        button.toolTip = tr("Yukio: ", "雪绪：") + (swing != nil ? L10n.heldName : L10n.stateName(shownState))
     }
 
     /// 再次打开 Yukio.app（Finder、Spotlight、open 命令）时，在雪绪身旁弹出菜单。
@@ -1224,20 +1240,20 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         // 标题顺带报数：有几条在等你，没人等你时报有几条在跑。
         let title: String
         if wants > 0 {
-            title = "跟随的聊天（\(wants) 条等你）"
+            title = tr("Chat to follow (\(wants) waiting for you)", "跟随的聊天（\(wants) 条等你）")
         } else if live > 1 {
-            title = "跟随的聊天（\(live) 条在跑）"
+            title = tr("Chat to follow (\(live) running)", "跟随的聊天（\(live) 条在跑）")
         } else {
-            title = "跟随的聊天"
+            title = tr("Chat to follow", "跟随的聊天")
         }
         let item = NSMenuItem(title: title, action: nil, keyEquivalent: "")
         let sub = NSMenu()
-        let auto = action("自动（完成和提问优先）", #selector(menuPickChat(_:)), on: router.pinnedSession == nil)
+        let auto = action(tr("Auto (done and questions first)", "自动（完成和提问优先）"), #selector(menuPickChat(_:)), on: router.pinnedSession == nil)
         auto.representedObject = ""
         sub.addItem(auto)
         sub.addItem(.separator())
         if chats.isEmpty {
-            sub.addItem(info("最近没有聊天在跑"))
+            sub.addItem(info(tr("No recent chats", "最近没有聊天在跑")))
         }
         for c in chats {
             let row = action(c.menuLabel, #selector(menuPickChat(_:)))
@@ -1257,6 +1273,19 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         return item
     }
 
+    /// 「Language」子菜单：English／中文，默认英文，选择存在设置里。
+    private func languageItem() -> NSMenuItem {
+        let item = NSMenuItem(title: tr("Language", "语言"), action: nil, keyEquivalent: "")
+        let sub = NSMenu()
+        for (code, name) in [(UILanguage.english, "English"), (UILanguage.chinese, "中文")] {
+            let row = action(name, #selector(menuSetLanguage(_:)), on: language == code)
+            row.representedObject = code.rawValue
+            sub.addItem(row)
+        }
+        item.submenu = sub
+        return item
+    }
+
     private func action(_ title: String, _ selector: Selector, key: String = "", on: Bool? = nil) -> NSMenuItem {
         let item = NSMenuItem(title: title, action: selector, keyEquivalent: key)
         item.target = self
@@ -1268,44 +1297,45 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let menu = NSMenu()
         let chats = simulation == nil ? router.sessionSummaries(now: nowMs(), quietWithinMs: Self.chatListWindowMs,
                                                                 limit: Self.chatListLimit) : []
-        menu.addItem(info("雪绪 · \(swing != nil ? heldSpec.label : catalog.label(for: shownState))"))
+        menu.addItem(info(tr("Yukio", "雪绪") + " · " + (swing != nil ? L10n.heldName : L10n.stateName(shownState))))
         if simulation == nil, following, router.completedSession != nil {
-            menu.addItem(action("打开这条聊天并放下牌子", #selector(menuOpenChat)))
-            menu.addItem(action("先放下牌子，不打开聊天", #selector(menuDropSign)))
+            menu.addItem(action(tr("Open this chat and lower the sign", "打开这条聊天并放下牌子"), #selector(menuOpenChat)))
+            menu.addItem(action(tr("Lower the sign, don't open the chat", "先放下牌子，不打开聊天"), #selector(menuDropSign)))
         } else if simulation == nil, following, router.askingSession != nil {
             // 问号卡不收：答完之后它自己收，这里只把聊天打开。
-            menu.addItem(action("打开这条聊天去回答", #selector(menuOpenChat)))
+            menu.addItem(action(tr("Open this chat to answer", "打开这条聊天去回答"), #selector(menuOpenChat)))
         }
         if simulation != nil {
-            menu.addItem(info("正在播放模拟演示（不是真实 Claude 活动）"))
+            menu.addItem(info(tr("Playing the demo (not real Claude activity)", "正在播放模拟演示（不是真实 Claude 活动）")))
         } else if !following {
-            menu.addItem(info("已暂停跟随，保持空闲"))
+            menu.addItem(info(tr("Following paused, staying idle", "已暂停跟随，保持空闲")))
         } else if !transcript.status.directoryFound {
-            menu.addItem(info("未找到 \(transcript.projectsDir.path)"))
+            menu.addItem(info(tr("Not found: \(transcript.projectsDir.path)", "未找到 \(transcript.projectsDir.path)")))
         } else {
-            menu.addItem(info("跟随 Claude Code（只读会话转录）"))
+            menu.addItem(info(tr("Following Claude Code (read-only transcripts)", "跟随 Claude Code（只读会话转录）")))
             if let focused = chats.first(where: \.focused) {
-                menu.addItem(info("正在跟：\(focused.menuLabel)\(focused.pinned ? "（挑定的）" : "")"))
+                menu.addItem(info(tr("Following: ", "正在跟：") + focused.menuLabel + (focused.pinned ? tr(" (pinned)", "（挑定的）") : "")))
             }
             if hooks.isPresent {
-                menu.addItem(info("Claude hooks 收件箱：已收到 \(hooks.eventsReceived) 个事件"))
+                menu.addItem(info(tr("Claude hooks inbox: \(hooks.eventsReceived) events received", "Claude hooks 收件箱：已收到 \(hooks.eventsReceived) 个事件")))
             }
         }
         menu.addItem(.separator())
         if simulation == nil {
-            menu.addItem(action("播放模拟演示", #selector(menuStartDemo)))
+            menu.addItem(action(tr("Play demo", "播放模拟演示"), #selector(menuStartDemo)))
         } else {
-            menu.addItem(action("停止模拟演示", #selector(menuStopDemo)))
+            menu.addItem(action(tr("Stop demo", "停止模拟演示"), #selector(menuStopDemo)))
         }
-        menu.addItem(action("跟随 Claude 活动", #selector(menuToggleFollow), on: following))
+        menu.addItem(action(tr("Follow Claude activity", "跟随 Claude 活动"), #selector(menuToggleFollow), on: following))
         if simulation == nil { menu.addItem(chatPickerItem(chats)) }
-        menu.addItem(action("头顶显示任务", #selector(menuToggleBubble), on: showBubble))
-        menu.addItem(action("头顶显示别的聊天", #selector(menuToggleCards), on: showCards))
+        menu.addItem(action(tr("Show task bubble", "头顶显示任务"), #selector(menuToggleBubble), on: showBubble))
+        menu.addItem(action(tr("Show other chats", "头顶显示别的聊天"), #selector(menuToggleCards), on: showCards))
+        menu.addItem(languageItem())
 
         menu.addItem(scaleSliderItem())
-        menu.addItem(action("回到屏幕右下角", #selector(menuResetPosition)))
+        menu.addItem(action(tr("Back to the bottom-right corner", "回到屏幕右下角"), #selector(menuResetPosition)))
         menu.addItem(.separator())
-        menu.addItem(action("退出雪绪", #selector(menuQuit), key: "q"))
+        menu.addItem(action(tr("Quit Yukio", "退出雪绪"), #selector(menuQuit), key: "q"))
         return menu
     }
 
@@ -1315,6 +1345,10 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     @objc private func menuPickChat(_ sender: NSMenuItem) {
         let id = sender.representedObject as? String
         router.pinSession(id?.isEmpty == false ? id : nil, now: nowMs())
+    }
+    @objc private func menuSetLanguage(_ sender: NSMenuItem) {
+        language = UILanguage(code: sender.representedObject as? String)
+        updateStatusTitle()
     }
     @objc private func menuStartDemo() { startDemo() }
     @objc private func menuStopDemo() { stopDemo() }

@@ -26,10 +26,10 @@ public struct ActivityCard: Equatable, Sendable {
         /// 卡右上角的短标签。
         public var label: String {
             switch self {
-            case .waiting: return "等你回答"
-            case .failed: return "出错"
-            case .ready: return "答完了"
-            case .running: return "在跑"
+            case .waiting: return tr("Waiting", "等你回答")
+            case .failed: return tr("Error", "出错")
+            case .ready: return tr("Ready", "答完了")
+            case .running: return tr("Running", "在跑")
             }
         }
     }
@@ -114,11 +114,11 @@ extension ActivityRouter {
     func cardSubtitle(_ s: SessionModel, status: ActivityCard.Status, now: Double) -> String {
         switch status {
         case .waiting:
-            return s.open.last?.detail ?? "等你拿主意"
+            return s.open.last?.detail ?? tr("Needs your decision", "等你拿主意")
         case .failed:
-            return s.failedDetail.map { "出错：\($0)" } ?? "这一轮没做完"
+            return s.failedDetail.map { tr("Error: \($0)", "出错：\($0)") } ?? tr("Didn't finish this turn", "这一轮没做完")
         case .ready:
-            return "点开看看"
+            return tr("Take a look", "点开看看")
         case .running:
             let state = desired(for: s, now: now, arming: false)
             let inProgress = s.todos.first(where: { $0.status == .inProgress })?.subject

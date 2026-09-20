@@ -10,6 +10,7 @@
 from __future__ import annotations
 
 from typing import NamedTuple
+from .l10n import tr
 
 
 class CardStatus:
@@ -25,7 +26,6 @@ class CardStatus:
     #: 越小越先看。
     RANK = {waiting: 0, failed: 1, ready: 2, running: 3}
     #: 卡右上角的短标签。
-    LABEL = {waiting: "等你回答", failed: "出错", ready: "答完了", running: "在跑"}
 
     @staticmethod
     def rank(status: str) -> int:
@@ -33,7 +33,8 @@ class CardStatus:
 
     @staticmethod
     def label(status: str) -> str:
-        return CardStatus.LABEL[status]
+        return {CardStatus.waiting: tr("Waiting", "等你回答"), CardStatus.failed: tr("Error", "出错"),
+                CardStatus.ready: tr("Ready", "答完了"), CardStatus.running: tr("Running", "在跑")}[status]
 
 
 class ActivityCard(NamedTuple):

@@ -499,7 +499,7 @@ class LayeredWindow:
 # MARK: 托盘图标与菜单
 
 class TrayIcon:
-    def __init__(self, hwnd: int, icon_path: Optional[str], tip: str = "雪绪"):
+    def __init__(self, hwnd: int, icon_path: Optional[str], tip: str = "Yukio"):
         self.hwnd = hwnd
         self.icon = None
         if icon_path and os.path.exists(icon_path):
@@ -620,7 +620,7 @@ class ControlWindow:
         wc.hCursor = user32.LoadCursorW(None, c_void_p(IDC_ARROW))
         wc.lpszClassName = "YukioControl"
         user32.RegisterClassExW(byref(wc))
-        self.hwnd = user32.CreateWindowExW(WS_EX_TOOLWINDOW, "YukioControl", "雪绪", WS_POPUP,
+        self.hwnd = user32.CreateWindowExW(WS_EX_TOOLWINDOW, "YukioControl", "Yukio", WS_POPUP,
                                            0, 0, 0, 0, None, None, instance, None)
         if not self.hwnd:
             raise OSError("创建宿主窗口失败：%d" % ctypes.get_last_error())
@@ -669,7 +669,7 @@ def quit_loop() -> None:
 TASKBAR_CREATED = user32.RegisterWindowMessageW("TaskbarCreated")
 
 
-def message_box(text: str, title: str = "雪绪") -> None:
+def message_box(text: str, title: str = "Yukio") -> None:
     """出大问题时弹个框说一声——打包成 exe 后没有终端，不然用户什么都看不到。"""
     try:
         user32.MessageBoxW(None, text[:1500], title, MB_OK | MB_ICONERROR | MB_SETFOREGROUND)

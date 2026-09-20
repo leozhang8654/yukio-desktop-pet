@@ -12,6 +12,7 @@ from typing import Dict, List, NamedTuple, Optional
 
 from .cards import ActivityCard, CardStatus
 from .events import Kind, PetEvent, PetState, TodoItem, TodoStatus
+from .l10n import tr
 
 INF = float("inf")
 
@@ -174,41 +175,61 @@ class Snapshot(NamedTuple):
     session_count: int
 
 
-_FALLBACK_TEXT = {
-    PetState.read_file: "阅读文件",
-    PetState.view_image: "查看图片",
-    PetState.write_file: "修改文件",
-    PetState.verify: "运行测试",
-    PetState.read_web: "浏览网页",
-    PetState.default_work: "处理中",
-    PetState.thinking: "思考中",
-    PetState.respond: "整理回答",
-    PetState.failed: "出错了",
-    PetState.question_for_user: "等你回答",
-    PetState.task_complete: "已完成 · 点我打开对话",
-    PetState.idle: "等你回答",
-}
-
-
 def state_text(state: PetState) -> str:
-    """状态的中文说法：气泡没有更具体的文字时用它，聊天列表里也用它。"""
-    return _FALLBACK_TEXT[state]
+    """状态的说法（按界面语言）：气泡没有更具体的文字时用它，聊天列表里也用它。"""
+    return {
+        PetState.read_file: tr("Reading a file", "阅读文件"),
+        PetState.view_image: tr("Viewing an image", "查看图片"),
+        PetState.write_file: tr("Editing a file", "修改文件"),
+        PetState.verify: tr("Running tests", "运行测试"),
+        PetState.read_web: tr("Browsing the web", "浏览网页"),
+        PetState.default_work: tr("Working", "处理中"),
+        PetState.thinking: tr("Thinking", "思考中"),
+        PetState.respond: tr("Writing the answer", "整理回答"),
+        PetState.failed: tr("Something went wrong", "出错了"),
+        PetState.question_for_user: tr("Waiting for your answer", "等你回答"),
+        PetState.task_complete: tr("Done · click to open", "已完成 · 点我打开对话"),
+        PetState.idle: tr("Waiting for your answer", "等你回答"),
+    }[state]
+
+
+def state_name(state: PetState) -> str:
+    """菜单第一行与托盘提示里的状态名（不是气泡文字）。"""
+    return {
+        PetState.thinking: tr("Thinking", "思考"),
+        PetState.read_file: tr("Reading a file", "读文件"),
+        PetState.view_image: tr("Viewing an image", "看图片"),
+        PetState.write_file: tr("Editing a file", "写文件"),
+        PetState.verify: tr("Running tests", "跑测试"),
+        PetState.read_web: tr("Browsing the web", "看网页"),
+        PetState.respond: tr("Handing in the answer", "递交回答"),
+        PetState.task_complete: tr("Holding the done card", "举着勾选卡"),
+        PetState.question_for_user: tr("Holding the question card", "立着问号卡"),
+        PetState.default_work: tr("Working", "敲键盘"),
+        PetState.failed: tr("Failed", "沮丧"),
+        PetState.idle: tr("Idle", "空闲"),
+    }[state]
+
+
+def held_name() -> str:
+    """被大手拎着时的状态名。"""
+    return tr("Picked up", "被大手拎着")
 
 
 def ago_text(ms: float) -> str:
     seconds = int(max(0.0, ms) / 1000)
     if seconds < 60:
-        return "刚刚"
+        return tr("just now", "刚刚")
     if seconds < 3600:
-        return "%d 分钟前" % (seconds // 60)
-    return "%d 小时前" % (seconds // 3600)
+        return tr("%d min ago", "%d 分钟前") % (seconds // 60)
+    return tr("%d h ago", "%d 小时前") % (seconds // 3600)
 
 
 def display_name(title: Optional[str], id: str, max_len: int = 32) -> str:
     """聊天名：会话标题或请求第一行；都没有时用会话 ID 前 8 位。头顶那摞卡也用它。"""
     t = (title or "").strip()
     if not t:
-        return "会话 %s…" % id[:8]
+        return tr("Session %s…", "会话 %s…") % id[:8]
     return t[:max_len] + "…" if len(t) > max_len else t
 
 
@@ -245,15 +266,15 @@ class SessionSummary(NamedTuple):
     def status_text(self) -> str:
         """正在做什么：在跑的显示动作，等你处理的说在等什么，其余显示多久没动静。"""
         if self.sign_yielded:
-            return "举着牌子等你（先让位了）"
+            return tr("Holding the sign for you (stepped aside)", "举着牌子等你（先让位了）")
         if self.raised_sign or self.state is PetState.task_complete:
-            return "举着牌子等你点"
+            return tr("Holding the sign, click her", "举着牌子等你点")
         if self.live:
             return state_text(self.state)
         if self.state is PetState.respond:
-            return "刚答完"
+            return tr("Just answered", "刚答完")
         if self.state is PetState.failed:
-            return "出错停住了"
+            return tr("Stopped on an error", "出错停住了")
         return ago_text(self.quiet_ms)
 
     @property
@@ -700,16 +721,17 @@ class ActivityRouter:
 
         d = self.displayed
         if d is PetState.failed:
-            current = "出错：%s" % s.failed_detail if s.failed_detail else "出错了"
+            current = tr("Error: %s", "出错：%s") % s.failed_detail if s.failed_detail else tr("Something went wrong", "出错了")
         elif d is PetState.respond:
-            current = "整理回答" if s.task_active else "已回答"
+            current = tr("Writing the answer", "整理回答") if s.task_active else tr("Answered", "已回答")
         elif d in (PetState.idle, PetState.question_for_user):
             # 问号卡也能点（跳到这条聊天去回答），和勾选卡一样在气泡里说一声，不然没人知道能点。
-            current = "%s · 点我打开对话" % ((s.open[-1].detail if s.open else None) or "等你回答")
+            current = tr("Your turn · click to open", "%s · 点我打开对话" % (
+                (s.open[-1].detail if s.open else None) or "等你回答"))
         elif d is PetState.task_complete:
-            current = "已完成 · 点我打开对话"
+            current = tr("Done · click to open", "已完成 · 点我打开对话")
         elif d is PetState.thinking:
-            current = in_progress or "思考中"
+            current = in_progress or tr("Thinking", "思考中")
         else:
             current = in_progress or s.last_detail.get(d) or state_text(d)
         return StatusLine(title=s.title or s.prompt, current=current, progress=progress)
@@ -779,11 +801,11 @@ class ActivityRouter:
 
     def _card_subtitle(self, s: _Session, status: str, now: float) -> str:
         if status == CardStatus.waiting:
-            return (s.open[-1].detail if s.open else None) or "等你拿主意"
+            return (s.open[-1].detail if s.open else None) or tr("Needs your decision", "等你拿主意")
         if status == CardStatus.failed:
-            return ("出错：%s" % s.failed_detail) if s.failed_detail else "这一轮没做完"
+            return (tr("Error: %s", "出错：%s") % s.failed_detail) if s.failed_detail else tr("Didn't finish this turn", "这一轮没做完")
         if status == CardStatus.ready:
-            return "点开看看"
+            return tr("Take a look", "点开看看")
         state = self._desired(s, now, arming=False)
         for t in s.todos:
             if t.status is TodoStatus.in_progress and t.subject:

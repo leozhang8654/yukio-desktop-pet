@@ -17,6 +17,7 @@ from typing import Any, Dict, List, Optional, Tuple
 from urllib.parse import urlparse
 
 from .events import PetState
+from .l10n import tr
 
 #: classify() 返回 CONTINUE_PREVIOUS 表示“延续该会话上一个工具的活动”（轮询后台命令等）。
 CONTINUE_PREVIOUS = "continue_previous"
@@ -457,37 +458,37 @@ def describe(tool: str, input: Optional[Dict[str, Any]] = None) -> Optional[str]
         f = _name(input, "file_path") or _name(input, "path")
         if not f:
             return None
-        return "查看 %s" % f if _ext(f) in IMAGE_EXTENSIONS else "阅读 %s" % f
+        return tr("Viewing %s", "查看 %s") % f if _ext(f) in IMAGE_EXTENSIONS else tr("Reading %s", "阅读 %s") % f
     if key in ("readimage", "understandimage"):
         f = _name(input, "file_path") or _name(input, "image_path")
-        return "查看 %s" % f if f else "查看图片"
+        return tr("Viewing %s", "查看 %s") % f if f else tr("Viewing an image", "查看图片")
     if key == "notebookread":
         f = _name(input, "notebook_path")
-        return "阅读 %s" % f if f else None
+        return tr("Reading %s", "阅读 %s") % f if f else None
     if key == "write":
         f = _name(input, "file_path")
-        return "写入 %s" % f if f else None
+        return tr("Writing %s", "写入 %s") % f if f else None
     if key in ("edit", "multiedit", "str_replace_editor"):
         f = _name(input, "file_path")
-        return "编辑 %s" % f if f else "编辑文件"
+        return tr("Editing %s", "编辑 %s") % f if f else tr("Editing a file", "编辑文件")
     if key == "notebookedit":
         f = _name(input, "notebook_path")
-        return "编辑 %s" % f if f else None
+        return tr("Editing %s", "编辑 %s") % f if f else None
     if key == "grep":
         p = _text(input, "pattern")
-        return "搜索 %s" % p if p else None
+        return tr("Searching %s", "搜索 %s") % p if p else None
     if key == "glob":
         p = _text(input, "pattern")
-        return "查找 %s" % p if p else None
+        return tr("Finding %s", "查找 %s") % p if p else None
     if key == "ls":
         f = _name(input, "path")
-        return "查看 %s" % f if f else None
+        return tr("Viewing %s", "查看 %s") % f if f else None
     if key == "webfetch":
         u = _text(input, "url")
-        return "浏览 %s" % _host(u) if u else None
+        return tr("Browsing %s", "浏览 %s") % _host(u) if u else None
     if key in ("websearch", "web_search"):
         q = _text(input, "query")
-        return "搜索网页 %s" % q if q else None
+        return tr("Searching the web: %s", "搜索网页 %s") % q if q else None
     if key in _SHELL_TOOLS:
         command = _text(input, "command") or ""
         # heredoc 脚本（python3 - <<EOF …）从命令本身看不出在做什么，优先用调用时附带的说明。
@@ -500,26 +501,26 @@ def describe(tool: str, input: Optional[Dict[str, Any]] = None) -> Optional[str]
     if key in _CONTINUE_TOOLS:
         return None
     if key in ("todowrite", "taskcreate", "taskupdate", "tasklist", "taskget", "updateplan"):
-        return "整理任务清单"
+        return tr("Updating the task list", "整理任务清单")
     if key in ("enterplanmode", "exitplanmode", "exit_plan_mode"):
-        return "制定计划"
+        return tr("Planning", "制定计划")
     if key == "toolsearch":
-        return "查找工具"
+        return tr("Finding tools", "查找工具")
     if key == "askuserquestion":
-        return "等你回答"
+        return tr("Needs your answer", "等你回答")
     if key in ("agent", "task"):
         d = _text(input, "description")
-        return "委派：%s" % d if d else "委派助手"
+        return tr("Delegating: %s", "委派：%s") % d if d else tr("Delegating to a helper", "委派助手")
     if key == "skill":
         s = _text(input, "skill") or _text(input, "name")
-        return "技能 %s" % s if s else "加载技能"
+        return tr("Skill %s", "技能 %s") % s if s else tr("Loading a skill", "加载技能")
     if tool.startswith("mcp__"):
         short = tool.split("__")[-1]
         state = classify_mcp(tool, input)
         if state is PetState.view_image:
-            return "截图"
+            return tr("Screenshot", "截图")
         if state is PetState.read_web:
             u = _text(input, "url")
-            return "浏览 %s" % _host(u) if u else "浏览器 %s" % short
+            return tr("Browsing %s", "浏览 %s") % _host(u) if u else tr("Browser %s", "浏览器 %s") % short
         return short
     return tool

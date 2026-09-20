@@ -183,7 +183,8 @@ class DeepCodeSource(JsonlProjectsSource):
     本轮失败”这些只写在索引里的状态。
     """
 
-    label = "Deep Code（DeepSeek）"
+    label = "Deep Code (DeepSeek)"
+    label_zh = "Deep Code（DeepSeek）"
 
     def __init__(self, projects_dir: Optional[str] = None):
         super().__init__(projects_dir or deepcode_projects_dir(), DeepCodeMessageParser(), "deepcode")
@@ -232,7 +233,8 @@ class ClaudeTranscriptSource(JsonlProjectsSource):
 class BridgeInboxSource:
     """通用收件箱文件。文件不存在时什么也不做；只读取启动之后新增的记录。"""
 
-    label = "通用收件箱"
+    label = "Generic inbox"
+    label_zh = "通用收件箱"
     rotate_bytes = 5 * MB
 
     def __init__(self, path: Optional[str] = None):

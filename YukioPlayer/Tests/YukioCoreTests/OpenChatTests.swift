@@ -5,6 +5,7 @@ import Testing
 /// 举牌是为了"这条答完了，点我跳过去看"。那条聊天要是本来就开在眼前，人已经看见了，
 /// 再举一块牌只是挡路。这组测试盯住这个取舍。
 @Suite struct OpenChatTests {
+    init() { L10n.language = .chinese }   // 这些测试按中文文案断言
     /// 答完时那条聊天正开在眼前：不举牌，直接回空闲。
     @Test func noCardWhenThatChatIsAlreadyInSight() {
         var config = RouterConfig()
@@ -83,6 +84,7 @@ import Testing
 /// 举牌有两条路：当前跟着的那条走 desired(for:)，别的聊天走 armPendingSigns。
 /// 开在眼前的那条两条路都不该举牌——否则它会从身侧那叠卡里冒出来。
 @Suite struct OpenChatArmingTests {
+    init() { L10n.language = .chinese }   // 这些测试按中文文案断言
     @Test func aChatInSightIsNotArmedEvenWhileSheFollowsAnother() {
         var config = RouterConfig()
         config.completeArmMs = 8000
