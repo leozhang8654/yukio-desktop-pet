@@ -191,7 +191,7 @@ extension SpriteLibrary {
     }
 }
 
-/// 资源位置：环境变量 → 应用包内 → 开发时的工程目录。全部是相对工程或应用包的路径。
+/// 资源位置：环境变量 → 应用包内 → 开发时的工程目录（仅调试构建）。全部是相对工程或应用包的路径。
 enum AssetLocator {
     static func assetsRoot() -> URL? {
         let fm = FileManager.default
@@ -201,9 +201,14 @@ enum AssetLocator {
             if valid(u) { return u }
         }
         if let res = Bundle.main.resourceURL?.appendingPathComponent("Assets"), valid(res) { return res }
+        #if DEBUG
         // swift run：Sources/YukioPlayer/SpriteLibrary.swift → 工程根目录/Resources/Assets
+        // 只留在调试构建里：#filePath 会把本机源码路径编进二进制，发行版不该带。
         let dev = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent()
             .deletingLastPathComponent().appendingPathComponent("Resources/Assets")
         return valid(dev) ? dev : nil
+        #else
+        return nil
+        #endif
     }
 }
