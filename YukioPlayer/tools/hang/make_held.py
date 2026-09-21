@@ -32,6 +32,7 @@ W, H = 192, 240
 HAIR_TOP = 16          # 头发顶端所在行，与 neutral.png 相同
 GRIP_ABOVE_HAIR = 6    # 抓手点在头发顶端上方几行（空处：大手看不见）
 ALPHA = 24
+PEAK_MARGIN = 12       # 清尖顶残留时，只清尖的包围盒外扩这么多像素（源图像素）以内
 
 
 def mask(image: Image.Image) -> np.ndarray:
@@ -115,8 +116,13 @@ def drop_collar_peak(image: Image.Image) -> Image.Image:
         above[:rows[0] if len(rows) else peak.shape[0], x] = True
     a[..., 3] = np.where(peak | ((_dilate(peak, 3) & ~peak) & above), 0, alpha)
 
-    # 尖顶的高光会剩一小撮：头发轮廓以上剩下的零星像素一并清掉。
-    left = (a[..., 3] > ALPHA) & above
+    # 尖顶的高光会剩一小撮：头发轮廓以上剩下的零星像素一并清掉。只在尖附近清：`above` 是按列算的
+    # 「这一列第一个白头发像素以上」，整张图都这么清的话，蝴蝶结（压在白头发上面）会被整个删掉。
+    py, px = np.where(peak)
+    near = np.zeros_like(peak)
+    near[max(py.min() - PEAK_MARGIN, 0):py.max() + PEAK_MARGIN + 1,
+         max(px.min() - PEAK_MARGIN, 0):px.max() + PEAK_MARGIN + 1] = True
+    left = (a[..., 3] > ALPHA) & above & near
     a[..., 3] = np.where(left, 0, a[..., 3])
     return Image.fromarray(a.astype(np.uint8))
 
