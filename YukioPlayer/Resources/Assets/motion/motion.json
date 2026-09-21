@@ -1,7 +1,7 @@
 {
  "version": 3,
  "generator": "tools/motion/make_motion.py → tools/motion/upscale_motion.py",
- "note": "每个动作只用一张底图：要明显移动的手、笔、放大镜、纸抠成一层单独移动，原位置补齐；头眼用局部变形；桌椅逐像素不动。 图条是 2 倍分辨率（pixelScale=2，tools/motion/upscale_motion.py 用 Real-ESRGAN 动画模型超分），太长的折成几行。",
+ "note": "每个动作只用一张底图：要明显移动的手、笔、放大镜、纸抠成一层单独移动，原位置补齐；头眼用局部变形；桌椅逐像素不动。 图条是 2 倍分辨率（pixelScale=2，tools/motion/upscale_motion.py 用 Real-ESRGAN 动画模型超分），太长的折成几行。 轮廓外垫了一圈 0.5 点的深色描边。",
  "states": [
   {
    "id": "thinking",

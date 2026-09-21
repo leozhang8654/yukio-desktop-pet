@@ -6,11 +6,20 @@
   python tools/motion/upscale_motion.py --only respond   只重做某一段（motion.json 里只换这一条），可写多次
   python tools/motion/upscale_motion.py --no-held        不重做被拎起来那一帧
   python tools/motion/upscale_motion.py --scale 1        不超分，把 1 倍图条原样搬过去（回退用，不需要 torch）
+  python tools/motion/upscale_motion.py --outline 0      不加轮廓描边（默认 0.5 点）
 
 流程：先用 tools/motion/make_motion.py 在 build/motion-1x/ 生成 1 倍图条（手工标坐标的动作生成都在 1 倍下做，
 不用改）；这里逐帧过一遍 Real-ESRGAN 的动画模型（放大 4 倍，再面积平均缩到 2 倍），透明通道单独超分后合回去，
 线条和眼睛在视网膜屏上放大也是清楚的，而且不改人物。超过 WebP 宽度上限（16383）的长条折成几行；
 motion.json 里 pixelScale=2 告诉播放器一格是 384×416 像素、仍按 192×208 点摆放。
+
+超分之后还有两步：
+- 网络看得很远：手一动，十几个像素外桌腿的颜色也会差几个色阶，逐帧轮播就是细微的闪。所以每一帧都和循环的
+  第一帧（参照帧）比：1 倍图上和参照帧一样的像素，离这一帧里变了的地方 2 点以内照旧用自己的值，10 点以外
+  换成参照帧的值，中间按距离平滑过渡（一刀切会在分界处留下一圈看得出的台阶）；桌腿一带（1 倍 y ≥ 126）
+  只要和参照帧一样就一律换成参照帧的值，所以桌椅在 2 倍图上也逐像素不动。
+- 轮廓外垫一圈 0.5 点的深色描边（颜色取人物自己最深的描线），垫在人物下面，不透明的像素一个不改。
+  原来那圈抠图留下的黑边约 1–1.5 点而且是糊的；这圈细、清楚，白头发贴在浅色桌面上也不会化开。
 
 环境：系统 Python 没有 torch，单独建一个就行（Apple 芯片走 MPS，一帧约 0.3 秒，全部约 3 分钟）：
   python3.13 -m venv ~/.cache/yukio-sr
@@ -44,6 +53,11 @@ MODEL_URL = 'https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.2.4/'
 MODEL_SHA256 = 'f872d837d3c90ed2e05227bed711af5671a6fd1c9f7d7e91c911a61f155e99da'
 MAX_WEBP = 16383
 HELD = ('base/held.png', 'base/held@2x.png')
+OUTLINE_PT = 0.5                 # 轮廓外描边的粗细（点）；2 倍图上是 1 像素
+OUTLINE_RGB = (14, 14, 40)       # 描边颜色：人物自己描线最深的那部分（藏青近黑）
+FREEZE_TOLERANCE = 3             # 和参照帧差不超过这么多（预乘后 0–255）的像素，直接用参照帧的值
+FREEZE_NEAR, FREEZE_FAR = 2, 10  # 离这一帧里变了的地方（点）：NEAR 以内用自己的值，FAR 以外用参照帧的值，中间平滑过渡
+LEGS_TOP = 126                   # 1 倍图里桌腿、椅子一带从这一行往下（make_motion.py 也查这一块）
 
 
 # ---------- 模型（RRDBNet，与 Real-ESRGAN 同构，只做推理） ----------
@@ -163,6 +177,88 @@ def upscale_rgba(up: Upscaler, rgba8: np.ndarray, scale: int) -> np.ndarray:
     return np.round(out * 255).astype(np.uint8)
 
 
+def ring_coverage(alpha: np.ndarray, radius: float, K: int = 4) -> np.ndarray:
+    """alpha（0–1）轮廓外 radius 像素宽那一圈的覆盖率：4 倍超采样下量到 0.5 等值线的距离，再面积平均缩回，边缘抗锯齿。"""
+    h, w = alpha.shape
+    up = cv2.resize(alpha, (w * K, h * K), interpolation=cv2.INTER_LINEAR)
+    inside = (up > 0.5).astype(np.uint8)
+    d = cv2.distanceTransform(1 - inside, cv2.DIST_L2, cv2.DIST_MASK_PRECISE)
+    ring = np.clip(radius * K + 1 - d, 0, 1)
+    ring[inside == 1] = 1
+    return cv2.resize(ring, (w, h), interpolation=cv2.INTER_AREA)
+
+
+def add_outline(rgba8: np.ndarray, radius: float) -> np.ndarray:
+    """轮廓外垫一圈深色描边：人物叠在描边上面，不透明的像素一个不改，半透明的边缘透出下面的深色。"""
+    if radius <= 0:
+        return rgba8
+    f = rgba8.astype(np.float32) / 255
+    a, rgb = f[..., 3], f[..., :3]
+    ring = ring_coverage(a, radius)
+    color = np.array(OUTLINE_RGB, np.float32) / 255
+    out_a = a + ring * (1 - a)
+    out_rgb = (rgb * a[..., None] + color * (ring * (1 - a))[..., None]) / np.maximum(out_a[..., None], 1e-6)
+    out = np.concatenate([out_rgb, out_a[..., None]], axis=2)
+    out[out_a < 1e-4] = 0
+    return np.round(np.clip(out, 0, 1) * 255).astype(np.uint8)
+
+
+def premultiplied(f: np.ndarray) -> np.ndarray:
+    """8 位 RGBA → 预乘的 float（0–255）。透明处的颜色不参与比较与混合。"""
+    p = f.astype(np.float32)
+    p[..., :3] *= p[..., 3:4] / 255
+    return p
+
+
+def straight(p: np.ndarray) -> np.ndarray:
+    a = p[..., 3:4]
+    rgb = np.where(a > 0.5, p[..., :3] * 255 / np.maximum(a, 1e-3), 0)
+    return np.round(np.clip(np.concatenate([rgb, a], axis=2), 0, 255)).astype(np.uint8)
+
+
+def smoothstep(x: np.ndarray) -> np.ndarray:
+    x = np.clip(x, 0, 1)
+    return x * x * (3 - 2 * x)
+
+
+def freeze_static(small: list[np.ndarray], big: list[np.ndarray], scale: int, ref: int):
+    """每一帧里 1 倍图上和参照帧一样的像素，按离「这一帧变了的地方」的远近，平滑地换成参照帧的 2 倍值（规则见文件开头）。
+    返回 (帧, 各帧平均完全换掉的像素数, 各帧平均部分换掉的像素数)。"""
+    if len(big) < 2:
+        return big, 0, 0
+    pr = premultiplied(big[ref])
+    rows = np.arange(big[ref].shape[0])[:, None] / scale
+    out, full, part = [], 0, 0
+    for k, (s1, b2) in enumerate(zip(small, big)):
+        if k == ref:
+            out.append(big[ref])
+            continue
+        same = np.all(s1 == small[ref], axis=2)
+        same = np.repeat(np.repeat(same, scale, axis=0), scale, axis=1)
+        pk = premultiplied(b2)
+        dist = cv2.distanceTransform(same.astype(np.uint8), cv2.DIST_L2, cv2.DIST_MASK_PRECISE) / scale
+        w = smoothstep((dist - FREEZE_NEAR) / (FREEZE_FAR - FREEZE_NEAR))
+        w[np.abs(pk - pr).max(axis=2) <= FREEZE_TOLERANCE] = 1
+        w[np.broadcast_to(rows >= LEGS_TOP, w.shape)] = 1
+        w[~same] = 0
+        out.append(straight(pk * (1 - w[..., None]) + pr * w[..., None]))
+        full += int((w >= 1).sum())
+        part += int(((w > 0) & (w < 1)).sum())
+    n = len(big) - 1
+    return out, full // n, part // n
+
+
+def legs_changed(small: list[np.ndarray], big: list[np.ndarray], scale: int, ref: int) -> int:
+    """1 倍图上桌腿一带（y ≥ LEGS_TOP）和参照帧一样的帧，2 倍图上那一带还有多少像素不一样（应当是 0）。"""
+    top = LEGS_TOP * scale
+    pr = premultiplied(big[ref])[top:]
+    worst = 0
+    for s1, b2 in zip(small, big):
+        if np.array_equal(s1[LEGS_TOP:], small[ref][LEGS_TOP:]):
+            worst = max(worst, int((np.abs(premultiplied(b2)[top:] - pr).max(axis=2) > 0.5).sum()))
+    return worst
+
+
 def plain_rgba(rgba8: np.ndarray, scale: int) -> np.ndarray:
     if scale == 1:
         return rgba8
@@ -200,25 +296,32 @@ def convert(frames: list[np.ndarray], scale: int, up) -> list[np.ndarray]:
 
 # ---------- 主流程 ----------
 
-def process_states(entries: list[dict], scale: int, up) -> list[dict]:
+def process_states(entries: list[dict], scale: int, up, outline: float) -> list[dict]:
     done = []
     for e in entries:
         t0 = time.time()
         frames = read_strip(STAGING / e['asset'], e['frameWidth'], e['frameHeight'])
         big = convert(frames, scale, up)
+        ref = e['sequence'][e.get('loopStart') or 0]      # 参照帧：循环的第一帧
+        big, full, part = freeze_static(frames, big, scale, ref)
+        big = [add_outline(f, outline * scale) for f in big]
+        legs = legs_changed(frames, big, scale, ref)
         sheet = pack(big)
         save_webp(sheet, OUT / e['asset'])
         new = dict(e)
         new['pixelScale'] = scale
         done.append(new)
-        print(f"{e['id']:18s} {len(frames):3d} 帧 → {sheet.width}×{sheet.height}  {time.time() - t0:5.1f}s")
+        print(f"{e['id']:18s} {len(frames):3d} 帧 → {sheet.width}×{sheet.height}  每帧换成参照帧 {full} 像素、"
+              f"过渡 {part}  桌腿区各帧不同 {legs} 像素  {time.time() - t0:5.1f}s")
+        if legs:
+            raise SystemExit(f"{e['id']}: 2 倍图上桌腿区被改动了")
     return done
 
 
-def process_held(scale: int, up):
+def process_held(scale: int, up, outline: float):
     src, dst = (ASSETS / HELD[0]), (ASSETS / HELD[1])
     frame = np.asarray(Image.open(src).convert('RGBA')).copy()
-    big = convert([frame], scale, up)[0]
+    big = add_outline(convert([frame], scale, up)[0], outline * scale)
     dst.parent.mkdir(parents=True, exist_ok=True)
     Image.fromarray(big).save(dst, 'PNG', optimize=True)
     path = ASSETS / 'base' / 'base-animations.json'
@@ -236,7 +339,7 @@ def process_held(scale: int, up):
     print(f"held → {big.shape[1]}×{big.shape[0]}，base-animations.json 已指向 {HELD[1] if scale != 1 else HELD[0]}")
 
 
-def write_motion_json(entries: list[dict], scale: int, merge: bool):
+def write_motion_json(entries: list[dict], scale: int, merge: bool, outline: float):
     path = OUT / 'motion.json'
     src = json.loads((STAGING / 'motion.json').read_text(encoding='utf-8'))
     if merge and path.exists():
@@ -250,6 +353,8 @@ def write_motion_json(entries: list[dict], scale: int, merge: bool):
     note = src.get('note', '')
     if scale != 1:
         note += f' 图条是 {scale} 倍分辨率（pixelScale={scale}，tools/motion/upscale_motion.py 用 Real-ESRGAN 动画模型超分），太长的折成几行。'
+    if outline > 0:
+        note += f' 轮廓外垫了一圈 {outline:g} 点的深色描边。'
     path.write_text(json.dumps({
         'version': 3,
         'generator': 'tools/motion/make_motion.py → tools/motion/upscale_motion.py',
@@ -264,6 +369,7 @@ def main():
     ap.add_argument('--only', action='append', help='只处理这些动作 id')
     ap.add_argument('--no-held', action='store_true', help='不重做被拎起来那一帧')
     ap.add_argument('--scale', type=int, default=2, choices=[1, 2, 4], help='输出倍率（默认 2）')
+    ap.add_argument('--outline', type=float, default=OUTLINE_PT, help=f'轮廓外描边粗细，单位点（默认 {OUTLINE_PT}，0 表示不描）')
     args = ap.parse_args()
     if not (STAGING / 'motion.json').exists():
         raise SystemExit(f'先运行 tools/motion/make_motion.py 生成 1 倍图条（{STAGING}）')
@@ -276,10 +382,10 @@ def main():
         entries = [e for e in entries if e['id'] in set(args.only)]
     up = Upscaler() if args.scale != 1 else None
     t0 = time.time()
-    done = process_states(entries, args.scale, up)
-    write_motion_json(done, args.scale, merge=bool(args.only))
+    done = process_states(entries, args.scale, up, args.outline)
+    write_motion_json(done, args.scale, merge=bool(args.only), outline=args.outline)
     if not args.no_held:
-        process_held(args.scale, up)
+        process_held(args.scale, up, args.outline)
     print(f'完成，共 {time.time() - t0:.0f}s')
 
 

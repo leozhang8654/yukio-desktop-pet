@@ -150,13 +150,13 @@ Both players have window-less modes for poking around: `--demo`, `--replay sessi
 ## Good to know
 
 - English by default. The right-click menu has a Language entry with 中文, and the choice is remembered. Descriptions already attached to earlier events keep their language until the next event arrives. The command-line check modes still print their diagnostics in Chinese.
-- The art is drawn and animated at 192×208, then shipped as 2x sheets (384×416; the picked-up frame 384×480) that are upscaled with an anime super-resolution model and re-cut from the magenta-background sources so the outline has no dark fringe. She stays crisp on Retina and HiDPI screens; above 200% she starts to soften again.
+- The art is drawn and animated at 192×208, then shipped as 2x sheets (384×416; the picked-up frame 384×480) upscaled with an anime super-resolution model. The old thick, blurry dark fringe from keying is gone; a thin half-point outline is drawn around her instead. She stays crisp on Retina and HiDPI screens; above 200% she starts to soften again.
 - Click-to-jump needs the Claude desktop app. Claude Code run in a terminal has no chat window to open, so a click only brings Claude to the front. Deep Code chats live in the terminal too, so on Windows a click simply lowers the card. Verified on macOS; the Windows path is written the same way but has not been tried on a real machine yet.
 - Size is a 50 to 200% slider on macOS and seven steps plus ±5% nudges on Windows, because a native Win32 menu cannot hold a slider.
 - The binaries are unsigned and not notarized. Building from source avoids the first-launch prompts.
 
 ## How the art is made
 
-The character was drawn by ChatGPT's image model from a fixed reference sheet, then keyed, cropped, and animated by the Python tools in `YukioPlayer/tools/`. The animation is deliberately not generated frame by frame. Each state has a single confirmed base image. Parts that need to move visibly, such as a hand, the pen, the magnifier, or the papers, are lifted onto their own layer and moved by two to five pixels with the hole filled in behind them. Head and eyes use small local warps. Every output frame is checked so the desk legs stay exactly where they were.
+The character was drawn by ChatGPT's image model from a fixed reference sheet, then keyed, cropped, and animated by the Python tools in `YukioPlayer/tools/`. The animation is deliberately not generated frame by frame. Each state has a single confirmed base image. Parts that need to move visibly, such as a hand, the pen, the magnifier, or the papers, are lifted onto their own layer and moved by two to five pixels with the hole filled in behind them. Head and eyes use small local warps. Every output frame is checked so the desk legs stay exactly where they were. The finished frames are then upscaled to 2x with Real-ESRGAN's anime model and given a thin dark outline, and anything that stays still at 1x is kept pixel-identical across frames at 2x too.
 
 If Yukio makes your day at the keyboard a little nicer, a ⭐ helps other people find her.
