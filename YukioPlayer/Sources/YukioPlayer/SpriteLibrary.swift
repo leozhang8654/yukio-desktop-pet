@@ -50,7 +50,7 @@ final class SpriteLibrary {
         self.catalog = catalog
         var urls: [String: URL] = [:]
         var counts: [String: Int] = [:]
-        var headTop = Int.max
+        var headTop = CGFloat.greatestFiniteMagnitude
         var headTops: [String: CGFloat] = [:]
         var hangLength: CGFloat = 0
         // 启动时逐段解码一次：检查尺寸与帧索引、量出头顶线与重心，然后丢掉，只记帧数和位置。
@@ -58,20 +58,25 @@ final class SpriteLibrary {
             let url = assetsRoot.appendingPathComponent(spec.assetPath)
             let sheet = try Self.decodeSheet(url, spec)
             urls[spec.id] = url
-            counts[spec.id] = sheet.width / spec.frameWidth
+            let cell = Self.cell(spec)
+            counts[spec.id] = Self.frameCount(sheet, spec)
+            // 量出来的是图里的像素；除以 pixelScale 换成点，和窗口、锚点用同一套单位。
+            let k = CGFloat(max(spec.pixelScale, 1))
             if spec.id == AnimationCatalog.heldID, let anchors = spec.hang {
                 // 重心按不透明像素取平均：图换了（重画、改姿势）摆长自己跟着变，不用手填数字。
-                let center = Self.centroid(sheet, width: spec.frameWidth)
-                hangLength = max(hypot(center.x - CGFloat(anchors.gripX), center.y - CGFloat(anchors.gripY)), 1)
+                let center = Self.centroid(sheet, width: cell.width, height: cell.height)
+                hangLength = max(hypot(center.x / k - CGFloat(anchors.gripX), center.y / k - CGFloat(anchors.gripY)), 1)
             } else {
-                let row = Self.firstOpaqueRow(sheet)
-                headTops[spec.id] = CGFloat(row)
-                headTop = min(headTop, row)
+                let row = Self.firstOpaqueRow(sheet, frameHeight: cell.height)
+                if row != Int.max {
+                    headTops[spec.id] = CGFloat(row) / k
+                    headTop = min(headTop, CGFloat(row) / k)
+                }
             }
         }
         self.urls = urls
         self.counts = counts
-        headTopInset = headTop == .max ? 0 : CGFloat(headTop)
+        headTopInset = headTop == .greatestFiniteMagnitude ? 0 : headTop
         self.headTops = headTops
         self.hangLength = hangLength
     }
@@ -102,19 +107,35 @@ final class SpriteLibrary {
     private func decodeFrames(_ id: String) -> [Frame] {
         guard let spec = catalog.specs[id], let url = urls[id], let sheet = try? Self.decodeSheet(url, spec) else { return [] }
         var list: [Frame] = []
-        for i in 0..<(sheet.width / spec.frameWidth) {
-            let rect = CGRect(x: i * spec.frameWidth, y: 0, width: spec.frameWidth, height: spec.frameHeight)
-            // 每帧复制成独立的小位图，图层只持有这一帧（192×208）。直接用 cropping 的子图时，
+        let cell = Self.cell(spec)
+        let perRow = sheet.width / cell.width
+        for i in 0..<Self.frameCount(sheet, spec) {
+            let rect = CGRect(x: (i % perRow) * cell.width, y: (i / perRow) * cell.height,
+                              width: cell.width, height: cell.height)
+            // 每帧复制成独立的小位图，图层只持有这一帧（1 倍图 192×208、2 倍图 384×416）。直接用 cropping 的子图时，
             // 显示每一帧都会连带整条图条的解码结果，内存会涨到两三百 MB。
             guard let cropped = sheet.cropping(to: rect),
-                  let ctx = CGContext(data: nil, width: spec.frameWidth, height: spec.frameHeight, bitsPerComponent: 8,
-                                      bytesPerRow: spec.frameWidth * 4, space: CGColorSpace(name: CGColorSpace.sRGB)!,
+                  let ctx = CGContext(data: nil, width: cell.width, height: cell.height, bitsPerComponent: 8,
+                                      bytesPerRow: cell.width * 4, space: CGColorSpace(name: CGColorSpace.sRGB)!,
                                       bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else { continue }
-            ctx.draw(cropped, in: CGRect(x: 0, y: 0, width: spec.frameWidth, height: spec.frameHeight))
+            ctx.draw(cropped, in: CGRect(x: 0, y: 0, width: cell.width, height: cell.height))
             guard let image = ctx.makeImage() else { continue }
-            list.append(Frame(image: image, width: spec.frameWidth, height: spec.frameHeight, alpha: Self.alphaMask(image)))
+            list.append(Frame(image: image, width: cell.width, height: cell.height, alpha: Self.alphaMask(image)))
         }
         return list
+    }
+
+    /// 图条里一格的像素尺寸：帧的点尺寸 × pixelScale。
+    private static func cell(_ spec: AnimationSpec) -> (width: Int, height: Int) {
+        let k = max(spec.pixelScale, 1)
+        return (spec.frameWidth * k, spec.frameHeight * k)
+    }
+
+    /// 图条里真正的帧数。折成几行时最后一行不一定排满，空格不算帧：以序列里用到的最大帧号为准。
+    private static func frameCount(_ sheet: CGImage, _ spec: AnimationSpec) -> Int {
+        let cell = Self.cell(spec)
+        let perRow = sheet.width / cell.width, rows = sheet.height / cell.height
+        return rows > 1 ? min(perRow * rows, spec.maxFrameIndex + 1) : perRow * rows
     }
 
     private static func decodeSheet(_ url: URL, _ spec: AnimationSpec) throws -> CGImage {
@@ -122,35 +143,45 @@ final class SpriteLibrary {
               let sheet = CGImageSourceCreateImageAtIndex(src, 0, nil) else {
             throw LoadError.unreadable(spec.assetPath)
         }
-        let count = sheet.width / spec.frameWidth
-        guard sheet.height == spec.frameHeight, spec.maxFrameIndex < count else {
+        // 图条可以排成几行（2 倍图太长时折行），按行优先编号。
+        let cell = Self.cell(spec)
+        let count = (sheet.width / cell.width) * (sheet.height / cell.height)
+        guard sheet.height % cell.height == 0, sheet.width % cell.width == 0, spec.maxFrameIndex < count else {
             throw LoadError.outOfBounds("\(spec.id) \(sheet.width)×\(sheet.height)")
         }
         return sheet
     }
 
     /// 图条第一帧里不透明像素的重心（帧内像素，左上原点）。
-    private static func centroid(_ image: CGImage, width frameWidth: Int, threshold: UInt8 = 24) -> CGPoint {
+    private static func centroid(_ image: CGImage, width frameWidth: Int, height frameHeight: Int,
+                                 threshold: UInt8 = 24) -> CGPoint {
         let alpha = alphaMask(image)
         let w = image.width
         var sumX = 0.0, sumY = 0.0, count = 0.0
-        for y in 0..<image.height {
+        for y in 0..<min(frameHeight, image.height) {
             for x in 0..<min(frameWidth, w) where alpha[y * w + x] > threshold {
                 sumX += Double(x); sumY += Double(y); count += 1
             }
         }
-        guard count > 0 else { return CGPoint(x: Double(frameWidth) / 2, y: Double(image.height) / 2) }
+        guard count > 0 else { return CGPoint(x: Double(frameWidth) / 2, y: Double(frameHeight) / 2) }
         return CGPoint(x: sumX / count, y: sumY / count)
     }
 
-    /// 整条图条里第一行有不透明像素的行号（= 各帧最高点的最小值）。
-    private static func firstOpaqueRow(_ image: CGImage, threshold: UInt8 = 24) -> Int {
+    /// 各帧最高点的最小值（帧内像素行号）。图条排成几行时逐行带扫，每一带里第一行有不透明像素的行号，取最小。
+    private static func firstOpaqueRow(_ image: CGImage, frameHeight: Int, threshold: UInt8 = 24) -> Int {
         let alpha = alphaMask(image)
         let w = image.width
-        for y in 0..<image.height where alpha[(y * w)..<((y + 1) * w)].contains(where: { $0 > threshold }) {
-            return y
+        var best = Int.max
+        for band in stride(from: 0, to: image.height, by: max(frameHeight, 1)) {
+            for y in band..<min(band + frameHeight, image.height) {
+                if y - band >= best { break }
+                if alpha[(y * w)..<((y + 1) * w)].contains(where: { $0 > threshold }) {
+                    best = y - band
+                    break
+                }
+            }
         }
-        return Int.max
+        return best
     }
 
     private static func blankFrame(_ spec: AnimationSpec?) -> Frame {

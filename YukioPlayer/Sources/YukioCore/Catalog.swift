@@ -31,6 +31,9 @@ public struct AnimationSpec: Equatable, Sendable {
     public var loopStart: Int = 0
     /// 只有「被拎起来」这一段有：抓手点与头顶线。
     public var hang: HangAnchors? = nil
+    /// 图条里一个点对应几个像素：2 表示 2 倍分辨率的图条，一格 (frameWidth×2)×(frameHeight×2) 像素，
+    /// 摆放时仍按 frameWidth×frameHeight 个点；缺省 1。太长的图条会折成几行。
+    public var pixelScale: Int = 1
 
     public var maxFrameIndex: Int { sequence.max() ?? 0 }
 }
@@ -78,6 +81,7 @@ public struct AnimationCatalog: Sendable {
             let frameCount: Int
             let nativeDurationsMs: [Double]?
             let grip: Grip?
+            let pixelScale: Int?
         }
 
         struct Grip: Decodable {
@@ -99,6 +103,7 @@ public struct AnimationCatalog: Sendable {
             let durationsMs: [Double]
             let loop: Bool
             let loopStart: Int?
+            let pixelScale: Int?
         }
         let states: [State]
     }
@@ -158,7 +163,7 @@ public struct AnimationCatalog: Sendable {
                     id: a.id, label: use.label, assetPath: "base/\(a.asset)",
                     frameWidth: a.frameWidth, frameHeight: a.frameHeight,
                     sequence: once.sequence, durationsMs: once.durationsMs,
-                    loop: false, holdLastFrame: true, hang: hang)
+                    loop: false, holdLastFrame: true, hang: hang, pixelScale: a.pixelScale ?? 1)
                 continue
             }
             guard let durations = a.nativeDurationsMs, durations.count == a.frameCount else {
@@ -168,7 +173,7 @@ public struct AnimationCatalog: Sendable {
                 id: a.id, label: use.label, assetPath: "base/\(a.asset)",
                 frameWidth: a.frameWidth, frameHeight: a.frameHeight,
                 sequence: Array(0..<a.frameCount), durationsMs: durations,
-                loop: true, holdLastFrame: false, hang: hang)
+                loop: true, holdLastFrame: false, hang: hang, pixelScale: a.pixelScale ?? 1)
         }
 
         // 小幅动作覆盖同名动画；没有这个文件时按原图条播放。
@@ -188,7 +193,7 @@ public struct AnimationCatalog: Sendable {
                     frameWidth: m.frameWidth, frameHeight: m.frameHeight,
                     sequence: m.sequence, durationsMs: m.durationsMs,
                     loop: m.loop, holdLastFrame: !m.loop, loopStart: loopStart,
-                    hang: specs[m.id]?.hang)
+                    hang: specs[m.id]?.hang, pixelScale: m.pixelScale ?? 1)
             }
         }
 
@@ -214,7 +219,8 @@ public struct AnimationCatalog: Sendable {
         spec(for: state).label
     }
 
-    /// 检查每段动画的帧索引不越过图条宽度、帧尺寸一致。imageSize 返回资源的像素尺寸。
+    /// 检查每段动画的帧索引不越过图条、帧尺寸一致。imageSize 返回资源的像素尺寸。
+    /// 一格是 (frameWidth×pixelScale)×(frameHeight×pixelScale) 像素；图条可以排成几行，按行优先编号。
     public func validate(imageSize: (String) -> (width: Int, height: Int)?) -> [String] {
         var problems: [String] = []
         for spec in specs.values.sorted(by: { $0.id < $1.id }) {
@@ -222,13 +228,15 @@ public struct AnimationCatalog: Sendable {
                 problems.append("\(spec.id)：无法读取 \(spec.assetPath)")
                 continue
             }
-            if size.height != spec.frameHeight {
-                problems.append("\(spec.id)：图高 \(size.height) ≠ 帧高 \(spec.frameHeight)")
+            let k = max(spec.pixelScale, 1)
+            let cellW = spec.frameWidth * k, cellH = spec.frameHeight * k
+            if size.height % cellH != 0 {
+                problems.append("\(spec.id)：图高 \(size.height) 不是帧高 \(cellH) 的整数倍")
             }
-            if size.width % spec.frameWidth != 0 {
-                problems.append("\(spec.id)：图宽 \(size.width) 不是帧宽 \(spec.frameWidth) 的整数倍")
+            if size.width % cellW != 0 {
+                problems.append("\(spec.id)：图宽 \(size.width) 不是帧宽 \(cellW) 的整数倍")
             }
-            let frames = size.width / spec.frameWidth
+            let frames = (size.width / cellW) * (size.height / cellH)
             if spec.maxFrameIndex >= frames {
                 problems.append("\(spec.id)：帧索引 \(spec.maxFrameIndex) 越界（共 \(frames) 帧）")
             }

@@ -150,7 +150,7 @@ Both players have window-less modes for poking around: `--demo`, `--replay sessi
 ## Good to know
 
 - English by default. The right-click menu has a Language entry with 中文, and the choice is remembered. Descriptions already attached to earlier events keep their language until the next event arrives. The command-line check modes still print their diagnostics in Chinese.
-- The artwork is 192×208 at 1x, so she looks a little soft on Retina and HiDPI screens at large sizes.
+- The art is drawn and animated at 192×208, then shipped as 2x sheets (384×416; the picked-up frame 384×480) that are upscaled with an anime super-resolution model and re-cut from the magenta-background sources so the outline has no dark fringe. She stays crisp on Retina and HiDPI screens; above 200% she starts to soften again.
 - Click-to-jump needs the Claude desktop app. Claude Code run in a terminal has no chat window to open, so a click only brings Claude to the front. Deep Code chats live in the terminal too, so on Windows a click simply lowers the card. Verified on macOS; the Windows path is written the same way but has not been tried on a real machine yet.
 - Size is a 50 to 200% slider on macOS and seven steps plus ±5% nudges on Windows, because a native Win32 menu cannot hold a slider.
 - The binaries are unsigned and not notarized. Building from source avoids the first-launch prompts.

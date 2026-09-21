@@ -196,7 +196,8 @@ import Testing
         #expect(catalog.spec(for: .thinking).loopStart == 0)
         // 拖动时被大手拎着：这一帧比常规帧高，还带着抓手点与头顶线。
         let held = catalog.specs[AnimationCatalog.heldID]
-        #expect(held?.assetPath == "base/held.png")
+        #expect(held?.assetPath == "base/held@2x.png")
+        #expect(held?.pixelScale == 2)
         #expect(held?.frameHeight == 240)
         // 抓手点在头发顶端上方的空处（那只大手看不见），头顶线与站立图一致。
         #expect(held?.hang?.headTop == 16)

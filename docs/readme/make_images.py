@@ -38,11 +38,15 @@ _strips = {}
 
 
 def frame(sid, idx):
+    """取一帧，缩到 1 倍（192×208）：图条可能是 2 倍分辨率（pixelScale）、折成几行。"""
     s = states[sid]
     if sid not in _strips:
         _strips[sid] = Image.open(MOTION / s["asset"]).convert("RGBA")
-    fw, fh = s["frameWidth"], s["frameHeight"]
-    return _strips[sid].crop((idx * fw, 0, (idx + 1) * fw, fh))
+    k = int(s.get("pixelScale") or 1)
+    fw, fh = s["frameWidth"] * k, s["frameHeight"] * k
+    per_row = max(1, _strips[sid].width // fw)
+    im = _strips[sid].crop(((idx % per_row) * fw, (idx // per_row) * fh, (idx % per_row + 1) * fw, (idx // per_row + 1) * fh))
+    return im.resize((s["frameWidth"], s["frameHeight"]), Image.LANCZOS) if k != 1 else im
 
 
 def font(lang, size):

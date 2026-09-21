@@ -43,10 +43,10 @@ class HangAnchors:
 
 class AnimationSpec:
     __slots__ = ("id", "label", "asset_path", "frame_width", "frame_height",
-                 "sequence", "durations_ms", "loop", "hold_last_frame", "loop_start", "hang")
+                 "sequence", "durations_ms", "loop", "hold_last_frame", "loop_start", "hang", "pixel_scale")
 
     def __init__(self, id, label, asset_path, frame_width, frame_height,
-                 sequence, durations_ms, loop, hold_last_frame, loop_start=0, hang=None):
+                 sequence, durations_ms, loop, hold_last_frame, loop_start=0, hang=None, pixel_scale=1):
         self.id = id
         self.label = label
         #: 相对资源根目录的路径，例如 "activities/thinking.webp"。
@@ -61,6 +61,9 @@ class AnimationSpec:
         self.loop_start = loop_start
         #: 只有「被拎起来」这一段有：抓手点与头顶线。
         self.hang = hang
+        #: 图条里一个点对应几个像素：2 表示 2 倍分辨率的图条（一格 (frame_width×2)×(frame_height×2) 像素，
+        #: 摆放时仍按 frame_width×frame_height 个点；太长的图条会折成几行），缺省 1。
+        self.pixel_scale = pixel_scale
 
     @property
     def max_frame_index(self) -> int:
@@ -120,7 +123,8 @@ class AnimationCatalog:
                 sequence, durations = once
                 specs[a["id"]] = AnimationSpec(a["id"], label, "base/" + a["asset"],
                                                a["frameWidth"], a["frameHeight"],
-                                               list(sequence), list(durations), False, True, hang=hang)
+                                               list(sequence), list(durations), False, True, hang=hang,
+                                               pixel_scale=int(a.get("pixelScale") or 1))
                 continue
             durations = a.get("nativeDurationsMs")
             if not durations or len(durations) != a["frameCount"]:
@@ -128,7 +132,7 @@ class AnimationCatalog:
             specs[a["id"]] = AnimationSpec(a["id"], label, "base/" + a["asset"],
                                            a["frameWidth"], a["frameHeight"],
                                            list(range(a["frameCount"])), [float(d) for d in durations],
-                                           True, False, hang=hang)
+                                           True, False, hang=hang, pixel_scale=int(a.get("pixelScale") or 1))
 
         # 小幅动作覆盖同名动画；没有这个文件时按原图条播放。
         motion_path = os.path.join(assets_root, "motion", "motion.json")
@@ -149,7 +153,7 @@ class AnimationCatalog:
                     m["id"], previous.label if previous else m["id"], "motion/" + m["asset"],
                     m["frameWidth"], m["frameHeight"], list(m["sequence"]),
                     [float(d) for d in m["durationsMs"]], bool(m["loop"]), not bool(m["loop"]), loop_start,
-                    hang=previous.hang if previous else None)
+                    hang=previous.hang if previous else None, pixel_scale=int(m.get("pixelScale") or 1))
 
         catalog = AnimationCatalog(specs)
         for state in ALL_STATES:
@@ -169,7 +173,7 @@ class AnimationCatalog:
         return self.spec(state).label
 
     def validate(self, image_size: Callable[[str], Optional[Tuple[int, int]]]) -> List[str]:
-        """检查每段动画的帧索引不越过图条宽度、帧尺寸一致。"""
+        """检查每段动画的帧索引不越过图条、帧尺寸一致。一格是点尺寸 × pixel_scale 像素，图条可以排成几行。"""
         problems: List[str] = []
         for spec in sorted(self.specs.values(), key=lambda s: s.id):
             size = image_size(spec.asset_path)
@@ -177,11 +181,13 @@ class AnimationCatalog:
                 problems.append("%s：无法读取 %s" % (spec.id, spec.asset_path))
                 continue
             width, height = size
-            if height != spec.frame_height:
-                problems.append("%s：图高 %d ≠ 帧高 %d" % (spec.id, height, spec.frame_height))
-            if width % spec.frame_width != 0:
-                problems.append("%s：图宽 %d 不是帧宽 %d 的整数倍" % (spec.id, width, spec.frame_width))
-            frames = width // spec.frame_width
+            k = max(spec.pixel_scale, 1)
+            cell_w, cell_h = spec.frame_width * k, spec.frame_height * k
+            if height % cell_h != 0:
+                problems.append("%s：图高 %d 不是帧高 %d 的整数倍" % (spec.id, height, cell_h))
+            if width % cell_w != 0:
+                problems.append("%s：图宽 %d 不是帧宽 %d 的整数倍" % (spec.id, width, cell_w))
+            frames = (width // cell_w) * (height // cell_h)
             if spec.max_frame_index >= frames:
                 problems.append("%s：帧索引 %d 越界（共 %d 帧）" % (spec.id, spec.max_frame_index, frames))
         return problems

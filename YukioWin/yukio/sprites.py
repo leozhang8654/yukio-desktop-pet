@@ -54,13 +54,16 @@ class SpriteLibrary:
             path = os.path.join(assets_root, *spec.asset_path.split("/"))
             sheet = self._decode_sheet(path, spec)
             self._paths[spec.id] = path
-            self._counts[spec.id] = sheet.size[0] // spec.frame_width
+            cw, ch = _cell(spec)
+            self._counts[spec.id] = _frame_count(sheet, spec)
+            # 量出来的是图里的像素；除以 pixel_scale 换成点，和窗口、锚点用同一套单位。
+            k = float(max(spec.pixel_scale, 1))
             if spec.id == HELD_ID and spec.hang is not None:
                 # 重心按不透明像素取平均：图换了（重画、改姿势）摆长自己跟着变，不用手填数字。
-                cx, cy = _centroid(sheet, spec.frame_width)
-                hang_length = max(math.hypot(cx - spec.hang.grip_x, cy - spec.hang.grip_y), 1.0)
+                cx, cy = _centroid(sheet, cw, ch)
+                hang_length = max(math.hypot(cx / k - spec.hang.grip_x, cy / k - spec.hang.grip_y), 1.0)
             else:
-                top = _first_opaque_row(sheet)
+                top = _first_opaque_row(sheet, ch) / k
                 self._head_tops[spec.id] = float(top)
                 head_top = top if head_top is None else min(head_top, top)
             sheet.close()
@@ -85,8 +88,9 @@ class SpriteLibrary:
         except (OSError, ValueError) as exc:
             raise SpriteError("无法读取图片：%s（%s）" % (spec.asset_path, exc))
         width, height = sheet.size
-        count = width // spec.frame_width
-        if height != spec.frame_height or spec.max_frame_index >= count:
+        cw, ch = _cell(spec)
+        count = (width // cw) * (height // ch)
+        if height % ch or width % cw or spec.max_frame_index >= count:
             raise SpriteError("图格越界：%s %d×%d" % (spec.id, width, height))
         return sheet
 
@@ -118,8 +122,11 @@ class SpriteLibrary:
         except SpriteError:
             return []
         out = []
-        for i in range(sheet.size[0] // spec.frame_width):
-            box = (i * spec.frame_width, 0, (i + 1) * spec.frame_width, spec.frame_height)
+        cw, ch = _cell(spec)
+        per_row = sheet.size[0] // cw
+        # 图条可以排成几行（2 倍图太长时折行），按行优先编号。
+        for i in range(_frame_count(sheet, spec)):
+            box = ((i % per_row) * cw, (i // per_row) * ch, (i % per_row + 1) * cw, (i // per_row + 1) * ch)
             out.append(Frame(sheet.crop(box)))
         sheet.close()
         return out
@@ -140,10 +147,23 @@ class SpriteLibrary:
         return head.resize((size, size), Image.LANCZOS)
 
 
-def _centroid(image: Image.Image, frame_width: int,
+def _cell(spec: AnimationSpec) -> Tuple[int, int]:
+    """图条里一格的像素尺寸：帧的点尺寸 × pixel_scale。"""
+    k = max(spec.pixel_scale, 1)
+    return (spec.frame_width * k, spec.frame_height * k)
+
+
+def _frame_count(sheet: Image.Image, spec: AnimationSpec) -> int:
+    """图条里真正的帧数。折成几行时最后一行不一定排满，空格不算帧：以序列里用到的最大帧号为准。"""
+    cw, ch = _cell(spec)
+    per_row, rows = sheet.size[0] // cw, sheet.size[1] // ch
+    return min(per_row * rows, spec.max_frame_index + 1) if rows > 1 else per_row * rows
+
+
+def _centroid(image: Image.Image, frame_width: int, frame_height: Optional[int] = None,
               threshold: int = OPAQUE_THRESHOLD) -> Tuple[float, float]:
     """图条第一帧里不透明像素的重心（帧内像素，左上原点）。"""
-    frame = image.crop((0, 0, min(frame_width, image.size[0]), image.size[1]))
+    frame = image.crop((0, 0, min(frame_width, image.size[0]), min(frame_height or image.size[1], image.size[1])))
     alpha = frame.getchannel("A").point(lambda v: 255 if v > threshold else 0)
     w, h = alpha.size
     data = alpha.tobytes()
@@ -160,11 +180,17 @@ def _centroid(image: Image.Image, frame_width: int,
     return (sum_x / count, sum_y / count)
 
 
-def _first_opaque_row(image: Image.Image, threshold: int = OPAQUE_THRESHOLD) -> int:
-    """整条图条里第一行有不透明像素的行号（= 各帧最高点的最小值）。"""
-    alpha = image.getchannel("A")
-    bbox = alpha.point(lambda v: 255 if v > threshold else 0).getbbox()
-    return bbox[1] if bbox else image.size[1]
+def _first_opaque_row(image: Image.Image, frame_height: Optional[int] = None,
+                      threshold: int = OPAQUE_THRESHOLD) -> int:
+    """各帧最高点的最小值（帧内像素行号）。图条排成几行时逐行带算，取最小。"""
+    alpha = image.getchannel("A").point(lambda v: 255 if v > threshold else 0)
+    fh = max(frame_height or image.size[1], 1)
+    best = fh
+    for band in range(0, image.size[1], fh):
+        bbox = alpha.crop((0, band, image.size[0], min(band + fh, image.size[1]))).getbbox()
+        if bbox:
+            best = min(best, bbox[1])
+    return best
 
 
 def _blank_frame(spec: Optional[AnimationSpec]) -> Frame:

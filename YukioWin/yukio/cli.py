@@ -114,6 +114,13 @@ def _checkerboard(width: int, height: int):
     return image
 
 
+def _points_image(image, spec):
+    """2 倍图条的帧缩回按点的尺寸（检查图按 1 倍画）。"""
+    from PIL import Image
+    size = (spec.frame_width, spec.frame_height)
+    return image if image.size == size else image.resize(size, Image.LANCZOS)
+
+
 def run_snapshot(path: str) -> int:
     """把播放器实际使用的动画画在棋盘格上（检查裁切、透明边缘、比例）。帧多的均匀抽 10 帧。"""
     from PIL import ImageDraw
@@ -138,7 +145,7 @@ def run_snapshot(path: str) -> int:
             "循环" if spec.loop else "播一次后停住")
         draw.text((6, top + 5), title, font=font, fill=(0, 0, 0, 255))
         for i, f in enumerate(picks):
-            sheet.alpha_composite(library.frame(spec.id, f).image,
+            sheet.alpha_composite(_points_image(library.frame(spec.id, f).image, spec),
                                   (i * cell_w, top + label_h + cell_h - spec.frame_height))
     avatar = library.avatar_image(96)
     if avatar is not None and library.frame_count(specs[0].id) + 2 <= cols:
@@ -243,7 +250,7 @@ def run_hang_snapshot(path: str) -> int:
         geo.pivot[0], geo.pivot[1], " ".join("%d°" % a for a in angles))
     draw.text((6, 5), title, font=load_font(13), fill=(0, 0, 0, 255))
 
-    frame = library.frame(spec.id, 0).image
+    frame = _points_image(library.frame(spec.id, 0).image, spec)
     for i, deg in enumerate(angles):
         dx = i * cell_w
         canvas = Image.new("RGBA", geo.panel_size, (0, 0, 0, 0))
