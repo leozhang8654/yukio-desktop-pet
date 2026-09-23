@@ -733,10 +733,9 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         view.onDragBegan = { [weak self] in self?.dragBegan() }
         view.onDragOriginChanged = { [weak self] in self?.panel.frame.origin ?? .zero }
         view.onDragEnded = { [weak self] in self?.dragEnded() }
-        view.onContextMenu = { [weak self] event in
-            guard let self else { return }
-            NSMenu.popUpContextMenu(self.buildMenu(), with: event, for: self.view)
-        }
+        // 桌宠本体是设置的最快入口：右键或 Control-点击直接打开，不再多走一层菜单。
+        // 完整操作菜单仍可从菜单栏头像或再次打开 App 进入。
+        view.onContextMenu = { [weak self] _ in self?.showSettings() }
     }
 
     private func defaultOrigin() -> NSPoint {
@@ -1280,7 +1279,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     /// 再次打开 Yukio.app（Finder、Spotlight、open 命令）时，在雪绪身旁弹出菜单。
-    /// 菜单栏被挤满、图标被刘海遮住时，这是一定能用的入口；在雪绪身上右键也可以。
+    /// 菜单栏被挤满、图标被刘海遮住时，这是一定能用的完整菜单入口；右键雪绪则直接打开设置。
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
         NSApp.activate(ignoringOtherApps: true)
         buildMenu().popUp(positioning: nil, at: NSPoint(x: view.bounds.midX, y: view.bounds.maxY), in: view)

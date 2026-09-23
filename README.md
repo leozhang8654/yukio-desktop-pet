@@ -57,7 +57,7 @@ The exe is not code-signed. Click **More info**, then **Run anyway**. Windows as
 
 The SHA-256 of every file is on the release page if you want to check a download.
 
-Once running, Yukio appears in the bottom-right corner of the screen and a small avatar of her appears in the macOS menu bar or the Windows tray. Right-click her, click that avatar, or launch the app a second time: any of the three opens the menu. Want a tour first? Pick **Play demo** from the menu and she walks through every state in 60 seconds. The menu also has a **Language** entry: English is the default, 中文 is one click away, and the choice is remembered.
+Once running, Yukio appears in the bottom-right corner of the screen and a small avatar of her appears in the macOS menu bar or the Windows tray. On macOS, right-clicking Yukio opens Settings directly; click the menu-bar avatar or launch the app a second time for the full menu. Want a tour first? Pick **Play demo** from Settings or the menu and she walks through every state in 60 seconds. English is the default, 中文 is one click away in Settings, and the choice is remembered.
 
 ## What she does
 
@@ -149,7 +149,7 @@ Both players have window-less modes for poking around: `--demo`, `--replay sessi
 
 ## Good to know
 
-- English by default. The right-click menu has a Language entry with 中文, and the choice is remembered. Descriptions already attached to earlier events keep their language until the next event arrives. The command-line check modes still print their diagnostics in Chinese.
+- English by default. Right-click Yukio to open Settings, where Language can be switched to 中文; the choice is remembered. Descriptions already attached to earlier events keep their language until the next event arrives. The command-line check modes still print their diagnostics in Chinese.
 - The art is drawn and animated at 192×208, then shipped as 2x sheets (384×416; the picked-up frame 384×480) upscaled with an anime super-resolution model. The old thick, blurry dark fringe from keying is gone; a thin half-point outline is drawn around her instead. She stays crisp on Retina and HiDPI screens; above 200% she starts to soften again.
 - Click-to-jump needs a desktop app: the Claude app for Claude Code chats, the Codex app for Codex chats (`codex://threads/<id>`). An agent run in a terminal has no chat window to open, so a click only brings that app to the front. Deep Code chats live in the terminal, so there a click simply lowers the card. Verified on macOS; the Windows path is written the same way but has not been tried on a real machine yet.
 - Size is a 50 to 200% slider on macOS and seven steps plus ±5% nudges on Windows, because a native Win32 menu cannot hold a slider.

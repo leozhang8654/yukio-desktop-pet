@@ -17,10 +17,10 @@ open build/Yukio.app
 
 Once running: Yukio appears in the bottom-right corner of the screen, and her small avatar appears in the menu bar. The menu has the state line ("Yukio · \<state\>"), the chat she is following, "Play demo", "Follow assistant activity" (untick it to pause following), "Assistant" (Claude Code / DeepSeek / GPT, or Auto), "Chat to follow" (pick one), "Show task bubble", "Show other chats", "Language" (English / 中文; English is the default and the choice is remembered), "Size", "Back to the bottom-right corner", and "Quit Yukio". While she is holding the ✅ done card, two extra items appear at the top, "Open this chat and lower the sign" and "Lower the sign, don't open the chat"; while the ❓ question card is up there is one extra, "Open this chat to answer". Descriptions already attached to earlier events keep their language until the next event arrives. "Size" is a slider (50% to 200% in 5% steps): drag it and Yukio grows or shrinks on the spot, with her feet staying where they are.
 
-Three ways to open the menu (any one will do):
+Settings and menu entry points:
 
 1. The menu bar avatar. On first run it sits toward the right (about 260 points from the right edge); hold ⌘ and drag to move it, and the system remembers the spot.
-2. Right-click (or control-click) Yukio herself.
+2. Right-click (or control-click) Yukio herself to open Settings directly.
 3. Open Yukio.app again (from Finder, Spotlight, or `open build/Yukio.app`): the menu pops up next to Yukio.
 
 When the menu bar on a notch display is full, macOS pushes the icons that don't fit under the notch or off the screen (measured on this machine: with a plain text title, which read "雪绪" at the time, it was pushed to x=0 and completely invisible). After switching to the avatar and placing it toward the right it is visible, but it pushes the leftmost of the other icons into the notch. You can turn off icons you don't need in "System Settings › Menu Bar" to free up room.
@@ -183,7 +183,7 @@ when it can't be read she **falls back to holding up the sign as usual**. Better
 - **Not clicking is fine too**: send the next request in that chat and the sign steps aside for the new motion on its own. It also comes down when the turn is interrupted or that session's record is deleted.
 - **Leaving it up doesn't get in the way**: if 15 minutes pass without a click, she goes to follow the chats still working, sign still in hand; when that chat stops, the sign comes back up on its own.
 - **Click her while the ❓ question card is up**: opens that chat so you can answer. Unlike the done card, this card doesn't go away; the question is still waiting for you, and the card clears itself once you answer in the chat. The matching menu item is "Open this chat to answer".
-- In any other state clicking her does nothing; dragging, the right-click menu, and click-through all work as before (moving more than 3 points counts as a drag, not a click).
+- In any other state clicking her does nothing; dragging, right-click-to-open-Settings, and click-through all work as before (moving more than 3 points counts as a drag, not a click).
 - Restarting the player drops any sign she is holding: a sign is raised only when a task has just finished (within `completeArmMs`), so startup doesn't hold up a stale record from hours ago.
 
 The jump uses the deep link the Claude desktop app registers itself, `claude://code/continue?session=local_…`. The session ID in the transcript and the desktop app's session ID are not the same; the mapping is read from `cliSessionId` in
