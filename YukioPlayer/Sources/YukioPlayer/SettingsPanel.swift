@@ -26,7 +26,7 @@ enum SettingsChange {
     case toggleDemo
 }
 
-final class SettingsPanelController: NSWindowController, NSWindowDelegate {
+final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMenuDelegate {
     var onChange: ((SettingsChange) -> Void)?
 
     private let root = NSView()
@@ -58,6 +58,9 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate {
     private let displayHeading = NSTextField(labelWithString: "")
     private let interfaceHeading = NSTextField(labelWithString: "")
     private var updating = false
+    /// NSPopUpButton 展开时不能删改它的菜单项；否则 AppKit 的菜单跟踪循环会卡住。
+    private var trackingPopupMenu = false
+    private var pendingSnapshot: SettingsSnapshot?
 
     init() {
         let panel = NSPanel(
@@ -88,6 +91,10 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate {
     }
 
     func apply(_ snapshot: SettingsSnapshot) {
+        guard !trackingPopupMenu else {
+            pendingSnapshot = snapshot
+            return
+        }
         updating = true
         defer { updating = false }
 
@@ -97,27 +104,16 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate {
         bubbleSwitch.state = snapshot.showBubble ? .on : .off
         cardsSwitch.state = snapshot.showCards ? .on : .off
 
-        providerPopup.removeAllItems()
-        for provider in AgentProvider.allCases {
-            providerPopup.addItem(withTitle: provider.displayName)
-            providerPopup.lastItem?.representedObject = provider.rawValue
-        }
-        if let index = AgentProvider.allCases.firstIndex(of: snapshot.provider) {
-            providerPopup.selectItem(at: index)
-        }
+        sync(providerPopup, items: AgentProvider.allCases.map { ($0.displayName, $0.rawValue) })
+        select(providerPopup, value: snapshot.provider.rawValue)
 
-        chatPopup.removeAllItems()
-        chatPopup.addItem(withTitle: tr("Automatic", "自动选择"))
-        chatPopup.lastItem?.representedObject = ""
-        for chat in snapshot.chats {
-            chatPopup.addItem(withTitle: chat.menuLabel)
-            chatPopup.lastItem?.representedObject = chat.id
-        }
-        if let pinned = snapshot.chats.first(where: \.pinned),
-           let item = chatPopup.itemArray.first(where: { $0.representedObject as? String == pinned.id }) {
-            chatPopup.select(item)
+        let chatItems = [(tr("Automatic", "自动选择"), "")]
+            + snapshot.chats.map { ($0.menuLabel, $0.id) }
+        sync(chatPopup, items: chatItems)
+        if let pinned = snapshot.chats.first(where: \.pinned) {
+            select(chatPopup, value: pinned.id)
         } else {
-            chatPopup.selectItem(at: 0)
+            select(chatPopup, value: "")
         }
         chatPopup.isEnabled = !snapshot.chats.isEmpty
 
@@ -125,13 +121,30 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate {
         scaleSlider.doubleValue = snapped
         scaleReadout.stringValue = "\(Int((snapped * 100).rounded()))%"
 
-        languagePopup.removeAllItems()
-        for (language, title) in [(UILanguage.english, "English"), (.chinese, "中文")] {
-            languagePopup.addItem(withTitle: title)
-            languagePopup.lastItem?.representedObject = language.rawValue
-        }
-        languagePopup.selectItem(at: snapshot.language == .chinese ? 1 : 0)
+        sync(languagePopup, items: [("English", UILanguage.english.rawValue),
+                                    ("中文", UILanguage.chinese.rawValue)])
+        select(languagePopup, value: snapshot.language.rawValue)
         demoButton.title = snapshot.demoPlaying ? tr("Stop demo", "停止演示") : tr("Play demo", "播放演示")
+    }
+
+    /// 定时刷新时大多数选项没有变化，不要反复拆掉 AppKit 正在使用的 NSMenu。
+    private func sync(_ popup: NSPopUpButton, items: [(title: String, value: String)]) {
+        let unchanged = popup.itemArray.count == items.count
+            && zip(popup.itemArray, items).allSatisfy { item, expected in
+                item.title == expected.title && item.representedObject as? String == expected.value
+            }
+        guard !unchanged else { return }
+        popup.removeAllItems()
+        for item in items {
+            popup.addItem(withTitle: item.title)
+            popup.lastItem?.representedObject = item.value
+        }
+    }
+
+    private func select(_ popup: NSPopUpButton, value: String) {
+        guard popup.selectedItem?.representedObject as? String != value,
+              let item = popup.itemArray.first(where: { $0.representedObject as? String == value }) else { return }
+        popup.select(item)
     }
 
     private func buildUI() {
@@ -232,6 +245,22 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate {
         doneButton.keyEquivalent = "\r"
         doneButton.target = self
         doneButton.action = #selector(closePanel)
+
+        // 设置窗口会定时刷新状态；菜单展开时将刷新合并到关闭之后，避免菜单跟踪死锁。
+        providerPopup.menu?.delegate = self
+        chatPopup.menu?.delegate = self
+        languagePopup.menu?.delegate = self
+    }
+
+    func menuWillOpen(_ menu: NSMenu) {
+        trackingPopupMenu = true
+    }
+
+    func menuDidClose(_ menu: NSMenu) {
+        trackingPopupMenu = false
+        guard let snapshot = pendingSnapshot else { return }
+        pendingSnapshot = nil
+        apply(snapshot)
     }
 
     private func refreshLabels(language: UILanguage) {
@@ -299,7 +328,10 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate {
 
     @objc private func providerChanged() {
         guard !updating else { return }
-        onChange?(.provider(AgentProvider(code: providerPopup.selectedItem?.representedObject as? String)))
+        let provider = AgentProvider(code: providerPopup.selectedItem?.representedObject as? String)
+        // 先让 AppKit 结束下拉菜单跟踪，再扫描新来源并刷新设置内容。
+        pendingSnapshot = nil
+        DispatchQueue.main.async { [weak self] in self?.onChange?(.provider(provider)) }
     }
 
     @objc private func chatChanged() {
