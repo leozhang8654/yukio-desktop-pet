@@ -57,7 +57,7 @@ The exe is not code-signed. Click **More info**, then **Run anyway**. Windows as
 
 The SHA-256 of every file is on the release page if you want to check a download.
 
-Once running, Yukio appears in the bottom-right corner of the screen and a small avatar of her appears in the macOS menu bar or the Windows tray. On macOS, right-clicking Yukio opens Settings directly; click the menu-bar avatar or launch the app a second time for the full menu. Want a tour first? Pick **Play demo** from Settings or the menu and she walks through every state in 60 seconds. English is the default, 中文 is one click away in Settings, and the choice is remembered.
+Once running, Yukio appears in the bottom-right corner of the screen and a small avatar of her appears in the macOS menu bar or the Windows tray. On macOS, right-clicking Yukio opens Settings directly; click the menu-bar avatar or launch the app a second time for the full menu. Settings has a **Hide Yukio** button — or just press Space while Settings is open — to tuck her away and bring her back. Want a tour first? Pick **Play demo** from Settings or the menu and she walks through every state in 60 seconds. English is the default, 中文 is one click away in Settings, and the choice is remembered.
 
 ## What she does
 

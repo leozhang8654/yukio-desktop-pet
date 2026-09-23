@@ -5,6 +5,7 @@ import YukioCore
 struct SettingsSnapshot {
     let status: String
     let following: Bool
+    let hidden: Bool
     let provider: AgentProvider
     let chats: [SessionSummary]
     let showBubble: Bool
@@ -22,6 +23,7 @@ enum SettingsChange {
     case showCards(Bool)
     case scale(CGFloat)
     case language(UILanguage)
+    case toggleHidden
     case resetPosition
     case toggleDemo
 }
@@ -50,6 +52,7 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
     private let scaleSlider = NSSlider()
     private let scaleReadout = NSTextField(labelWithString: "100%")
     private let languagePopup = NSPopUpButton()
+    private let hideButton = NSButton()
     private let resetButton = NSButton()
     private let demoButton = NSButton()
     private let doneButton = NSButton()
@@ -125,6 +128,7 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
                                     ("中文", UILanguage.chinese.rawValue)])
         select(languagePopup, value: snapshot.language.rawValue)
         demoButton.title = snapshot.demoPlaying ? tr("Stop demo", "停止演示") : tr("Play demo", "播放演示")
+        hideButton.title = snapshot.hidden ? tr("Show Yukio", "显示雪绪") : tr("Hide Yukio", "收起雪绪")
     }
 
     /// 定时刷新时大多数选项没有变化，不要反复拆掉 AppKit 正在使用的 NSMenu。
@@ -203,7 +207,7 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         stack.addArrangedSubview(interfaceHeading)
         stack.addArrangedSubview(row(title: languageTitle, control: languagePopup, controlWidth: 210))
 
-        let buttons = NSStackView(views: [resetButton, demoButton, NSView(), doneButton])
+        let buttons = NSStackView(views: [hideButton, resetButton, demoButton, NSView(), doneButton])
         buttons.orientation = .horizontal
         buttons.alignment = .centerY
         buttons.spacing = 8
@@ -235,6 +239,12 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
 
         languagePopup.target = self
         languagePopup.action = #selector(languageChanged)
+        hideButton.bezelStyle = .rounded
+        // 空格键：设置窗口在最前面时按一下就收起／显示。
+        hideButton.keyEquivalent = " "
+        hideButton.target = self
+        hideButton.action = #selector(toggleHidden)
+        hideButton.toolTip = tr("Shortcut: Space", "快捷键：空格")
         resetButton.bezelStyle = .rounded
         resetButton.target = self
         resetButton.action = #selector(resetPosition)
@@ -363,6 +373,7 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         onChange?(.language(UILanguage(code: languagePopup.selectedItem?.representedObject as? String)))
     }
 
+    @objc private func toggleHidden() { onChange?(.toggleHidden) }
     @objc private func resetPosition() { onChange?(.resetPosition) }
     @objc private func toggleDemo() { onChange?(.toggleDemo) }
     @objc private func closePanel() { close() }
@@ -382,6 +393,7 @@ func runSettingsSnapshot(path: String) -> Never {
     ]
     controller.apply(SettingsSnapshot(status: "正在跟随 GPT（Codex） · 正在工作",
                                       following: true,
+                                      hidden: false,
                                       provider: .gpt,
                                       chats: chats,
                                       showBubble: true,

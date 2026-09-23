@@ -623,6 +623,9 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private var timer: Timer?
     private var tickCount = 0
 
+    /// 此刻收起着没有。只管这一次运行，重开还是露着的。
+    private var petHidden = false
+
     private var shownState: PetState = .idle
     private var stateTimeline: SpriteTimeline
     /// 被大手拎着时的摆动与图条；两个都是 nil 表示正常站／坐着。
@@ -779,6 +782,28 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         positionBubble()
         positionCards()
     }
+
+    /// 收起／放回来。气泡和卡叠是子窗口，跟着母窗口一起进出；菜单栏那只头像一直在。
+    private func setHidden(_ value: Bool) {
+        guard value != petHidden else { return }
+        petHidden = value
+        if value {
+            finishHang()
+            collapseCards()
+            panel.orderOut(nil)
+        } else {
+            // 收起期间可能拔了显示器：先挪回屏幕内再露面。
+            clampToScreen()
+            savePosition()
+            panel.orderFrontRegardless()
+            render()
+            positionBubble()
+            positionCards()
+        }
+        updateStatusTitle()
+    }
+
+    private func toggleHidden() { setHidden(!petHidden) }
 
     private func savePosition(_ origin: NSPoint? = nil) {
         let o = origin ?? panel.frame.origin
@@ -1005,8 +1030,11 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
                 finishHang()
             }
         }
-        render()
-        updateMousePassThrough()
+        // 收起时不画、也不去抢鼠标；状态照样跟着走。
+        if !petHidden {
+            render()
+            updateMousePassThrough()
+        }
         updateBubble(now: now)
         updateCards(now: now)
         if tickCount % 15 == 0, settingsWindow?.window?.isVisible == true {
@@ -1275,13 +1303,17 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         } else {
             button.title = simulation != nil ? tr("Yukio · demo", "雪绪·模拟") : tr("Yukio", "雪绪")
         }
-        button.toolTip = tr("Yukio: ", "雪绪：") + (swing != nil ? L10n.heldName : L10n.stateName(shownState))
+        button.appearsDisabled = petHidden
+        button.toolTip = petHidden
+            ? tr("Yukio: hidden", "雪绪：已收起")
+            : tr("Yukio: ", "雪绪：") + (swing != nil ? L10n.heldName : L10n.stateName(shownState))
     }
 
     /// 再次打开 Yukio.app（Finder、Spotlight、open 命令）时，在雪绪身旁弹出菜单。
     /// 菜单栏被挤满、图标被刘海遮住时，这是一定能用的完整菜单入口；右键雪绪则直接打开设置。
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
         NSApp.activate(ignoringOtherApps: true)
+        setHidden(false)
         buildMenu().popUp(positioning: nil, at: NSPoint(x: view.bounds.midX, y: view.bounds.maxY), in: view)
         return false
     }
@@ -1394,6 +1426,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
         return SettingsSnapshot(status: status,
                                 following: following,
+                                hidden: petHidden,
                                 provider: provider,
                                 chats: chats,
                                 showBubble: showBubble,
@@ -1462,6 +1495,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         case .language(let value):
             language = value
             updateStatusTitle()
+        case .toggleHidden:
+            toggleHidden()
         case .resetPosition:
             resetPetPosition()
         case .toggleDemo:
