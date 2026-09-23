@@ -27,8 +27,8 @@ Grab the file for your system from the [latest release](https://github.com/leozh
 
 | You use | Download | Then |
 | --- | --- | --- |
-| macOS 13 or newer (Apple silicon and Intel) | `Yukio-0.1.0-macOS.zip`, about 6 MB | Unzip, drag `Yukio.app` into Applications, allow it once (below) |
-| Windows 10 / 11, 64-bit | `Yukio-0.1.0-Windows.exe`, about 21 MB | Double-click. Python and the artwork are packed inside |
+| macOS 13 or newer (Apple silicon and Intel) | `Yukio-0.2.0-macOS.zip` | Unzip, drag `Yukio.app` into Applications, allow it once (below) |
+| Windows 10 / 11, 64-bit | `Yukio-0.2.0-Windows.exe` | Double-click. Python and the artwork are packed inside |
 
 <details>
 <summary><b>macOS says "Apple could not verify Yukio…"</b></summary>
@@ -68,7 +68,7 @@ Once running, Yukio appears in the bottom-right corner of the screen and a small
 - **Several chats at once.** She can only act out one chat, so she picks the one that needs you: waiting for your answer, then stopped on an error, then done and holding a card, then whatever is still running. Every other chat becomes a small card stacked on top of the bubble. Click the bubble to fan them out, click a card to switch to that chat, or pin one chat from the menu.
 - **Pick her up.** Drag her and she dangles from an invisible hand like a kitten held by the scruff: a damped pendulum with inertia, air drag, and a little sag when you yank upward. Let go and she settles in about a second.
 - **Private by design.** She only reads the session logs the agents already write to disk, read-only. No network, no changes to any tool's settings, no conversation content stored or shown.
-- **Light.** About 1% CPU and 45 MB of memory on the macOS build. The download is 6 MB and there are no third-party dependencies.
+- **Paged artwork, bounded memory.** Release builds keep the original lossless atlases for fidelity but render from small, pixel-identical pages. The page cache is capped at 32 MiB on macOS and 64 MiB on Windows instead of expanding the roughly 1 GB full atlas set at once. The macOS app still has no third-party runtime dependencies.
 
 ## A day at the desk
 
@@ -109,15 +109,16 @@ These logs are internal to those tools, not public APIs. If a format changes she
 
 ## Build from source
 
-**macOS** needs only the Xcode Command Line Tools.
+**macOS** needs only the Xcode Command Line Tools to build and run. Making the official low-memory release zip also uses Python and Pillow once at build time to derive pixel-identical artwork pages; the packaged app itself has no Python dependency.
 
 ```sh
 git clone https://github.com/leozhang8654/yukio-desktop-pet
 cd yukio-desktop-pet/YukioPlayer
-swift test                      # 101 tests: routing, debounce, classification, parsers, bubble text, timelines, chat picking
+swift test                      # 127 tests: routing, blink timing, classification, parsers, bubble text, timelines, chat picking
 ./scripts/build-app.sh          # build/Yukio.app
 open build/Yukio.app
-./scripts/package-release.sh    # universal binary zip in dist/
+cd ../YukioWin && pip3 install pillow && python3 scripts/prepare-windows-assets.py
+cd ../YukioPlayer && ./scripts/package-release.sh  # universal binary zip in dist/
 ```
 
 **Windows** needs Python 3.9 or newer.

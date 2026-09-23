@@ -10,7 +10,7 @@
 
 ## 下载（不用装 Python）
 
-到 [Releases](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest) 下载 `Yukio-0.1.0-Windows.exe`（约 21 MB），放哪儿都行，双击就开。Python、Pillow、素材都打包在里面了，需要 Windows 10 或更新的 64 位系统。
+到 [Releases](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest) 下载 `Yukio-0.2.0-Windows.exe`，放哪儿都行，双击就开。Python、Pillow、素材都打包在里面了，需要 Windows 10 或更新的 64 位系统。
 
 第一次打开 Windows 可能弹蓝色的「Windows 已保护你的电脑」——这个程序没买代码签名证书，点「更多信息」→「仍要运行」，以后不再问。
 
@@ -31,7 +31,7 @@ python run.py
 powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1
 ```
 
-打出来的是 `dist\Yukio.exe`（约 25 MB，素材已经打包进去）。没有 Windows 开发环境时，也可以在 GitHub 的 Actions 里跑「Build Windows Yukio」，下载它产出的 exe。
+打出来的是 `dist\Yukio.exe`（素材已经打包进去）。没有 Windows 开发环境时，也可以在 GitHub 的 Actions 里跑「Build Windows Yukio」，下载它产出的 exe。
 
 ## 操作
 

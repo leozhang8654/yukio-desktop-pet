@@ -27,8 +27,8 @@
 
 | 你用的是 | 下载 | 怎么开 |
 | --- | --- | --- |
-| macOS 13 或更新（Apple 芯片与 Intel 通用） | `Yukio-0.1.0-macOS.zip`，约 6 MB | 解压，把 `Yukio.app` 拖进「应用程序」，第一次按下面放行一次 |
-| Windows 10 / 11（64 位） | `Yukio-0.1.0-Windows.exe`，约 21 MB | 双击就开。Python 和素材都打包在里面 |
+| macOS 13 或更新（Apple 芯片与 Intel 通用） | `Yukio-0.2.0-macOS.zip` | 解压，把 `Yukio.app` 拖进「应用程序」，第一次按下面放行一次 |
+| Windows 10 / 11（64 位） | `Yukio-0.2.0-Windows.exe` | 双击就开。Python 和素材都打包在里面 |
 
 <details>
 <summary><b>macOS 第一次打开：「Apple 无法验证“Yukio”是否包含可能危害 Mac 安全或泄漏隐私的恶意软件」</b></summary>
@@ -68,7 +68,7 @@ xattr -dr com.apple.quarantine /Applications/Yukio.app
 - **几条聊天一起跑也不乱。** 她一次只能演一条，所以先演最需要你的那条：等你回答的，然后是出错停住的，然后是答完举着牌的，最后才是还在干活的。其余每条聊天各一张小卡，压着气泡往上叠。点气泡摊开，点一张就换到那条聊天，也可以在菜单里挑定一条只跟它。
 - **拎起来会晃。** 按住她拖，她像被一只看不见的大手捏着后领的小猫：单摆带惯性，匀速时略微后仰，猛地往上一提会先坠一下再弹回来。松手大约一秒晃停。
 - **只读、不联网、不留对话。** 她只看这些工具本来就写在本机的会话记录，只读不写。不联网，不改任何工具的设置，不保存也不显示对话内容。
-- **很轻。** macOS 版实测 CPU 约 1%、内存约 45 MB；安装包 6 MB，没有任何第三方依赖。
+- **分页加载，内存有上限。** 正式包保留无损原图集保证素材完整，但运行时读取逐像素一致的小分页；macOS 页缓存上限 32 MiB，Windows 上限 64 MiB，不再一次性展开约 1 GB 的整套图集。macOS 运行时仍然没有第三方依赖。
 
 ## 桌前的一天
 
@@ -109,15 +109,16 @@ xattr -dr com.apple.quarantine /Applications/Yukio.app
 
 ## 自己编译
 
-**macOS** 只需要 Xcode Command Line Tools。
+**macOS** 编译运行只需要 Xcode Command Line Tools。制作官方低内存发布包时，还会在构建阶段用一次 Python 与 Pillow 派生逐像素一致的分页；打好的 App 本身不依赖 Python。
 
 ```sh
 git clone https://github.com/leozhang8654/yukio-desktop-pet
 cd yukio-desktop-pet/YukioPlayer
-swift test                      # 101 个测试：路由、防抖、分类、解析、气泡文字、动作时间线、聊天选择
+swift test                      # 127 个测试：路由、眨眼时序、分类、解析、气泡文字、动作时间线、聊天选择
 ./scripts/build-app.sh          # 生成 build/Yukio.app
 open build/Yukio.app
-./scripts/package-release.sh    # 打通用二进制的发布压缩包到 dist/
+cd ../YukioWin && pip3 install pillow && python3 scripts/prepare-windows-assets.py
+cd ../YukioPlayer && ./scripts/package-release.sh  # 打通用二进制发布包到 dist/
 ```
 
 **Windows** 需要 Python 3.9 或更新。
