@@ -1,7 +1,7 @@
 {
- "version": 2,
- "generator": "tools/motion/make_motion.py",
- "note": "每个动作只用一张底图：要明显移动的手、笔、放大镜、纸抠成一层单独移动，原位置补齐；头眼用局部变形；桌椅逐像素不动。",
+ "version": 3,
+ "generator": "tools/motion/make_motion.py → tools/motion/upscale_motion.py",
+ "note": "每个动作只用一张底图：要明显移动的手、笔、放大镜、纸抠成一层单独移动，原位置补齐；头眼用局部变形；桌椅逐像素不动。 图条是 2 倍分辨率（pixelScale=2，tools/motion/upscale_motion.py 用 Real-ESRGAN 动画模型超分），太长的折成几行。 轮廓外垫了一圈 0.5 点的深色描边。",
  "states": [
   {
    "id": "thinking",
@@ -83,7 +83,8 @@
     1250
    ],
    "loop": true,
-   "loopStart": 0
+   "loopStart": 0,
+   "pixelScale": 2
   },
   {
    "id": "read_file",
@@ -277,7 +278,8 @@
     50
    ],
    "loop": true,
-   "loopStart": 0
+   "loopStart": 0,
+   "pixelScale": 2
   },
   {
    "id": "view_image",
@@ -469,7 +471,8 @@
     67
    ],
    "loop": true,
-   "loopStart": 0
+   "loopStart": 0,
+   "pixelScale": 2
   },
   {
    "id": "write_file",
@@ -727,7 +730,8 @@
     33
    ],
    "loop": true,
-   "loopStart": 0
+   "loopStart": 0,
+   "pixelScale": 2
   },
   {
    "id": "verify",
@@ -853,7 +857,8 @@
     67
    ],
    "loop": true,
-   "loopStart": 0
+   "loopStart": 0,
+   "pixelScale": 2
   },
   {
    "id": "read_web",
@@ -977,7 +982,8 @@
     450
    ],
    "loop": true,
-   "loopStart": 0
+   "loopStart": 0,
+   "pixelScale": 2
   },
   {
    "id": "respond",
@@ -1053,7 +1059,8 @@
     2400
    ],
    "loop": true,
-   "loopStart": 27
+   "loopStart": 27,
+   "pixelScale": 2
   },
   {
    "id": "default_work",
@@ -1263,7 +1270,8 @@
     50
    ],
    "loop": true,
-   "loopStart": 0
+   "loopStart": 0,
+   "pixelScale": 2
   },
   {
    "id": "question_for_user",
@@ -1349,7 +1357,8 @@
     1100
    ],
    "loop": true,
-   "loopStart": 0
+   "loopStart": 0,
+   "pixelScale": 2
   },
   {
    "id": "task_complete",
@@ -1411,7 +1420,8 @@
     800
    ],
    "loop": true,
-   "loopStart": 0
+   "loopStart": 0,
+   "pixelScale": 2
   },
   {
    "id": "idle",
@@ -1525,7 +1535,8 @@
     667
    ],
    "loop": true,
-   "loopStart": 0
+   "loopStart": 0,
+   "pixelScale": 2
   },
   {
    "id": "failed",
@@ -1607,7 +1618,8 @@
     1200
    ],
    "loop": true,
-   "loopStart": 2
+   "loopStart": 2,
+   "pixelScale": 2
   }
  ]
 }

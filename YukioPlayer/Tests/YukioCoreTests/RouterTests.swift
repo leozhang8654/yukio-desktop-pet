@@ -31,6 +31,7 @@ final class Harness {
 }
 
 @Suite struct RouterTests {
+    init() { L10n.language = .chinese }   // 这些测试按中文文案断言
     @Test func firstSwitchOnlyWaitsForDebounce() {
         let h = Harness()
         h.send(.taskStart)
@@ -90,25 +91,72 @@ final class Harness {
         #expect(h.states == [.write_file])
     }
 
-    @Test func respondThenTaskCompleteAfterTaskEndThenReturnsToIdle() {
+    @Test func respondThenTaskCompleteHoldsTheCardUntilTheUserClicks() {
         var config = RouterConfig()
-        config.respondLingerMs = 8000
+        config.completeArmMs = 8000
         config.respondHoldMs = 3000
         let h = Harness(config: config)
         h.send(.taskStart)
         h.run(to: 3000)
         h.send(.finalAnswer); h.send(.taskEnd)
-        h.run(to: 20000)
-        // 先递交报告，够播完整理文件那一下，再举勾选卡停到停留结束。
-        #expect(h.states == [.thinking, .respond, .task_complete, .idle])
-        let respondAt = h.transitions[1].t, cardAt = h.transitions[2].t, idleAt = h.transitions[3].t
+        // 先递交报告，够播完整理文件那一下，再举勾选卡；一小时不点也不放下。
+        h.run(to: 3_600_000)
+        #expect(h.states == [.thinking, .respond, .task_complete])
+        let respondAt = h.transitions[1].t, cardAt = h.transitions[2].t
         #expect(cardAt - respondAt >= 2900 && cardAt - respondAt <= 3600)
-        #expect(idleAt - respondAt >= 7500)
+        #expect(h.router.completedSession == h.session)
+
+        // 点一下：立刻放下，回到空闲，再也不会自己举回来。
+        #expect(h.router.dismissCompletion(now: h.now))
+        #expect(h.router.displayed == .idle)
+        #expect(h.router.completedSession == nil)
+        h.run(to: h.now + 20000)
+        #expect(h.states == [.thinking, .respond, .task_complete])
     }
 
-    @Test func respondHoldLongerThanLingerNeverShowsTheCard() {
+    @Test func clickingRightAfterTheCardGoesUpStillPutsItDown() {
+        let h = Harness()
+        h.send(.taskStart)
+        h.run(to: 3000)
+        h.send(.finalAnswer); h.send(.taskEnd)
+        h.run(to: 7000)
+        #expect(h.router.displayed == .task_complete)
+        // 还在“多久之内的完成才举牌”窗口里点：不能马上又举回来。
+        #expect(h.router.dismissCompletion(now: h.now))
+        h.run(to: 20000)
+        #expect(h.router.displayed == .idle)
+    }
+
+    @Test func aCompletionOlderThanTheArmWindowNeverRaisesTheCard() {
+        // 播放器启动时回放旧转录：任务是十分钟前结束的，不该举一块过期的牌。
+        let h = Harness()
+        h.send(.taskStart)
+        h.run(to: 3000)
+        h.send(.finalAnswer); h.send(.taskEnd)
+        h.now += 600_000
+        h.router.settle(now: h.now)
+        #expect(h.router.displayed == .idle)
+        h.run(to: h.now + 20000)
+        #expect(h.router.completedSession == nil)
+    }
+
+    @Test func aNewRequestPutsTheCardDownByItself() {
+        let h = Harness()
+        h.send(.taskStart)
+        h.run(to: 3000)
+        h.send(.finalAnswer); h.send(.taskEnd)
+        h.run(to: 8000)
+        #expect(h.router.displayed == .task_complete)
+        // 用户不点牌子，直接在聊天里发下一条：牌子让位给新任务。
+        h.send(.taskStart)
+        h.run(to: 12000)
+        #expect(h.router.displayed == .thinking)
+        #expect(h.router.completedSession == nil)
+    }
+
+    @Test func respondHoldLongerThanTheArmWindowNeverShowsTheCard() {
         var config = RouterConfig()
-        config.respondLingerMs = 3000
+        config.completeArmMs = 3000
         config.respondHoldMs = 8000
         let h = Harness(config: config)
         h.send(.taskStart)
@@ -124,11 +172,18 @@ final class Harness {
         h.send(.activityStart, id: "q", .question_for_user)
         h.run(to: 4000)
         #expect(h.states == [.question_for_user])
-        #expect(h.router.statusLine(now: h.now)?.current == "等你回答")
+        #expect(h.router.statusLine(now: h.now)?.current == "等你回答 · 点她跳过去")
+        // 立着问号卡时点雪绪：跳到这条聊天去回答，卡片不收（也没有勾选卡可放下）。
+        #expect(h.router.askingSession == h.session)
+        #expect(h.router.completedSession == nil)
+        #expect(!h.router.dismissCompletion(now: h.now))
+        #expect(h.router.displayed == .question_for_user)
         h.send(.activityEnd, id: "q")
         h.send(.thinking)
         h.run(to: 8000)
         #expect(h.states == [.question_for_user, .thinking])
+        // 答完了：再点就不是“去回答”了。
+        #expect(h.router.askingSession == nil)
     }
 
     @Test func abortGoesToIdleWithoutReport() {
@@ -316,9 +371,9 @@ final class Harness {
         h.run(to: DemoScript.durationMs)
         let shown = Set(h.states)
         for s in PetState.allCases where s != .idle { #expect(shown.contains(s), "演示中没有出现 \(s)") }
-        #expect(h.states.last == .idle)
-        #expect(h.states.dropLast().last == .task_complete)
-        #expect(h.states.dropLast(2).last == .respond)
+        // 演示结尾：递交报告 → 举勾选卡，然后一直举着等人点。
+        #expect(h.states.last == .task_complete)
+        #expect(h.states.dropLast().last == .respond)
         for (a, b) in zip(h.transitions, h.transitions.dropFirst()) {
             #expect(b.t - a.t >= 1500, "\(a.state) 只显示了 \(b.t - a.t) ms")
         }

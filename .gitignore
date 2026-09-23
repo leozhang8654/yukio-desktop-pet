@@ -4,6 +4,13 @@ YukioPlayer/build/
 YukioPlayer/dist/
 .swiftpm/
 
+# 超分模型权重（tools/motion/upscale_motion.py 第一次运行时自动下载）
+YukioPlayer/tools/motion/models/
+
+# Windows 版的打包产物（scripts/build-exe.ps1 会重新生成）
+YukioWin/build/
+YukioWin/dist/
+
 # Python 缓存
 __pycache__/
 *.pyc
@@ -11,3 +18,6 @@ __pycache__/
 # 系统文件与本地设置
 .DS_Store
 .claude/
+
+# Windows 冒烟测试产物
+YukioWin/smoke/

@@ -2,11 +2,15 @@
 """生成雪绪的动作图条（Resources/Assets/motion/ 与 motion.json）。
 
 用法（在 YukioPlayer 目录）：
-  python3 tools/motion/make_motion.py                  生成全部动作
+  python3 tools/motion/make_motion.py                  生成全部动作（1 倍，写到 build/motion-1x/）
+  python3 tools/motion/make_motion.py --only respond   只重生成某一段（可写多次），motion.json 里只换这一条
   python3 tools/motion/make_motion.py --eyes out.png   眨眼检测图（检查眼睛框）
   python3 tools/motion/make_motion.py --parts 目录      每个动作的部件蒙版、补齐后的背景和几个时刻的放大局部
   python3 tools/motion/make_motion.py --sheet 目录      局部变形的放大对照图
   python3 tools/motion/make_motion.py --html out.html  新旧动作并排播放的预览页
+
+这里生成的是 1 倍图条（192×208 一格，手工标的坐标都按 1 倍）；应用实际播放的 2 倍图条由
+tools/motion/upscale_motion.py 从 build/motion-1x/ 超分得到，写进 Resources/Assets/motion/。改完动作两步都要跑。
 
 需要 numpy、opencv-python、Pillow。每个动作只用一张已确认的底图，桌椅逐像素不动：
 - 手、笔、放大镜、纸这类要明显移动的东西抠成一层单独平移、旋转（从部件内部的点漫延选取，遇描边即停），
@@ -34,7 +38,7 @@ from motionlib import (H, W, Frame, Part, Rotate, Shift, assemble, clean_plate, 
 
 ROOT = Path(__file__).resolve().parents[2]
 ASSETS = ROOT / 'Resources' / 'Assets'
-OUT = ASSETS / 'motion'
+OUT = ROOT / 'build' / 'motion-1x'      # 1 倍中间产物；应用用的在 Resources/Assets/motion（见 upscale_motion.py）
 
 BLINK = [(0.55, 50), (1.0, 70), (0.45, 80)]          # (闭合程度, 毫秒)：快速闭上、稍停、睁开
 SLOW_BLINK = [(0.5, 70), (1.0, 110), (0.5, 110)]     # 思考、沮丧：慢一点
@@ -105,10 +109,12 @@ def view_image(plate, eyes):
         return (-4.0 * math.cos(2 * math.pi * u), -0.7 * math.sin(2 * math.pi * u) ** 2,
                 2.0 * math.sin(2 * math.pi * u))
 
+    # 圆盘要罩住整圈镜框（镜框外缘：圆心 (89, 94.5)、半径约 12.5），手套往外长 2 像素把自己的描边带上，
+    # 否则镜子扫开后原位置会留下一圈镜框的影子，手的下沿也拖着一道。
     handle = polygon_mask([(68, 96), (77, 101), (71, 109), (63, 104)])
-    lens = Part(flood_mask(plate, [(62, 104), (66, 108), (60, 110), (64, 101)],
-                           region=[(52, 94), (74, 93), (78, 104), (72, 116), (52, 116)],
-                           add=(disk_mask((82.5, 92), 12.8), handle)), (64, 106), sweep)
+    lens = Part(flood_mask(plate, [(62, 104), (66, 108), (70, 104), (64, 101)],
+                           region=[(52, 93), (76, 93), (80, 104), (75, 117), (52, 117)], grow=2,
+                           add=(disk_mask((89, 94.5), 13.0), handle)), (64, 106), sweep)
     return Rig(handles=[head((92, 50), (54, 14, 130, 80), lambda t: (0.15 * sweep(t)[0], 0)),
                         *irises(eyes, lambda t: (0.22 * sweep(t)[0], 0.15))],
                parts=[lens])
@@ -231,14 +237,17 @@ def respond(plate, eyes):
     paper_px = rgb[95:110, 88:106].reshape(-1, 3)
     fill = np.median(paper_px[paper_px.mean(axis=1) > 0.8], axis=0)
     ink = np.array([0.42, 0.42, 0.50])
-    sheet = sheet_image((79, 80, 116, 120), np.append(fill, 1.0), np.append(ink, 1.0))
+    # 后面那两张纸要能完全躲回整叠后面：按整叠的实心范围（x 78..107、y 85..118）往里收着画，
+    # 转动的支点也放到整叠的底边上。原来画成 (79, 80, 116, 120)，比整叠还大一圈——纸对齐之后
+    # 仍有一圈灰边框套在报告外面收不回去，散开时纸角还会转到桌面下边去。
+    sheet = sheet_image((79, 86, 106, 116), np.append(fill, 1.0), np.append(ink, 1.0))
     ones = np.ones((H, W), np.float32)
     stack = Part(flood_mask(plate, [(97, 84), (90, 95), (104, 102), (92, 112), (100, 117), (86, 88), (110, 90),
                                     (77, 106), (80, 110), (114, 106), (117, 110)],
                             region=[(68, 79), (124, 79), (124, 121), (68, 121)]), (97, 110), main)
     return Rig(parts=[stack],
-               behind=[Part(ones, (97, 120), loose(-3.4, -5.0), image=sheet),
-                       Part(ones, (97, 120), loose(3.0, 4.5), image=sheet)])
+               behind=[Part(ones, (97, 117), loose(-6.0, -6.0), image=sheet),
+                       Part(ones, (97, 117), loose(5.0, 5.0), image=sheet)])
 
 
 def question_for_user(plate, eyes):
@@ -269,20 +278,23 @@ def task_complete(plate, eyes):
                fix=lambda plate, base, hole: extend_rows(plate, base, hole, 100, 124))
 
 
+# 站姿两套（待机、沮丧）的底图在 2026-09-18 被 tools/proportion/restretch_idle.py 拉长过腿：袜口（y=150）以上整体
+# 上移了 14 像素（头顶 16 → 2）。头、眼相关的坐标都按上移后的图写，别再用旧的。
+
 def idle(plate, eyes):
     # 空闲：偶尔向左、向右看一看（轮廓、五官、眼珠依次多移一点，像是转头），头跟着歪。
     look = vec([(0, 0, 0), (2.6, 0, 0), (3.3, -2.0, 0), (5.0, -2.0, 0), (5.7, 0, 0),
                 (8.4, 0, 0), (9.1, 2.0, 0), (10.6, 2.0, 0), (11.3, 0, 0)], 12.0)
-    return Rig(handles=[Rotate((93, 80), (93, 44), (26, 24), lambda t: 0.8 * look(t)[0], region=(54, 8, 134, 80), feather=5),
-                        Shift((93, 44), (26, 24), look, region=(54, 8, 134, 80), feather=5),
-                        Shift((93, 60), (14, 8), scaled(look, 0.5, 0), region=(72, 49, 114, 73), feather=3),
+    return Rig(handles=[Rotate((93, 66), (93, 30), (26, 24), lambda t: 0.8 * look(t)[0], region=(54, 0, 134, 66), feather=5),
+                        Shift((93, 30), (26, 24), look, region=(54, 0, 134, 66), feather=5),
+                        Shift((93, 46), (14, 8), scaled(look, 0.5, 0), region=(72, 35, 114, 59), feather=3),
                         *irises(eyes, scaled(look, 0.6, 0))])
 
 
 def failed(plate, eyes):
     # 沮丧：垂眼停住后，慢慢叹一口气（头往下沉再回来），慢慢眨眼。
     sigh = vec([(0, 0, 0), (1.5, 0, 0), (2.7, 0, 0.9), (4.4, 0, 0)], 5.5)
-    return Rig(handles=[Shift((93, 46), (26, 24), sigh, region=(54, 8, 134, 80), feather=5)])
+    return Rig(handles=[Shift((93, 32), (26, 24), sigh, region=(54, 0, 134, 66), feather=5)])
 
 
 STATES = [
@@ -306,9 +318,9 @@ STATES = [
           4.2, 1, 20, [3.1], question_for_user),
     State('task_complete', ('activities/task_complete.webp', 0), [(76, 63, 90, 78), (99, 63, 112, 78)],
           5.0, 1, 20, [4.2], task_complete),
-    State('idle', ('base/idle.webp', 0), [(78, 54, 90, 68), (97, 50, 109, 64)],
+    State('idle', ('base/idle.webp', 0), [(78, 40, 90, 54), (97, 36, 109, 50)],
           12.0, 1, 12, [1.3, 5.2, 7.3, 10.9], idle),
-    State('failed', ('base/failed.webp', 3), [(78, 56, 91, 68), (98, 52, 110, 64)],
+    State('failed', ('base/failed.webp', 3), [(78, 42, 91, 54), (98, 38, 110, 50)],
           5.5, 1, 10, [0.9], failed, blink=SLOW_BLINK),
 ]
 
@@ -385,10 +397,13 @@ def combine(intro, loop):
     return iu + lu, iseq + [i + len(iu) for i in lseq], idur + ldur, len(iseq)
 
 
-def generate():
-    OUT.mkdir(exist_ok=True)
+def generate(only=None):
+    """生成全部（only=None）或指定 id 的动作。只做一部分时，motion.json 里其余条目保持原样。"""
+    OUT.mkdir(parents=True, exist_ok=True)
     entries = []
     for st in STATES:
+        if only is not None and st.id not in only:
+            continue
         scene, intro, loop, worst = build(st)
         uniques, seq, dur, loop_start = combine(intro, loop)
         save_strip(uniques, str(OUT / f'{st.id}.webp'))
@@ -405,6 +420,11 @@ def generate():
               f'相邻帧最大移动 {worst:.2f}px  桌腿区变化像素 {moved}')
         if moved:
             raise SystemExit(f'{st.id}: 桌腿区被改动了')
+    if only is not None and (OUT / 'motion.json').exists():
+        by_id = {s['id']: s for s in json.loads((OUT / 'motion.json').read_text())['states']}
+        for e in entries:
+            by_id[e['id']] = e
+        entries = list(by_id.values())
     (OUT / 'motion.json').write_text(json.dumps({
         'version': 2,
         'generator': 'tools/motion/make_motion.py',
@@ -610,6 +630,7 @@ if __name__ == '__main__':
     ap.add_argument('--parts')
     ap.add_argument('--sheet')
     ap.add_argument('--html')
+    ap.add_argument('--only', action='append', help='只生成这些动作 id')
     args = ap.parse_args()
     if args.eyes:
         eyes_sheet(args.eyes)
@@ -620,4 +641,4 @@ if __name__ == '__main__':
     elif args.html:
         html_preview(args.html)
     else:
-        generate()
+        generate(set(args.only) if args.only else None)

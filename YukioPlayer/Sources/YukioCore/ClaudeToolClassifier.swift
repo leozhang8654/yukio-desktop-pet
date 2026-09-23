@@ -15,10 +15,43 @@ public enum ClaudeToolClassifier {
         "png", "jpg", "jpeg", "gif", "webp", "bmp", "tif", "tiff", "heic", "heif", "svg", "ico",
     ]
 
-    public static func classify(tool: String, input: [String: Any]) -> ToolClassification {
+    /// 别家（Deep Code、Codex、各式 MCP 插件）用小写或别名写同一件事：统一成 Claude 的工具名再分类，
+    /// 一套规则管三家。认不出的原样返回，落到 mcp__ 或默认电脑桌。
+    public static func canonicalName(_ tool: String) -> String {
+        if tool.hasPrefix("mcp__") { return tool }
+        return aliases[tool.lowercased()] ?? tool
+    }
+
+    static let aliases: [String: String] = [
+        "read": "Read", "readfile": "Read", "read_file": "Read", "view_file": "Read", "openfile": "Read",
+        "readimage": "ReadImage", "understandimage": "UnderstandImage", "view_image": "ViewImage",
+        "read_image": "ReadImage", "viewimage": "ViewImage",
+        "write": "Write", "writefile": "Write", "write_file": "Write", "create_file": "Write", "createfile": "Write",
+        "edit": "Edit", "editfile": "Edit", "edit_file": "Edit", "multiedit": "MultiEdit",
+        "str_replace_editor": "Edit", "apply_patch": "Edit", "applypatch": "Edit",
+        "notebookread": "NotebookRead", "notebookedit": "NotebookEdit",
+        "bash": "Bash", "shell": "Bash", "run_command": "Bash", "runcommand": "Bash", "terminal": "Bash",
+        "exec_command": "Bash", "run_terminal_cmd": "Bash", "powershell": "PowerShell",
+        "glob": "Glob", "grep": "Grep", "ls": "LS", "listdir": "LS", "list_dir": "LS",
+        "search": "Grep", "codebase_search": "Grep", "find": "Glob",
+        "webfetch": "WebFetch", "web_fetch": "WebFetch", "fetch": "WebFetch",
+        "websearch": "WebSearch", "web_search": "WebSearch",
+        "bashoutput": "BashOutput", "readbashoutput": "BashOutput", "killshell": "KillShell", "killbash": "KillBash",
+        "todowrite": "TodoWrite", "updateplan": "TodoWrite", "update_plan": "TodoWrite", "taskcreate": "TaskCreate",
+        "taskupdate": "TaskUpdate", "tasklist": "TaskList", "taskget": "TaskGet",
+        "enterplanmode": "EnterPlanMode", "exitplanmode": "ExitPlanMode", "exit_plan_mode": "ExitPlanMode",
+        "toolsearch": "ToolSearch", "skill": "Skill", "task": "Task", "agent": "Agent",
+        "askuserquestion": "AskUserQuestion", "ask_user_question": "AskUserQuestion",
+        "request_user_input": "AskUserQuestion", "request_user_input_async": "AskUserQuestion",
+    ]
+
+    public static func classify(tool rawTool: String, input: [String: Any]) -> ToolClassification {
+        let tool = canonicalName(rawTool)
         switch tool {
+        case "ReadImage", "UnderstandImage", "ViewImage":
+            return .activity(.view_image)
         case "Read":
-            let path = (input["file_path"] as? String) ?? ""
+            let path = (input["file_path"] as? String) ?? (input["path"] as? String) ?? ""
             let ext = (path as NSString).pathExtension.lowercased()
             return .activity(imageExtensions.contains(ext) ? .view_image : .read_file)
         case "Glob", "Grep", "LS", "NotebookRead":
@@ -111,7 +144,8 @@ public enum ClaudeToolClassifier {
     // MARK: 给人看的说明
 
     /// 气泡里“当前活动”的简短说明。只取文件名、命令前几个词、网址域名，不含文件内容。
-    public static func describe(tool: String, input: [String: Any]) -> String? {
+    public static func describe(tool rawTool: String, input: [String: Any]) -> String? {
+        let tool = canonicalName(rawTool)
         func name(_ key: String) -> String? {
             guard let p = input[key] as? String, !p.isEmpty else { return nil }
             return (p as NSString).lastPathComponent
@@ -126,18 +160,21 @@ public enum ClaudeToolClassifier {
             return h.hasPrefix("www.") ? String(h.dropFirst(4)) : h
         }
         switch tool {
+        case "ReadImage", "UnderstandImage", "ViewImage":
+            guard let f = name("file_path") ?? name("path") ?? name("image_path") else { return nil }
+            return tr("Viewing \(f)", "查看 \(f)")
         case "Read":
-            guard let f = name("file_path") else { return nil }
-            return imageExtensions.contains((f as NSString).pathExtension.lowercased()) ? "查看 \(f)" : "阅读 \(f)"
-        case "NotebookRead": return name("notebook_path").map { "阅读 \($0)" }
-        case "Write": return name("file_path").map { "写入 \($0)" }
-        case "Edit", "MultiEdit": return name("file_path").map { "编辑 \($0)" }
-        case "NotebookEdit": return name("notebook_path").map { "编辑 \($0)" }
-        case "Grep": return text("pattern").map { "搜索 \($0)" }
-        case "Glob": return text("pattern").map { "查找 \($0)" }
-        case "LS": return name("path").map { "查看 \($0)" }
-        case "WebFetch": return text("url").map { "浏览 \(host($0))" }
-        case "WebSearch": return text("query").map { "搜索网页 \($0)" }
+            guard let f = name("file_path") ?? name("path") else { return nil }
+            return imageExtensions.contains((f as NSString).pathExtension.lowercased()) ? tr("Viewing \(f)", "查看 \(f)") : tr("Reading \(f)", "阅读 \(f)")
+        case "NotebookRead": return name("notebook_path").map { tr("Reading \($0)", "阅读 \($0)") }
+        case "Write": return name("file_path").map { tr("Writing \($0)", "写入 \($0)") }
+        case "Edit", "MultiEdit": return name("file_path").map { tr("Editing \($0)", "编辑 \($0)") }
+        case "NotebookEdit": return name("notebook_path").map { tr("Editing \($0)", "编辑 \($0)") }
+        case "Grep": return text("pattern").map { tr("Searching \($0)", "搜索 \($0)") }
+        case "Glob": return text("pattern").map { tr("Finding \($0)", "查找 \($0)") }
+        case "LS": return name("path").map { tr("Viewing \($0)", "查看 \($0)") }
+        case "WebFetch": return text("url").map { tr("Browsing \(host($0))", "浏览 \(host($0))") }
+        case "WebSearch": return text("query").map { tr("Searching the web: \($0)", "搜索网页 \($0)") }
         case "Bash", "PowerShell":
             let command = text("command") ?? ""
             // heredoc 脚本（python3 - <<EOF …）从命令本身看不出在做什么，优先用调用时附带的说明。
@@ -146,25 +183,25 @@ public enum ClaudeToolClassifier {
         case "BashOutput", "KillShell", "KillBash", "TaskOutput", "TaskStop":
             return nil
         case "TodoWrite", "TaskCreate", "TaskUpdate", "TaskList", "TaskGet":
-            return "整理任务清单"
+            return tr("Updating the task list", "整理任务清单")
         case "EnterPlanMode", "ExitPlanMode":
-            return "制定计划"
+            return tr("Planning", "制定计划")
         case "ToolSearch":
-            return "查找工具"
+            return tr("Finding tools", "查找工具")
         case "AskUserQuestion":
-            return "等你回答"
+            return tr("Needs your answer", "等你回答")
         case "Agent", "Task":
-            return text("description").map { "委派：\($0)" } ?? "委派助手"
+            return text("description").map { tr("Delegating: \($0)", "委派：\($0)") } ?? tr("Delegating to a helper", "委派助手")
         case "Skill":
-            return text("skill").map { "技能 \($0)" }
+            return text("skill").map { tr("Skill \($0)", "技能 \($0)") }
         default:
             break
         }
         if tool.hasPrefix("mcp__") {
             let short = tool.components(separatedBy: "__").last ?? tool
             switch classifyMCP(tool: tool, input: input) {
-            case .view_image: return "截图"
-            case .read_web: return text("url").map { "浏览 \(host($0))" } ?? "浏览器 \(short)"
+            case .view_image: return tr("Screenshot", "截图")
+            case .read_web: return text("url").map { tr("Browsing \(host($0))", "浏览 \(host($0))") } ?? tr("Browser \(short)", "浏览器 \(short)")
             default: return short
             }
         }

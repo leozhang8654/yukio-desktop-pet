@@ -1,0 +1,72 @@
+# Build Yukio.exe on a GitHub Windows runner and actually run it once to make sure the windows draw.
+# Trigger by hand (Run workflow on the Actions page) or by pushing a win-v* tag (which also creates a Release).
+name: Build Windows Yukio
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "win-v*"
+
+permissions:
+  contents: write
+
+env:
+  # Python on Windows prints in the local code page by default and chokes on Chinese; force UTF-8.
+  PYTHONIOENCODING: utf-8
+  PYTHONUTF8: "1"
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip pillow pyinstaller
+
+      - name: Self-test (core tests + player logic)
+        working-directory: YukioWin
+        run: python run.py --selftest
+
+      - name: Check artwork
+        working-directory: YukioWin
+        run: python run.py --check
+
+      - name: Package
+        working-directory: YukioWin
+        run: python -m PyInstaller --noconfirm --clean scripts/yukio.spec
+
+      - name: Smoke test (find the windows, measure, check the pose, compare screenshots pixel by pixel)
+        working-directory: YukioWin
+        run: powershell -ExecutionPolicy Bypass -File scripts/smoke-test.ps1 -Exe dist/Yukio.exe
+
+      - name: Smoke test again at 150% scaling (the HiDPI path)
+        working-directory: YukioWin
+        run: powershell -ExecutionPolicy Bypass -File scripts/smoke-test.ps1 -Exe dist/Yukio.exe -Scale 1.5 -OutDir smoke-150
+
+      - name: Keep the smoke-test screenshots and logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-test
+          path: |
+            YukioWin/smoke/
+            YukioWin/smoke-150/
+          if-no-files-found: warn
+
+      - name: Keep the exe
+        uses: actions/upload-artifact@v4
+        with:
+          name: Yukio-Windows
+          path: YukioWin/dist/Yukio.exe
+
+      - name: Publish a Release when a win-v* tag is pushed
+        if: startsWith(github.ref, 'refs/tags/win-v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: YukioWin/dist/Yukio.exe
+          fail_on_unmatched_files: true

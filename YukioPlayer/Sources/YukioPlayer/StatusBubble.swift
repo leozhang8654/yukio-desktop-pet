@@ -31,32 +31,94 @@ final class BubbleView: NSView {
         didSet { needsDisplay = true }
     }
 
+    /// 点这张卡：摊开别的聊天来挑。平时窗口是穿透的，由控制器按需打开。
+    var onClick: (() -> Void)?
+
     override var isOpaque: Bool { false }
+    override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }
 
     override func draw(_ dirtyRect: NSRect) {
         layout?.draw(in: bounds)
     }
+
+    override func mouseDown(with event: NSEvent) {
+        // 和点雪绪一样，在 mouseUp 里处理。
+    }
+
+    override func mouseUp(with event: NSEvent) {
+        onClick?()
+    }
 }
 
-/// 气泡的排版与绘制，与窗口无关（--bubble 快照也用它）。
-struct BubbleLayout {
+/// 头顶那摞卡片的统一外观。最下面一张是这个气泡（当前那条聊天），
+/// 上面叠的“别的聊天”用同一套圆角、描边、字号和颜色，不另起一套样子。
+enum CardLook {
     static let maxWidth: CGFloat = 180
     static let minWidth: CGFloat = 64
-    private static let padX: CGFloat = 8
-    private static let padY: CGFloat = 5
-    private static let lineGap: CGFloat = 1
+    static let padX: CGFloat = 8
+    static let padY: CGFloat = 5
+    static let lineGap: CGFloat = 1
+    static let radius: CGFloat = 7
+    /// 叠起来时两张卡之间的缝。
+    static let stackGap: CGFloat = 4
+
+    static let titleFont = NSFont.systemFont(ofSize: 10, weight: .medium)
+    static let currentFont = NSFont.systemFont(ofSize: 11.5, weight: .semibold)
+    static let smallFont = NSFont.monospacedDigitSystemFont(ofSize: 10, weight: .medium)
+    /// 制服的深蓝与眼睛的蓝。
+    static let ink = NSColor(srgbRed: 0.12, green: 0.16, blue: 0.27, alpha: 1)
+    static let muted = NSColor(srgbRed: 0.38, green: 0.44, blue: 0.56, alpha: 1)
+    static let accent = NSColor(srgbRed: 0.24, green: 0.58, blue: 0.90, alpha: 1)
+
+    /// 卡片的底：半透明白 + 一圈淡描边。
+    static func box(_ rect: NSRect, radius: CGFloat = radius) {
+        let path = NSBezierPath(roundedRect: rect.insetBy(dx: 0.5, dy: 0.5), xRadius: radius, yRadius: radius)
+        NSColor(white: 1, alpha: 0.94).setFill()
+        path.fill()
+        ink.withAlphaComponent(0.16).setStroke()
+        path.lineWidth = 1
+        path.stroke()
+    }
+
+    /// 用含中文的样本量行高：中文字形来自后备字体，行高比西文字体的上下伸部大。
+    static func lineHeight(_ font: NSFont) -> CGFloat {
+        ceil(("雪绪Ag" as NSString).size(withAttributes: [.font: font]).height)
+    }
+
+    static func width(_ s: String, _ font: NSFont) -> CGFloat {
+        (s as NSString).size(withAttributes: [.font: font]).width
+    }
+
+    static func draw(_ s: String, _ font: NSFont, _ color: NSColor, in rect: NSRect, center: Bool = false) {
+        let para = NSMutableParagraphStyle()
+        para.lineBreakMode = .byTruncatingTail
+        if center { para.alignment = .center }
+        (s as NSString).draw(in: rect, withAttributes: [.font: font, .foregroundColor: color, .paragraphStyle: para])
+    }
+
+    static func singleLine(_ s: String) -> String {
+        s.split(whereSeparator: \.isNewline).joined(separator: " ")
+    }
+}
+
+/// 气泡的排版与绘制，与窗口无关（--bubble 快照也用它）。这也是头顶那摞卡片里最下面的一张。
+struct BubbleLayout {
+    static let maxWidth = CardLook.maxWidth
+    static let minWidth = CardLook.minWidth
+    private static let padX = CardLook.padX
+    private static let padY = CardLook.padY
+    private static let lineGap = CardLook.lineGap
     private static let barHeight: CGFloat = 2.5
     private static let barGap: CGFloat = 4
     private static let progressGap: CGFloat = 6
-    private static let radius: CGFloat = 7
+    private static let radius = CardLook.radius
 
-    private static let titleFont = NSFont.systemFont(ofSize: 10, weight: .medium)
-    private static let currentFont = NSFont.systemFont(ofSize: 11.5, weight: .semibold)
-    private static let progressFont = NSFont.monospacedDigitSystemFont(ofSize: 10, weight: .medium)
-    /// 制服的深蓝与眼睛的蓝。
-    private static let ink = NSColor(srgbRed: 0.12, green: 0.16, blue: 0.27, alpha: 1)
-    private static let muted = NSColor(srgbRed: 0.38, green: 0.44, blue: 0.56, alpha: 1)
-    private static let accent = NSColor(srgbRed: 0.24, green: 0.58, blue: 0.90, alpha: 1)
+    private static let titleFont = CardLook.titleFont
+    private static let currentFont = CardLook.currentFont
+    private static let progressFont = CardLook.smallFont
+    private static let ink = CardLook.ink
+    private static let muted = CardLook.muted
+    private static let accent = CardLook.accent
 
     let title: String?
     let current: String
@@ -86,12 +148,7 @@ struct BubbleLayout {
     }
 
     func draw(in bounds: NSRect) {
-        let box = NSBezierPath(roundedRect: bounds.insetBy(dx: 0.5, dy: 0.5), xRadius: Self.radius, yRadius: Self.radius)
-        NSColor(white: 1, alpha: 0.94).setFill()
-        box.fill()
-        Self.ink.withAlphaComponent(0.16).setStroke()
-        box.lineWidth = 1
-        box.stroke()
+        CardLook.box(bounds)
 
         let x = bounds.minX + Self.padX
         let innerW = bounds.width - 2 * Self.padX
@@ -127,24 +184,15 @@ struct BubbleLayout {
         }
     }
 
-    private static func singleLine(_ s: String) -> String {
-        s.split(whereSeparator: \.isNewline).joined(separator: " ")
-    }
+    private static func singleLine(_ s: String) -> String { CardLook.singleLine(s) }
 
     private static func progressText(_ p: StatusLine.Progress) -> String { "\(p.done)/\(p.total)" }
 
-    /// 用含中文的样本量行高：中文字形来自后备字体，行高比西文字体的上下伸部大。
-    private static func lineHeight(_ font: NSFont) -> CGFloat {
-        ceil(("雪绪Ag" as NSString).size(withAttributes: [.font: font]).height)
-    }
+    private static func lineHeight(_ font: NSFont) -> CGFloat { CardLook.lineHeight(font) }
 
-    private static func width(_ s: String, _ font: NSFont) -> CGFloat {
-        (s as NSString).size(withAttributes: [.font: font]).width
-    }
+    private static func width(_ s: String, _ font: NSFont) -> CGFloat { CardLook.width(s, font) }
 
     private static func draw(_ s: String, _ font: NSFont, _ color: NSColor, in rect: NSRect) {
-        let para = NSMutableParagraphStyle()
-        para.lineBreakMode = .byTruncatingTail
-        (s as NSString).draw(in: rect, withAttributes: [.font: font, .foregroundColor: color, .paragraphStyle: para])
+        CardLook.draw(s, font, color, in: rect)
     }
 }
