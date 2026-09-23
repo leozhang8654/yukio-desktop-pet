@@ -196,9 +196,11 @@ class AppLogicTests(unittest.TestCase):
         self.assertEqual(a.pet_size, (288, 312))
         # 以脚下为锚：缩放后落脚点不跳。
         self.assertAlmostEqual(a.pet.y + a.pet_size[1], foot_before, delta=1)
-        source_menu = {i.text: i for i in by_text["跟随对象"].submenu}
-        source_menu["Deep Code（DeepSeek）"].action()
+        source_menu = {i.text: i for i in by_text["跟随的助手"].submenu}
+        source_menu["DeepSeek（Deep Code）"].action()
         self.assertEqual(a.settings.get("source"), "deepcode")
+        source_menu["GPT（Codex）"].action()
+        self.assertEqual(a.settings.get("source"), "gpt")
         by_text["回到屏幕右下角"].action()
         self.assertEqual((a.pet.x, a.pet.y), a._default_origin())
         by_text["退出雪绪"].action()

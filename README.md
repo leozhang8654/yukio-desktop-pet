@@ -2,7 +2,7 @@
 
 **English** · [简体中文](README.zh-CN.md)
 
-<h1>Yukio · the desktop pet that works alongside Claude Code</h1>
+<h1>Yukio · the desktop pet that works alongside your coding agent</h1>
 
 <img src="docs/readme/states-en.png" width="900" alt="Twelve things Yukio does at her desk: thinking, reading files, viewing an image, writing files, running tests, browsing the web, handing in the answer, holding up the done card, holding up the question card, other work, something failed, idle">
 
@@ -19,7 +19,7 @@
 
 **Yukio (雪绪)** is a white-haired, blue-eyed girl in a navy butler's uniform who sits in the corner of your screen and acts out what your AI coding agent is doing, as it happens. Claude Code reads a file, she opens a book. It edits, she picks up the pen. Tests run, she checks two sheets against each other. It finishes, and she holds up a ✅ card until you click her. That click drops you straight back into the chat that just finished.
 
-The macOS build follows **Claude Code**. The Windows build follows **DeepSeek's [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)** and understands Claude Code sessions too. Both are native, small, and never touch the network.
+She follows three families of agent, and you pick which one in her menu under **Assistant**: **Claude Code**, **DeepSeek's [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)**, and **GPT's [Codex](https://developers.openai.com/codex/)** (the desktop app and the CLI both write the same session logs). The default, **Auto**, follows all three at once and shows whichever chat has something to say. Both builds are native, small, and never touch the network.
 
 ## Download
 
@@ -61,7 +61,7 @@ Once running, Yukio appears in the bottom-right corner of the screen and a small
 
 ## What she does
 
-- **Twelve states, one character.** Thinking, reading files, viewing an image, writing files, running tests, browsing the web, handing in the answer, the ✅ done card, the ❓ question card, other work, something failed, idle. The mapping from each Claude Code tool to a state is explicit and covered by tests. Unknown work falls back to typing at the computer instead of guessing.
+- **Twelve states, one character.** Thinking, reading files, viewing an image, writing files, running tests, browsing the web, handing in the answer, the ✅ done card, the ❓ question card, other work, something failed, idle. The mapping from each agent's tools to a state is explicit and covered by tests (one set of rules for all three: shell commands are classified the same way whether they arrive as Claude's `Bash`, Deep Code's `bash`, or Codex's `exec`). Unknown work falls back to typing at the computer instead of guessing.
 - **Micro-motions, not slideshows.** Every state is one approved base image that a generator brings to life in small, continuous moves: the pen travels along the line, the magnifier sweeps the photo, a finger scrolls the tablet, two hands take turns on the keyboard, eyes blink in the right skin tone. The desk and chair never shift by a pixel, and the generator checks that. 20 to 30 frames per second.
 - **She tells you when it is your turn.** After the final answer she holds up the ✅ card and keeps holding it until you click. `AskUserQuestion` raises the ❓ card instead. Click her and the Claude desktop app opens that exact chat through its own `claude://` link. If that chat is already in front of you, she skips the card altogether.
 - **A bubble over her head.** The session title on top, the current step below, taken from the task list when there is one and otherwise from the tool: "Edit main.swift", "$ swift test", "developer.apple.com". A progress count and a thin bar sit beside it. Only file names, the first words of a command, and domains ever appear.
@@ -101,9 +101,9 @@ Straight out of the app's own swing model, with the camera following her so you 
 
 ## How she knows
 
-**macOS.** Claude Code writes a transcript for every session under `~/.claude/projects`. Yukio tails those files, read-only, and turns tool calls into states. A tool call shows up about 0.2 seconds after it starts, then a 0.4 second debounce keeps her from twitching between quick calls. Claude Code's official hooks can be wired in as a second source; the script and settings snippet are in `YukioPlayer/integrations/claude-hooks/`, and enabling them is your call.
+**Where she reads from.** Claude Code writes a transcript for every session under `~/.claude/projects`; Codex writes one per chat under `~/.codex/sessions/<year>/<month>/<day>/rollout-*.jsonl`; Deep Code keeps its sessions under `~/.deepcode/projects`. Yukio tails whichever of those you picked, read-only, and turns tool calls into states. A tool call shows up about 0.2 seconds after it starts, then a 0.4 second debounce keeps her from twitching between quick calls. Claude Code's official hooks can be wired in as a second source; the script and settings snippet are in `YukioPlayer/integrations/claude-hooks/`, and enabling them is your call.
 
-**Windows.** Deep Code keeps its sessions under `%USERPROFILE%\.deepcode\projects`, and Yukio reads the message log and session index there. Point Claude Code at DeepSeek's Anthropic-compatible endpoint and its transcripts are followed the same way. Any other tool can drive her by appending JSON lines to `%LOCALAPPDATA%\Yukio\inbox.jsonl`.
+**Windows.** The same three families, at `%USERPROFILE%\.deepcode\projects`, `%USERPROFILE%\.claude\projects`, and `%USERPROFILE%\.codex\sessions`; for Deep Code she also reads the session index, which is the only place "waiting for your approval" is written. Point Claude Code at DeepSeek's Anthropic-compatible endpoint and its transcripts are followed the same way. Any other tool can drive her by appending JSON lines to `%LOCALAPPDATA%\Yukio\inbox.jsonl`.
 
 These logs are internal to those tools, not public APIs. If a format changes she shows fewer events and drifts back to idle instead of crashing.
 
@@ -151,7 +151,7 @@ Both players have window-less modes for poking around: `--demo`, `--replay sessi
 
 - English by default. The right-click menu has a Language entry with 中文, and the choice is remembered. Descriptions already attached to earlier events keep their language until the next event arrives. The command-line check modes still print their diagnostics in Chinese.
 - The art is drawn and animated at 192×208, then shipped as 2x sheets (384×416; the picked-up frame 384×480) upscaled with an anime super-resolution model. The old thick, blurry dark fringe from keying is gone; a thin half-point outline is drawn around her instead. She stays crisp on Retina and HiDPI screens; above 200% she starts to soften again.
-- Click-to-jump needs the Claude desktop app. Claude Code run in a terminal has no chat window to open, so a click only brings Claude to the front. Deep Code chats live in the terminal too, so on Windows a click simply lowers the card. Verified on macOS; the Windows path is written the same way but has not been tried on a real machine yet.
+- Click-to-jump needs a desktop app: the Claude app for Claude Code chats, the Codex app for Codex chats (`codex://threads/<id>`). An agent run in a terminal has no chat window to open, so a click only brings that app to the front. Deep Code chats live in the terminal, so there a click simply lowers the card. Verified on macOS; the Windows path is written the same way but has not been tried on a real machine yet.
 - Size is a 50 to 200% slider on macOS and seven steps plus ±5% nudges on Windows, because a native Win32 menu cannot hold a slider.
 - The binaries are unsigned and not notarized. Building from source avoids the first-launch prompts.
 

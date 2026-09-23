@@ -8,6 +8,7 @@
     python -m yukio --replay 会话.jsonl     用虚拟时钟回放一份会话记录，打印状态序列
     python -m yukio --watch 60              实时跟随，打印事件与状态切换（不打印对话内容）
     python -m yukio --chats 3               列出最近的聊天，标出此刻会跟哪条
+      两者都可加 --source auto|claude|deepcode|gpt 指定跟哪一家（默认 auto，三家都跟）
     python -m yukio --chat-link <会话ID>    查这条聊天对应桌面版 Claude 的哪一条（点牌子跳哪去）
     python -m yukio --open-chat            查桌面版 Claude 此刻开着哪条聊天（那条不举牌）
     python -m yukio --selftest              跑核心测试
@@ -27,6 +28,7 @@ from .console import force_utf8_console
 from .events import ALL_STATES, Kind, PetEvent, PetState
 from .hang import HangGeometry, Tuning as HangTuning, feet_offset_at
 from .parsers_claude import ClaudeTranscriptParser
+from .parsers_codex import CodexRolloutParser
 from .parsers_deepcode import DeepCodeMessageParser
 from .router import ActivityRouter, HeldValue, RouterConfig
 from .sources import default_sources
@@ -325,6 +327,8 @@ def _pick_parser(first_object: bytes):
     except ValueError:
         obj = {}
     if isinstance(obj, dict):
+        if "payload" in obj or obj.get("type") in ("session_meta", "response_item", "event_msg"):
+            return CodexRolloutParser(), "GPT（Codex）"
         if "role" in obj and "sessionId" in obj:
             return DeepCodeMessageParser(), "Deep Code（DeepSeek）"
         if "type" in obj and "sessionId" in obj:

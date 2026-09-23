@@ -1,10 +1,10 @@
 **English** · [简体中文](README.zh-CN.md)
 
-# Yukio desktop pet (DeepSeek / Windows edition)
+# Yukio desktop pet (Windows edition: DeepSeek, Claude or GPT)
 
-Yukio (雪绪), a white-haired, blue-eyed girl in a butler's uniform, sits in the bottom-right corner of your Windows desktop and switches poses to match whatever **DeepSeek's Deep Code CLI** is doing right now: thinking, reading a file, viewing an image, writing a file, running tests, browsing the web, handing in the answer. For any other work she sits at the computer and types. She slumps when something goes wrong, puts up the ❓ question card when a decision is yours to make, and holds up the ✅ done card once the answer is in, waiting for you. While she is holding up the sign, click her and she lowers it (if the chat she is following belongs to the Claude desktop app, she also jumps back to that chat). If that chat is already open in front of you, she doesn't hold up the sign at all. With no task she idles. When several chats are open at once, whichever has just finished or is waiting for your decision is shown first; the rest hang as a stack of small cards piled upward from the bubble, and clicking one takes you to that chat. You can also pin one chat from the menu so she follows only that one. Every pose keeps moving in small, continuous ways (writing, typing, turning her head, blinking), and the small bubble over her head shows the current task and its progress.
+Yukio (雪绪), a white-haired, blue-eyed girl in a butler's uniform, sits in the bottom-right corner of your Windows desktop and switches poses to match whatever your coding agent — **DeepSeek's Deep Code CLI**, **Claude Code**, or **GPT's Codex**, picked from the tray menu under "Assistant", all three by default — is doing right now: thinking, reading a file, viewing an image, writing a file, running tests, browsing the web, handing in the answer. For any other work she sits at the computer and types. She slumps when something goes wrong, puts up the ❓ question card when a decision is yours to make, and holds up the ✅ done card once the answer is in, waiting for you. While she is holding up the sign, click her and she lowers it (if the chat she is following belongs to the Claude desktop app, she also jumps back to that chat). If that chat is already open in front of you, she doesn't hold up the sign at all. With no task she idles. When several chats are open at once, whichever has just finished or is waiting for your decision is shown first; the rest hang as a stack of small cards piled upward from the bubble, and clicking one takes you to that chat. You can also pin one chat from the menu so she follows only that one. Every pose keeps moving in small, continuous ways (writing, typing, turning her head, blinking), and the small bubble over her head shows the current task and its progress.
 
-The artwork, the activity mapping, the debounce and hold times, the focus rules, the sign and the card stack, and the swing parameters for when she is picked up are all identical to the macOS edition (`../YukioPlayer`, Swift). Only the two ends are swapped: **whose session logs she reads** (Deep Code, not just Claude Code) and **what draws the window** (a Windows layered window instead of AppKit). The only differences left are the size control (fixed steps here, a slider there) and how far click-to-jump has been tested on a real machine; both are listed under "Known limitations" at the end.
+The artwork, the activity mapping, the debounce and hold times, the focus rules, the sign and the card stack, and the swing parameters for when she is picked up are all identical to the macOS edition (`../YukioPlayer`, Swift). Only the two ends are swapped: **whose session logs she reads** (all three families) and **what draws the window** (a Windows layered window instead of AppKit). The only differences left are the size control (fixed steps here, a slider there) and how far click-to-jump has been tested on a real machine; both are listed under "Known limitations" at the end.
 
 The only dependency is Pillow. The window, the tray and the menus call the Windows API directly through ctypes; there is no other UI framework.
 
@@ -45,7 +45,7 @@ The result is `dist\Yukio.exe` (about 25 MB, artwork included). Without a Window
 | Pause following | Menu › Follow AI activity. With it off she stays idle but still receives events, so she catches up the moment you turn it back on |
 | Hide the bubble | Menu › Show task bubble |
 | Hide other chats | Menu › Show other chats. With it off only the bubble remains and no cards are stacked |
-| Change the source | Menu › Source: Auto (whichever is active) / Deep Code only (DeepSeek) / Claude Code only |
+| Change which assistant she follows | Menu › Assistant: Auto (whoever is working) / Claude Code / DeepSeek (Deep Code) / GPT (Codex) |
 | Pick a chat to follow | Menu › Chat to follow. The default is "Auto (done and questions first)": whichever chat has just finished or is waiting for your decision is shown first, and when there is none she follows the one most recently at work. Click a chat to pin it; no other chat can take her away, however busy it gets. A pin lasts only for this run |
 | See it in action | Menu › Play demo: walks through every state in 60 seconds; it is not real activity (it plays once by itself the first time you open her if neither tool is installed) |
 | Quit | Menu › Quit Yukio |
@@ -71,6 +71,10 @@ Settings live in `%LOCALAPPDATA%\Yukio\settings.json` (position, size, the follo
 Yukio reads only these two. From the `.jsonl` she takes the role, the time, the tool name and arguments, whether the tool reported an error, and the task list from `UpdatePlan`. From `sessions-index.json` she takes the title, plus the states that are only written to the index: "waiting for your approval / interrupted / this turn failed". **She never writes to or modifies any Deep Code file, and none of its settings need to change.** Conversation content is never saved or uploaded; the bubble only ever shows file names, the first few words of a command, and the domain of a URL.
 
 These are session logs Deep Code writes locally, not a public API, and the fields may change between versions. When something can't be parsed she just misses events rather than crashing, and drops back to idle under the gone-quiet rule.
+
+### GPT (Codex) sessions work too
+
+Codex — the desktop app and the CLI both — writes one file per chat under `%USERPROFILE%\.codex\sessions\<year>\<month>\<day>\rollout-*.jsonl` (`CODEX_HOME` is honored). She reads the tool calls out of it the same way; for the desktop app's one all-purpose `exec` tool, what is actually happening is read out of the JavaScript argument (`tools.exec_command({cmd:…})` goes through the same shell classifier as Claude's `Bash`, `tools.apply_patch` is editing a file, `tools.view_image` is looking at an image). Same rules as the macOS edition (`yukio/parsers_codex.py` is a port of `CodexParsers.swift`), and `tests/test_parsers_codex.py` asserts the same things.
 
 ### Claude Code transcripts work too
 
@@ -161,7 +165,7 @@ python run.py --chats 3                      # list recent chats; → marks the 
 python run.py --chat-link <session ID>       # look up which Claude desktop app chat this session maps to (where a click on the sign would go)
 ```
 
-`--replay` works out by itself whether a log is in Deep Code, Claude Code or inbox format. The `samples/deepcode-session.jsonl` in the repo is a made-up sample (it contains no real conversation) that you can use to watch one complete state sequence. The CLI's own diagnostic output is still in Chinese for now.
+`--replay` works out by itself whether a log is in Deep Code, Claude Code, Codex or inbox format; `--watch` and `--chats` take `--source auto|claude|deepcode|gpt`. The `samples/deepcode-session.jsonl` in the repo is a made-up sample (it contains no real conversation) that you can use to watch one complete state sequence. The CLI's own diagnostic output is still in Chinese for now.
 
 ## Structure
 
@@ -176,6 +180,7 @@ yukio/chatlinks.py         transcript session → the matching chat in the Claud
 yukio/classify.py          tool → activity and short description (both the Deep Code and the Claude Code tool names + shell tokenizing)
 yukio/parsers_deepcode.py  Deep Code messages and session index → events
 yukio/parsers_claude.py    Claude Code transcripts → events
+yukio/parsers_codex.py     GPT (Codex) rollout logs → events
 yukio/bridge.py            event format of the generic inbox
 yukio/sources.py           read-only following of the session directories and the inbox
 yukio/tailer.py            tails files by byte offset and cuts out complete JSON (a half line waits for the next read)

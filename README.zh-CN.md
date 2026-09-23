@@ -2,7 +2,7 @@
 
 [English](README.md) · **简体中文**
 
-<h1>雪绪 · 陪着 Claude Code 干活的桌面宠物</h1>
+<h1>雪绪 · 陪着编码助手干活的桌面宠物</h1>
 
 <img src="docs/readme/states-zh.png" width="900" alt="雪绪在桌前的十二种样子：思考、读文件、看图片、写文件、跑测试、看网页、递交回答、举着勾选卡、立着问号卡、其他工作、出错、空闲">
 
@@ -19,7 +19,7 @@
 
 **雪绪**是个白发蓝眼的管家少女，待在屏幕角落，实时演着你的 AI 编码助手正在做的事：Claude Code 读文件，她翻开书；改代码，她提起笔；跑测试，她对着两份文件逐行核对；答完了，她举起 ✅ 牌一直等你。点她一下，直接跳回刚答完的那条聊天。
 
-macOS 版跟随 **Claude Code**；Windows 版跟随 **DeepSeek 的 [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)**，也认 Claude Code 的会话记录。两版都是原生实现，体积很小，完全不联网。
+她认三家助手，在菜单「跟随的助手」里挑：**Claude Code**、**DeepSeek 的 [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)**、**GPT 的 [Codex](https://developers.openai.com/codex/)**（桌面版与命令行写的是同一份会话记录）。默认的**自动**三家一起跟，谁有话说就显示谁。两版都是原生实现，体积很小，完全不联网。
 
 ## 下载（不用编译）
 
@@ -61,7 +61,7 @@ xattr -dr com.apple.quarantine /Applications/Yukio.app
 
 ## 她会做什么
 
-- **十二种状态，同一只她。** 思考、读文件、看图片、写文件、跑测试、看网页、递交回答、✅ 勾选卡、❓ 问号卡、其他工作、出错、空闲。Claude Code 的每个工具对应哪个状态写得清清楚楚，逐条有测试；认不出的工作一律坐在电脑前敲键盘，不瞎猜。
+- **十二种状态，同一只她。** 思考、读文件、看图片、写文件、跑测试、看网页、递交回答、✅ 勾选卡、❓ 问号卡、其他工作、出错、空闲。每家助手的工具对应哪个状态都写得清清楚楚，逐条有测试；三家共用同一套规则（同一条 shell 命令，不管是 Claude 的 `Bash`、Deep Code 的 `bash` 还是 Codex 的 `exec`，判出来一样）；认不出的工作一律坐在电脑前敲键盘，不瞎猜。
 - **小幅、连续、不抽搐。** 每个状态只有一张定稿的底图，动作由脚本生成：笔沿着一行往右写，放大镜在照片上来回扫，手指在平板上往上划，两只手轮流敲键盘，眨眼时眼皮用的是脸颊的肤色。桌椅逐像素不动，生成时会自动检查。每秒 20 到 30 帧。
 - **轮到你的时候她会举牌。** 答完先递交报告，然后举起 ✅ 牌，一直举到你点她为止；`AskUserQuestion` 等你拿主意时立起 ❓ 牌。点她一下，桌面版 Claude 就用它自己的 `claude://` 深链打开那条聊天。那条聊天要是已经开在你眼前，她干脆不举。
 - **头顶一个小气泡。** 上行是聊天标题，下行是当前这一步：有任务清单时取进行中的那一项，没有就取正在跑的工具，“编辑 main.swift”“$ swift test”“developer.apple.com”。旁边是已完成／总数和一条细进度条。气泡里只出现文件名、命令的前几个词和网址域名。
@@ -101,9 +101,9 @@ xattr -dr com.apple.quarantine /Applications/Yukio.app
 
 ## 她是怎么知道的
 
-**macOS。** Claude Code 会把每条会话的记录写在 `~/.claude/projects` 下面，雪绪只读地跟着这些文件，把工具调用翻译成状态。工具开始后大约 0.2 秒她就看到了，再加 0.4 秒防抖，免得连续的短调用把她晃来晃去。Claude Code 的官方 hooks 可以接成第二来源，脚本和设置片段在 `YukioPlayer/integrations/claude-hooks/`，开不开由你决定。
+**她读哪里。** Claude Code 把每条会话写在 `~/.claude/projects`；Codex 一条聊天一个文件，在 `~/.codex/sessions/<年>/<月>/<日>/rollout-*.jsonl`；Deep Code 在 `~/.deepcode/projects`。雪绪只读地跟着你挑的那一家，把工具调用翻译成状态。工具开始后大约 0.2 秒她就看到了，再加 0.4 秒防抖，免得连续的短调用把她晃来晃去。Claude Code 的官方 hooks 可以接成第二来源，脚本和设置片段在 `YukioPlayer/integrations/claude-hooks/`，开不开由你决定。
 
-**Windows。** Deep Code 把会话存在 `%USERPROFILE%\.deepcode\projects`，雪绪读那里的消息记录和会话索引。把 Claude Code 指向 DeepSeek 的 Anthropic 兼容端点时，它写出来的转录照样跟得上。别的工具也能驱动她：往 `%LOCALAPPDATA%\Yukio\inbox.jsonl` 里追加一行 JSON 就行。
+**Windows。** 同样是这三家：`%USERPROFILE%\.deepcode\projects`、`%USERPROFILE%\.claude\projects`、`%USERPROFILE%\.codex\sessions`；Deep Code 那边还要读会话索引——「等你批准」只写在索引里。把 Claude Code 指向 DeepSeek 的 Anthropic 兼容端点时，它写出来的转录照样跟得上。别的工具也能驱动她：往 `%LOCALAPPDATA%\Yukio\inbox.jsonl` 里追加一行 JSON 就行。
 
 这些记录是各家工具的内部格式，不是公开 API。格式变了她只会少几个事件、慢慢回到空闲，不会崩。
 
@@ -151,7 +151,7 @@ powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1    # 打出 dist\
 
 - 界面默认英文，右键菜单里的「Language」可以切成中文，选择会记住。已经写进事件里的说明文字（比如“阅读 main.swift”）要到下一条事件才换语言。
 - 素材按 192×208 画和做动作，发出去的是 2 倍图条（384×416，被拎起来那张 384×480），用动画专用的超分模型放大。原来抠图留下的那圈又粗又糊的黑边去掉了，换成轮廓外一圈 0.5 点的细描边。Retina／高分屏上放大也是清楚的；超过 200% 才会重新变软。
-- 点一下跳回聊天需要桌面版 Claude。在终端里跑的 Claude Code 没有聊天窗口可开，点了只把 Claude 带到最前面；Deep Code 的聊天也在终端里，所以 Windows 上点一下只是放下牌子。这套跳转在 macOS 上实测过，Windows 那边照同一套写的，还没在实机上验过。
+- 点一下跳回聊天需要对应的桌面版：Claude 的聊天要桌面版 Claude，Codex 的聊天要 Codex 桌面版（`codex://threads/<会话 ID>`）。在终端里跑的助手没有聊天窗口可开，点了只把那个应用带到最前面；Deep Code 的聊天在终端里，点一下只是放下牌子。这套跳转在 macOS 上实测过，Windows 那边照同一套写的，还没在实机上验过。
 - 大小：macOS 是 50%–200% 的滑条，Windows 是七个整档加 ±5%，因为 Win32 的原生菜单塞不进滑条。
 - 安装包没有签名、没有公证。从源码自己编译就不会有第一次打开的那些提示。
 

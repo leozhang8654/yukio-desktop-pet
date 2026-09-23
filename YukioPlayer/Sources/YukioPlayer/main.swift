@@ -376,7 +376,43 @@ func runCardsSnapshot(path: String) -> Never {
     exit(savePNG(ctx, to: path) ? 0 : 1)
 }
 
-/// --replay <转录.jsonl> [--with-bubble]：用虚拟时钟回放一份真实转录，打印雪绪会显示的状态序列。
+/// 命令行 `--source claude|deepseek|gpt|auto`；没写就用设置里的（跟界面一致）。
+func providerFromArgs() -> AgentProvider {
+    let args = CommandLine.arguments
+    if let i = args.firstIndex(of: "--source"), i + 1 < args.count {
+        return AgentProvider(code: args[i + 1])
+    }
+    return AgentProvider(code: UserDefaults.standard.string(forKey: "source"))
+}
+
+/// 回放：按记录长什么样认出是哪一家写的，用对应的解析器。
+func replayEvents(_ objects: [Data], fileName: String) -> [PetEvent] {
+    func shape(_ data: Data) -> String? {
+        guard let obj = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any] else { return nil }
+        if obj["payload"] != nil || ["session_meta", "response_item", "event_msg"].contains(obj["type"] as? String ?? "") {
+            return "codex"
+        }
+        if obj["messageParams"] != nil || obj["createTime"] != nil { return "deepcode" }
+        if obj["sessionId"] != nil || obj["timestamp"] != nil { return "claude" }
+        return nil
+    }
+    let kind = objects.prefix(40).compactMap(shape).first ?? "claude"
+    print("记录格式：\(kind)")
+    switch kind {
+    case "codex":
+        let parser = CodexRolloutParser(session: CodexSessionsSource.sessionID(fromFileName: fileName))
+        return objects.flatMap { parser.events(fromLine: $0, now: 0) }
+    case "deepcode":
+        let parser = DeepCodeMessageParser()
+        let session = (fileName as NSString).deletingPathExtension
+        return objects.flatMap { parser.events(fromLine: $0, fallbackSession: session) }
+    default:
+        let parser = ClaudeTranscriptParser()
+        return objects.flatMap { parser.events(fromLine: $0) }
+    }
+}
+
+/// --replay <会话记录.jsonl> [--with-bubble]：用虚拟时钟回放一份真实记录，打印雪绪会显示的状态序列。
 /// 加 --with-bubble 时同时打印头顶气泡的文字变化（含标题与文件名，只输出到本机终端）。
 func runReplay(path: String) -> Never {
     let (catalog, _) = loadCatalogOrExit()
@@ -384,8 +420,9 @@ func runReplay(path: String) -> Never {
         print("无法读取 \(path)"); exit(1)
     }
     var stream = JSONObjectStream()
-    let parser = ClaudeTranscriptParser()
-    let events = stream.append(data).flatMap { parser.events(fromLine: $0) }.sorted { $0.ts < $1.ts }
+    let objects = stream.append(data)
+    let session = (path as NSString).lastPathComponent
+    let events = replayEvents(objects, fileName: session).sorted { $0.ts < $1.ts }
     guard let first = events.first else { print("没有可用事件"); exit(0) }
     let config = RouterConfig()
     let router = ActivityRouter(config: config, now: first.ts)
@@ -455,20 +492,21 @@ func runOpenChat() -> Never {
 /// --chats [秒]：列出最近的聊天（菜单“跟随的聊天”里的那一份），标出此刻会跟哪条。
 /// 先跟着转录看几秒，免得只拿到启动那一瞬的样子。
 func runChats(seconds: Double) -> Never {
-    let source = ClaudeTranscriptSource()
-    let hooks = HookInboxSource()
+    let feeds = AgentSources(provider: providerFromArgs())
     let start = nowMs()
     let router = ActivityRouter(now: start)
-    for e in source.poll(now: start) { router.ingest(e, now: min(e.ts, start)) }
+    for e in feeds.poll(now: start) { router.ingest(e, now: min(e.ts, start)) }
     router.settle(now: start)
     while nowMs() - start < seconds * 1000 {
         let now = nowMs()
-        for e in source.poll(now: now) + hooks.poll(now: now) { router.ingest(e, now: min(e.ts, now)) }
+        for e in feeds.poll(now: now) { router.ingest(e, now: min(e.ts, now)) }
         router.tick(now: now)
         Thread.sleep(forTimeInterval: 0.1)
     }
     let now = nowMs()
-    print("目录 \(source.projectsDir.path) 存在=\(source.status.directoryFound) 追踪文件=\(source.status.trackedFiles)")
+    for feed in feeds.statuses {
+        print("\(feed.label)：目录 \(feed.path) 存在=\(feed.found) 追踪文件=\(feed.trackedFiles)")
+    }
     let chats = router.sessionSummaries(now: now, quietWithinMs: 30 * 60 * 1000, limit: 10)
     if chats.isEmpty {
         print("最近没有聊天在跑")
@@ -483,21 +521,22 @@ func runChats(seconds: Double) -> Never {
 /// --watch <秒>：无窗口地实时跟随 Claude 转录，打印事件与状态切换（不打印任何对话内容）。
 func runWatch(seconds: Double) -> Never {
     let (catalog, _) = loadCatalogOrExit()
-    let source = ClaudeTranscriptSource()
-    let hooks = HookInboxSource()
+    let feeds = AgentSources(provider: providerFromArgs())
     let start = nowMs()
     let router = ActivityRouter(now: start)
-    for e in source.poll(now: start) { router.ingest(e, now: min(e.ts, start)) }
+    for e in feeds.poll(now: start) { router.ingest(e, now: min(e.ts, start)) }
     router.settle(now: start)
-    print("\(timeString(start))  目录 \(source.projectsDir.path) 存在=\(source.status.directoryFound) 追踪文件=\(source.status.trackedFiles)")
+    for feed in feeds.statuses {
+        print("\(timeString(start))  \(feed.label)：目录 \(feed.path) 存在=\(feed.found) 追踪文件=\(feed.trackedFiles)")
+    }
     print("\(timeString(start))  启动状态 \(router.displayed.rawValue)（\(catalog.label(for: router.displayed))） 会话 \(router.focusedSession?.prefix(8) ?? "-")")
     var focus = router.focusedSession
     while nowMs() - start < seconds * 1000 {
         let now = nowMs()
-        for e in source.poll(now: now) + hooks.poll(now: now) {
+        for e in feeds.poll(now: now) {
             router.ingest(e, now: min(e.ts, now))
             let lag = now - e.ts
-            print("\(timeString(now))  事件 [\(e.session.prefix(8))] \(describe(e))  写入延迟≈\(Int(lag)) ms")
+            print("\(timeString(now))  事件 [\(e.source) \(e.session.prefix(8))] \(describe(e))  写入延迟≈\(Int(lag)) ms")
         }
         if let s = router.tick(now: now) {
             print("\(timeString(now))  显示 \(s.rawValue)（\(catalog.label(for: s))）")
@@ -568,8 +607,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private let catalog: AnimationCatalog
     private let library: SpriteLibrary
     private let router = ActivityRouter(now: nowMs())
-    private let transcript = ClaudeTranscriptSource()
-    private let hooks = HookInboxSource()
+    /// 跟着哪一家（Claude／DeepSeek／GPT，或三家都跟）的本机会话记录。菜单里换。
+    private var feeds: AgentSources
     private let links = ClaudeSessionLinks()
     /// refreshOpenChat 的后台读取是否还在路上。
     private var openChatBusy = false
@@ -580,6 +619,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private var bubble: BubblePanel!
     private var cardStack: CardStackPanel!
     private var statusItem: NSStatusItem!
+    private var settingsWindow: SettingsPanelController?
     private var timer: Timer?
     private var tickCount = 0
 
@@ -626,6 +666,11 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         get { defaults.object(forKey: "showCards") as? Bool ?? true }
         set { defaults.set(newValue, forKey: "showCards") }
     }
+    /// 跟随哪一家助手：默认三家都跟，菜单「Assistant」里挑。和 Windows 版用同一个设置键。
+    private var provider: AgentProvider {
+        get { AgentProvider(code: defaults.string(forKey: "source")) }
+        set { defaults.set(newValue.rawValue, forKey: "source") }
+    }
     /// 界面语言：默认英文，菜单「Language」里切换；已经写进事件里的说明到下一条事件才换。
     private var language: UILanguage {
         get { UILanguage(code: defaults.string(forKey: "language")) }
@@ -637,15 +682,15 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         L10n.language = UILanguage(code: UserDefaults.standard.string(forKey: "language"))
         self.catalog = catalog
         self.library = library
+        self.feeds = AgentSources(provider: AgentProvider(code: UserDefaults.standard.string(forKey: "source")))
         self.stateTimeline = SpriteTimeline(spec: catalog.spec(for: .idle), now: nowMs())
         super.init()
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         let now = nowMs()
-        // 先恢复当前 Claude 活动，再显示窗口：第一帧就是正确动作。
-        for e in transcript.poll(now: now) { router.ingest(e, now: min(e.ts, now)) }
-        _ = hooks.poll(now: now)
+        // 先恢复此刻的活动，再显示窗口：第一帧就是正确动作。
+        for e in feeds.poll(now: now) { router.ingest(e, now: min(e.ts, now)) }
         router.settle(now: now)
         shownState = following ? router.displayed : .idle
         stateTimeline = SpriteTimeline(spec: catalog.spec(for: shownState), now: now)
@@ -780,18 +825,43 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
     }
 
-    /// 用桌面版 Claude 注册的深链打开这条聊天。认不出会话时（例如在终端里跑的 Claude Code），
-    /// 至少把 Claude 带到前面，不乱跳到别的聊天。
+    /// 用各家桌面版自己注册的深链打开这条聊天。认不出会话时（例如在终端里跑的），
+    /// 至少把那个应用带到前面，不乱跳到别的聊天。
     private func openChat(session: String) {
-        if let url = links.chatURL(forTranscriptSession: session) {
-            NSWorkspace.shared.open(url)
-            return
+        switch AgentProvider.owner(ofSource: router.sourceOfSession(session) ?? "") {
+        case .gpt:
+            // Codex 桌面版（ChatGPT.app，标识 com.openai.codex）注册的深链。
+            // 会话 ID 就是记录文件名里的那个，应用自己的日志里叫 threadId，两边是同一个。
+            if let url = URL(string: "codex://threads/\(session)") {
+                NSWorkspace.shared.open(url)
+                return
+            }
+            activate(Self.codexBundleID)
+        case .deepseek:
+            // Deep Code 跑在终端里，没有可跳的窗口：只放下牌子。
+            break
+        default:
+            if let url = links.chatURL(forTranscriptSession: session) {
+                NSWorkspace.shared.open(url)
+                return
+            }
+            activate(Self.claudeBundleID)
         }
-        guard let app = NSWorkspace.shared.urlForApplication(withBundleIdentifier: Self.claudeBundleID) else { return }
+    }
+
+    /// 举着的牌子能不能点回那条聊天（Deep Code 没有窗口可跳）。
+    private func canOpenChat(session: String?) -> Bool {
+        guard let session else { return false }
+        return AgentProvider.owner(ofSource: router.sourceOfSession(session) ?? "") != .deepseek
+    }
+
+    private func activate(_ bundleID: String) {
+        guard let app = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleID) else { return }
         NSWorkspace.shared.openApplication(at: app, configuration: NSWorkspace.OpenConfiguration())
     }
 
     private static let claudeBundleID = "com.anthropic.claudefordesktop"
+    private static let codexBundleID = "com.openai.codex"
 
     // MARK: 拖动：被一只看不见的大手拎起来
 
@@ -897,8 +967,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         // 约每 2 秒看一次"此刻开着哪条聊天"。
         if tickCount % 60 == 0 { refreshOpenChat() }
         if tickCount % 8 == 0 {
-            // 约每 0.27 秒读一次转录。事件始终进入路由器；暂停跟随只影响显示。
-            for e in transcript.poll(now: now) + hooks.poll(now: now) { router.ingest(e, now: min(e.ts, now)) }
+            // 约每 0.27 秒读一次会话记录。事件始终进入路由器；暂停跟随只影响显示。
+            for e in feeds.poll(now: now) { router.ingest(e, now: min(e.ts, now)) }
         }
         router.tick(now: now)
 
@@ -940,6 +1010,9 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         updateMousePassThrough()
         updateBubble(now: now)
         updateCards(now: now)
+        if tickCount % 15 == 0, settingsWindow?.window?.isVisible == true {
+            refreshSettingsPanel()
+        }
     }
 
     private func render() {
@@ -1274,6 +1347,24 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     /// 「Language」子菜单：English／中文，默认英文，选择存在设置里。
+    /// 「跟随的助手」：Claude／DeepSeek／GPT，或三家都跟。换一家要把路由器清空重来。
+    private func assistantItem() -> NSMenuItem {
+        let item = NSMenuItem(title: tr("Assistant", "跟随的助手"), action: nil, keyEquivalent: "")
+        let sub = NSMenu()
+        let found = Dictionary(feeds.statuses.map { ($0.provider, $0.found) }, uniquingKeysWith: { a, _ in a })
+        for p in AgentProvider.allCases {
+            let row = action(p.displayName, #selector(menuSetProvider(_:)), on: provider == p)
+            row.representedObject = p.rawValue
+            // 这一家的记录目录不在（没装、或还没跑过）时标一下，免得以为坏了。
+            if p != .auto, provider == p, found[p] == false {
+                row.title += tr(" — no session logs yet", " — 还没有会话记录")
+            }
+            sub.addItem(row)
+        }
+        item.submenu = sub
+        return item
+    }
+
     private func languageItem() -> NSMenuItem {
         let item = NSMenuItem(title: tr("Language", "语言"), action: nil, keyEquivalent: "")
         let sub = NSMenu()
@@ -1284,6 +1375,100 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
         item.submenu = sub
         return item
+    }
+
+    private func currentSettingsSnapshot() -> SettingsSnapshot {
+        let chats = simulation == nil
+            ? router.sessionSummaries(now: nowMs(), quietWithinMs: Self.chatListWindowMs, limit: Self.chatListLimit)
+            : []
+        let activity = swing != nil ? L10n.heldName : L10n.stateName(shownState)
+        let status: String
+        if simulation != nil {
+            status = tr("Demo · \(activity)", "模拟演示 · \(activity)")
+        } else if !following {
+            status = tr("Following paused", "已暂停跟随")
+        } else {
+            let names = feeds.statuses.filter(\.found).map(\.label).joined(separator: " + ")
+            status = names.isEmpty
+                ? tr("No local session logs found", "尚未找到本机会话记录")
+                : tr("Following \(names) · \(activity)", "正在跟随 \(names) · \(activity)")
+        }
+        return SettingsSnapshot(status: status,
+                                following: following,
+                                provider: provider,
+                                chats: chats,
+                                showBubble: showBubble,
+                                showCards: showCards,
+                                scale: scale,
+                                language: language,
+                                demoPlaying: simulation != nil)
+    }
+
+    private func showSettings() {
+        let controller: SettingsPanelController
+        if let existing = settingsWindow {
+            controller = existing
+        } else {
+            controller = SettingsPanelController()
+            controller.onChange = { [weak self] change in self?.applySettings(change) }
+            settingsWindow = controller
+        }
+        controller.show(snapshot: currentSettingsSnapshot(), near: panel.frame)
+    }
+
+    private func refreshSettingsPanel() {
+        guard let controller = settingsWindow, controller.window?.isVisible == true else { return }
+        controller.apply(currentSettingsSnapshot())
+    }
+
+    private func switchProvider(to picked: AgentProvider) {
+        guard picked != provider else { return }
+        provider = picked
+        let now = nowMs()
+        // 挑定的聊天、举着的牌子都属于上一家：整个清空，再从新的一家重新回放。
+        router.reset(now: now)
+        feeds.switchTo(picked)
+        for e in feeds.poll(now: now) { router.ingest(e, now: min(e.ts, now)) }
+        router.settle(now: now)
+        cardsExpanded = false
+        updateBubble(now: now)
+        updateCards(now: now, immediate: true)
+        updateStatusTitle()
+    }
+
+    private func resetPetPosition() {
+        finishHang()
+        panel.setFrameOrigin(defaultOrigin())
+        savePosition()
+        positionBubble()
+        positionCards()
+    }
+
+    private func applySettings(_ change: SettingsChange) {
+        switch change {
+        case .following(let value):
+            following = value
+        case .provider(let picked):
+            switchProvider(to: picked)
+        case .chat(let id):
+            _ = router.pinSession(id, now: nowMs())
+        case .showBubble(let value):
+            showBubble = value
+            updateBubble(now: nowMs())
+        case .showCards(let value):
+            showCards = value
+            updateCards(now: nowMs(), immediate: true)
+        case .scale(let value):
+            applyScale(value)
+        case .language(let value):
+            language = value
+            updateStatusTitle()
+        case .resetPosition:
+            resetPetPosition()
+        case .toggleDemo:
+            simulation == nil ? startDemo() : stopDemo()
+        }
+        refreshSettingsPanel()
     }
 
     private func action(_ title: String, _ selector: Selector, key: String = "", on: Bool? = nil) -> NSMenuItem {
@@ -1298,10 +1483,12 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let chats = simulation == nil ? router.sessionSummaries(now: nowMs(), quietWithinMs: Self.chatListWindowMs,
                                                                 limit: Self.chatListLimit) : []
         menu.addItem(info(tr("Yukio", "雪绪") + " · " + (swing != nil ? L10n.heldName : L10n.stateName(shownState))))
-        if simulation == nil, following, router.completedSession != nil {
-            menu.addItem(action(tr("Open this chat and lower the sign", "打开这条聊天并放下牌子"), #selector(menuOpenChat)))
+        if simulation == nil, following, let done = router.completedSession {
+            if canOpenChat(session: done) {
+                menu.addItem(action(tr("Open this chat and lower the sign", "打开这条聊天并放下牌子"), #selector(menuOpenChat)))
+            }
             menu.addItem(action(tr("Lower the sign, don't open the chat", "先放下牌子，不打开聊天"), #selector(menuDropSign)))
-        } else if simulation == nil, following, router.askingSession != nil {
+        } else if simulation == nil, following, canOpenChat(session: router.askingSession) {
             // 问号卡不收：答完之后它自己收，这里只把聊天打开。
             menu.addItem(action(tr("Open this chat to answer", "打开这条聊天去回答"), #selector(menuOpenChat)))
         }
@@ -1309,34 +1496,52 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             menu.addItem(info(tr("Playing the demo (not real Claude activity)", "正在播放模拟演示（不是真实 Claude 活动）")))
         } else if !following {
             menu.addItem(info(tr("Following paused, staying idle", "已暂停跟随，保持空闲")))
-        } else if !transcript.status.directoryFound {
-            menu.addItem(info(tr("Not found: \(transcript.projectsDir.path)", "未找到 \(transcript.projectsDir.path)")))
+        } else if !feeds.anyFound {
+            for feed in feeds.statuses {
+                menu.addItem(info(tr("Not found: \(feed.path)", "未找到 \(feed.path)")))
+            }
         } else {
-            menu.addItem(info(tr("Following Claude Code (read-only transcripts)", "跟随 Claude Code（只读会话转录）")))
+            let names = feeds.statuses.filter(\.found).map(\.label).joined(separator: " + ")
+            menu.addItem(info(tr("Following \(names) (read-only session logs)", "跟随 \(names)（只读本机会话记录）")))
             if let focused = chats.first(where: \.focused) {
                 menu.addItem(info(tr("Following: ", "正在跟：") + focused.menuLabel + (focused.pinned ? tr(" (pinned)", "（挑定的）") : "")))
             }
-            if hooks.isPresent {
+            if let hooks = feeds.hooks, hooks.isPresent {
                 menu.addItem(info(tr("Claude hooks inbox: \(hooks.eventsReceived) events received", "Claude hooks 收件箱：已收到 \(hooks.eventsReceived) 个事件")))
             }
         }
         menu.addItem(.separator())
-        if simulation == nil {
-            menu.addItem(action(tr("Play demo", "播放模拟演示"), #selector(menuStartDemo)))
-        } else {
+        if simulation != nil {
             menu.addItem(action(tr("Stop demo", "停止模拟演示"), #selector(menuStopDemo)))
         }
-        menu.addItem(action(tr("Follow Claude activity", "跟随 Claude 活动"), #selector(menuToggleFollow), on: following))
-        if simulation == nil { menu.addItem(chatPickerItem(chats)) }
-        menu.addItem(action(tr("Show task bubble", "头顶显示任务"), #selector(menuToggleBubble), on: showBubble))
-        menu.addItem(action(tr("Show other chats", "头顶显示别的聊天"), #selector(menuToggleCards), on: showCards))
-        menu.addItem(languageItem())
-
-        menu.addItem(scaleSliderItem())
-        menu.addItem(action(tr("Back to the bottom-right corner", "回到屏幕右下角"), #selector(menuResetPosition)))
+        menu.addItem(action(tr("Follow assistant activity", "跟随助手活动"), #selector(menuToggleFollow), on: following))
+        menu.addItem(action(tr("Settings…", "设置…"), #selector(menuShowSettings), key: ","))
         menu.addItem(.separator())
         menu.addItem(action(tr("Quit Yukio", "退出雪绪"), #selector(menuQuit), key: "q"))
         return menu
+    }
+
+    /// `--menu` 自查用：像启动时那样读一次会话记录。
+    func pollOnceForCheck() {
+        let now = nowMs()
+        for e in feeds.poll(now: now) { router.ingest(e, now: min(e.ts, now)) }
+        router.settle(now: now)
+    }
+
+    /// `--menu` 的离屏自查：把菜单（含子菜单）的文字列出来，不开窗口。
+    func menuTitlesForCheck() -> [String] {
+        func walk(_ menu: NSMenu, indent: String) -> [String] {
+            var out: [String] = []
+            for item in menu.items {
+                if item.isSeparatorItem { out.append(indent + "—"); continue }
+                let mark = item.state == .on ? " ✓" : ""
+                // 大小是一条自带视图的滑条，没有文字。
+                out.append(indent + (item.view != nil ? tr("Size (slider)", "大小（滑条）") : item.title) + mark)
+                if let sub = item.submenu { out += walk(sub, indent: indent + "    ") }
+            }
+            return out
+        }
+        return walk(buildMenu(), indent: "")
     }
 
     @objc private func menuOpenChat() { petClicked() }
@@ -1346,6 +1551,11 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let id = sender.representedObject as? String
         router.pinSession(id?.isEmpty == false ? id : nil, now: nowMs())
     }
+    @objc private func menuSetProvider(_ sender: NSMenuItem) {
+        let picked = AgentProvider(code: sender.representedObject as? String)
+        switchProvider(to: picked)
+    }
+
     @objc private func menuSetLanguage(_ sender: NSMenuItem) {
         language = UILanguage(code: sender.representedObject as? String)
         updateStatusTitle()
@@ -1353,17 +1563,14 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     @objc private func menuStartDemo() { startDemo() }
     @objc private func menuStopDemo() { stopDemo() }
     @objc private func menuToggleFollow() { following.toggle() }
+    @objc private func menuShowSettings() { showSettings() }
     @objc private func menuToggleBubble() { showBubble.toggle() }
     @objc private func menuToggleCards() {
         showCards.toggle()
         updateCards(now: nowMs(), immediate: true)
     }
     @objc private func menuResetPosition() {
-        finishHang()
-        panel.setFrameOrigin(defaultOrigin())
-        savePosition()
-        positionBubble()
-        positionCards()
+        resetPetPosition()
     }
     @objc private func menuQuit() { NSApp.terminate(nil) }
 }
@@ -1378,6 +1585,7 @@ if args.contains("--check") { runCheck() }
 if let i = args.firstIndex(of: "--snapshot"), i + 1 < args.count { runSnapshot(path: args[i + 1]) }
 if let i = args.firstIndex(of: "--bubble"), i + 1 < args.count { runBubbleSnapshot(path: args[i + 1]) }
 if let i = args.firstIndex(of: "--cards"), i + 1 < args.count { runCardsSnapshot(path: args[i + 1]) }
+if let i = args.firstIndex(of: "--settings-snapshot"), i + 1 < args.count { runSettingsSnapshot(path: args[i + 1]) }
 if let i = args.firstIndex(of: "--hang"), i + 1 < args.count { runHangSnapshot(path: args[i + 1]) }
 if let i = args.firstIndex(of: "--hang-gif"), i + 1 < args.count { runHangGIF(path: args[i + 1]) }
 if let i = args.firstIndex(of: "--replay"), i + 1 < args.count { runReplay(path: args[i + 1]) }
@@ -1388,6 +1596,17 @@ if let i = args.firstIndex(of: "--chats") {
 }
 if let i = args.firstIndex(of: "--watch") {
     runWatch(seconds: i + 1 < args.count ? Double(args[i + 1]) ?? 60 : 60)
+}
+// --menu：离屏列出菜单文字（含「跟随的助手」子菜单），不开窗口。
+if args.contains("--menu") {
+    let (catalog, assetsRoot) = loadCatalogOrExit()
+    guard let library = try? SpriteLibrary(catalog: catalog, assetsRoot: assetsRoot) else {
+        FileHandle.standardError.write(Data("资源加载失败\n".utf8)); exit(1)
+    }
+    let controller = AppController(catalog: catalog, library: library)
+    controller.pollOnceForCheck()   // 先读一次记录，菜单里才是真实的「跟着谁 / 哪家没装」
+    for line in controller.menuTitlesForCheck() { print(line) }
+    exit(0)
 }
 
 // 只允许一个雪绪：已有实例在运行时直接退出。

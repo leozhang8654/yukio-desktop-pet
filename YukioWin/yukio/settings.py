@@ -12,7 +12,7 @@ DEFAULTS: Dict[str, Any] = {
     "follow": True,
     "showBubble": True,
     "scale": 1.0,
-    "source": "auto",      # auto / deepcode / claude
+    "source": "auto",      # auto / claude / deepcode（DeepSeek）/ gpt（Codex）
     "language": "en",      # en / zh：界面语言，默认英文
     "originX": None,
     "originY": None,

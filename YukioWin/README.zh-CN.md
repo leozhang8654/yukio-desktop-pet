@@ -1,10 +1,10 @@
 [English](README.md) · **简体中文**
 
-# 雪绪 · 桌面宠物（DeepSeek / Windows 版）
+# 雪绪 · 桌面宠物（Windows 版，跟随 DeepSeek、Claude 或 GPT）
 
-白发蓝眼的管家少女“雪绪”待在 Windows 桌面右下角，跟着 **DeepSeek 的 Deep Code CLI** 当前在做的事切换动作：思考、读文件、看图片、写文件、跑测试、查网页、递交回答；其余工作坐在电脑前敲键盘，出错时沮丧，要你拿主意时立起问号卡，答完举起勾选卡等你——举着牌子时点她一下就把牌子放下（跟的是桌面版 Claude 的聊天时还会跳回那条聊天），那条聊天要是已经开在你眼前就不举牌了，没有任务时空闲。同时开着好几个聊天时，谁答完、谁在等你拿主意就先显示谁，其余的挂成一叠小卡压着气泡往上叠、点一张就去那条聊天，也可以在菜单里挑定一条只跟它。每个动作都在小幅、连续地动（写字、敲键盘、转头、眨眼），头顶的小气泡显示当前任务和进度。
+白发蓝眼的管家少女“雪绪”待在 Windows 桌面右下角，跟着你的编码助手——**DeepSeek 的 Deep Code CLI**、**Claude Code** 或 **GPT 的 Codex**，在托盘菜单「跟随的助手」里挑，默认三家都跟——当前在做的事切换动作：思考、读文件、看图片、写文件、跑测试、查网页、递交回答；其余工作坐在电脑前敲键盘，出错时沮丧，要你拿主意时立起问号卡，答完举起勾选卡等你——举着牌子时点她一下就把牌子放下（跟的是桌面版 Claude 的聊天时还会跳回那条聊天），那条聊天要是已经开在你眼前就不举牌了，没有任务时空闲。同时开着好几个聊天时，谁答完、谁在等你拿主意就先显示谁，其余的挂成一叠小卡压着气泡往上叠、点一张就去那条聊天，也可以在菜单里挑定一条只跟它。每个动作都在小幅、连续地动（写字、敲键盘、转头、眨眼），头顶的小气泡显示当前任务和进度。
 
-素材、活动映射、防抖与保持时间、焦点规则、举牌与那摞卡、被拎起来时的晃动参数，都和 macOS 版（`../YukioPlayer`，Swift）一模一样，换掉的是两头：**读谁的会话记录**（Deep Code 而不是只有 Claude Code）和**用什么画窗口**（Windows 分层窗口而不是 AppKit）。两边仍有差别的只有大小控件（这边是档位、那边是滑条）与点击跳转的实测程度，都写在最后的「已知限制」里。
+素材、活动映射、防抖与保持时间、焦点规则、举牌与那摞卡、被拎起来时的晃动参数，都和 macOS 版（`../YukioPlayer`，Swift）一模一样，换掉的是两头：**读谁的会话记录**（三家都读）和**用什么画窗口**（Windows 分层窗口而不是 AppKit）。两边仍有差别的只有大小控件（这边是档位、那边是滑条）与点击跳转的实测程度，都写在最后的「已知限制」里。
 
 只依赖 Pillow 一个库。窗口、托盘、菜单都用 ctypes 直接调 Windows API，没有别的界面框架。
 
@@ -45,7 +45,7 @@ powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1
 | 暂停跟随 | 菜单 › 跟随 AI 活动。关掉后她保持空闲，但事件照收，重新打开立刻跟上 |
 | 收起气泡 | 菜单 › 头顶显示任务 |
 | 收起别的聊天 | 菜单 › 头顶显示别的聊天。关掉后只剩气泡，不再叠小卡 |
-| 换跟随对象 | 菜单 › 跟随对象（自动 / 只跟 Deep Code / 只跟 Claude Code） |
+| 换跟随的助手 | 菜单 › 跟随的助手（自动 / Claude Code / DeepSeek（Deep Code）/ GPT（Codex）） |
 | 挑一条聊天跟 | 菜单 › 跟随的聊天。默认「自动（完成和提问优先）」：谁答完、谁在等你拿主意就先显示谁，都没有时跟最近在干活的那条；点一条聊天就挑定它，别的聊天再忙也抢不走，挑定只在这次运行内有效 |
 | 看看效果 | 菜单 › 播放模拟演示：60 秒走一遍所有状态，不是真实活动（第一次打开且两个工具都没装时会自动演一遍） |
 | 退出 | 菜单 › 退出雪绪 |
@@ -71,6 +71,10 @@ powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1
 雪绪只读这两样：从 `.jsonl` 里看角色、时间、工具名与参数、工具有没有报错、`UpdatePlan` 的任务清单；从 `sessions-index.json` 里看标题，以及“正在等你批准 / 已中断 / 本轮失败”这些只写在索引里的状态。**不写入、不修改 Deep Code 的任何文件，也不需要改它的设置。** 对话内容不会被保存或上传——气泡里只出现文件名、命令的前几个词和网址域名。
 
 这是 Deep Code 在本地写的会话记录，不是公开 API，字段可能随版本变化；解析不动时只会少事件、不会崩，按失联规则回空闲。
+
+### 也认 GPT（Codex）的会话
+
+Codex（桌面版与命令行写的是同一份）把每条聊天写在 `%USERPROFILE%\.codex\sessions\<年>\<月>\<日>\rollout-*.jsonl`（尊重 `CODEX_HOME`）。她照样从里面读工具调用；桌面版几乎所有事都走一个万能的 `exec` 工具，真正在干什么要从那段 JavaScript 参数里读（`tools.exec_command({cmd:…})` 走与 Claude `Bash` 同一套命令分类，`tools.apply_patch` 是改文件，`tools.view_image` 是看图）。规则与 macOS 版一致（`yukio/parsers_codex.py` 是 `CodexParsers.swift` 的移植），`tests/test_parsers_codex.py` 按同样的断言验。
 
 ### 也认 Claude Code 的转录
 
@@ -161,7 +165,7 @@ python run.py --chats 3                      # 列出最近的聊天，→ 标�
 python run.py --chat-link <会话ID>           # 查这条聊天对应桌面版 Claude 的哪一条（点牌子跳哪去）
 ```
 
-`--replay` 会自认会话记录是 Deep Code、Claude Code 还是收件箱格式。仓库里的 `samples/deepcode-session.jsonl` 是一份编出来的样例（不含任何真实对话），可以直接拿来看一轮完整的状态序列。
+`--replay` 会自认会话记录是 Deep Code、Claude Code、Codex 还是收件箱格式；`--watch` 与 `--chats` 可加 `--source auto|claude|deepcode|gpt`。仓库里的 `samples/deepcode-session.jsonl` 是一份编出来的样例（不含任何真实对话），可以直接拿来看一轮完整的状态序列。
 
 ## 结构
 
@@ -176,6 +180,7 @@ yukio/chatlinks.py         转录会话 → 桌面版 Claude 的那条聊天（�
 yukio/classify.py          工具 → 活动与简短说明（Deep Code 与 Claude Code 两套工具名 + shell 分词）
 yukio/parsers_deepcode.py  Deep Code 消息与会话索引 → 事件
 yukio/parsers_claude.py    Claude Code 转录 → 事件
+yukio/parsers_codex.py     GPT（Codex）的 rollout 记录 → 事件
 yukio/bridge.py            通用收件箱的事件格式
 yukio/sources.py           只读跟随会话目录、收件箱
 yukio/tailer.py            按字节跟文件、切出完整 JSON（半行会等下一次读）

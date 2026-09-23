@@ -1,8 +1,8 @@
 **English** · [简体中文](README.zh-CN.md)
 
-# Yukio desktop player (macOS, follows Claude Code)
+# Yukio desktop player (macOS, follows Claude Code, DeepSeek or GPT)
 
-One Yukio (雪绪) who changes what she is doing based on what **Claude Code** is doing right now: seven kinds of activity each get their own motion, all other work shows the computer-desk pose, an error makes her sad, she stands up the ❓ question card when she needs your decision, and she holds up the ✅ done card when the answer is in. The sign stays up waiting for you; click her and she jumps back to that chat. If that chat is already open in front of you, she skips the sign. With no task running, she idles.
+One Yukio (雪绪) who changes what she is doing based on what your coding agent — **Claude Code**, **DeepSeek's Deep Code CLI**, or **GPT's Codex**, picked in the menu under "Assistant" — is doing right now: seven kinds of activity each get their own motion, all other work shows the computer-desk pose, an error makes her sad, she stands up the ❓ question card when she needs your decision, and she holds up the ✅ done card when the answer is in. The sign stays up waiting for you; click her and she jumps back to that chat. If that chat is already open in front of you, she skips the sign. With no task running, she idles.
 With several chats open at once, whichever one has just finished or is waiting for your decision is shown first; the other chats that have something to say stack above the bubble as cards of the same design, and clicking one takes you to that chat. You can also pin one chat in the menu so she follows only that one. Every motion moves gently and continuously (writing, typing, turning her head, blinking), and the small bubble over her head shows the big task, the current task, and progress.
 Native Swift / AppKit. It needs only the Xcode Command Line Tools and has no third-party dependencies.
 
@@ -15,7 +15,7 @@ swift test                     # 101 core tests (routing, debounce, classificati
 open build/Yukio.app
 ```
 
-Once running: Yukio appears in the bottom-right corner of the screen, and her small avatar appears in the menu bar. The menu has the state line ("Yukio · \<state\>"), the chat she is following, "Play demo", "Follow Claude activity" (untick it to pause following), "Chat to follow" (pick one), "Show task bubble", "Show other chats", "Language" (English / 中文; English is the default and the choice is remembered), "Size", "Back to the bottom-right corner", and "Quit Yukio". While she is holding the ✅ done card, two extra items appear at the top, "Open this chat and lower the sign" and "Lower the sign, don't open the chat"; while the ❓ question card is up there is one extra, "Open this chat to answer". Descriptions already attached to earlier events keep their language until the next event arrives. "Size" is a slider (50% to 200% in 5% steps): drag it and Yukio grows or shrinks on the spot, with her feet staying where they are.
+Once running: Yukio appears in the bottom-right corner of the screen, and her small avatar appears in the menu bar. The menu has the state line ("Yukio · \<state\>"), the chat she is following, "Play demo", "Follow assistant activity" (untick it to pause following), "Assistant" (Claude Code / DeepSeek / GPT, or Auto), "Chat to follow" (pick one), "Show task bubble", "Show other chats", "Language" (English / 中文; English is the default and the choice is remembered), "Size", "Back to the bottom-right corner", and "Quit Yukio". While she is holding the ✅ done card, two extra items appear at the top, "Open this chat and lower the sign" and "Lower the sign, don't open the chat"; while the ❓ question card is up there is one extra, "Open this chat to answer". Descriptions already attached to earlier events keep their language until the next event arrives. "Size" is a slider (50% to 200% in 5% steps): drag it and Yukio grows or shrinks on the spot, with her feet staying where they are.
 
 Three ways to open the menu (any one will do):
 
@@ -33,8 +33,10 @@ Window-less check modes (during development, run `swift run YukioPlayer <flag>`)
 | `--snapshot out.png` | Draws the animations actually in use on a checkerboard (strips with many frames are sampled evenly down to 10) to check cropping and transparent edges |
 | `--bubble out.png` | Draws a few sample head bubbles at 2x resolution to check layout, truncation, and position |
 | `--cards out.png` | Draws the card stack over her head at 2x resolution (bubble plus other chats, one panel collapsed and one expanded) to check layout, truncation, and state colors |
-| `--replay session.jsonl` | Replays a Claude transcript on a virtual clock and prints the sequence of states Yukio would show; add `--with-bubble` to also print the bubble text (title and file names included) |
-| `--watch seconds` | Follows Claude transcripts live and prints events, write latency, and state switches (never the conversation content) |
+| `--replay session.jsonl` | Replays a session log on a virtual clock and prints the sequence of states Yukio would show; the format (Claude / Deep Code / Codex) is detected from the file, and `--with-bubble` also prints the bubble text (title and file names included) |
+| `--watch seconds` | Follows the session logs live and prints events, write latency, and state switches (never the conversation content) |
+| `--source auto\|claude\|deepseek\|gpt` | Which family `--watch` and `--chats` follow; without it they use the same setting as the menu |
+| `--menu` | Prints the menu text, submenus included, without opening a window (add `-source gpt` or `-language zh` to see another setting's wording) |
 | `--chat-link session-id` | Looks up without opening: prints the chat this transcript session maps to and the link a click would open |
 | `--chats seconds` | Lists recent chats (the same list as the "Chat to follow" menu), with `→` marking the one she would follow right now; watches for 3 seconds by default |
 | `--demo` | Plays the demo right after launch |
@@ -295,11 +297,26 @@ With several chats running at once she follows only one; the rules are in "Sever
 
 ## Event sources
 
-### Default: session transcripts (read only, zero configuration)
+### Which assistant she follows
 
-Reads `~/.claude/projects/<project>/<session>.jsonl` (honoring `CLAUDE_CONFIG_DIR`). Read only; it never modifies any of Claude's files or settings. At startup it replays the tail of the sessions active in the last 15 minutes to recover "what is happening right now".
+The menu item **Assistant** picks the family, and the choice is stored in `UserDefaults` under `source` (the same key name the Windows build uses):
 
-Note: these are the session records Claude Code writes locally, **not a public API**, and the format may change between versions; a parse failure only means fewer events, never a crash, and she returns to idle under the lost-contact rules. Subagent (sidechain) activity does not drive the main character.
+| Menu | Reads | Notes |
+| --- | --- | --- |
+| Auto (whoever is working) — default | all three below | Chats from every family compete under the same rules (see "Several chats running at once") |
+| Claude Code | `~/.claude/projects/<project>/<session>.jsonl` (honors `CLAUDE_CONFIG_DIR`), plus the optional hooks inbox | Session titles, task lists, ❓ `AskUserQuestion` |
+| DeepSeek (Deep Code) | `~/.deepcode/projects/<code>/<session>.jsonl` and that folder's `sessions-index.json` (honors `DEEPCODE_CONFIG_DIR`) | The index is the only place "waiting for your approval" is written |
+| GPT (Codex) | `~/.codex/sessions/<year>/<month>/<day>/rollout-*.jsonl` (honors `CODEX_HOME`) | One file per chat; both the Codex desktop app and the CLI write it |
+
+Switching families clears everything first (the pinned chat and any raised sign belong to the old family) and replays the new family's logs from scratch.
+
+### Default: session logs (read only, zero configuration)
+
+Read only; nothing any of these tools owns is ever modified. At startup the tail of the sessions active in the last 15 minutes is replayed to recover "what is happening right now".
+
+Note: these are the session records each tool writes locally, **not a public API**, and the formats may change between versions; a parse failure only means fewer events, never a crash, and she returns to idle under the lost-contact rules. Subagent (sidechain) activity does not drive the main character.
+
+Codex writes two streams into the same file and both are used: `response_item` (what goes to the model) carries a tool call the moment it starts, so the motion keeps up, while `event_msg` (`item_completed`, `task_complete`, `turn_aborted`) arrives after the fact and fills in success or failure and the end of a turn. The desktop app runs almost everything through one `exec` tool whose argument is a piece of JavaScript, so what she is actually doing is read out of that text: `tools.exec_command({cmd:…})` goes through the same shell classifier as Claude's `Bash`, `tools.apply_patch` is editing a file, `tools.view_image` is looking at an image, and `tools.write_stdin` keeps the previous motion.
 
 ### Claude Code official hooks (enabled on this machine)
 
@@ -329,7 +346,8 @@ Claude Code has only nine event names: `PreToolUse`, `PostToolUse`, `Notificatio
 - Thinking blocks are only written to the transcript after the message completes, so "Thinking" is inferred (a task is running and no tool is executing); the final answer also appears only once fully written, so Thinking is shown while it streams.
 - The bubble's task list is rebuilt from the transcript: at startup only the last 1 MB of each session is replayed, so in very long sessions tasks created earlier may be missed and progress undercounted until Claude updates the list again.
 - Session titles are generated by Claude, and when a session moves on to a new request the title doesn't necessarily follow.
-- Click-to-jump recognizes only Claude desktop app sessions; Claude Code running in a terminal has no matching chat window, so a click only brings the desktop app to the front.
+- Click-to-jump recognizes Claude desktop app sessions and Codex chats (`codex://threads/<session id>`, the id being the one in the rollout file name; the Codex app's own log calls it `threadId`). An agent running in a terminal has no matching chat window, so a click only brings the desktop app to the front. Deep Code has no window to open, so there the click item is hidden and the sign simply comes down. The Codex link has not been clicked through end to end yet — needs an eyeball.
+- Codex session logs carry no chat title, so in the chat list and the bubble those chats are named by the first line of the request (or the session id when even that is outside the replayed tail).
 - A raised sign occupies her for the first 15 minutes: another chat starting work can't take her away (this is deliberate, so you don't miss the one that finished). If you don't want to go now, click it, or use "Lower the sign, don't open the chat" in the menu; you can also pin another chat. After 15 minutes she goes to show the working chat first, sign still up, and comes back once that one stops.
 - Once a chat is pinned she no longer switches automatically; when it stops she idles and waits. If you forget you pinned one, the menu's second line "Following: … (pinned)" reminds you.
 - The main loop runs at 30 Hz (33 to 67 ms per motion frame); CPU measured on this machine is about 1%. Sprite strips are decoded only when shown, the 4 most recently used strips stay in memory, and memory use is about 45 MB.

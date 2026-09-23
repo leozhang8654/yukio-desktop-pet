@@ -737,9 +737,10 @@ class PetApp:
         return tr("Yukio: %s", "雪绪：%s") % label
 
     def _source_label(self) -> str:
-        names = {"auto": tr("Auto (Deep Code and Claude Code)", "自动（Deep Code 与 Claude Code 都跟）"),
-                 "deepcode": tr("Deep Code only (DeepSeek)", "只跟 Deep Code（DeepSeek）"),
-                 "claude": tr("Claude Code only", "只跟 Claude Code")}
+        names = {"auto": tr("Auto (whoever is working)", "自动（谁在干活跟谁）"),
+                 "deepcode": tr("DeepSeek (Deep Code) only", "只跟 DeepSeek（Deep Code）"),
+                 "claude": tr("Claude Code only", "只跟 Claude Code"),
+                 "gpt": tr("GPT (Codex) only", "只跟 GPT（Codex）")}
         return names.get(self.settings.get("source"), tr("Auto", "自动"))
 
     #: 菜单里列多久之内的聊天、最多几条。
@@ -809,13 +810,15 @@ class PetApp:
         items.append(Item(tr("Follow AI activity", "跟随 AI 活动"), self._toggle_follow, checked=self.follow))
         items.append(Item(tr("Show task bubble", "头顶显示任务"), self._toggle_bubble, checked=self.show_bubble))
         items.append(Item(tr("Show other chats", "头顶显示别的聊天"), self._toggle_cards, checked=self.show_cards))
-        items.append(Item(tr("Source", "跟随对象"), None, submenu=[
-            Item(tr("Auto (whichever is active)", "自动（哪个有动静跟哪个）"), lambda: self._set_source("auto"),
+        items.append(Item(tr("Assistant", "跟随的助手"), None, submenu=[
+            Item(tr("Auto (whoever is working)", "自动（谁在干活跟谁）"), lambda: self._set_source("auto"),
                  checked=self.settings.get("source") == "auto"),
-            Item(tr("Deep Code only (DeepSeek)", "Deep Code（DeepSeek）"), lambda: self._set_source("deepcode"),
-                 checked=self.settings.get("source") == "deepcode"),
-            Item(tr("Claude Code only", "Claude Code"), lambda: self._set_source("claude"),
+            Item(tr("Claude Code", "Claude Code"), lambda: self._set_source("claude"),
                  checked=self.settings.get("source") == "claude"),
+            Item(tr("DeepSeek (Deep Code)", "DeepSeek（Deep Code）"), lambda: self._set_source("deepcode"),
+                 checked=self.settings.get("source") == "deepcode"),
+            Item(tr("GPT (Codex)", "GPT（Codex）"), lambda: self._set_source("gpt"),
+                 checked=self.settings.get("source") == "gpt"),
         ]))
         # 界面语言：默认英文，选择存在 settings.json 的 language 里。
         items.append(Item(tr("Language", "语言"), None, submenu=[
@@ -887,11 +890,14 @@ class PetApp:
 
     def _set_source(self, which: str) -> None:
         self.settings.set("source", which)
-        self.sources = default_sources(which)
         now = now_ms()
+        # 挑定的聊天、举着的牌子都属于上一家：整个清空，再从新的一家重新回放。
+        self.router.reset(now)
+        self.sources = default_sources(which)
         for source in self.sources:
             for e in source.poll(now):
                 self.router.ingest(e, min(e.ts, now))
+        self.router.settle(now)
 
     def _set_language(self, code: str) -> None:
         self.settings.set("language", code)
