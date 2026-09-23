@@ -221,6 +221,29 @@ private extension Harness {
         #expect(h.router.displayed == .read_file)
     }
 
+    @Test func aChatPickedFromTheCardStackReturnsToAutoAfterItStops() {
+        let h = Harness()
+        h.to("A", .taskStart, detail: "改登录页")
+        h.to("A", .activityStart, id: "a1", .read_file)
+        h.run(to: 1000)
+        h.to("B", .taskStart, detail: "写个脚本")
+        h.to("B", .activityStart, id: "b1", .write_file)
+        h.run(to: 3000)
+
+        // 点卡片会立刻把 B 换成主题，但不是设置里的永久“挑定”。
+        #expect(h.router.focusSessionTemporarily("B", now: h.now))
+        #expect(h.router.focusedSession == "B")
+        #expect(h.router.pinnedSession == nil)
+        #expect(h.router.displayed == .write_file)
+
+        // B 停了以后自动回到仍在干活的 A，不会变成“More 有数字、雪绪却待机”。
+        h.to("B", .activityEnd, id: "b1")
+        h.to("B", .taskAbort)
+        h.run(to: 7000)
+        #expect(h.router.focusedSession == "A")
+        #expect(h.router.displayed == .read_file)
+    }
+
     @Test func chatListPutsTheOnesWaitingForYouFirst() {
         let h = Harness()
         h.to("old", .taskStart, detail: "看看昨天的报错")

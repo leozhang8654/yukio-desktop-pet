@@ -1,0 +1,67 @@
+{
+  "states": {
+    "default_work": {
+      "native_premultiplied_max_error": 0.9960784313725526,
+      "native_eye_changes_outside_roi": 0,
+      "candidate_hash_matches_review": true
+    },
+    "write_file": {
+      "native_premultiplied_max_error": 0.9960784313725526,
+      "native_eye_changes_outside_roi": 0,
+      "candidate_hash_matches_review": true
+    },
+    "verify": {
+      "native_premultiplied_max_error": 0.9960784313725526,
+      "native_eye_changes_outside_roi": 0,
+      "candidate_hash_matches_review": true
+    },
+    "view_image": {
+      "native_premultiplied_max_error": 0.9960784313725526,
+      "native_eye_changes_outside_roi": 0,
+      "candidate_hash_matches_review": true
+    },
+    "read_file": {
+      "native_premultiplied_max_error": 0.9960784313725526,
+      "native_eye_changes_outside_roi": 0,
+      "candidate_hash_matches_review": true
+    },
+    "read_web": {
+      "native_premultiplied_max_error": 0.9960784313725526,
+      "native_eye_changes_outside_roi": 0,
+      "candidate_hash_matches_review": true
+    },
+    "thinking": {
+      "native_premultiplied_max_error": 0.9960784313725526,
+      "native_eye_changes_outside_roi": 0,
+      "candidate_hash_matches_review": true
+    },
+    "respond": {
+      "native_premultiplied_max_error": 0.9960784313725526,
+      "native_eye_changes_outside_roi": 0,
+      "candidate_hash_matches_review": true
+    },
+    "question_for_user": {
+      "native_premultiplied_max_error": 0.9960784313725526,
+      "native_eye_changes_outside_roi": 0,
+      "candidate_hash_matches_review": true
+    },
+    "task_complete": {
+      "native_premultiplied_max_error": 0.9960784313725526,
+      "native_eye_changes_outside_roi": 0,
+      "candidate_hash_matches_review": true
+    },
+    "idle": {
+      "native_premultiplied_max_error": 0.9960784313725526,
+      "native_eye_changes_outside_roi": 0,
+      "candidate_hash_matches_review": true
+    },
+    "failed": {
+      "native_premultiplied_max_error": 0.9960784313725526,
+      "native_eye_changes_outside_roi": 0,
+      "candidate_hash_matches_review": true
+    }
+  },
+  "protected_drag_hashes_unchanged": true,
+  "formal_motion_assets_still_baseline": true,
+  "composition_note": "Maximum ≤2.1/255 premultiplied rounding tolerance; alpha and pixels outside eye replacement are audited separately."
+}

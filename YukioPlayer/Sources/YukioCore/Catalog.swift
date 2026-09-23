@@ -15,7 +15,21 @@ public struct HangAnchors: Equatable, Sendable {
     }
 }
 
-/// 一段图条动画：横向图条中按 sequence 取帧，每步停留 durationsMs。
+/// 与身体帧一一对应的局部眼皮替换图层，眨眼时序独立调度。
+public struct BlinkOverlay: Decodable, Equatable, Sendable {
+    public let asset: String
+    /// Physical atlas pixels, not logical display points.
+    public let x: Int
+    public let y: Int
+    public let width: Int
+    public let height: Int
+    public let levels: Int
+    /// Indexed by base atlas frame, then eyelid level minus one.
+    public let frames: [[Int]]
+    public let seed: UInt32
+}
+
+/// 一段图条动画：图条中按 sequence 取帧，每步停留 durationsMs。
 public struct AnimationSpec: Equatable, Sendable {
     public let id: String
     public let label: String
@@ -34,6 +48,7 @@ public struct AnimationSpec: Equatable, Sendable {
     /// 图条里一个点对应几个像素：2 表示 2 倍分辨率的图条，一格 (frameWidth×2)×(frameHeight×2) 像素，
     /// 摆放时仍按 frameWidth×frameHeight 个点；缺省 1。太长的图条会折成几行。
     public var pixelScale: Int = 1
+    public var blink: BlinkOverlay? = nil
 
     public var maxFrameIndex: Int { sequence.max() ?? 0 }
 }
@@ -104,6 +119,7 @@ public struct AnimationCatalog: Sendable {
             let loop: Bool
             let loopStart: Int?
             let pixelScale: Int?
+            let blink: BlinkOverlay?
         }
         let states: [State]
     }
@@ -188,12 +204,23 @@ public struct AnimationCatalog: Sendable {
                 guard loopStart >= 0, loopStart < m.sequence.count else {
                     throw CatalogError.invalid("motion \(m.id)：loopStart 越界")
                 }
+                if let b = m.blink {
+                    let scale = m.pixelScale ?? 1
+                    guard b.width > 0, b.height > 0, b.x >= 0, b.y >= 0,
+                          b.x + b.width <= m.frameWidth * scale,
+                          b.y + b.height <= m.frameHeight * scale,
+                          (1...16).contains(b.levels),
+                          b.frames.count > (m.sequence.max() ?? 0),
+                          b.frames.allSatisfy({ $0.count == b.levels && $0.allSatisfy { $0 >= 0 } }) else {
+                        throw CatalogError.invalid("motion \(m.id)：眨眼图层尺寸或索引无效")
+                    }
+                }
                 specs[m.id] = AnimationSpec(
                     id: m.id, label: specs[m.id]?.label ?? m.id, assetPath: "motion/\(m.asset)",
                     frameWidth: m.frameWidth, frameHeight: m.frameHeight,
                     sequence: m.sequence, durationsMs: m.durationsMs,
                     loop: m.loop, holdLastFrame: !m.loop, loopStart: loopStart,
-                    hang: specs[m.id]?.hang, pixelScale: m.pixelScale ?? 1)
+                    hang: specs[m.id]?.hang, pixelScale: m.pixelScale ?? 1, blink: m.blink)
             }
         }
 

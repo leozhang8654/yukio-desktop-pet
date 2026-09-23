@@ -1,0 +1,197 @@
+{
+  "passed": true,
+  "masks": {
+    "idle/head-mask.png": {
+      "opaque_hole_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        15520
+      ],
+      "background_pixels": 0
+    },
+    "task_complete/head-mask.png": {
+      "opaque_hole_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        21161
+      ],
+      "background_pixels": 0
+    },
+    "task_complete/card_hands-mask.png": {
+      "opaque_hole_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        4061
+      ],
+      "background_pixels": 0
+    },
+    "read_file/head-mask.png": {
+      "opaque_hole_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        18531
+      ],
+      "background_pixels": 0
+    },
+    "read_file/tracing_hand-mask.png": {
+      "opaque_hole_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        747
+      ],
+      "background_pixels": 0
+    },
+    "verify/head-mask.png": {
+      "opaque_hole_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        19674
+      ],
+      "background_pixels": 0
+    },
+    "verify/right_hand-mask.png": {
+      "opaque_hole_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        742
+      ],
+      "background_pixels": 0
+    },
+    "verify/left_hand-mask.png": {
+      "opaque_hole_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        856
+      ],
+      "background_pixels": 0
+    },
+    "read_web/head-mask.png": {
+      "opaque_hole_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        19060
+      ],
+      "background_pixels": 0
+    },
+    "read_web/tap_hand-mask.png": {
+      "opaque_hole_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        597
+      ],
+      "background_pixels": 0
+    },
+    "question_for_user/head-mask.png": {
+      "opaque_hole_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        17891
+      ],
+      "background_pixels": 0
+    },
+    "question_for_user/point_hand-mask.png": {
+      "opaque_hole_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        859
+      ],
+      "background_pixels": 0
+    },
+    "view_image/glass_hand-mask.png": {
+      "opaque_hole_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        2630
+      ],
+      "background_pixels": 0
+    },
+    "view_image/head-mask.png": {
+      "opaque_hole_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        18599
+      ],
+      "background_pixels": 0
+    },
+    "failed/head-mask.png": {
+      "opaque_hole_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        14761
+      ],
+      "background_pixels": 0
+    },
+    "thinking/head-mask.png": {
+      "opaque_hole_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        17981
+      ],
+      "background_pixels": 0
+    },
+    "thinking/cheek_hand-mask.png": {
+      "opaque_hole_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        934
+      ],
+      "background_pixels": 0
+    },
+    "default_work/left-mask.png": {
+      "opaque_hole_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        466
+      ],
+      "background_pixels": 0
+    },
+    "default_work/right-mask.png": {
+      "opaque_hole_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        529
+      ],
+      "background_pixels": 0
+    },
+    "default_work/head-mask.png": {
+      "opaque_hole_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        19230
+      ],
+      "background_pixels": 0
+    },
+    "respond/head-mask.png": {
+      "opaque_hole_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        17777
+      ],
+      "background_pixels": 0
+    },
+    "respond/report_hands-mask.png": {
+      "opaque_hole_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        5547
+      ],
+      "background_pixels": 0
+    },
+    "write_file/head-mask.png": {
+      "opaque_hole_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        19254
+      ],
+      "background_pixels": 0
+    },
+    "write_file/pen_hand-mask.png": {
+      "opaque_hole_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        1375
+      ],
+      "background_pixels": 0
+    }
+  }
+}

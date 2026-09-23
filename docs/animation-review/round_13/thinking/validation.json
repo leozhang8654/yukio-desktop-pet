@@ -1,0 +1,31 @@
+{
+  "state": "thinking",
+  "frame_count": 351,
+  "unique_frames": 132,
+  "patches": 777,
+  "loop_boundary_exact": true,
+  "atlas_roundtrip": true,
+  "eye_atlas_roundtrip": true,
+  "outside_allowed_changed": 0,
+  "alpha_animation_declared": true,
+  "alpha_change_reason": "Rigid head silhouette movement inside declared allowed mask only; eye overlay preserves alpha exactly.",
+  "alpha_changed_pixels": 1221008,
+  "blink_alpha_changes": 0,
+  "furniture_changed": 0,
+  "mask_diagnostics": {
+    "head": {
+      "components": 1,
+      "small_components": [],
+      "background_pixels": 0
+    },
+    "cheek_hand": {
+      "components": 1,
+      "small_components": [],
+      "background_pixels": 0
+    }
+  },
+  "asset_sha256": "4af6ddecabfd09ed7ed341ce40ad1c5c292ad6b497fec916f5296179ee27b525",
+  "eyes_sha256": "3a0faa7bf6346ef7e39bf2d63041fdb01f7f764ca7e8e65b3342ee0fdcf68d05",
+  "motion_sha256": "8d91afc76ee0ff3a9f490fcce803a08c7d862e95cfa626ab172037dd72b4e341",
+  "installation_status": "candidate only; not installed"
+}

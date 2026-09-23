@@ -1,0 +1,98 @@
+{
+  "startup_ms": 1204.9302500090562,
+  "states": [
+    {
+      "cold_ms": 11.363708326825872,
+      "state": "default_work",
+      "steps": 242,
+      "warm_max_ms": 14.23466665437445,
+      "warm_p95_ms": 10.017708322266117
+    },
+    {
+      "cold_ms": 10.112249990925193,
+      "state": "failed",
+      "steps": 692,
+      "warm_max_ms": 14.944833324989304,
+      "warm_p95_ms": 5.978000001050532
+    },
+    {
+      "cold_ms": 10.449083318235353,
+      "state": "idle",
+      "steps": 1202,
+      "warm_max_ms": 10.765249986434355,
+      "warm_p95_ms": 0.3853750240523368
+    },
+    {
+      "cold_ms": 9.350916661787778,
+      "state": "question_for_user",
+      "steps": 842,
+      "warm_max_ms": 12.856708315666765,
+      "warm_p95_ms": 0.35329165984876454
+    },
+    {
+      "cold_ms": 12.048666656482965,
+      "state": "read_file",
+      "steps": 222,
+      "warm_max_ms": 12.690708332229406,
+      "warm_p95_ms": 12.090708332834765
+    },
+    {
+      "cold_ms": 9.297458309447393,
+      "state": "read_web",
+      "steps": 242,
+      "warm_max_ms": 9.550333343213424,
+      "warm_p95_ms": 0.4999999946448952
+    },
+    {
+      "cold_ms": 9.590708330506459,
+      "state": "respond",
+      "steps": 542,
+      "warm_max_ms": 11.361375014530495,
+      "warm_p95_ms": 0.37529165274463594
+    },
+    {
+      "cold_ms": 12.787874991772696,
+      "state": "task_complete",
+      "steps": 1002,
+      "warm_max_ms": 13.553666678490117,
+      "warm_p95_ms": 0.3512499970383942
+    },
+    {
+      "cold_ms": 11.802041670307517,
+      "state": "thinking",
+      "steps": 702,
+      "warm_max_ms": 12.439124984666705,
+      "warm_p95_ms": 0.5046666774433106
+    },
+    {
+      "cold_ms": 9.475083352299407,
+      "state": "verify",
+      "steps": 362,
+      "warm_max_ms": 12.2739166545216,
+      "warm_p95_ms": 0.5494999932125211
+    },
+    {
+      "cold_ms": 12.056416657287627,
+      "state": "view_image",
+      "steps": 282,
+      "warm_max_ms": 19.394374976400286,
+      "warm_p95_ms": 11.735333333490416
+    },
+    {
+      "cold_ms": 11.810916679678485,
+      "state": "write_file",
+      "steps": 202,
+      "warm_max_ms": 12.142958352342248,
+      "warm_p95_ms": 11.739833338651806
+    }
+  ],
+  "measurement": {
+    "platform": "macOS arm64",
+    "mode": "all encoded steps twice; no sleep",
+    "maximum_resident_bytes": 340426752,
+    "peak_footprint_bytes": 328811480,
+    "paged_manifest_sha256": "6ef9890e4a3d18fe55a36ab81a6a0da740e47d9ecb23519327191c8836ee00a9",
+    "native_png_comparison": "168 files byte-identical to round_13 unpaged native-compositor",
+    "stale_manifest_rejected": true
+  }
+}

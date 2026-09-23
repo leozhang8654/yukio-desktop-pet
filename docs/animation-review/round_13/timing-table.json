@@ -1,0 +1,2609 @@
+[
+  {
+    "state": "thinking",
+    "seed": 6971,
+    "action_period_seconds": 7.02,
+    "intro_seconds": 0,
+    "rest_intervals": [
+      [
+        0.0,
+        1.22
+      ],
+      [
+        2.6,
+        3.86
+      ],
+      [
+        5.8,
+        7.02
+      ]
+    ],
+    "blink_events": [
+      {
+        "start": 6.73832295788452,
+        "duration": 0.22596110889688134,
+        "double": false
+      },
+      {
+        "start": 12.741889422079549,
+        "duration": 0.20562882158905268,
+        "double": false
+      },
+      {
+        "start": 16.179605599706992,
+        "duration": 0.1913865769468248,
+        "double": false
+      },
+      {
+        "start": 19.403025714773683,
+        "duration": 0.23745760872960092,
+        "double": false
+      },
+      {
+        "start": 23.7572569572553,
+        "duration": 0.18046107741072773,
+        "double": false
+      },
+      {
+        "start": 29.528865936109792,
+        "duration": 0.20765973653644323,
+        "double": false
+      },
+      {
+        "start": 35.957702080132435,
+        "duration": 0.2114505991153419,
+        "double": false
+      },
+      {
+        "start": 36.27087503758259,
+        "duration": 0.2273926866799593,
+        "double": true
+      },
+      {
+        "start": 39.859041070789104,
+        "duration": 0.21135452549904585,
+        "double": false
+      },
+      {
+        "start": 46.616985740847895,
+        "duration": 0.2514639769308269,
+        "double": false
+      },
+      {
+        "start": 51.41955542664045,
+        "duration": 0.22231482945382597,
+        "double": false
+      },
+      {
+        "start": 57.05309632406572,
+        "duration": 0.22309096464887263,
+        "double": false
+      },
+      {
+        "start": 57.38489937418143,
+        "duration": 0.24294711623340845,
+        "double": true
+      },
+      {
+        "start": 61.873373721968406,
+        "duration": 0.1839349941164255,
+        "double": false
+      },
+      {
+        "start": 66.9257024515793,
+        "duration": 0.2347439887560904,
+        "double": false
+      },
+      {
+        "start": 72.71768384878527,
+        "duration": 0.18740543831139803,
+        "double": false
+      },
+      {
+        "start": 77.83933929522526,
+        "duration": 0.22354791840538382,
+        "double": false
+      },
+      {
+        "start": 84.47671420939271,
+        "duration": 0.24422107309103014,
+        "double": false
+      },
+      {
+        "start": 84.86207667749379,
+        "duration": 0.19941454814746976,
+        "double": true
+      },
+      {
+        "start": 88.8926229843684,
+        "duration": 0.2368034431897104,
+        "double": false
+      },
+      {
+        "start": 95.5353933338542,
+        "duration": 0.23821310445666313,
+        "double": false
+      },
+      {
+        "start": 100.28520063332287,
+        "duration": 0.22036072077229618,
+        "double": false
+      },
+      {
+        "start": 100.63269750579265,
+        "duration": 0.20178969677537678,
+        "double": true
+      },
+      {
+        "start": 107.51478697679941,
+        "duration": 0.1871083426475525,
+        "double": false
+      },
+      {
+        "start": 111.05478832149882,
+        "duration": 0.20315668301656842,
+        "double": false
+      },
+      {
+        "start": 115.83393721616831,
+        "duration": 0.21481118213385345,
+        "double": false
+      },
+      {
+        "start": 121.83452346707699,
+        "duration": 0.1883397693745792,
+        "double": false
+      },
+      {
+        "start": 128.88154387833555,
+        "duration": 0.19498890332877636,
+        "double": false
+      },
+      {
+        "start": 133.4699223288149,
+        "duration": 0.1938563106395304,
+        "double": false
+      },
+      {
+        "start": 140.16584658213893,
+        "duration": 0.18445299867540596,
+        "double": false
+      },
+      {
+        "start": 145.38830374465326,
+        "duration": 0.2537580851279199,
+        "double": false
+      },
+      {
+        "start": 150.90609684016556,
+        "duration": 0.2155646775662899,
+        "double": false
+      },
+      {
+        "start": 154.45742546921596,
+        "duration": 0.24253008725121616,
+        "double": false
+      },
+      {
+        "start": 160.98416520978324,
+        "duration": 0.2155175506696105,
+        "double": false
+      },
+      {
+        "start": 168.14550631812773,
+        "duration": 0.20188236711546778,
+        "double": false
+      },
+      {
+        "start": 168.49154852456414,
+        "duration": 0.2354311052709818,
+        "double": true
+      },
+      {
+        "start": 175.6947771162726,
+        "duration": 0.25052567314356566,
+        "double": false
+      },
+      {
+        "start": 176.06905343687163,
+        "duration": 0.22534122718498112,
+        "double": true
+      }
+    ],
+    "blink_count_180s": 38,
+    "double_count_180s": 6
+  },
+  {
+    "state": "view_image",
+    "seed": 3251,
+    "action_period_seconds": 2.82,
+    "intro_seconds": 0,
+    "rest_intervals": [],
+    "blink_events": [
+      {
+        "start": 4.883203836437314,
+        "duration": 0.19252059632912277,
+        "double": false
+      },
+      {
+        "start": 7.909628811022266,
+        "duration": 0.18527050990611313,
+        "double": false
+      },
+      {
+        "start": 13.604394361516459,
+        "duration": 0.18426514973863958,
+        "double": false
+      },
+      {
+        "start": 18.04542983042076,
+        "duration": 0.24870466113090517,
+        "double": false
+      },
+      {
+        "start": 18.425311530437316,
+        "duration": 0.19953657941892744,
+        "double": true
+      },
+      {
+        "start": 22.671341330371796,
+        "duration": 0.24322598343715074,
+        "double": false
+      },
+      {
+        "start": 28.77169709554873,
+        "duration": 0.18650354102253913,
+        "double": false
+      },
+      {
+        "start": 32.80249511168338,
+        "duration": 0.20386040898039937,
+        "double": false
+      },
+      {
+        "start": 37.37919704159721,
+        "duration": 0.23379270877689123,
+        "double": false
+      },
+      {
+        "start": 42.074603230375786,
+        "duration": 0.20989114848896862,
+        "double": false
+      },
+      {
+        "start": 45.14980701089836,
+        "duration": 0.23143468983471394,
+        "double": false
+      },
+      {
+        "start": 48.59921307100913,
+        "duration": 0.2406970333494246,
+        "double": false
+      },
+      {
+        "start": 53.66619255803524,
+        "duration": 0.2065274604037404,
+        "double": false
+      },
+      {
+        "start": 60.14662840537726,
+        "duration": 0.2514143603108823,
+        "double": false
+      },
+      {
+        "start": 64.3194160037767,
+        "duration": 0.24439266383647917,
+        "double": false
+      },
+      {
+        "start": 69.31821135249918,
+        "duration": 0.20134372131898998,
+        "double": false
+      },
+      {
+        "start": 74.42619605192913,
+        "duration": 0.2326776308938861,
+        "double": false
+      },
+      {
+        "start": 79.01893443016334,
+        "duration": 0.21632289780303837,
+        "double": false
+      },
+      {
+        "start": 84.35366542254573,
+        "duration": 0.19952600352466107,
+        "double": false
+      },
+      {
+        "start": 88.15205891872755,
+        "duration": 0.24294667879119516,
+        "double": false
+      },
+      {
+        "start": 94.85430838625877,
+        "duration": 0.22506500903517007,
+        "double": false
+      },
+      {
+        "start": 100.92116536725311,
+        "duration": 0.21759258722886443,
+        "double": false
+      },
+      {
+        "start": 104.94785188137553,
+        "duration": 0.242098056524992,
+        "double": false
+      },
+      {
+        "start": 111.33943980642594,
+        "duration": 0.25266462387517097,
+        "double": false
+      },
+      {
+        "start": 115.92886631725356,
+        "duration": 0.24040695246309043,
+        "double": false
+      },
+      {
+        "start": 120.7165000920929,
+        "duration": 0.20129526315256951,
+        "double": false
+      },
+      {
+        "start": 126.16058021434583,
+        "duration": 0.23445865727961063,
+        "double": false
+      },
+      {
+        "start": 130.9485057876166,
+        "duration": 0.2049490603245795,
+        "double": false
+      },
+      {
+        "start": 134.63380150318145,
+        "duration": 0.19157712984830141,
+        "double": false
+      },
+      {
+        "start": 139.83220710262654,
+        "duration": 0.2209493543766439,
+        "double": false
+      },
+      {
+        "start": 143.20674260142258,
+        "duration": 0.2517814317345619,
+        "double": false
+      },
+      {
+        "start": 143.56612031138502,
+        "duration": 0.2339026759751141,
+        "double": true
+      },
+      {
+        "start": 149.25720100578852,
+        "duration": 0.1806211427412927,
+        "double": false
+      },
+      {
+        "start": 149.55459579554386,
+        "duration": 0.1936815021932125,
+        "double": true
+      },
+      {
+        "start": 153.66776602890343,
+        "duration": 0.2556520028784871,
+        "double": false
+      },
+      {
+        "start": 160.205046200715,
+        "duration": 0.20894054939970375,
+        "double": false
+      },
+      {
+        "start": 165.02344472466967,
+        "duration": 0.21479203045368195,
+        "double": false
+      },
+      {
+        "start": 169.21829209000802,
+        "duration": 0.21424351232126354,
+        "double": false
+      },
+      {
+        "start": 169.58797946208156,
+        "duration": 0.20953958105295897,
+        "double": true
+      },
+      {
+        "start": 174.1744937964715,
+        "duration": 0.23891016617417335,
+        "double": false
+      },
+      {
+        "start": 177.22700383830815,
+        "duration": 0.18618138225749134,
+        "double": false
+      }
+    ],
+    "blink_count_180s": 41,
+    "double_count_180s": 4
+  },
+  {
+    "state": "write_file",
+    "seed": 941,
+    "action_period_seconds": 2.02,
+    "intro_seconds": 0,
+    "rest_intervals": [],
+    "blink_events": [
+      {
+        "start": 5.323170188441873,
+        "duration": 0.23046479417011143,
+        "double": false
+      },
+      {
+        "start": 10.454757302543149,
+        "duration": 0.22230607442557812,
+        "double": false
+      },
+      {
+        "start": 17.465271253930403,
+        "duration": 0.23919781187549233,
+        "double": false
+      },
+      {
+        "start": 23.195954966749994,
+        "duration": 0.24020484689623117,
+        "double": false
+      },
+      {
+        "start": 29.765225402694192,
+        "duration": 0.22363991534337402,
+        "double": false
+      },
+      {
+        "start": 33.25236371972598,
+        "duration": 0.24606773123145104,
+        "double": false
+      },
+      {
+        "start": 37.77583494502119,
+        "duration": 0.18842746617272496,
+        "double": false
+      },
+      {
+        "start": 41.45155541278421,
+        "duration": 0.18714204903692006,
+        "double": false
+      },
+      {
+        "start": 46.47012399438768,
+        "duration": 0.18077344415709376,
+        "double": false
+      },
+      {
+        "start": 51.25681048440747,
+        "duration": 0.2219838110357523,
+        "double": false
+      },
+      {
+        "start": 51.601053414708005,
+        "duration": 0.2593796482123435,
+        "double": true
+      },
+      {
+        "start": 58.221302725756544,
+        "duration": 0.25937176955863833,
+        "double": false
+      },
+      {
+        "start": 65.19570810571314,
+        "duration": 0.23165396444499492,
+        "double": false
+      },
+      {
+        "start": 69.97049410289155,
+        "duration": 0.21501468697562814,
+        "double": false
+      },
+      {
+        "start": 73.93303658268415,
+        "duration": 0.1931585556641221,
+        "double": false
+      },
+      {
+        "start": 78.53182784228586,
+        "duration": 0.20605728005990387,
+        "double": false
+      },
+      {
+        "start": 84.07492041626946,
+        "duration": 0.22693531081080437,
+        "double": false
+      },
+      {
+        "start": 87.57087606776507,
+        "duration": 0.20045835914090276,
+        "double": false
+      },
+      {
+        "start": 94.64485633113422,
+        "duration": 0.18074516233056784,
+        "double": false
+      },
+      {
+        "start": 100.33364480351098,
+        "duration": 0.23680266914889217,
+        "double": false
+      },
+      {
+        "start": 105.77662086714058,
+        "duration": 0.25925587631762026,
+        "double": false
+      },
+      {
+        "start": 111.92587819235399,
+        "duration": 0.23053730929270388,
+        "double": false
+      },
+      {
+        "start": 117.84064773301593,
+        "duration": 0.18850295949727297,
+        "double": false
+      },
+      {
+        "start": 121.1055595829617,
+        "duration": 0.20856874844059348,
+        "double": false
+      },
+      {
+        "start": 126.4507230005972,
+        "duration": 0.2492043259739876,
+        "double": false
+      },
+      {
+        "start": 133.52644273787735,
+        "duration": 0.22869504557922482,
+        "double": false
+      },
+      {
+        "start": 136.7412776806671,
+        "duration": 0.20864552062004804,
+        "double": false
+      },
+      {
+        "start": 137.12973208838142,
+        "duration": 0.2466760097257793,
+        "double": true
+      },
+      {
+        "start": 143.53505573005415,
+        "duration": 0.20173432352021337,
+        "double": false
+      },
+      {
+        "start": 147.81933539321645,
+        "duration": 0.24424672838300465,
+        "double": false
+      },
+      {
+        "start": 151.16113149898126,
+        "duration": 0.23274041770026088,
+        "double": false
+      },
+      {
+        "start": 151.52122467787936,
+        "duration": 0.1937182644754648,
+        "double": true
+      },
+      {
+        "start": 155.20066964005122,
+        "duration": 0.2071041626855731,
+        "double": false
+      },
+      {
+        "start": 160.51651765697636,
+        "duration": 0.1924850214831531,
+        "double": false
+      },
+      {
+        "start": 167.6247911131382,
+        "duration": 0.2511565529555082,
+        "double": false
+      },
+      {
+        "start": 170.98987523784862,
+        "duration": 0.2272925869561732,
+        "double": false
+      },
+      {
+        "start": 176.72031863934362,
+        "duration": 0.23906772796064615,
+        "double": false
+      }
+    ],
+    "blink_count_180s": 37,
+    "double_count_180s": 3
+  },
+  {
+    "state": "task_complete",
+    "seed": 9973,
+    "action_period_seconds": 5.02,
+    "intro_seconds": 5.0,
+    "rest_intervals": [
+      [
+        0.0,
+        1.02
+      ],
+      [
+        1.5,
+        3.02
+      ],
+      [
+        3.5,
+        10.02
+      ]
+    ],
+    "blink_events": [
+      {
+        "start": 3.2247389800846573,
+        "duration": 0.24937735049054027,
+        "double": false
+      },
+      {
+        "start": 9.768869624873624,
+        "duration": 0.18416528709232807,
+        "double": false
+      },
+      {
+        "start": 13.072440045149998,
+        "duration": 0.2146818792261183,
+        "double": false
+      },
+      {
+        "start": 18.252741533275696,
+        "duration": 0.24420931536704302,
+        "double": false
+      },
+      {
+        "start": 24.870954921897503,
+        "duration": 0.20898133089765905,
+        "double": false
+      },
+      {
+        "start": 25.25053003197536,
+        "duration": 0.18917535841464997,
+        "double": true
+      },
+      {
+        "start": 32.03811100092717,
+        "duration": 0.19314980659633874,
+        "double": false
+      },
+      {
+        "start": 38.1197356997896,
+        "duration": 0.23069589918479325,
+        "double": false
+      },
+      {
+        "start": 42.852218746691946,
+        "duration": 0.24559123888611795,
+        "double": false
+      },
+      {
+        "start": 46.19888936320321,
+        "duration": 0.2322386089153588,
+        "double": false
+      },
+      {
+        "start": 46.57818001540379,
+        "duration": 0.22123477008193732,
+        "double": true
+      },
+      {
+        "start": 49.83860869850033,
+        "duration": 0.218848497569561,
+        "double": false
+      },
+      {
+        "start": 52.86546083373018,
+        "duration": 0.19612308548763394,
+        "double": false
+      },
+      {
+        "start": 60.02970010349528,
+        "duration": 0.19491657000035048,
+        "double": false
+      },
+      {
+        "start": 64.9636378790252,
+        "duration": 0.20787846846506,
+        "double": false
+      },
+      {
+        "start": 69.97022169237026,
+        "duration": 0.1877270831912756,
+        "double": false
+      },
+      {
+        "start": 74.09305366079325,
+        "duration": 0.24953477689996362,
+        "double": false
+      },
+      {
+        "start": 80.63095060151072,
+        "duration": 0.1918516919389367,
+        "double": false
+      },
+      {
+        "start": 87.5439120534435,
+        "duration": 0.23742360478267074,
+        "double": false
+      },
+      {
+        "start": 87.95884263876827,
+        "duration": 0.18567226603627204,
+        "double": true
+      },
+      {
+        "start": 93.43876174169596,
+        "duration": 0.2487173740938306,
+        "double": false
+      },
+      {
+        "start": 99.44814186575826,
+        "duration": 0.23629289051517843,
+        "double": false
+      },
+      {
+        "start": 105.3131723650359,
+        "duration": 0.23828020602464678,
+        "double": false
+      },
+      {
+        "start": 111.01037877090278,
+        "duration": 0.2471291028149426,
+        "double": false
+      },
+      {
+        "start": 111.36032508403065,
+        "duration": 0.2358815721794963,
+        "double": true
+      },
+      {
+        "start": 117.1691261352692,
+        "duration": 0.19118792876601218,
+        "double": false
+      },
+      {
+        "start": 122.84945521767253,
+        "duration": 0.2194332122988999,
+        "double": false
+      },
+      {
+        "start": 127.1693215288222,
+        "duration": 0.25991142984479665,
+        "double": false
+      },
+      {
+        "start": 130.91440953236074,
+        "duration": 0.20529167769476772,
+        "double": false
+      },
+      {
+        "start": 131.22049230094999,
+        "duration": 0.18945658959448336,
+        "double": true
+      },
+      {
+        "start": 135.71565914212724,
+        "duration": 0.22091431092470884,
+        "double": false
+      },
+      {
+        "start": 141.8604522855859,
+        "duration": 0.2410516013018787,
+        "double": false
+      },
+      {
+        "start": 145.49138602102173,
+        "duration": 0.23239628188312053,
+        "double": false
+      },
+      {
+        "start": 149.49972919896243,
+        "duration": 0.18759325185790657,
+        "double": false
+      },
+      {
+        "start": 153.98676030130125,
+        "duration": 0.23294394675642252,
+        "double": false
+      },
+      {
+        "start": 160.26003472604788,
+        "duration": 0.2081973741017282,
+        "double": false
+      },
+      {
+        "start": 163.9439201151207,
+        "duration": 0.24827819511294366,
+        "double": false
+      },
+      {
+        "start": 168.5864790308289,
+        "duration": 0.2087225586362183,
+        "double": false
+      },
+      {
+        "start": 175.63991298365406,
+        "duration": 0.25666472014039754,
+        "double": false
+      }
+    ],
+    "blink_count_180s": 39,
+    "double_count_180s": 5
+  },
+  {
+    "state": "read_file",
+    "seed": 4567,
+    "action_period_seconds": 2.22,
+    "intro_seconds": 0,
+    "rest_intervals": [],
+    "blink_events": [
+      {
+        "start": 2.8252836116589606,
+        "duration": 0.22181299271062016,
+        "double": false
+      },
+      {
+        "start": 8.87785864009522,
+        "duration": 0.190838127695024,
+        "double": false
+      },
+      {
+        "start": 15.606076616747306,
+        "duration": 0.236848966460675,
+        "double": false
+      },
+      {
+        "start": 22.62900944972411,
+        "duration": 0.2569409189373255,
+        "double": false
+      },
+      {
+        "start": 29.630178373977543,
+        "duration": 0.2468958910740912,
+        "double": false
+      },
+      {
+        "start": 33.39796190158464,
+        "duration": 0.1930416302755475,
+        "double": false
+      },
+      {
+        "start": 36.46710032344795,
+        "duration": 0.22578101178631188,
+        "double": false
+      },
+      {
+        "start": 43.613101753182704,
+        "duration": 0.20824135452508927,
+        "double": false
+      },
+      {
+        "start": 47.326144704874594,
+        "duration": 0.18133351551368831,
+        "double": false
+      },
+      {
+        "start": 47.67504405764861,
+        "duration": 0.18415119808167218,
+        "double": true
+      },
+      {
+        "start": 52.33249275042674,
+        "duration": 0.25435895428061484,
+        "double": false
+      },
+      {
+        "start": 58.82523253255522,
+        "duration": 0.2416944563575089,
+        "double": false
+      },
+      {
+        "start": 65.31173908663912,
+        "duration": 0.22663720961660147,
+        "double": false
+      },
+      {
+        "start": 69.10739363649859,
+        "duration": 0.23675720451399684,
+        "double": false
+      },
+      {
+        "start": 72.21910875701343,
+        "duration": 0.19745936788618565,
+        "double": false
+      },
+      {
+        "start": 76.22420946559866,
+        "duration": 0.18750690603628753,
+        "double": false
+      },
+      {
+        "start": 83.00770846679805,
+        "duration": 0.23207022536545993,
+        "double": false
+      },
+      {
+        "start": 87.99231094390153,
+        "duration": 0.2588154228590429,
+        "double": false
+      },
+      {
+        "start": 91.83510598796418,
+        "duration": 0.21943751305341722,
+        "double": false
+      },
+      {
+        "start": 96.34757749770768,
+        "duration": 0.23723478125408293,
+        "double": false
+      },
+      {
+        "start": 103.12165544988588,
+        "duration": 0.18134415131062268,
+        "double": false
+      },
+      {
+        "start": 106.72459950750694,
+        "duration": 0.2519149879924953,
+        "double": false
+      },
+      {
+        "start": 111.85552963075227,
+        "duration": 0.1887522330135107,
+        "double": false
+      },
+      {
+        "start": 112.19973184243776,
+        "duration": 0.23463439533486963,
+        "double": true
+      },
+      {
+        "start": 116.06282735134474,
+        "duration": 0.195743888001889,
+        "double": false
+      },
+      {
+        "start": 122.5621212605573,
+        "duration": 0.20648649908602237,
+        "double": false
+      },
+      {
+        "start": 128.59837539501487,
+        "duration": 0.1831381388939917,
+        "double": false
+      },
+      {
+        "start": 128.90698026284574,
+        "duration": 0.2058690993860364,
+        "double": true
+      },
+      {
+        "start": 133.04375081536358,
+        "duration": 0.2587192326039076,
+        "double": false
+      },
+      {
+        "start": 136.39731070297768,
+        "duration": 0.19205269197002053,
+        "double": false
+      },
+      {
+        "start": 143.45822471681979,
+        "duration": 0.2558718979731202,
+        "double": false
+      },
+      {
+        "start": 149.32095093529668,
+        "duration": 0.1834156576357782,
+        "double": false
+      },
+      {
+        "start": 154.39578069589098,
+        "duration": 0.18097547635436056,
+        "double": false
+      },
+      {
+        "start": 160.41588034451934,
+        "duration": 0.1943683791346848,
+        "double": false
+      },
+      {
+        "start": 165.67366368433454,
+        "duration": 0.22912213798612358,
+        "double": false
+      },
+      {
+        "start": 166.02929462509223,
+        "duration": 0.20381878254935146,
+        "double": true
+      },
+      {
+        "start": 169.9733042530901,
+        "duration": 0.2134953464753926,
+        "double": false
+      },
+      {
+        "start": 174.43458316653027,
+        "duration": 0.20158642958849668,
+        "double": false
+      }
+    ],
+    "blink_count_180s": 38,
+    "double_count_180s": 4
+  },
+  {
+    "state": "default_work",
+    "seed": 173,
+    "action_period_seconds": 2.42,
+    "intro_seconds": 0,
+    "rest_intervals": [
+      [
+        2.3,
+        2.42
+      ]
+    ],
+    "blink_events": [
+      {
+        "start": 4.073081079497934,
+        "duration": 0.25762546254321933,
+        "double": false
+      },
+      {
+        "start": 7.4318389828410005,
+        "duration": 0.23461919717490673,
+        "double": false
+      },
+      {
+        "start": 14.301614740239458,
+        "duration": 0.19075983980670572,
+        "double": false
+      },
+      {
+        "start": 19.477999687399716,
+        "duration": 0.20330101255327462,
+        "double": false
+      },
+      {
+        "start": 25.046757702212783,
+        "duration": 0.22396518027409912,
+        "double": false
+      },
+      {
+        "start": 28.697465925002472,
+        "duration": 0.19627292856574058,
+        "double": false
+      },
+      {
+        "start": 31.857905598459766,
+        "duration": 0.184619544763118,
+        "double": false
+      },
+      {
+        "start": 32.215412681205194,
+        "duration": 0.20804545041173697,
+        "double": true
+      },
+      {
+        "start": 37.96563993234187,
+        "duration": 0.20577785074710847,
+        "double": false
+      },
+      {
+        "start": 43.773365087416025,
+        "duration": 0.2052994372136891,
+        "double": false
+      },
+      {
+        "start": 50.67879675599747,
+        "duration": 0.259883864633739,
+        "double": false
+      },
+      {
+        "start": 53.83900737813674,
+        "duration": 0.20261947406455874,
+        "double": false
+      },
+      {
+        "start": 57.937336171846844,
+        "duration": 0.24374797098338605,
+        "double": false
+      },
+      {
+        "start": 62.694243777282544,
+        "duration": 0.25299089947715403,
+        "double": false
+      },
+      {
+        "start": 69.90969177608379,
+        "duration": 0.21228072229772807,
+        "double": false
+      },
+      {
+        "start": 70.26697069422343,
+        "duration": 0.18081919049844145,
+        "double": true
+      },
+      {
+        "start": 76.5001573297102,
+        "duration": 0.24310199433937668,
+        "double": false
+      },
+      {
+        "start": 82.7976292670332,
+        "duration": 0.21277771968394518,
+        "double": false
+      },
+      {
+        "start": 88.44236687486992,
+        "duration": 0.23379643788561225,
+        "double": false
+      },
+      {
+        "start": 94.59645568468609,
+        "duration": 0.21146425127983093,
+        "double": false
+      },
+      {
+        "start": 101.3572054175567,
+        "duration": 0.18776629285886884,
+        "double": false
+      },
+      {
+        "start": 101.68523020270281,
+        "duration": 0.18575986992567778,
+        "double": true
+      },
+      {
+        "start": 106.05559759560973,
+        "duration": 0.23007001593708992,
+        "double": false
+      },
+      {
+        "start": 109.09841310976073,
+        "duration": 0.2179409524984658,
+        "double": false
+      },
+      {
+        "start": 109.43088574042544,
+        "duration": 0.22048509921878576,
+        "double": true
+      },
+      {
+        "start": 116.58115666761064,
+        "duration": 0.2018434527516365,
+        "double": false
+      },
+      {
+        "start": 120.99639589370229,
+        "duration": 0.24840198623016477,
+        "double": false
+      },
+      {
+        "start": 125.06249477682636,
+        "duration": 0.2013102440163493,
+        "double": false
+      },
+      {
+        "start": 131.06746498556808,
+        "duration": 0.19322419030591845,
+        "double": false
+      },
+      {
+        "start": 135.03854708843866,
+        "duration": 0.21682661257684233,
+        "double": false
+      },
+      {
+        "start": 141.20511647521522,
+        "duration": 0.18348019490018486,
+        "double": false
+      },
+      {
+        "start": 146.4404727044702,
+        "duration": 0.22471561703830958,
+        "double": false
+      },
+      {
+        "start": 149.5067991482467,
+        "duration": 0.2000545114837587,
+        "double": false
+      },
+      {
+        "start": 155.91580135482369,
+        "duration": 0.2572125817835331,
+        "double": false
+      },
+      {
+        "start": 159.49721146744682,
+        "duration": 0.2464096430130303,
+        "double": false
+      },
+      {
+        "start": 163.5950320033916,
+        "duration": 0.23158176567405464,
+        "double": false
+      },
+      {
+        "start": 169.74017552373937,
+        "duration": 0.25564159540459513,
+        "double": false
+      },
+      {
+        "start": 174.35941599396062,
+        "duration": 0.23349694676697255,
+        "double": false
+      },
+      {
+        "start": 179.10942929158924,
+        "duration": 0.19848387533798814,
+        "double": false
+      }
+    ],
+    "blink_count_180s": 39,
+    "double_count_180s": 4
+  },
+  {
+    "state": "question_for_user",
+    "seed": 8923,
+    "action_period_seconds": 4.22,
+    "intro_seconds": 4.2,
+    "rest_intervals": [
+      [
+        0.0,
+        0.52
+      ],
+      [
+        0.98,
+        1.2
+      ],
+      [
+        1.66,
+        2.06
+      ],
+      [
+        2.58,
+        8.42
+      ]
+    ],
+    "blink_events": [
+      {
+        "start": 5.715632776450366,
+        "duration": 0.23026107678189875,
+        "double": false
+      },
+      {
+        "start": 12.798473484655842,
+        "duration": 0.2009996346011758,
+        "double": false
+      },
+      {
+        "start": 17.845565905338155,
+        "duration": 0.21783308928832412,
+        "double": false
+      },
+      {
+        "start": 21.68116204978898,
+        "duration": 0.2112548543512821,
+        "double": false
+      },
+      {
+        "start": 25.308362362645564,
+        "duration": 0.2563010290451348,
+        "double": false
+      },
+      {
+        "start": 30.39089783103205,
+        "duration": 0.20422152664512397,
+        "double": false
+      },
+      {
+        "start": 36.12910583597608,
+        "duration": 0.2111290660314262,
+        "double": false
+      },
+      {
+        "start": 36.49330847677774,
+        "duration": 0.2509298748522997,
+        "double": true
+      },
+      {
+        "start": 40.00749635502695,
+        "duration": 0.22418266158550978,
+        "double": false
+      },
+      {
+        "start": 46.300708529241376,
+        "duration": 0.19792369766160844,
+        "double": false
+      },
+      {
+        "start": 51.0220680664014,
+        "duration": 0.2225186016410589,
+        "double": false
+      },
+      {
+        "start": 54.07635928706265,
+        "duration": 0.19733638236299156,
+        "double": false
+      },
+      {
+        "start": 58.39686272876336,
+        "duration": 0.24554151628166437,
+        "double": false
+      },
+      {
+        "start": 64.87517128178848,
+        "duration": 0.25511087423190476,
+        "double": false
+      },
+      {
+        "start": 68.93306291167623,
+        "duration": 0.24150082901120187,
+        "double": false
+      },
+      {
+        "start": 69.35199844309128,
+        "duration": 0.1969041952677071,
+        "double": true
+      },
+      {
+        "start": 74.16085708356461,
+        "duration": 0.24598840733990074,
+        "double": false
+      },
+      {
+        "start": 77.37013705963267,
+        "duration": 0.19695090919733046,
+        "double": false
+      },
+      {
+        "start": 84.45007452826944,
+        "duration": 0.2598921226151288,
+        "double": false
+      },
+      {
+        "start": 88.6274234036449,
+        "duration": 0.23129283588379623,
+        "double": false
+      },
+      {
+        "start": 91.98155230891886,
+        "duration": 0.19333118421956896,
+        "double": false
+      },
+      {
+        "start": 95.2900667551532,
+        "duration": 0.1992512496560812,
+        "double": false
+      },
+      {
+        "start": 102.05284650186074,
+        "duration": 0.24596266755834223,
+        "double": false
+      },
+      {
+        "start": 105.30890372167339,
+        "duration": 0.256687172986567,
+        "double": false
+      },
+      {
+        "start": 109.41276827367952,
+        "duration": 0.2470152003131807,
+        "double": false
+      },
+      {
+        "start": 116.59715411184354,
+        "duration": 0.20004674568772315,
+        "double": false
+      },
+      {
+        "start": 116.9232625436969,
+        "duration": 0.20705028446391224,
+        "double": true
+      },
+      {
+        "start": 122.74603122472762,
+        "duration": 0.18105773052200674,
+        "double": false
+      },
+      {
+        "start": 127.28702241766266,
+        "duration": 0.1807239720225334,
+        "double": false
+      },
+      {
+        "start": 133.91817372267133,
+        "duration": 0.18662712858989836,
+        "double": false
+      },
+      {
+        "start": 134.2768499692995,
+        "duration": 0.23708808403462173,
+        "double": true
+      },
+      {
+        "start": 137.41700429661196,
+        "duration": 0.25866814419627193,
+        "double": false
+      },
+      {
+        "start": 144.1362064569443,
+        "duration": 0.22142275037243964,
+        "double": false
+      },
+      {
+        "start": 148.47880728405895,
+        "duration": 0.22437475856393577,
+        "double": false
+      },
+      {
+        "start": 152.84109356799155,
+        "duration": 0.20234761534258722,
+        "double": false
+      },
+      {
+        "start": 156.82784426145247,
+        "duration": 0.21285886503756046,
+        "double": false
+      },
+      {
+        "start": 163.07483942469574,
+        "duration": 0.2202525016106665,
+        "double": false
+      },
+      {
+        "start": 166.10899031325235,
+        "duration": 0.21055269885808228,
+        "double": false
+      },
+      {
+        "start": 172.44711423485532,
+        "duration": 0.19678142687305808,
+        "double": false
+      },
+      {
+        "start": 172.76259732334867,
+        "duration": 0.2221939495205879,
+        "double": true
+      },
+      {
+        "start": 176.9771289808116,
+        "duration": 0.18980568055063485,
+        "double": false
+      }
+    ],
+    "blink_count_180s": 41,
+    "double_count_180s": 5
+  },
+  {
+    "state": "read_web",
+    "seed": 5737,
+    "action_period_seconds": 2.42,
+    "intro_seconds": 0,
+    "rest_intervals": [
+      [
+        0.0,
+        0.46
+      ],
+      [
+        1.1,
+        1.32
+      ],
+      [
+        1.96,
+        2.42
+      ]
+    ],
+    "blink_events": [
+      {
+        "start": 4.729716238565743,
+        "duration": 0.2316854119859636,
+        "double": false
+      },
+      {
+        "start": 7.89058576776646,
+        "duration": 0.2520798547565937,
+        "double": false
+      },
+      {
+        "start": 11.79602208682336,
+        "duration": 0.22876618953421712,
+        "double": false
+      },
+      {
+        "start": 12.13789267958142,
+        "duration": 0.24566160406917334,
+        "double": true
+      },
+      {
+        "start": 17.304484908822925,
+        "duration": 0.2493400087952614,
+        "double": false
+      },
+      {
+        "start": 24.204843509308994,
+        "duration": 0.22024418340995908,
+        "double": false
+      },
+      {
+        "start": 29.3917104394082,
+        "duration": 0.20893177907913923,
+        "double": false
+      },
+      {
+        "start": 29.723913013683635,
+        "duration": 0.21925955040380357,
+        "double": true
+      },
+      {
+        "start": 34.94929233622737,
+        "duration": 0.23152774693444372,
+        "double": false
+      },
+      {
+        "start": 41.910510393101724,
+        "duration": 0.2058026325330138,
+        "double": false
+      },
+      {
+        "start": 47.35204787729308,
+        "duration": 0.23229413507506252,
+        "double": false
+      },
+      {
+        "start": 54.41149147790857,
+        "duration": 0.2515355078130961,
+        "double": false
+      },
+      {
+        "start": 60.511091654105115,
+        "duration": 0.2149262180365622,
+        "double": false
+      },
+      {
+        "start": 67.70263278935104,
+        "duration": 0.209267684109509,
+        "double": false
+      },
+      {
+        "start": 73.17204827357082,
+        "duration": 0.25063741048797966,
+        "double": false
+      },
+      {
+        "start": 79.79538897073827,
+        "duration": 0.24723324984312056,
+        "double": false
+      },
+      {
+        "start": 80.19248335192911,
+        "duration": 0.2585419945605099,
+        "double": true
+      },
+      {
+        "start": 83.90104205311276,
+        "duration": 0.25333480691537263,
+        "double": false
+      },
+      {
+        "start": 91.0776754290983,
+        "duration": 0.20175556227564811,
+        "double": false
+      },
+      {
+        "start": 94.08566370388493,
+        "duration": 0.2085195774026215,
+        "double": false
+      },
+      {
+        "start": 98.02602046261542,
+        "duration": 0.2385854333266616,
+        "double": false
+      },
+      {
+        "start": 101.09873486883008,
+        "duration": 0.1860967975668609,
+        "double": false
+      },
+      {
+        "start": 106.8070656993054,
+        "duration": 0.23704976059496402,
+        "double": false
+      },
+      {
+        "start": 111.29238640952858,
+        "duration": 0.2141698166169226,
+        "double": false
+      },
+      {
+        "start": 116.49286594164559,
+        "duration": 0.22896530080586672,
+        "double": false
+      },
+      {
+        "start": 122.27614464339801,
+        "duration": 0.20105135342106223,
+        "double": false
+      },
+      {
+        "start": 127.60710960522296,
+        "duration": 0.18458121806383132,
+        "double": false
+      },
+      {
+        "start": 132.26921255173164,
+        "duration": 0.18469571696594356,
+        "double": false
+      },
+      {
+        "start": 138.1661612945702,
+        "duration": 0.1944643072411418,
+        "double": false
+      },
+      {
+        "start": 141.54105771991425,
+        "duration": 0.20976896626874805,
+        "double": false
+      },
+      {
+        "start": 141.92058316546493,
+        "duration": 0.24256219588220118,
+        "double": true
+      },
+      {
+        "start": 146.95742394683884,
+        "duration": 0.2362666868790984,
+        "double": false
+      },
+      {
+        "start": 153.72660301769156,
+        "duration": 0.19480798361822962,
+        "double": false
+      },
+      {
+        "start": 160.5058158213739,
+        "duration": 0.21475433625280857,
+        "double": false
+      },
+      {
+        "start": 166.8681167931017,
+        "duration": 0.24199808621779084,
+        "double": false
+      },
+      {
+        "start": 170.9976364600659,
+        "duration": 0.24953671205788852,
+        "double": false
+      },
+      {
+        "start": 175.377886556536,
+        "duration": 0.22357474764809013,
+        "double": false
+      },
+      {
+        "start": 178.87402777734215,
+        "duration": 0.23143274158239366,
+        "double": false
+      }
+    ],
+    "blink_count_180s": 38,
+    "double_count_180s": 4
+  },
+  {
+    "state": "verify",
+    "seed": 2027,
+    "action_period_seconds": 3.62,
+    "intro_seconds": 0,
+    "rest_intervals": [
+      [
+        0.0,
+        0.2
+      ],
+      [
+        0.38,
+        0.74
+      ],
+      [
+        1.08,
+        1.36
+      ],
+      [
+        2.14,
+        2.42
+      ],
+      [
+        2.78,
+        3.06
+      ]
+    ],
+    "blink_events": [
+      {
+        "start": 2.8908743190579114,
+        "duration": 0.1908079115487635,
+        "double": false
+      },
+      {
+        "start": 8.821852738996967,
+        "duration": 0.2048945492878556,
+        "double": false
+      },
+      {
+        "start": 12.06106679282151,
+        "duration": 0.23456713175401092,
+        "double": false
+      },
+      {
+        "start": 15.22118860395625,
+        "duration": 0.21988917514681816,
+        "double": false
+      },
+      {
+        "start": 21.229621135406195,
+        "duration": 0.19755497040227055,
+        "double": false
+      },
+      {
+        "start": 25.444211382577194,
+        "duration": 0.19210569437593222,
+        "double": false
+      },
+      {
+        "start": 25.785454502375796,
+        "duration": 0.19193710504099726,
+        "double": true
+      },
+      {
+        "start": 30.28171630707569,
+        "duration": 0.21166067080572248,
+        "double": false
+      },
+      {
+        "start": 35.82244738200679,
+        "duration": 0.2582078529521823,
+        "double": false
+      },
+      {
+        "start": 42.322050586622204,
+        "duration": 0.21788976622745396,
+        "double": false
+      },
+      {
+        "start": 42.67397390259429,
+        "duration": 0.21327412776649,
+        "double": true
+      },
+      {
+        "start": 47.598560645068055,
+        "duration": 0.1804091640934348,
+        "double": false
+      },
+      {
+        "start": 52.54569038500077,
+        "duration": 0.18300922600552438,
+        "double": false
+      },
+      {
+        "start": 57.07933017957954,
+        "duration": 0.19025980718433858,
+        "double": false
+      },
+      {
+        "start": 60.0929530054517,
+        "duration": 0.20895555848255754,
+        "double": false
+      },
+      {
+        "start": 67.22029937754384,
+        "duration": 0.20020017106086016,
+        "double": false
+      },
+      {
+        "start": 73.54974405626764,
+        "duration": 0.20867815544828772,
+        "double": false
+      },
+      {
+        "start": 73.87864115635861,
+        "duration": 0.25771681606769564,
+        "double": true
+      },
+      {
+        "start": 77.0492602133937,
+        "duration": 0.19131679449230432,
+        "double": false
+      },
+      {
+        "start": 83.93597061062229,
+        "duration": 0.1805348593555391,
+        "double": false
+      },
+      {
+        "start": 90.25756365646605,
+        "duration": 0.20417809143662452,
+        "double": false
+      },
+      {
+        "start": 95.92423703028818,
+        "duration": 0.20574091823771595,
+        "double": false
+      },
+      {
+        "start": 100.32550559181719,
+        "duration": 0.2150844743475318,
+        "double": false
+      },
+      {
+        "start": 104.59709260731935,
+        "duration": 0.2311200168542564,
+        "double": false
+      },
+      {
+        "start": 104.99600566729903,
+        "duration": 0.213993778899312,
+        "double": true
+      },
+      {
+        "start": 111.87965974244288,
+        "duration": 0.2199255607649684,
+        "double": false
+      },
+      {
+        "start": 118.65090270257554,
+        "duration": 0.21020319981500507,
+        "double": false
+      },
+      {
+        "start": 119.02537883243521,
+        "duration": 0.2577680601924658,
+        "double": true
+      },
+      {
+        "start": 123.09520524414253,
+        "duration": 0.2298864906653762,
+        "double": false
+      },
+      {
+        "start": 127.92485511926931,
+        "duration": 0.20550487814471124,
+        "double": false
+      },
+      {
+        "start": 128.26754146141928,
+        "duration": 0.23525879599153995,
+        "double": true
+      },
+      {
+        "start": 134.78267119065856,
+        "duration": 0.2553647555038333,
+        "double": false
+      },
+      {
+        "start": 141.5818537527788,
+        "duration": 0.19382940365001558,
+        "double": false
+      },
+      {
+        "start": 144.70944529872386,
+        "duration": 0.19945503048598767,
+        "double": false
+      },
+      {
+        "start": 149.25647292735053,
+        "duration": 0.19657915452495217,
+        "double": false
+      },
+      {
+        "start": 154.33837234425357,
+        "duration": 0.2543089592829347,
+        "double": false
+      },
+      {
+        "start": 157.864930454744,
+        "duration": 0.2506647459231317,
+        "double": false
+      },
+      {
+        "start": 161.20223068004472,
+        "duration": 0.2050056467950344,
+        "double": false
+      },
+      {
+        "start": 167.7541942183673,
+        "duration": 0.2233501029200852,
+        "double": false
+      },
+      {
+        "start": 172.27812973980787,
+        "duration": 0.21686187263578177,
+        "double": false
+      },
+      {
+        "start": 172.66574603975744,
+        "duration": 0.2320099484734237,
+        "double": true
+      },
+      {
+        "start": 177.71208456904623,
+        "duration": 0.24614223139360547,
+        "double": false
+      }
+    ],
+    "blink_count_180s": 42,
+    "double_count_180s": 7
+  },
+  {
+    "state": "idle",
+    "seed": 11003,
+    "action_period_seconds": 12.02,
+    "intro_seconds": 0,
+    "rest_intervals": [
+      [
+        0.0,
+        2.62
+      ],
+      [
+        3.3,
+        5.02
+      ],
+      [
+        5.7,
+        8.42
+      ],
+      [
+        9.1,
+        10.62
+      ],
+      [
+        11.3,
+        12.02
+      ]
+    ],
+    "blink_events": [
+      {
+        "start": 4.901290779840201,
+        "duration": 0.2033675999380648,
+        "double": false
+      },
+      {
+        "start": 11.932210600515827,
+        "duration": 0.22098492715507745,
+        "double": false
+      },
+      {
+        "start": 15.13880229658447,
+        "duration": 0.18568593030795455,
+        "double": false
+      },
+      {
+        "start": 21.012290931362656,
+        "duration": 0.19120273903012275,
+        "double": false
+      },
+      {
+        "start": 24.07921238478273,
+        "duration": 0.238753436524421,
+        "double": false
+      },
+      {
+        "start": 31.152079358408223,
+        "duration": 0.24908245053142308,
+        "double": false
+      },
+      {
+        "start": 37.16683114957995,
+        "duration": 0.2514421865157783,
+        "double": false
+      },
+      {
+        "start": 41.67735775064676,
+        "duration": 0.25764982946217063,
+        "double": false
+      },
+      {
+        "start": 47.84108935261144,
+        "duration": 0.22102590912953018,
+        "double": false
+      },
+      {
+        "start": 53.97186015936545,
+        "duration": 0.20128007370978593,
+        "double": false
+      },
+      {
+        "start": 60.11184833708218,
+        "duration": 0.24663443138822916,
+        "double": false
+      },
+      {
+        "start": 65.3131098580919,
+        "duration": 0.20376833736896516,
+        "double": false
+      },
+      {
+        "start": 70.38819124557077,
+        "duration": 0.23230894582346082,
+        "double": false
+      },
+      {
+        "start": 76.33907837350851,
+        "duration": 0.25504893850535154,
+        "double": false
+      },
+      {
+        "start": 82.35398776688612,
+        "duration": 0.2393358422629535,
+        "double": false
+      },
+      {
+        "start": 86.89433472022414,
+        "duration": 0.19354567043483256,
+        "double": false
+      },
+      {
+        "start": 87.24549069050698,
+        "duration": 0.22323996344581246,
+        "double": true
+      },
+      {
+        "start": 91.2683347919397,
+        "duration": 0.2460812976770103,
+        "double": false
+      },
+      {
+        "start": 97.69202667233533,
+        "duration": 0.22660352773964404,
+        "double": false
+      },
+      {
+        "start": 101.54696481983176,
+        "duration": 0.18522735530510545,
+        "double": false
+      },
+      {
+        "start": 104.86952919084577,
+        "duration": 0.18928682584315537,
+        "double": false
+      },
+      {
+        "start": 109.24427904266862,
+        "duration": 0.2339962731860578,
+        "double": false
+      },
+      {
+        "start": 109.65675261814145,
+        "duration": 0.19047433018684387,
+        "double": true
+      },
+      {
+        "start": 112.82256088982335,
+        "duration": 0.24324671480804683,
+        "double": false
+      },
+      {
+        "start": 118.61025996807031,
+        "duration": 0.19450930720195173,
+        "double": false
+      },
+      {
+        "start": 118.9734733435791,
+        "duration": 0.23818386986851692,
+        "double": true
+      },
+      {
+        "start": 124.36776958869771,
+        "duration": 0.18272187877446414,
+        "double": false
+      },
+      {
+        "start": 128.0591945061274,
+        "duration": 0.19746482035145163,
+        "double": false
+      },
+      {
+        "start": 128.41113768907266,
+        "duration": 0.23538188248872757,
+        "double": true
+      },
+      {
+        "start": 134.95535639354028,
+        "duration": 0.22576361779123544,
+        "double": false
+      },
+      {
+        "start": 141.3909791211877,
+        "duration": 0.19383464490994812,
+        "double": false
+      },
+      {
+        "start": 148.5130772247538,
+        "duration": 0.25476200208067895,
+        "double": false
+      },
+      {
+        "start": 155.66624298399313,
+        "duration": 0.18581657173112034,
+        "double": false
+      },
+      {
+        "start": 156.0277488016896,
+        "duration": 0.20102588173002003,
+        "double": true
+      },
+      {
+        "start": 161.37405990428292,
+        "duration": 0.18521415174007416,
+        "double": false
+      },
+      {
+        "start": 167.37756620266475,
+        "duration": 0.19003570215776563,
+        "double": false
+      },
+      {
+        "start": 172.01368540426716,
+        "duration": 0.22815997313708067,
+        "double": false
+      },
+      {
+        "start": 178.72239954272285,
+        "duration": 0.2450192846171558,
+        "double": false
+      },
+      {
+        "start": 179.09732059920205,
+        "duration": 0.2056941329687834,
+        "double": true
+      }
+    ],
+    "blink_count_180s": 39,
+    "double_count_180s": 6
+  },
+  {
+    "state": "respond",
+    "seed": 7937,
+    "action_period_seconds": 4.02,
+    "intro_seconds": 1.4,
+    "rest_intervals": [
+      [
+        0.0,
+        0.26
+      ],
+      [
+        1.1,
+        1.26
+      ],
+      [
+        1.4,
+        5.42
+      ]
+    ],
+    "blink_events": [
+      {
+        "start": 4.110700665228069,
+        "duration": 0.19554808070883153,
+        "double": false
+      },
+      {
+        "start": 9.066653871079907,
+        "duration": 0.1901412218809128,
+        "double": false
+      },
+      {
+        "start": 14.092329808333888,
+        "duration": 0.19168746368959547,
+        "double": false
+      },
+      {
+        "start": 19.39607883958146,
+        "duration": 0.18137571286410092,
+        "double": false
+      },
+      {
+        "start": 19.75437241071835,
+        "duration": 0.21692695511505009,
+        "double": true
+      },
+      {
+        "start": 23.760835985112934,
+        "duration": 0.2530036524124444,
+        "double": false
+      },
+      {
+        "start": 30.831341114258393,
+        "duration": 0.19975322868674994,
+        "double": false
+      },
+      {
+        "start": 31.185674405274913,
+        "duration": 0.2371348967961967,
+        "double": true
+      },
+      {
+        "start": 34.379003476826476,
+        "duration": 0.2123851458914578,
+        "double": false
+      },
+      {
+        "start": 41.255521360039715,
+        "duration": 0.24735382895916702,
+        "double": false
+      },
+      {
+        "start": 45.38062140408904,
+        "duration": 0.2392411128990352,
+        "double": false
+      },
+      {
+        "start": 49.3771578239929,
+        "duration": 0.19452147983014584,
+        "double": false
+      },
+      {
+        "start": 56.35531189770438,
+        "duration": 0.21875839659944177,
+        "double": false
+      },
+      {
+        "start": 61.0437217524834,
+        "duration": 0.2559030828252435,
+        "double": false
+      },
+      {
+        "start": 64.47269083464518,
+        "duration": 0.18521964078769088,
+        "double": false
+      },
+      {
+        "start": 64.78206253105775,
+        "duration": 0.21927442863583566,
+        "double": true
+      },
+      {
+        "start": 68.17988832303324,
+        "duration": 0.2599913983419538,
+        "double": false
+      },
+      {
+        "start": 73.17701243215241,
+        "duration": 0.25270270368084313,
+        "double": false
+      },
+      {
+        "start": 78.7462406380102,
+        "duration": 0.1991046968102455,
+        "double": false
+      },
+      {
+        "start": 81.8906201070361,
+        "duration": 0.25012776600196956,
+        "double": false
+      },
+      {
+        "start": 85.77978553648109,
+        "duration": 0.24777577083557845,
+        "double": false
+      },
+      {
+        "start": 86.16041055700742,
+        "duration": 0.19622696859762073,
+        "double": true
+      },
+      {
+        "start": 91.98063313006423,
+        "duration": 0.21190472247079015,
+        "double": false
+      },
+      {
+        "start": 98.3177797903493,
+        "duration": 0.1862481104955077,
+        "double": false
+      },
+      {
+        "start": 102.60748203918338,
+        "duration": 0.20268768547102808,
+        "double": false
+      },
+      {
+        "start": 109.72441368191504,
+        "duration": 0.2431322804838419,
+        "double": false
+      },
+      {
+        "start": 116.251073075803,
+        "duration": 0.25542713308706877,
+        "double": false
+      },
+      {
+        "start": 119.72705056210981,
+        "duration": 0.24796530593186616,
+        "double": false
+      },
+      {
+        "start": 125.10586919521914,
+        "duration": 0.21858867725357414,
+        "double": false
+      },
+      {
+        "start": 130.03023085915484,
+        "duration": 0.22518366783857346,
+        "double": false
+      },
+      {
+        "start": 130.3683909284789,
+        "duration": 0.22356809424236418,
+        "double": true
+      },
+      {
+        "start": 135.54205499756148,
+        "duration": 0.22369536017999053,
+        "double": false
+      },
+      {
+        "start": 140.53308340189977,
+        "duration": 0.24146310612559319,
+        "double": false
+      },
+      {
+        "start": 146.93540660925208,
+        "duration": 0.1885996169038117,
+        "double": false
+      },
+      {
+        "start": 150.0613613134343,
+        "duration": 0.19463119205087423,
+        "double": false
+      },
+      {
+        "start": 150.42933527820742,
+        "duration": 0.19765093145892024,
+        "double": true
+      },
+      {
+        "start": 155.29452130430377,
+        "duration": 0.20371213035658,
+        "double": false
+      },
+      {
+        "start": 160.93477164810523,
+        "duration": 0.19068990122526883,
+        "double": false
+      },
+      {
+        "start": 164.4028164100088,
+        "duration": 0.20839916301891206,
+        "double": false
+      },
+      {
+        "start": 170.6562321689818,
+        "duration": 0.22268316082656384,
+        "double": false
+      },
+      {
+        "start": 171.05287271191366,
+        "duration": 0.19033424714580177,
+        "double": true
+      },
+      {
+        "start": 175.7030366448965,
+        "duration": 0.21427244512364269,
+        "double": false
+      },
+      {
+        "start": 176.0560406112578,
+        "duration": 0.1842735231667757,
+        "double": true
+      }
+    ],
+    "blink_count_180s": 43,
+    "double_count_180s": 8
+  },
+  {
+    "state": "failed",
+    "seed": 12203,
+    "action_period_seconds": 5.52,
+    "intro_seconds": 1.4,
+    "rest_intervals": [
+      [
+        0.0,
+        0.14
+      ],
+      [
+        1.22,
+        6.92
+      ]
+    ],
+    "blink_events": [
+      {
+        "start": 6.854555012565106,
+        "duration": 0.1909290556050837,
+        "double": false
+      },
+      {
+        "start": 11.435520475050435,
+        "duration": 0.2017456728592515,
+        "double": false
+      },
+      {
+        "start": 15.649515599226579,
+        "duration": 0.21637026166543366,
+        "double": false
+      },
+      {
+        "start": 21.294096055347474,
+        "duration": 0.22886498019099236,
+        "double": false
+      },
+      {
+        "start": 25.37931816678494,
+        "duration": 0.253245210070163,
+        "double": false
+      },
+      {
+        "start": 29.58660716266371,
+        "duration": 0.2318868296965957,
+        "double": false
+      },
+      {
+        "start": 32.64859575358219,
+        "duration": 0.18239206371828914,
+        "double": false
+      },
+      {
+        "start": 38.74741169672459,
+        "duration": 0.1999882648140192,
+        "double": false
+      },
+      {
+        "start": 44.33799637207761,
+        "duration": 0.2348902460373938,
+        "double": false
+      },
+      {
+        "start": 48.3415261909645,
+        "duration": 0.18717110086232425,
+        "double": false
+      },
+      {
+        "start": 54.990375502286476,
+        "duration": 0.25837620636448266,
+        "double": false
+      },
+      {
+        "start": 58.821340538021175,
+        "duration": 0.19167034178972245,
+        "double": false
+      },
+      {
+        "start": 63.4172374560684,
+        "duration": 0.18444439040496946,
+        "double": false
+      },
+      {
+        "start": 68.56752384682186,
+        "duration": 0.25518315356224774,
+        "double": false
+      },
+      {
+        "start": 72.48895222359336,
+        "duration": 0.22993615014478563,
+        "double": false
+      },
+      {
+        "start": 76.72771151915191,
+        "duration": 0.22452581606805325,
+        "double": false
+      },
+      {
+        "start": 80.4242958976887,
+        "duration": 0.21562245259061455,
+        "double": false
+      },
+      {
+        "start": 80.78930590180677,
+        "duration": 0.213091700412333,
+        "double": true
+      },
+      {
+        "start": 87.03189711499024,
+        "duration": 0.24986630238592625,
+        "double": false
+      },
+      {
+        "start": 91.77286384628151,
+        "duration": 0.22062684083357453,
+        "double": false
+      },
+      {
+        "start": 95.89089492062104,
+        "duration": 0.22139546621590853,
+        "double": false
+      },
+      {
+        "start": 102.29089134687555,
+        "duration": 0.18675226172432302,
+        "double": false
+      },
+      {
+        "start": 108.9690587036032,
+        "duration": 0.19338087409734725,
+        "double": false
+      },
+      {
+        "start": 116.00657053529282,
+        "duration": 0.25378422426059843,
+        "double": false
+      },
+      {
+        "start": 120.1702322020754,
+        "duration": 0.24745713096112015,
+        "double": false
+      },
+      {
+        "start": 126.94284193545577,
+        "duration": 0.24908623619005085,
+        "double": false
+      },
+      {
+        "start": 131.79812675318678,
+        "duration": 0.23496047519147395,
+        "double": false
+      },
+      {
+        "start": 137.4206905406434,
+        "duration": 0.2179968304373324,
+        "double": false
+      },
+      {
+        "start": 142.89001493094486,
+        "duration": 0.2028203496709466,
+        "double": false
+      },
+      {
+        "start": 147.55146074345333,
+        "duration": 0.1940955257974565,
+        "double": false
+      },
+      {
+        "start": 151.0191258137021,
+        "duration": 0.19404692009091376,
+        "double": false
+      },
+      {
+        "start": 157.07188595692625,
+        "duration": 0.22988993020728232,
+        "double": false
+      },
+      {
+        "start": 163.02113860979676,
+        "duration": 0.24909383740276098,
+        "double": false
+      },
+      {
+        "start": 167.99157047566027,
+        "duration": 0.198539220970124,
+        "double": false
+      },
+      {
+        "start": 174.48379441673868,
+        "duration": 0.22476616628468038,
+        "double": false
+      }
+    ],
+    "blink_count_180s": 35,
+    "double_count_180s": 1
+  }
+]

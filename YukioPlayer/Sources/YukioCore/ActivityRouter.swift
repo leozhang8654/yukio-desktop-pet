@@ -261,6 +261,9 @@ public final class ActivityRouter {
     /// 用户在菜单里挑定的聊天：不为 nil 时只跟这条，别的聊天再忙也抢不走。
     /// 只在本次运行内有效，重启回到自动——和“举着的牌子”一样，是此刻的选择。
     public private(set) var pinnedSession: String?
+    /// 从头顶卡片临时切过去的聊天。它有内容时优先显示，一旦安静就自动回到调度；
+    /// 不像设置里的“挑定”那样把雪绪永久锁在一条已结束的聊天上。
+    private var temporarySession: String?
 
     /// 此刻正开在眼前的那条聊天（转录会话 ID）。由播放器每隔一会儿填：桌面版 Claude 在最前面、
     /// 且选中的就是这条时才有值，否则 nil。
@@ -507,6 +510,16 @@ public final class ActivityRouter {
             // 挑定的那条已经不在了（reset 之后）：回到自动。
             pinnedSession = nil
         }
+        // 点头顶卡片只是“先看这条”。这条还在跑／还等人处理时保持焦点；
+        // 处理完后立即放手，免得旁边明明还有“N more”，她却被锁在空闲状态。
+        if let picked = temporarySession {
+            if let s = sessions[picked], cardStatus(s, now: now) != nil,
+               !isCardDismissed(id: picked, s) {
+                focusedSession = picked
+                return
+            }
+            temporarySession = nil
+        }
         // 等你处理的优先：别的聊天还在干活也要先让你看见。
         // 先按档（等你回答 → 出错 → 答完举牌），同档里给最近的那条；处理掉一条再露出下一条。
         let waiting = sessions.compactMap { id, s -> (id: String, rank: Int, at: Double)? in
@@ -575,6 +588,7 @@ public final class ActivityRouter {
     public func sourceOfSession(_ id: String) -> String? { sessions[id]?.source }
 
     public func pinSession(_ id: String?, now: Double) -> Bool {
+        temporarySession = nil
         if let id {
             guard sessions[id] != nil else { return false }
             pinnedSession = id
@@ -582,6 +596,18 @@ public final class ActivityRouter {
         } else {
             pinnedSession = nil
         }
+        commit(desiredState(now: now), now: now)
+        return true
+    }
+
+    /// 从头顶卡片切到一条聊天：立刻显示，但这条没事后会自动回到正常调度。
+    /// 设置菜单里明确“挑定”一条仍使用 `pinSession`，保留原来的锁定语义。
+    @discardableResult
+    public func focusSessionTemporarily(_ id: String, now: Double) -> Bool {
+        guard let s = sessions[id], cardStatus(s, now: now) != nil else { return false }
+        pinnedSession = nil
+        temporarySession = id
+        focusedSession = id
         commit(desiredState(now: now), now: now)
         return true
     }
@@ -649,6 +675,7 @@ public final class ActivityRouter {
         sessions.removeAll()
         focusedSession = nil
         pinnedSession = nil
+        temporarySession = nil
         dismissedCards.removeAll()
         mutedSessions.removeAll()
         commit(.idle, now: now)

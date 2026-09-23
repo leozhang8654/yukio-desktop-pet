@@ -1,0 +1,16 @@
+{
+  "native_size": [
+    192,
+    208
+  ],
+  "video_fps": 25,
+  "source_fps": 50,
+  "overall_seconds": 48.0,
+  "minimum_complete_action_cycles": 3.9933444259567388,
+  "states": 12,
+  "distinct_periods": 11,
+  "distinct_seeds": 12,
+  "loop_validation": "Base action first/last are identical. Blink is a separate continuous wall clock and is not reset at the action boundary.",
+  "reviewed_candidate_manifest": "candidate-sha256.json",
+  "installed": false
+}

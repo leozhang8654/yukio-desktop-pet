@@ -103,6 +103,66 @@ func runSnapshot(path: String) -> Never {
     exit(savePNG(ctx, to: path) ? 0 : 1)
 }
 
+/// Diagnostic evidence of the real native compositor, including moving-head
+/// eyelid patches. Isolated candidate assets can be selected with YUKIO_ASSETS.
+func runBlinkSnapshots(path: String) -> Never {
+    let (catalog, root) = loadCatalogOrExit()
+    do {
+        let library = try SpriteLibrary(catalog: catalog, assetsRoot: root)
+        let directory = URL(fileURLWithPath: path)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        for spec in catalog.specs.values.sorted(by: { $0.id < $1.id }) where spec.blink != nil {
+            for index in [0, spec.maxFrameIndex / 2] {
+                for level in 0...spec.blink!.levels {
+                    let frame = library.frame(spec.id, index, blinkLevel: level)
+                    guard let ctx = CGContext(data: nil, width: frame.width, height: frame.height,
+                                              bitsPerComponent: 8, bytesPerRow: frame.width * 4,
+                                              space: CGColorSpace(name: CGColorSpace.sRGB)!,
+                                              bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else { exit(1) }
+                    ctx.draw(frame.image, in: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+                    let name = "\(spec.id)-\(index)-\(level).png"
+                    guard savePNG(ctx, to: directory.appendingPathComponent(name).path) else { exit(1) }
+                }
+            }
+        }
+        print("OK: native action/eyelid snapshots at \(path)")
+        exit(0)
+    } catch { print("失败：\(error)"); exit(1) }
+}
+
+/// Exercise every encoded step through the native decoder, without changing
+/// the running desktop pet or writing animation assets.
+func runMotionBenchmark() -> Never {
+    let (catalog, root) = loadCatalogOrExit()
+    do {
+        let started = ProcessInfo.processInfo.systemUptime
+        let library = try SpriteLibrary(catalog: catalog, assetsRoot: root)
+        let startupMs = (ProcessInfo.processInfo.systemUptime - started) * 1000
+        var rows: [[String: Any]] = []
+        for spec in catalog.specs.values.sorted(by: { $0.id < $1.id }) where spec.blink != nil {
+            var clock = BlinkClock(seed: spec.blink!.seed, now: 0)
+            var time = 0.0
+            var samples: [Double] = []
+            for _ in 0..<2 {
+                for (step, index) in spec.sequence.enumerated() {
+                    let start = ProcessInfo.processInfo.systemUptime
+                    _ = library.frame(spec.id, index, blinkLevel: clock.level(at: time))
+                    samples.append((ProcessInfo.processInfo.systemUptime - start) * 1000)
+                    time += Double(spec.durationsMs[step])
+                }
+            }
+            let cold = samples.removeFirst()
+            samples.sort()
+            rows.append(["state": spec.id, "cold_ms": cold, "steps": samples.count + 1,
+                         "warm_p95_ms": samples[Int(Double(samples.count - 1) * 0.95)],
+                         "warm_max_ms": samples.last ?? 0])
+        }
+        let data = try JSONSerialization.data(withJSONObject: ["startup_ms": startupMs, "states": rows], options: [.prettyPrinted, .sortedKeys])
+        print(String(decoding: data, as: UTF8.self))
+        exit(0)
+    } catch { print("失败：\(error)"); exit(1) }
+}
+
 /// --hang <输出.png>：把「被大手拎着」按几个倾角画出来，外面套上实际会用的窗口框。
 /// 用来核对：抓手点是不是在领口被捏起的那个尖上、晃到两边会不会被窗口切掉、上边缘是否与平时那块对齐。
 func runHangSnapshot(path: String) -> Never {
@@ -628,6 +688,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     private var shownState: PetState = .idle
     private var stateTimeline: SpriteTimeline
+    private var blinkClock = BlinkClock(seed: 11003, now: nowMs())
+    private var blinkLevel = 0
     /// 被大手拎着时的摆动与图条；两个都是 nil 表示正常站／坐着。
     private var swing: HangSwing?
     private var heldTimeline: SpriteTimeline?
@@ -697,6 +759,9 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         router.settle(now: now)
         shownState = following ? router.displayed : .idle
         stateTimeline = SpriteTimeline(spec: catalog.spec(for: shownState), now: now)
+        // Only application startup initializes the clock; later state changes
+        // retain its pending/active blink and merely select a future seed.
+        blinkClock = BlinkClock(seed: stateTimeline.spec.blink?.seed ?? 11003, now: now)
 
         setUpWindow()
         setUpStatusItem()
@@ -1019,6 +1084,12 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             updateStatusTitle()
         }
         stateTimeline.advance(to: now)
+        if let blink = stateTimeline.spec.blink {
+            blinkClock.selectSeed(blink.seed)
+            blinkLevel = blinkClock.level(at: now, levels: blink.levels)
+        } else {
+            blinkLevel = 0
+        }
         if let geo = hangGeo {
             // 手的横向位置就是抓手那一点在屏幕上的位置；30 Hz 采一次，摆动按它的加速度算。
             swing?.advance(to: now,
@@ -1049,7 +1120,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
                       SpritePlacement(rect: geo.spriteRect.offsetBy(dx: 0, dy: -CGFloat(swing.sag)),
                                       pivot: geo.pivot, angle: CGFloat(swing.angle)))
         } else {
-            view.show(library.frame(stateTimeline.spec.id, stateTimeline.frame), .filling(view.bounds))
+            view.show(library.frame(stateTimeline.spec.id, stateTimeline.frame, blinkLevel: blinkLevel), .filling(view.bounds))
         }
     }
 
@@ -1140,7 +1211,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         cardStack.stackView.onToggleExpand = { [weak self] in self?.toggleCards() }
         cardStack.stackView.onPickAuto = { [weak self] in
             guard let self else { return }
-            self.router.pinSession(nil, now: nowMs())
+            _ = self.router.pinSession(nil, now: nowMs())
             self.collapseCards()
         }
         cardStack.stackView.onContextMenu = { [weak self] i, event in
@@ -1162,7 +1233,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         guard simulation == nil, let card = cardsHold.value[safe: i] else { return }
         let now = nowMs()
         if pick {
-            router.pinSession(card.session, now: now)
+            router.focusSessionTemporarily(card.session, now: now)
             collapseCards()
             return
         }
@@ -1188,7 +1259,9 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     private func updateCards(now: Double, immediate: Bool = false) {
         guard let cardStack else { return }
-        let cards = (showCards && following && simulation == nil) ? router.cards(now: now) : []
+        // “头顶显示任务”是整块头顶任务 UI 的总开关：关掉气泡时，
+        // 上面单独悬着的“N more”也要一起消失。
+        let cards = (showBubble && showCards && following && simulation == nil) ? router.cards(now: now) : []
         if cards.isEmpty { cardsExpanded = false }
         // 摊开后一阵没人点就自己收起来，免得一直挡着。
         if cardsExpanded, now - cardsExpandedAt > Self.cardsAutoCollapseMs { cardsExpanded = false }
@@ -1487,6 +1560,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         case .showBubble(let value):
             showBubble = value
             updateBubble(now: nowMs())
+            updateCards(now: nowMs(), immediate: true)
         case .showCards(let value):
             showCards = value
             updateCards(now: nowMs(), immediate: true)
@@ -1583,7 +1657,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     /// 空的 representedObject 表示“自动”。
     @objc private func menuPickChat(_ sender: NSMenuItem) {
         let id = sender.representedObject as? String
-        router.pinSession(id?.isEmpty == false ? id : nil, now: nowMs())
+        _ = router.pinSession(id?.isEmpty == false ? id : nil, now: nowMs())
     }
     @objc private func menuSetProvider(_ sender: NSMenuItem) {
         let picked = AgentProvider(code: sender.representedObject as? String)
@@ -1598,7 +1672,12 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     @objc private func menuStopDemo() { stopDemo() }
     @objc private func menuToggleFollow() { following.toggle() }
     @objc private func menuShowSettings() { showSettings() }
-    @objc private func menuToggleBubble() { showBubble.toggle() }
+    @objc private func menuToggleBubble() {
+        showBubble.toggle()
+        let now = nowMs()
+        updateBubble(now: now)
+        updateCards(now: now, immediate: true)
+    }
     @objc private func menuToggleCards() {
         showCards.toggle()
         updateCards(now: nowMs(), immediate: true)
@@ -1616,7 +1695,9 @@ setvbuf(stdout, nil, _IOLBF, 0)
 
 let args = CommandLine.arguments
 if args.contains("--check") { runCheck() }
+if args.contains("--motion-benchmark") { runMotionBenchmark() }
 if let i = args.firstIndex(of: "--snapshot"), i + 1 < args.count { runSnapshot(path: args[i + 1]) }
+if let i = args.firstIndex(of: "--blink-snapshots"), i + 1 < args.count { runBlinkSnapshots(path: args[i + 1]) }
 if let i = args.firstIndex(of: "--bubble"), i + 1 < args.count { runBubbleSnapshot(path: args[i + 1]) }
 if let i = args.firstIndex(of: "--cards"), i + 1 < args.count { runCardsSnapshot(path: args[i + 1]) }
 if let i = args.firstIndex(of: "--settings-snapshot"), i + 1 < args.count { runSettingsSnapshot(path: args[i + 1]) }
