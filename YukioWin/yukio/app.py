@@ -342,7 +342,9 @@ class PetApp:
 
     def _update_cards(self, now: float, immediate: bool = False) -> None:
         from .cardstack import COLLAPSED_COUNT, CardStackLayout
-        want = self.router.cards(now) if (self.show_cards and self.follow and not self.demo) else []
+        # “头顶显示任务”是整块头顶任务 UI 的总开关；气泡关掉时，
+        # 卡片和单独的“N more”也不应继续悬着。
+        want = self.router.cards(now) if (self.show_bubble and self.show_cards and self.follow and not self.demo) else []
         if len(want) <= COLLAPSED_COUNT:
             self.cards_expanded = False
         # 多一条少一条立刻生效；只是卡上的字变了就按最短停留，免得一直闪。
@@ -847,7 +849,8 @@ class PetApp:
 
     def _toggle_bubble(self) -> None:
         self.settings.set("showBubble", not self.show_bubble)
-        self._position_cards()
+        self._update_bubble(now_ms())
+        self._update_cards(now_ms(), immediate=True)
 
     def _toggle_cards(self) -> None:
         self.settings.set("showCards", not self.show_cards)

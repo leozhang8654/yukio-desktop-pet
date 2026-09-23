@@ -1162,7 +1162,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         guard simulation == nil, let card = cardsHold.value[safe: i] else { return }
         let now = nowMs()
         if pick {
-            router.pinSession(card.session, now: now)
+            router.focusSessionTemporarily(card.session, now: now)
             collapseCards()
             return
         }
@@ -1188,7 +1188,9 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     private func updateCards(now: Double, immediate: Bool = false) {
         guard let cardStack else { return }
-        let cards = (showCards && following && simulation == nil) ? router.cards(now: now) : []
+        // “头顶显示任务”是整块头顶任务 UI 的总开关：关掉气泡时，
+        // 上面单独悬着的“N more”也要一起消失。
+        let cards = (showBubble && showCards && following && simulation == nil) ? router.cards(now: now) : []
         if cards.isEmpty { cardsExpanded = false }
         // 摊开后一阵没人点就自己收起来，免得一直挡着。
         if cardsExpanded, now - cardsExpandedAt > Self.cardsAutoCollapseMs { cardsExpanded = false }
@@ -1487,6 +1489,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         case .showBubble(let value):
             showBubble = value
             updateBubble(now: nowMs())
+            updateCards(now: nowMs(), immediate: true)
         case .showCards(let value):
             showCards = value
             updateCards(now: nowMs(), immediate: true)
@@ -1598,7 +1601,12 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     @objc private func menuStopDemo() { stopDemo() }
     @objc private func menuToggleFollow() { following.toggle() }
     @objc private func menuShowSettings() { showSettings() }
-    @objc private func menuToggleBubble() { showBubble.toggle() }
+    @objc private func menuToggleBubble() {
+        showBubble.toggle()
+        let now = nowMs()
+        updateBubble(now: now)
+        updateCards(now: now, immediate: true)
+    }
     @objc private func menuToggleCards() {
         showCards.toggle()
         updateCards(now: nowMs(), immediate: true)
