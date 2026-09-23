@@ -339,6 +339,16 @@ class AppLogicTests(unittest.TestCase):
         self.assertTrue(a.cards_hold.value)
         a.show_menu()
         by_text = {i.text: i for i in fake_win32.LAST_MENU}
+        # 关掉整块 Task Bubble 时，其上的卡片／“N more”也一起关掉。
+        by_text["头顶显示任务"].action()
+        self.assertFalse(a.show_bubble)
+        self.assertEqual(a.cards_hold.value, [])
+        by_text["头顶显示任务"].action()
+        self.assertTrue(a.show_bubble)
+        self.assertTrue(a.cards_hold.value)
+
+        a.show_menu()
+        by_text = {i.text: i for i in fake_win32.LAST_MENU}
         self.assertTrue(by_text["头顶显示别的聊天"].checked)
         by_text["头顶显示别的聊天"].action()
         self.assertFalse(a.show_cards)

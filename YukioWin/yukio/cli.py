@@ -32,7 +32,7 @@ from .parsers_codex import CodexRolloutParser
 from .parsers_deepcode import DeepCodeMessageParser
 from .router import ActivityRouter, HeldValue, RouterConfig
 from .sources import default_sources
-from .sprites import SpriteError, SpriteLibrary
+from .sprites import SpriteError, SpriteLibrary, image_size
 from .tailer import JSONObjectStream
 
 
@@ -81,14 +81,11 @@ def describe_event(e: PetEvent) -> str:
 
 def run_check() -> int:
     catalog, library, root = load_library_or_exit()
-    from PIL import Image
-
     def size(rel):
         try:
-            with Image.open(os.path.join(root, *rel.split("/"))) as im:
-                return im.size
-        except OSError:
-            return None
+            return image_size(os.path.join(root, *rel.split("/")))
+        except (OSError, ValueError):
+            return library.logical_asset_size(rel)
 
     problems = catalog.validate(size)
     if problems:

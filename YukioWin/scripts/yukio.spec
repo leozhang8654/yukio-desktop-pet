@@ -13,6 +13,7 @@ REPO = os.path.dirname(ROOT)
 
 # 素材优先用 YukioWin/Assets（自带副本），否则用仓库里 macOS 版的那一份。
 ASSET_CANDIDATES = [
+    os.path.join(ROOT, "build", "windows-assets", "Assets"),
     os.path.join(ROOT, "Assets"),
     os.path.join(REPO, "YukioPlayer", "Resources", "Assets"),
     os.path.join(REPO, "assets"),

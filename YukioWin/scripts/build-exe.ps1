@@ -29,6 +29,10 @@ Write-Host "== 先跑一遍自测"
 & $venvPython run.py --selftest
 if ($LASTEXITCODE -ne 0) { throw "自测没过，先别打包" }
 
+Write-Host "== 生成 Windows 低内存分页素材"
+& $venvPython scripts\prepare-windows-assets.py
+if ($LASTEXITCODE -ne 0) { throw "Windows 素材分页失败" }
+
 Write-Host "== 打包"
 & $venvPython -m PyInstaller --noconfirm --clean scripts\yukio.spec
 if ($LASTEXITCODE -ne 0) { throw "打包失败" }

@@ -153,7 +153,7 @@ claude://code/continue?session=local_…
 ## 自查（在 Windows 之外也能跑）
 
 ```sh
-python run.py --selftest                     # 141 个测试：路由、防抖、分类、解析、跟随、聊天选择、卡叠、摆动、播放器逻辑
+python run.py --selftest                     # 155 个测试：路由、解析、跟随、独立眨眼/合成、卡叠、摆动、播放器逻辑
 python run.py --check                        # 加载并裁切全部素材，确认帧不越界
 python run.py --snapshot out.png             # 把实际使用的动画画在棋盘格上
 python run.py --bubble out.png               # 画几种头顶气泡，检查排版、截断与位置
@@ -185,16 +185,16 @@ yukio/bridge.py            通用收件箱的事件格式
 yukio/sources.py           只读跟随会话目录、收件箱
 yukio/tailer.py            按字节跟文件、切出完整 JSON（半行会等下一次读）
 yukio/catalog.py           动画索引与帧时间线（读 macOS 版同一份 activities.json / motion.json）
-yukio/sprites.py           图条 → 逐帧位图，用到才解码，最近 4 段留在内存
+yukio/sprites.py           图条／Windows 低内存分页 → 逐帧位图；精确替换眼皮区域
 yukio/bubble.py            头顶气泡的排版与绘制（Pillow）
 yukio/win32.py             分层窗口、托盘、菜单、消息循环（ctypes）
 yukio/app.py               主循环、拖动、菜单动作、设置
-tests/                     141 个测试；tests/fake_win32.py 把窗口层换成替身，逻辑在任何平台都能测
+tests/                     155 个测试；tests/fake_win32.py 把窗口层换成替身，逻辑在任何平台都能测
 scripts/                   打包（PyInstaller）、Deep Code 的 notify 脚本
 Resources/Yukio.ico        exe 的图标（从 macOS 版的封面图裁的）
 ```
 
-素材不另存一份：默认用仓库里 `../YukioPlayer/Resources/Assets`（七套活动图条、电脑桌、基础动作、生成的小幅动作）。打包时会被复制进 exe。想换别处的素材可以设环境变量 `YUKIO_ASSETS`。
+源码素材不另存一份：默认用仓库里 `../YukioPlayer/Resources/Assets`。打包时，`scripts/prepare-windows-assets.py` 会把 2× 身体与眼皮大图集无损切成小页，并逐页核对像素完全一致；exe 运行时只缓存当前小页，不会把接近 1 GB 的整套图集全部展开。想让源码版读取别处素材可以设环境变量 `YUKIO_ASSETS`。
 
 ## 已知限制
 

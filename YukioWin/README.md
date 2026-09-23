@@ -10,7 +10,7 @@ The only dependency is Pillow. The window, the tray and the menus call the Windo
 
 ## Download (no Python needed)
 
-Grab `Yukio-0.1.0-Windows.exe` (about 21 MB) from [Releases](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest), put it anywhere, and double-click it. Python, Pillow and the artwork are all packed inside. It needs 64-bit Windows 10 or newer.
+Grab the Windows `.exe` from [Releases](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest), put it anywhere, and double-click it. Python, Pillow and the artwork are all packed inside. It needs 64-bit Windows 10 or newer.
 
 The first time you open it, Windows may show the blue "Windows protected your PC" screen. The app has no code-signing certificate; click "More info", then "Run anyway", and it won't ask again.
 
@@ -31,7 +31,7 @@ Yukio appears in the bottom-right corner of the screen, and a small avatar of he
 powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1
 ```
 
-The result is `dist\Yukio.exe` (about 25 MB, artwork included). Without a Windows dev environment, you can also run the "Build Windows Yukio" workflow under GitHub Actions and download the exe it produces.
+The result is `dist\Yukio.exe` (artwork included). Without a Windows dev environment, you can also run the "Build Windows Yukio" workflow under GitHub Actions and download the exe it produces.
 
 ## How to use
 
@@ -153,7 +153,7 @@ Claude Code running in a terminal, and **Deep Code (DeepSeek) sessions, have no 
 ## Self-check (runs outside Windows too)
 
 ```sh
-python run.py --selftest                     # 141 tests: routing, debounce, classification, parsing, following, chat selection, card stack, swing, player logic
+python run.py --selftest                     # 155 tests: routing, parsing, following, blink timing/compositing, card stack, swing, player logic
 python run.py --check                        # load and crop all artwork, confirm no frame runs out of bounds
 python run.py --snapshot out.png             # draw the animations actually in use on a checkerboard
 python run.py --bubble out.png               # draw several head bubbles to check layout, truncation and position
@@ -185,16 +185,16 @@ yukio/bridge.py            event format of the generic inbox
 yukio/sources.py           read-only following of the session directories and the inbox
 yukio/tailer.py            tails files by byte offset and cuts out complete JSON (a half line waits for the next read)
 yukio/catalog.py           animation index and frame timeline (reads the macOS edition's own activities.json / motion.json)
-yukio/sprites.py           sprite strip → per-frame bitmaps, decoded only when used, the 4 most recent strips kept in memory
+yukio/sprites.py           sprite strips / packaged low-memory pages → frames; exact eyelid ROI compositing
 yukio/bubble.py            layout and drawing of the head bubble (Pillow)
 yukio/win32.py             layered window, tray, menus, message loop (ctypes)
 yukio/app.py               main loop, dragging, menu actions, settings
-tests/                     141 tests; tests/fake_win32.py swaps the window layer for a stand-in so the logic can be tested on any platform
+tests/                     155 tests; tests/fake_win32.py swaps the window layer for a stand-in so the logic can be tested on any platform
 scripts/                   packaging (PyInstaller), the notify script for Deep Code
 Resources/Yukio.ico        the exe's icon (cropped from the macOS edition's cover image)
 ```
 
-The artwork is not stored twice: by default she uses `../YukioPlayer/Resources/Assets` from the repo (seven activity sprite strips, the computer desk, the base motion, the generated small motions). Packaging copies it into the exe. To use artwork from somewhere else, set the `YUKIO_ASSETS` environment variable.
+The source artwork is not stored twice: by default she uses `../YukioPlayer/Resources/Assets` from the repo. During packaging, `scripts/prepare-windows-assets.py` losslessly divides the large 2x body and eyelid atlases into small runtime pages and verifies every page pixel-for-pixel. The exe caches only the pages it is displaying instead of expanding nearly 1 GB of atlases. To use source artwork from somewhere else, set the `YUKIO_ASSETS` environment variable.
 
 ## Known limitations
 

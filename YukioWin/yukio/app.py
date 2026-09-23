@@ -13,6 +13,7 @@ import traceback
 from typing import List, Optional, Tuple
 
 from .catalog import AnimationCatalog, HELD_ID, SpriteTimeline, assets_root
+from .blink import BlinkClock
 from .chatlinks import ChatLinks
 from .demo import DEMO_DURATION_MS, demo_steps
 from .events import PetState
@@ -61,6 +62,9 @@ class PetApp:
 
         self.shown_state = self.router.displayed if self.follow else PetState.idle
         self.timeline = SpriteTimeline(self.catalog.spec(self.shown_state), start)
+        initial_blink = self.timeline.spec.blink
+        self.blink_clock = BlinkClock(initial_blink.seed if initial_blink else 11003, start)
+        self.blink_level = 0
         #: 被大手拎着时的摆动与图条；都是 None 表示正常站／坐着。
         self.swing: Optional[HangSwing] = None
         self.held_timeline: Optional[SpriteTimeline] = None
@@ -187,15 +191,22 @@ class PetApp:
         timeline = self.timeline
         spec_id, index = timeline.spec.id, timeline.frame
         w, h = self.pet_size
-        key = (spec_id, index, w, h)
+        key = (spec_id, index, self.blink_level, w, h)
         if key == self._painted:
             return
-        frame = self.library.frame(spec_id, index)
-        image = frame.image
-        if (w, h) != image.size:
-            from PIL import Image
-            image = image.resize((w, h), Image.BILINEAR)
-        self.pet.show_image(image, self.pet.x, self.pet.y)
+        frame = self.library.frame(spec_id, index, self.blink_level)
+        source = frame.image
+        image = source
+        try:
+            if (w, h) != source.size:
+                from PIL import Image
+                image = source.resize((w, h), Image.BILINEAR)
+            # LayeredWindow 在返回前已经把像素复制进 DIB，可以马上释放 Pillow 图像。
+            self.pet.show_image(image, self.pet.x, self.pet.y)
+        finally:
+            if image is not source:
+                image.close()
+            source.close()
         self._painted = key
 
     def _render_hanging(self) -> None:
@@ -214,14 +225,25 @@ class PetApp:
             return
         frame = self.library.frame(held.spec.id, held.frame)
         sx, sy, sw, sh = geo.sprite_rect
-        sprite = frame.image
-        if (int(round(sw)), int(round(sh))) != sprite.size:
-            sprite = sprite.resize((max(1, int(round(sw))), max(1, int(round(sh)))), Image.BILINEAR)
-        canvas = Image.new("RGBA", geo.panel_size, (0, 0, 0, 0))
-        canvas.alpha_composite(sprite, (int(round(sx)), int(round(sy + swing.sag))))
-        if abs(swing.angle_degrees) > 0.01:
-            canvas = canvas.rotate(swing.angle_degrees, resample=Image.BICUBIC, center=geo.pivot)
-        self.pet.show_image(canvas, self.pet.x, self.pet.y)
+        source = frame.image
+        sprite = source
+        canvas = None
+        try:
+            if (int(round(sw)), int(round(sh))) != source.size:
+                sprite = source.resize((max(1, int(round(sw))), max(1, int(round(sh)))), Image.BILINEAR)
+            canvas = Image.new("RGBA", geo.panel_size, (0, 0, 0, 0))
+            canvas.alpha_composite(sprite, (int(round(sx)), int(round(sy + swing.sag))))
+            if abs(swing.angle_degrees) > 0.01:
+                rotated = canvas.rotate(swing.angle_degrees, resample=Image.BICUBIC, center=geo.pivot)
+                canvas.close()
+                canvas = rotated
+            self.pet.show_image(canvas, self.pet.x, self.pet.y)
+        finally:
+            if canvas is not None:
+                canvas.close()
+            if sprite is not source:
+                sprite.close()
+            source.close()
         self._painted = key
 
     def _position_bubble(self) -> None:
@@ -342,7 +364,9 @@ class PetApp:
 
     def _update_cards(self, now: float, immediate: bool = False) -> None:
         from .cardstack import COLLAPSED_COUNT, CardStackLayout
-        want = self.router.cards(now) if (self.show_cards and self.follow and not self.demo) else []
+        # “头顶显示任务”是整块头顶任务 UI 的总开关；气泡关掉时，
+        # 卡片和单独的“N more”也不应继续悬着。
+        want = self.router.cards(now) if (self.show_bubble and self.show_cards and self.follow and not self.demo) else []
         if len(want) <= COLLAPSED_COUNT:
             self.cards_expanded = False
         # 多一条少一条立刻生效；只是卡上的字变了就按最短停留，免得一直闪。
@@ -512,6 +536,12 @@ class PetApp:
             self._paint_bubble()
             self._position_cards()
         self.timeline.advance(now)
+        blink = self.timeline.spec.blink
+        if blink is not None:
+            self.blink_clock.select_seed(blink.seed)
+            self.blink_level = self.blink_clock.level(now, blink.levels)
+        else:
+            self.blink_level = 0
         if self.swing is not None:
             self._advance_hang(now)
         self._render(now)
@@ -847,7 +877,8 @@ class PetApp:
 
     def _toggle_bubble(self) -> None:
         self.settings.set("showBubble", not self.show_bubble)
-        self._position_cards()
+        self._update_bubble(now_ms())
+        self._update_cards(now_ms(), immediate=True)
 
     def _toggle_cards(self) -> None:
         self.settings.set("showCards", not self.show_cards)

@@ -36,6 +36,10 @@ jobs:
         working-directory: YukioWin
         run: python run.py --check
 
+      - name: Prepare low-memory Windows artwork pages
+        working-directory: YukioWin
+        run: python scripts/prepare-windows-assets.py
+
       - name: Package
         working-directory: YukioWin
         run: python -m PyInstaller --noconfirm --clean scripts/yukio.spec

@@ -41,12 +41,36 @@ class HangAnchors:
         return (self.grip_x, self.grip_y)
 
 
+class BlinkOverlay:
+    """A per-body-frame eyelid atlas described by motion.json v4.
+
+    Coordinates and sizes are physical atlas pixels. ``frames[body][level - 1]``
+    selects the replacement patch for one base-atlas frame.  The patch must
+    replace the ROI (including transparent pixels), not alpha-blend over the
+    old open eyes.
+    """
+
+    __slots__ = ("asset", "x", "y", "width", "height", "levels", "frames", "seed")
+
+    def __init__(self, asset, x, y, width, height, levels, frames, seed):
+        self.asset = str(asset)
+        self.x = int(x)
+        self.y = int(y)
+        self.width = int(width)
+        self.height = int(height)
+        self.levels = int(levels)
+        self.frames = [[int(index) for index in row] for row in frames]
+        self.seed = int(seed) & 0xFFFFFFFF
+
+
 class AnimationSpec:
     __slots__ = ("id", "label", "asset_path", "frame_width", "frame_height",
-                 "sequence", "durations_ms", "loop", "hold_last_frame", "loop_start", "hang", "pixel_scale")
+                 "sequence", "durations_ms", "loop", "hold_last_frame", "loop_start", "hang",
+                 "pixel_scale", "blink")
 
     def __init__(self, id, label, asset_path, frame_width, frame_height,
-                 sequence, durations_ms, loop, hold_last_frame, loop_start=0, hang=None, pixel_scale=1):
+                 sequence, durations_ms, loop, hold_last_frame, loop_start=0, hang=None, pixel_scale=1,
+                 blink=None):
         self.id = id
         self.label = label
         #: 相对资源根目录的路径，例如 "activities/thinking.webp"。
@@ -64,6 +88,8 @@ class AnimationSpec:
         #: 图条里一个点对应几个像素：2 表示 2 倍分辨率的图条（一格 (frame_width×2)×(frame_height×2) 像素，
         #: 摆放时仍按 frame_width×frame_height 个点；太长的图条会折成几行），缺省 1。
         self.pixel_scale = pixel_scale
+        #: 可选的独立眨眼小图集（motion.json v4）。
+        self.blink = blink
 
     @property
     def max_frame_index(self) -> int:
@@ -148,12 +174,31 @@ class AnimationCatalog:
                 loop_start = m.get("loopStart") or 0
                 if not 0 <= loop_start < len(m["sequence"]):
                     raise CatalogError("motion %s：loopStart 越界" % m["id"])
+                blink = None
+                if m.get("blink") is not None:
+                    b = m["blink"]
+                    try:
+                        blink = BlinkOverlay(b["asset"], b["x"], b["y"], b["width"], b["height"],
+                                             b["levels"], b["frames"], b["seed"])
+                    except (KeyError, TypeError, ValueError) as exc:
+                        raise CatalogError("motion %s：眨眼元数据不完整（%s）" % (m["id"], exc))
+                    scale = int(m.get("pixelScale") or 1)
+                    max_frame = max(m["sequence"]) if m["sequence"] else 0
+                    valid = (blink.width > 0 and blink.height > 0 and blink.x >= 0 and blink.y >= 0
+                             and blink.x + blink.width <= m["frameWidth"] * scale
+                             and blink.y + blink.height <= m["frameHeight"] * scale
+                             and 1 <= blink.levels <= 16 and len(blink.frames) > max_frame
+                             and all(len(row) == blink.levels and all(index >= 0 for index in row)
+                                     for row in blink.frames))
+                    if not valid:
+                        raise CatalogError("motion %s：眨眼图层尺寸或索引无效" % m["id"])
                 previous = specs.get(m["id"])
                 specs[m["id"]] = AnimationSpec(
                     m["id"], previous.label if previous else m["id"], "motion/" + m["asset"],
                     m["frameWidth"], m["frameHeight"], list(m["sequence"]),
                     [float(d) for d in m["durationsMs"]], bool(m["loop"]), not bool(m["loop"]), loop_start,
-                    hang=previous.hang if previous else None, pixel_scale=int(m.get("pixelScale") or 1))
+                    hang=previous.hang if previous else None, pixel_scale=int(m.get("pixelScale") or 1),
+                    blink=blink)
 
         catalog = AnimationCatalog(specs)
         for state in ALL_STATES:
@@ -190,6 +235,21 @@ class AnimationCatalog:
             frames = (width // cell_w) * (height // cell_h)
             if spec.max_frame_index >= frames:
                 problems.append("%s：帧索引 %d 越界（共 %d 帧）" % (spec.id, spec.max_frame_index, frames))
+            if spec.blink is not None:
+                blink = spec.blink
+                eye_size = image_size("motion/" + blink.asset)
+                if not eye_size:
+                    problems.append("%s：无法读取眨眼图集 motion/%s" % (spec.id, blink.asset))
+                    continue
+                eye_width, eye_height = eye_size
+                if eye_width % blink.width or eye_height % blink.height:
+                    problems.append("%s：眨眼图集尺寸不是补丁尺寸的整数倍" % spec.id)
+                    continue
+                patches = (eye_width // blink.width) * (eye_height // blink.height)
+                max_patch = max((index for row in blink.frames for index in row), default=-1)
+                if max_patch >= patches:
+                    problems.append("%s：眨眼补丁索引 %d 越界（共 %d 格）" %
+                                    (spec.id, max_patch, patches))
         return problems
 
 
