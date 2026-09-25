@@ -144,6 +144,8 @@ final class SessionModel {
         let state: PetState
         let at: Double
         let detail: String?
+        /// 问话类调用（AskUserQuestion）抄下来的那道题；别的调用是 nil。
+        let question: PetQuestion?
     }
 
     /// 这条聊天的转录会话 ID，也就是 sessions 字典里的键。判断"这条是不是正开在眼前"要用。
@@ -332,7 +334,7 @@ public final class ActivityRouter {
             ensureActive(s, now: now, ts: e.ts)
             let state = e.activity ?? s.lastToolState ?? .default_work
             let id = e.eventID ?? nextAnonymousID()
-            s.open.append(.init(id: id, state: state, at: now, detail: e.detail))
+            s.open.append(.init(id: id, state: state, at: now, detail: e.detail, question: e.question))
             if let detail = e.detail { s.lastDetail[state] = detail }
             s.finalAnswerAt = nil
             s.failedAt = nil
@@ -630,6 +632,30 @@ public final class ActivityRouter {
     public var askingSession: String? {
         guard displayed == .question_for_user, let f = focusedSession, sessions[f] != nil else { return nil }
         return f
+    }
+
+    /// 此刻立着的那道题：问题正文、选项，以及它属于哪条聊天、哪次调用。
+    /// 举牌时把它抄在她身边显示，选项可以直接点着回答。
+    /// 问不出问题正文的来源（Deep Code 只报一个「等你回答」的状态）没有这个，返回 nil。
+    public var askingQuestion: PendingQuestion? {
+        guard displayed == .question_for_user, let f = focusedSession, let s = sessions[f],
+              let call = s.open.last, call.state == .question_for_user,
+              let question = call.question else { return nil }
+        return PendingQuestion(session: f, callID: call.id, question: question)
+    }
+
+    /// 等着你答的一道题：`callID` 是那次工具调用的 ID，换了一道题它就变，
+    /// 输入框和“已送出”的状态跟着重来。
+    public struct PendingQuestion: Equatable, Sendable {
+        public let session: String
+        public let callID: String
+        public let question: PetQuestion
+
+        public init(session: String, callID: String, question: PetQuestion) {
+            self.session = session
+            self.callID = callID
+            self.question = question
+        }
     }
 
     /// 用户点了举着的牌子：放下，立刻回到此刻该显示的状态（不等防抖）。返回是否真的放下了。

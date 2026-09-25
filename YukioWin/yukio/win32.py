@@ -649,7 +649,12 @@ class ControlWindow:
             self.hwnd = None
 
 
-def run_message_loop() -> int:
+def run_message_loop(pre_dispatch: Optional[Callable[["MSG"], bool]] = None) -> int:
+    """跑消息循环。
+
+    pre_dispatch 在派发之前先看一眼每条消息，返回 True 表示这条自己处理了、不再往下派发。
+    输入框里的回车和 Esc 要在这里拦（见 TextInput）：EDIT 控件自己不会把这两个键报给别人。
+    """
     msg = MSG()
     while True:
         result = user32.GetMessageW(byref(msg), None, 0, 0)
@@ -657,6 +662,12 @@ def run_message_loop() -> int:
             return int(msg.wParam)
         if result == -1:
             return 1
+        if pre_dispatch is not None:
+            try:
+                if pre_dispatch(msg):
+                    continue
+            except Exception:
+                pass
         user32.TranslateMessage(byref(msg))
         user32.DispatchMessageW(byref(msg))
 
@@ -703,3 +714,232 @@ def signed16(value: int) -> int:
 def mouse_position_from_lparam(lparam: int) -> Tuple[int, int]:
     """WM_MOUSEMOVE 等消息里的坐标（窗口内，可能是负数）。"""
     return (signed16(lparam & 0xFFFF), signed16((lparam >> 16) & 0xFFFF))
+
+
+# MARK: 在雪绪这边回答：一个真正的输入框，和替你按键把答案送过去
+
+WS_CHILD = 0x40000000
+WS_VISIBLE = 0x10000000
+WS_BORDER = 0x00800000
+ES_AUTOHSCROLL = 0x0080
+WM_SETFONT = 0x0030
+WM_GETTEXTLENGTH = 0x000E
+WM_KEYDOWN = 0x0100
+EM_SETSEL = 0x00B1
+VK_RETURN = 0x0D
+VK_ESCAPE = 0x1B
+#: 这一下键归输入法处理（正在选词）：别当成“按了回车要送出”。
+VK_PROCESSKEY = 0xE5
+DEFAULT_CHARSET = 1
+CLEARTYPE_QUALITY = 5
+COLOR_WINDOW = 5
+
+# 句柄是指针：返回值按 int 截断在 64 位上会丢高位，先把这几个的返回类型说清楚。
+gdi32.CreateFontW.restype = c_void_p
+kernel32.GlobalAlloc.restype = c_void_p
+kernel32.GlobalLock.restype = c_void_p
+user32.SendMessageW.restype = c_ssize_t
+
+INPUT_KEYBOARD = 1
+KEYEVENTF_KEYUP = 0x0002
+KEYEVENTF_UNICODE = 0x0004
+
+CF_UNICODETEXT = 13
+GMEM_MOVEABLE = 0x0002
+
+
+class MOUSEINPUT(Structure):
+    _fields_ = [("dx", wintypes.LONG), ("dy", wintypes.LONG), ("mouseData", wintypes.DWORD),
+                ("dwFlags", wintypes.DWORD), ("time", wintypes.DWORD), ("dwExtraInfo", c_ssize_t)]
+
+
+class KEYBDINPUT(Structure):
+    _fields_ = [("wVk", wintypes.WORD), ("wScan", wintypes.WORD), ("dwFlags", wintypes.DWORD),
+                ("time", wintypes.DWORD), ("dwExtraInfo", c_ssize_t)]
+
+
+class HARDWAREINPUT(Structure):
+    _fields_ = [("uMsg", wintypes.DWORD), ("wParamL", wintypes.WORD), ("wParamH", wintypes.WORD)]
+
+
+class _INPUTUNION(ctypes.Union):
+    _fields_ = [("mi", MOUSEINPUT), ("ki", KEYBDINPUT), ("hi", HARDWAREINPUT)]
+
+
+class INPUT(Structure):
+    _fields_ = [("type", wintypes.DWORD), ("u", _INPUTUNION)]
+
+
+def _key_input(vk: int = 0, scan: int = 0, flags: int = 0) -> INPUT:
+    item = INPUT()
+    item.type = INPUT_KEYBOARD
+    item.u.ki = KEYBDINPUT(wVk=vk, wScan=scan, dwFlags=flags, time=0, dwExtraInfo=0)
+    return item
+
+
+def _send(items: List[INPUT]) -> bool:
+    if not items:
+        return True
+    array = (INPUT * len(items))(*items)
+    sent = user32.SendInput(len(items), byref(array), sizeof(INPUT))
+    return sent == len(items)
+
+
+def send_text(text: str) -> bool:
+    """把这段字打进最前面那个窗口（按 UTF-16 一个码元一个码元地送，中文和表情都认）。
+
+    用 KEYEVENTF_UNICODE 而不是模拟具体按键：不依赖当前键盘布局，也不经过输入法。
+    """
+    if not text:
+        return True
+    units = text.encode("utf-16-le")
+    items: List[INPUT] = []
+    for i in range(0, len(units), 2):
+        code = units[i] | (units[i + 1] << 8)
+        items.append(_key_input(scan=code, flags=KEYEVENTF_UNICODE))
+        items.append(_key_input(scan=code, flags=KEYEVENTF_UNICODE | KEYEVENTF_KEYUP))
+        # 一次送太多会被有些应用吞掉，分批走。
+        if len(items) >= 200:
+            if not _send(items):
+                return False
+            items = []
+    return _send(items)
+
+
+def send_return() -> bool:
+    """按一下回车。"""
+    return _send([_key_input(vk=VK_RETURN), _key_input(vk=VK_RETURN, flags=KEYEVENTF_KEYUP)])
+
+
+def set_clipboard_text(text: str) -> bool:
+    """把答案放进粘贴板（送不过去时的退路：你自己 Ctrl+V）。"""
+    try:
+        if not user32.OpenClipboard(None):
+            return False
+        try:
+            user32.EmptyClipboard()
+            data = text.encode("utf-16-le") + b"\x00\x00"
+            handle = kernel32.GlobalAlloc(GMEM_MOVEABLE, len(data))
+            if not handle:
+                return False
+            pointer = kernel32.GlobalLock(c_void_p(handle))
+            if not pointer:
+                return False
+            ctypes.memmove(pointer, data, len(data))
+            kernel32.GlobalUnlock(c_void_p(handle))
+            return bool(user32.SetClipboardData(CF_UNICODETEXT, c_void_p(handle)))
+        finally:
+            user32.CloseClipboard()
+    except Exception:
+        return False
+
+
+class TextInput:
+    """卡片上那个输入框：一个系统自带的 EDIT 控件，摆在画出来的框上。
+
+    为什么不自己画光标、自己收按键：中文要输入法（选词、候选框、拼音串），
+    自己做一套既难又容易出岔子；EDIT 控件天生就会。
+
+    分层窗口里塞不下子控件（UpdateLayeredWindow 只认整块位图），所以它是一扇
+    单独的小窗口，跟着卡片摆位置。
+    """
+
+    _registered = False
+
+    def __init__(self, on_commit: Callable[[str], None], on_cancel: Callable[[], None],
+                 font_height: int = 15):
+        self.on_commit = on_commit
+        self.on_cancel = on_cancel
+        instance = kernel32.GetModuleHandleW(None)
+        if not TextInput._registered:
+            wc = WNDCLASSEXW()
+            wc.cbSize = sizeof(WNDCLASSEXW)
+            wc.lpfnWndProc = WNDPROC(lambda h, m, w_, l: user32.DefWindowProcW(h, m, w_, l))
+            wc.hInstance = instance
+            wc.hCursor = user32.LoadCursorW(None, c_void_p(IDC_ARROW))
+            wc.hbrBackground = c_void_p(COLOR_WINDOW + 1)
+            wc.lpszClassName = "YukioAnswerBox"
+            self._class_proc = wc.lpfnWndProc          # 别让它被回收
+            user32.RegisterClassExW(byref(wc))
+            TextInput._registered = True
+        self.hwnd = user32.CreateWindowExW(WS_EX_TOPMOST | WS_EX_TOOLWINDOW, "YukioAnswerBox", "",
+                                           WS_POPUP, 0, 0, 10, 10, None, None, instance, None)
+        if not self.hwnd:
+            raise OSError("创建输入框窗口失败：%d" % ctypes.get_last_error())
+        self.edit = user32.CreateWindowExW(0, "EDIT", "",
+                                           WS_CHILD | WS_VISIBLE | ES_AUTOHSCROLL,
+                                           0, 0, 10, 10, c_void_p(self.hwnd), None, instance, None)
+        if not self.edit:
+            raise OSError("创建输入框失败：%d" % ctypes.get_last_error())
+        self._font = gdi32.CreateFontW(-abs(int(font_height)), 0, 0, 0, 400, 0, 0, 0,
+                                       DEFAULT_CHARSET, 0, 0, CLEARTYPE_QUALITY, 0, "Microsoft YaHei UI")
+        if self._font:
+            user32.SendMessageW(c_void_p(self.edit), WM_SETFONT, c_void_p(self._font), 1)
+        self._visible = False
+
+    @property
+    def visible(self) -> bool:
+        return self._visible
+
+    def show(self, x: int, y: int, width: int, height: int) -> None:
+        user32.SetWindowPos(c_void_p(self.hwnd), HWND_TOPMOST, int(x), int(y),
+                            int(width), int(height), SWP_SHOWWINDOW | SWP_NOACTIVATE)
+        user32.SetWindowPos(c_void_p(self.edit), 0, 2, 2, int(width) - 4, int(height) - 4,
+                            SWP_NOACTIVATE | SWP_SHOWWINDOW)
+        self._visible = True
+
+    def move(self, x: int, y: int, width: int, height: int) -> None:
+        if self._visible:
+            self.show(x, y, width, height)
+
+    def hide(self) -> None:
+        if not self._visible:
+            return
+        user32.ShowWindow(c_void_p(self.hwnd), SW_HIDE)
+        self._visible = False
+
+    def focus(self) -> None:
+        """把键盘交给它（点了输入框才调；卡片立起来的那一刻不抢焦点）。"""
+        user32.SetForegroundWindow(c_void_p(self.hwnd))
+        user32.SetFocus(c_void_p(self.edit))
+        length = user32.SendMessageW(c_void_p(self.edit), WM_GETTEXTLENGTH, 0, 0)
+        user32.SendMessageW(c_void_p(self.edit), EM_SETSEL, length, length)
+
+    @property
+    def text(self) -> str:
+        length = int(user32.SendMessageW(c_void_p(self.edit), WM_GETTEXTLENGTH, 0, 0))
+        if length <= 0:
+            return ""
+        buf = ctypes.create_unicode_buffer(length + 1)
+        user32.GetWindowTextW(c_void_p(self.edit), buf, length + 1)
+        return buf.value
+
+    def clear(self) -> None:
+        user32.SetWindowTextW(c_void_p(self.edit), "")
+
+    def handle_message(self, msg) -> bool:
+        """消息循环里先过一遍：输入框里的回车＝送出，Esc＝收起。
+
+        正在用输入法选词时这一下键是 VK_PROCESSKEY，交回给输入法，不当成送出。
+        """
+        if not self._visible or msg.message != WM_KEYDOWN or msg.hwnd != self.edit:
+            return False
+        key = int(msg.wParam)
+        if key == VK_PROCESSKEY:
+            return False
+        if key == VK_RETURN:
+            self.on_commit(self.text.strip())
+            return True
+        if key == VK_ESCAPE:
+            self.on_cancel()
+            return True
+        return False
+
+    def destroy(self) -> None:
+        if self.hwnd:
+            user32.DestroyWindow(c_void_p(self.hwnd))
+            self.hwnd = None
+            self.edit = None
+        if self._font:
+            gdi32.DeleteObject(c_void_p(self._font))
+            self._font = None

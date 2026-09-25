@@ -2,7 +2,7 @@
 
 # Yukio desktop pet (Windows edition: DeepSeek, Claude or GPT)
 
-Yukio (雪绪), a white-haired, blue-eyed girl in a butler's uniform, sits in the bottom-right corner of your Windows desktop and switches poses to match whatever your coding agent — **DeepSeek's Deep Code CLI**, **Claude Code**, or **GPT's Codex**, picked from the tray menu under "Assistant", all three by default — is doing right now: thinking, reading a file, viewing an image, writing a file, running tests, browsing the web, handing in the answer. For any other work she sits at the computer and types. She slumps when something goes wrong, puts up the ❓ question card when a decision is yours to make, and holds up the ✅ done card once the answer is in, waiting for you. While she is holding up the sign, click her and she lowers it (if the chat she is following belongs to the Claude desktop app, she also jumps back to that chat). If that chat is already open in front of you, she doesn't hold up the sign at all. With no task she idles. When several chats are open at once, whichever has just finished or is waiting for your decision is shown first; the rest hang as a stack of small cards piled upward from the bubble, and clicking one takes you to that chat. You can also pin one chat from the menu so she follows only that one. Every pose keeps moving in small, continuous ways (writing, typing, turning her head, blinking), and the small bubble over her head shows the current task and its progress.
+Yukio (雪绪), a white-haired, blue-eyed girl in a butler's uniform, sits in the bottom-right corner of your Windows desktop and switches poses to match whatever your coding agent — **DeepSeek's Deep Code CLI**, **Claude Code**, or **GPT's Codex**, picked from the tray menu under "Assistant", all three by default — is doing right now: thinking, reading a file, viewing an image, writing a file, running tests, browsing the web, handing in the answer. For any other work she sits at the computer and types. She slumps when something goes wrong, puts up the ❓ question card when a decision is yours to make — with the question written out on a card beside her, so you can answer right there, and holds up the ✅ done card once the answer is in, waiting for you. While she is holding up the sign, click her and she lowers it (if the chat she is following belongs to the Claude desktop app, she also jumps back to that chat). If that chat is already open in front of you, she doesn't hold up the sign at all. With no task she idles. When several chats are open at once, whichever has just finished or is waiting for your decision is shown first; the rest hang as a stack of small cards piled upward from the bubble, and clicking one takes you to that chat. You can also pin one chat from the menu so she follows only that one. Every pose keeps moving in small, continuous ways (writing, typing, turning her head, blinking), and the small bubble over her head shows the current task and its progress.
 
 The artwork, the activity mapping, the debounce and hold times, the focus rules, the sign and the card stack, and the swing parameters for when she is picked up are all identical to the macOS edition (`../YukioPlayer`, Swift). Only the two ends are swapped: **whose session logs she reads** (all three families) and **what draws the window** (a Windows layered window instead of AppKit). The only differences left are the size control (fixed steps here, a slider there) and how far click-to-jump has been tested on a real machine; both are listed under "Known limitations" at the end.
 
@@ -45,6 +45,7 @@ The result is `dist\Yukio.exe` (artwork included). Without a Windows dev environ
 | Pause following | Menu › Follow AI activity. With it off she stays idle but still receives events, so she catches up the moment you turn it back on |
 | Hide the bubble | Menu › Show task bubble |
 | Hide other chats | Menu › Show other chats. With it off only the bubble remains and no cards are stacked |
+| Answer a question here | While the ❓ question card is up, the question is stood up beside her with its options: click an option (or type your own and press Enter) and Yukio puts the answer into that chat for you (see "Answering from here"). Menu › Answer here turns the card off |
 | Change which assistant she follows | Menu › Assistant: Auto (whoever is working) / Claude Code / DeepSeek (Deep Code) / GPT (Codex) |
 | Pick a chat to follow | Menu › Chat to follow. The default is "Auto (done and questions first)": whichever chat has just finished or is waiting for your decision is shown first, and when there is none she follows the one most recently at work. Click a chat to pin it; no other chat can take her away, however busy it gets. A pin lasts only for this run |
 | See it in action | Menu › Play demo: walks through every state in 60 seconds; it is not real activity (it plays once by itself the first time you open her if neither tool is installed) |
@@ -106,7 +107,7 @@ The fields are documented at the top of `yukio/bridge.py`. `scripts\yukio-notify
 | `read_web` | B: browsing on the tablet | `WebSearch`; curl / wget; browser-type MCP tools | WebFetch, WebSearch |
 | `respond` | B: handing in the report | An assistant message with body text and no tool calls | `end_turn` text |
 | `task_complete` | C: showing the ✅ done card | Follows handing in the report | Same as left |
-| `question_for_user` | C: putting up the ❓ question card | `AskUserQuestion`; index status `ask_permission` (waiting for your approval), `waiting_for_user` | AskUserQuestion |
+| `question_for_user` | C: putting up the ❓ question card | `AskUserQuestion` (the question and its options are copied onto the card beside her); index status `ask_permission` (waiting for your approval), `waiting_for_user` — those two carry no question text, so no card is stood up | AskUserQuestion |
 | `default_work` | The steady computer-desk pose | Everything else (builds, installing dependencies, `skill`, unknown MCP tools…) | Same as left |
 | `failed` | Dejected | Tool result `"ok": false`; index status `failed`. Interruptions and denied permissions don't count as failures | Tool errors; API errors |
 | `idle` | Base idle | No task in progress; gone-quiet fallback | Same as left |
@@ -150,10 +151,34 @@ The session ID in the transcript (the file name of `~/.claude/projects/*/<sessio
 
 Claude Code running in a terminal, and **Deep Code (DeepSeek) sessions, have no such link in the first place**: those chats live in a terminal, so a click just lowers the sign. The jump has been tested for real on the macOS edition; on Windows the paths and the protocol follow the desktop app's same scheme, but have not been verified on a real Windows machine.
 
+## Answering from here
+
+While the ❓ question card is up and the source gave a question (Claude Code's `AskUserQuestion`, Codex's `request_user_input`),
+that question is stood up beside her: the header, the question wrapped over up to six lines, and the options one per row.
+Long questions are cut with an ellipsis (the full one is in the chat); at most six options are listed and the rest are noted as
+"N more in the chat". The card sits on whichever side of her has room and stays inside the work area.
+
+- **Click an option** and that option's text is the answer.
+- **A multi-select question** keeps the options you click ticked; press Enter to send them all.
+- **Type your own** in the box at the bottom: it is a real Windows edit control in its own small window, so IMEs work as usual. Enter sends, Esc clears and then closes the card.
+- **✕** puts the card away for this question only; the next question brings it back.
+- **"Open the chat >"** jumps to the chat instead.
+
+How the answer gets there: Yukio copies it to the clipboard, opens that chat through the deep link the Claude desktop app registers,
+waits until `Claude.exe` really is the foreground application, and then types the answer with `SendInput` (Unicode mode, so the keyboard
+layout and the IME are not involved) and presses Enter. No extra permission is needed on Windows. If that app doesn't come to the front
+within 2.5 seconds, or you switch away while it is happening, **not a single key is pressed**: the answer is just on the clipboard and the card
+says "Copied - press Ctrl+V in the chat". She never types into an app other than the one the answer belongs to. Chats with no window to jump to
+(Deep Code runs in a terminal, and so does Claude Code outside the desktop app) are copy-only. In the demo nothing is sent anywhere.
+
+Menu › **Answer here** turns the card off; then the ❓ card behaves as it used to.
+`python -m yukio --question out.png` draws the card offscreen (single-select, multi-select, no options, already answered) and prints
+its click regions, which is how its layout is checked without Windows.
+
 ## Self-check (runs outside Windows too)
 
 ```sh
-python run.py --selftest                     # 155 tests: routing, parsing, following, blink timing/compositing, card stack, swing, player logic
+python run.py --selftest                     # 181 tests: routing, parsing, following, blink timing/compositing, card stack, swing, question card and answering, player logic
 python run.py --check                        # load and crop all artwork, confirm no frame runs out of bounds
 python run.py --snapshot out.png             # draw the animations actually in use on a checkerboard
 python run.py --bubble out.png               # draw several head bubbles to check layout, truncation and position

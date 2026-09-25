@@ -4,6 +4,7 @@
     python -m yukio --snapshot out.png      把实际使用的动画画在棋盘格上
     python -m yukio --bubble out.png        画几种头顶气泡样例，检查排版与位置
     python -m yukio --cards out.png         画“气泡 + 上面那摞别的聊天”，检查排版与层次
+    python -m yukio --question out.png      画她身边那张问题卡（可直接回答），检查排版与命中分区
     python -m yukio --hang out.png          把被拎着的几个倾角画出来，并自查摆动方向
     python -m yukio --replay 会话.jsonl     用虚拟时钟回放一份会话记录，打印状态序列
     python -m yukio --watch 60              实时跟随，打印事件与状态切换（不打印对话内容）
@@ -27,6 +28,7 @@ from .catalog import AnimationCatalog, CatalogError, HELD_ID, assets_root
 from .console import force_utf8_console
 from .events import ALL_STATES, Kind, PetEvent, PetState
 from .hang import HangGeometry, Tuning as HangTuning, feet_offset_at
+from .l10n import tr
 from .parsers_claude import ClaudeTranscriptParser
 from .parsers_codex import CodexRolloutParser
 from .parsers_deepcode import DeepCodeMessageParser
@@ -183,6 +185,62 @@ def run_bubble_snapshot(path: str) -> int:
                                      library.head_top_inset_for(spec.id))
         sheet.alpha_composite(layout.render(), (int(ox * px), int(oy * px)))
     sheet.save(path)
+    print("已写出 %s（%d×%d）" % (path, sheet.size[0], sheet.size[1]))
+    return 0
+
+
+def run_question_snapshot(path: str) -> int:
+    """画她身边那张问题卡（单选、多选、没有选项、已送出四格），按 2 倍分辨率输出。
+
+    用来核对排版、折行、截断和与雪绪的相对位置——本机没有 Windows，界面只能这样自查。
+    """
+    from .events import PetQuestion, QuestionOption
+    from .question import QuestionCardLayout, probe_points
+    catalog, library, _ = load_library_or_exit()
+    long_q = PetQuestion(
+        header=tr("Release scope", "发布范围"),
+        text=tr("This folder still has another session's finished but uncommitted work (two new states, "
+                "54 tests passing). Should the installer on GitHub include it?",
+                "这个文件夹里还有另一个会话刚做完、但没提交的改动（问号卡／勾选卡两个新状态，54 个测试通过）。"
+                "发到 GitHub 的安装包要包含它们吗？"),
+        options=[
+            QuestionOption(tr("Ship it together (recommended)", "一起发（推荐）"),
+                           tr("Two commits, merge into main, release v0.1.0", "新状态和图标分两次提交，合并进 main，发 v0.1.0")),
+            QuestionOption(tr("Icon only", "只发图标这版"),
+                           tr("Rebuild from a clean tree without the new states", "从不含新状态的干净工作树重新构建打包")),
+            QuestionOption(tr("Don't commit yet", "先别提交推送")),
+        ])
+    multi = PetQuestion(
+        text=tr("Which checks should run before pushing?", "推之前跑哪几项检查？"),
+        options=[QuestionOption("pytest"), QuestionOption(tr("Windows packaging CI", "Windows 打包 CI")),
+                 QuestionOption(tr("Screenshot self-check", "离屏截图自查"))],
+        multi_select=True)
+    plain = PetQuestion(text=tr("What should the release notes say?", "发布说明里写什么？"))
+    samples = [
+        (long_q, (), None, ""),
+        (multi, (0, 2), None, ""),
+        (plain, (), None, tr("Say it fixes the login page", "就说修好了登录页")),
+        (long_q, (), tr("Answer sent", "答案已送出"), ""),
+    ]
+    px = 2
+    cell_w, cell_h = 500, 320
+    sheet = _checkerboard(cell_w * len(samples) * px, cell_h * px)
+    spec = catalog.spec(PetState.question_for_user)
+    frame = library.frame(spec.id, spec.sequence[-1])
+    for i, (question, picked, notice, typed) in enumerate(samples):
+        pet_x = i * cell_w + 12
+        pet_y = cell_h - 216
+        sheet.alpha_composite(frame.image.resize((192 * px, 208 * px)), (pet_x * px, pet_y * px))
+        layout = QuestionCardLayout(question, picked=picked, can_open_chat=True,
+                                    sent_notice=notice, typed=typed, scale=px)
+        ox, oy = QuestionCardLayout.origin(layout.size_pt, (pet_x, pet_y, 192, 208),
+                                           (i * cell_w, 0, (i + 1) * cell_w, cell_h))
+        sheet.alpha_composite(layout.render(), (int(ox * px), int(oy * px)))
+    sheet.save(path)
+    probe = QuestionCardLayout(long_q, scale=1.0)
+    print("卡片 %d×%d 点；点击分区自查：" % probe.size_px)
+    for name, (x, y) in probe_points(probe):
+        print("  %s → %s" % (name, probe.hit(x, y)))
     print("已写出 %s（%d×%d）" % (path, sheet.size[0], sheet.size[1]))
     return 0
 
@@ -540,6 +598,8 @@ def main(argv: Optional[List[str]] = None) -> int:
         return run_bubble_snapshot(value_after("--bubble"))
     if value_after("--cards"):
         return run_cards_snapshot(value_after("--cards"))
+    if value_after("--question"):
+        return run_question_snapshot(value_after("--question"))
     if value_after("--hang"):
         return run_hang_snapshot(value_after("--hang"))
     if value_after("--replay"):

@@ -94,10 +94,12 @@ public struct PetEvent: Codable, Equatable, Sendable {
     public var detail: String?
     /// 任务清单事件的条目。
     public var todos: [TodoItem]?
+    /// AskUserQuestion 抄下来的那道题：举牌时原样显示在她身边，选项可以直接点。
+    public var question: PetQuestion?
 
     public init(ts: Double, source: String, session: String, kind: Kind,
                 eventID: String? = nil, activity: PetState? = nil, tool: String? = nil,
-                detail: String? = nil, todos: [TodoItem]? = nil) {
+                detail: String? = nil, todos: [TodoItem]? = nil, question: PetQuestion? = nil) {
         self.ts = ts
         self.source = source
         self.session = session
@@ -107,6 +109,7 @@ public struct PetEvent: Codable, Equatable, Sendable {
         self.tool = tool
         self.detail = detail
         self.todos = todos
+        self.question = question
     }
 }
 

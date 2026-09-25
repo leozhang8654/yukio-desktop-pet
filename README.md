@@ -27,8 +27,8 @@ Grab the file for your system from the [latest release](https://github.com/leozh
 
 | You use | Download | Then |
 | --- | --- | --- |
-| macOS 13 or newer (Apple silicon and Intel) | `Yukio-0.2.0-macOS.zip` | Unzip, drag `Yukio.app` into Applications, allow it once (below) |
-| Windows 10 / 11, 64-bit | `Yukio-0.2.0-Windows.exe` | Double-click. Python and the artwork are packed inside |
+| macOS 13 or newer (Apple silicon and Intel) | `Yukio-0.2.1-macOS.zip` | Unzip, drag `Yukio.app` into Applications, allow it once (below) |
+| Windows 10 / 11, 64-bit | `Yukio-0.2.1-Windows.exe` | Double-click. Python and the artwork are packed inside |
 
 <details>
 <summary><b>macOS says "Apple could not verify Yukio…"</b></summary>
@@ -64,6 +64,7 @@ Once running, Yukio appears in the bottom-right corner of the screen and a small
 - **Twelve states, one character.** Thinking, reading files, viewing an image, writing files, running tests, browsing the web, handing in the answer, the ✅ done card, the ❓ question card, other work, something failed, idle. The mapping from each agent's tools to a state is explicit and covered by tests (one set of rules for all three: shell commands are classified the same way whether they arrive as Claude's `Bash`, Deep Code's `bash`, or Codex's `exec`). Unknown work falls back to typing at the computer instead of guessing.
 - **Micro-motions, not slideshows.** Every state is one approved base image that a generator brings to life in small, continuous moves: the pen travels along the line, the magnifier sweeps the photo, a finger scrolls the tablet, two hands take turns on the keyboard, eyes blink in the right skin tone. The desk and chair never shift by a pixel, and the generator checks that. 20 to 30 frames per second.
 - **She tells you when it is your turn.** After the final answer she holds up the ✅ card and keeps holding it until you click. `AskUserQuestion` raises the ❓ card instead. Click her and the Claude desktop app opens that exact chat through its own `claude://` link. If that chat is already in front of you, she skips the card altogether.
+- **Answer without leaving your seat.** When the ❓ card goes up, the question itself is copied onto a card beside her, options and all. Click an option — or type your own answer — and Yukio brings that chat to the front and puts the answer in for you (macOS asks once for Accessibility permission; Windows needs none). If that app doesn't come to the front, she presses nothing at all and just leaves the answer on the clipboard.
 - **A bubble over her head.** The session title on top, the current step below, taken from the task list when there is one and otherwise from the tool: "Edit main.swift", "$ swift test", "developer.apple.com". A progress count and a thin bar sit beside it. Only file names, the first words of a command, and domains ever appear.
 - **Several chats at once.** She can only act out one chat, so she picks the one that needs you: waiting for your answer, then stopped on an error, then done and holding a card, then whatever is still running. Every other chat becomes a small card stacked on top of the bubble. Click the bubble to fan them out, click a card to switch to that chat, or pin one chat from the menu.
 - **Pick her up.** Drag her and she dangles from an invisible hand like a kitten held by the scruff: a damped pendulum with inertia, air drag, and a little sag when you yank upward. Let go and she settles in about a second.
@@ -114,7 +115,7 @@ These logs are internal to those tools, not public APIs. If a format changes she
 ```sh
 git clone https://github.com/leozhang8654/yukio-desktop-pet
 cd yukio-desktop-pet/YukioPlayer
-swift test                      # 127 tests: routing, blink timing, classification, parsers, bubble text, timelines, chat picking
+swift test                      # 135 tests: routing, blink timing, classification, parsers, bubble text, timelines, chat picking, questions
 ./scripts/build-app.sh          # build/Yukio.app
 open build/Yukio.app
 cd ../YukioWin && pip3 install pillow && python3 scripts/prepare-windows-assets.py
@@ -127,7 +128,7 @@ cd ../YukioPlayer && ./scripts/package-release.sh  # universal binary zip in dis
 cd yukio-desktop-pet\YukioWin
 pip install pillow
 python run.py
-python run.py --selftest                                          # 141 tests, runs on any OS
+python run.py --selftest                                          # 181 tests, runs on any OS
 powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1    # dist\Yukio.exe, artwork included
 ```
 

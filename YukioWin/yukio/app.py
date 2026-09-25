@@ -103,6 +103,26 @@ class PetApp:
         self.bubble = win32.LayeredWindow("YukioBubble", click_through=True)
         # 卡片要能点，所以不是穿透窗口；卡与卡之间的缝隙靠分层窗口的透明像素穿透。
         self.cards = win32.LayeredWindow("YukioCards", wnd_proc=self._cards_proc)
+        # 她身边那张问题卡：也要能点（选项、送出、打开聊天、✕）。
+        self.question = win32.LayeredWindow("YukioQuestion", wnd_proc=self._question_proc)
+        self.question_layout = None
+        self._question_image = None
+        self._question_alpha = 0.0
+        self._question_target = 0.0
+        self._question_signature = ""
+        #: 此刻立在她身边的那道题（router.PendingQuestion）。
+        self.shown_question = None
+        #: 多选题里已经点中的那几项。
+        self.picked_options = set()
+        #: 按过 ✕ 的那次提问：这一轮先不在她这边答。
+        self.question_dismissed_call = None
+        #: 答案送出之后那行提示，下一道题清掉。
+        self.answer_notice = None
+        #: 真正收键盘输入的那个系统输入框（点了才建）。
+        self.text_input = None
+        self._delivery = None
+        #: 会话 → 深链（查一次要翻几百份记录，问题卡每帧都要问）。
+        self._chat_url_cache = {}
         self.tray = win32.TrayIcon(self.control.hwnd, self._tray_icon_path(), self._tray_tip())
 
         x, y = self._restored_origin()
@@ -136,6 +156,14 @@ class PetApp:
     @property
     def show_cards(self) -> bool:
         return bool(self.settings.get("showCards", True))
+
+    @property
+    def show_question_card(self) -> bool:
+        """她举着问号卡时，在身边立一张写着问题的卡、可以当场回答。
+
+        关掉就还是老样子：只有问号卡，点她跳回聊天去答。
+        """
+        return bool(self.settings.get("showQuestionCard", True))
 
     @property
     def user_scale(self) -> float:
@@ -286,6 +314,7 @@ class PetApp:
             self._position_bubble()
             self._paint_bubble()
             self._position_cards()
+            self._position_question()
         source = self.demo[3] if self.demo else (self.router if self.follow else None)
         line = source.status_line(now) if (self.show_bubble and source) else None
         visibility_changed = (line is None) != (self.bubble_hold.value is None)
@@ -476,6 +505,244 @@ class PetApp:
         self.router.mute_cards(session)
         self._update_cards(now_ms(), immediate=True)
 
+    # MARK: 身边那张问题卡：在这儿直接回答
+
+    def _update_question(self, now: float, immediate: bool = False) -> None:
+        """她举着问号卡时，把那道题抄到身边这张卡上；问完就收起来。"""
+        from .question import QuestionCardLayout
+        source = self.demo[3] if self.demo else (self.router if self.follow else None)
+        pending = source.asking_question if (source is not None and self.show_question_card) else None
+        if pending is not None and pending.call_id == self.question_dismissed_call:
+            pending = None
+        previous = self.shown_question
+        if (pending.call_id if pending else None) != (previous.call_id if previous else None):
+            # 换了一道题（或问完了）：选中项、输入框、提示一律重来。
+            self.picked_options = set()
+            self.answer_notice = None
+            if self.text_input is not None:
+                self.text_input.clear()
+                self.text_input.hide()
+        self.shown_question = pending
+        if pending is None:
+            self._question_signature = ""
+            self._question_target = 0.0
+            if self.text_input is not None:
+                self.text_input.hide()
+            self._fade_question()
+            return
+
+        can_open = not self.demo and bool(self._chat_url(pending.session))
+        signature = "%s|%s|%s|%s|%.2f" % (pending.call_id, sorted(self.picked_options),
+                                          self.answer_notice or "", can_open, self.scale)
+        if signature != self._question_signature or immediate:
+            self._question_signature = signature
+            self.question_layout = QuestionCardLayout(
+                pending.question, picked=self.picked_options, can_open_chat=can_open,
+                sent_notice=self.answer_notice, scale=self.scale)
+            self._question_image = self.question_layout.render()
+            self._question_target = 1.0
+            self._position_question()
+            self._paint_question()
+        self._fade_question()
+
+    def _position_question(self) -> None:
+        """立在她身旁：右边放不下就换到左边，始终留在这块屏幕里。"""
+        from .question import QuestionCardLayout
+        if self.question_layout is None or self._question_image is None:
+            return
+        s = self.scale
+        px, py, w, h = self._pet_rect()
+        left, top, right, bottom = self.win32.work_area(px + w // 2, py + h // 2)
+        x, y = QuestionCardLayout.origin(self.question_layout.size_pt,
+                                         (px / s, py / s, w / s, h / s),
+                                         (left / s, top / s, right / s, bottom / s))
+        self.question.x, self.question.y = int(round(x * s)), int(round(y * s))
+        self._place_text_input()
+
+    def _paint_question(self) -> None:
+        if self._question_image is None or self._question_alpha <= 0.01:
+            self.question.hide()
+            return
+        image = self._question_image
+        if self._question_alpha < 0.99:
+            image = image.copy()
+            alpha = image.getchannel("A").point(lambda v, k=self._question_alpha: int(v * k))
+            image.putalpha(alpha)
+        self.question.show_image(image, self.question.x, self.question.y)
+
+    def _fade_question(self) -> None:
+        if self._question_alpha == self._question_target:
+            return
+        step = FRAME_MS / BUBBLE_FADE_MS
+        if self._question_alpha < self._question_target:
+            self._question_alpha = min(self._question_target, self._question_alpha + step)
+        else:
+            self._question_alpha = max(self._question_target, self._question_alpha - step)
+        self._paint_question()
+        if self._question_alpha <= 0.01:
+            self.question.hide()
+
+    def _ensure_text_input(self):
+        """第一次要用时才建那个系统输入框。"""
+        if self.text_input is None:
+            try:
+                self.text_input = self.win32.TextInput(on_commit=self._input_committed,
+                                                       on_cancel=self._input_cancelled,
+                                                       font_height=int(round(13 * self.scale)))
+            except Exception:
+                traceback.print_exc()
+                return None
+        return self.text_input
+
+    def _place_text_input(self) -> None:
+        """把输入框摆到卡片上画着框的那个位置（卡片挪了它也跟着挪）。"""
+        box = self.text_input
+        if box is None or not box.visible or self.question_layout is None:
+            return
+        rect = self.question_layout.input_rect
+        if rect is None:
+            box.hide()
+            return
+        x, y, w, h = rect
+        box.move(self.question.x + x, self.question.y + y, w, h)
+
+    def _input_committed(self, text: str) -> None:
+        self._send_answer(text)
+
+    def _input_cancelled(self) -> None:
+        box = self.text_input
+        if box is not None and box.text.strip():
+            box.clear()          # 有字先清掉，空的时候再按才收卡
+            return
+        self._close_question()
+
+    def _close_question(self) -> None:
+        if self.shown_question is not None:
+            self.question_dismissed_call = self.shown_question.call_id
+        if self.text_input is not None:
+            self.text_input.hide()
+        self._update_question(now_ms(), immediate=True)
+
+    def _question_proc(self, hwnd, msg, wparam, lparam):
+        """点问题卡：选项＝直接答，输入框＝自己写一句，⏎＝送出，✕＝先不答。"""
+        w = self.win32
+        if getattr(self, "question", None) is None or self.question_layout is None:
+            return w.user32.DefWindowProcW(hwnd, msg, wparam, lparam)
+        try:
+            if msg == w.WM_LBUTTONUP:
+                mx, my = w.cursor_pos()
+                hit = self.question_layout.hit(mx - self.question.x, my - self.question.y)
+                if hit is None:
+                    return 0
+                if hit.kind == "option":
+                    self._question_option_picked(hit.index)
+                elif hit.kind == "input":
+                    box = self._ensure_text_input()
+                    if box is not None and self.question_layout.input_rect:
+                        x, y, bw, bh = self.question_layout.input_rect
+                        box.show(self.question.x + x, self.question.y + y, bw, bh)
+                        box.focus()
+                elif hit.kind == "send":
+                    self._send_answer(self.text_input.text if self.text_input else "")
+                elif hit.kind == "open_chat" and self.shown_question is not None:
+                    self._open_chat(self.shown_question.session)
+                elif hit.kind == "close":
+                    self._close_question()
+                return 0
+        except Exception:
+            traceback.print_exc()
+        return w.user32.DefWindowProcW(hwnd, msg, wparam, lparam)
+
+    def _question_option_picked(self, index: int) -> None:
+        """点了一个选项：单选直接答出去，多选先记下来，写完（或按回车）一起送。"""
+        pending = self.shown_question
+        if pending is None or index >= len(pending.question.options):
+            return
+        if not pending.question.multi_select:
+            self._send_answer(pending.question.options[index].label)
+            return
+        if index in self.picked_options:
+            self.picked_options.discard(index)
+        else:
+            self.picked_options.add(index)
+        self._update_question(now_ms(), immediate=True)
+
+    def _composed_answer(self, typed: str) -> Optional[str]:
+        """送出去的那句话：输入框里写了就用写的，没写就用点中的选项。"""
+        text = (typed or "").strip()
+        if text:
+            return text
+        pending = self.shown_question
+        if pending is None or not self.picked_options:
+            return None
+        labels = [pending.question.options[i].label for i in sorted(self.picked_options)
+                  if i < len(pending.question.options)]
+        return tr(", ", "、").join(labels) if labels else None
+
+    def _chat_url(self, session: str) -> Optional[str]:
+        """这条聊天能不能跳回去（顺带给出深链）。
+
+        查一次要翻几百份记录，问题卡每帧都要问一次「能不能跳」，所以按会话记住结果。
+        """
+        if session in self._chat_url_cache:
+            return self._chat_url_cache[session]
+        try:
+            url = self.links.chat_url(session)
+        except Exception:
+            url = None
+        self._chat_url_cache[session] = url
+        return url
+
+    def _send_answer(self, typed: str) -> None:
+        """替你把答案打进那条聊天里（见 answer.py：深链带到前面 → 逐字打 → 回车）。"""
+        from .answer import AnswerDelivery, COPIED, TYPED
+        pending = self.shown_question
+        text = self._composed_answer(typed)
+        if pending is None or not text:
+            return
+        if self.demo:
+            self.answer_notice = tr("Demo only - nothing was sent", "模拟演示，不会真的送出")
+            self._update_question(now_ms(), immediate=True)
+            return
+        url = self._chat_url(pending.session)
+        self.picked_options = set()
+        if self.text_input is not None:
+            self.text_input.clear()
+            self.text_input.hide()
+        self.answer_notice = tr("Sending...", "正在送过去…")
+        self._update_question(now_ms(), immediate=True)
+        if self._delivery is None:
+            try:
+                self._delivery = AnswerDelivery()
+            except Exception:
+                traceback.print_exc()
+                self.answer_notice = tr("Copied - press Ctrl+V in the chat", "已复制 · 到聊天里 Ctrl+V")
+                self._update_question(now_ms(), immediate=True)
+                return
+
+        def bring_to_front():
+            if url:
+                self.win32.open_url(url)
+
+        # 终端里跑的会话（Deep Code、命令行 Claude）没有可跳的窗口：只复制。
+        outcome = self._delivery.start(text, CLAUDE_DESKTOP_EXE if url else None,
+                                       bring_to_front, now_ms())
+        if outcome is not None:
+            self._answer_finished(outcome)
+
+    def _tick_delivery(self, now: float) -> None:
+        if self._delivery is None or not self._delivery.busy:
+            return
+        outcome = self._delivery.tick(now)
+        if outcome is not None:
+            self._answer_finished(outcome)
+
+    def _answer_finished(self, outcome: str) -> None:
+        from .answer import TYPED
+        self.answer_notice = (tr("Answer sent", "答案已送出") if outcome == TYPED
+                              else tr("Copied - press Ctrl+V in the chat", "已复制 · 到聊天里 Ctrl+V"))
+        self._update_question(now_ms(), immediate=True)
+
     # MARK: 主循环
 
     def _refresh_open_chat(self) -> None:
@@ -535,6 +802,7 @@ class PetApp:
             self._position_bubble()
             self._paint_bubble()
             self._position_cards()
+            self._position_question()
         self.timeline.advance(now)
         blink = self.timeline.spec.blink
         if blink is not None:
@@ -547,6 +815,8 @@ class PetApp:
         self._render(now)
         self._update_bubble(now)
         self._update_cards(now)
+        self._update_question(now)
+        self._tick_delivery(now)
 
     def _write_state_file(self) -> None:
         if not self._state_file:
@@ -564,14 +834,22 @@ class PetApp:
     def run(self) -> int:
         self.control.start_timer(FRAME_MS)
         try:
-            return self.win32.run_message_loop()
+            return self.win32.run_message_loop(pre_dispatch=self._pre_dispatch)
         finally:
             self.shutdown()
+
+    def _pre_dispatch(self, msg) -> bool:
+        """输入框里的回车＝送出，Esc＝收起（EDIT 控件不会把这两个键报给别人）。"""
+        box = self.text_input
+        return bool(box is not None and box.handle_message(msg))
 
     def shutdown(self) -> None:
         try:
             self.control.stop_timer()
             self.tray.remove()
+            if self.text_input is not None:
+                self.text_input.destroy()
+            self.question.destroy()
             self.cards.destroy()
             self.bubble.destroy()
             self.pet.destroy()
@@ -640,6 +918,7 @@ class PetApp:
                     self._position_bubble()
                     self._paint_bubble()
                     self._position_cards()
+                    self._position_question()
                     self._last_mouse_x = mx
                 return 0
             if msg == w.WM_LBUTTONUP:
@@ -840,6 +1119,8 @@ class PetApp:
         items.append(Item(tr("Follow AI activity", "跟随 AI 活动"), self._toggle_follow, checked=self.follow))
         items.append(Item(tr("Show task bubble", "头顶显示任务"), self._toggle_bubble, checked=self.show_bubble))
         items.append(Item(tr("Show other chats", "头顶显示别的聊天"), self._toggle_cards, checked=self.show_cards))
+        items.append(Item(tr("Answer here", "在这儿回答问题"), self._toggle_question_card,
+                          checked=self.show_question_card))
         items.append(Item(tr("Assistant", "跟随的助手"), None, submenu=[
             Item(tr("Auto (whoever is working)", "自动（谁在干活跟谁）"), lambda: self._set_source("auto"),
                  checked=self.settings.get("source") == "auto"),
@@ -883,6 +1164,10 @@ class PetApp:
     def _toggle_cards(self) -> None:
         self.settings.set("showCards", not self.show_cards)
         self._update_cards(now_ms(), immediate=True)
+
+    def _toggle_question_card(self) -> None:
+        self.settings.set("showQuestionCard", not self.show_question_card)
+        self._update_question(now_ms(), immediate=True)
 
     def _drop_sign(self) -> None:
         self.router.dismiss_completion(now_ms())
@@ -969,6 +1254,8 @@ class PetApp:
         self._paint_bubble()
         self._position_cards()
         self._paint_cards()
+        self._position_question()
+        self._paint_question()
 
     def start_demo(self) -> None:
         now = now_ms()

@@ -16,7 +16,7 @@ import os
 from typing import Any, Dict, List, Optional, Tuple
 from urllib.parse import urlparse
 
-from .events import PetState
+from .events import PetQuestion, PetState
 from .l10n import tr
 
 #: classify() 返回 CONTINUE_PREVIOUS 表示“延续该会话上一个工具的活动”（轮询后台命令等）。
@@ -70,6 +70,9 @@ _WEB_TOOLS = {"webfetch", "websearch", "web_search", "web_fetch", "fetch"}
 _IMAGE_TOOLS = {"readimage", "understandimage", "view_image", "read_image"}
 _SHELL_TOOLS = {"bash", "powershell", "shell", "run_command", "terminal"}
 _CONTINUE_TOOLS = {"bashoutput", "killshell", "killbash", "taskoutput", "taskstop", "readbashoutput"}
+#: 问话类工具：各家写法不同，都是「停下来等你拿主意」。
+_ASK_TOOLS = {"askuserquestion", "ask_user_question", "ask_user",
+              "request_user_input", "request_user_input_async"}
 _PLAN_TOOLS = {
     "todowrite", "taskcreate", "taskupdate", "tasklist", "taskget",
     "updateplan", "enterplanmode", "exitplanmode", "toolsearch", "exit_plan_mode",
@@ -100,12 +103,22 @@ def classify(tool: str, input: Optional[Dict[str, Any]] = None):
         return CONTINUE_PREVIOUS
     if key in _PLAN_TOOLS:
         return PetState.thinking
-    if key == "askuserquestion":
+    if key in _ASK_TOOLS:
         # 等待用户回答：不是在工作。
         return PetState.question_for_user
     if tool.startswith("mcp__"):
         return classify_mcp(tool, input)
     return PetState.default_work
+
+
+def question(tool: str, input: Optional[Dict[str, Any]] = None) -> Optional[PetQuestion]:
+    """这次调用是不是在问你话；是就把问题抄下来（举牌时显示在她身边）。
+
+    只认问话类工具：别的工具参数里叫 question 的字段与这件事无关。
+    """
+    if tool.lower() not in _ASK_TOOLS:
+        return None
+    return PetQuestion.parse(input or {})
 
 
 def classify_mcp(tool: str, input: Dict[str, Any]) -> PetState:
@@ -506,8 +519,9 @@ def describe(tool: str, input: Optional[Dict[str, Any]] = None) -> Optional[str]
         return tr("Planning", "制定计划")
     if key == "toolsearch":
         return tr("Finding tools", "查找工具")
-    if key == "askuserquestion":
-        return tr("Needs your answer", "等你回答")
+    if key in _ASK_TOOLS:
+        q = PetQuestion.parse(input)
+        return q.short_label if q else tr("Needs your answer", "等你回答")
     if key in ("agent", "task"):
         d = _text(input, "description")
         return tr("Delegating: %s", "委派：%s") % d if d else tr("Delegating to a helper", "委派助手")

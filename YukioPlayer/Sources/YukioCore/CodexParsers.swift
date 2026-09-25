@@ -104,9 +104,10 @@ public final class CodexRolloutParser {
     }
 
     private func ev(_ ts: Double, _ kind: PetEvent.Kind, id: String? = nil, activity: PetState? = nil,
-                    tool: String? = nil, detail: String? = nil, todos: [TodoItem]? = nil) -> PetEvent {
+                    tool: String? = nil, detail: String? = nil, todos: [TodoItem]? = nil,
+                    question: PetQuestion? = nil) -> PetEvent {
         PetEvent(ts: ts, source: Self.source, session: session, kind: kind, eventID: id, activity: activity,
-                 tool: tool, detail: detail, todos: todos)
+                 tool: tool, detail: detail, todos: todos, question: question)
     }
 
     // MARK: event_msg 里的条目
@@ -180,7 +181,8 @@ public final class CodexRolloutParser {
         case .continuePrevious: activity = nil
         }
         pendingFailure = false
-        var out = [ev(ts, .activityStart, id: call, activity: activity, tool: name, detail: detail)]
+        var out = [ev(ts, .activityStart, id: call, activity: activity, tool: name, detail: detail,
+                      question: CodexToolClassifier.question(tool: name, arguments: arguments))]
         if let todos = CodexPlan.items(from: arguments["plan"] ?? arguments["items"] ?? arguments["todos"]) {
             out.append(ev(ts, .todoList, todos: todos))
         }

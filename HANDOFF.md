@@ -175,3 +175,14 @@
   测试仍按中文文案断言：Swift 各 @Suite 的 init 里、Python 各测试模块的 setUpModule 里把语言切成中文（Windows 的应用测试给临时设置写 `"language": "zh"`，因为 PetApp 启动会按设置重设语言），另加 L10nTests／test_l10n 验英文默认。macOS 101 个、Windows 141 个测试通过。
   没动的：命令行诊断输出（--watch、--check、--hang 自检等）与代码注释仍是中文；Windows 版 `--bubble`／`--cards` 的样例文字也仍是中文。
   文档：根 README、两个播放器的 README 都改成英文默认，中文版为同名 `README.zh-CN.md`，顶部互链；CI 工作流改名 "Build Windows Yukio"；README 配图由 `docs/readme/make_images.py` 生成，英文界面的渲染是默认图，中文界面的带 `-zh` 后缀。
+
+- 2026-09-23：有问题时可以直接在雪绪这边回答（用户的话是「添加回复问题功能。有问题时可以直接在雪绪这边回答。举牌时问题抄录下来在适宜的地方以适宜的大小显示」，并选了「模拟键盘直接打进去」「macOS + Windows 都改」）。两版同时改。
+  **抄题**：新增 `PetQuestion`（macOS `Sources/YukioCore/PetQuestion.swift`，Windows `yukio/events.py`）：小标题、问题正文、选项（标题 + 说明）、是否多选。认三种写法——Claude 的 `questions:[{question, header, options:[{label, description}], multiSelect}]`、Codex 的 `questions:[{title, options:["…"]}]`、以及顶层直接 `question`／`prompt` 的简写。只有问话类工具才抄（`AskUserQuestion`／`request_user_input` 那几个名字），别的工具参数里叫 question 的字段与这件事无关。`PetEvent` 多一个 `question` 字段，四个解析器（Claude 转录、Claude hooks、Codex、Deep Code）在 `activity_start` 上带出来。顺带：`AskUserQuestion` 的气泡说明从固定的「等你回答」改成那道题本身（有小标题用小标题）。
+  **显示**：`ActivityRouter.askingQuestion`／`asking_question` 给出「此刻在问什么」（会话 ID、那次调用的 ID、题目）。新增一张卡：macOS `QuestionCard.swift` + `QuestionPanel.swift`，Windows `yukio/question.py` + app 里第四个分层窗口。宽 280 点（气泡 180 点只够放一行状态），问题折到最多六行、超了截断，选项最多六个一行一个，立在她左边或右边看哪边放得下。举着问号卡就自己立起来，答完自己收。
+  **回答**：点选项＝那个选项的文字就是答案（macOS 还可以按数字键 1–9）；多选题点过的打勾、按 ⏎ 一起送（用「、」连）；下面一个真正的文本框可以自己写一句（macOS `NSTextField`，Windows 单独一扇窗口里的 EDIT 控件，都是为了让输入法照常用）；✕ 只收这一道题的卡，换一道题会重新立。设置里多一个开关「在这儿回答问题」（`showQuestionCard`），关掉就还是老样子。
+  **送出去**：macOS `AnswerSender.swift` 走「复制 → 深链把那家带到最前面 → 确认最前面的确实是它 → ⌘V → 回车 → 把粘贴板放回去」，需要系统的辅助功能权限（第一次弹系统面板）；Windows `yukio/answer.py` 走「复制 → 深链 → 等 `Claude.exe` 到前台 → `SendInput` 的 Unicode 模式逐字打 → 回车」，不需要额外授权。**两版都遵守同一条：最前面的应用不是预期的那个就一个键都不按**，只留粘贴板并在卡上说明；跳不过去的聊天（Deep Code 在终端里）只复制；演示里不送。
+  **自查**：新增 `--question out.png`（两版都有）：离屏画出单选、多选、没有选项、已答过四格，并打印点击分区。Windows 的卡片里 ✓／⏎／› 换成 √／→／>（中文字体里前两个未必有，画出来是豆腐块），半透明填充先和纸色混好再画（Pillow 直接写像素、不做合成，不然会在卡上打洞）。
+  **测试**：macOS 127 个（新增 7；并入 v0.2.0 的眨眼等测试后合计 135）、Windows 181 个（新增 26）。Windows 那 26 个里，5 个验送出的状态机（假的按键后端）：到了前台才打字、等不到就只复制、中途切走就收手、没有窗口可跳只复制、空答案不动作；8 个在假窗口层上把整张卡走了一遍：卡立在她身边、关掉开关只剩问号卡、点选项后打进聊天、前台不对就一个键不按、点输入框把真输入框盖到画出来的框上、✕ 只收卡、「打开聊天」只开不送。
+  **没验到的**：两边真正按键的那一步都没有在活的聊天窗口上跑过——macOS 缺屏幕录制／辅助功能授权的实测，Windows 本机没有。Claude 桌面版在 `AskUserQuestion` 弹着选项时，输入框收不收这一行字、收了算不算回答，也没有实测过；收不下时表现为「答案打进了输入框但没被当成答案」，退路是卡上的「打开聊天」。
+
+- 2026-09-25：发 v0.2.1。上面「在雪绪这边回答问题」原本是在 v0.2.0 之前的 768508f 上改的、没提交；这次把它合到 v0.2.0（3f9be04）之上，只有 README 测试行冲突。合完 macOS 135 个、Windows 181 个测试通过；版本号改 0.2.1（`build-app.sh`、`yukio/__init__.py`、README 下载表）。

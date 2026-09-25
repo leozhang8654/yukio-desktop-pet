@@ -23,7 +23,7 @@ import re
 from typing import Any, Dict, List, Optional
 
 from .classify import CONTINUE_PREVIOUS, classify, classify_mcp, classify_shell, describe, shell_summary
-from .events import Kind, PetEvent, PetState, TodoItem, TodoStatus, parse_timestamp
+from .events import Kind, PetEvent, PetQuestion, PetState, TodoItem, TodoStatus, parse_timestamp
 from .l10n import tr
 
 SOURCE = "codex"
@@ -291,12 +291,20 @@ def _path(arguments: Dict[str, Any]) -> Optional[str]:
 
 
 def _question(arguments: Dict[str, Any]) -> Optional[str]:
-    questions = arguments.get("questions")
-    if not isinstance(questions, list) or not questions or not isinstance(questions[0], dict):
+    q = PetQuestion.parse(arguments)
+    return q.short_label if q else None
+
+
+#: Codex 那几种问话工具名（`classify_tool` 里用的是同一组）。
+_ASK_TOOLS = ("request_user_input_async", "request_user_input", "ask_user", "ask_user_question",
+              "askuserquestion")
+
+
+def tool_question(tool: str, arguments: Dict[str, Any]) -> Optional[PetQuestion]:
+    """这次调用是不是在问你话；是就把问题抄下来。"""
+    if not isinstance(tool, str) or tool.lower() not in _ASK_TOOLS:
         return None
-    first = questions[0]
-    title = first.get("title") or first.get("question") or first.get("header")
-    return title[:40] if isinstance(title, str) and title else None
+    return PetQuestion.parse(arguments)
 
 
 def _failed(status: Any = None, exit_code: Any = None, success: Any = None) -> bool:
@@ -367,9 +375,10 @@ class CodexRolloutParser:
         if not self.session:
             return []
 
-        def ev(kind_, event_id=None, activity=None, tool=None, detail=None, todos=None, at=None):
+        def ev(kind_, event_id=None, activity=None, tool=None, detail=None, todos=None, at=None,
+               question=None):
             return PetEvent(ts if at is None else at, SOURCE, self.session, kind_, event_id=event_id,
-                            activity=activity, tool=tool, detail=detail, todos=todos)
+                            activity=activity, tool=tool, detail=detail, todos=todos, question=question)
 
         if kind == "task_complete":
             self._pending_failure = False
@@ -455,7 +464,8 @@ class CodexRolloutParser:
         activity = None if state == CONTINUE_PREVIOUS else state
         self._pending_failure = False
         out = [ev(Kind.activity_start, event_id=call if isinstance(call, str) else None,
-                  activity=activity, tool=name, detail=detail)]
+                  activity=activity, tool=name, detail=detail,
+                  question=tool_question(name, arguments))]
         todos = plan_items(arguments.get("plan") or arguments.get("items") or arguments.get("todos"))
         if todos:
             out.append(ev(Kind.todo_list, todos=todos))

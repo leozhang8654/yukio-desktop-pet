@@ -483,3 +483,122 @@ class FirstRunTests(unittest.TestCase):
 
         a = make_app(first_run=True, sources=[FakeSource()])
         self.assertIsNone(a.demo)
+
+
+class QuestionCardTests(unittest.TestCase):
+    """她身边那张问题卡：立起来、点选项、替你送出去。"""
+
+    QUESTION = {"questions": [{
+        "question": "报错文案保留原来那句，还是换成新的短句？",
+        "header": "报错文案",
+        "options": [{"label": "保留原来那句", "description": "不动文案"},
+                    {"label": "换成新的短句"}],
+    }]}
+
+    def setUp(self):
+        fake_win32.FOREGROUND[0] = None
+        fake_win32.TYPED[:] = []
+        fake_win32.RETURNS[0] = 0
+        fake_win32.CLIPBOARD[0] = None
+        fake_win32.OPENED_URLS[:] = []
+
+    def _asking_app(self, session="s1", url="claude://code/continue?session=local_1"):
+        from yukio.events import Kind, PetEvent, PetQuestion
+        a = make_app()
+        a.links = _FakeLinks({session: url} if url else {})
+        question = PetQuestion.parse(self.QUESTION)
+        now = CLOCK[0]
+        a.router.ingest(PetEvent(now, "test", session, Kind.task_start, detail="改登录页"), now)
+        a.router.ingest(PetEvent(now, "test", session, Kind.activity_start, event_id="q",
+                                 activity=PetState.question_for_user, tool="AskUserQuestion",
+                                 detail=question.short_label, question=question), now)
+        advance(a, 80)          # 过了防抖与最短保持，牌子立起来
+        return a
+
+    def test_card_stands_up_beside_her_with_the_question_on_it(self):
+        a = self._asking_app()
+        self.assertEqual(a.shown_state, PetState.question_for_user)
+        self.assertTrue(a.question.visible)
+        self.assertEqual(a.question_layout.header, "报错文案")
+        self.assertEqual([o.label for o in a.question_layout.options],
+                         ["保留原来那句", "换成新的短句"])
+        # 立在她身边，不压住她。
+        px, py, pw, ph = a._pet_rect()
+        self.assertTrue(a.question.x >= px + pw or a.question.x + a.question.width <= px)
+
+    def test_card_is_not_shown_when_the_setting_is_off(self):
+        a = self._asking_app()
+        a._toggle_question_card()
+        advance(a, 10)          # 淡出
+        self.assertFalse(a.question.visible)
+        self.assertIsNone(a.shown_question)
+        self.assertEqual(a.shown_state, PetState.question_for_user)   # 问号卡照举
+
+    def test_clicking_an_option_types_it_into_the_chat(self):
+        a = self._asking_app()
+        self._click(a, "选项1")
+        # 深链已经打开，答案先进了粘贴板，这时还没按键。
+        self.assertEqual(fake_win32.OPENED_URLS, ["claude://code/continue?session=local_1"])
+        self.assertEqual(fake_win32.CLIPBOARD[0], "保留原来那句")
+        self.assertEqual(fake_win32.TYPED, [])
+        fake_win32.FOREGROUND[0] = "Claude.exe"
+        advance(a, 30)          # 等它到前台、再站稳一会儿
+        self.assertEqual(fake_win32.TYPED, ["保留原来那句"])
+        self.assertEqual(fake_win32.RETURNS[0], 1)
+        self.assertEqual(a.answer_notice, "答案已送出")
+
+    def test_never_types_when_the_app_does_not_come_to_the_front(self):
+        a = self._asking_app()
+        fake_win32.FOREGROUND[0] = "explorer.exe"
+        self._click(a, "选项2")
+        advance(a, 120)         # 超过 2.5 秒的等待上限
+        self.assertEqual(fake_win32.TYPED, [])
+        self.assertEqual(fake_win32.RETURNS[0], 0)
+        self.assertEqual(fake_win32.CLIPBOARD[0], "换成新的短句")
+        self.assertEqual(a.answer_notice, "已复制 · 到聊天里 Ctrl+V")
+
+    def test_a_chat_with_no_window_only_copies(self):
+        a = self._asking_app(url=None)
+        self._click(a, "选项1")
+        self.assertEqual(fake_win32.OPENED_URLS, [])
+        self.assertEqual(fake_win32.TYPED, [])
+        self.assertEqual(a.answer_notice, "已复制 · 到聊天里 Ctrl+V")
+
+    def test_clicking_the_input_puts_a_real_text_box_over_the_drawn_one(self):
+        a = self._asking_app()
+        self._click(a, "输入框")
+        box = a.text_input
+        self.assertTrue(box.visible and box.focused)
+        x, y, w, h = box.rect
+        ix, iy, iw, ih = a.question_layout.input_rect
+        self.assertEqual((x, y, w, h), (a.question.x + ix, a.question.y + iy, iw, ih))
+        # 写一句自己的话，回车送出。
+        box.value = "换成新的，但把句号去掉"
+        box.on_commit(box.value)
+        fake_win32.FOREGROUND[0] = "Claude.exe"
+        advance(a, 30)
+        self.assertEqual(fake_win32.TYPED, ["换成新的，但把句号去掉"])
+        self.assertFalse(box.visible)
+
+    def test_closing_the_card_keeps_the_question_sign_up(self):
+        a = self._asking_app()
+        self._click(a, "✕")
+        advance(a, 10)          # 淡出
+        self.assertFalse(a.question.visible)
+        self.assertEqual(a.shown_state, PetState.question_for_user)
+        self.assertEqual(a.router.asking_session, "s1")
+
+    def test_open_the_chat_link_just_opens_it(self):
+        a = self._asking_app()
+        self._click(a, "打开聊天")
+        self.assertEqual(fake_win32.OPENED_URLS, ["claude://code/continue?session=local_1"])
+        self.assertTrue(a.question.visible)       # 卡还立着
+        self.assertEqual(fake_win32.TYPED, [])
+
+    def _click(self, application, target: str) -> None:
+        """照卡片自己给出的代表点，在屏幕坐标上点一下。"""
+        from yukio.question import probe_points
+        points = dict(probe_points(application.question_layout))
+        x, y = points[target]
+        fake_win32.CURSOR[:] = [int(application.question.x + x), int(application.question.y + y)]
+        application._question_proc(application.question.hwnd, fake_win32.WM_LBUTTONUP, 0, 0)

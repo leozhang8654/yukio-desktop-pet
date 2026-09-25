@@ -28,9 +28,9 @@ public struct ClaudeTranscriptParser: Sendable {
         guard let ts = PetEvent.parseTimestamp(obj["timestamp"] as? String) else { return [] }
 
         func ev(_ kind: PetEvent.Kind, id: String? = nil, activity: PetState? = nil, tool: String? = nil,
-                detail: String? = nil, todos: [TodoItem]? = nil) -> PetEvent {
+                detail: String? = nil, todos: [TodoItem]? = nil, question: PetQuestion? = nil) -> PetEvent {
             PetEvent(ts: ts, source: Self.source, session: session, kind: kind, eventID: id, activity: activity,
-                     tool: tool, detail: detail, todos: todos)
+                     tool: tool, detail: detail, todos: todos, question: question)
         }
 
         switch type {
@@ -81,7 +81,8 @@ public struct ClaudeTranscriptParser: Sendable {
                     case .continuePrevious: activity = nil
                     }
                     out.append(ev(.activityStart, id: b["id"] as? String, activity: activity, tool: name,
-                                  detail: ClaudeToolClassifier.describe(tool: name, input: input)))
+                                  detail: ClaudeToolClassifier.describe(tool: name, input: input),
+                                  question: ClaudeToolClassifier.question(tool: name, input: input)))
                     if let t = ClaudeTasks.events(tool: name, input: input) {
                         out.append(ev(t.kind, todos: t.items))
                     }
@@ -159,9 +160,9 @@ public struct ClaudeHookParser: Sendable {
               let session = obj["session_id"] as? String else { return [] }
         let ts = (obj["yukio_ts_ms"] as? Double) ?? receivedAt
         func ev(_ kind: PetEvent.Kind, id: String? = nil, activity: PetState? = nil, tool: String? = nil,
-                detail: String? = nil, todos: [TodoItem]? = nil) -> PetEvent {
+                detail: String? = nil, todos: [TodoItem]? = nil, question: PetQuestion? = nil) -> PetEvent {
             PetEvent(ts: ts, source: Self.source, session: session, kind: kind, eventID: id, activity: activity,
-                     tool: tool, detail: detail, todos: todos)
+                     tool: tool, detail: detail, todos: todos, question: question)
         }
         switch name {
         case "UserPromptSubmit":
@@ -175,7 +176,8 @@ public struct ClaudeHookParser: Sendable {
             case .continuePrevious: activity = nil
             }
             var out = [ev(.activityStart, id: obj["tool_use_id"] as? String, activity: activity, tool: tool,
-                          detail: ClaudeToolClassifier.describe(tool: tool, input: input))]
+                          detail: ClaudeToolClassifier.describe(tool: tool, input: input),
+                          question: ClaudeToolClassifier.question(tool: tool, input: input))]
             if let t = ClaudeTasks.events(tool: tool, input: input) {
                 out.append(ev(t.kind, todos: t.items))
             }

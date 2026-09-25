@@ -10,6 +10,7 @@ struct SettingsSnapshot {
     let chats: [SessionSummary]
     let showBubble: Bool
     let showCards: Bool
+    let showQuestionCard: Bool
     let scale: CGFloat
     let language: UILanguage
     let demoPlaying: Bool
@@ -21,6 +22,7 @@ enum SettingsChange {
     case chat(String?)
     case showBubble(Bool)
     case showCards(Bool)
+    case showQuestionCard(Bool)
     case scale(CGFloat)
     case language(UILanguage)
     case toggleHidden
@@ -41,6 +43,7 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
     private let chatTitle = NSTextField(labelWithString: "")
     private let bubbleTitle = NSTextField(labelWithString: "")
     private let cardsTitle = NSTextField(labelWithString: "")
+    private let questionTitle = NSTextField(labelWithString: "")
     private let scaleTitle = NSTextField(labelWithString: "")
     private let languageTitle = NSTextField(labelWithString: "")
 
@@ -49,6 +52,7 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
     private let chatPopup = NSPopUpButton()
     private let bubbleSwitch = NSSwitch()
     private let cardsSwitch = NSSwitch()
+    private let questionSwitch = NSSwitch()
     private let scaleSlider = NSSlider()
     private let scaleReadout = NSTextField(labelWithString: "100%")
     private let languagePopup = NSPopUpButton()
@@ -106,6 +110,7 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         followSwitch.state = snapshot.following ? .on : .off
         bubbleSwitch.state = snapshot.showBubble ? .on : .off
         cardsSwitch.state = snapshot.showCards ? .on : .off
+        questionSwitch.state = snapshot.showQuestionCard ? .on : .off
 
         sync(providerPopup, items: AgentProvider.allCases.map { ($0.displayName, $0.rawValue) })
         select(providerPopup, value: snapshot.provider.rawValue)
@@ -192,6 +197,7 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         stack.addArrangedSubview(displayHeading)
         stack.addArrangedSubview(row(title: bubbleTitle, control: bubbleSwitch))
         stack.addArrangedSubview(row(title: cardsTitle, control: cardsSwitch))
+        stack.addArrangedSubview(row(title: questionTitle, control: questionSwitch))
         let sliderGroup = NSStackView(views: [scaleSlider, scaleReadout])
         sliderGroup.orientation = .horizontal
         sliderGroup.alignment = .centerY
@@ -230,6 +236,8 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         bubbleSwitch.action = #selector(bubbleChanged)
         cardsSwitch.target = self
         cardsSwitch.action = #selector(cardsChanged)
+        questionSwitch.target = self
+        questionSwitch.action = #selector(questionChanged)
 
         scaleSlider.minValue = ScaleSliderView.range.lowerBound
         scaleSlider.maxValue = ScaleSliderView.range.upperBound
@@ -284,6 +292,7 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         chatTitle.stringValue = tr("Chat", "跟随的聊天")
         bubbleTitle.stringValue = tr("Task bubble", "任务气泡")
         cardsTitle.stringValue = tr("Other chats", "其他聊天提醒")
+        questionTitle.stringValue = tr("Answer here", "在这儿回答问题")
         scaleTitle.stringValue = tr("Size", "大小")
         languageTitle.stringValue = tr("Language", "语言")
         resetButton.title = tr("Reset position", "复位位置")
@@ -360,6 +369,11 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         onChange?(.showCards(cardsSwitch.state == .on))
     }
 
+    @objc private func questionChanged() {
+        guard !updating else { return }
+        onChange?(.showQuestionCard(questionSwitch.state == .on))
+    }
+
     @objc private func scaleChanged() {
         guard !updating else { return }
         let value = ScaleSliderView.snap(scaleSlider.doubleValue)
@@ -398,6 +412,7 @@ func runSettingsSnapshot(path: String) -> Never {
                                       chats: chats,
                                       showBubble: true,
                                       showCards: true,
+                                      showQuestionCard: true,
                                       scale: 1.0,
                                       language: .chinese,
                                       demoPlaying: false))

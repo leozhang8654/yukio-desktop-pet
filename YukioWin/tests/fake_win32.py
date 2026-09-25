@@ -193,3 +193,73 @@ class ControlWindow:
 
     def destroy(self):
         self.destroyed = True
+
+
+# MARK: 在雪绪这边回答（见 yukio/answer.py 与 yukio/win32.py 的同名东西）
+
+#: 此刻"最前面"的那个可执行文件，测试里直接改。
+FOREGROUND = [None]
+#: 替你按键都按了什么。
+TYPED: List[str] = []
+RETURNS = [0]
+CLIPBOARD = [None]
+
+
+def foreground_process_name() -> Optional[str]:
+    return FOREGROUND[0]
+
+
+def send_text(text: str) -> bool:
+    TYPED.append(text)
+    return True
+
+
+def send_return() -> bool:
+    RETURNS[0] += 1
+    return True
+
+
+def set_clipboard_text(text: str) -> bool:
+    CLIPBOARD[0] = text
+    return True
+
+
+class TextInput:
+    """假的输入框：记下摆在哪儿、写了什么。"""
+
+    def __init__(self, on_commit, on_cancel, font_height: int = 15):
+        self.on_commit = on_commit
+        self.on_cancel = on_cancel
+        self.font_height = font_height
+        self.rect = None
+        self.visible = False
+        self.value = ""
+        self.focused = False
+        self.destroyed = False
+
+    def show(self, x, y, width, height):
+        self.rect = (int(x), int(y), int(width), int(height))
+        self.visible = True
+
+    def move(self, x, y, width, height):
+        if self.visible:
+            self.show(x, y, width, height)
+
+    def hide(self):
+        self.visible = False
+
+    def focus(self):
+        self.focused = True
+
+    @property
+    def text(self) -> str:
+        return self.value
+
+    def clear(self):
+        self.value = ""
+
+    def handle_message(self, msg) -> bool:
+        return False
+
+    def destroy(self):
+        self.destroyed = True

@@ -15,14 +15,15 @@ public enum DemoScript {
         var out: [Step] = []
         var n = 0
         func add(_ t: Double, _ kind: PetEvent.Kind, id: String? = nil, _ activity: PetState? = nil, tool: String? = nil,
-                 detail: String? = nil, todos: [TodoItem]? = nil) {
+                 detail: String? = nil, todos: [TodoItem]? = nil, question: PetQuestion? = nil) {
             out.append(Step(offsetMs: t, event: PetEvent(ts: start + t, source: source, session: session, kind: kind,
                                                          eventID: id, activity: activity, tool: tool,
-                                                         detail: detail, todos: todos)))
+                                                         detail: detail, todos: todos, question: question)))
         }
-        func tool(_ t0: Double, _ t1: Double, _ activity: PetState, _ name: String, _ detail: String, fails: Bool = false) {
+        func tool(_ t0: Double, _ t1: Double, _ activity: PetState, _ name: String, _ detail: String,
+                  fails: Bool = false, question: PetQuestion? = nil) {
             n += 1
-            add(t0, .activityStart, id: "sim-\(n)", activity, tool: name, detail: detail)
+            add(t0, .activityStart, id: "sim-\(n)", activity, tool: name, detail: detail, question: question)
             add(t1, fails ? .activityFailed : .activityEnd, id: "sim-\(n)", tool: name)
         }
         func todo(_ t: Double, _ id: String, _ subject: String? = nil, status: TodoItem.Status? = nil) {
@@ -59,12 +60,24 @@ public enum DemoScript {
         tool(39000, 43000, .default_work, "Bash", "$ swift build")           // 未识别工作 → 电脑桌
         todo(44000, "3", status: .completed)
         add(44500, .thinking)
-        tool(45500, 48500, .question_for_user, "AskUserQuestion", tr("Needs your answer", "等你回答"))  // 立问号卡，指着它等你回答
-        add(49500, .finalAnswer)                                           // 先递交报告，再举勾选卡
-        add(49500, .taskEnd)
+        // 立问号卡，指着它等你回答；身边那张卡把问题抄下来，选项可以直接点（演示里不会真的送出去）。
+        let demoQuestion = PetQuestion(
+            header: tr("Error message", "报错文案"),
+            text: tr("The tests pass now. Should the login page show the old error text, or the new shorter one?",
+                     "测试过了。登录页的报错文案是保留原来那句，还是换成新的短句？"),
+            options: [
+                .init(label: tr("Keep the old text", "保留原来那句"),
+                      detail: tr("No copy change, ships as is", "不动文案，直接发")),
+                .init(label: tr("Use the shorter one", "换成新的短句"),
+                      detail: tr("Shorter, matches the other pages", "更短，和别的页面一致")),
+            ])
+        tool(45500, 55000, .question_for_user, "AskUserQuestion",
+             demoQuestion.shortLabel, question: demoQuestion)
+        add(56000, .finalAnswer)                                           // 先递交报告，再举勾选卡
+        add(56000, .taskEnd)
         return out
     }
 
     /// 脚本全长（最后一个事件之后再留出递交报告与举起勾选卡的时间；牌子会一直举到演示结束）。
-    public static let durationMs: Double = 49500 + 8000 + 3000
+    public static let durationMs: Double = 56000 + 8000 + 3000
 }

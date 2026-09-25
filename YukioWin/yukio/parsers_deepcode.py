@@ -24,7 +24,7 @@ import json
 import re
 from typing import Any, Dict, List, Optional
 
-from .classify import CONTINUE_PREVIOUS, classify, describe
+from .classify import CONTINUE_PREVIOUS, classify, describe, question
 from .events import Kind, PetEvent, PetState, TodoItem, TodoStatus, parse_timestamp
 from .l10n import tr
 
@@ -149,9 +149,9 @@ class DeepCodeMessageParser:
         params = obj.get("messageParams") if isinstance(obj.get("messageParams"), dict) else {}
         content = obj.get("content") if isinstance(obj.get("content"), str) else ""
 
-        def ev(kind, event_id=None, activity=None, tool=None, detail=None, todos=None):
+        def ev(kind, event_id=None, activity=None, tool=None, detail=None, todos=None, question=None):
             return PetEvent(ts, SOURCE, session, kind, event_id=event_id, activity=activity,
-                            tool=tool, detail=detail, todos=todos)
+                            tool=tool, detail=detail, todos=todos, question=question)
 
         if role == "user":
             stripped = content.strip()
@@ -184,7 +184,8 @@ class DeepCodeMessageParser:
                     activity = None if kind == CONTINUE_PREVIOUS else kind
                     call_id = call.get("id") if isinstance(call.get("id"), str) else None
                     out.append(ev(Kind.activity_start, event_id=call_id, activity=activity,
-                                  tool=name, detail=describe(name, args)))
+                                  tool=name, detail=describe(name, args),
+                                  question=question(name, args)))
                     if name.lower() == "updateplan":
                         plan = args.get("plan")
                         if isinstance(plan, str):

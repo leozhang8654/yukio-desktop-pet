@@ -11,7 +11,7 @@ from __future__ import annotations
 from typing import Dict, List, NamedTuple, Optional
 
 from .cards import ActivityCard, CardStatus
-from .events import Kind, PetEvent, PetState, TodoItem, TodoStatus
+from .events import Kind, PetEvent, PetQuestion, PetState, TodoItem, TodoStatus
 from .l10n import tr
 
 INF = float("inf")
@@ -66,14 +66,28 @@ class StatusLine(NamedTuple):
     progress: Optional[Progress]
 
 
-class _OpenCall:
-    __slots__ = ("id", "state", "at", "detail")
+class PendingQuestion(NamedTuple):
+    """等着你答的一道题。
 
-    def __init__(self, id: str, state: PetState, at: float, detail: Optional[str]):
+    `call_id` 是那次工具调用的 ID：换了一道题它就变，输入框和“已送出”的状态跟着重来。
+    """
+
+    session: str
+    call_id: str
+    question: PetQuestion
+
+
+class _OpenCall:
+    __slots__ = ("id", "state", "at", "detail", "question")
+
+    def __init__(self, id: str, state: PetState, at: float, detail: Optional[str],
+                 question: Optional[PetQuestion] = None):
         self.id = id
         self.state = state
         self.at = at
         self.detail = detail
+        #: 问话类调用（AskUserQuestion）抄下来的那道题；别的调用是 None。
+        self.question = question
 
 
 class _Session:
@@ -359,7 +373,7 @@ class ActivityRouter:
             self._ensure_active(s, now, e.ts)
             state = e.activity or s.last_tool_state or PetState.default_work
             call_id = e.event_id or self._next_anonymous_id()
-            s.open.append(_OpenCall(call_id, state, now, e.detail))
+            s.open.append(_OpenCall(call_id, state, now, e.detail, e.question))
             if e.detail:
                 s.last_detail[state] = e.detail
             s.final_answer_at = None
@@ -656,6 +670,24 @@ class ActivityRouter:
         if self.displayed is not PetState.question_for_user or not self.focused_session:
             return None
         return self.focused_session if self.focused_session in self._sessions else None
+
+    @property
+    def asking_question(self) -> Optional["PendingQuestion"]:
+        """此刻立着的那道题：问题正文、选项，以及它属于哪条聊天、哪次调用。
+
+        举牌时把它抄在她身边显示，选项可以直接点着回答。
+        问不出问题正文的来源（Deep Code 只报一个「等你回答」的状态）没有这个，返回 None。
+        """
+        session = self.asking_session
+        if not session:
+            return None
+        s = self._sessions.get(session)
+        if s is None or not s.open:
+            return None
+        call = s.open[-1]
+        if call.state is not PetState.question_for_user or call.question is None:
+            return None
+        return PendingQuestion(session, call.id, call.question)
 
     def dismiss_completion(self, now: float) -> bool:
         """用户点了举着的牌子：放下，立刻回到此刻该显示的状态（不等防抖）。返回是否真的放下了。"""

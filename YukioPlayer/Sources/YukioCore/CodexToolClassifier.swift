@@ -43,7 +43,8 @@ public enum CodexToolClassifier {
             return (.continuePrevious, nil)
 
         case "request_user_input_async", "request_user_input", "ask_user", "ask_user_question":
-            return (.activity(.question_for_user), Self.question(from: arguments) ?? tr("Needs your answer", "等你回答"))
+            return (.activity(.question_for_user),
+                    PetQuestion.from(input: arguments)?.shortLabel ?? tr("Needs your answer", "等你回答"))
 
         case "spawn_agent", "followup_task", "interrupt_agent", "list_agents":
             let what = (arguments["task"] as? String) ?? (arguments["prompt"] as? String) ?? (arguments["name"] as? String)
@@ -92,10 +93,15 @@ public enum CodexToolClassifier {
 
     /// `request_user_input_async` 的第一个问题标题。
     static func question(from arguments: [String: Any]) -> String? {
-        guard let questions = arguments["questions"] as? [[String: Any]], let first = questions.first else { return nil }
-        let title = (first["title"] as? String) ?? (first["question"] as? String) ?? (first["header"] as? String)
-        guard let title, !title.isEmpty else { return nil }
-        return String(title.prefix(40))
+        PetQuestion.from(input: arguments)?.shortLabel
+    }
+
+    /// 这次调用是不是在问你话；是就把问题抄下来。工具名按 Codex 那几种写法认。
+    public static func question(tool: String, arguments: [String: Any]) -> PetQuestion? {
+        let name = tool.lowercased()
+        guard ["request_user_input_async", "request_user_input", "ask_user", "ask_user_question"].contains(name)
+                || ClaudeToolClassifier.canonicalName(tool) == "AskUserQuestion" else { return nil }
+        return PetQuestion.from(input: arguments)
     }
 }
 

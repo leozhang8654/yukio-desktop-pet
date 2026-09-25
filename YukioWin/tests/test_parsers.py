@@ -77,8 +77,9 @@ class DeepCodeMessageTests(unittest.TestCase):
             ("bash", {"command": "pytest -q"}, PetState.verify, "$ pytest -q"),
             ("bash", {"command": "rg TODO src/"}, PetState.read_file, "$ rg TODO src/"),
             ("WebSearch", {"query": "deepseek api"}, PetState.read_web, "搜索网页 deepseek api"),
+            # 问话类工具的说明就是那道题本身（抄下来立在她身边的那张卡上也是它）。
             ("AskUserQuestion", {"questions": [{"question": "用哪个方案？"}]},
-             PetState.question_for_user, "等你回答"),
+             PetState.question_for_user, "用哪个方案？"),
             ("write", {"file_path": "a/b/notes.md"}, PetState.write_file, "写入 notes.md"),
         ]
         for name, args, state, detail in cases:

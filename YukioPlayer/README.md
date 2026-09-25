@@ -2,7 +2,7 @@
 
 # Yukio desktop player (macOS, follows Claude Code, DeepSeek or GPT)
 
-One Yukio (雪绪) who changes what she is doing based on what your coding agent — **Claude Code**, **DeepSeek's Deep Code CLI**, or **GPT's Codex**, picked in the menu under "Assistant" — is doing right now: seven kinds of activity each get their own motion, all other work shows the computer-desk pose, an error makes her sad, she stands up the ❓ question card when she needs your decision, and she holds up the ✅ done card when the answer is in. The sign stays up waiting for you; click her and she jumps back to that chat. If that chat is already open in front of you, she skips the sign. With no task running, she idles.
+One Yukio (雪绪) who changes what she is doing based on what your coding agent — **Claude Code**, **DeepSeek's Deep Code CLI**, or **GPT's Codex**, picked in the menu under "Assistant" — is doing right now: seven kinds of activity each get their own motion, all other work shows the computer-desk pose, an error makes her sad, she stands up the ❓ question card when she needs your decision — the question itself is written out on a card beside her and you can answer it right there — and she holds up the ✅ done card when the answer is in. The sign stays up waiting for you; click her and she jumps back to that chat. If that chat is already open in front of you, she skips the sign. With no task running, she idles.
 With several chats open at once, whichever one has just finished or is waiting for your decision is shown first; the other chats that have something to say stack above the bubble as cards of the same design, and clicking one takes you to that chat. You can also pin one chat in the menu so she follows only that one. Every motion moves gently and continuously (writing, typing, turning her head, blinking), and the small bubble over her head shows the big task, the current task, and progress.
 Native Swift / AppKit. It needs only the Xcode Command Line Tools and has no third-party dependencies.
 
@@ -10,12 +10,12 @@ Native Swift / AppKit. It needs only the Xcode Command Line Tools and has no thi
 
 ```sh
 cd YukioPlayer
-swift test                     # 101 core tests (routing, debounce, classification, parsing, file following, assets, bubble text, motion timeline, chat matching and selection)
+swift test                     # 135 core tests (routing, blink timing, classification, parsing, file following, assets, bubble text, motion timeline, chat matching and selection, questions and answering)
 ./scripts/build-app.sh         # produces build/Yukio.app (assets and icon are bundled into the app)
 open build/Yukio.app
 ```
 
-Once running: Yukio appears in the bottom-right corner of the screen, and her small avatar appears in the menu bar. The menu has the state line ("Yukio · \<state\>"), the chat she is following, "Play demo", "Follow assistant activity" (untick it to pause following), "Assistant" (Claude Code / DeepSeek / GPT, or Auto), "Chat to follow" (pick one), "Show task bubble", "Show other chats", "Language" (English / 中文; English is the default and the choice is remembered), "Size", "Back to the bottom-right corner", and "Quit Yukio". While she is holding the ✅ done card, two extra items appear at the top, "Open this chat and lower the sign" and "Lower the sign, don't open the chat"; while the ❓ question card is up there is one extra, "Open this chat to answer". Descriptions already attached to earlier events keep their language until the next event arrives. "Size" is a slider (50% to 200% in 5% steps): drag it and Yukio grows or shrinks on the spot, with her feet staying where they are.
+Once running: Yukio appears in the bottom-right corner of the screen, and her small avatar appears in the menu bar. The menu has the state line ("Yukio · \<state\>"), the chat she is following, "Play demo", "Follow assistant activity" (untick it to pause following), "Assistant" (Claude Code / DeepSeek / GPT, or Auto), "Chat to follow" (pick one), "Show task bubble", "Show other chats", "Answer here", "Language" (English / 中文; English is the default and the choice is remembered), "Size", "Back to the bottom-right corner", and "Quit Yukio". While she is holding the ✅ done card, two extra items appear at the top, "Open this chat and lower the sign" and "Lower the sign, don't open the chat"; while the ❓ question card is up there is one extra, "Open this chat to answer". Descriptions already attached to earlier events keep their language until the next event arrives. "Size" is a slider (50% to 200% in 5% steps): drag it and Yukio grows or shrinks on the spot, with her feet staying where they are.
 
 Settings and menu entry points:
 
@@ -53,7 +53,7 @@ Window-less check modes (during development, run `swift run YukioPlayer <flag>`)
 | `read_web` | B: browsing on a tablet | WebFetch, WebSearch; browser-type MCP tools; curl/wget |
 | `respond` | B: handing over the report | The final answer (`end_turn` text); hands it over once and holds still, then switches to the ✅ done card after 3 seconds |
 | `task_complete` | C: showing the ✅ done card | Follows the report hand-over and **stays up**: click her to jump back to that chat and lower the sign; if you don't, it steps aside on its own when you send the next message in that chat |
-| `question_for_user` | C: standing up the ❓ question card | `AskUserQuestion`: the task is still running but waiting for your decision; click her to jump back to that chat and answer, and the card stays |
+| `question_for_user` | C: standing up the ❓ question card | `AskUserQuestion`: the task is still running but waiting for your decision; the question is copied onto a card beside her so you can answer without leaving your seat (see "Answering from here"), and the card stays until you answer |
 | `default_work` | Steady computer desk | Everything else (builds, installing dependencies, Agent, Skill, unknown MCP tools, ...) |
 | `failed` | Sad (base sprite strip `failed`; lowers her eyes once and holds) | A tool error (non-zero exit, edit text not found, missing file, ...): the next tool to start takes over, otherwise back to thinking after at most 4 seconds; an API error that aborts the turn: stays 8 seconds, then back to idle. Denied permissions and interruptions don't count as failures |
 | `idle` | Base idle | No task in progress; the fallback after she loses contact |
@@ -190,6 +190,31 @@ The jump uses the deep link the Claude desktop app registers itself, `claude://c
 `~/Library/Application Support/Claude/claude-code-sessions/<account>/<organization>/local_<id>.json` (read only, never written).
 This is the desktop app's internal record, not a public interface, and may change between versions; when nothing matches (for example Claude Code running in a terminal) she only brings Claude to the front and never jumps into someone else's chat.
 `--chat-link <session ID>` lets you check beforehand which chat was recognized.
+
+## Answering from here
+
+While the ❓ question card is up, the question itself is stood up beside her: the header, the question wrapped over up to six lines,
+and the options one per row. Long questions are cut with an ellipsis (the full one is in the chat); at most six options are listed and the rest
+are noted as "N more in the chat". The card sits on whichever side of her has room and never covers her or the bubble over her head.
+
+- **Click an option** and that option's text is the answer. Number keys 1–9 do the same.
+- **A multi-select question** keeps the options you click ticked; press ⏎ to send them all, joined by "、" (", " in English).
+- **Type your own** in the box at the bottom and press ⏎ (or click the ⏎ button). It is a real text field, so input methods work as usual.
+- **✕** puts the card away for this question only; she keeps the ❓ card up and the next question brings the card back.
+- **"Open the chat ›"** jumps to the chat instead, exactly like clicking her.
+
+How the answer gets there: Yukio copies it to the clipboard, opens that chat through the deep link (which brings Claude or Codex to the front),
+waits until that app really is frontmost, and then presses ⌘V and ⏎ for you. **It needs the system's Accessibility permission**
+(macOS asks the first time, in System Settings › Privacy & Security › Accessibility). Without the permission — or if the app doesn't come to the front,
+or you switch away while it is happening — she does not press any key at all: the answer is simply on the clipboard, the chat is open, and the card says so
+("Copied · press ⌘V in the chat"). She never types into an app other than the one the answer belongs to. The clipboard is put back afterwards
+unless you copied something else in the meantime.
+
+For a chat with no window to jump to (Deep Code runs in a terminal) the answer is only copied. In the demo nothing is sent anywhere.
+
+Settings › **Answer here** turns the whole card off; then the ❓ card behaves as it used to — click her to go and answer in the chat.
+`./.build/release/YukioPlayer --question out.png` draws the card offscreen (single-select, multi-select, no options, already answered)
+and prints its click regions, which is how its layout is checked without a screen recording.
 
 ## Several chats running at once: which one to follow
 

@@ -27,8 +27,8 @@
 
 | 你用的是 | 下载 | 怎么开 |
 | --- | --- | --- |
-| macOS 13 或更新（Apple 芯片与 Intel 通用） | `Yukio-0.2.0-macOS.zip` | 解压，把 `Yukio.app` 拖进「应用程序」，第一次按下面放行一次 |
-| Windows 10 / 11（64 位） | `Yukio-0.2.0-Windows.exe` | 双击就开。Python 和素材都打包在里面 |
+| macOS 13 或更新（Apple 芯片与 Intel 通用） | `Yukio-0.2.1-macOS.zip` | 解压，把 `Yukio.app` 拖进「应用程序」，第一次按下面放行一次 |
+| Windows 10 / 11（64 位） | `Yukio-0.2.1-Windows.exe` | 双击就开。Python 和素材都打包在里面 |
 
 <details>
 <summary><b>macOS 第一次打开：「Apple 无法验证“Yukio”是否包含可能危害 Mac 安全或泄漏隐私的恶意软件」</b></summary>
@@ -64,6 +64,7 @@ xattr -dr com.apple.quarantine /Applications/Yukio.app
 - **十二种状态，同一只她。** 思考、读文件、看图片、写文件、跑测试、看网页、递交回答、✅ 勾选卡、❓ 问号卡、其他工作、出错、空闲。每家助手的工具对应哪个状态都写得清清楚楚，逐条有测试；三家共用同一套规则（同一条 shell 命令，不管是 Claude 的 `Bash`、Deep Code 的 `bash` 还是 Codex 的 `exec`，判出来一样）；认不出的工作一律坐在电脑前敲键盘，不瞎猜。
 - **小幅、连续、不抽搐。** 每个状态只有一张定稿的底图，动作由脚本生成：笔沿着一行往右写，放大镜在照片上来回扫，手指在平板上往上划，两只手轮流敲键盘，眨眼时眼皮用的是脸颊的肤色。桌椅逐像素不动，生成时会自动检查。每秒 20 到 30 帧。
 - **轮到你的时候她会举牌。** 答完先递交报告，然后举起 ✅ 牌，一直举到你点她为止；`AskUserQuestion` 等你拿主意时立起 ❓ 牌。点她一下，桌面版 Claude 就用它自己的 `claude://` 深链打开那条聊天。那条聊天要是已经开在你眼前，她干脆不举。
+- **不用跑回聊天也能答。** ❓ 牌立起来时，那道题连同选项就抄在她身边的卡片上。点一个选项，或者自己写一句，雪绪把那条聊天带到最前面替你送进去（macOS 第一次会要一次「辅助功能」权限，Windows 不用）。那个应用没被带到前面时，她一个键都不按，只把答案留在粘贴板里。
 - **头顶一个小气泡。** 上行是聊天标题，下行是当前这一步：有任务清单时取进行中的那一项，没有就取正在跑的工具，“编辑 main.swift”“$ swift test”“developer.apple.com”。旁边是已完成／总数和一条细进度条。气泡里只出现文件名、命令的前几个词和网址域名。
 - **几条聊天一起跑也不乱。** 她一次只能演一条，所以先演最需要你的那条：等你回答的，然后是出错停住的，然后是答完举着牌的，最后才是还在干活的。其余每条聊天各一张小卡，压着气泡往上叠。点气泡摊开，点一张就换到那条聊天，也可以在菜单里挑定一条只跟它。
 - **拎起来会晃。** 按住她拖，她像被一只看不见的大手捏着后领的小猫：单摆带惯性，匀速时略微后仰，猛地往上一提会先坠一下再弹回来。松手大约一秒晃停。
@@ -114,7 +115,7 @@ xattr -dr com.apple.quarantine /Applications/Yukio.app
 ```sh
 git clone https://github.com/leozhang8654/yukio-desktop-pet
 cd yukio-desktop-pet/YukioPlayer
-swift test                      # 127 个测试：路由、眨眼时序、分类、解析、气泡文字、动作时间线、聊天选择
+swift test                      # 135 个测试：路由、眨眼时序、分类、解析、气泡文字、动作时间线、聊天选择、抄题
 ./scripts/build-app.sh          # 生成 build/Yukio.app
 open build/Yukio.app
 cd ../YukioWin && pip3 install pillow && python3 scripts/prepare-windows-assets.py
@@ -127,7 +128,7 @@ cd ../YukioPlayer && ./scripts/package-release.sh  # 打通用二进制发布包
 cd yukio-desktop-pet\YukioWin
 pip install pillow
 python run.py
-python run.py --selftest                                          # 141 个测试，任何系统上都能跑
+python run.py --selftest                                          # 181 个测试，任何系统上都能跑
 powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1    # 打出 dist\Yukio.exe，素材已包含
 ```
 

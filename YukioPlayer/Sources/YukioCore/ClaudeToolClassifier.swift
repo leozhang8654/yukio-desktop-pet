@@ -79,6 +79,13 @@ public enum ClaudeToolClassifier {
         return .activity(.default_work)
     }
 
+    /// 这次调用是不是在问你话；是就把问题抄下来（举牌时显示在她身边）。
+    /// 只认问话类工具：别的工具参数里叫 question 的字段与这件事无关。
+    public static func question(tool rawTool: String, input: [String: Any]) -> PetQuestion? {
+        guard canonicalName(rawTool) == "AskUserQuestion" else { return nil }
+        return PetQuestion.from(input: input)
+    }
+
     static func classifyMCP(tool: String, input: [String: Any]) -> PetState {
         let name = tool.lowercased()
         let action = (input["action"] as? String)?.lowercased()
@@ -189,7 +196,7 @@ public enum ClaudeToolClassifier {
         case "ToolSearch":
             return tr("Finding tools", "查找工具")
         case "AskUserQuestion":
-            return tr("Needs your answer", "等你回答")
+            return PetQuestion.from(input: input)?.shortLabel ?? tr("Needs your answer", "等你回答")
         case "Agent", "Task":
             return text("description").map { tr("Delegating: \($0)", "委派：\($0)") } ?? tr("Delegating to a helper", "委派助手")
         case "Skill":

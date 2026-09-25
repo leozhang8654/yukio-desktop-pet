@@ -8,12 +8,13 @@ from __future__ import annotations
 
 from typing import List, NamedTuple, Optional
 
-from .events import Kind, PetEvent, PetState, TodoItem, TodoStatus
+from .events import (Kind, PetEvent, PetQuestion, PetState, QuestionOption, TodoItem,
+                     TodoStatus)
 from .l10n import tr
 
 SOURCE = "sim"
 #: 脚本全长（最后一个事件之后再留出递交报告与举起勾选卡的时间；牌子会一直举到演示结束）。
-DEMO_DURATION_MS = 49500 + 8000 + 3000
+DEMO_DURATION_MS = 56000 + 8000 + 3000
 
 
 class Step(NamedTuple):
@@ -25,14 +26,15 @@ def demo_steps(session: str = "demo", start: float = 0.0) -> List[Step]:
     out: List[Step] = []
     counter = [0]
 
-    def add(t, kind, id=None, activity=None, tool=None, detail=None, todos=None):
+    def add(t, kind, id=None, activity=None, tool=None, detail=None, todos=None, question=None):
         out.append(Step(t, PetEvent(start + t, SOURCE, session, kind, event_id=id, activity=activity,
-                                    tool=tool, detail=detail, todos=todos)))
+                                    tool=tool, detail=detail, todos=todos, question=question)))
 
-    def call(t0, t1, activity, name, detail, fails=False):
+    def call(t0, t1, activity, name, detail, fails=False, question=None):
         counter[0] += 1
         cid = "sim-%d" % counter[0]
-        add(t0, Kind.activity_start, id=cid, activity=activity, tool=name, detail=detail)
+        add(t0, Kind.activity_start, id=cid, activity=activity, tool=name, detail=detail,
+            question=question)
         add(t1, Kind.activity_failed if fails else Kind.activity_end, id=cid, tool=name)
 
     def todo(t, id, subject=None, status: Optional[TodoStatus] = None):
@@ -68,8 +70,20 @@ def demo_steps(session: str = "demo", start: float = 0.0) -> List[Step]:
     call(39000, 43000, PetState.default_work, "bash", "$ python -m build")       # 未识别工作 → 电脑桌
     todo(44000, "3", status=TodoStatus.completed)
     add(44500, Kind.thinking)
-    call(45500, 48500, PetState.question_for_user, "AskUserQuestion", tr("Needs your answer", "等你回答"))  # 立问号卡，指着它等你回答
-    add(49500, Kind.final_answer)                                                # 先递交报告，再举勾选卡
-    add(49500, Kind.task_end)
+    # 立问号卡，指着它等你回答；身边那张卡把问题抄下来，选项可以直接点（演示里不会真的送出去）。
+    demo_question = PetQuestion(
+        text=tr("The tests pass now. Should the login page keep the old error text, or use the new shorter one?",
+                "测试过了。登录页的报错文案是保留原来那句，还是换成新的短句？"),
+        header=tr("Error message", "报错文案"),
+        options=[
+            QuestionOption(tr("Keep the old text", "保留原来那句"),
+                           tr("No copy change, ships as is", "不动文案，直接发")),
+            QuestionOption(tr("Use the shorter one", "换成新的短句"),
+                           tr("Shorter, matches the other pages", "更短，和别的页面一致")),
+        ])
+    call(45500, 55000, PetState.question_for_user, "AskUserQuestion",
+         demo_question.short_label, question=demo_question)
+    add(56000, Kind.final_answer)                                                # 先递交报告，再举勾选卡
+    add(56000, Kind.task_end)
     out.sort(key=lambda s: s.offset_ms)
     return out

@@ -43,9 +43,9 @@ public struct DeepCodeMessageParser: Sendable {
         let content = (obj["content"] as? String) ?? ""
 
         func ev(_ kind: PetEvent.Kind, id: String? = nil, activity: PetState? = nil, tool: String? = nil,
-                detail: String? = nil, todos: [TodoItem]? = nil) -> PetEvent {
+                detail: String? = nil, todos: [TodoItem]? = nil, question: PetQuestion? = nil) -> PetEvent {
             PetEvent(ts: ts, source: Self.source, session: session, kind: kind, eventID: id, activity: activity,
-                     tool: tool, detail: detail, todos: todos)
+                     tool: tool, detail: detail, todos: todos, question: question)
         }
 
         switch obj["role"] as? String {
@@ -75,7 +75,8 @@ public struct DeepCodeMessageParser: Sendable {
                     case .continuePrevious: activity = nil
                     }
                     out.append(ev(.activityStart, id: call["id"] as? String, activity: activity, tool: name,
-                                  detail: ClaudeToolClassifier.describe(tool: name, input: args)))
+                                  detail: ClaudeToolClassifier.describe(tool: name, input: args),
+                                  question: ClaudeToolClassifier.question(tool: name, input: args)))
                     if name.lowercased() == "updateplan", let plan = args["plan"] as? String {
                         out.append(ev(.todoList, todos: DeepCodePlan.items(fromMarkdown: plan)))
                     }

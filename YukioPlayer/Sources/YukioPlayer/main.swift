@@ -436,6 +436,69 @@ func runCardsSnapshot(path: String) -> Never {
     exit(savePNG(ctx, to: path) ? 0 : 1)
 }
 
+/// --question <输出.png>：把身边那张问题卡画出来（单选、多选、已送出三格），按 2 倍分辨率输出。
+/// 用来核对排版、折行、截断和与雪绪的相对位置——本机没有屏幕录制权限，界面只能这样自查。
+func runQuestionSnapshot(path: String) -> Never {
+    let (catalog, root) = loadCatalogOrExit()
+    let library: SpriteLibrary
+    do { library = try SpriteLibrary(catalog: catalog, assetsRoot: root) } catch { print("失败：\(error)"); exit(1) }
+    let long = PetQuestion(
+        header: tr("Release scope", "发布范围"),
+        text: tr("This folder still has another session's finished but uncommitted work (two new states, 54 tests passing). Should the installer on GitHub include it?",
+                 "这个文件夹里还有另一个会话刚做完、但没提交的改动（问号卡／勾选卡两个新状态，54 个测试通过）。发到 GitHub 的安装包要包含它们吗？"),
+        options: [
+            .init(label: tr("Ship it together (recommended)", "一起发（推荐）"),
+                  detail: tr("Two commits, merge into main, release v0.1.0", "新状态和图标分两次提交，合并进 main，发 v0.1.0")),
+            .init(label: tr("Icon only", "只发图标这版"),
+                  detail: tr("Rebuild from a clean tree without the new states", "从不含新状态的干净工作树重新构建打包")),
+            .init(label: tr("Don't commit yet", "先别提交推送"), detail: nil),
+        ])
+    let multi = PetQuestion(
+        header: nil,
+        text: tr("Which checks should run before pushing?", "推之前跑哪几项检查？"),
+        options: [
+            .init(label: "swift test", detail: nil),
+            .init(label: tr("Windows packaging CI", "Windows 打包 CI"), detail: nil),
+            .init(label: tr("Screenshot self-check", "离屏截图自查"), detail: nil),
+        ], multiSelect: true)
+    // 没有选项的一道题：只能自己写一句。
+    let plain = PetQuestion(header: nil, text: tr("What should the release notes say?", "发布说明里写什么？"))
+    let samples: [(PetQuestion, Set<Int>, String?)] = [
+        (long, [], nil),
+        (multi, [0, 2], nil),
+        (plain, [], nil),
+        (long, [], tr("Answer sent", "答案已送出")),
+    ]
+    let px: CGFloat = 2, cellW: CGFloat = 500, cellH: CGFloat = 320
+    let width = Int(cellW * CGFloat(samples.count) * px), height = Int(cellH * px)
+    guard let ctx = CGContext(data: nil, width: width, height: height, bitsPerComponent: 8, bytesPerRow: 0,
+                              space: CGColorSpace(name: CGColorSpace.sRGB)!,
+                              bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else { exit(1) }
+    fillCheckerboard(ctx, width: width, height: height)
+    ctx.scaleBy(x: px, y: px)
+    ctx.interpolationQuality = .high
+    NSGraphicsContext.current = NSGraphicsContext(cgContext: ctx, flipped: false)
+    let spec = catalog.spec(for: .question_for_user)
+    for (i, (question, picked, notice)) in samples.enumerated() {
+        let cell = NSRect(x: CGFloat(i) * cellW, y: 0, width: cellW, height: cellH)
+        let pet = NSRect(x: cell.minX + 12, y: 8, width: 192, height: 208)
+        ctx.draw(library.frame(spec.id, spec.sequence.last ?? 0).image, in: pet)
+        let layout = QuestionCardLayout(question, picked: picked, canOpenChat: true, sentNotice: notice)
+        let origin = QuestionCardLayout.origin(size: layout.size, petFrame: pet, visible: cell)
+        layout.draw(in: NSRect(origin: origin, size: layout.size))
+    }
+    NSGraphicsContext.current = nil
+    // 顺便自查点击分区。
+    let probe = QuestionCardLayout(long, picked: [], canOpenChat: true, sentNotice: nil)
+    let box = NSRect(origin: .zero, size: probe.size)
+    var lines: [String] = []
+    for (name, point) in QuestionCardLayout.probePoints(probe, in: box) {
+        lines.append("\(name) → \(String(describing: probe.hit(at: point, in: box)))")
+    }
+    print("卡片 \(Int(probe.size.width))×\(Int(probe.size.height)) 点；点击分区自查：\n  " + lines.joined(separator: "\n  "))
+    exit(savePNG(ctx, to: path) ? 0 : 1)
+}
+
 /// 命令行 `--source claude|deepseek|gpt|auto`；没写就用设置里的（跟界面一致）。
 func providerFromArgs() -> AgentProvider {
     let args = CommandLine.arguments
@@ -678,6 +741,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private var view: PetView!
     private var bubble: BubblePanel!
     private var cardStack: CardStackPanel!
+    private var questionPanel: QuestionPanel!
     private var statusItem: NSStatusItem!
     private var settingsWindow: SettingsPanelController?
     private var timer: Timer?
@@ -700,6 +764,14 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private var bubbleHold = HeldValue<StatusLine?>(nil, minHoldMs: 1200)
     /// 旁边那叠卡正在显示的内容。多一条少一条立刻生效，卡上的字跟气泡一样至少停留 1.2 秒。
     private var cardsHold = HeldValue<[ActivityCard]>([], minHoldMs: 1200)
+    /// 此刻立在她身边的那道题（跟着已防抖的动作走）。
+    private var shownQuestion: ActivityRouter.PendingQuestion?
+    /// 多选题里已经点中的那几项。
+    private var pickedOptions: Set<Int> = []
+    /// 按过 ✕ 的那次提问：这一轮先不在她这边答（换一道题就重新立起来）。
+    private var questionDismissedCall: String?
+    /// 答案送出之后那行提示（成功、只复制了、还差个权限），下一道题清掉。
+    private var answerNotice: String?
     /// 这摞卡展开着没有（平时收起，只有头顶那张气泡）。
     private var cardsExpanded = false
     /// 展开的时刻：一阵没人点就自己收起来。
@@ -730,6 +802,12 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private var showCards: Bool {
         get { defaults.object(forKey: "showCards") as? Bool ?? true }
         set { defaults.set(newValue, forKey: "showCards") }
+    }
+    /// 她举着问号卡时，在身边立一张写着问题的卡、可以当场回答。
+    /// 关掉就还是老样子：只有问号卡，点她跳回聊天去答。
+    private var showQuestionCard: Bool {
+        get { defaults.object(forKey: "showQuestionCard") as? Bool ?? true }
+        set { defaults.set(newValue, forKey: "showQuestionCard") }
     }
     /// 跟随哪一家助手：默认三家都跟，菜单「Assistant」里挑。和 Windows 版用同一个设置键。
     private var provider: AgentProvider {
@@ -771,6 +849,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         updateBubble(now: now)
         setUpCards()
         updateCards(now: now)
+        setUpQuestion()
+        updateQuestion(now: now)
 
         // 30 Hz：小幅动作一帧约 67 ms、眨眼一帧 50–110 ms，都能按时换帧。
         let t = Timer(timeInterval: 1.0 / 30, repeats: true) { [weak self] _ in self?.tick() }
@@ -846,6 +926,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         savePosition()
         positionBubble()
         positionCards()
+        positionQuestion()
     }
 
     /// 收起／放回来。气泡和卡叠是子窗口，跟着母窗口一起进出；菜单栏那只头像一直在。
@@ -855,6 +936,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         if value {
             finishHang()
             collapseCards()
+            updateQuestion(now: nowMs(), immediate: true)   // 先把问题卡收掉（它是独立的子窗口）
             panel.orderOut(nil)
         } else {
             // 收起期间可能拔了显示器：先挪回屏幕内再露面。
@@ -864,6 +946,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             render()
             positionBubble()
             positionCards()
+            updateQuestion(now: nowMs(), immediate: true)
         }
         updateStatusTitle()
     }
@@ -889,6 +972,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         savePosition()
         positionBubble()
         positionCards()
+        positionQuestion()
     }
 
     // MARK: 点击举着的牌子：跳到对应的聊天
@@ -987,6 +1071,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         render()
         positionBubble()
         positionCards()
+        positionQuestion()
         updateStatusTitle()
     }
 
@@ -1002,6 +1087,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         releasedAt = nowMs()
         positionBubble()
         positionCards()
+        positionQuestion()
     }
 
     /// 晃停了（或超时、要改大小了）：窗口还原成平时那块，切回当前活动的动作。
@@ -1017,6 +1103,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         render()
         positionBubble()
         positionCards()
+        positionQuestion()
         updateStatusTitle()
     }
 
@@ -1108,6 +1195,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
         updateBubble(now: now)
         updateCards(now: now)
+        updateQuestion(now: now)
         if tickCount % 15 == 0, settingsWindow?.window?.isVisible == true {
             refreshSettingsPanel()
         }
@@ -1319,6 +1407,168 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
     }
 
+    // MARK: 身边那张问题卡：在这儿直接回答
+
+    private func setUpQuestion() {
+        questionPanel = QuestionPanel()
+        // 用得上时才挂到她身上（见 showQuestionPanel）：没问题的时候这扇窗口整个不在，
+        // 不会有一扇看不见的窗口把键盘接走。
+        questionPanel.ignoresMouseEvents = true
+        let card = questionPanel.cardView
+        card.onActivate = { [weak self] in
+            guard let self else { return }
+            // 要收键盘输入（还要能用输入法）就得让这扇窗口成为 key；
+            // 只有你真的点了它才会走到这里，问题立起来的那一刻不抢你正在敲的东西。
+            NSApp.activate(ignoringOtherApps: true)
+            self.questionPanel.makeKeyAndOrderFront(nil)
+            // 键盘先交给卡片本身（数字键 1–9 选选项、Esc 收卡）；点在输入框上时紧接着的
+            // mouseUp 会把它转交给文本框。
+            self.questionPanel.makeFirstResponder(self.questionPanel.cardView)
+        }
+        card.onOption = { [weak self] i in self?.questionOptionPicked(i) }
+        card.onSend = { [weak self] text in self?.sendAnswer(text) }
+        card.onOpenChat = { [weak self] in
+            guard let self, let session = self.shownQuestion?.session else { return }
+            self.openChat(session: session)
+        }
+        card.onClose = { [weak self] in
+            guard let self else { return }
+            self.questionDismissedCall = self.shownQuestion?.callID
+            self.updateQuestion(now: nowMs(), immediate: true)
+        }
+    }
+
+    /// 点了一个选项：单选直接答出去，多选先记下来，写完（或按 ⏎）一起送。
+    private func questionOptionPicked(_ i: Int) {
+        guard let q = shownQuestion?.question, i < q.options.count else { return }
+        guard q.multiSelect else {
+            sendAnswer(q.options[i].label)
+            return
+        }
+        if pickedOptions.contains(i) { pickedOptions.remove(i) } else { pickedOptions.insert(i) }
+        updateQuestion(now: nowMs(), immediate: true)
+    }
+
+    /// 送出去的那句话：输入框里写了就用写的，没写就用点中的选项。
+    private func composedAnswer(_ typed: String) -> String? {
+        let text = typed.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !text.isEmpty { return text }
+        guard let q = shownQuestion?.question, !pickedOptions.isEmpty else { return nil }
+        let labels = pickedOptions.sorted().compactMap { $0 < q.options.count ? q.options[$0].label : nil }
+        return labels.isEmpty ? nil : labels.joined(separator: tr(", ", "、"))
+    }
+
+    /// 替你把答案按进那条聊天里（见 AnswerSender：深链带到前面 → ⌘V → 回车）。
+    private func sendAnswer(_ typed: String) {
+        guard let pending = shownQuestion, let text = composedAnswer(typed) else { return }
+        guard simulation == nil else {
+            answerNotice = tr("Demo only — nothing was sent", "模拟演示，不会真的送出")
+            updateQuestion(now: nowMs(), immediate: true)
+            return
+        }
+        let session = pending.session
+        let owner = AgentProvider.owner(ofSource: router.sourceOfSession(session) ?? "")
+        // Deep Code 跑在终端里，没有能带到前面的窗口：只复制，让人自己贴。
+        let bundleID: String?
+        switch owner {
+        case .gpt: bundleID = Self.codexBundleID
+        case .deepseek: bundleID = nil
+        default: bundleID = Self.claudeBundleID
+        }
+        answerNotice = tr("Sending…", "正在送过去…")
+        pickedOptions = []
+        questionPanel.cardView.answerText = ""
+        updateQuestion(now: nowMs(), immediate: true)
+        AnswerSender.send(text, to: bundleID, bringToFront: { [weak self] in
+            guard let self, bundleID != nil else { return }
+            self.openChat(session: session)
+        }, completion: { [weak self] outcome in
+            guard let self else { return }
+            switch outcome {
+            case .typed:
+                self.answerNotice = tr("Answer sent", "答案已送出")
+            case .needsPermission:
+                self.answerNotice = tr("Copied · allow Accessibility first", "已复制 · 先给辅助功能权限")
+            case .copied:
+                self.answerNotice = tr("Copied · press ⌘V in the chat", "已复制 · 到聊天里 ⌘V")
+            }
+            self.updateQuestion(now: nowMs(), immediate: true)
+        })
+    }
+
+    /// 这张卡此刻该长什么样：内容没变就不重算排版（每秒 30 次量文字太浪费）。
+    private var questionSignature: String = ""
+
+    private func updateQuestion(now: Double, immediate: Bool = false) {
+        guard let questionPanel else { return }
+        let source: ActivityRouter? = simulation?.router ?? (following ? router : nil)
+        // 她自己都收起来了就不立卡（卡是跟着她走的子窗口，没有她在旁边立着很怪）。
+        var pending = (showQuestionCard && !petHidden) ? source?.askingQuestion : nil
+        if let p = pending, p.callID == questionDismissedCall { pending = nil }
+        if pending?.callID != shownQuestion?.callID {
+            // 换了一道题（或问完了）：选中项、输入框、提示一律重来。
+            pickedOptions = []
+            answerNotice = nil
+            questionPanel.cardView.answerText = ""
+        }
+        shownQuestion = pending
+        guard let pending else {
+            questionSignature = ""
+            hideQuestionPanel()
+            return
+        }
+        let canOpen = simulation == nil && canOpenChat(session: pending.session)
+        let signature = "\(pending.callID)|\(pickedOptions.sorted().map(String.init).joined(separator: ","))|\(answerNotice ?? "")|\(canOpen)|\(L10n.language.rawValue)"
+        guard signature != questionSignature || immediate else { return }
+        questionSignature = signature
+        let layout = QuestionCardLayout(pending.question, picked: pickedOptions,
+                                        canOpenChat: canOpen, sentNotice: answerNotice)
+        questionPanel.cardView.card = layout
+        showQuestionPanel(layout)
+    }
+
+    /// 立起来：这时候才把它挂到她身上。
+    private func showQuestionPanel(_ layout: QuestionCardLayout) {
+        if !questionPanel.isVisible {
+            panel.addChildWindow(questionPanel, ordered: .above)
+        }
+        positionQuestion(layout)
+        questionPanel.ignoresMouseEvents = false
+        fade(questionPanel, to: 1)
+    }
+
+    /// 收起来：淡出之后整扇窗口下掉。
+    /// 输入框可能正拿着键盘焦点，留一扇看不见的 key 窗口在那儿，你接着敲的字就没地方去了。
+    private func hideQuestionPanel() {
+        guard questionPanel.isVisible else { return }
+        questionPanel.ignoresMouseEvents = true
+        questionPanel.makeFirstResponder(nil)
+        NSAnimationContext.runAnimationGroup({ ctx in
+            ctx.duration = 0.15
+            self.questionPanel.animator().alphaValue = 0
+        }, completionHandler: { [weak self] in
+            guard let self, self.shownQuestion == nil else { return }
+            self.panel.removeChildWindow(self.questionPanel)
+            self.questionPanel.orderOut(nil)
+        })
+    }
+
+    private func positionQuestion() {
+        guard let layout = questionPanel?.cardView.card, questionPanel.alphaValue > 0.01 else { return }
+        positionQuestion(layout)
+    }
+
+    private func positionQuestion(_ layout: QuestionCardLayout) {
+        guard let questionPanel else { return }
+        let visible = (panel.screen ?? NSScreen.main)?.visibleFrame ?? NSRect(x: 0, y: 0, width: 1440, height: 900)
+        var pet = panel.frame
+        if let geo = hangGeo, swing != nil {
+            pet = geo.spriteRect.offsetBy(dx: panel.frame.minX, dy: panel.frame.minY)
+        }
+        let origin = QuestionCardLayout.origin(size: layout.size, petFrame: pet, visible: visible)
+        questionPanel.setFrame(NSRect(origin: origin, size: layout.size), display: true)
+    }
+
     @objc private func menuOpenListedChat(_ sender: NSMenuItem) {
         guard let id = sender.representedObject as? String else { return }
         openChat(session: id)
@@ -1504,6 +1754,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
                                 chats: chats,
                                 showBubble: showBubble,
                                 showCards: showCards,
+                                showQuestionCard: showQuestionCard,
                                 scale: scale,
                                 language: language,
                                 demoPlaying: simulation != nil)
@@ -1547,6 +1798,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         savePosition()
         positionBubble()
         positionCards()
+        positionQuestion()
     }
 
     private func applySettings(_ change: SettingsChange) {
@@ -1564,6 +1816,9 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         case .showCards(let value):
             showCards = value
             updateCards(now: nowMs(), immediate: true)
+        case .showQuestionCard(let value):
+            showQuestionCard = value
+            updateQuestion(now: nowMs(), immediate: true)
         case .scale(let value):
             applyScale(value)
         case .language(let value):
@@ -1700,6 +1955,7 @@ if let i = args.firstIndex(of: "--snapshot"), i + 1 < args.count { runSnapshot(p
 if let i = args.firstIndex(of: "--blink-snapshots"), i + 1 < args.count { runBlinkSnapshots(path: args[i + 1]) }
 if let i = args.firstIndex(of: "--bubble"), i + 1 < args.count { runBubbleSnapshot(path: args[i + 1]) }
 if let i = args.firstIndex(of: "--cards"), i + 1 < args.count { runCardsSnapshot(path: args[i + 1]) }
+if let i = args.firstIndex(of: "--question"), i + 1 < args.count { runQuestionSnapshot(path: args[i + 1]) }
 if let i = args.firstIndex(of: "--settings-snapshot"), i + 1 < args.count { runSettingsSnapshot(path: args[i + 1]) }
 if let i = args.firstIndex(of: "--hang"), i + 1 < args.count { runHangSnapshot(path: args[i + 1]) }
 if let i = args.firstIndex(of: "--hang-gif"), i + 1 < args.count { runHangGIF(path: args[i + 1]) }

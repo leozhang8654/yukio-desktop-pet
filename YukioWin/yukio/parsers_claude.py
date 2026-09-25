@@ -13,7 +13,7 @@ from __future__ import annotations
 import json
 from typing import Any, Dict, List, Optional
 
-from .classify import CONTINUE_PREVIOUS, classify, describe
+from .classify import CONTINUE_PREVIOUS, classify, describe, question
 from .events import Kind, PetEvent, TodoItem, TodoStatus, parse_timestamp
 
 SOURCE = "claude-transcript"
@@ -128,9 +128,9 @@ class ClaudeTranscriptParser:
         if ts is None:
             return []
 
-        def ev(kind, event_id=None, activity=None, tool=None, detail=None, todos=None):
+        def ev(kind, event_id=None, activity=None, tool=None, detail=None, todos=None, question=None):
             return PetEvent(ts, SOURCE, session, kind, event_id=event_id, activity=activity,
-                            tool=tool, detail=detail, todos=todos)
+                            tool=tool, detail=detail, todos=todos, question=question)
 
         if type_ == "user":
             if obj.get("isMeta") is True or obj.get("isCompactSummary") is True:
@@ -180,7 +180,8 @@ class ClaudeTranscriptParser:
                     activity = None if kind == CONTINUE_PREVIOUS else kind
                     bid = b.get("id") if isinstance(b.get("id"), str) else None
                     out.append(ev(Kind.activity_start, event_id=bid, activity=activity,
-                                  tool=name, detail=describe(name, input)))
+                                  tool=name, detail=describe(name, input),
+                                  question=question(name, input)))
                     task = _task_events(name, input)
                     if task:
                         out.append(ev(task[0], todos=task[1]))
