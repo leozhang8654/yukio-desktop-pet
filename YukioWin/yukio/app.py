@@ -21,6 +21,7 @@ from .l10n import set_language, tr
 from .hang import SETTLE_LIMIT_MS, HangGeometry, HangSwing, Tuning as HangTuning
 from .router import ActivityRouter, HeldValue, held_name, state_name
 from .settings import Settings
+from .question_presentation import QuestionPresentationState, question_key
 from .reminders import ReminderStore
 from .sources import app_data_dir, default_sources
 from .sprites import SpriteLibrary
@@ -47,6 +48,8 @@ class PetApp:
         self.reminders = ReminderStore(os.environ.get("YUKIO_REMINDER_FILE") or
                                        os.path.join(os.path.dirname(self.settings.path), "reminders.json"))
         self.assistant = None
+        from .startup import LaunchAtLogin
+        self.launch_at_login = LaunchAtLogin()
         self._ticking = False
         self._next_reminder_tick = 0.0
         self._assistant_only = "--assistant-only" in argv
@@ -129,7 +132,7 @@ class PetApp:
         #: 多选题里已经点中的那几项。
         self.picked_options = set()
         #: 按过 ✕ 的那次提问：这一轮先不在她这边答。
-        self.question_dismissed_call = None
+        self.question_presentation = QuestionPresentationState()
         #: 答案送出之后那行提示，下一道题清掉。
         self.answer_notice = None
         #: 真正收键盘输入的那个系统输入框（点了才建）。
@@ -536,10 +539,10 @@ class PetApp:
         from .question import QuestionCardLayout
         source = self.demo[3] if self.demo else (self.router if self.follow else None)
         pending = source.asking_question if (source is not None and self.show_question_card) else None
-        if pending is not None and pending.call_id == self.question_dismissed_call:
+        if pending is not None and self.question_presentation.is_dismissed(question_key(pending)):
             pending = None
         previous = self.shown_question
-        if (pending.call_id if pending else None) != (previous.call_id if previous else None):
+        if question_key(pending) != question_key(previous):
             # 换了一道题（或问完了）：选中项、输入框、提示一律重来。
             self.picked_options = set()
             self.answer_notice = None
@@ -547,6 +550,7 @@ class PetApp:
                 self.text_input.clear()
                 self.text_input.hide()
         self.shown_question = pending
+        self.answer_notice = self.question_presentation.notice(question_key(pending)) if pending else None
         if pending is None:
             self._question_signature = ""
             self._question_target = 0.0
@@ -556,7 +560,7 @@ class PetApp:
             return
 
         can_open = not self.demo and bool(self._chat_url(pending.session))
-        signature = "%s|%s|%s|%s|%.2f" % (pending.call_id, sorted(self.picked_options),
+        signature = "%s|%s|%s|%s|%.2f" % (question_key(pending), sorted(self.picked_options),
                                           self.answer_notice or "", can_open, self.scale)
         if signature != self._question_signature or immediate:
             self._question_signature = signature
@@ -647,7 +651,7 @@ class PetApp:
 
     def _close_question(self) -> None:
         if self.shown_question is not None:
-            self.question_dismissed_call = self.shown_question.call_id
+            self.question_presentation.dismiss(question_key(self.shown_question))
         if self.text_input is not None:
             self.text_input.hide()
         self._update_question(now_ms(), immediate=True)
@@ -738,6 +742,7 @@ class PetApp:
             return
         if self.demo:
             self.answer_notice = tr("Demo only - nothing was sent", "模拟演示，不会真的送出")
+            self.question_presentation.set_notice(question_key(pending), self.answer_notice)
             self._update_question(now_ms(), immediate=True)
             return
         url = self._chat_url(pending.session)
@@ -746,13 +751,15 @@ class PetApp:
             self.text_input.clear()
             self.text_input.hide()
         self.answer_notice = tr("Sending...", "正在送过去…")
+        self.question_presentation.set_notice(question_key(pending), self.answer_notice)
         self._update_question(now_ms(), immediate=True)
         if self._delivery is None:
             try:
                 self._delivery = AnswerDelivery()
             except Exception:
                 traceback.print_exc()
-                self.answer_notice = tr("Copied - press Ctrl+V in the chat", "已复制 · 到聊天里 Ctrl+V")
+                self.answer_notice = tr("Could not start sending · answer in chat", "未能开始发送 · 请到聊天中回答")
+                self.question_presentation.set_notice(question_key(pending), self.answer_notice)
                 self._update_question(now_ms(), immediate=True)
                 return
 
@@ -773,6 +780,7 @@ class PetApp:
         current = self.shown_question
         if current is None or (current.session, current.call_id) != self._delivery_question:
             self._delivery.cancel()
+            self.question_presentation.set_notice(self._delivery_question, tr("Copied - press Ctrl+V in the chat", "已复制 · 到聊天里 Ctrl+V"))
             return
         outcome = self._delivery.tick(now)
         if outcome is not None:
@@ -786,6 +794,9 @@ class PetApp:
         self.answer_notice = (tr("Typed · check the chat", "已输入并按回车 · 请在聊天中确认") if outcome == TYPED
                               else tr("Clipboard changed · answer in chat", "剪贴板已更改 · 请到聊天中回答") if outcome == CLIPBOARD_CHANGED
                               else tr("Copied - press Ctrl+V in the chat", "已复制 · 到聊天里 Ctrl+V"))
+        self.question_presentation.set_notice(self._delivery_question, self.answer_notice)
+        if outcome == TYPED:
+            self.question_presentation.dismiss(self._delivery_question)
         self._update_question(now_ms(), immediate=True)
 
     # MARK: 主循环
@@ -1023,7 +1034,7 @@ class PetApp:
                     self._pet_clicked()
                 return 0
             if msg in (w.WM_RBUTTONUP, w.WM_LBUTTONDBLCLK):
-                self.show_assistant()
+                self.show_settings()
                 return 0
             if msg == w.WM_SETCURSOR and self._dragging:
                 w.user32.SetCursor(w.user32.LoadCursorW(None, w.c_void_p(w.IDC_SIZEALL)))
@@ -1172,6 +1183,7 @@ class PetApp:
             now_ms(), quiet_within_ms=self.CHAT_LIST_WINDOW_MS, limit=self.CHAT_LIST_LIMIT)
         label = held_name() if self.swing is not None else state_name(self.shown_state)
         items: List[w.MenuItem] = [Item(tr("Open Yukio Assistant", "打开 Yukio 助手"), self.show_assistant),
+                                 Item(tr("Pet settings", "桌宠设置"), self.show_settings),
                                   Item(tr("Hide Yukio", "收起雪绪") if not self.pet_hidden else tr("Show Yukio", "显示雪绪"),
                                        lambda: self.set_hidden(not self.pet_hidden)), SEP,
                                   Item(tr("Yukio", "雪绪") + " · " + label, None)]
@@ -1375,6 +1387,9 @@ class PetApp:
             from .assistant import AssistantWindow
             self.assistant = AssistantWindow(self)
         return self.assistant
+
+    def show_settings(self) -> None:
+        self._ensure_assistant().show_pet_settings()
 
     def show_assistant(self) -> None:
         self._ensure_assistant().present()

@@ -79,8 +79,8 @@ public final class CodexRolloutParser {
             let role = (payload["role"] as? String) ?? ""
             let text = Self.text(fromContent: payload["content"])
             if role == "user" {
-                if text.trimmingCharacters(in: .whitespacesAndNewlines).hasPrefix("<send_user_message_question_reply>") {
-                    return closeAsyncQuestions(ts: ts)
+                if let answered = Self.questionReplyCalls(text) {
+                    return closeQuestions(answered, ts: ts)
                 }
                 guard let line = Self.promptLine(text) else { return [] }
                 return closeAsyncQuestions(ts: ts) + [ev(ts, .taskStart, detail: line)]
@@ -128,9 +128,7 @@ public final class CodexRolloutParser {
         case "UserMessage":
             guard completed else { return [] }
             let text = Self.text(fromContent: item["content"])
-            if text.trimmingCharacters(in: .whitespacesAndNewlines).hasPrefix("<send_user_message_question_reply>") {
-                return closeAsyncQuestions(ts: ts)
-            }
+            if let answered = Self.questionReplyCalls(text) { return closeQuestions(answered, ts: ts) }
             guard let line = Self.promptLine(text) else { return [] }
             return closeAsyncQuestions(ts: ts) + [ev(ts, .taskStart, detail: line)]
 
@@ -221,6 +219,35 @@ public final class CodexRolloutParser {
         let events = asyncQuestions.sorted().map { ev(ts, .activityEnd, id: $0) }
         asyncQuestions.removeAll()
         return events
+    }
+
+    private func closeQuestions(_ calls: Set<String>, ts: Double) -> [PetEvent] {
+        asyncQuestions.subtract(calls)
+        return calls.sorted().map { ev(ts, .activityEnd, id: $0) }
+    }
+
+    /// Codex submits option/free-text replies inside a tagged user message.
+    /// This is an answer, not an environment block or a new task. The desktop
+    /// card presents question index 0, so other answers must not close it.
+    static func questionReplyCalls(_ text: String) -> Set<String>? {
+        let text = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        let start = "<send_user_message_question_reply>"
+        let end = "</send_user_message_question_reply>"
+        guard text.hasPrefix(start), text.hasSuffix(end) else { return nil }
+        let body = String(text.dropFirst(start.count).dropLast(end.count))
+        guard let data = body.data(using: .utf8),
+              let replies = (try? JSONSerialization.jsonObject(with: data)) as? [[String: Any]] else { return [] }
+        return Set(replies.compactMap { reply in
+            guard reply["answer"] is String,
+                  let raw = reply["questionItemId"] as? String,
+                  let bytes = raw.data(using: .utf8),
+                  let id = (try? JSONSerialization.jsonObject(with: bytes)) as? [Any], id.count == 3,
+                  let tool = id[0] as? String,
+                  ["request_user_input_async", "request_user_input"].contains(tool.split(separator: ".").last.map(String.init) ?? tool),
+                  let call = id[1] as? String, !call.isEmpty,
+                  let index = id[2] as? Int, index == 0 else { return nil }
+            return call
+        })
     }
 
     /// 老版 Codex 把结果写成一段 JSON 文本：`{"output": "...", "metadata": {"exit_code": 1}}`。

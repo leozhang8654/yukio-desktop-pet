@@ -65,7 +65,7 @@ class AssistantWindow:
             button = ttk.Button(side, text=tr(en, zh), command=lambda k=key: self.navigate(k))
             button.pack(fill="x", pady=4)
             self.nav_buttons[key] = button
-        ttk.Button(side, text=tr("Pet settings", "桌宠设置"), command=lambda: self.navigate("settings")).pack(side="bottom", fill="x", pady=12)
+        ttk.Button(side, text=tr("Pet settings", "桌宠设置"), command=self.show_pet_settings).pack(side="bottom", fill="x", pady=12)
         self.label(side, tr("Start with one small thing.", "从一件小事开始。"), 10, MUTED, PALE).pack_configure(side="bottom")
         shell = ttk.Frame(self.root)
         shell.pack(side="left", expand=True, fill="both")
@@ -107,6 +107,12 @@ class AssistantWindow:
         self.root.deiconify()
         self.root.lift()
         self.root.focus_force()
+
+    def show_pet_settings(self):
+        if not hasattr(self, "pet_settings"):
+            from .pet_settings import PetSettingsWindow
+            self.pet_settings = PetSettingsWindow(self)
+        self.pet_settings.present()
 
     def navigate(self, page):
         self.page = page

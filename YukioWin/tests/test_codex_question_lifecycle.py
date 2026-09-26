@@ -1,5 +1,6 @@
 """Async acknowledgements must not dismiss the question; other tools may keep running."""
 import unittest
+import json
 from yukio.parsers_codex import CodexRolloutParser
 from yukio.events import Kind, PetState
 from yukio.router import ActivityRouter
@@ -30,8 +31,27 @@ class QuestionLifecycleTests(unittest.TestCase):
 
     def test_structured_reply_closes_without_a_new_turn(self):
         p=CodexRolloutParser("test");self.start(p)
-        answer=self.event(p,{"type":"message","role":"user","content":"<send_user_message_question_reply>Blue</send_user_message_question_reply>"})
+        answer=self.event(p,{"type":"message","role":"user","content":self.tagged_reply()})
         self.assertEqual([e.kind for e in answer],[Kind.activity_end])
+
+    def tagged_reply(self, call="q", index=0):
+        return '<send_user_message_question_reply>' + json.dumps([{
+            'questionItemId':json.dumps(['functions.request_user_input_async',call,index]),
+            'answer':'Blue'}]) + '</send_user_message_question_reply>'
+
+    def test_reply_targets_only_its_call_and_first_question(self):
+        p=CodexRolloutParser("test");self.start(p)
+        self.assertEqual(self.event(p,{'type':'message','role':'user','content':self.tagged_reply(index=1)}),[])
+        other=self.event(p,{'type':'message','role':'user','content':self.tagged_reply('other')})
+        self.assertEqual([e.event_id for e in other],['other'])
+        remaining=self.event(p,{'type':'message','role':'user','content':'continue'})
+        self.assertEqual(remaining[0].event_id,'q')
+
+    def test_completed_reply_and_malformed_envelope(self):
+        p=CodexRolloutParser("test");self.start(p)
+        self.assertEqual(self.event(p,{'type':'message','role':'user','content':'<send_user_message_question_reply>broken</send_user_message_question_reply>'}),[])
+        result=self.event(p,{'type':'item_completed','item':{'type':'UserMessage','content':self.tagged_reply()}})
+        self.assertEqual([e.event_id for e in result],['q'])
 
     def test_sync_result_closes_and_abort_drops_async_tracking(self):
         p=CodexRolloutParser("test");self.start(p,False)

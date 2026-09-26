@@ -14,7 +14,7 @@ try {
     $result = Get-Content $report -Raw | ConvertFrom-Json
     Get-Content $report
     if (-not $result.ok) { throw "Assistant smoke failed" }
-    foreach ($name in @("home", "reminders", "extensions", "delivery")) {
+    foreach ($name in @("home", "reminders", "extensions", "delivery", "settings")) {
         if (-not (Test-Path (Join-Path $out "$name.png"))) { throw "Missing $name screenshot" }
     }
 } finally {

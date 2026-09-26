@@ -21,7 +21,11 @@
 
 She follows three families of agent, and you pick which one in her menu under **Assistant**: **Claude Code**, **DeepSeek's [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)**, and **GPT's [Codex](https://developers.openai.com/codex/)** (the desktop app and the CLI both write the same session logs). The default, **Auto**, follows all three at once and shows whichever chat has something to say. Both builds use native windows and work entirely from local session logs.
 
-## New in 0.3.1
+## New in 0.3.2
+
+- Right-click opens a compact settings window above other apps; **Open App ↗** leads to the full assistant.
+- Opt-in **Launch at login** on macOS and Windows, with actual system status and error reporting. See [startup guide](docs/STARTUP.md).
+- Answered or dismissed question cards stay closed across chat switches. Structured Codex replies target the matching question instead of clearing unrelated questions.
 
 Codex now suppresses the completion card for the chat you are actively viewing, on both platforms. Other chats still notify you; unavailable or stale view data keeps reminders enabled.
 
@@ -29,7 +33,7 @@ The 0.3 release also includes:
 
 - **A personal assistant on both platforms:** Home, Reminders, Personalization and Extensions, alongside the existing desktop pet.
 - Create, edit or delete a one-time reminder; snooze for five minutes or mark it complete. Reminders are saved locally and catch up after wake or relaunch. Closing the main window keeps the app and reminder clock running.
-- Customize the assistant name, your name and reminder sound. Open the assistant by right-clicking Yukio, from the tray/menu bar, or by launching the app again. Pet controls remain available from the sidebar and tray/menu bar.
+- Customize the assistant name, your name and reminder sound. Open the assistant from **Open App ↗** in the right-click settings, from the tray/menu bar, or by launching the app again. Pet controls remain available from the sidebar and tray/menu bar.
 - Codex async questions remain visible while other tools run and close when answered. Duplicate answers and outdated delivery results are ignored; automatic input stops if the clipboard or foreground app changes.
 - Includes the stable head/neck, synchronized gaze, independent blinking and transparent-window fixes from 0.2.2.
 
@@ -45,8 +49,8 @@ Grab the file for your system from the [latest release](https://github.com/leozh
 
 | You use | Download | Then |
 | --- | --- | --- |
-| macOS 13 or newer (Apple silicon and Intel) | [Yukio-0.3.1-macOS.zip](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.1/Yukio-0.3.1-macOS.zip) | Unzip, drag `Yukio.app` into Applications, allow it once (below) |
-| Windows 10 / 11, 64-bit | [Yukio-0.3.1-Windows.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.1/Yukio-0.3.1-Windows.exe) | Double-click. Python and the artwork are packed inside |
+| macOS 13 or newer (Apple silicon and Intel) | [Yukio-0.3.2-macOS.zip](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.2/Yukio-0.3.2-macOS.zip) | Unzip, drag `Yukio.app` into Applications, allow it once (below) |
+| Windows 10 / 11, 64-bit | [Yukio-0.3.2-Windows.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.2/Yukio-0.3.2-Windows.exe) | Double-click. Python and the artwork are packed inside |
 
 <details>
 <summary><b>macOS says "Apple could not verify Yukio…"</b></summary>
@@ -75,7 +79,7 @@ The exe is not code-signed. Click **More info**, then **Run anyway**. Only proce
 
 The SHA-256 of every file is on the release page if you want to check a download.
 
-Once running, Yukio appears in the bottom-right corner of the screen and a small avatar of her appears in the macOS menu bar or the Windows tray. The assistant window opens on launch. Right-click Yukio or launch the app again to reopen it; use the sidebar for pet settings, or the menu-bar/tray avatar for the full pet menu. Pet settings let you hide Yukio and bring her back; on macOS, Space in pet settings also toggles visibility. Want a tour first? Pick **Play demo** from Settings or the menu and she walks through every state in 60 seconds. English is the default, 中文 is one click away in Settings, and the choice is remembered.
+Once running, Yukio appears in the bottom-right corner of the screen and a small avatar of her appears in the macOS menu bar or the Windows tray. The assistant window opens on launch. Right-click Yukio for compact settings and click **Open App ↗** to enter the assistant, or launch the app again to reopen it; use the sidebar for pet settings, or the menu-bar/tray avatar for the full pet menu. Pet settings let you hide Yukio and bring her back; on macOS, Space in pet settings also toggles visibility. Want a tour first? Pick **Play demo** from Settings or the menu and she walks through every state in 60 seconds. English is the default, 中文 is one click away in Settings, and the choice is remembered.
 
 ## What she does
 
@@ -133,7 +137,7 @@ These logs are internal to those tools, not public APIs. If a format changes she
 ```sh
 git clone https://github.com/leozhang8654/yukio-desktop-pet
 cd yukio-desktop-pet/YukioPlayer
-swift test                      # 163 tests: routing, blink timing, classification, parsers, bubble text, timelines, chat picking, questions
+swift test                      # 172 tests: routing, blink timing, classification, parsers, bubble text, timelines, chat picking, questions
 ./scripts/build-app.sh          # build/Yukio.app
 open build/Yukio.app
 cd ../YukioWin && pip3 install pillow && python3 scripts/prepare-windows-assets.py
@@ -146,7 +150,7 @@ cd ../YukioPlayer && ./scripts/package-release.sh  # universal binary zip in dis
 cd yukio-desktop-pet\YukioWin
 pip install pillow
 python run.py
-python run.py --selftest                                          # 207 tests, runs on any OS
+python run.py --selftest                                          # 219 tests, runs on any OS
 powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1    # dist\Yukio.exe, artwork included
 ```
 

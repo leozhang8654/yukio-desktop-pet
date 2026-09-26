@@ -14,11 +14,15 @@ def schedule(app, output):
     output.mkdir(parents=True, exist_ok=True)
     ui = app.assistant
     checks = []
+    startup_test = None
     def check(condition, name):
         if not condition:
             raise AssertionError(name)
         checks.append(name)
     def finish(error=None):
+        if startup_test is not None:
+            try: startup_test.set_enabled(False)
+            except Exception: error = (error or "") + " Startup test cleanup failed"
         (output / "report.json").write_text(json.dumps({"ok":error is None,"checks":checks,"error":error},ensure_ascii=False,indent=2),encoding="utf-8")
         app.quit()
     def guard(fn):
@@ -32,7 +36,7 @@ def schedule(app, output):
         ui.root.update()
         import ctypes
         ctypes.windll.dwmapi.DwmFlush()
-        target = ui.delivery if name == "delivery.png" else ui.root
+        target = ui.delivery if name == "delivery.png" else ui.pet_settings.window if name == "settings.png" else ui.root
         x, y = target.winfo_rootx(), target.winfo_rooty()
         shot = ImageGrab.grab(bbox=(x, y, x + target.winfo_width(), y + target.winfo_height()))
         if name == "home.png":
@@ -43,7 +47,29 @@ def schedule(app, output):
             check(len(shot.crop((0,0,200,400)).getcolors(1000000)) > 30,"home text painted")
         shot.save(output / name)
     def setup():
+        nonlocal startup_test
         check(ui.root.winfo_viewable(),"assistant opens")
+        from .startup import LaunchAtLogin, RegistryBackend
+        startup_test = LaunchAtLogin(RegistryBackend("YukioSmoke-" + str(os.getpid())))
+        check(startup_test.status == "disabled", "startup initially off")
+        app.launch_at_login = startup_test
+        ui.root.withdraw()
+        app.win32.user32.SendMessageW(app.pet.hwnd, app.win32.WM_RBUTTONUP, 0, 0)
+        ui.root.update()
+        settings = ui.pet_settings
+        check(settings.window.winfo_viewable(), "native pet right-click opens settings")
+        check(not ui.root.winfo_viewable(), "right-click keeps main window closed")
+        check(bool(settings.window.attributes("-topmost")), "settings stay above other apps")
+        settings.startup_button.invoke()
+        check(startup_test.status == "enabled", "startup checkbox registers current exe")
+        check(startup_test.backend.read() == startup_test.command, "startup command points to packaged exe")
+        settings.startup_button.invoke()
+        check(startup_test.status == "disabled", "startup checkbox removes registration")
+        screenshot("settings.png")
+        settings.open_button.invoke()
+        check(ui.root.winfo_viewable(), "open app button shows assistant")
+        check(not settings.window.winfo_viewable(), "open app button hides settings")
+
         ui.new_button.invoke()
         ui.edit_title.set("Windows reminder smoke")
         ui.edit_due.set(datetime.fromtimestamp(time.time()+600).strftime("%Y-%m-%d %H:%M"))

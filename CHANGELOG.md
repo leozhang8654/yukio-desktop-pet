@@ -1,5 +1,13 @@
 # Changelog / 更新记录
 
+## 0.3.2 — 2026-09-26
+
+- macOS and Windows add opt-in launch at login with live system status, failure reporting and no automatic registration.
+- Right-click opens compact floating pet settings. An Open App button switches to the full assistant; Windows adds a topmost settings window and tray entry.
+- Codex structured replies close the matching call and displayed question only. Answered/dismissed question UI state survives switching chats or toggling cards without affecting another session with the same call ID.
+- Expanded regression and packaged Windows tests cover startup registration/removal, native pet right-click, settings/assistant switching and existing reminder lifecycle.
+- 双平台同步最新登录启动、小设置浮窗与问题卡防重复弹出修复。
+
 ## 0.3.1 — 2026-09-26
 
 - Both platforms recognize the selected Codex desktop chat from local view diagnostics. Only that chat suppresses its completion card; background conversations retain their reminders.

@@ -777,7 +777,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     /// 多选题里已经点中的那几项。
     private var pickedOptions: Set<Int> = []
     /// 按过 ✕ 的那次提问：这一轮先不在她这边答（换一道题就重新立起来）。
-    private var questionDismissedCall: String?
+    private var questionPresentation = QuestionPresentationState()
     /// 答案送出之后那行提示（成功、只复制了、还差个权限），下一道题清掉。
     private var answerNotice: String?
     /// 这摞卡展开着没有（平时收起，只有头顶那张气泡）。
@@ -890,8 +890,13 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         view.onDragBegan = { [weak self] in self?.dragBegan() }
         view.onDragOriginChanged = { [weak self] in self?.panel.frame.origin ?? .zero }
         view.onDragEnded = { [weak self] in self?.dragEnded() }
-        // 桌宠是助手的桌面入口，原来的显示设置在主窗口和菜单栏里仍可打开。
-        view.onContextMenu = { [weak self] _ in self?.showAssistant() }
+        // 右键保留轻量设置入口，再通过设置里的大按钮切换到完整助手窗口。
+        let openSettings: (NSEvent) -> Void = { [weak self] _ in
+            // Finish routing the mouse event before activating another window.
+            DispatchQueue.main.async { self?.showSettings() }
+        }
+        panel.onContextMenu = openSettings
+        view.onContextMenu = openSettings
     }
 
     private func defaultOrigin() -> NSPoint {
@@ -1448,7 +1453,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
         card.onClose = { [weak self] in
             guard let self else { return }
-            self.questionDismissedCall = self.shownQuestion?.callID
+            if let pending = self.shownQuestion { self.questionPresentation.dismiss(.init(pending)) }
             self.updateQuestion(now: nowMs(), immediate: true)
         }
     }
@@ -1478,6 +1483,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         guard answerNotice == nil, let pending = shownQuestion, let text = composedAnswer(typed) else { return }
         guard simulation == nil else {
             answerNotice = tr("Demo only — nothing was sent", "模拟演示，不会真的送出")
+            questionPresentation.setNotice(answerNotice!, for: .init(pending))
             updateQuestion(now: nowMs(), immediate: true)
             return
         }
@@ -1491,6 +1497,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         default: bundleID = Self.claudeBundleID
         }
         answerNotice = tr("Sending…", "正在送过去…")
+        questionPresentation.setNotice(answerNotice!, for: .init(pending))
         pickedOptions = []
         questionPanel.cardView.answerText = ""
         updateQuestion(now: nowMs(), immediate: true)
@@ -1498,18 +1505,21 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             guard let self, bundleID != nil else { return }
             self.openChat(session: session)
         }, completion: { [weak self] outcome in
-            guard let self, self.shownQuestion?.session == pending.session,
-                  self.shownQuestion?.callID == pending.callID else { return }
+            guard let self else { return }
+            let key = QuestionPresentationState.Key(pending)
+            let notice: String
             switch outcome {
             case .typed:
-                self.answerNotice = tr("Pasted · check the chat", "已粘贴并按回车 · 请在聊天中确认")
+                notice = tr("Pasted · check the chat", "已粘贴并按回车 · 请在聊天中确认")
+                self.questionPresentation.dismiss(key)
             case .needsPermission:
-                self.answerNotice = tr("Copied · allow Accessibility first", "已复制 · 先给辅助功能权限")
+                notice = tr("Copied · allow Accessibility first", "已复制 · 先给辅助功能权限")
             case .clipboardChanged:
-                self.answerNotice = tr("Clipboard changed · answer in chat", "剪贴板已更改 · 请到聊天中回答")
+                notice = tr("Clipboard changed · answer in chat", "剪贴板已更改 · 请到聊天中回答")
             case .copied:
-                self.answerNotice = tr("Copied · press ⌘V in the chat", "已复制 · 到聊天里 ⌘V")
+                notice = tr("Copied · press ⌘V in the chat", "已复制 · 到聊天里 ⌘V")
             }
+            self.questionPresentation.setNotice(notice, for: key)
             self.updateQuestion(now: nowMs(), immediate: true)
         })
     }
@@ -1522,21 +1532,22 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let source: ActivityRouter? = simulation?.router ?? (following ? router : nil)
         // 她自己都收起来了就不立卡（卡是跟着她走的子窗口，没有她在旁边立着很怪）。
         var pending = (showQuestionCard && !petHidden) ? source?.askingQuestion : nil
-        if let p = pending, p.callID == questionDismissedCall { pending = nil }
-        if pending?.callID != shownQuestion?.callID {
+        if let p = pending, questionPresentation.isDismissed(.init(p)) { pending = nil }
+        if pending?.callID != shownQuestion?.callID || pending?.session != shownQuestion?.session {
             // 换了一道题（或问完了）：选中项、输入框、提示一律重来。
             pickedOptions = []
             answerNotice = nil
             questionPanel.cardView.answerText = ""
         }
         shownQuestion = pending
+        answerNotice = pending.flatMap { questionPresentation.notice(for: .init($0)) }
         guard let pending else {
             questionSignature = ""
             hideQuestionPanel()
             return
         }
         let canOpen = simulation == nil && canOpenChat(session: pending.session)
-        let signature = "\(pending.callID)|\(pickedOptions.sorted().map(String.init).joined(separator: ","))|\(answerNotice ?? "")|\(canOpen)|\(L10n.language.rawValue)"
+        let signature = "\(pending.session)|\(pending.callID)|\(pickedOptions.sorted().map(String.init).joined(separator: ","))|\(answerNotice ?? "")|\(canOpen)|\(L10n.language.rawValue)"
         guard signature != questionSignature || immediate else { return }
         questionSignature = signature
         let layout = QuestionCardLayout(pending.question, picked: pickedOptions,
@@ -1769,6 +1780,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         return item
     }
 
+    private let launchAtLogin = LaunchAtLogin()
+
     private func currentSettingsSnapshot() -> SettingsSnapshot {
         let chats = simulation == nil
             ? router.sessionSummaries(now: nowMs(), quietWithinMs: Self.chatListWindowMs, limit: Self.chatListLimit)
@@ -1795,7 +1808,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
                                 showQuestionCard: showQuestionCard,
                                 scale: scale,
                                 language: language,
-                                demoPlaying: simulation != nil)
+                                demoPlaying: simulation != nil,
+                                launchAtLogin: launchAtLogin.status)
     }
 
     private func showSettings() {
@@ -1841,6 +1855,14 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     private func applySettings(_ change: SettingsChange) {
         switch change {
+        case .launchAtLogin(let value):
+            do {
+                try launchAtLogin.setEnabled(value)
+            } catch {
+                settingsWindow?.showStartupError(error)
+            }
+        case .openLoginItems:
+            LaunchAtLogin.openSystemSettings()
         case .following(let value):
             following = value
         case .provider(let picked):
@@ -1868,6 +1890,9 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             resetPetPosition()
         case .toggleDemo:
             simulation == nil ? startDemo() : stopDemo()
+        case .openAssistant:
+            settingsWindow?.close()
+            showAssistant()
         }
         refreshSettingsPanel()
     }

@@ -2,6 +2,8 @@ import AppKit
 
 /// 透明、置顶、不抢焦点的单实例窗口。
 final class PetPanel: NSPanel {
+    var onContextMenu: ((NSEvent) -> Void)?
+    private var contextClickButton: Int?
     init(size: NSSize) {
         super.init(contentRect: NSRect(origin: .zero, size: size),
                    styleMask: [.borderless, .nonactivatingPanel],
@@ -20,6 +22,24 @@ final class PetPanel: NSPanel {
 
     override var canBecomeKey: Bool { false }
     override var canBecomeMain: Bool { false }
+
+    // Route secondary clicks before AppKit's inactive/non-key window dispatch.
+    // The pet must open settings without first taking keyboard focus.
+    override func sendEvent(_ event: NSEvent) {
+        let contextDown = event.type == .rightMouseDown
+            || (event.type == .leftMouseDown && event.modifierFlags.contains(.control))
+        if contextDown, let onContextMenu {
+            contextClickButton = event.buttonNumber
+            onContextMenu(event)
+            return
+        }
+        if (event.type == .leftMouseUp || event.type == .rightMouseUp),
+           contextClickButton == event.buttonNumber {
+            contextClickButton = nil
+            return
+        }
+        super.sendEvent(event)
+    }
 }
 
 /// 一帧图在视图里的摆放：画在哪块矩形里、绕哪一点转、转了多少。

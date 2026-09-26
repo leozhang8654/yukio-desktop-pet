@@ -29,13 +29,6 @@ import Testing
         #expect(h.router.askingQuestion == nil)
     }
 
-    @Test func structuredReplyClosesWithoutStartingAnotherTurn() {
-        let parser = CodexRolloutParser(session: "test")
-        _ = start(parser)
-        let reply = event(parser, ["type": "message", "role": "user", "content": "<send_user_message_question_reply>Blue</send_user_message_question_reply>"])
-        #expect(reply.map(\.kind) == [.activityEnd])
-    }
-
     @Test func synchronousAnswerStillClosesImmediately() {
         let parser = CodexRolloutParser(session: "test")
         _ = start(parser, async: false)
@@ -58,5 +51,51 @@ import Testing
         _ = event(parser, ["type": "task_complete", "last_agent_message": "完成"])
         let user = event(parser, ["type": "message", "role": "user", "content": "继续"])
         #expect(user.map(\.kind) == [.taskStart])
+    }
+
+    private func taggedReply(call: String = "question", index: Int = 0) throws -> String {
+        let id = String(decoding: try JSONSerialization.data(withJSONObject: ["request_user_input_async", call, index]), as: UTF8.self)
+        let body = String(decoding: try JSONSerialization.data(withJSONObject: [["questionItemId": id, "question": "选择颜色", "answer": "蓝色"]]), as: UTF8.self)
+        return "<send_user_message_question_reply>\n\(body)\n</send_user_message_question_reply>"
+    }
+
+    @Test func taggedAnswerClosesQuestionWithoutStartingANewTask() throws {
+        let parser = CodexRolloutParser(session: "test")
+        let h = Harness(session: "test")
+        for e in start(parser) { h.router.ingest(e, now: 1000) }
+        _ = event(parser, ["type": "function_call_output", "call_id": "question", "output": "{\"accepted\":true}"])
+        h.run(to: 5000)
+        #expect(h.router.askingQuestion != nil)
+        let reply = event(parser, ["type": "message", "role": "user", "content": try taggedReply()])
+        #expect(reply.map(\.kind) == [.activityEnd])
+        #expect(reply.first?.eventID == "question")
+        for e in reply { h.router.ingest(e, now: 5000) }
+        h.run(to: 9000)
+        #expect(h.router.askingQuestion == nil)
+        // Replaying a duplicate start cannot bring the answered card back.
+        for e in start(parser) { h.router.ingest(e, now: 9000) }
+        h.run(to: 12000)
+        #expect(h.router.askingQuestion == nil)
+    }
+
+    @Test func taggedReplyTargetsItsCallAndFirstQuestionOnly() throws {
+        let parser = CodexRolloutParser(session: "test")
+        _ = start(parser)
+        let second = event(parser, ["type": "message", "role": "user", "content": try taggedReply(index: 1)])
+        #expect(second.isEmpty)
+        let other = event(parser, ["type": "message", "role": "user", "content": try taggedReply(call: "other")])
+        #expect(other.map(\.eventID) == ["other"])
+        let remaining = event(parser, ["type": "message", "role": "user", "content": "继续"])
+        #expect(remaining.first?.eventID == "question")
+    }
+
+    @Test func itemCompletedReplyIsAlsoRecognized() throws {
+        let parser = CodexRolloutParser(session: "test")
+        _ = start(parser)
+        let result = event(parser, ["type": "item_completed", "item": ["type": "UserMessage", "content": try taggedReply()]])
+        #expect(result.map(\.kind) == [.activityEnd])
+        #expect(result.first?.eventID == "question")
+        #expect(event(parser, ["type": "message", "role": "user", "content": "<environment_context>ignored</environment_context>"]).isEmpty)
+        #expect(CodexRolloutParser.questionReplyCalls("<send_user_message_question_reply>broken</send_user_message_question_reply>") == [])
     }
 }

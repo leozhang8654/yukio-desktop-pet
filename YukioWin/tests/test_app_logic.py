@@ -437,6 +437,13 @@ class TrayTests(unittest.TestCase):
         a._on_control_message(fake_win32.WM_TRAY, 0, fake_win32.WM_RBUTTONUP)
         self.assertTrue(fake_win32.LAST_MENU)
 
+    def test_pet_right_click_opens_compact_settings(self):
+        from unittest.mock import Mock
+        a=make_app();a.show_settings=Mock();a.show_assistant=Mock()
+        a._pet_proc(a.pet.hwnd,fake_win32.WM_RBUTTONUP,0,0)
+        a.show_settings.assert_called_once_with()
+        a.show_assistant.assert_not_called()
+
     def test_second_launch_opens_assistant(self):
         from unittest.mock import Mock
         a = make_app()
@@ -578,7 +585,9 @@ class QuestionCardTests(unittest.TestCase):
         advance(a, 30)          # 等它到前台、再站稳一会儿
         self.assertEqual(fake_win32.TYPED, ["保留原来那句"])
         self.assertEqual(fake_win32.RETURNS[0], 1)
-        self.assertEqual(a.answer_notice, "已输入并按回车 · 请在聊天中确认")
+        self.assertIsNone(a.shown_question)
+        self.assertFalse(a.question.visible)
+        self.assertEqual(a.question_presentation.notice(a._delivery_question), "已输入并按回车 · 请在聊天中确认")
 
     def test_repeated_answer_click_does_not_submit_twice(self):
         a = self._asking_app()
@@ -602,6 +611,32 @@ class QuestionCardTests(unittest.TestCase):
         a._tick_delivery(CLOCK[0])
         self.assertFalse(a._delivery.busy)
         self.assertEqual(fake_win32.TYPED, [])
+
+    def test_answered_question_stays_hidden_across_setting_toggle(self):
+        a=self._asking_app();a._send_answer("first")
+        fake_win32.FOREGROUND[0]="Claude.exe"
+        advance(a,30)
+        a._toggle_question_card();a._toggle_question_card()
+        advance(a,10)
+        self.assertIsNone(a.shown_question)
+        self.assertFalse(a.question.visible)
+
+    def test_dismissals_are_scoped_to_chat_and_survive_switching(self):
+        from yukio.router import PendingQuestion
+        from yukio.question_presentation import question_key
+        a=self._asking_app();first=a.shown_question
+        a._close_question()
+        other=PendingQuestion("other-chat",first.call_id,first.question)
+        self.assertFalse(a.question_presentation.is_dismissed(question_key(other)))
+        a.question_presentation.dismiss(question_key(other))
+        self.assertTrue(a.question_presentation.is_dismissed(question_key(first)))
+        a._update_question(CLOCK[0],True)
+        self.assertIsNone(a.shown_question)
+
+    def test_copy_notice_survives_hidden_question(self):
+        a=self._asking_app(url=None);a._send_answer("answer")
+        a._toggle_question_card();a._toggle_question_card()
+        self.assertEqual(a.answer_notice,"已复制 · 到聊天里 Ctrl+V")
 
     def test_never_types_when_the_app_does_not_come_to_the_front(self):
         a = self._asking_app()

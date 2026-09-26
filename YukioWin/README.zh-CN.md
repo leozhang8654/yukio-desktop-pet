@@ -8,15 +8,15 @@
 
 只依赖 Pillow 一个库。窗口、托盘、菜单都用 ctypes 直接调 Windows API，助手主窗口使用 Python 自带的 Tk/ttk。
 
-## 个人助手（0.3.1）
+## 个人助手（0.3.2）
 
 首页、提醒、个性化和扩展页已同步 macOS 当前实现。单次提醒支持新增、编辑、删除、稍后五分钟和确认完成；关闭主窗口后仍然计时，唤醒或重启后补上错过的提醒。名字和提示音设置保存在本机。AI 与屏幕观察仍在规划中，详见[助手说明](../docs/ASSISTANT.md)。
 
-右键雪绪或再次打开 EXE 回到助手；侧边栏的桌宠设置提供显隐、50%–200% 大小滑条、跟随来源、语言与卡片开关。`--pet-only` 启动时隐藏主窗口，`--assistant-only` 启动时隐藏桌宠，两种模式均保留托盘入口。
+右键雪绪打开置顶小设置，点击「打开助手 App ↗」或再次打开 EXE 回到助手；设置支持可选的[登录时自动启动](../docs/STARTUP.md)。侧边栏的桌宠设置提供显隐、50%–200% 大小滑条、跟随来源、语言与卡片开关。`--pet-only` 启动时隐藏主窗口，`--assistant-only` 启动时隐藏桌宠，两种模式均保留托盘入口。
 
 ## 下载（不用装 Python）
 
-到 [Releases](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest) 下载 `Yukio-0.3.1-Windows.exe`，放哪儿都行，双击就开。Python、Pillow、素材都打包在里面了，需要 Windows 10 或更新的 64 位系统。
+到 [Releases](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest) 下载 `Yukio-0.3.2-Windows.exe`，放哪儿都行，双击就开。Python、Pillow、素材都打包在里面了，需要 Windows 10 或更新的 64 位系统。
 
 第一次打开 Windows 可能弹蓝色的「Windows 已保护你的电脑」——这个程序没买代码签名证书，点「更多信息」→「仍要运行」，以后不再问。
 
@@ -45,7 +45,7 @@ powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1
 | --- | --- |
 | 挪位置 | 按住她拖。拖动时像被一只看不见的大手拎着后领，按单摆晃：往右拖脚落在左后方，停下荡过竖直线再收住，猛地往上提会先坠下去再弹回来。松手晃停后回到当前动作，位置会记住 |
 | 点她一下 | 举着勾选卡时：放下牌子（那一轮结束了）；立着问号卡时：卡不收，问题还等你答。跟的是桌面版 Claude 的聊天时，两种都会顺手跳回那条聊天（见下面「点一下跳回聊天」） |
-| 打开助手／菜单 | 右键雪绪（或双击）打开助手；点托盘小头像打开桌宠菜单 |
+| 打开助手／菜单 | 右键雪绪（或双击）打开小设置，再点击「打开助手 App ↗」；点托盘小头像打开桌宠菜单 |
 | 换大小 | 菜单 › 大小：50% / 75% / 100% / 125% / 150% / 175% / 200% 七个整档，再加「放大一点 / 缩小一点」各 ±5%，能停在 50%–200% 之间任何一个整 5%。高分屏会自动再乘一次屏幕缩放，不糊 |
 | 换语言 | 菜单 › 语言：English / 中文。默认英文，选择会记住（存在 settings.json 的 language 里）；已经写进事件里的说明文字要到下一条事件才换语言 |
 | 暂停跟随 | 菜单 › 跟随 AI 活动。关掉后她保持空闲，但事件照收，重新打开立刻跟上 |
@@ -182,7 +182,7 @@ claude://code/continue?session=local_…
 ## 自查（在 Windows 之外也能跑）
 
 ```sh
-python run.py --selftest                     # 207 个测试：路由、解析、跟随、独立眨眼/合成、卡叠、摆动、问题卡与回答、播放器逻辑
+python run.py --selftest                     # 219 个测试：路由、解析、跟随、独立眨眼/合成、卡叠、摆动、问题卡与回答、播放器逻辑
 python run.py --check                        # 加载并裁切全部素材，确认帧不越界
 python run.py --snapshot out.png             # 把实际使用的动画画在棋盘格上
 python run.py --bubble out.png               # 画几种头顶气泡，检查排版、截断与位置
@@ -218,7 +218,7 @@ yukio/sprites.py           图条／Windows 低内存分页 → 逐帧位图；�
 yukio/bubble.py            头顶气泡的排版与绘制（Pillow）
 yukio/win32.py             分层窗口、托盘、菜单、消息循环（ctypes）
 yukio/app.py               主循环、拖动、菜单动作、设置
-tests/                     207 个测试；tests/fake_win32.py 把窗口层换成替身，逻辑在任何平台都能测
+tests/                     219 个测试；tests/fake_win32.py 把窗口层换成替身，逻辑在任何平台都能测
 scripts/                   打包（PyInstaller）、Deep Code 的 notify 脚本
 Resources/Yukio.ico        exe 的图标（从 macOS 版的封面图裁的）
 ```

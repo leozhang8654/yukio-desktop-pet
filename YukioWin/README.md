@@ -8,11 +8,11 @@ The artwork, the activity mapping, the debounce and hold times, the focus rules,
 
 The only dependency is Pillow. The window, the tray and the menus call the Windows API directly through ctypes; the assistant window uses Python’s bundled Tk/ttk.
 
-## Personal assistant (0.3.1)
+## Personal assistant (0.3.2)
 
 Home, Reminders, Personalization and Extensions match the implemented macOS features. Create, edit, delete, snooze or complete local one-time reminders; closing the main window keeps reminders running, and missed reminders appear after wake or relaunch. Names and sound preferences are saved locally. AI and screen observation remain planned features. See [assistant guide](../docs/ASSISTANT.md).
 
-Right-click Yukio or reopen the exe to return to the assistant. Pet settings in its sidebar include visibility, a 50–200% size slider, agent source, language and card switches. `--pet-only` starts with the main window hidden; `--assistant-only` starts with the pet hidden. The system tray remains available in both modes.
+Right-click Yukio for compact, topmost settings; click **Open App ↗** or reopen the exe to return to the assistant. The settings include opt-in [launch at login](../docs/STARTUP.md). Pet settings in its sidebar include visibility, a 50–200% size slider, agent source, language and card switches. `--pet-only` starts with the main window hidden; `--assistant-only` starts with the pet hidden. The system tray remains available in both modes.
 
 ## Download (no Python needed)
 
@@ -45,7 +45,7 @@ The result is `dist\Yukio.exe` (artwork included). Without a Windows dev environ
 | --- | --- |
 | Move her | Press on her and drag. While dragged she looks picked up by an invisible hand by the back of her collar and swings like a pendulum: drag right and her feet trail behind to the left, stop and she swings past vertical before settling, yank her upward and she first drops, then bounces back. Once you let go and the swing dies down she returns to her current pose, and the position is remembered |
 | Click her | While she is holding up the ✅ done card: the sign goes down (that turn is over). While the ❓ question card is up: the card stays, the question is still waiting for you. If the chat she is following belongs to the Claude desktop app, either click also jumps back to that chat (see "Click to jump back to the chat" below) |
-| Open assistant / menu | Right-click Yukio to open the assistant; click the tray avatar for the pet menu |
+| Open assistant / menu | Right-click Yukio for compact settings, then **Open App ↗** for the assistant; click the tray avatar for the pet menu |
 | Change size | Menu › Size: seven fixed steps, 50% / 75% / 100% / 125% / 150% / 175% / 200%, plus "Bigger (+5%)" and "Smaller (−5%)", so she can stop at any multiple of 5% between 50% and 200%. On high-DPI screens the display scaling is applied on top automatically, so she stays sharp |
 | Change language | Menu › Language: English / 中文. English is the default; the choice is remembered in settings.json as "language". Descriptions already attached to earlier events keep their language until the next event |
 | Pause following | Menu › Follow AI activity. With it off she stays idle but still receives events, so she catches up the moment you turn it back on |
@@ -184,7 +184,7 @@ its click regions, which is how its layout is checked without Windows.
 ## Self-check (runs outside Windows too)
 
 ```sh
-python run.py --selftest                     # 207 tests: routing, parsing, following, blink timing/compositing, card stack, swing, question card and answering, player logic
+python run.py --selftest                     # 219 tests: routing, parsing, following, blink timing/compositing, card stack, swing, question card and answering, player logic
 python run.py --check                        # load and crop all artwork, confirm no frame runs out of bounds
 python run.py --snapshot out.png             # draw the animations actually in use on a checkerboard
 python run.py --bubble out.png               # draw several head bubbles to check layout, truncation and position
@@ -220,7 +220,7 @@ yukio/sprites.py           sprite strips / packaged low-memory pages → frames;
 yukio/bubble.py            layout and drawing of the head bubble (Pillow)
 yukio/win32.py             layered window, tray, menus, message loop (ctypes)
 yukio/app.py               main loop, dragging, menu actions, settings
-tests/                     207 tests; tests/fake_win32.py swaps the window layer for a stand-in so the logic can be tested on any platform
+tests/                     219 tests; tests/fake_win32.py swaps the window layer for a stand-in so the logic can be tested on any platform
 scripts/                   packaging (PyInstaller), the notify script for Deep Code
 Resources/Yukio.ico        the exe's icon (cropped from the macOS edition's cover image)
 ```

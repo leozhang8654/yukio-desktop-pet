@@ -59,6 +59,32 @@ def prompt_line(text: Optional[str]) -> Optional[str]:
     return None
 
 
+def question_reply_calls(text):
+    text = text.strip()
+    start, end = '<send_user_message_question_reply>', '</send_user_message_question_reply>'
+    if not (text.startswith(start) and text.endswith(end)):
+        return None
+    try:
+        replies = json.loads(text[len(start):-len(end)])
+    except ValueError:
+        return set()
+    if not isinstance(replies, list):
+        return set()
+    calls = set()
+    for reply in replies:
+        if not isinstance(reply, dict) or not isinstance(reply.get('answer'), str):
+            continue
+        try:
+            ident = json.loads(reply.get('questionItemId', ''))
+        except (ValueError, TypeError):
+            continue
+        if (isinstance(ident, list) and len(ident) == 3 and isinstance(ident[0], str)
+                and ident[0].split('.')[-1] in ('request_user_input', 'request_user_input_async')
+                and isinstance(ident[1], str) and ident[1] and type(ident[2]) is int and ident[2] == 0):
+            calls.add(ident[1])
+    return calls
+
+
 def content_text(content: Any) -> str:
     """content 可能是字符串，也可能是 ``[{"type": "input_text", "text": …}]``。"""
     if isinstance(content, str):
@@ -487,8 +513,10 @@ class CodexRolloutParser:
                    event_id=call if isinstance(call, str) else None)]
 
     def _user_message(self, text, ev):
-        if text.strip().startswith("<send_user_message_question_reply>"):
-            return self._close_async_questions(ev)
+        answered = question_reply_calls(text)
+        if answered is not None:
+            self._async_questions.difference_update(answered)
+            return [ev(Kind.activity_end, event_id=call) for call in sorted(answered)]
         line = prompt_line(text)
         return self._close_async_questions(ev) + [ev(Kind.task_start, detail=line)] if line else []
 

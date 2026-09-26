@@ -14,10 +14,13 @@ struct SettingsSnapshot {
     let scale: CGFloat
     let language: UILanguage
     let demoPlaying: Bool
+    var launchAtLogin: LaunchAtLoginStatus = .disabled
 }
 
 enum SettingsChange {
     case following(Bool)
+    case launchAtLogin(Bool)
+    case openLoginItems
     case provider(AgentProvider)
     case chat(String?)
     case showBubble(Bool)
@@ -28,6 +31,7 @@ enum SettingsChange {
     case toggleHidden
     case resetPosition
     case toggleDemo
+    case openAssistant
 }
 
 final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMenuDelegate {
@@ -45,6 +49,11 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
     private let cardsTitle = NSTextField(labelWithString: "")
     private let questionTitle = NSTextField(labelWithString: "")
     private let scaleTitle = NSTextField(labelWithString: "")
+    private let startupTitle = NSTextField(labelWithString: "")
+    private let startupSwitch = NSSwitch()
+    private let startupHint = NSTextField(wrappingLabelWithString: "")
+    private let loginItemsButton = NSButton()
+    private let startupHeading = NSTextField(labelWithString: "")
     private let languageTitle = NSTextField(labelWithString: "")
 
     private let followSwitch = NSSwitch()
@@ -60,6 +69,7 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
     private let resetButton = NSButton()
     private let demoButton = NSButton()
     private let doneButton = NSButton()
+    private let openAssistantButton = NSButton()
 
     private let followingHeading = NSTextField(labelWithString: "")
     private let displayHeading = NSTextField(labelWithString: "")
@@ -71,14 +81,15 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
 
     init() {
         let panel = NSPanel(
-            contentRect: NSRect(x: 0, y: 0, width: 420, height: 500),
-            styleMask: [.titled, .closable],
+            contentRect: NSRect(x: 0, y: 0, width: 420, height: 570),
+            styleMask: [.titled, .closable, .nonactivatingPanel],
             backing: .buffered,
             defer: false
         )
         panel.level = .floating
         panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
         panel.isReleasedWhenClosed = false
+        panel.hidesOnDeactivate = false
         panel.isMovableByWindowBackground = true
         panel.appearance = NSAppearance(named: .darkAqua)
         panel.backgroundColor = NSColor(calibratedRed: 0.065, green: 0.105, blue: 0.165, alpha: 0.98)
@@ -92,9 +103,11 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
     func show(snapshot: SettingsSnapshot, near anchor: NSRect) {
         apply(snapshot)
         position(near: anchor)
-        NSApp.activate(ignoringOtherApps: true)
+        // Keep the current app/Space in place. Activating Yukio here can switch
+        // back to its desktop instead of showing settings over a full-screen app.
         showWindow(nil)
         window?.makeKeyAndOrderFront(nil)
+        window?.orderFrontRegardless()
     }
 
     func apply(_ snapshot: SettingsSnapshot) {
@@ -111,6 +124,14 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         bubbleSwitch.state = snapshot.showBubble ? .on : .off
         cardsSwitch.state = snapshot.showCards ? .on : .off
         questionSwitch.state = snapshot.showQuestionCard ? .on : .off
+        startupSwitch.state = snapshot.launchAtLogin.isRegistered ? .on : .off
+        let needsApproval = snapshot.launchAtLogin == .requiresApproval
+        startupHint.isHidden = !needsApproval
+        loginItemsButton.isHidden = !needsApproval
+        let contentSize = NSSize(width: 420, height: needsApproval ? 630 : 570)
+        if window?.contentView?.frame.size != contentSize {
+            window?.setContentSize(contentSize)
+        }
 
         sync(providerPopup, items: AgentProvider.allCases.map { ($0.displayName, $0.rawValue) })
         select(providerPopup, value: snapshot.provider.rawValue)
@@ -165,13 +186,13 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
 
         stack.orientation = .vertical
         stack.alignment = .leading
-        stack.spacing = 8
+        stack.spacing = 6
         stack.translatesAutoresizingMaskIntoConstraints = false
         root.addSubview(stack)
         NSLayoutConstraint.activate([
             stack.leadingAnchor.constraint(equalTo: root.leadingAnchor, constant: 24),
             stack.trailingAnchor.constraint(equalTo: root.trailingAnchor, constant: -24),
-            stack.topAnchor.constraint(equalTo: root.topAnchor, constant: 30),
+            stack.topAnchor.constraint(equalTo: root.topAnchor, constant: 24),
             stack.bottomAnchor.constraint(lessThanOrEqualTo: root.bottomAnchor, constant: -20),
         ])
 
@@ -183,9 +204,20 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         statusLabel.lineBreakMode = .byTruncatingTail
         statusLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
-        stack.addArrangedSubview(brandLabel)
-        stack.addArrangedSubview(statusLabel)
-        stack.setCustomSpacing(18, after: statusLabel)
+        // Use the existing header area for a generous App entry, without growing the panel.
+        let identity = NSStackView(views: [brandLabel, statusLabel])
+        identity.orientation = .vertical
+        identity.alignment = .leading
+        identity.spacing = 8
+        let header = NSStackView(views: [identity, NSView(), openAssistantButton])
+        header.orientation = .horizontal
+        header.alignment = .centerY
+        header.spacing = 12
+        header.widthAnchor.constraint(equalToConstant: 372).isActive = true
+        openAssistantButton.widthAnchor.constraint(equalToConstant: 144).isActive = true
+        openAssistantButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        stack.addArrangedSubview(header)
+        stack.setCustomSpacing(18, after: header)
 
         stack.addArrangedSubview(followingHeading)
         stack.addArrangedSubview(row(title: followTitle, control: followSwitch))
@@ -213,6 +245,15 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         stack.addArrangedSubview(interfaceHeading)
         stack.addArrangedSubview(row(title: languageTitle, control: languagePopup, controlWidth: 210))
 
+        stack.addArrangedSubview(separator())
+        stack.addArrangedSubview(startupHeading)
+        stack.addArrangedSubview(row(title: startupTitle, control: startupSwitch))
+        startupHint.font = .systemFont(ofSize: 12)
+        startupHint.textColor = .secondaryLabelColor
+        startupHint.widthAnchor.constraint(equalToConstant: 372).isActive = true
+        stack.addArrangedSubview(startupHint)
+        stack.addArrangedSubview(loginItemsButton)
+
         let buttons = NSStackView(views: [hideButton, resetButton, demoButton, NSView(), doneButton])
         buttons.orientation = .horizontal
         buttons.alignment = .centerY
@@ -226,6 +267,21 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
     }
 
     private func configureActions() {
+        openAssistantButton.bezelStyle = .regularSquare
+        openAssistantButton.bezelColor = NSColor(calibratedRed: 0.18, green: 0.43, blue: 0.54, alpha: 1)
+        openAssistantButton.contentTintColor = .white
+        openAssistantButton.font = .systemFont(ofSize: 14, weight: .semibold)
+        openAssistantButton.wantsLayer = true
+        openAssistantButton.layer?.cornerRadius = 8
+        openAssistantButton.layer?.masksToBounds = true
+        openAssistantButton.target = self
+        openAssistantButton.action = #selector(openAssistant)
+        startupSwitch.target = self
+        startupSwitch.action = #selector(startupChanged)
+        startupSwitch.setAccessibilityIdentifier("launchAtLoginSwitch")
+        loginItemsButton.bezelStyle = .rounded
+        loginItemsButton.target = self
+        loginItemsButton.action = #selector(openLoginItems)
         followSwitch.target = self
         followSwitch.action = #selector(followChanged)
         providerPopup.target = self
@@ -287,6 +343,12 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         followingHeading.stringValue = tr("FOLLOWING", "跟随")
         displayHeading.stringValue = tr("DISPLAY", "显示")
         interfaceHeading.stringValue = tr("INTERFACE", "界面")
+        startupHeading.stringValue = tr("STARTUP", "启动")
+        startupTitle.stringValue = tr("Launch at login", "登录时自动启动")
+        startupSwitch.setAccessibilityLabel(startupTitle.stringValue)
+        startupSwitch.toolTip = tr("Open Yukio automatically when you log in to your Mac.", "登录 Mac 后自动打开雪绪。")
+        startupHint.stringValue = tr("Allow Yukio in macOS Login Items to finish enabling automatic launch.", "请在 macOS 的登录项中允许雪绪，自动启动才会生效。")
+        loginItemsButton.title = tr("Open Login Items…", "打开系统登录项…")
         followTitle.stringValue = tr("Follow activity", "跟随助手活动")
         providerTitle.stringValue = tr("Assistant", "跟随的助手")
         chatTitle.stringValue = tr("Chat", "跟随的聊天")
@@ -297,8 +359,10 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         languageTitle.stringValue = tr("Language", "语言")
         resetButton.title = tr("Reset position", "复位位置")
         doneButton.title = tr("Done", "完成")
+        openAssistantButton.title = tr("Open App ↗", "打开助手 App ↗")
+        openAssistantButton.toolTip = tr("Open the full assistant window", "切换到完整的助手 App 页面")
 
-        for heading in [followingHeading, displayHeading, interfaceHeading] {
+        for heading in [followingHeading, displayHeading, interfaceHeading, startupHeading] {
             heading.font = .systemFont(ofSize: 11, weight: .semibold)
             heading.textColor = NSColor(calibratedRed: 0.48, green: 0.77, blue: 0.92, alpha: 1)
         }
@@ -316,7 +380,7 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         row.spacing = 8
         row.translatesAutoresizingMaskIntoConstraints = false
         row.widthAnchor.constraint(equalToConstant: 372).isActive = true
-        row.heightAnchor.constraint(equalToConstant: 32).isActive = true
+        row.heightAnchor.constraint(equalToConstant: 28).isActive = true
         return row
     }
 
@@ -338,6 +402,23 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         let x = left >= visible.minX ? left : min(right, visible.maxX - size.width)
         let y = min(max(anchor.midY - size.height / 2, visible.minY + 12), visible.maxY - size.height - 12)
         window.setFrameOrigin(NSPoint(x: x, y: y))
+    }
+
+    @objc private func startupChanged() {
+        guard !updating else { return }
+        onChange?(.launchAtLogin(startupSwitch.state == .on))
+    }
+
+    @objc private func openLoginItems() { onChange?(.openLoginItems) }
+
+    func showStartupError(_ error: Error) {
+        guard let window else { return }
+        let alert = NSAlert()
+        alert.alertStyle = .warning
+        alert.messageText = tr("Couldn’t update automatic launch", "未能更改自动启动设置")
+        alert.informativeText = error.localizedDescription
+        alert.addButton(withTitle: tr("OK", "好"))
+        alert.beginSheetModal(for: window)
     }
 
     @objc private func followChanged() {
@@ -390,6 +471,7 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
     @objc private func toggleHidden() { onChange?(.toggleHidden) }
     @objc private func resetPosition() { onChange?(.resetPosition) }
     @objc private func toggleDemo() { onChange?(.toggleDemo) }
+    @objc private func openAssistant() { onChange?(.openAssistant) }
     @objc private func closePanel() { close() }
 }
 

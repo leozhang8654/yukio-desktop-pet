@@ -12,3 +12,5 @@
 
 - [个人助手使用与开发](ASSISTANT.md)
 - [个性化后续设计（未实现）](PERSONALIZATION.md)
+
+- [登录时自动启动（双平台）](STARTUP.md)
