@@ -27,7 +27,7 @@ from .sprites import SpriteLibrary
 
 FRAME_MS = 33          # 约 30 Hz：小幅动作一帧 33–67 ms，眨眼 50–110 ms，都能按时换帧
 POLL_EVERY_TICKS = 8   # 约每 0.27 秒读一次会话记录
-OPEN_CHAT_EVERY_TICKS = 60   # 约每 2 秒看一次"此刻开着哪条聊天"
+OPEN_CHAT_EVERY_TICKS = 15   # Refresh the selected chat about every 0.5 seconds.
 #: 桌面版 Claude 的可执行文件名。它在最前面、且选中的就是那条聊天时，那条不举牌。
 CLAUDE_DESKTOP_EXE = "Claude.exe"
 BUBBLE_FADE_MS = 180.0
@@ -58,6 +58,13 @@ class PetApp:
         self.library = SpriteLibrary(self.catalog, root)
         self.sources = default_sources(self.settings.get("source"))
         self.links = ChatLinks()
+        from .codex_open_chat import CodexOpenChat
+        from concurrent.futures import ThreadPoolExecutor
+        self.codex_open_chat = CodexOpenChat()
+        self._open_chat_executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="yukio-focus")
+        self._open_chat_future = None
+        self._open_chat_pid = None
+
 
         start = now_ms()
         self.router = ActivityRouter(now=start)
@@ -784,22 +791,32 @@ class PetApp:
     # MARK: 主循环
 
     def _refresh_open_chat(self) -> None:
-        """桌面版 Claude 就在最前面时，把它此刻选中的那条聊天告诉路由——那条不举牌。
-
-        人没在看 Claude 时直接给 None，连记录都不用翻。读记录是文件操作，所以两秒才做一次；
-        任何一步取不到就当"没开在眼前"，照常举牌。
-        """
+        """Read selected-view logs off the animation thread; apply only to the same PID."""
         try:
             if os.name != "nt":
                 self.router.open_chat_session = None
                 return
-            from .win32 import foreground_process_name
-            front = foreground_process_name()
-            if not front or front.lower() != CLAUDE_DESKTOP_EXE.lower():
+            pid = self.win32.foreground_process_id()
+            if pid != self._open_chat_pid:
                 self.router.open_chat_session = None
+            if self._open_chat_future is not None:
+                if not self._open_chat_future.done():
+                    return
+                session = self._open_chat_future.result()
+                self._open_chat_future = None
+                self.router.open_chat_session = session if pid == self._open_chat_pid else None
+            front = (self.win32.foreground_process_name() or "").lower()
+            if not pid or self.win32.foreground_process_id() != pid or front not in ("claude.exe", "codex.exe"):
+                self.router.open_chat_session = None
+                self._open_chat_pid = None
                 return
-            self.router.open_chat_session = self.links.focused_session()
+            self._open_chat_pid = pid
+            if front == "codex.exe":
+                self._open_chat_future = self._open_chat_executor.submit(self.codex_open_chat.focused_session, pid, now_ms())
+            else:
+                self._open_chat_future = self._open_chat_executor.submit(self.links.focused_session)
         except Exception:
+            self._open_chat_future = None
             self.router.open_chat_session = None
 
     def tick(self) -> None:
@@ -828,6 +845,8 @@ class PetApp:
                         winsound.PlaySound("SystemAsterisk", winsound.SND_ALIAS | winsound.SND_ASYNC)
                     except (ImportError, RuntimeError):
                         pass
+        if os.name == "nt" and self.win32.foreground_process_id() != self._open_chat_pid:
+            self.router.open_chat_session = None
         self.tick_count += 1
         if self.tick_count % OPEN_CHAT_EVERY_TICKS == 0:
             self._refresh_open_chat()
@@ -912,6 +931,7 @@ class PetApp:
         return bool(box is not None and box.handle_message(msg))
 
     def shutdown(self) -> None:
+        self._open_chat_executor.shutdown(wait=False, cancel_futures=True)
         try:
             if self.assistant is not None:
                 self.assistant.destroy()

@@ -6,7 +6,7 @@ One Yukio (雪绪) who changes what she is doing based on what your coding agent
 With several chats open at once, whichever one has just finished or is waiting for your decision is shown first; the other chats that have something to say stack above the bubble as cards of the same design, and clicking one takes you to that chat. You can also pin one chat in the menu so she follows only that one. Every motion moves gently and continuously (writing, typing, moving her eyes, blinking), and the small bubble over her head shows the big task, the current task, and progress.
 Native Swift / AppKit. It needs only the Xcode Command Line Tools and has no third-party dependencies.
 
-## Personal assistant (0.3.0)
+## Personal assistant (0.3.1)
 
 The main window includes Home, Reminders, Personalization and planned Extensions. One-time reminders support editing, deletion, five-minute snooze and completion. Data is stored locally; the clock keeps running when the window closes, and catches up after wake or relaunch. Use `--pet-only` to start with the main window hidden, or `--assistant-only` to start with the pet hidden. See [assistant guide](../docs/ASSISTANT.md).
 
@@ -14,7 +14,7 @@ The main window includes Home, Reminders, Personalization and planned Extensions
 
 ```sh
 cd YukioPlayer
-swift test                     # 157 tests (routing, blink timing, classification, parsing, file following, assets, bubble text, motion timeline, chat matching and selection, questions and answering)
+swift test                     # 163 tests (routing, blink timing, classification, parsing, file following, assets, bubble text, motion timeline, chat matching and selection, questions and answering)
 ./scripts/build-app.sh         # produces build/Yukio.app (assets and icon are bundled into the app)
 open build/Yukio.app
 ```

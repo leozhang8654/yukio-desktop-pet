@@ -596,19 +596,22 @@ func runChatLink(session: String) -> Never {
     exit(0)
 }
 
-/// --open-chat：打印桌面版 Claude 此刻选中的那条聊天。
-/// 这条聊天答完时雪绪不举牌——人已经看着它了，再举一块只是挡路。
-/// 注意只有桌面版 Claude 在最前面时才算"开在眼前"，这里只查记录，不管谁在前台。
+/// --open-chat: diagnose the currently foreground Claude/Codex selection without UI automation.
 func runOpenChat() -> Never {
-    let links = ClaudeSessionLinks()
-    print("会话记录目录 \(links.sessionsDir.path)")
-    guard let session = links.focusedTranscriptSession() else {
-        print("认不出此刻开着哪条聊天：照常举牌")
-        exit(1)
+    let front = NSWorkspace.shared.frontmostApplication
+    let bundle = front?.bundleIdentifier ?? "-"
+    let session: String?
+    switch bundle {
+    case "com.openai.codex":
+        session = front.flatMap { CodexOpenChat().focusedSession(processID: $0.processIdentifier,
+                                    now: Date().timeIntervalSince1970 * 1000) }
+    case "com.anthropic.claudefordesktop":
+        session = ClaudeSessionLinks().focusedTranscriptSession()
+    default: session = nil
     }
-    print("此刻开着的聊天 \(session)")
-    let front = NSWorkspace.shared.frontmostApplication?.bundleIdentifier ?? "-"
-    print("最前面的应用 \(front)\(front == "com.anthropic.claudefordesktop" ? "（算开在眼前，这条不举牌）" : "（没在看 Claude，照常举牌）")")
+    print("最前面的应用 \(bundle)")
+    if let session { print("正在看的聊天 \(session)（这条不举完成牌）") }
+    else { print("无法确认正在看的聊天：保留完成提醒") }
     exit(0)
 }
 
@@ -735,6 +738,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private let links = ClaudeSessionLinks()
     /// refreshOpenChat 的后台读取是否还在路上。
     private var openChatBusy = false
+    private let codexOpenChat = CodexOpenChat()
+    private var openChatProcessID: pid_t?
     private let defaults = UserDefaults.standard
 
     private var panel: PetPanel!
@@ -1113,30 +1118,33 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     // MARK: 主循环
 
-    /// 桌面版 Claude 就在最前面时，把它此刻选中的那条聊天告诉路由——那条不举牌。
-    /// 人没在看 Claude 时直接给 nil，连记录都不用翻。
-    ///
-    /// 翻记录是文件读取，放到后台做，别让 30 Hz 的动作掉帧；上一次还没回来就跳过这一轮。
+    /// Match the selected chat only while its desktop application is in front.
+    /// File IO stays off the animation thread; recheck the process when it returns.
     private func refreshOpenChat() {
-        let front = NSWorkspace.shared.frontmostApplication?.bundleIdentifier
-        guard front == "com.anthropic.claudefordesktop" else {
+        let front = NSWorkspace.shared.frontmostApplication
+        let bundle = front?.bundleIdentifier
+        guard bundle == Self.claudeBundleID || bundle == Self.codexBundleID,
+              let pid = front?.processIdentifier else {
             router.openChatSession = nil
+            openChatProcessID = nil
             return
         }
+        if openChatProcessID != pid { router.openChatSession = nil }
         guard !openChatBusy else { return }
+        openChatProcessID = pid
         openChatBusy = true
         let links = self.links
+        let codex = codexOpenChat
         DispatchQueue.global(qos: .utility).async {
-            let session = links.focusedTranscriptSession()
+            let session = bundle == Self.codexBundleID
+                ? codex.focusedSession(processID: pid, now: Date().timeIntervalSince1970 * 1000)
+                : links.focusedTranscriptSession()
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 self.openChatBusy = false
-                // 回来的路上人可能已经切走了，那就不算"开在眼前"。
-                if NSWorkspace.shared.frontmostApplication?.bundleIdentifier == "com.anthropic.claudefordesktop" {
-                    self.router.openChatSession = session
-                } else {
-                    self.router.openChatSession = nil
-                }
+                let current = NSWorkspace.shared.frontmostApplication
+                self.router.openChatSession = current?.processIdentifier == pid
+                    && current?.bundleIdentifier == bundle ? session : nil
             }
         }
     }
@@ -1144,8 +1152,11 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private func tick() {
         let now = nowMs()
         tickCount += 1
-        // 约每 2 秒看一次"此刻开着哪条聊天"。
-        if tickCount % 60 == 0 { refreshOpenChat() }
+        // Clear immediately when the user leaves the app; refresh selected chat every 0.5 s.
+        if NSWorkspace.shared.frontmostApplication?.processIdentifier != openChatProcessID {
+            router.openChatSession = nil
+        }
+        if tickCount % 15 == 0 { refreshOpenChat() }
         if tickCount % 8 == 0 {
             // 约每 0.27 秒读一次会话记录。事件始终进入路由器；暂停跟随只影响显示。
             for e in feeds.poll(now: now) { router.ingest(e, now: min(e.ts, now)) }

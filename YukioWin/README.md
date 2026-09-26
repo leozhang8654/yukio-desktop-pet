@@ -8,7 +8,7 @@ The artwork, the activity mapping, the debounce and hold times, the focus rules,
 
 The only dependency is Pillow. The window, the tray and the menus call the Windows API directly through ctypes; the assistant window uses Python’s bundled Tk/ttk.
 
-## Personal assistant (0.3.0)
+## Personal assistant (0.3.1)
 
 Home, Reminders, Personalization and Extensions match the implemented macOS features. Create, edit, delete, snooze or complete local one-time reminders; closing the main window keeps reminders running, and missed reminders appear after wake or relaunch. Names and sound preferences are saved locally. AI and screen observation remain planned features. See [assistant guide](../docs/ASSISTANT.md).
 
@@ -184,7 +184,7 @@ its click regions, which is how its layout is checked without Windows.
 ## Self-check (runs outside Windows too)
 
 ```sh
-python run.py --selftest                     # 198 tests: routing, parsing, following, blink timing/compositing, card stack, swing, question card and answering, player logic
+python run.py --selftest                     # 207 tests: routing, parsing, following, blink timing/compositing, card stack, swing, question card and answering, player logic
 python run.py --check                        # load and crop all artwork, confirm no frame runs out of bounds
 python run.py --snapshot out.png             # draw the animations actually in use on a checkerboard
 python run.py --bubble out.png               # draw several head bubbles to check layout, truncation and position
@@ -220,7 +220,7 @@ yukio/sprites.py           sprite strips / packaged low-memory pages → frames;
 yukio/bubble.py            layout and drawing of the head bubble (Pillow)
 yukio/win32.py             layered window, tray, menus, message loop (ctypes)
 yukio/app.py               main loop, dragging, menu actions, settings
-tests/                     198 tests; tests/fake_win32.py swaps the window layer for a stand-in so the logic can be tested on any platform
+tests/                     207 tests; tests/fake_win32.py swaps the window layer for a stand-in so the logic can be tested on any platform
 scripts/                   packaging (PyInstaller), the notify script for Deep Code
 Resources/Yukio.ico        the exe's icon (cropped from the macOS edition's cover image)
 ```

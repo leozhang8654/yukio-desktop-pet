@@ -21,7 +21,11 @@
 
 她认三家助手，在菜单「跟随的助手」里挑：**Claude Code**、**DeepSeek 的 [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)**、**GPT 的 [Codex](https://developers.openai.com/codex/)**（桌面版与命令行写的是同一份会话记录）。默认的**自动**三家一起跟，谁有话说就显示谁。两版都使用原生窗口，完全基于本机会话记录工作。
 
-## 0.3.0 更新
+## 0.3.1 更新
+
+双平台补上 Codex 当前聊天识别：你正在看的聊天完成时不重复举牌，其他聊天照常提醒；无法确认或日志过期时保留提醒。
+
+0.3 系列同时包含：
 
 - **两个平台都有个人助手主窗口**：首页、提醒、个性化、扩展，与原有桌宠一起使用。
 - 单次提醒支持新增、编辑、删除、稍后 5 分钟和确认完成；本地保存，唤醒或重启后补上错过的提醒。关闭主窗口后程序与提醒计时继续运行。
@@ -41,8 +45,8 @@ AI 对话、屏幕观察、自动活动记录、新闻简报和日历接入仍�
 
 | 你用的是 | 下载 | 怎么开 |
 | --- | --- | --- |
-| macOS 13 或更新（Apple 芯片与 Intel 通用） | [Yukio-0.3.0-macOS.zip](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.0/Yukio-0.3.0-macOS.zip) | 解压，把 `Yukio.app` 拖进「应用程序」，第一次按下面放行一次 |
-| Windows 10 / 11（64 位） | [Yukio-0.3.0-Windows.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.0/Yukio-0.3.0-Windows.exe) | 双击就开。Python 和素材都打包在里面 |
+| macOS 13 或更新（Apple 芯片与 Intel 通用） | [Yukio-0.3.1-macOS.zip](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.1/Yukio-0.3.1-macOS.zip) | 解压，把 `Yukio.app` 拖进「应用程序」，第一次按下面放行一次 |
+| Windows 10 / 11（64 位） | [Yukio-0.3.1-Windows.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.1/Yukio-0.3.1-Windows.exe) | 双击就开。Python 和素材都打包在里面 |
 
 <details>
 <summary><b>macOS 第一次打开：「Apple 无法验证“Yukio”是否包含可能危害 Mac 安全或泄漏隐私的恶意软件」</b></summary>
@@ -129,7 +133,7 @@ xattr -dr com.apple.quarantine /Applications/Yukio.app
 ```sh
 git clone https://github.com/leozhang8654/yukio-desktop-pet
 cd yukio-desktop-pet/YukioPlayer
-swift test                      # 157 个测试：路由、眨眼时序、分类、解析、气泡文字、动作时间线、聊天选择、抄题
+swift test                      # 163 个测试：路由、眨眼时序、分类、解析、气泡文字、动作时间线、聊天选择、抄题
 ./scripts/build-app.sh          # 生成 build/Yukio.app
 open build/Yukio.app
 cd ../YukioWin && pip3 install pillow && python3 scripts/prepare-windows-assets.py
@@ -142,7 +146,7 @@ cd ../YukioPlayer && ./scripts/package-release.sh  # 打通用二进制发布包
 cd yukio-desktop-pet\YukioWin
 pip install pillow
 python run.py
-python run.py --selftest                                          # 198 个测试，任何系统上都能跑
+python run.py --selftest                                          # 207 个测试，任何系统上都能跑
 powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1    # 打出 dist\Yukio.exe，素材已包含
 ```
 

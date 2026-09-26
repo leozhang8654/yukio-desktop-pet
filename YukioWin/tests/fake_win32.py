@@ -263,3 +263,7 @@ class TextInput:
 
     def destroy(self):
         self.destroyed = True
+
+
+def foreground_process_id():
+    return None

@@ -81,6 +81,38 @@ class _FakeLinks:
 
 
 class AppLogicTests(unittest.TestCase):
+    def test_codex_focus_lookup_and_stale_background_result(self):
+        from concurrent.futures import Future
+        from unittest.mock import patch, Mock
+        a = make_app()
+        future = Future()
+        a._open_chat_executor = Mock()
+        a._open_chat_executor.submit.return_value = future
+        with patch.object(app_module.os, "name", "nt"), \
+             patch.object(fake_win32, "foreground_process_id", return_value=42), \
+             patch.object(fake_win32, "foreground_process_name", return_value="Codex.exe"):
+            a._refresh_open_chat()
+            self.assertIs(a._open_chat_executor.submit.call_args.args[0].__self__, a.codex_open_chat)
+            self.assertEqual(a._open_chat_executor.submit.call_args.args[1], 42)
+            future.set_result("selected-chat")
+            a._refresh_open_chat()
+            self.assertEqual(a.router.open_chat_session, "selected-chat")
+        with patch.object(app_module.os, "name", "nt"), \
+             patch.object(fake_win32, "foreground_process_id", return_value=99), \
+             patch.object(fake_win32, "foreground_process_name", return_value="Other.exe"):
+            a._refresh_open_chat()
+            self.assertIsNone(a.router.open_chat_session)
+
+    def test_leaving_codex_clears_selection_before_next_log_poll(self):
+        from unittest.mock import patch
+        a = make_app()
+        a._open_chat_pid = 42
+        a.router.open_chat_session = "selected-chat"
+        with patch.object(app_module.os, "name", "nt"), \
+             patch.object(fake_win32, "foreground_process_id", return_value=99):
+            a.tick()
+        self.assertIsNone(a.router.open_chat_session)
+
     def test_starts_idle_and_paints_one_frame(self):
         a = make_app()
         self.assertEqual(a.shown_state, PetState.idle)

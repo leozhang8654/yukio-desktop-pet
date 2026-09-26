@@ -22,6 +22,15 @@ user32 = ctypes.WinDLL("user32", use_last_error=True)
 gdi32 = ctypes.WinDLL("gdi32", use_last_error=True)
 kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
 
+def foreground_process_id() -> Optional[int]:
+    hwnd = user32.GetForegroundWindow()
+    if not hwnd:
+        return None
+    pid = c_ulong(0)
+    user32.GetWindowThreadProcessId(c_void_p(hwnd), byref(pid))
+    return pid.value or None
+
+
 def foreground_process_name() -> Optional[str]:
     """最前面那个窗口属于哪个可执行文件（只要文件名，如 "Claude.exe"）。取不到时 None。
 
@@ -263,6 +272,13 @@ gdi32.SelectObject.restype = c_void_p
 gdi32.SelectObject.argtypes = [c_void_p, c_void_p]
 gdi32.DeleteObject.argtypes = [c_void_p]
 gdi32.DeleteDC.argtypes = [c_void_p]
+
+user32.GetForegroundWindow.restype = c_void_p
+user32.GetWindowThreadProcessId.argtypes = [c_void_p, POINTER(c_ulong)]
+kernel32.OpenProcess.restype = c_void_p
+kernel32.OpenProcess.argtypes = [c_ulong, wintypes.BOOL, c_ulong]
+kernel32.QueryFullProcessImageNameW.argtypes = [c_void_p, c_ulong, ctypes.c_wchar_p, POINTER(c_ulong)]
+kernel32.CloseHandle.argtypes = [c_void_p]
 
 kernel32.GetModuleHandleW.restype = c_void_p
 kernel32.GetModuleHandleW.argtypes = [ctypes.c_wchar_p]

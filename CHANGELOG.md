@@ -1,5 +1,12 @@
 # Changelog / 更新记录
 
+## 0.3.1 — 2026-09-26
+
+- Both platforms recognize the selected Codex desktop chat from local view diagnostics. Only that chat suppresses its completion card; background conversations retain their reminders.
+- Focus is checked against the running process; switching apps clears the selection immediately. Missing or stale diagnostics keep reminders enabled.
+- Windows reads view logs off the animation thread and fixes 64-bit foreground-window/process handle declarations.
+- 双平台同步最新 Codex「当前聊天不举完成牌」修复，并增加切换聊天、多个窗口、后台任务、日志续读和重启回归测试。
+
 ## 0.3.0 — 2026-09-25
 
 - Personal assistant windows on macOS and Windows: Home, Reminders, Personalization and planned Extensions. / 双平台个人助手主窗口：首页、提醒、个性化与规划中的扩展。
