@@ -453,6 +453,8 @@ class ActivityRouter:
         if s.task_active:
             if not self._is_live(s, now):
                 return PetState.idle
+            if any(call.state is PetState.question_for_user for call in s.open):
+                return PetState.question_for_user
             if s.open:
                 return s.open[-1].state
             if s.final_answer_at is not None:
@@ -501,8 +503,7 @@ class ActivityRouter:
 
     def _waiting_for_user(self, s: _Session, now: float) -> bool:
         """这条聊天在等你拿主意（AskUserQuestion 还没结束）。"""
-        return (self._is_live(s, now) and bool(s.open)
-                and s.open[-1].state is PetState.question_for_user)
+        return (self._is_live(s, now) and any(call.state is PetState.question_for_user for call in s.open))
 
     def _failed_pending(self, s: _Session, now: float) -> bool:
         """整轮出错停在那儿（工具出错时任务还在跑，不算）。"""
@@ -632,6 +633,10 @@ class ActivityRouter:
         out = [r[2] for r in rows]
         return out if limit is None else out[:limit]
 
+    def session_source(self, session: str) -> Optional[str]:
+        item = self._sessions.get(session)
+        return item.source if item else None
+
     def pin_session(self, id: Optional[str], now: float) -> bool:
         """在菜单里挑一条聊天跟：传 None 回到自动（完成与提问优先）。挑中立刻生效，不等防抖。
 
@@ -684,8 +689,8 @@ class ActivityRouter:
         s = self._sessions.get(session)
         if s is None or not s.open:
             return None
-        call = s.open[-1]
-        if call.state is not PetState.question_for_user or call.question is None:
+        call = next((c for c in reversed(s.open) if c.state is PetState.question_for_user), None)
+        if call is None or call.question is None:
             return None
         return PendingQuestion(session, call.id, call.question)
 
@@ -738,7 +743,7 @@ class ActivityRouter:
         if s is None:
             return None
         # AskUserQuestion 等“等你回答”的调用显示空闲动作，但任务仍在进行。
-        waiting_for_user = s.task_active and bool(s.open) and s.open[-1].state is PetState.question_for_user
+        waiting_for_user = s.task_active and any(call.state is PetState.question_for_user for call in s.open)
         if self.displayed is PetState.idle and not waiting_for_user:
             return None
 
@@ -759,7 +764,7 @@ class ActivityRouter:
         elif d in (PetState.idle, PetState.question_for_user):
             # 问号卡也能点（跳到这条聊天去回答），和勾选卡一样在气泡里说一声，不然没人知道能点。
             current = tr("Your turn · click to open", "%s · 点我打开对话" % (
-                (s.open[-1].detail if s.open else None) or "等你回答"))
+                next((c.detail for c in reversed(s.open) if c.state is PetState.question_for_user), None) or "等你回答"))
         elif d is PetState.task_complete:
             current = tr("Done · click to open", "已完成 · 点我打开对话")
         elif d is PetState.thinking:
@@ -833,7 +838,7 @@ class ActivityRouter:
 
     def _card_subtitle(self, s: _Session, status: str, now: float) -> str:
         if status == CardStatus.waiting:
-            return (s.open[-1].detail if s.open else None) or tr("Needs your decision", "等你拿主意")
+            return next((c.detail for c in reversed(s.open) if c.state is PetState.question_for_user), None) or tr("Needs your decision", "等你拿主意")
         if status == CardStatus.failed:
             return (tr("Error: %s", "出错：%s") % s.failed_detail) if s.failed_detail else tr("Didn't finish this turn", "这一轮没做完")
         if status == CardStatus.ready:

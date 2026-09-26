@@ -21,6 +21,7 @@ from .l10n import set_language, tr
 from .hang import SETTLE_LIMIT_MS, HangGeometry, HangSwing, Tuning as HangTuning
 from .router import ActivityRouter, HeldValue, held_name, state_name
 from .settings import Settings
+from .reminders import ReminderStore
 from .sources import app_data_dir, default_sources
 from .sprites import SpriteLibrary
 
@@ -43,6 +44,12 @@ class PetApp:
         self.win32 = win32
         self.argv = argv
         self.settings = Settings()
+        self.reminders = ReminderStore(os.environ.get("YUKIO_REMINDER_FILE") or
+                                       os.path.join(os.path.dirname(self.settings.path), "reminders.json"))
+        self.assistant = None
+        self._ticking = False
+        self._next_reminder_tick = 0.0
+        self._assistant_only = "--assistant-only" in argv
         set_language(self.settings.get("language"))   # 先定语言，回放会话记录时生成的说明文字才是对的语言
         root = assets_root()
         if not root:
@@ -121,6 +128,7 @@ class PetApp:
         #: 真正收键盘输入的那个系统输入框（点了才建）。
         self.text_input = None
         self._delivery = None
+        self._delivery_question = None
         #: 会话 → 深链（查一次要翻几百份记录，问题卡每帧都要问）。
         self._chat_url_cache = {}
         self.tray = win32.TrayIcon(self.control.hwnd, self._tray_icon_path(), self._tray_tip())
@@ -213,6 +221,9 @@ class PetApp:
     # MARK: 画面
 
     def _render(self, now: float) -> None:
+        if self.pet_hidden:
+            self.pet.hide()
+            return
         if self.swing is not None and self.hang_geo is not None and self.held_timeline is not None:
             self._render_hanging()
             return
@@ -336,6 +347,9 @@ class PetApp:
             self._paint_bubble()
 
     def _paint_bubble(self) -> None:
+        if self.pet_hidden:
+            self.bubble.hide()
+            return
         if self._bubble_image is None or self._bubble_alpha <= 0.01:
             self.bubble.hide()
             return
@@ -378,7 +392,7 @@ class PetApp:
         认不出会话时（终端里跑的 Claude Code、Deep Code 的会话）什么都不做，不乱跳到别的聊天。
         """
         try:
-            url = self.links.chat_url(session)
+            url = self._chat_url(session)
         except Exception:
             traceback.print_exc()
             return
@@ -437,6 +451,9 @@ class PetApp:
         self.cards.x, self.cards.y = int(x), int(y)
 
     def _paint_cards(self) -> None:
+        if self.pet_hidden:
+            self.cards.hide()
+            return
         if self._cards_image is None or self._cards_alpha <= 0.01:
             self.cards.hide()
             return
@@ -560,6 +577,11 @@ class PetApp:
         self._place_text_input()
 
     def _paint_question(self) -> None:
+        if self.pet_hidden:
+            self.question.hide()
+            if self.text_input is not None:
+                self.text_input.hide()
+            return
         if self._question_image is None or self._question_alpha <= 0.01:
             self.question.hide()
             return
@@ -684,6 +706,13 @@ class PetApp:
 
         查一次要翻几百份记录，问题卡每帧都要问一次「能不能跳」，所以按会话记住结果。
         """
+        if self.router.session_source(session) == "codex":
+            import uuid
+            try:
+                uuid.UUID(session)
+                return "codex://threads/" + session
+            except ValueError:
+                return None
         if session in self._chat_url_cache:
             return self._chat_url_cache[session]
         try:
@@ -698,7 +727,7 @@ class PetApp:
         from .answer import AnswerDelivery, COPIED, TYPED
         pending = self.shown_question
         text = self._composed_answer(typed)
-        if pending is None or not text:
+        if pending is None or not text or self.answer_notice is not None:
             return
         if self.demo:
             self.answer_notice = tr("Demo only - nothing was sent", "模拟演示，不会真的送出")
@@ -725,21 +754,30 @@ class PetApp:
                 self.win32.open_url(url)
 
         # 终端里跑的会话（Deep Code、命令行 Claude）没有可跳的窗口：只复制。
-        outcome = self._delivery.start(text, CLAUDE_DESKTOP_EXE if url else None,
-                                       bring_to_front, now_ms())
+        self._delivery_question = (pending.session, pending.call_id)
+        target = ("Codex.exe" if url.startswith("codex://") else CLAUDE_DESKTOP_EXE) if url else None
+        outcome = self._delivery.start(text, target, bring_to_front, now_ms())
         if outcome is not None:
             self._answer_finished(outcome)
 
     def _tick_delivery(self, now: float) -> None:
         if self._delivery is None or not self._delivery.busy:
             return
+        current = self.shown_question
+        if current is None or (current.session, current.call_id) != self._delivery_question:
+            self._delivery.cancel()
+            return
         outcome = self._delivery.tick(now)
         if outcome is not None:
             self._answer_finished(outcome)
 
     def _answer_finished(self, outcome: str) -> None:
-        from .answer import TYPED
-        self.answer_notice = (tr("Answer sent", "答案已送出") if outcome == TYPED
+        from .answer import TYPED, CLIPBOARD_CHANGED
+        current = self.shown_question
+        if current is None or (current.session, current.call_id) != self._delivery_question:
+            return
+        self.answer_notice = (tr("Typed · check the chat", "已输入并按回车 · 请在聊天中确认") if outcome == TYPED
+                              else tr("Clipboard changed · answer in chat", "剪贴板已更改 · 请到聊天中回答") if outcome == CLIPBOARD_CHANGED
                               else tr("Copied - press Ctrl+V in the chat", "已复制 · 到聊天里 Ctrl+V"))
         self._update_question(now_ms(), immediate=True)
 
@@ -765,7 +803,31 @@ class PetApp:
             self.router.open_chat_session = None
 
     def tick(self) -> None:
+        # Tk.update() can dispatch Win32 timers; never reenter the app tick.
+        if self._ticking:
+            return
+        self._ticking = True
+        try:
+            self._tick()
+            if self.assistant is not None:
+                self.assistant.pump()
+        finally:
+            self._ticking = False
+
+    def _tick(self) -> None:
         now = now_ms()
+        if now >= self._next_reminder_tick:
+            self._next_reminder_tick = now + 1000
+            fired = self.reminders.tick(now / 1000)
+            if fired:
+                if self.assistant is None:
+                    self._ensure_assistant()
+                if self.settings.get("assistantReminderSound", True):
+                    try:
+                        import winsound
+                        winsound.PlaySound("SystemAsterisk", winsound.SND_ALIAS | winsound.SND_ASYNC)
+                    except (ImportError, RuntimeError):
+                        pass
         self.tick_count += 1
         if self.tick_count % OPEN_CHAT_EVERY_TICKS == 0:
             self._refresh_open_chat()
@@ -834,6 +896,12 @@ class PetApp:
     def run(self) -> int:
         self.control.start_timer(FRAME_MS)
         try:
+            self._ensure_assistant()
+            if "--pet-only" not in self.argv:
+                self.show_assistant()
+            if "--assistant-smoke" in self.argv:
+                from .assistant_smoke import schedule
+                schedule(self, self.argv[self.argv.index("--assistant-smoke") + 1])
             return self.win32.run_message_loop(pre_dispatch=self._pre_dispatch)
         finally:
             self.shutdown()
@@ -845,6 +913,8 @@ class PetApp:
 
     def shutdown(self) -> None:
         try:
+            if self.assistant is not None:
+                self.assistant.destroy()
             self.control.stop_timer()
             self.tray.remove()
             if self.text_input is not None:
@@ -882,8 +952,8 @@ class PetApp:
                 tray.re_add()
             return 0
         if msg == control.show_menu_message:
-            # 又双击了一次 Yukio.exe：把菜单弹出来（而不是再开一只）。
-            self.show_menu()
+            # Reopening the executable returns to the assistant window.
+            self.show_assistant()
             return 0
         if msg in (w.WM_DESTROY, w.WM_CLOSE):
             w.quit_loop()
@@ -933,7 +1003,7 @@ class PetApp:
                     self._pet_clicked()
                 return 0
             if msg in (w.WM_RBUTTONUP, w.WM_LBUTTONDBLCLK):
-                self.show_menu()
+                self.show_assistant()
                 return 0
             if msg == w.WM_SETCURSOR and self._dragging:
                 w.user32.SetCursor(w.user32.LoadCursorW(None, w.c_void_p(w.IDC_SIZEALL)))
@@ -1081,7 +1151,10 @@ class PetApp:
         chats = [] if self.demo else self.router.session_summaries(
             now_ms(), quiet_within_ms=self.CHAT_LIST_WINDOW_MS, limit=self.CHAT_LIST_LIMIT)
         label = held_name() if self.swing is not None else state_name(self.shown_state)
-        items: List[w.MenuItem] = [Item(tr("Yukio", "雪绪") + " · " + label, None)]
+        items: List[w.MenuItem] = [Item(tr("Open Yukio Assistant", "打开 Yukio 助手"), self.show_assistant),
+                                  Item(tr("Hide Yukio", "收起雪绪") if not self.pet_hidden else tr("Show Yukio", "显示雪绪"),
+                                       lambda: self.set_hidden(not self.pet_hidden)), SEP,
+                                  Item(tr("Yukio", "雪绪") + " · " + label, None)]
         if not self.demo and self.follow and self.router.completed_session:
             items.append(Item(tr("Open this chat and lower the sign", "打开这条聊天并放下牌子"), self._pet_clicked))
             items.append(Item(tr("Lower the sign, don't open the chat", "先放下牌子，不打开聊天"), self._drop_sign))
@@ -1264,7 +1337,31 @@ class PetApp:
     def stop_demo(self) -> None:
         self.demo = None
 
+    @property
+    def pet_hidden(self) -> bool:
+        return self._assistant_only or not self.settings.get("petVisible", True)
+
+    def set_hidden(self, hidden: bool) -> None:
+        self._assistant_only = False
+        self.settings.set("petVisible", not hidden)
+        self._painted = None
+        self._render(now_ms())
+        self._paint_bubble()
+        self._paint_cards()
+        self._paint_question()
+
+    def _ensure_assistant(self):
+        if self.assistant is None:
+            from .assistant import AssistantWindow
+            self.assistant = AssistantWindow(self)
+        return self.assistant
+
+    def show_assistant(self) -> None:
+        self._ensure_assistant().present()
+
     def quit(self) -> None:
+        if self.assistant is not None:
+            self.assistant.destroy()
         self.win32.quit_loop()
 
 

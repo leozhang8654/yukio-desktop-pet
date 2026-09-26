@@ -200,7 +200,7 @@ struct QuestionCardLayout {
 
         var hint = multiSelect ? tr("Pick any, ⏎ to send", "可多选，⏎ 送出") : tr("Click an option or type ⏎", "点选项，或打字 ⏎")
         if hiddenOptions > 0 { hint = tr("\(hiddenOptions) more in the chat", "还有 \(hiddenOptions) 个选项在聊天里") }
-        if sentNotice != nil { hint = tr("Sent to the chat", "已送到聊天里") }
+        if sentNotice != nil { hint = tr("Check the chat", "请到聊天中确认") }
         let hintRectOnScreen = r(hintRect)
         CardLook.draw(hint, Self.hintFont, CardLook.muted,
                       in: NSRect(x: hintRectOnScreen.minX, y: hintRectOnScreen.minY,

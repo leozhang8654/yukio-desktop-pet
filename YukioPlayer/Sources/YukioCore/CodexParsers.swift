@@ -23,6 +23,7 @@ public final class CodexRolloutParser {
     public private(set) var session: String
     /// item_completed 报了失败、还没等到对应的输出：下一条输出算失败。
     private var pendingFailure = false
+    private var asyncQuestions: Set<String> = []
 
     public init(session: String = "") {
         self.session = session
@@ -52,18 +53,21 @@ public final class CodexRolloutParser {
         switch kind {
         // MARK: 一轮的开头与结尾（event_msg）
         case "task_complete":
+            asyncQuestions.removeAll()
             pendingFailure = false
             // 有回答才算答完：没有 last_agent_message 的一轮（被压缩、被接管）只算结束。
             let answered = (payload["last_agent_message"] as? String)?.isEmpty == false
             return answered ? [ev(ts, .finalAnswer), ev(ts, .taskEnd)] : [ev(ts, .taskEnd)]
 
         case "turn_aborted":
+            asyncQuestions.removeAll()
             pendingFailure = false
             // 用户按停、或被新一轮顶掉：都不算失败，不让她沮丧。
             let reason = (payload["reason"] as? String)?.lowercased() ?? ""
             return [ev(ts, reason.contains("error") ? .taskFailed : .taskAbort)]
 
         case "error", "stream_error":
+            asyncQuestions.removeAll()
             pendingFailure = false
             return [ev(ts, .taskFailed)]
 
@@ -75,8 +79,11 @@ public final class CodexRolloutParser {
             let role = (payload["role"] as? String) ?? ""
             let text = Self.text(fromContent: payload["content"])
             if role == "user" {
+                if text.trimmingCharacters(in: .whitespacesAndNewlines).hasPrefix("<send_user_message_question_reply>") {
+                    return closeAsyncQuestions(ts: ts)
+                }
                 guard let line = Self.promptLine(text) else { return [] }
-                return [ev(ts, .taskStart, detail: line)]
+                return closeAsyncQuestions(ts: ts) + [ev(ts, .taskStart, detail: line)]
             }
             if role == "assistant" {
                 // 中间的过程说明不是最终回答：一轮什么时候结束由 task_complete 说了算。
@@ -119,8 +126,13 @@ public final class CodexRolloutParser {
         guard let item, let type = item["type"] as? String else { return [] }
         switch type {
         case "UserMessage":
-            guard completed, let line = Self.promptLine(Self.text(fromContent: item["content"])) else { return [] }
-            return [ev(ts, .taskStart, detail: line)]
+            guard completed else { return [] }
+            let text = Self.text(fromContent: item["content"])
+            if text.trimmingCharacters(in: .whitespacesAndNewlines).hasPrefix("<send_user_message_question_reply>") {
+                return closeAsyncQuestions(ts: ts)
+            }
+            guard let line = Self.promptLine(text) else { return [] }
+            return closeAsyncQuestions(ts: ts) + [ev(ts, .taskStart, detail: line)]
 
         case "AgentMessage":
             guard completed else { return [] }
@@ -181,6 +193,7 @@ public final class CodexRolloutParser {
         case .continuePrevious: activity = nil
         }
         pendingFailure = false
+        if name.lowercased() == "request_user_input_async", let call { asyncQuestions.insert(call) }
         var out = [ev(ts, .activityStart, id: call, activity: activity, tool: name, detail: detail,
                       question: CodexToolClassifier.question(tool: name, arguments: arguments))]
         if let todos = CodexPlan.items(from: arguments["plan"] ?? arguments["items"] ?? arguments["todos"]) {
@@ -191,9 +204,23 @@ public final class CodexRolloutParser {
 
     private func toolEnd(_ payload: [String: Any], ts: Double) -> [PetEvent] {
         let call = (payload["call_id"] as? String) ?? (payload["id"] as? String)
+        // An async acknowledgement only confirms that the question was displayed.
+        // Keep it open until an answer/new user message or the turn ends.
+        if let call, asyncQuestions.contains(call),
+           let output = Self.dictionary(payload["output"]), output["accepted"] as? Bool == true {
+            pendingFailure = false
+            return []
+        }
+        if let call { asyncQuestions.remove(call) }
         let failed = pendingFailure || Self.outputFailed(payload["output"])
         pendingFailure = false
         return [ev(ts, failed ? .activityFailed : .activityEnd, id: call)]
+    }
+
+    private func closeAsyncQuestions(ts: Double) -> [PetEvent] {
+        let events = asyncQuestions.sorted().map { ev(ts, .activityEnd, id: $0) }
+        asyncQuestions.removeAll()
+        return events
     }
 
     /// 老版 Codex 把结果写成一段 JSON 文本：`{"output": "...", "metadata": {"exit_code": 1}}`。

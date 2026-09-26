@@ -34,7 +34,7 @@ a = Analysis(
     hookspath=[],
     runtime_hooks=[],
     # 用不上的大件全部排掉，exe 能小一半。
-    excludes=["numpy", "scipy", "tkinter", "matplotlib", "PyQt5", "PySide2",
+    excludes=["numpy", "scipy", "matplotlib", "PyQt5", "PySide2",
               "pytest", "setuptools", "pip", "PIL.ImageQt", "PIL.ImageTk"],
     noarchive=False,
 )

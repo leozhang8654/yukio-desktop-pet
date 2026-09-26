@@ -17,6 +17,10 @@ else
   BIN="$(swift build -c release --show-bin-path)/YukioPlayer"
 fi
 APP="build/Yukio.app"
+# 可单独试用新助手窗口，不覆盖旧包，也不再放出第二只桌宠。
+if [ "${YUKIO_ASSISTANT_PREVIEW:-0}" = "1" ]; then
+  APP="build/Yukio Assistant Preview.app"
+fi
 
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
@@ -44,14 +48,21 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
   <key>CFBundleExecutable</key><string>YukioPlayer</string>
   <key>CFBundleIconFile</key><string>AppIcon</string>
   <key>CFBundlePackageType</key><string>APPL</string>
-  <key>CFBundleShortVersionString</key><string>0.2.2</string>
-  <key>CFBundleVersion</key><string>4</string>
+  <key>CFBundleShortVersionString</key><string>0.3.0</string>
+  <key>CFBundleVersion</key><string>5</string>
   <key>LSMinimumSystemVersion</key><string>13.0</string>
   <key>LSUIElement</key><true/>
   <key>NSHighResolutionCapable</key><true/>
 </dict>
 </plist>
 PLIST
+
+if [ "${YUKIO_ASSISTANT_PREVIEW:-0}" = "1" ]; then
+  /usr/libexec/PlistBuddy -c 'Set :CFBundleIdentifier local.yukio.assistant.preview' "$APP/Contents/Info.plist"
+  /usr/libexec/PlistBuddy -c 'Set :CFBundleName Yukio Assistant Preview' "$APP/Contents/Info.plist"
+  /usr/libexec/PlistBuddy -c 'Set :CFBundleDisplayName Yukio Assistant Preview' "$APP/Contents/Info.plist"
+  /usr/libexec/PlistBuddy -c 'Add :YukioAssistantOnly bool true' "$APP/Contents/Info.plist"
+fi
 
 # 本机自用的临时签名；分发给他人需要正式签名与公证。
 codesign --force --sign - "$APP" >/dev/null

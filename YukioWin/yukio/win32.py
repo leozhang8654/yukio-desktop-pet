@@ -943,3 +943,8 @@ class TextInput:
         if self._font:
             gdi32.DeleteObject(c_void_p(self._font))
             self._font = None
+
+
+def clipboard_sequence() -> int:
+    """Changes for any clipboard format, including non-text content."""
+    return int(user32.GetClipboardSequenceNumber())

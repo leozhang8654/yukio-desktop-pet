@@ -23,6 +23,7 @@ SETTLE_MS = 350.0
 TYPED = "typed"
 #: 只放进了粘贴板（那个应用没到前面，或本来就没有可跳的窗口）。
 COPIED = "copied"
+CLIPBOARD_CHANGED = "clipboard_changed"
 
 
 class Backend(NamedTuple):
@@ -32,6 +33,7 @@ class Backend(NamedTuple):
     send_text: Callable[[str], bool]
     send_return: Callable[[], bool]
     set_clipboard: Callable[[str], bool]
+    clipboard_sequence: Optional[Callable[[], int]] = None
 
 
 def system_backend():
@@ -39,7 +41,8 @@ def system_backend():
     return Backend(foreground_exe=win32.foreground_process_name,
                    send_text=win32.send_text,
                    send_return=win32.send_return,
-                   set_clipboard=win32.set_clipboard_text)
+                   set_clipboard=win32.set_clipboard_text,
+                   clipboard_sequence=getattr(win32, "clipboard_sequence", None))
 
 
 class AnswerDelivery:
@@ -59,6 +62,8 @@ class AnswerDelivery:
 
         立刻就能定下结果时（没有窗口可跳）直接返回结果，否则返回 None，等 `tick()`。
         """
+        if self.busy:
+            return None
         self._text = (text or "").strip()
         if not self._text:
             return None
@@ -67,6 +72,7 @@ class AnswerDelivery:
             self.backend.set_clipboard(self._text)
         except Exception:
             pass
+        self._clipboard_sequence = self.backend.clipboard_sequence() if self.backend.clipboard_sequence else None
         try:
             bring_to_front()
         except Exception:
@@ -84,6 +90,8 @@ class AnswerDelivery:
         """推进一步；还没完时返回 None。"""
         if not self.busy:
             return None
+        if self._clipboard_changed():
+            return self._finish(CLIPBOARD_CHANGED)
         front = None
         try:
             front = self.backend.foreground_exe()
@@ -105,10 +113,20 @@ class AnswerDelivery:
         try:
             if not self.backend.send_text(self._text):
                 return self._finish(COPIED)
-            self.backend.send_return()
+            if self._clipboard_changed():
+                return self._finish(CLIPBOARD_CHANGED)
+            front = self.backend.foreground_exe()
+            if not front or front.lower() != self._expect_exe or not self.backend.send_return():
+                return self._finish(COPIED)
         except Exception:
             return self._finish(COPIED)
         return self._finish(TYPED)
+
+    def _clipboard_changed(self):
+        return self.backend.clipboard_sequence is not None and self.backend.clipboard_sequence() != self._clipboard_sequence
+
+    def cancel(self):
+        self._finish(COPIED)
 
     def _finish(self, outcome: str) -> str:
         self.busy = False

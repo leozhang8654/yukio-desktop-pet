@@ -1,0 +1,79 @@
+# Validate the actual public download, including its checksum and on-screen output.
+name: Verify published Windows release
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Published release tag to test (for example v0.2.2)
+        required: true
+        default: v0.2.2
+        type: string
+
+permissions:
+  contents: read
+
+env:
+  PYTHONIOENCODING: utf-8
+  PYTHONUTF8: "1"
+  RELEASE_TAG: ${{ inputs.release_tag }}
+
+jobs:
+  verify:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.release_tag }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install test dependency
+        run: python -m pip install pillow
+      - name: Download the published exe and verify its SHA-256
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: |
+          if ($env:RELEASE_TAG -notmatch '^v\d+\.\d+\.\d+$') { throw "Expected a version tag" }
+          $version = $env:RELEASE_TAG.Substring(1)
+          $name = "Yukio-$version-Windows.exe"
+          gh release download $env:RELEASE_TAG --repo $env:GITHUB_REPOSITORY --pattern $name --pattern SHA256SUMS.txt --dir YukioWin/build/published-release
+          if ($LASTEXITCODE -ne 0) { throw "Release download failed" }
+          $sum = Get-Content YukioWin/build/published-release/SHA256SUMS.txt | Where-Object { $_ -match ("  " + [regex]::Escape($name) + '$') }
+          if (@($sum).Count -ne 1) { throw "Missing or duplicate checksum" }
+          $expected = ($sum -split '\s+')[0]
+          $actual = (Get-FileHash "YukioWin/build/published-release/$name" -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($actual -ne $expected) { throw "Published exe checksum mismatch" }
+          Copy-Item "YukioWin/build/published-release/$name" YukioWin/build/published-release/Yukio.exe
+          "${actual}  ${name}" | Tee-Object YukioWin/build/published-release/verified-sha256.txt
+      - name: Test matching release source
+        working-directory: YukioWin
+        shell: pwsh
+        run: |
+          python -c "import os; from yukio import __version__; assert 'v' + __version__ == os.environ['RELEASE_TAG']"
+          if ($LASTEXITCODE -ne 0) { throw "Release/source version mismatch" }
+          python run.py --selftest
+          if ($LASTEXITCODE -ne 0) { throw "Core/player tests failed" }
+          python run.py --check
+          if ($LASTEXITCODE -ne 0) { throw "Artwork check failed" }
+      - name: Run the downloaded exe at 100%, 150% and 200%
+        working-directory: YukioWin
+        shell: pwsh
+        run: |
+          foreach ($scale in @(1.0, 1.5, 2.0)) {
+            $outDir = "build/release-verification/smoke-$([int]($scale * 100))"
+            powershell -ExecutionPolicy Bypass -File scripts/smoke-test.ps1 -Exe build/published-release/Yukio.exe -Scale $scale -OutDir $outDir
+            if ($LASTEXITCODE -ne 0) { throw "Published exe failed at scale $scale" }
+            if (-not (Test-Path "$outDir/screenshot.png")) { throw "Screenshot required for release verification" }
+          }
+      - name: Keep verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-release-verification-${{ inputs.release_tag }}
+          path: |
+            YukioWin/build/release-verification/
+            YukioWin/build/published-release/verified-sha256.txt
+          if-no-files-found: warn

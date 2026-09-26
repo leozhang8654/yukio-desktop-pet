@@ -45,7 +45,7 @@ if (Test-Path $stateFile) { Remove-Item $stateFile }
 $env:YUKIO_STATE_FILE = $stateFile
 
 Write-Host "== 启动 $Exe"
-$process = Start-Process -FilePath (Resolve-Path $Exe) -ArgumentList "--allow-multiple" -PassThru
+$process = Start-Process -FilePath (Resolve-Path $Exe) -ArgumentList "--allow-multiple", "--pet-only" -PassThru
 Start-Sleep -Seconds $WaitSeconds
 
 Add-Type @"

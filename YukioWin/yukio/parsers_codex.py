@@ -345,6 +345,7 @@ class CodexRolloutParser:
         self.session = session
         #: item_completed 报了失败、还没等到对应的输出：下一条输出算失败。
         self._pending_failure = False
+        self._async_questions = set()
 
     def events_from_line(self, data: bytes, fallback_session: str = "", fallback_ts: float = 0.0) -> List[PetEvent]:
         try:
@@ -381,16 +382,19 @@ class CodexRolloutParser:
                             activity=activity, tool=tool, detail=detail, todos=todos, question=question)
 
         if kind == "task_complete":
+            self._async_questions.clear()
             self._pending_failure = False
             # 有回答才算答完：没有 last_agent_message 的一轮（被压缩、被接管）只算结束。
             answered = bool(payload.get("last_agent_message"))
             return [ev(Kind.final_answer), ev(Kind.task_end)] if answered else [ev(Kind.task_end)]
         if kind == "turn_aborted":
+            self._async_questions.clear()
             self._pending_failure = False
             # 用户按停、或被新一轮顶掉：都不算失败，不让她沮丧。
             reason = str(payload.get("reason") or "").lower()
             return [ev(Kind.task_failed if "error" in reason else Kind.task_abort)]
         if kind in ("error", "stream_error"):
+            self._async_questions.clear()
             self._pending_failure = False
             return [ev(Kind.task_failed)]
         if kind in ("item_completed", "item_started", "item_updated"):
@@ -400,8 +404,7 @@ class CodexRolloutParser:
             role = payload.get("role")
             text = content_text(payload.get("content"))
             if role == "user":
-                line = prompt_line(text)
-                return [ev(Kind.task_start, detail=line)] if line else []
+                return self._user_message(text, ev)
             if role == "assistant":
                 # 中间的过程说明不是最终回答：一轮什么时候结束由 task_complete 说了算。
                 return [ev(Kind.thinking)] if text.strip() else []
@@ -428,8 +431,7 @@ class CodexRolloutParser:
             return []
         kind = item.get("type")
         if kind == "UserMessage":
-            line = prompt_line(content_text(item.get("content"))) if completed else None
-            return [ev(Kind.task_start, detail=line)] if line else []
+            return self._user_message(content_text(item.get("content")), ev) if completed else []
         if kind == "AgentMessage":
             if not completed:
                 return []
@@ -463,6 +465,8 @@ class CodexRolloutParser:
         state, detail = classify_tool(name, namespace if isinstance(namespace, str) else None, arguments, script)
         activity = None if state == CONTINUE_PREVIOUS else state
         self._pending_failure = False
+        if name.lower() == "request_user_input_async" and isinstance(call, str):
+            self._async_questions.add(call)
         out = [ev(Kind.activity_start, event_id=call if isinstance(call, str) else None,
                   activity=activity, tool=name, detail=detail,
                   question=tool_question(name, arguments))]
@@ -473,10 +477,25 @@ class CodexRolloutParser:
 
     def _tool_end(self, payload: Dict[str, Any], ev) -> List[PetEvent]:
         call = payload.get("call_id") or payload.get("id")
+        if call in self._async_questions and as_dict(payload.get("output")).get("accepted") is True:
+            self._pending_failure = False
+            return []
+        self._async_questions.discard(call)
         failed = self._pending_failure or _output_failed(payload.get("output"))
         self._pending_failure = False
         return [ev(Kind.activity_failed if failed else Kind.activity_end,
                    event_id=call if isinstance(call, str) else None)]
+
+    def _user_message(self, text, ev):
+        if text.strip().startswith("<send_user_message_question_reply>"):
+            return self._close_async_questions(ev)
+        line = prompt_line(text)
+        return self._close_async_questions(ev) + [ev(Kind.task_start, detail=line)] if line else []
+
+    def _close_async_questions(self, ev):
+        events = [ev(Kind.activity_end, event_id=call) for call in sorted(self._async_questions)]
+        self._async_questions.clear()
+        return events
 
     def _search_pair(self, item_id: Any, query: Any, ts: Optional[float], ev) -> List[PetEvent]:
         """网页搜索在记录里只有「搜完了」这一条，没有开始。发一对开始／结束，让她照样看一下网页。"""

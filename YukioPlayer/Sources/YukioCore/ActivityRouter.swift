@@ -409,6 +409,7 @@ public final class ActivityRouter {
     func desired(for s: SessionModel, now: Double, arming: Bool = true) -> PetState {
         if s.taskActive {
             guard isLive(s, now: now) else { return .idle }
+            if s.open.contains(where: { $0.state == .question_for_user }) { return .question_for_user }
             if let last = s.open.last { return last.state }
             if s.finalAnswerAt != nil { return .respond }
             if let f = s.failedAt, now - f < config.failedHoldMs { return .failed }
@@ -456,7 +457,7 @@ public final class ActivityRouter {
 
     /// 这条聊天在等你拿主意（AskUserQuestion 还没结束）。
     func waitingForUser(_ s: SessionModel, now: Double) -> Bool {
-        isLive(s, now: now) && s.open.last?.state == .question_for_user
+        isLive(s, now: now) && s.open.contains(where: { $0.state == .question_for_user })
     }
 
     /// 整轮出错停在那儿（工具出错时任务还在跑，不算）。
@@ -639,7 +640,7 @@ public final class ActivityRouter {
     /// 问不出问题正文的来源（Deep Code 只报一个「等你回答」的状态）没有这个，返回 nil。
     public var askingQuestion: PendingQuestion? {
         guard displayed == .question_for_user, let f = focusedSession, let s = sessions[f],
-              let call = s.open.last, call.state == .question_for_user,
+              let call = s.open.last(where: { $0.state == .question_for_user }),
               let question = call.question else { return nil }
         return PendingQuestion(session: f, callID: call.id, question: question)
     }
@@ -713,7 +714,7 @@ public final class ActivityRouter {
     public func statusLine(now: Double) -> StatusLine? {
         guard let f = focusedSession, let s = sessions[f] else { return nil }
         // AskUserQuestion 等“等你回答”的调用显示空闲动作，但任务仍在进行。
-        let waitingForUser = s.taskActive && s.open.last?.state == .question_for_user
+        let waitingForUser = s.taskActive && s.open.contains(where: { $0.state == .question_for_user })
         if displayed == .idle && !waitingForUser { return nil }
 
         let progress = s.todos.isEmpty ? nil : StatusLine.Progress(
@@ -727,7 +728,7 @@ public final class ActivityRouter {
             current = s.taskActive ? tr("Writing the answer", "整理回答") : tr("Answered", "已回答")
         case .idle, .question_for_user:
             // 问号卡也能点（跳到这条聊天去回答），和勾选卡一样在气泡里说一声，不然没人知道能点。
-            current = tr("Your turn · click to open", "\(s.open.last?.detail ?? "等你回答") · 点她跳过去")
+            current = tr("Your turn · click to open", "\(s.open.last(where: { $0.state == .question_for_user })?.detail ?? "等你回答") · 点她跳过去")
         case .task_complete:
             current = tr("Done · click to open", "已完成 · 点她跳过去")
         case .thinking:

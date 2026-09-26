@@ -266,7 +266,7 @@ class QuestionCardLayout:
             self._draw_send(draw)
 
         if self.sent_notice is not None:
-            hint = tr("Sent to the chat", "已送到聊天里")
+            hint = tr("Check the chat", "请到聊天中确认")
         elif self.hidden_options > 0:
             hint = tr("%d more in the chat", "还有 %d 个选项在聊天里") % self.hidden_options
         elif self.question.multi_select:

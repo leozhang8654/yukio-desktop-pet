@@ -219,6 +219,9 @@ Resources/Yukio.ico        exe 的图标（从 macOS 版的封面图裁的）
 
 源码素材不另存一份：默认用仓库里 `../YukioPlayer/Resources/Assets`。打包时，`scripts/prepare-windows-assets.py` 会把 2× 身体与眼皮大图集无损切成小页，并逐页核对像素完全一致；exe 运行时只缓存当前小页，不会把接近 1 GB 的整套图集全部展开。想让源码版读取别处素材可以设环境变量 `YUKIO_ASSETS`。
 
+
+**Verify published Windows release** 工作流会下载正式发布的 EXE 与 SHA-256 清单，检查对应版本源码，再直接运行下载包，验证 100%、150%、200% 三档尺寸。截图必须成功，日志与截图保存为构建产物。在 Actions 中填入发布标签即可重跑。
+
 ## 已知限制
 
 - **和真的 Deep Code 对过一次**：2026-09-17 在本机装上 `@vegamo/deepcode-cli` 0.4.0，用一个本地假模型（说 OpenAI 流式协议，不连 DeepSeek 的服务器、不需要密钥）驱动它真跑了一轮「读文件 → 回答」，然后拿雪绪去跟它写下的会话记录：`--replay` 解析无误，`--watch` 实时跟随依次走出 思考 → 阅读 hello.txt → 递交报告 → 勾选卡 → 空闲，事件写入延迟 30–80 ms。字段与这里写的完全一致（`messageParams.tool_calls`／`reasoning_content`、`tool_call_id`、结果 JSON 里的 `ok`）。它发给模型的工具名实测是 bash、read、write、edit、WebSearch、UpdatePlan、skill、UnderstandImage／ReadImage，分类规则都认。

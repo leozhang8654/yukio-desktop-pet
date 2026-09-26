@@ -10,6 +10,12 @@ from .sources import app_data_dir
 
 DEFAULTS: Dict[str, Any] = {
     "follow": True,
+    "petVisible": True,
+    "showCards": True,
+    "showQuestionCard": True,
+    "assistantName": "Yukio",
+    "assistantUserName": "",
+    "assistantReminderSound": True,
     "showBubble": True,
     "scale": 1.0,
     "source": "auto",      # auto / claude / deepcode（DeepSeek）/ gpt（Codex）

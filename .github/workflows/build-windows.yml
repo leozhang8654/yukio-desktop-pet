@@ -44,6 +44,10 @@ jobs:
         working-directory: YukioWin
         run: python -m PyInstaller --noconfirm --clean scripts/yukio.spec
 
+      - name: Assistant UI and reminder lifecycle in the packaged exe
+        working-directory: YukioWin
+        run: powershell -ExecutionPolicy Bypass -File scripts/smoke-assistant.ps1 -Exe dist/Yukio.exe
+
       - name: Smoke test (find the windows, measure, check the pose, compare screenshots pixel by pixel)
         working-directory: YukioWin
         run: powershell -ExecutionPolicy Bypass -File scripts/smoke-test.ps1 -Exe dist/Yukio.exe
@@ -60,6 +64,7 @@ jobs:
           path: |
             YukioWin/smoke/
             YukioWin/smoke-150/
+            YukioWin/build/assistant-smoke/
           if-no-files-found: warn
 
       - name: Keep the exe

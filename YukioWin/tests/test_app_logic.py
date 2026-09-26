@@ -405,11 +405,12 @@ class TrayTests(unittest.TestCase):
         a._on_control_message(fake_win32.WM_TRAY, 0, fake_win32.WM_RBUTTONUP)
         self.assertTrue(fake_win32.LAST_MENU)
 
-    def test_second_launch_asks_the_running_one_to_show_its_menu(self):
+    def test_second_launch_opens_assistant(self):
+        from unittest.mock import Mock
         a = make_app()
-        fake_win32.LAST_MENU[:] = []
+        a.show_assistant = Mock()
         a._on_control_message(a.control.show_menu_message, 0, 0)
-        self.assertTrue(fake_win32.LAST_MENU)
+        a.show_assistant.assert_called_once_with()
 
 
 class StateFileTests(unittest.TestCase):
@@ -545,7 +546,7 @@ class QuestionCardTests(unittest.TestCase):
         advance(a, 30)          # 等它到前台、再站稳一会儿
         self.assertEqual(fake_win32.TYPED, ["保留原来那句"])
         self.assertEqual(fake_win32.RETURNS[0], 1)
-        self.assertEqual(a.answer_notice, "答案已送出")
+        self.assertEqual(a.answer_notice, "已输入并按回车 · 请在聊天中确认")
 
     def test_never_types_when_the_app_does_not_come_to_the_front(self):
         a = self._asking_app()
@@ -602,3 +603,32 @@ class QuestionCardTests(unittest.TestCase):
         x, y = points[target]
         fake_win32.CURSOR[:] = [int(application.question.x + x), int(application.question.y + y)]
         application._question_proc(application.question.hwnd, fake_win32.WM_LBUTTONUP, 0, 0)
+
+class AssistantIntegrationTests(unittest.TestCase):
+    def test_hidden_pet_keeps_clock_and_events_running(self):
+        from unittest.mock import Mock
+        a = make_app()
+        a.assistant = Mock()
+        now_seconds = CLOCK[0] / 1000
+        a.reminders.save("wake", now_seconds+1, now=now_seconds)
+        a.set_hidden(True)
+        advance(a, 70)
+        self.assertTrue(a.pet_hidden)
+        self.assertEqual(len(a.reminders.list("ringing")), 1)
+        self.assertTrue(a.assistant.pump.called)
+        a.set_hidden(False)
+        self.assertFalse(a.pet_hidden)
+
+    def test_codex_uses_its_own_deep_link(self):
+        from yukio.events import PetEvent, Kind
+        a = make_app()
+        session = "7ad69515-246c-4a23-ad24-976ad2eb3433"
+        a.router.ingest(PetEvent(CLOCK[0], "codex", session, Kind.task_start),CLOCK[0])
+        self.assertEqual(a._chat_url(session), "codex://threads/"+session)
+
+    def test_tk_pump_cannot_reenter_tick(self):
+        from unittest.mock import Mock
+        a=make_app();a.assistant=Mock()
+        a.assistant.pump.side_effect=a.tick
+        before=a.tick_count;a.tick()
+        self.assertEqual(a.tick_count,before+1)

@@ -467,7 +467,7 @@ func runQuestionSnapshot(path: String) -> Never {
         (long, [], nil),
         (multi, [0, 2], nil),
         (plain, [], nil),
-        (long, [], tr("Answer sent", "答案已送出")),
+        (long, [], tr("Pasted · check the chat", "已粘贴并按回车 · 请在聊天中确认")),
     ]
     let px: CGFloat = 2, cellW: CGFloat = 500, cellH: CGFloat = 320
     let width = Int(cellW * CGFloat(samples.count) * px), height = Int(cellH * px)
@@ -744,6 +744,9 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private var questionPanel: QuestionPanel!
     private var statusItem: NSStatusItem!
     private var settingsWindow: SettingsPanelController?
+    private var assistantWindow: AssistantWindowController?
+    private var reminderStore: ReminderStore?
+    private var reminderPanel: ReminderPanelController?
     private var timer: Timer?
     private var tickCount = 0
 
@@ -862,6 +865,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             forName: NSApplication.didChangeScreenParametersNotification, object: nil, queue: .main
         ) { [weak self] _ in self?.screensChanged() }
 
+        setUpAssistant()
         if CommandLine.arguments.contains("--demo") { startDemo() }
     }
 
@@ -881,9 +885,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         view.onDragBegan = { [weak self] in self?.dragBegan() }
         view.onDragOriginChanged = { [weak self] in self?.panel.frame.origin ?? .zero }
         view.onDragEnded = { [weak self] in self?.dragEnded() }
-        // 桌宠本体是设置的最快入口：右键或 Control-点击直接打开，不再多走一层菜单。
-        // 完整操作菜单仍可从菜单栏头像或再次打开 App 进入。
-        view.onContextMenu = { [weak self] _ in self?.showSettings() }
+        // 桌宠是助手的桌面入口，原来的显示设置在主窗口和菜单栏里仍可打开。
+        view.onContextMenu = { [weak self] _ in self?.showAssistant() }
     }
 
     private func defaultOrigin() -> NSPoint {
@@ -1461,7 +1464,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     /// 替你把答案按进那条聊天里（见 AnswerSender：深链带到前面 → ⌘V → 回车）。
     private func sendAnswer(_ typed: String) {
-        guard let pending = shownQuestion, let text = composedAnswer(typed) else { return }
+        guard answerNotice == nil, let pending = shownQuestion, let text = composedAnswer(typed) else { return }
         guard simulation == nil else {
             answerNotice = tr("Demo only — nothing was sent", "模拟演示，不会真的送出")
             updateQuestion(now: nowMs(), immediate: true)
@@ -1484,12 +1487,15 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             guard let self, bundleID != nil else { return }
             self.openChat(session: session)
         }, completion: { [weak self] outcome in
-            guard let self else { return }
+            guard let self, self.shownQuestion?.session == pending.session,
+                  self.shownQuestion?.callID == pending.callID else { return }
             switch outcome {
             case .typed:
-                self.answerNotice = tr("Answer sent", "答案已送出")
+                self.answerNotice = tr("Pasted · check the chat", "已粘贴并按回车 · 请在聊天中确认")
             case .needsPermission:
                 self.answerNotice = tr("Copied · allow Accessibility first", "已复制 · 先给辅助功能权限")
+            case .clipboardChanged:
+                self.answerNotice = tr("Clipboard changed · answer in chat", "剪贴板已更改 · 请到聊天中回答")
             case .copied:
                 self.answerNotice = tr("Copied · press ⌘V in the chat", "已复制 · 到聊天里 ⌘V")
             }
@@ -1633,13 +1639,33 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             : tr("Yukio: ", "雪绪：") + (swing != nil ? L10n.heldName : L10n.stateName(shownState))
     }
 
-    /// 再次打开 Yukio.app（Finder、Spotlight、open 命令）时，在雪绪身旁弹出菜单。
-    /// 菜单栏被挤满、图标被刘海遮住时，这是一定能用的完整菜单入口；右键雪绪则直接打开设置。
+    /// 再次打开 App 时回到主窗口，不依赖菜单栏图标是否可见。
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-        NSApp.activate(ignoringOtherApps: true)
-        setHidden(false)
-        buildMenu().popUp(positioning: nil, at: NSPoint(x: view.bounds.midX, y: view.bounds.maxY), in: view)
+        showAssistant()
         return false
+    }
+
+    private func setUpAssistant() {
+        // Optional isolated storage for local previews and smoke tests.
+        let reminderURL = ProcessInfo.processInfo.environment["YUKIO_REMINDER_FILE"].map { URL(fileURLWithPath: $0) }
+        let store = ReminderStore(url: reminderURL)
+        reminderStore = store
+        let delivery = ReminderPanelController(store: store)
+        reminderPanel = delivery
+        store.onRing = { [weak delivery] in delivery?.present() }
+        store.start()
+        if CommandLine.arguments.contains("--assistant-only") || Bundle.main.object(forInfoDictionaryKey: "YukioAssistantOnly") as? Bool == true {
+            setHidden(true)
+        }
+        if !CommandLine.arguments.contains("--pet-only") { showAssistant() }
+    }
+
+    private func showAssistant() {
+        guard let store = reminderStore else { return }
+        if assistantWindow == nil {
+            assistantWindow = AssistantWindowController(store: store, openPetSettings: { [weak self] in self?.showSettings() })
+        }
+        assistantWindow?.present()
     }
 
     func menuNeedsUpdate(_ menu: NSMenu) {
@@ -1844,6 +1870,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     private func buildMenu() -> NSMenu {
         let menu = NSMenu()
+        menu.addItem(action(tr("Open Yukio Assistant", "打开 Yukio 助手"), #selector(menuShowAssistant)))
+        menu.addItem(.separator())
         let chats = simulation == nil ? router.sessionSummaries(now: nowMs(), quietWithinMs: Self.chatListWindowMs,
                                                                 limit: Self.chatListLimit) : []
         menu.addItem(info(tr("Yukio", "雪绪") + " · " + (swing != nil ? L10n.heldName : L10n.stateName(shownState))))
@@ -1927,6 +1955,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     @objc private func menuStartDemo() { startDemo() }
     @objc private func menuStopDemo() { stopDemo() }
     @objc private func menuToggleFollow() { following.toggle() }
+    @objc private func menuShowAssistant() { showAssistant() }
     @objc private func menuShowSettings() { showSettings() }
     @objc private func menuToggleBubble() {
         showBubble.toggle()
