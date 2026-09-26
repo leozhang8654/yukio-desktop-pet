@@ -14,3 +14,4 @@
 - [个性化后续设计（未实现）](PERSONALIZATION.md)
 
 - [登录时自动启动（双平台）](STARTUP.md)
+- [0.3.2 整体测试范围与结果](TESTING.md)

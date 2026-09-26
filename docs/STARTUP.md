@@ -23,3 +23,9 @@ swift test --package-path YukioPlayer --filter LaunchAtLoginTests
 如果 Windows 在启动应用设置中禁用了此项，会提示去系统设置确认；应用不会擅自改写系统批准状态。将 EXE 移动到其他位置或下载新版本后，需重新开启一次以更新路径。路径过长或注册失败会报错，不显示虚假成功。推荐将程序放到固定文件夹使用。
 
 Windows 自动测试会用独立的临时启动项验证实际注册和移除，最后清理；macOS 的系统注册接口使用注入测试。真实注销／重新登录和全屏 App 的覆盖显示仍需要在用户环境验证。
+
+## 设置窗口
+
+<img src="readme/settings-macos.png" width="420" alt="macOS 浮动小设置和登录启动开关">
+
+<img src="readme/settings-windows.png" width="420" alt="Windows 浮动小设置和登录启动开关">
