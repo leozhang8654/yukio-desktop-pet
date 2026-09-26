@@ -31,6 +31,8 @@ She follows three families of agent, and you pick which one in her menu under **
 
 AI conversations, screen observation, automatic activity records, news briefings and calendar connections are **planned, not active features**. See [assistant guide](docs/ASSISTANT.md) and [personalization design](docs/PERSONALIZATION.md).
 
+<img src="docs/readme/assistant-windows.png" width="900" alt="Yukio personal assistant on Windows: Home, Reminders, Personalization, Extensions and pet settings">
+
 [Full changelog](CHANGELOG.md)
 
 ## Download

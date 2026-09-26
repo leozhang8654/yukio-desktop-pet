@@ -33,6 +33,8 @@ AI 对话、屏幕观察、自动活动记录、新闻简报和日历接入仍�
 
 [完整更新记录](CHANGELOG.md)
 
+<img src="docs/readme/assistant-windows.png" width="900" alt="Windows 雪绪助手：主页、提醒、个性化、扩展与桌宠设置">
+
 ## 下载（不用编译）
 
 到 [Releases](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest) 下载对应的那个，不用装别的东西。
