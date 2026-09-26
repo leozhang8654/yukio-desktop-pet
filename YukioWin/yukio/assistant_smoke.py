@@ -29,8 +29,19 @@ def schedule(app, output):
         return wrapped
     def screenshot(name):
         from PIL import ImageGrab
-        ui.root.update_idletasks()
-        ImageGrab.grab().save(output / name)
+        ui.root.update()
+        import ctypes
+        ctypes.windll.dwmapi.DwmFlush()
+        target = ui.delivery if name == "delivery.png" else ui.root
+        x, y = target.winfo_rootx(), target.winfo_rooty()
+        shot = ImageGrab.grab(bbox=(x, y, x + target.winfo_width(), y + target.winfo_height()))
+        if name == "home.png":
+            # A visible native window can still have an unpainted white surface.
+            # Require the colored sidebar and its text to have reached the screen.
+            pixel = shot.getpixel((8, 8))[:3]
+            check(max(abs(a-b) for a,b in zip(pixel,(240,246,241))) < 12,"home sidebar painted")
+            check(len(shot.crop((0,0,200,400)).getcolors(1000000)) > 30,"home text painted")
+        shot.save(output / name)
     def setup():
         check(ui.root.winfo_viewable(),"assistant opens")
         ui.new_button.invoke()
@@ -86,6 +97,9 @@ def schedule(app, output):
         app.show_assistant()
         ui.navigate("home")
         check(ui.root.winfo_viewable(),"reopen after close")
+        app.set_hidden(True)
+        ui.root.after(400,guard(home_ready))
+    def home_ready():
         screenshot("home.png")
         finish()
     ui.root.after(500,guard(setup))

@@ -4,9 +4,15 @@
 
 Yukio (雪绪), a white-haired, blue-eyed girl in a butler's uniform, sits in the bottom-right corner of your Windows desktop and switches poses to match whatever your coding agent — **DeepSeek's Deep Code CLI**, **Claude Code**, or **GPT's Codex**, picked from the tray menu under "Assistant", all three by default — is doing right now: thinking, reading a file, viewing an image, writing a file, running tests, browsing the web, handing in the answer. For any other work she sits at the computer and types. She slumps when something goes wrong, puts up the ❓ question card when a decision is yours to make — with the question written out on a card beside her, so you can answer right there, and holds up the ✅ done card once the answer is in, waiting for you. While she is holding up the sign, click her and she lowers it (if the chat she is following belongs to the Claude desktop app, she also jumps back to that chat). If that chat is already open in front of you, she doesn't hold up the sign at all. With no task she idles. When several chats are open at once, whichever has just finished or is waiting for your decision is shown first; the rest hang as a stack of small cards piled upward from the bubble, and clicking one takes you to that chat. You can also pin one chat from the menu so she follows only that one. Every pose keeps moving in small, continuous ways (writing, typing, moving her eyes, blinking), and the small bubble over her head shows the current task and its progress.
 
-The artwork, the activity mapping, the debounce and hold times, the focus rules, the sign and the card stack, and the swing parameters for when she is picked up are all identical to the macOS edition (`../YukioPlayer`, Swift). Only the two ends are swapped: **whose session logs she reads** (all three families) and **what draws the window** (a Windows layered window instead of AppKit). The only differences left are the size control (fixed steps here, a slider there) and how far click-to-jump has been tested on a real machine; both are listed under "Known limitations" at the end.
+The artwork, the activity mapping, the debounce and hold times, the focus rules, the sign and the card stack, and the swing parameters for when she is picked up are all identical to the macOS edition (`../YukioPlayer`, Swift). Only the two ends are swapped: **whose session logs she reads** (all three families) and **what draws the window** (a Windows layered window instead of AppKit). The assistant uses Tk/ttk on Windows and SwiftUI on macOS. Platform-specific limitations are listed below.
 
-The only dependency is Pillow. The window, the tray and the menus call the Windows API directly through ctypes; there is no other UI framework.
+The only dependency is Pillow. The window, the tray and the menus call the Windows API directly through ctypes; the assistant window uses Python’s bundled Tk/ttk.
+
+## Personal assistant (0.3.0)
+
+Home, Reminders, Personalization and Extensions match the implemented macOS features. Create, edit, delete, snooze or complete local one-time reminders; closing the main window keeps reminders running, and missed reminders appear after wake or relaunch. Names and sound preferences are saved locally. AI and screen observation remain planned features. See [assistant guide](../docs/ASSISTANT.md).
+
+Right-click Yukio or reopen the exe to return to the assistant. Pet settings in its sidebar include visibility, a 50–200% size slider, agent source, language and card switches. `--pet-only` starts with the main window hidden; `--assistant-only` starts with the pet hidden. The system tray remains available in both modes.
 
 ## Download (no Python needed)
 
@@ -39,7 +45,7 @@ The result is `dist\Yukio.exe` (artwork included). Without a Windows dev environ
 | --- | --- |
 | Move her | Press on her and drag. While dragged she looks picked up by an invisible hand by the back of her collar and swings like a pendulum: drag right and her feet trail behind to the left, stop and she swings past vertical before settling, yank her upward and she first drops, then bounces back. Once you let go and the swing dies down she returns to her current pose, and the position is remembered |
 | Click her | While she is holding up the ✅ done card: the sign goes down (that turn is over). While the ❓ question card is up: the card stays, the question is still waiting for you. If the chat she is following belongs to the Claude desktop app, either click also jumps back to that chat (see "Click to jump back to the chat" below) |
-| Open the menu | Right-click her (or double-click), or left-click her small avatar in the tray |
+| Open assistant / menu | Right-click Yukio to open the assistant; click the tray avatar for the pet menu |
 | Change size | Menu › Size: seven fixed steps, 50% / 75% / 100% / 125% / 150% / 175% / 200%, plus "Bigger (+5%)" and "Smaller (−5%)", so she can stop at any multiple of 5% between 50% and 200%. On high-DPI screens the display scaling is applied on top automatically, so she stays sharp |
 | Change language | Menu › Language: English / 中文. English is the default; the choice is remembered in settings.json as "language". Descriptions already attached to earlier events keep their language until the next event |
 | Pause following | Menu › Follow AI activity. With it off she stays idle but still receives events, so she catches up the moment you turn it back on |
@@ -55,7 +61,7 @@ Double-clicking `Yukio.exe` again doesn't open a second Yukio; it makes the one 
 
 Settings live in `%LOCALAPPDATA%\Yukio\settings.json` (position, size, the follow toggle, whether the bubble and the cards are shown).
 
-> On the macOS edition, "Size" is a 50%–200% slider that resizes her live as you drag. The Win32 tray menu is a native system popup menu and a slider won't fit in it, so this edition uses seven fixed steps plus the two ±5% items instead. The range and the step are the same; it just takes a few more clicks.
+> Both editions now have a 50–200% slider in pet settings. The Windows tray also keeps seven fixed sizes and ±5% nudges.
 
 ## How she knows what DeepSeek is doing
 
@@ -178,7 +184,7 @@ its click regions, which is how its layout is checked without Windows.
 ## Self-check (runs outside Windows too)
 
 ```sh
-python run.py --selftest                     # 181 tests: routing, parsing, following, blink timing/compositing, card stack, swing, question card and answering, player logic
+python run.py --selftest                     # 198 tests: routing, parsing, following, blink timing/compositing, card stack, swing, question card and answering, player logic
 python run.py --check                        # load and crop all artwork, confirm no frame runs out of bounds
 python run.py --snapshot out.png             # draw the animations actually in use on a checkerboard
 python run.py --bubble out.png               # draw several head bubbles to check layout, truncation and position
@@ -214,7 +220,7 @@ yukio/sprites.py           sprite strips / packaged low-memory pages → frames;
 yukio/bubble.py            layout and drawing of the head bubble (Pillow)
 yukio/win32.py             layered window, tray, menus, message loop (ctypes)
 yukio/app.py               main loop, dragging, menu actions, settings
-tests/                     181 tests; tests/fake_win32.py swaps the window layer for a stand-in so the logic can be tested on any platform
+tests/                     198 tests; tests/fake_win32.py swaps the window layer for a stand-in so the logic can be tested on any platform
 scripts/                   packaging (PyInstaller), the notify script for Deep Code
 Resources/Yukio.ico        the exe's icon (cropped from the macOS edition's cover image)
 ```
@@ -228,13 +234,13 @@ The **Verify published Windows release** workflow downloads the public exe and i
 
 - **Checked against the real Deep Code once**: on 2026-09-17, `@vegamo/deepcode-cli` 0.4.0 was installed on this machine and driven through one real "read a file → answer" turn by a local fake model (speaking the OpenAI streaming protocol, never contacting DeepSeek's servers, no key needed). Yukio was then pointed at the session log it wrote: `--replay` parsed it without errors, and `--watch` followed it live through Thinking → Reading hello.txt → handing in the report → the ✅ done card → idle, with 30–80 ms between an event being written and being picked up. The fields matched what is written here exactly (`messageParams.tool_calls` / `reasoning_content`, `tool_call_id`, `ok` in the result JSON). The tool names it actually sends the model are bash, read, write, edit, WebSearch, UpdatePlan, skill, UnderstandImage / ReadImage, and the classification rules recognize all of them.
 - **"No sign when the chat is already open in front of you" has not been tested on Windows**: the check has two halves. One reads the desktop app's session records to find which chat is selected right now (this half has been tested on macOS, `--open-chat` checks it on the spot, and both platforms use the same records and the same `lastFocusedAt` field). The other decides whether the Claude desktop app is really in the foreground (`win32.foreground_process_name()`, which only runs on Windows, compared against `Claude.exe`). That second half, like the `chat_url` deep link, follows the desktop app's same scheme and has not been verified on Windows. If any step comes up empty she falls back to **holding up the sign as usual**, so no reminder is lost.
-- **How far it has been verified on a real machine**: every build actually runs the packaged exe on a GitHub Windows runner (Windows Server 2025). It enumerates the four windows (Yukio, the bubble, the card stack, the host), checks their sizes and `WS_EX_LAYERED` (with only one chat the card stack is a hidden 1×1 window), confirms that she shows "Writing · Editing login.py" for a staged Deep Code session, then takes a screenshot and compares the on-screen pixels against the sprite strip point by point (at 100% and 150% scaling; required match rate: 90%). What it doesn't cover is the part only a human can try: what the tray menu looks like when opened, how dragging feels, multiple monitors, an Explorer restart, system scaling that isn't a multiple of 100%. If any of that goes wrong, run `python run.py` from source first; the full error shows in the terminal (when the exe is double-clicked, errors go to `%LOCALAPPDATA%\Yukio\error.log`).
+- **How far it has been verified on a real machine**: every build actually runs the packaged exe on a GitHub Windows runner (Windows Server 2025). It enumerates the pet, bubble, question card, card stack and host windows, checks their sizes and `WS_EX_LAYERED` (with only one chat the card stack is a hidden 1×1 window), confirms that she shows "Writing · Editing login.py" for a staged Deep Code session, then takes a screenshot and compares the on-screen pixels against the sprite strip point by point (at 100% and 150% scaling; required match rate: 90%). What it doesn't cover is the part only a human can try: what the tray menu looks like when opened, how dragging feels, multiple monitors, an Explorer restart, system scaling that isn't a multiple of 100%. If any of that goes wrong, run `python run.py` from source first; the full error shows in the terminal (when the exe is double-clicked, errors go to `%LOCALAPPDATA%\Yukio\error.log`).
 - The window class is registered per process, so `FindWindow("YukioPet")` can't find her from another process (use `EnumWindows` + `GetClassName` instead, which is what `scripts/smoke-test.ps1` does).
 - Deep Code holds the results of a batch of tool calls until the whole batch has finished before writing them to the session log, so for several very short calls in one batch you may only see the last one's end time. The start of each individual tool is real-time.
 - The session log is not a public API, and its fields may change after a Deep Code upgrade. If they do, `--replay` on a fresh log shows whether parsing is still accurate.
 - Current motion sheets use 384×416 pixels (2x); the held image is 384×480. Sizes above 200% can appear softer.
 - **While picked up she is a single frame and doesn't blink**: `held.png` is a one-frame image. The swing is a live rotation around the grip point, but the character herself doesn't move.
 - **Click to jump back to the chat has only been tested for real on macOS**: on Windows, the location of the Claude desktop app's records and the `claude://` protocol registration follow the same scheme, but have not been verified on a real Windows machine. When there is no match she only lowers the sign and never jumps to the wrong chat.
-- **Size is seven fixed steps + ±5%, not a slider**: the macOS edition fits a 50%–200% slider in its menu; a native Win32 popup menu can't hold one, and matching it exactly would take a separate settings window. The range and the 5% step are the same on both.
+- **Size controls:** use the 50–200% slider in the assistant’s Pet settings, or the fixed sizes and ±5% nudges in the tray menu.
 - The app is not digitally signed, so Windows SmartScreen may block it the first time ("More info" → "Run anyway").
 - The macOS edition lives in `../YukioPlayer` (Swift, follows Claude Code); the two don't affect each other.

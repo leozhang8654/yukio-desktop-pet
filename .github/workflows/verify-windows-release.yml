@@ -5,9 +5,9 @@ on:
   workflow_dispatch:
     inputs:
       release_tag:
-        description: Published release tag to test (for example v0.2.2)
+        description: Published release tag to test (for example v0.3.0)
         required: true
-        default: v0.2.2
+        default: v0.3.0
         type: string
 
 permissions:
@@ -58,6 +58,9 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw "Core/player tests failed" }
           python run.py --check
           if ($LASTEXITCODE -ne 0) { throw "Artwork check failed" }
+      - name: Verify the downloaded assistant window and reminders
+        working-directory: YukioWin
+        run: powershell -ExecutionPolicy Bypass -File scripts/smoke-assistant.ps1 -Exe build/published-release/Yukio.exe
       - name: Run the downloaded exe at 100%, 150% and 200%
         working-directory: YukioWin
         shell: pwsh
@@ -75,5 +78,6 @@ jobs:
           name: windows-release-verification-${{ inputs.release_tag }}
           path: |
             YukioWin/build/release-verification/
+            YukioWin/build/assistant-smoke/
             YukioWin/build/published-release/verified-sha256.txt
           if-no-files-found: warn

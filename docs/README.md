@@ -9,3 +9,6 @@
 - [早期交接资料](history/README.md)
 
 `readme/` 保存项目说明用图和生成脚本。原图、透明底图、生成参考仍分别在根目录的 `sources/`、`assets/`、`references/`，供现有工具使用。
+
+- [个人助手使用与开发](ASSISTANT.md)
+- [个性化后续设计（未实现）](PERSONALIZATION.md)

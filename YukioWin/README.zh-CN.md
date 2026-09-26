@@ -6,11 +6,17 @@
 
 素材、活动映射、防抖与保持时间、焦点规则、举牌与那摞卡、被拎起来时的晃动参数，都和 macOS 版（`../YukioPlayer`，Swift）一模一样，换掉的是两头：**读谁的会话记录**（三家都读）和**用什么画窗口**（Windows 分层窗口而不是 AppKit）。两边仍有差别的只有大小控件（这边是档位、那边是滑条）与点击跳转的实测程度，都写在最后的「已知限制」里。
 
-只依赖 Pillow 一个库。窗口、托盘、菜单都用 ctypes 直接调 Windows API，没有别的界面框架。
+只依赖 Pillow 一个库。窗口、托盘、菜单都用 ctypes 直接调 Windows API，助手主窗口使用 Python 自带的 Tk/ttk。
+
+## 个人助手（0.3.0）
+
+首页、提醒、个性化和扩展页已同步 macOS 当前实现。单次提醒支持新增、编辑、删除、稍后五分钟和确认完成；关闭主窗口后仍然计时，唤醒或重启后补上错过的提醒。名字和提示音设置保存在本机。AI 与屏幕观察仍在规划中，详见[助手说明](../docs/ASSISTANT.md)。
+
+右键雪绪或再次打开 EXE 回到助手；侧边栏的桌宠设置提供显隐、50%–200% 大小滑条、跟随来源、语言与卡片开关。`--pet-only` 启动时隐藏主窗口，`--assistant-only` 启动时隐藏桌宠，两种模式均保留托盘入口。
 
 ## 下载（不用装 Python）
 
-到 [Releases](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest) 下载 `Yukio-0.2.2-Windows.exe`，放哪儿都行，双击就开。Python、Pillow、素材都打包在里面了，需要 Windows 10 或更新的 64 位系统。
+到 [Releases](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest) 下载 `Yukio-0.3.0-Windows.exe`，放哪儿都行，双击就开。Python、Pillow、素材都打包在里面了，需要 Windows 10 或更新的 64 位系统。
 
 第一次打开 Windows 可能弹蓝色的「Windows 已保护你的电脑」——这个程序没买代码签名证书，点「更多信息」→「仍要运行」，以后不再问。
 
@@ -39,7 +45,7 @@ powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1
 | --- | --- |
 | 挪位置 | 按住她拖。拖动时像被一只看不见的大手拎着后领，按单摆晃：往右拖脚落在左后方，停下荡过竖直线再收住，猛地往上提会先坠下去再弹回来。松手晃停后回到当前动作，位置会记住 |
 | 点她一下 | 举着勾选卡时：放下牌子（那一轮结束了）；立着问号卡时：卡不收，问题还等你答。跟的是桌面版 Claude 的聊天时，两种都会顺手跳回那条聊天（见下面「点一下跳回聊天」） |
-| 出菜单 | 在她身上右键（或双击），也可以左键点托盘里的小头像 |
+| 打开助手／菜单 | 右键雪绪（或双击）打开助手；点托盘小头像打开桌宠菜单 |
 | 换大小 | 菜单 › 大小：50% / 75% / 100% / 125% / 150% / 175% / 200% 七个整档，再加「放大一点 / 缩小一点」各 ±5%，能停在 50%–200% 之间任何一个整 5%。高分屏会自动再乘一次屏幕缩放，不糊 |
 | 换语言 | 菜单 › 语言：English / 中文。默认英文，选择会记住（存在 settings.json 的 language 里）；已经写进事件里的说明文字要到下一条事件才换语言 |
 | 暂停跟随 | 菜单 › 跟随 AI 活动。关掉后她保持空闲，但事件照收，重新打开立刻跟上 |
@@ -55,7 +61,7 @@ powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1
 
 设置存在 `%LOCALAPPDATA%\Yukio\settings.json`（位置、大小、跟随开关、显示气泡与小卡）。
 
-> macOS 版那边「大小」是一条 50%–200% 的滑条，拖着走当场变大变小。Win32 的托盘菜单是系统原生弹出菜单，塞不进滑条，所以这边换成七个整档加 ±5% 的两条，范围和步进一样，只是要多点几下。
+> 两个平台的桌宠设置现在都有 50%–200% 大小滑条。Windows 托盘菜单仍保留七个整档与 ±5% 微调。
 
 ## 她从哪里知道 DeepSeek 在做什么
 
@@ -176,7 +182,7 @@ claude://code/continue?session=local_…
 ## 自查（在 Windows 之外也能跑）
 
 ```sh
-python run.py --selftest                     # 181 个测试：路由、解析、跟随、独立眨眼/合成、卡叠、摆动、问题卡与回答、播放器逻辑
+python run.py --selftest                     # 198 个测试：路由、解析、跟随、独立眨眼/合成、卡叠、摆动、问题卡与回答、播放器逻辑
 python run.py --check                        # 加载并裁切全部素材，确认帧不越界
 python run.py --snapshot out.png             # 把实际使用的动画画在棋盘格上
 python run.py --bubble out.png               # 画几种头顶气泡，检查排版、截断与位置
@@ -212,7 +218,7 @@ yukio/sprites.py           图条／Windows 低内存分页 → 逐帧位图；�
 yukio/bubble.py            头顶气泡的排版与绘制（Pillow）
 yukio/win32.py             分层窗口、托盘、菜单、消息循环（ctypes）
 yukio/app.py               主循环、拖动、菜单动作、设置
-tests/                     181 个测试；tests/fake_win32.py 把窗口层换成替身，逻辑在任何平台都能测
+tests/                     198 个测试；tests/fake_win32.py 把窗口层换成替身，逻辑在任何平台都能测
 scripts/                   打包（PyInstaller）、Deep Code 的 notify 脚本
 Resources/Yukio.ico        exe 的图标（从 macOS 版的封面图裁的）
 ```
@@ -226,13 +232,13 @@ Resources/Yukio.ico        exe 的图标（从 macOS 版的封面图裁的）
 
 - **和真的 Deep Code 对过一次**：2026-09-17 在本机装上 `@vegamo/deepcode-cli` 0.4.0，用一个本地假模型（说 OpenAI 流式协议，不连 DeepSeek 的服务器、不需要密钥）驱动它真跑了一轮「读文件 → 回答」，然后拿雪绪去跟它写下的会话记录：`--replay` 解析无误，`--watch` 实时跟随依次走出 思考 → 阅读 hello.txt → 递交报告 → 勾选卡 → 空闲，事件写入延迟 30–80 ms。字段与这里写的完全一致（`messageParams.tool_calls`／`reasoning_content`、`tool_call_id`、结果 JSON 里的 `ok`）。它发给模型的工具名实测是 bash、read、write、edit、WebSearch、UpdatePlan、skill、UnderstandImage／ReadImage，分类规则都认。
 - **"聊天已开在眼前就不举牌"这条在 Windows 上没实测过**：判断分两半——读桌面版的会话记录找出此刻选中哪条聊天（这半边在 macOS 上实测过，`--open-chat` 能当场查，两边用的是同一份记录、同一个 `lastFocusedAt` 字段），以及判断桌面版 Claude 是不是真在最前面（`win32.foreground_process_name()`，只有 Windows 上才跑得到，按 `Claude.exe` 比对）。后半边和 `chat_url` 的深链一样，是照桌面版的同一套写的，没在 Windows 上验过。任何一步取不到都退回**照常举牌**，不会因此少提醒。
-- **实机验到哪一步**：每次构建都会在 GitHub 的 Windows 机器（Windows Server 2025）上把打好的 exe 真跑一遍——枚举出雪绪、气泡、那摞卡、宿主四个窗口，核对尺寸与 `WS_EX_LAYERED`（只有一条聊天时那摞卡是隐藏的 1×1 窗口），确认她按造出来的 Deep Code 会话显示「纸上书写 · 编辑 login.py」，再截屏、拿屏幕上的像素和图条逐点比（100% 与 150% 两种缩放，最近一次是 98.6% 与 99.9%，门槛 90%）。没覆盖到的是人手才能试的部分：托盘菜单点开长什么样、拖动手感、多显示器、资源管理器重启、非整百的系统缩放。这些出问题时，先从源码跑 `python run.py`，终端里有完整报错（双击 exe 时报错写在 `%LOCALAPPDATA%\Yukio\error.log`）。
+- **实机验到哪一步**：每次构建都会在 GitHub 的 Windows 机器（Windows Server 2025）上把打好的 exe 真跑一遍——枚举出雪绪、气泡、问题卡、卡叠与宿主窗口，核对尺寸与 `WS_EX_LAYERED`（只有一条聊天时那摞卡是隐藏的 1×1 窗口），确认她按造出来的 Deep Code 会话显示「纸上书写 · 编辑 login.py」，再截屏、拿屏幕上的像素和图条逐点比（100% 与 150% 两种缩放，匹配率门槛 90%）。没覆盖到的是人手才能试的部分：托盘菜单点开长什么样、拖动手感、多显示器、资源管理器重启、非整百的系统缩放。这些出问题时，先从源码跑 `python run.py`，终端里有完整报错（双击 exe 时报错写在 `%LOCALAPPDATA%\Yukio\error.log`）。
 - 窗口类名是进程内注册的，所以 `FindWindow("YukioPet")` 在别的进程里找不到她（要用 `EnumWindows` + `GetClassName`，`scripts/smoke-test.ps1` 就是这么做的）。
 - Deep Code 把一批工具调用的结果攒到全跑完才写进会话记录，所以同一批里几个很短的调用可能只看到最后一个的结束时间；单个工具的开始是实时的。
 - 会话记录不是公开 API，Deep Code 升级后字段可能变。变了的话 `--replay` 一份新记录就能看出来解析还准不准。
 - 当前动作使用 384×416 的 2 倍图，被拎起来的图为 384×480；超过 200% 放大时会变软。
 - **被拎起来时只有一帧、不眨眼**：`held.png` 是单帧图，晃动是绕抓手点的实时旋转，但人物本身不动。
 - **点一下跳回聊天只在 macOS 上实测过**：Windows 上桌面版 Claude 的记录位置与 `claude://` 协议注册是照同一套写的，没有在 Windows 上实机验过；对不上时只放下牌子，不乱跳。
-- **大小是七个整档 + ±5%，不是滑条**：macOS 版菜单里能塞一条 50%–200% 的滑条，Win32 的原生弹出菜单塞不进去，要完全一致得另开一个设置窗口。范围与 5% 的步进两边一样。
+- **大小控制**：助手的桌宠设置提供 50%–200% 滑条；托盘菜单保留整档与 ±5% 微调。
 - 应用没有数字签名，Windows SmartScreen 第一次可能拦一下（「更多信息」→「仍要运行」）。
 - macOS 版在 `../YukioPlayer`（Swift，跟随 Claude Code），两边互不影响。

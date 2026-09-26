@@ -12,7 +12,7 @@
 <img alt="macOS 13 或更新" src="https://img.shields.io/badge/macOS-13%2B-000000?logo=apple&logoColor=white">
 <img alt="Windows 10 与 11" src="https://img.shields.io/badge/Windows-10%20%2F%2011-0078D4">
 <img alt="Swift 与 AppKit，无第三方依赖" src="https://img.shields.io/badge/Swift%20%2B%20AppKit-%E9%9B%B6%E4%BE%9D%E8%B5%96-F05138?logo=swift&logoColor=white">
-<img alt="Python 与 ctypes，只依赖 Pillow" src="https://img.shields.io/badge/Python%20%2B%20ctypes-%E5%8F%AA%E8%A6%81%20Pillow-3776AB?logo=python&logoColor=white">
+<img alt="Python、Tk 与 ctypes，第三方依赖为 Pillow" src="https://img.shields.io/badge/Python%20%2B%20Tk%20%2B%20ctypes-%E5%8F%AA%E8%A6%81%20Pillow-3776AB?logo=python&logoColor=white">
 </p>
 
 </div>
@@ -21,12 +21,15 @@
 
 她认三家助手，在菜单「跟随的助手」里挑：**Claude Code**、**DeepSeek 的 [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)**、**GPT 的 [Codex](https://developers.openai.com/codex/)**（桌面版与命令行写的是同一份会话记录）。默认的**自动**三家一起跟，谁有话说就显示谁。两版都使用原生窗口，完全基于本机会话记录工作。
 
-## 0.2.2 更新
+## 0.3.0 更新
 
-- 十二种状态的头颈保持稳定，保留原来的手部与道具动作。
-- 双眼同步转动、眼角固定，修正眨眼时的虹膜残留。
-- 修复 macOS 缩放、拖动及显示环境变化时的透明窗口重绘问题。
-- 两个平台下载包使用同一套更新后的动画和无损分页素材。
+- **两个平台都有个人助手主窗口**：首页、提醒、个性化、扩展，与原有桌宠一起使用。
+- 单次提醒支持新增、编辑、删除、稍后 5 分钟和确认完成；本地保存，唤醒或重启后补上错过的提醒。关闭主窗口后程序与提醒计时继续运行。
+- 自定义助手名字、对你的称呼和提醒音。右键雪绪、菜单栏／托盘或再次打开程序，都能进入助手；桌宠设置保留在侧边栏与菜单中。
+- Codex 异步问题在其他工具运行时继续显示，回答后收起；防止重复回答与旧回调污染新问题，剪贴板或前台应用变化时停止自动输入。
+- 包含 0.2.2 的头颈稳定、双眼同步、独立眨眼和透明窗口修复。
+
+AI 对话、屏幕观察、自动活动记录、新闻简报和日历接入仍是**规划中功能，尚未启用**。参见[助手说明](docs/ASSISTANT.md)和[个性化设计](docs/PERSONALIZATION.md)。
 
 [完整更新记录](CHANGELOG.md)
 
@@ -36,8 +39,8 @@
 
 | 你用的是 | 下载 | 怎么开 |
 | --- | --- | --- |
-| macOS 13 或更新（Apple 芯片与 Intel 通用） | [Yukio-0.2.2-macOS.zip](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.2.2/Yukio-0.2.2-macOS.zip) | 解压，把 `Yukio.app` 拖进「应用程序」，第一次按下面放行一次 |
-| Windows 10 / 11（64 位） | [Yukio-0.2.2-Windows.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.2.2/Yukio-0.2.2-Windows.exe) | 双击就开。Python 和素材都打包在里面 |
+| macOS 13 或更新（Apple 芯片与 Intel 通用） | [Yukio-0.3.0-macOS.zip](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.0/Yukio-0.3.0-macOS.zip) | 解压，把 `Yukio.app` 拖进「应用程序」，第一次按下面放行一次 |
+| Windows 10 / 11（64 位） | [Yukio-0.3.0-Windows.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.0/Yukio-0.3.0-Windows.exe) | 双击就开。Python 和素材都打包在里面 |
 
 <details>
 <summary><b>macOS 第一次打开：「Apple 无法验证“Yukio”是否包含可能危害 Mac 安全或泄漏隐私的恶意软件」</b></summary>
@@ -66,7 +69,7 @@ xattr -dr com.apple.quarantine /Applications/Yukio.app
 
 每个文件的 SHA-256 都写在发布页上，想核对的话对一下。
 
-打开后雪绪出现在屏幕右下角，macOS 的菜单栏、Windows 的托盘里多一个她的小头像。在 macOS 上，右键雪绪会直接打开设置；点菜单栏小头像或再打开一次应用可进入完整菜单。设置里有「收起雪绪」按钮，设置窗口开着时直接按空格也行，再按一下把她叫回来。界面默认英文，在设置里把「Language」切到「中文」即可，选择会记住。想先看看效果，可在设置或菜单里点「播放模拟演示」（英文界面下是 Play demo），60 秒走一遍所有动作。
+打开后雪绪出现在屏幕右下角，macOS 的菜单栏、Windows 的托盘里多一个她的小头像。启动时会打开助手主窗口。右键雪绪或再次打开程序会回到助手；侧边栏可打开桌宠设置，菜单栏／托盘小头像保留完整操作菜单。桌宠设置可以收起或显示雪绪；macOS 的桌宠设置窗口里也可用空格切换。界面默认英文，在设置里把「Language」切到「中文」即可，选择会记住。想先看看效果，可在设置或菜单里点「播放模拟演示」（英文界面下是 Play demo），60 秒走一遍所有动作。
 
 ## 她会做什么
 
@@ -124,7 +127,7 @@ xattr -dr com.apple.quarantine /Applications/Yukio.app
 ```sh
 git clone https://github.com/leozhang8654/yukio-desktop-pet
 cd yukio-desktop-pet/YukioPlayer
-swift test                      # 139 个测试：路由、眨眼时序、分类、解析、气泡文字、动作时间线、聊天选择、抄题
+swift test                      # 157 个测试：路由、眨眼时序、分类、解析、气泡文字、动作时间线、聊天选择、抄题
 ./scripts/build-app.sh          # 生成 build/Yukio.app
 open build/Yukio.app
 cd ../YukioWin && pip3 install pillow && python3 scripts/prepare-windows-assets.py
@@ -137,7 +140,7 @@ cd ../YukioPlayer && ./scripts/package-release.sh  # 打通用二进制发布包
 cd yukio-desktop-pet\YukioWin
 pip install pillow
 python run.py
-python run.py --selftest                                          # 181 个测试，任何系统上都能跑
+python run.py --selftest                                          # 198 个测试，任何系统上都能跑
 powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1    # 打出 dist\Yukio.exe，素材已包含
 ```
 
@@ -161,10 +164,10 @@ powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1    # 打出 dist\
 
 ## 先说清楚的几件事
 
-- 界面默认英文，右键雪绪打开设置后，可在「Language」中切换中文，选择会记住。已经写进事件里的说明文字（比如“阅读 main.swift”）要到下一条事件才换语言。
+- 界面默认英文，打开助手的桌宠设置后，可在「Language」中切换中文，选择会记住。已经写进事件里的说明文字（比如“阅读 main.swift”）要到下一条事件才换语言。
 - 当前动作直接使用已验收的 384×416 素材（被拎起来那张 384×480），默认按 192×208 点显示。正式生成流程复用现有 2 倍源图，不再额外超分。原来抠图留下的那圈又粗又糊的黑边去掉了，换成轮廓外一圈 0.5 点的细描边。Retina／高分屏上放大也是清楚的；超过 200% 才会重新变软。
 - 点一下跳回聊天需要对应的桌面版：Claude 的聊天要桌面版 Claude，Codex 的聊天要 Codex 桌面版（`codex://threads/<会话 ID>`）。在终端里跑的助手没有聊天窗口可开，点了只把那个应用带到最前面；Deep Code 的聊天在终端里，点一下只是放下牌子。这套跳转在 macOS 上实测过，Windows 那边照同一套写的，还没在实机上验过。
-- 大小：macOS 是 50%–200% 的滑条，Windows 是七个整档加 ±5%，因为 Win32 的原生菜单塞不进滑条。
+- 大小：两个平台的桌宠设置都有 50%–200% 滑条；Windows 托盘菜单还保留整档与 ±5% 微调。
 - macOS 包使用临时签名、未做公证；Windows 程序没有代码签名。从源码自己编译就不会有第一次打开的那些提示。
 
 ## 素材是怎么来的

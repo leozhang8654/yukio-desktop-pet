@@ -2,7 +2,7 @@
 
 现在的定位是「一个可以慢慢个性化的个人助手」。App 是管理事情的主界面，桌宠是桌面上的一个入口和显示方式。提醒数据不依赖角色是否显示，也不依赖 AI。
 
-## 已经能用的起步版（macOS）
+## 已经能用的起步版（macOS / Windows）
 
 - 浅色原生主窗口：首页、提醒、个性化、扩展。
 - 单次提醒：新增、编辑、删除、到点弹出、提示音、稍后 5 分钟、确认完成。
@@ -11,7 +11,7 @@
 - 右键桌宠、菜单栏「打开 Yukio 助手」、再次打开应用，都进入主窗口；原桌宠设置保留在侧边栏和菜单栏。
 - 关闭主窗口会回到菜单栏驻留，提醒继续运行；真正退出后无法在原定时刻发出提醒。
 
-这是本地提醒起步版，不是后台系统闹钟服务。不唤醒休眠的电脑，没有系统通知、重复提醒、开机启动、WidgetKit 小组件或 AI 调用。扩展页清楚标出规划中功能。现有 Windows 播放器尚未加入这套主界面。
+这是本地提醒起步版，不是后台系统闹钟服务。不唤醒休眠的电脑，没有系统通知、重复提醒、开机启动、WidgetKit 小组件或 AI 调用。扩展页清楚标出规划中功能。Windows 已加入对应的 Tk/ttk 主窗口、提醒服务和托盘入口，Python、Tk 与素材随 EXE 一起打包。
 
 ## 运行
 
@@ -27,6 +27,14 @@ open build/Yukio.app
 要保留正在使用的旧桌宠，单独试用新窗口，可执行 `YUKIO_ASSISTANT_PREVIEW=1 ./scripts/build-app.sh`。产物是 `build/Yukio Assistant Preview.app`，有独立的应用标识，默认不显示第二只桌宠；主窗口内仍能打开桌宠设置。
 
 提醒保存在 `~/Library/Application Support/Yukio/reminders.json`，原子写入成功后才更新界面。文件损坏时保留原文件并显示错误，不用空文件覆盖。测试可通过 `YUKIO_REMINDER_FILE` 指向独立文件。称呼和提示音设置使用应用的 UserDefaults。
+
+## Windows
+
+下载 `Yukio-0.3.0-Windows.exe`，双击即可。右键桌宠、托盘中的「打开 Yukio 助手」或再次打开程序会回到主窗口。主窗口关闭后驻留托盘，提醒继续运行。桌宠设置提供显隐、50%–200% 大小滑条、跟随来源、语言及问题卡开关。
+
+源码运行：`cd YukioWin && python run.py`。需要 Python（含 Tk）与 Pillow；正式 EXE 自带运行环境。`--pet-only` 与 `--assistant-only` 的含义和 macOS 一致。提醒保存在 `%LOCALAPPDATA%\Yukio\reminders.json`，个性化及桌宠设置保存在同目录 `settings.json`。支持 `YUKIO_REMINDER_FILE` 隔离测试。提醒 JSON v1 与 macOS 使用相同字段及时间基准，不提供自动跨设备同步。
+
+Windows 构建会实际运行打包后的主窗口，检查新增／编辑／删除、个性化持久化、显隐桌宠、关闭窗口后到点弹出、稍后提醒、完成与重新打开，并保留截图。
 
 ## 接下来怎么长
 
@@ -49,4 +57,6 @@ open build/Yukio.app
 - `Sources/YukioPlayer/AssistantWindow.swift`：主窗口、编辑表单、独立提醒面板。
 - `Sources/YukioPlayer/main.swift`：挂接已有应用生命周期和桌宠入口。
 
-未来 Windows、小组件、日历与 AI 应接到提醒服务，不把业务规则复制到各个页面里。接多进程写入前需要升级存储的并发协调方式。
+Windows 已接入独立提醒服务；未来小组件、日历与 AI 应接到提醒服务，不把业务规则复制到各个页面里。接多进程写入前需要升级存储的并发协调方式。
+
+Windows 对应入口：`YukioWin/yukio/reminders.py`（数据与原子持久化）、`assistant.py`（主窗口与提醒面板）、`app.py`（生命周期与桌宠入口）。

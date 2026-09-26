@@ -1,5 +1,14 @@
 # Changelog / 更新记录
 
+## 0.3.0 — 2026-09-25
+
+- Personal assistant windows on macOS and Windows: Home, Reminders, Personalization and planned Extensions. / 双平台个人助手主窗口：首页、提醒、个性化与规划中的扩展。
+- Local one-time reminders with edit/delete, five-minute snooze, completion, restart recovery and catch-up after sleep. Closing the main window keeps reminders running. / 本地单次提醒支持编辑、删除、稍后五分钟、确认完成、重启恢复和唤醒补提醒；关闭主窗口继续运行。
+- Windows ships Tk with the exe, adds a pet size slider and show/hide controls, and persists personalization and card switches. / Windows EXE 自带 Tk，补齐桌宠大小滑条、显隐和个性化持久化。
+- Codex async questions stay visible while other tools run, clear on structured replies, and use Codex deep links on Windows. Duplicate submissions and stale delivery callbacks are ignored; foreground and clipboard changes stop automatic input. / Codex 异步问题持续显示、结构化回答后收起，Windows 使用 Codex 深链；防止重复送出与旧回调，前台或剪贴板变化时停止自动输入。
+- Add packaged assistant UI tests and post-release verification of the public Windows download. / 增加打包助手界面测试及公开下载包发布后复测。
+- AI, screen observation, automatic activity records and briefings remain design proposals. / AI、屏幕观察、自动记录与简报仍为设计规划。
+
 ## 0.2.2 — 2026-09-25
 
 - Keep the head and neck stationary in all twelve states while preserving hand and prop motion. / 十二种状态固定头颈，保留手部和道具动作。

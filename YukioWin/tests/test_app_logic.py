@@ -548,6 +548,29 @@ class QuestionCardTests(unittest.TestCase):
         self.assertEqual(fake_win32.RETURNS[0], 1)
         self.assertEqual(a.answer_notice, "已输入并按回车 · 请在聊天中确认")
 
+    def test_repeated_answer_click_does_not_submit_twice(self):
+        a = self._asking_app()
+        a._send_answer("first")
+        a._send_answer("second")
+        fake_win32.FOREGROUND[0] = "Claude.exe"
+        advance(a, 30)
+        self.assertEqual(fake_win32.TYPED, ["first"])
+        self.assertEqual(fake_win32.RETURNS[0], 1)
+
+    def test_old_delivery_cannot_change_new_question_notice(self):
+        from yukio.router import PendingQuestion
+        from yukio.answer import TYPED
+        a = self._asking_app()
+        a._send_answer("first")
+        old = a.shown_question
+        a.shown_question = PendingQuestion(old.session, "new-question", old.question)
+        a.answer_notice = None
+        a._answer_finished(TYPED)
+        self.assertIsNone(a.answer_notice)
+        a._tick_delivery(CLOCK[0])
+        self.assertFalse(a._delivery.busy)
+        self.assertEqual(fake_win32.TYPED, [])
+
     def test_never_types_when_the_app_does_not_come_to_the_front(self):
         a = self._asking_app()
         fake_win32.FOREGROUND[0] = "explorer.exe"

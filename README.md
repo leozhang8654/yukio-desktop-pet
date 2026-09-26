@@ -12,7 +12,7 @@
 <img alt="macOS 13 or newer" src="https://img.shields.io/badge/macOS-13%2B-000000?logo=apple&logoColor=white">
 <img alt="Windows 10 and 11" src="https://img.shields.io/badge/Windows-10%20%2F%2011-0078D4">
 <img alt="Swift and AppKit, no third-party dependencies" src="https://img.shields.io/badge/Swift%20%2B%20AppKit-zero%20dependencies-F05138?logo=swift&logoColor=white">
-<img alt="Python and ctypes, Pillow is the only dependency" src="https://img.shields.io/badge/Python%20%2B%20ctypes-Pillow%20only-3776AB?logo=python&logoColor=white">
+<img alt="Python, Tk and ctypes; Pillow is the external dependency" src="https://img.shields.io/badge/Python%20%2B%20Tk%20%2B%20ctypes-Pillow%20only-3776AB?logo=python&logoColor=white">
 </p>
 
 </div>
@@ -21,12 +21,15 @@
 
 She follows three families of agent, and you pick which one in her menu under **Assistant**: **Claude Code**, **DeepSeek's [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)**, and **GPT's [Codex](https://developers.openai.com/codex/)** (the desktop app and the CLI both write the same session logs). The default, **Auto**, follows all three at once and shows whichever chat has something to say. Both builds use native windows and work entirely from local session logs.
 
-## New in 0.2.2
+## New in 0.3.0
 
-- Stable head and neck across all twelve states, with the original hand and prop motions preserved.
-- Synchronized eye movement with fixed eye corners, plus clean independent blinking.
-- macOS transparent-window redraw fixes for resizing, dragging and display changes.
-- Both downloads use the same updated artwork and lossless runtime pages.
+- **A personal assistant on both platforms:** Home, Reminders, Personalization and Extensions, alongside the existing desktop pet.
+- Create, edit or delete a one-time reminder; snooze for five minutes or mark it complete. Reminders are saved locally and catch up after wake or relaunch. Closing the main window keeps the app and reminder clock running.
+- Customize the assistant name, your name and reminder sound. Open the assistant by right-clicking Yukio, from the tray/menu bar, or by launching the app again. Pet controls remain available from the sidebar and tray/menu bar.
+- Codex async questions remain visible while other tools run and close when answered. Duplicate answers and outdated delivery results are ignored; automatic input stops if the clipboard or foreground app changes.
+- Includes the stable head/neck, synchronized gaze, independent blinking and transparent-window fixes from 0.2.2.
+
+AI conversations, screen observation, automatic activity records, news briefings and calendar connections are **planned, not active features**. See [assistant guide](docs/ASSISTANT.md) and [personalization design](docs/PERSONALIZATION.md).
 
 [Full changelog](CHANGELOG.md)
 
@@ -36,8 +39,8 @@ Grab the file for your system from the [latest release](https://github.com/leozh
 
 | You use | Download | Then |
 | --- | --- | --- |
-| macOS 13 or newer (Apple silicon and Intel) | [Yukio-0.2.2-macOS.zip](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.2.2/Yukio-0.2.2-macOS.zip) | Unzip, drag `Yukio.app` into Applications, allow it once (below) |
-| Windows 10 / 11, 64-bit | [Yukio-0.2.2-Windows.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.2.2/Yukio-0.2.2-Windows.exe) | Double-click. Python and the artwork are packed inside |
+| macOS 13 or newer (Apple silicon and Intel) | [Yukio-0.3.0-macOS.zip](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.0/Yukio-0.3.0-macOS.zip) | Unzip, drag `Yukio.app` into Applications, allow it once (below) |
+| Windows 10 / 11, 64-bit | [Yukio-0.3.0-Windows.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.0/Yukio-0.3.0-Windows.exe) | Double-click. Python and the artwork are packed inside |
 
 <details>
 <summary><b>macOS says "Apple could not verify Yukio…"</b></summary>
@@ -66,7 +69,7 @@ The exe is not code-signed. Click **More info**, then **Run anyway**. Only proce
 
 The SHA-256 of every file is on the release page if you want to check a download.
 
-Once running, Yukio appears in the bottom-right corner of the screen and a small avatar of her appears in the macOS menu bar or the Windows tray. On macOS, right-clicking Yukio opens Settings directly; click the menu-bar avatar or launch the app a second time for the full menu. Settings has a **Hide Yukio** button — or just press Space while Settings is open — to tuck her away and bring her back. Want a tour first? Pick **Play demo** from Settings or the menu and she walks through every state in 60 seconds. English is the default, 中文 is one click away in Settings, and the choice is remembered.
+Once running, Yukio appears in the bottom-right corner of the screen and a small avatar of her appears in the macOS menu bar or the Windows tray. The assistant window opens on launch. Right-click Yukio or launch the app again to reopen it; use the sidebar for pet settings, or the menu-bar/tray avatar for the full pet menu. Pet settings let you hide Yukio and bring her back; on macOS, Space in pet settings also toggles visibility. Want a tour first? Pick **Play demo** from Settings or the menu and she walks through every state in 60 seconds. English is the default, 中文 is one click away in Settings, and the choice is remembered.
 
 ## What she does
 
@@ -124,7 +127,7 @@ These logs are internal to those tools, not public APIs. If a format changes she
 ```sh
 git clone https://github.com/leozhang8654/yukio-desktop-pet
 cd yukio-desktop-pet/YukioPlayer
-swift test                      # 139 tests: routing, blink timing, classification, parsers, bubble text, timelines, chat picking, questions
+swift test                      # 157 tests: routing, blink timing, classification, parsers, bubble text, timelines, chat picking, questions
 ./scripts/build-app.sh          # build/Yukio.app
 open build/Yukio.app
 cd ../YukioWin && pip3 install pillow && python3 scripts/prepare-windows-assets.py
@@ -137,7 +140,7 @@ cd ../YukioPlayer && ./scripts/package-release.sh  # universal binary zip in dis
 cd yukio-desktop-pet\YukioWin
 pip install pillow
 python run.py
-python run.py --selftest                                          # 181 tests, runs on any OS
+python run.py --selftest                                          # 198 tests, runs on any OS
 powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1    # dist\Yukio.exe, artwork included
 ```
 
@@ -161,10 +164,10 @@ Both players have window-less modes for poking around: `--demo`, `--replay sessi
 
 ## Good to know
 
-- English by default. Right-click Yukio to open Settings, where Language can be switched to 中文; the choice is remembered. Descriptions already attached to earlier events keep their language until the next event arrives. The command-line check modes still print their diagnostics in Chinese.
+- English by default. Open the assistant, then Pet settings, where Language can be switched to 中文; the choice is remembered. Descriptions already attached to earlier events keep their language until the next event arrives. The command-line check modes still print their diagnostics in Chinese.
 - The current animations use reviewed 384×416 artwork directly (384×480 for the picked-up pose), displayed at 192×208 points by default. The production workflow preserves these 2x sources without another upscaling pass. The old thick, blurry dark fringe from keying is gone; a thin half-point outline is drawn around her instead. She stays crisp on Retina and HiDPI screens; above 200% she starts to soften again.
 - Click-to-jump needs a desktop app: the Claude app for Claude Code chats, the Codex app for Codex chats (`codex://threads/<id>`). An agent run in a terminal has no chat window to open, so a click only brings that app to the front. Deep Code chats live in the terminal, so there a click simply lowers the card. Verified on macOS; the Windows path is written the same way but has not been tried on a real machine yet.
-- Size is a 50 to 200% slider on macOS and seven steps plus ±5% nudges on Windows, because a native Win32 menu cannot hold a slider.
+- Size is a 50 to 200% slider in pet settings on both platforms; Windows also keeps fixed steps and ±5% nudges in the tray menu.
 - The macOS app is ad-hoc signed and not notarized; the Windows exe is unsigned. Building from source avoids the first-launch prompts.
 
 ## How the art is made

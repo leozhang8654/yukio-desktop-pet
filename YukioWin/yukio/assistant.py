@@ -22,6 +22,12 @@ class AssistantWindow:
         self.app, self.store = app, app.reminders
         self.root = tk.Tk()
         self.root.withdraw()
+        icon = app._tray_icon_path()
+        if icon:
+            try:
+                self.root.iconbitmap(default=icon)
+            except tk.TclError:
+                pass
         self.root.title(tr("Yukio · Personal assistant", "Yukio · 个人助手"))
         self.root.geometry("980x680+20+20")
         self.root.minsize(820, 580)
