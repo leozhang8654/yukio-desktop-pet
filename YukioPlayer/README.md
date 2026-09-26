@@ -3,14 +3,14 @@
 # Yukio desktop player (macOS, follows Claude Code, DeepSeek or GPT)
 
 One Yukio (雪绪) who changes what she is doing based on what your coding agent — **Claude Code**, **DeepSeek's Deep Code CLI**, or **GPT's Codex**, picked in the menu under "Assistant" — is doing right now: seven kinds of activity each get their own motion, all other work shows the computer-desk pose, an error makes her sad, she stands up the ❓ question card when she needs your decision — the question itself is written out on a card beside her and you can answer it right there — and she holds up the ✅ done card when the answer is in. The sign stays up waiting for you; click her and she jumps back to that chat. If that chat is already open in front of you, she skips the sign. With no task running, she idles.
-With several chats open at once, whichever one has just finished or is waiting for your decision is shown first; the other chats that have something to say stack above the bubble as cards of the same design, and clicking one takes you to that chat. You can also pin one chat in the menu so she follows only that one. Every motion moves gently and continuously (writing, typing, turning her head, blinking), and the small bubble over her head shows the big task, the current task, and progress.
+With several chats open at once, whichever one has just finished or is waiting for your decision is shown first; the other chats that have something to say stack above the bubble as cards of the same design, and clicking one takes you to that chat. You can also pin one chat in the menu so she follows only that one. Every motion moves gently and continuously (writing, typing, moving her eyes, blinking), and the small bubble over her head shows the big task, the current task, and progress.
 Native Swift / AppKit. It needs only the Xcode Command Line Tools and has no third-party dependencies.
 
 ## Build and run
 
 ```sh
 cd YukioPlayer
-swift test                     # 135 core tests (routing, blink timing, classification, parsing, file following, assets, bubble text, motion timeline, chat matching and selection, questions and answering)
+swift test                     # 139 tests (routing, blink timing, classification, parsing, file following, assets, bubble text, motion timeline, chat matching and selection, questions and answering)
 ./scripts/build-app.sh         # produces build/Yukio.app (assets and icon are bundled into the app)
 open build/Yukio.app
 ```
@@ -112,28 +112,9 @@ swift run YukioPlayer --hang-gif out.gif   # plays "drag a bit, release, lift, f
 
 ## Motions
 
-Originally the 4 frames of each motion set were separately generated drawings, and every line in the whole picture (desk legs and chair included) drifted at the 1-pixel level, so cycling them produced a "breathing twitch" and the player had to sit on one frame for long stretches. Now each state uses just one approved base image, and `tools/motion/make_motion.py` generates continuous motion from it, with the desk and chair pixel-for-pixel still (the generator automatically checks for zero change around the desk legs):
+Each state uses the reviewed 384×416 artwork and final SAM component masks in [`sources/approved-animation-rig`](../sources/approved-animation-rig/README.md). The head and neck remain fixed, without nodding. Hands and attached props retain the approved motion: reading gaze follows the text, the pen moves with the writing hand, and the magnifier follows its hand. Cuffs, furniture and foreground occlusion retain the approved pixels.
 
-- Things that need to move visibly (hands, pen, magnifying glass, paper) are selected outward from a point inside the part until the outline, cut out as their own layer, and translated or rotated on their own (2 to 5 pixels); the spot they leave is filled in from the surrounding pixels;
-- Things that move only 1 to 2 pixels (head, eyes) use a local smooth warp;
-- Each frame lasts 33 to 67 ms (writing at 30 fps; typing, tablet, and reading at 20 fps).
-
-| State | Motion |
-| --- | --- |
-| `thinking` | Chin on hand; her head slowly tilts a little around the hand under her chin and comes back, she occasionally glances up, and she blinks slowly (the smallest amplitude) |
-| `read_file` | The hand pointing at the book sweeps along a line from left to right and returns to the start of the line once it's read; her gaze and head follow |
-| `view_image` | The hand with the magnifying glass sweeps the lens back and forth above the photo in a slight arc, with the wrist turning along |
-| `write_file` | The hand holding the pen writes strokes while the pen shaft sways with them and the hand moves right, returning to the left after finishing a line |
-| `verify` | She turns her head left and right between two documents, and on the one she is reading her finger taps its way down, checking |
-| `read_web` | Her finger swipes up twice on the tablet (turning the page), pauses, and her eyes scan downward |
-| `default_work` | Her two hands take turns lifting and striking, shifting left and right across the keys, in an uneven rhythm with pauses between bursts |
-| `respond` | First she tidies the papers: the two sheets behind stick out unaligned, she taps the stack on the desk twice and slowly squares it up; then she holds still and only blinks, without passing the papers back and forth |
-| `question_for_user` | The hand pointing at the ❓ question card taps twice, then she looks up at you and holds |
-| `task_complete` | Both hands lift the ✅ done card gently to show it to you and set it back, her head nodding along a little |
-| `idle` | She occasionally looks to the left and right, head tilting along, and blinks |
-| `failed` | She lowers her eyes once and holds, sighing slowly with slow blinks |
-
-Every state blinks: the eyelids use that pose's cheek skin tone, and the closed-eye line uses that pose's eyelash color. To change a motion or its amplitude, edit the matching function in `tools/motion/make_motion.py` and run it again (needs numpy, opencv-python, and Pillow); the sprite strips are written to `Resources/Assets/motion/`. `--parts`, `--eyes`, `--sheet`, and `--html` respectively draw a check image of the part masks and the filled-in background, a blink check image, a local-warp comparison, and a preview page with old and new motions side by side. Delete `Resources/Assets/motion/motion.json` to go back to the original strips.
+`tools/motion/make_motion.py` now calls `approved_motion.py`, preserving the 50 fps timeline, intro/loop boundaries and v4 independent six-level eyelids. Run it with `--out build/neck-stability-sam/after`, then use `check_motion.py` with `--before`, `--after`, `--out` and optional `--gif` to verify every state and produce a comparison. Install validated assets separately. No super-resolution pass is needed. Historical generators require an explicit `--legacy` flag and are not the production workflow.
 
 ### Leg length of the standing pose (2026-09-18)
 
@@ -361,13 +342,12 @@ Claude Code has only nine event names: `PreToolUse`, `PostToolUse`, `Notificatio
 ## Known limitations
 
 - The standing poses (idle, sad) now match the held image's proportions but are still a little shorter overall: the frame is 208 tall versus 240 for the held one, with the difference in the torso and boots. The seated-at-the-desk sets were drawn as a separate batch, with heads about 10% bigger than the standing pose.
-- The assets are 1x images at 192×208, so on Retina displays they are upscaled and look slightly soft; for a crisper look, 2x images would need to be re-extracted from the high-resolution sources in `sources/` (`question_for_user` and `task_complete` already have 384×416 sources).
+- Current motion sheets use 384×416 pixels (2x); the held image is 384×480. Sizes above 200% can appear softer.
 - The base images for `question_for_user` and `task_complete` were not drawn in the same batch as the other seated states, and the desk legs are off by two or three pixels; this gap is within the range the existing states already differ by among themselves (`read_web` and `write_file` differ by 1208 pixels; these two are at 1303 and 1936), so switching is no more noticeable than it is now.
 - The motions are small warps of a base image and only suit movements within 2 pixels; big motions like turning a page or changing pose need new drawings.
 - While held there is only one frame and no blinking: the `tools/motion` pipeline is hard-coded to 192×208, and the held frame is 192×240, so blinking would first need that size limit lifted.
 - The swing is computed at the main loop's 30 Hz, 18 frames per back-and-forth; on a fast flick you can see the individual frames.
 - The held pose was not drawn in the same batch as the seated poses (newly generated by GPT); after aligning by head width the heads match, but the limbs are proportionally a little longer.
-- The Windows version (`YukioWin/`) still has the original left-right running; it was not changed this time.
 - Thinking blocks are only written to the transcript after the message completes, so "Thinking" is inferred (a task is running and no tool is executing); the final answer also appears only once fully written, so Thinking is shown while it streams.
 - The bubble's task list is rebuilt from the transcript: at startup only the last 1 MB of each session is replayed, so in very long sessions tasks created earlier may be missed and progress undercounted until Claude updates the list again.
 - Session titles are generated by Claude, and when a session moves on to a new request the title doesn't necessarily follow.
@@ -375,5 +355,5 @@ Claude Code has only nine event names: `PreToolUse`, `PostToolUse`, `Notificatio
 - Codex session logs carry no chat title, so in the chat list and the bubble those chats are named by the first line of the request (or the session id when even that is outside the replayed tail).
 - A raised sign occupies her for the first 15 minutes: another chat starting work can't take her away (this is deliberate, so you don't miss the one that finished). If you don't want to go now, click it, or use "Lower the sign, don't open the chat" in the menu; you can also pin another chat. After 15 minutes she goes to show the working chat first, sign still up, and comes back once that one stops.
 - Once a chat is pinned she no longer switches automatically; when it stops she idles and waits. If you forget you pinned one, the menu's second line "Following: … (pinned)" reminds you.
-- The main loop runs at 30 Hz (33 to 67 ms per motion frame); CPU measured on this machine is about 1%. Sprite strips are decoded only when shown, the 4 most recently used strips stay in memory, and memory use is about 45 MB.
+- The main loop runs at 30 Hz over the 50 fps animation timeline. Release builds load lossless pages with a 32 MiB page-cache cap; total process memory also includes frames, windows and other resources.
 - The app is ad-hoc signed on this machine; distributing it to others needs a proper signature and notarization.

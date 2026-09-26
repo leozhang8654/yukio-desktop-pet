@@ -19,7 +19,16 @@
 
 **Yukio (雪绪)** is a white-haired, blue-eyed girl in a navy butler's uniform who sits in the corner of your screen and acts out what your AI coding agent is doing, as it happens. Claude Code reads a file, she opens a book. It edits, she picks up the pen. Tests run, she checks two sheets against each other. It finishes, and she holds up a ✅ card until you click her. That click drops you straight back into the chat that just finished.
 
-She follows three families of agent, and you pick which one in her menu under **Assistant**: **Claude Code**, **DeepSeek's [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)**, and **GPT's [Codex](https://developers.openai.com/codex/)** (the desktop app and the CLI both write the same session logs). The default, **Auto**, follows all three at once and shows whichever chat has something to say. Both builds are native, small, and never touch the network.
+She follows three families of agent, and you pick which one in her menu under **Assistant**: **Claude Code**, **DeepSeek's [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)**, and **GPT's [Codex](https://developers.openai.com/codex/)** (the desktop app and the CLI both write the same session logs). The default, **Auto**, follows all three at once and shows whichever chat has something to say. Both builds use native windows and work entirely from local session logs.
+
+## New in 0.2.2
+
+- Stable head and neck across all twelve states, with the original hand and prop motions preserved.
+- Synchronized eye movement with fixed eye corners, plus clean independent blinking.
+- macOS transparent-window redraw fixes for resizing, dragging and display changes.
+- Both downloads use the same updated artwork and lossless runtime pages.
+
+[Full changelog](CHANGELOG.md)
 
 ## Download
 
@@ -27,18 +36,18 @@ Grab the file for your system from the [latest release](https://github.com/leozh
 
 | You use | Download | Then |
 | --- | --- | --- |
-| macOS 13 or newer (Apple silicon and Intel) | `Yukio-0.2.1-macOS.zip` | Unzip, drag `Yukio.app` into Applications, allow it once (below) |
-| Windows 10 / 11, 64-bit | `Yukio-0.2.1-Windows.exe` | Double-click. Python and the artwork are packed inside |
+| macOS 13 or newer (Apple silicon and Intel) | [Yukio-0.2.2-macOS.zip](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.2.2/Yukio-0.2.2-macOS.zip) | Unzip, drag `Yukio.app` into Applications, allow it once (below) |
+| Windows 10 / 11, 64-bit | [Yukio-0.2.2-Windows.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.2.2/Yukio-0.2.2-Windows.exe) | Double-click. Python and the artwork are packed inside |
 
 <details>
 <summary><b>macOS says "Apple could not verify Yukio…"</b></summary>
 
-The app carries only an ad-hoc signature and is not notarized (that needs a paid developer account), so Gatekeeper stops it once. It is not because the app did anything.
+The app carries only an ad-hoc signature and is not notarized (that needs a paid developer account), so Gatekeeper stops it once. You can inspect the source and verify the download checksum before opening it.
 
 1. Double-click `Yukio.app` and click **Done** on the warning.
 2. Open **System Settings › Privacy & Security**, scroll to **Security**, click **Open Anyway** next to the Yukio line, confirm, and enter your password.
 
-Since macOS 15 the old right-click › Open trick no longer bypasses Gatekeeper. From Terminal it is one line instead:
+If you trust this download, you can also remove its quarantine flag from Terminal:
 
 ```sh
 xattr -dr com.apple.quarantine /Applications/Yukio.app
@@ -51,7 +60,7 @@ Builds you compile yourself are not quarantined and never show this.
 <details>
 <summary><b>Windows says "Windows protected your PC"</b></summary>
 
-The exe is not code-signed. Click **More info**, then **Run anyway**. Windows asks only once.
+The exe is not code-signed. Click **More info**, then **Run anyway**. Only proceed if you trust the download.
 
 </details>
 
@@ -62,14 +71,14 @@ Once running, Yukio appears in the bottom-right corner of the screen and a small
 ## What she does
 
 - **Twelve states, one character.** Thinking, reading files, viewing an image, writing files, running tests, browsing the web, handing in the answer, the ✅ done card, the ❓ question card, other work, something failed, idle. The mapping from each agent's tools to a state is explicit and covered by tests (one set of rules for all three: shell commands are classified the same way whether they arrive as Claude's `Bash`, Deep Code's `bash`, or Codex's `exec`). Unknown work falls back to typing at the computer instead of guessing.
-- **Micro-motions, not slideshows.** Every state is one approved base image that a generator brings to life in small, continuous moves: the pen travels along the line, the magnifier sweeps the photo, a finger scrolls the tablet, two hands take turns on the keyboard, eyes blink in the right skin tone. The desk and chair never shift by a pixel, and the generator checks that. 20 to 30 frames per second.
+- **Micro-motions, not slideshows.** Every state is one approved base image that a generator brings to life in small, continuous moves: the pen travels along the line, the magnifier sweeps the photo, a finger scrolls the tablet, two hands take turns on the keyboard, eyes blink in the right skin tone. The desk and chair never shift by a pixel, and the generator checks that. The artwork uses a 50 fps timeline; the desktop player updates at 30 Hz.
 - **She tells you when it is your turn.** After the final answer she holds up the ✅ card and keeps holding it until you click. `AskUserQuestion` raises the ❓ card instead. Click her and the Claude desktop app opens that exact chat through its own `claude://` link. If that chat is already in front of you, she skips the card altogether.
 - **Answer without leaving your seat.** When the ❓ card goes up, the question itself is copied onto a card beside her, options and all. Click an option — or type your own answer — and Yukio brings that chat to the front and puts the answer in for you (macOS asks once for Accessibility permission; Windows needs none). If that app doesn't come to the front, she presses nothing at all and just leaves the answer on the clipboard.
 - **A bubble over her head.** The session title on top, the current step below, taken from the task list when there is one and otherwise from the tool: "Edit main.swift", "$ swift test", "developer.apple.com". A progress count and a thin bar sit beside it. Only file names, the first words of a command, and domains ever appear.
 - **Several chats at once.** She can only act out one chat, so she picks the one that needs you: waiting for your answer, then stopped on an error, then done and holding a card, then whatever is still running. Every other chat becomes a small card stacked on top of the bubble. Click the bubble to fan them out, click a card to switch to that chat, or pin one chat from the menu.
 - **Pick her up.** Drag her and she dangles from an invisible hand like a kitten held by the scruff: a damped pendulum with inertia, air drag, and a little sag when you yank upward. Let go and she settles in about a second.
-- **Private by design.** She only reads the session logs the agents already write to disk, read-only. No network, no changes to any tool's settings, no conversation content stored or shown.
-- **Paged artwork, bounded memory.** Release builds keep the original lossless atlases for fidelity but render from small, pixel-identical pages. The page cache is capped at 32 MiB on macOS and 64 MiB on Windows instead of expanding the roughly 1 GB full atlas set at once. The macOS app still has no third-party runtime dependencies.
+- **Private by design.** She only reads the session logs the agents already write to disk, read-only. No network requests and no changes to agent settings. Task titles and pending questions appear locally; answering a question uses the clipboard and foreground app controls.
+- **Paged artwork, bounded memory.** Release builds render from small, pixel-identical pages derived from the original lossless atlases. The page cache is capped at 32 MiB on macOS and 64 MiB on Windows instead of expanding the roughly 1 GB full atlas set at once. The macOS app still has no third-party runtime dependencies.
 
 ## A day at the desk
 
@@ -115,7 +124,7 @@ These logs are internal to those tools, not public APIs. If a format changes she
 ```sh
 git clone https://github.com/leozhang8654/yukio-desktop-pet
 cd yukio-desktop-pet/YukioPlayer
-swift test                      # 135 tests: routing, blink timing, classification, parsers, bubble text, timelines, chat picking, questions
+swift test                      # 139 tests: routing, blink timing, classification, parsers, bubble text, timelines, chat picking, questions
 ./scripts/build-app.sh          # build/Yukio.app
 open build/Yukio.app
 cd ../YukioWin && pip3 install pillow && python3 scripts/prepare-windows-assets.py
@@ -146,19 +155,20 @@ Both players have window-less modes for poking around: `--demo`, `--replay sessi
 | `sources/` | High-resolution generation sources, magenta-keyed |
 | `references/` | Contact sheet, generation prompts, image inventory |
 | `docs/readme/` | The images on this page, and `make_images.py` to regenerate them |
-| `HANDOFF.md` | Design log: requirements, feedback, and what changed when (Chinese) |
-| `START_HERE.md`, `PLAYER_REQUIREMENTS.md`, `CONTINUE_PROMPT.txt`, `native-current/`, `preview.html` | The original hand-off bundle, kept for history |
+| [`docs/HANDOFF.md`](docs/HANDOFF.md) | Design log: requirements, feedback, and changes (Chinese) |
+| [`docs/history/`](docs/history/README.md) | Original hand-off bundle and early native pet snapshot |
+| [`sources/approved-animation-rig/`](sources/approved-animation-rig/README.md) | Reviewed artwork, component masks and reproducible animation inputs |
 
 ## Good to know
 
 - English by default. Right-click Yukio to open Settings, where Language can be switched to 中文; the choice is remembered. Descriptions already attached to earlier events keep their language until the next event arrives. The command-line check modes still print their diagnostics in Chinese.
-- The art is drawn and animated at 192×208, then shipped as 2x sheets (384×416; the picked-up frame 384×480) upscaled with an anime super-resolution model. The old thick, blurry dark fringe from keying is gone; a thin half-point outline is drawn around her instead. She stays crisp on Retina and HiDPI screens; above 200% she starts to soften again.
+- The current animations use reviewed 384×416 artwork directly (384×480 for the picked-up pose), displayed at 192×208 points by default. The production workflow preserves these 2x sources without another upscaling pass. The old thick, blurry dark fringe from keying is gone; a thin half-point outline is drawn around her instead. She stays crisp on Retina and HiDPI screens; above 200% she starts to soften again.
 - Click-to-jump needs a desktop app: the Claude app for Claude Code chats, the Codex app for Codex chats (`codex://threads/<id>`). An agent run in a terminal has no chat window to open, so a click only brings that app to the front. Deep Code chats live in the terminal, so there a click simply lowers the card. Verified on macOS; the Windows path is written the same way but has not been tried on a real machine yet.
 - Size is a 50 to 200% slider on macOS and seven steps plus ±5% nudges on Windows, because a native Win32 menu cannot hold a slider.
-- The binaries are unsigned and not notarized. Building from source avoids the first-launch prompts.
+- The macOS app is ad-hoc signed and not notarized; the Windows exe is unsigned. Building from source avoids the first-launch prompts.
 
 ## How the art is made
 
-The character was drawn by ChatGPT's image model from a fixed reference sheet, then keyed, cropped, and animated by the Python tools in `YukioPlayer/tools/`. The animation is deliberately not generated frame by frame. Each state has a single confirmed base image. Parts that need to move visibly, such as a hand, the pen, the magnifier, or the papers, are lifted onto their own layer and moved by two to five pixels with the hole filled in behind them. Head and eyes use small local warps. Every output frame is checked so the desk legs stay exactly where they were. The finished frames are then upscaled to 2x with Real-ESRGAN's anime model and given a thin dark outline, and anything that stays still at 1x is kept pixel-identical across frames at 2x too.
+Each state uses approved artwork and corrected SAM 2.1 component masks. The head and neck stay fixed, while hands, attached props, reading gaze and independent eyelids retain their reviewed animation. The production generator reuses the existing 2x sources directly; see [animation inputs and workflow](sources/approved-animation-rig/README.md).
 
 If Yukio makes your day at the keyboard a little nicer, a ⭐ helps other people find her.

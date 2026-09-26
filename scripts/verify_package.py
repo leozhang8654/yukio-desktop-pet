@@ -20,7 +20,7 @@ def referenced_file(folder, relative):
 
 
 def main():
-    checksums = read_json("SHA256SUMS.json")
+    checksums = read_json("docs/history/SHA256SUMS.json")
     for relative, expected in checksums.items():
         file = referenced_file("", relative)
         actual = hashlib.sha256(file.read_bytes()).hexdigest()
@@ -62,10 +62,10 @@ def main():
     if len(base["lookAnglesDegrees"]) != 16:
         raise ValueError("Expected 16 look directions")
 
-    native = read_json("native-current/pet.json")
+    native = read_json("docs/history/native-current/pet.json")
     if native["id"] != "yukio-codex-maid" or native["spriteVersionNumber"] != 2:
         raise ValueError("Unexpected current native pet")
-    referenced_file("native-current", native["spritesheetPath"])
+    referenced_file("docs/history/native-current", native["spritesheetPath"])
     print(f"PASS: {len(checksums)} files verified; {len(states)} activity assets, "
           f"{len(base['animations'])} base strips, and one native pet snapshot.")
     print("This verifies the asset handoff, not a completed desktop application.")

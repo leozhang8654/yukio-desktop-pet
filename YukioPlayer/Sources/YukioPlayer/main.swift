@@ -968,6 +968,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let origin = NSPoint(x: old.midX - size.width / 2, y: old.minY)
         panel.setFrame(NSRect(origin: origin, size: size), display: true)
         view.frame = NSRect(origin: .zero, size: size)
+        render()
         clampToScreen()
         savePosition()
         positionBubble()

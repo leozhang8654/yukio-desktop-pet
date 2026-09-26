@@ -11,5 +11,6 @@ let package = Package(
         .target(name: "YukioCore"),
         .executableTarget(name: "YukioPlayer", dependencies: ["YukioCore"]),
         .testTarget(name: "YukioCoreTests", dependencies: ["YukioCore"]),
+        .testTarget(name: "YukioPlayerTests", dependencies: ["YukioPlayer"]),
     ]
 )

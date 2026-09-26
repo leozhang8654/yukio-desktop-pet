@@ -1,0 +1,5954 @@
+{
+  "source_motion": "Claude original reference",
+  "coordinate_space": "transforms in 192x208 display pixels; head and gaze in 384x416 atlas pixels",
+  "timing": {
+    "seed": 7937,
+    "period": 4.02,
+    "intro": 1.4,
+    "parts": [],
+    "gaze_x": [
+      [
+        0,
+        0
+      ]
+    ],
+    "gaze_y": [
+      [
+        0,
+        0
+      ]
+    ],
+    "amplitude_profile": "Claude-original-display-pixels",
+    "rhythm_profile": "direct-legacy-callables",
+    "source": "tools/motion/make_motion.py",
+    "source_period_seconds": 4.0,
+    "seam_duplicate_ms": 20,
+    "retained_exceptions": [
+      "current art and attachment pinning",
+      "independent curved eyelids",
+      "messages play once then hold",
+      "failed retains current bowed pose",
+      "report does not introduce newly drawn loose paper sheets"
+    ],
+    "review_revision": "round_13-local-readability",
+    "blink_events": [
+      {
+        "start": 4.110700665228069,
+        "duration": 0.19554808070883153,
+        "double": false
+      },
+      {
+        "start": 9.066653871079907,
+        "duration": 0.1901412218809128,
+        "double": false
+      },
+      {
+        "start": 14.092329808333888,
+        "duration": 0.19168746368959547,
+        "double": false
+      },
+      {
+        "start": 19.39607883958146,
+        "duration": 0.18137571286410092,
+        "double": false
+      },
+      {
+        "start": 19.75437241071835,
+        "duration": 0.21692695511505009,
+        "double": true
+      },
+      {
+        "start": 23.760835985112934,
+        "duration": 0.2530036524124444,
+        "double": false
+      },
+      {
+        "start": 30.831341114258393,
+        "duration": 0.19975322868674994,
+        "double": false
+      },
+      {
+        "start": 31.185674405274913,
+        "duration": 0.2371348967961967,
+        "double": true
+      },
+      {
+        "start": 34.379003476826476,
+        "duration": 0.2123851458914578,
+        "double": false
+      },
+      {
+        "start": 41.255521360039715,
+        "duration": 0.24735382895916702,
+        "double": false
+      },
+      {
+        "start": 45.38062140408904,
+        "duration": 0.2392411128990352,
+        "double": false
+      },
+      {
+        "start": 49.3771578239929,
+        "duration": 0.19452147983014584,
+        "double": false
+      },
+      {
+        "start": 56.35531189770438,
+        "duration": 0.21875839659944177,
+        "double": false
+      },
+      {
+        "start": 61.0437217524834,
+        "duration": 0.2559030828252435,
+        "double": false
+      },
+      {
+        "start": 64.47269083464518,
+        "duration": 0.18521964078769088,
+        "double": false
+      },
+      {
+        "start": 64.78206253105775,
+        "duration": 0.21927442863583566,
+        "double": true
+      },
+      {
+        "start": 68.17988832303324,
+        "duration": 0.2599913983419538,
+        "double": false
+      },
+      {
+        "start": 73.17701243215241,
+        "duration": 0.25270270368084313,
+        "double": false
+      },
+      {
+        "start": 78.7462406380102,
+        "duration": 0.1991046968102455,
+        "double": false
+      },
+      {
+        "start": 81.8906201070361,
+        "duration": 0.25012776600196956,
+        "double": false
+      },
+      {
+        "start": 85.77978553648109,
+        "duration": 0.24777577083557845,
+        "double": false
+      },
+      {
+        "start": 86.16041055700742,
+        "duration": 0.19622696859762073,
+        "double": true
+      },
+      {
+        "start": 91.98063313006423,
+        "duration": 0.21190472247079015,
+        "double": false
+      },
+      {
+        "start": 98.3177797903493,
+        "duration": 0.1862481104955077,
+        "double": false
+      },
+      {
+        "start": 102.60748203918338,
+        "duration": 0.20268768547102808,
+        "double": false
+      },
+      {
+        "start": 109.72441368191504,
+        "duration": 0.2431322804838419,
+        "double": false
+      },
+      {
+        "start": 116.251073075803,
+        "duration": 0.25542713308706877,
+        "double": false
+      },
+      {
+        "start": 119.72705056210981,
+        "duration": 0.24796530593186616,
+        "double": false
+      },
+      {
+        "start": 125.10586919521914,
+        "duration": 0.21858867725357414,
+        "double": false
+      },
+      {
+        "start": 130.03023085915484,
+        "duration": 0.22518366783857346,
+        "double": false
+      },
+      {
+        "start": 130.3683909284789,
+        "duration": 0.22356809424236418,
+        "double": true
+      },
+      {
+        "start": 135.54205499756148,
+        "duration": 0.22369536017999053,
+        "double": false
+      },
+      {
+        "start": 140.53308340189977,
+        "duration": 0.24146310612559319,
+        "double": false
+      },
+      {
+        "start": 146.93540660925208,
+        "duration": 0.1885996169038117,
+        "double": false
+      },
+      {
+        "start": 150.0613613134343,
+        "duration": 0.19463119205087423,
+        "double": false
+      },
+      {
+        "start": 150.42933527820742,
+        "duration": 0.19765093145892024,
+        "double": true
+      },
+      {
+        "start": 155.29452130430377,
+        "duration": 0.20371213035658,
+        "double": false
+      },
+      {
+        "start": 160.93477164810523,
+        "duration": 0.19068990122526883,
+        "double": false
+      },
+      {
+        "start": 164.4028164100088,
+        "duration": 0.20839916301891206,
+        "double": false
+      },
+      {
+        "start": 170.6562321689818,
+        "duration": 0.22268316082656384,
+        "double": false
+      },
+      {
+        "start": 171.05287271191366,
+        "duration": 0.19033424714580177,
+        "double": true
+      },
+      {
+        "start": 175.7030366448965,
+        "duration": 0.21427244512364269,
+        "double": false
+      },
+      {
+        "start": 176.0560406112578,
+        "duration": 0.1842735231667757,
+        "double": true
+      }
+    ],
+    "intensity": [
+      1.625,
+      1.625,
+      1.625,
+      1.625,
+      1.625,
+      1.625,
+      1.625,
+      1.625,
+      1.625,
+      1.625,
+      1.625,
+      1.625,
+      1.625,
+      1.6569,
+      1.8923,
+      2.3125,
+      2.8647,
+      3.4961,
+      4.1539,
+      4.7853,
+      5.3375,
+      5.7577,
+      5.9931,
+      5.9509,
+      5.43019,
+      4.57302,
+      3.57165,
+      2.61835,
+      1.90538,
+      1.625,
+      1.5896,
+      1.8328,
+      2.0662,
+      2.5014,
+      2.85,
+      3.1986,
+      3.5088,
+      3.7422,
+      3.8604,
+      3.825,
+      3.46296,
+      2.74537,
+      1.975,
+      1.07963,
+      0.36204,
+      0.125,
+      0.1988,
+      0.7384,
+      1.5336,
+      2.4992,
+      3.55,
+      4.6008,
+      5.5664,
+      6.3616,
+      6.9012,
+      7.1,
+      7.1,
+      7.1,
+      7.1,
+      7.1,
+      7.1,
+      7.1,
+      7.1,
+      7.00954,
+      6.3616,
+      5.25926,
+      3.90447,
+      2.4992,
+      1.24539,
+      0.34501,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "clock": "Persistent wall clock; events are independent of action loops."
+  },
+  "sampled_parameters": [
+    {
+      "seconds": 0.0,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.02,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.04,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.06,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.08,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.1,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.12,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.14,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.16,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.18,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.2,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.22,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.24,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.26,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -0.01595000000000003,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.28,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -0.13365000000000024,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.3,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -0.34375000000000056,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.32,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -0.619850000000001,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.34,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -0.9355500000000013,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.36,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -1.264449999999998,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.38,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -1.5801499999999986,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.4,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -1.8562500000000006,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.42,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -2.0663499999999995,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.44,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -2.18405,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.46,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -2.1629494765589445,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.48,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -1.9025944469731457,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.5,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -1.4740100136549839,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.52,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -0.9733272644515238,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.54,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -0.4966772872098302,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.6
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.56,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -0.14019116977696733,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.5971909867819678
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.58,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.575554620507538
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.6,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -0.044800000000000055,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.534417666603793
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.62,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -0.16640000000000021,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.4760087636569408
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.64,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -0.3456000000000003,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.4025565502531885
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.66,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -0.5632000000000005,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.316289664978744
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.68,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -0.8000000000000006,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.219436746419814
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.7,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -1.0367999999999995,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.1142264331626068
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.72,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -1.2543999999999997,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        1.0028873637933289
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.74,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -1.4336,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.8876481768981879
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.76,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -1.5552000000000001,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.7707375110633914
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.78,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -1.6,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.6543840048751468
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.8,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -1.4814814814814814,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.5408162969196615
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.82,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -1.1851851851851867,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.43226302578314324
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.84,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -0.8000000000000012,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.3309528300517983
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.86,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -0.4148148148148154,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.2391143483118352
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.88,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -0.11851851851851891,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.15897621914946103
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.9,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.09276708115088272
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.92,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -0.08960000000000011,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.04271557290230832
+      ],
+      "head": [
+        -0.01960000000000002,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.94,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -0.3327999999999987,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.011050332989944955
+      ],
+      "head": [
+        -0.07279999999999971,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.96,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -0.6911999999999985,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.0
+      ],
+      "head": [
+        -0.15119999999999964,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 0.98,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -1.1263999999999985,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.0
+      ],
+      "head": [
+        -0.24639999999999965,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.0,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -1.5999999999999988,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.0
+      ],
+      "head": [
+        -0.34999999999999964,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.02,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -2.073599999999999,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.0
+      ],
+      "head": [
+        -0.4535999999999997,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.04,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -2.5087999999999995,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.0
+      ],
+      "head": [
+        -0.5487999999999998,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.06,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -2.8672,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.0
+      ],
+      "head": [
+        -0.6271999999999999,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.08,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -3.1104000000000003,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.0
+      ],
+      "head": [
+        -0.6803999999999999,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.1,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -3.2,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.0
+      ],
+      "head": [
+        -0.7,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.12,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -3.2,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.0
+      ],
+      "head": [
+        -0.7,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.14,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -3.2,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.0
+      ],
+      "head": [
+        -0.7,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.16,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -3.2,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.0
+      ],
+      "head": [
+        -0.7,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.18,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -3.2,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.0
+      ],
+      "head": [
+        -0.7,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.2,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -3.2,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.0
+      ],
+      "head": [
+        -0.7,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.22,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -3.2,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.0
+      ],
+      "head": [
+        -0.7,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.24,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -3.2,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.0
+      ],
+      "head": [
+        -0.7,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.26,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -3.1592296296296296,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.0
+      ],
+      "head": [
+        -0.6910814814814814,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.28,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -2.867199999999999,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.0
+      ],
+      "head": [
+        -0.6271999999999998,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.3,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -2.370370370370368,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.0
+      ],
+      "head": [
+        -0.518518518518518,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.32,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -1.7597629629629594,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.0
+      ],
+      "head": [
+        -0.3849481481481474,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.34,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -1.126399999999996,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.0
+      ],
+      "head": [
+        -0.24639999999999912,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.36,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -0.5613037037036996,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.0
+      ],
+      "head": [
+        -0.12278518518518428,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.38,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          -0.1554962962962968,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.0
+      ],
+      "head": [
+        -0.034014814814814914,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.4,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0.0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.42,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.44,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.46,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.48,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.5,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.52,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.54,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.56,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.58,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.6,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.62,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.64,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.66,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.68,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.7,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.72,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.74,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.76,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.78,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.8,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.82,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.84,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.86,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.88,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.9,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.92,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.94,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.96,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 1.98,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.0,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.02,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.04,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.06,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.08,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.1,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.12,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.14,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.16,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.18,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.2,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.22,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.24,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.26,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.28,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.3,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.32,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.34,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.36,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.38,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.4,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.42,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.44,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.46,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.48,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.5,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.52,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.54,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.56,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.58,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.6,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.62,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.64,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.66,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.68,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.7,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.72,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.74,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.76,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.78,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.8,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.82,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.84,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.86,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.88,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.9,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.92,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.94,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.96,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 2.98,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.0,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.02,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.04,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.06,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.08,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.1,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.12,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.14,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.16,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.18,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.2,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.22,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.24,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.26,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.28,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.3,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.32,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.34,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.36,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.38,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.4,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.42,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.44,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.46,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.48,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.5,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.52,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.54,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.56,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.58,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.6,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.62,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.64,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.66,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.68,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.7,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.72,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.74,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.76,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.78,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.8,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.82,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.84,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.86,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.88,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.9,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.92,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.94,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.96,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 3.98,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.0,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.02,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.04,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.06,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.08,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.1,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.12,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.14,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.16,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.18,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.2,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.22,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.24,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.26,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.28,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.3,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.32,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.34,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.36,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.38,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.4,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.42,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.44,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.46,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.48,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.5,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.52,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.54,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.56,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.58,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.6,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.62,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.64,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.66,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.68,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.7,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.72,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.74,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.76,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.78,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.8,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.82,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.84,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.86,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.88,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.9,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.92,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.94,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.96,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 4.98,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 5.0,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 5.02,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 5.04,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 5.06,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 5.08,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 5.1,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 5.12,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 5.14,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 5.16,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 5.18,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 5.2,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 5.22,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 5.24,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 5.26,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 5.28,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 5.3,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 5.32,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 5.34,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 5.36,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 5.38,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    },
+    {
+      "seconds": 5.4,
+      "parts": {},
+      "transforms": {
+        "report_hands": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0,
+        0
+      ],
+      "head": [
+        -0.0,
+        0
+      ],
+      "head_x": 0.0
+    }
+  ],
+  "mask_sha256": {
+    "head-mask.png": "ac04516dbeb9e86f3d700037b525fafd763915db65c3700dc1fe198410d01c45",
+    "allowed-mask.png": "27bad258d51eb5f5c3f54da125ac55071942c1e1670a5166885dd5d67387eb19",
+    "report_hands-mask.png": "ee54f87936d9a363ff2ea4a48e551ec1cba3c49c916c656a5aadf2fa6220d647"
+  },
+  "attachment_pinning": true
+}

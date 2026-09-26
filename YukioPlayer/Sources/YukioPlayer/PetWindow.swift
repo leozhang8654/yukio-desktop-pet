@@ -55,8 +55,6 @@ final class PetView: NSView {
     /// 这次按下是为了弹菜单（按住 control），松手不算点击。
     private var suppressClick = false
     private var current: SpriteLibrary.Frame?
-    /// 单独一层放图：窗口为了容下摆动会比图大，图还要绕抓手那一点转。
-    private let sprite = CALayer()
     private var placement = SpritePlacement(rect: .zero, pivot: .zero, angle: 0)
     private var mouseStart: NSPoint = .zero
     private var originStart: NSPoint = .zero
@@ -64,13 +62,12 @@ final class PetView: NSView {
 
     override init(frame: NSRect) {
         super.init(frame: frame)
+        // Let AppKit publish one complete transparent backing surface. Updating
+        // only a child CALayer bypasses view invalidation and can leave stale
+        // rectangular clipping on the display after window/backing changes.
         wantsLayer = true
-        layer?.backgroundColor = NSColor.clear.cgColor
-        sprite.contentsGravity = .resize
-        sprite.magnificationFilter = .linear
-        sprite.minificationFilter = .trilinear
-        layer?.addSublayer(sprite)
-        apply(.filling(bounds))
+        layerContentsRedrawPolicy = .onSetNeedsDisplay
+        placement = .filling(bounds)
     }
 
     required init?(coder: NSCoder) { fatalError("not used") }
@@ -81,24 +78,39 @@ final class PetView: NSView {
     func show(_ frame: SpriteLibrary.Frame, _ where_: SpritePlacement) {
         let sameImage = current?.image === frame.image
         if sameImage && where_ == placement { return }
-        CATransaction.begin()
-        CATransaction.setDisableActions(true)
-        if !sameImage {
-            sprite.contents = frame.image
-            current = frame
-        }
-        if where_ != placement { apply(where_) }
-        CATransaction.commit()
+        current = frame
+        placement = where_
+        // Invalidate the old and new silhouette, including pixels becoming
+        // transparent when an animation, blink, or swing changes.
+        needsDisplay = true
     }
 
-    private func apply(_ p: SpritePlacement) {
-        placement = p
-        guard p.rect.width > 0, p.rect.height > 0 else { return }
-        sprite.bounds = CGRect(origin: .zero, size: p.rect.size)
-        sprite.anchorPoint = CGPoint(x: (p.pivot.x - p.rect.minX) / p.rect.width,
-                                     y: (p.pivot.y - p.rect.minY) / p.rect.height)
-        sprite.position = p.pivot
-        sprite.transform = CATransform3DMakeRotation(p.angle, 0, 0, 1)
+    override func draw(_ dirtyRect: NSRect) {
+        guard let context = NSGraphicsContext.current?.cgContext else { return }
+        context.saveGState()
+        defer { context.restoreGState() }
+        context.clear(bounds)
+        guard let frame = current, placement.rect.width > 0, placement.rect.height > 0 else { return }
+        context.interpolationQuality = .high
+        context.translateBy(x: placement.pivot.x, y: placement.pivot.y)
+        context.rotate(by: placement.angle)
+        context.translateBy(x: -placement.pivot.x, y: -placement.pivot.y)
+        context.draw(frame.image, in: placement.rect)
+    }
+
+    override func setFrameSize(_ newSize: NSSize) {
+        super.setFrameSize(newSize)
+        needsDisplay = true
+    }
+
+    override func viewDidChangeBackingProperties() {
+        super.viewDidChangeBackingProperties()
+        needsDisplay = true
+    }
+
+    override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        needsDisplay = true
     }
 
     /// point：窗口内坐标（左下原点）。晃动时先把点转回竖直状态再查像素，歪着也能准确点中。

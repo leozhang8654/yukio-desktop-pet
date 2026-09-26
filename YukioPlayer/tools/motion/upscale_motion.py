@@ -390,4 +390,7 @@ def main():
 
 
 if __name__ == '__main__':
+    if '--legacy' not in sys.argv:
+        raise SystemExit('历史超分入口已停用：正式素材请用 make_motion.py，复用已验收的 2 倍 SAM 图层。仅复现实验时显式传 --legacy。')
+    sys.argv.remove('--legacy')
     main()

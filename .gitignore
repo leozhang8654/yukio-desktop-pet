@@ -21,3 +21,10 @@ __pycache__/
 
 # Windows 冒烟测试产物
 YukioWin/smoke/
+
+# 按版本归档的本地发布安装包
+artifacts/releases/
+
+# Local installed-app backups
+artifacts/app-backups/
+YukioWin/smoke-150/

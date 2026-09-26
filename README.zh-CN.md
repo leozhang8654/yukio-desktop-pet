@@ -19,7 +19,16 @@
 
 **雪绪**是个白发蓝眼的管家少女，待在屏幕角落，实时演着你的 AI 编码助手正在做的事：Claude Code 读文件，她翻开书；改代码，她提起笔；跑测试，她对着两份文件逐行核对；答完了，她举起 ✅ 牌一直等你。点她一下，直接跳回刚答完的那条聊天。
 
-她认三家助手，在菜单「跟随的助手」里挑：**Claude Code**、**DeepSeek 的 [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)**、**GPT 的 [Codex](https://developers.openai.com/codex/)**（桌面版与命令行写的是同一份会话记录）。默认的**自动**三家一起跟，谁有话说就显示谁。两版都是原生实现，体积很小，完全不联网。
+她认三家助手，在菜单「跟随的助手」里挑：**Claude Code**、**DeepSeek 的 [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)**、**GPT 的 [Codex](https://developers.openai.com/codex/)**（桌面版与命令行写的是同一份会话记录）。默认的**自动**三家一起跟，谁有话说就显示谁。两版都使用原生窗口，完全基于本机会话记录工作。
+
+## 0.2.2 更新
+
+- 十二种状态的头颈保持稳定，保留原来的手部与道具动作。
+- 双眼同步转动、眼角固定，修正眨眼时的虹膜残留。
+- 修复 macOS 缩放、拖动及显示环境变化时的透明窗口重绘问题。
+- 两个平台下载包使用同一套更新后的动画和无损分页素材。
+
+[完整更新记录](CHANGELOG.md)
 
 ## 下载（不用编译）
 
@@ -27,18 +36,18 @@
 
 | 你用的是 | 下载 | 怎么开 |
 | --- | --- | --- |
-| macOS 13 或更新（Apple 芯片与 Intel 通用） | `Yukio-0.2.1-macOS.zip` | 解压，把 `Yukio.app` 拖进「应用程序」，第一次按下面放行一次 |
-| Windows 10 / 11（64 位） | `Yukio-0.2.1-Windows.exe` | 双击就开。Python 和素材都打包在里面 |
+| macOS 13 或更新（Apple 芯片与 Intel 通用） | [Yukio-0.2.2-macOS.zip](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.2.2/Yukio-0.2.2-macOS.zip) | 解压，把 `Yukio.app` 拖进「应用程序」，第一次按下面放行一次 |
+| Windows 10 / 11（64 位） | [Yukio-0.2.2-Windows.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.2.2/Yukio-0.2.2-Windows.exe) | 双击就开。Python 和素材都打包在里面 |
 
 <details>
 <summary><b>macOS 第一次打开：「Apple 无法验证“Yukio”是否包含可能危害 Mac 安全或泄漏隐私的恶意软件」</b></summary>
 
-这是因为它只有本机临时签名、没有做苹果公证（需要付费的开发者账号），不是因为它做了什么。放行一次，以后正常双击：
+这是因为它只有本机临时签名、没有做苹果公证（需要付费的开发者账号），可以先检查源码和下载校验值，再决定是否打开：
 
 1. 双击 `Yukio.app`，在提示框上点「完成」；
 2. 打开「系统设置 › 隐私与安全性」，往下滚到「安全性」一栏，在“已阻止使用「Yukio」…”那行右边点**「仍要打开」**，在弹窗里再点一次并输入密码。
 
-macOS 15 起，右键→「打开」这个老办法已经绕不过 Gatekeeper，只能走系统设置。用终端也可以一行解决：
+确认信任下载来源后，也可以用终端移除隔离标记：
 
 ```sh
 xattr -dr com.apple.quarantine /Applications/Yukio.app
@@ -51,7 +60,7 @@ xattr -dr com.apple.quarantine /Applications/Yukio.app
 <details>
 <summary><b>Windows 第一次打开：蓝色的「Windows 已保护你的电脑」</b></summary>
 
-这个程序没有买代码签名证书。点**「更多信息」**，再点**「仍要运行」**，以后不再问。
+这个程序没有买代码签名证书。点**「更多信息」**，再点**「仍要运行」**，确认信任下载来源后再继续。
 
 </details>
 
@@ -62,14 +71,14 @@ xattr -dr com.apple.quarantine /Applications/Yukio.app
 ## 她会做什么
 
 - **十二种状态，同一只她。** 思考、读文件、看图片、写文件、跑测试、看网页、递交回答、✅ 勾选卡、❓ 问号卡、其他工作、出错、空闲。每家助手的工具对应哪个状态都写得清清楚楚，逐条有测试；三家共用同一套规则（同一条 shell 命令，不管是 Claude 的 `Bash`、Deep Code 的 `bash` 还是 Codex 的 `exec`，判出来一样）；认不出的工作一律坐在电脑前敲键盘，不瞎猜。
-- **小幅、连续、不抽搐。** 每个状态只有一张定稿的底图，动作由脚本生成：笔沿着一行往右写，放大镜在照片上来回扫，手指在平板上往上划，两只手轮流敲键盘，眨眼时眼皮用的是脸颊的肤色。桌椅逐像素不动，生成时会自动检查。每秒 20 到 30 帧。
+- **小幅、连续、不抽搐。** 每个状态只有一张定稿的底图，动作由脚本生成：笔沿着一行往右写，放大镜在照片上来回扫，手指在平板上往上划，两只手轮流敲键盘，眨眼时眼皮用的是脸颊的肤色。桌椅逐像素不动，生成时会自动检查。素材时间轴为每秒 50 帧，桌面播放器以 30 Hz 更新。
 - **轮到你的时候她会举牌。** 答完先递交报告，然后举起 ✅ 牌，一直举到你点她为止；`AskUserQuestion` 等你拿主意时立起 ❓ 牌。点她一下，桌面版 Claude 就用它自己的 `claude://` 深链打开那条聊天。那条聊天要是已经开在你眼前，她干脆不举。
 - **不用跑回聊天也能答。** ❓ 牌立起来时，那道题连同选项就抄在她身边的卡片上。点一个选项，或者自己写一句，雪绪把那条聊天带到最前面替你送进去（macOS 第一次会要一次「辅助功能」权限，Windows 不用）。那个应用没被带到前面时，她一个键都不按，只把答案留在粘贴板里。
 - **头顶一个小气泡。** 上行是聊天标题，下行是当前这一步：有任务清单时取进行中的那一项，没有就取正在跑的工具，“编辑 main.swift”“$ swift test”“developer.apple.com”。旁边是已完成／总数和一条细进度条。气泡里只出现文件名、命令的前几个词和网址域名。
 - **几条聊天一起跑也不乱。** 她一次只能演一条，所以先演最需要你的那条：等你回答的，然后是出错停住的，然后是答完举着牌的，最后才是还在干活的。其余每条聊天各一张小卡，压着气泡往上叠。点气泡摊开，点一张就换到那条聊天，也可以在菜单里挑定一条只跟它。
 - **拎起来会晃。** 按住她拖，她像被一只看不见的大手捏着后领的小猫：单摆带惯性，匀速时略微后仰，猛地往上一提会先坠一下再弹回来。松手大约一秒晃停。
-- **只读、不联网、不留对话。** 她只看这些工具本来就写在本机的会话记录，只读不写。不联网，不改任何工具的设置，不保存也不显示对话内容。
-- **分页加载，内存有上限。** 正式包保留无损原图集保证素材完整，但运行时读取逐像素一致的小分页；macOS 页缓存上限 32 MiB，Windows 上限 64 MiB，不再一次性展开约 1 GB 的整套图集。macOS 运行时仍然没有第三方依赖。
+- **本机处理，不联网。** 会话记录只读，不修改助手设置。任务标题与待回答的问题会显示在本机；回答问题时会使用粘贴板和前台应用控制。
+- **分页加载，内存有上限。** 正式包运行时读取由无损原图集生成、逐像素一致的小分页；macOS 页缓存上限 32 MiB，Windows 上限 64 MiB，不再一次性展开约 1 GB 的整套图集。macOS 运行时仍然没有第三方依赖。
 
 ## 桌前的一天
 
@@ -115,7 +124,7 @@ xattr -dr com.apple.quarantine /Applications/Yukio.app
 ```sh
 git clone https://github.com/leozhang8654/yukio-desktop-pet
 cd yukio-desktop-pet/YukioPlayer
-swift test                      # 135 个测试：路由、眨眼时序、分类、解析、气泡文字、动作时间线、聊天选择、抄题
+swift test                      # 139 个测试：路由、眨眼时序、分类、解析、气泡文字、动作时间线、聊天选择、抄题
 ./scripts/build-app.sh          # 生成 build/Yukio.app
 open build/Yukio.app
 cd ../YukioWin && pip3 install pillow && python3 scripts/prepare-windows-assets.py
@@ -146,19 +155,20 @@ powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1    # 打出 dist\
 | `sources/` | 高分辨率生成源图（洋红底） |
 | `references/` | 动作总览、生成提示词、图片清单 |
 | `docs/readme/` | 本页用到的图，以及重新生成它们的 `make_images.py` |
-| `HANDOFF.md` | 设计记录：需求、用户反馈、什么时候改了什么 |
-| `START_HERE.md`、`PLAYER_REQUIREMENTS.md`、`CONTINUE_PROMPT.txt`、`native-current/`、`preview.html` | 最初的接续包，留作历史 |
+| [`docs/HANDOFF.md`](docs/HANDOFF.md) | 设计记录：需求、用户反馈、什么时候改了什么 |
+| [`docs/history/`](docs/history/README.md) | 最初的接续包与早期原生宠物快照 |
+| [`sources/approved-animation-rig/`](sources/approved-animation-rig/README.md) | 已验收主图、小部件蒙版与可复现的动画输入 |
 
 ## 先说清楚的几件事
 
 - 界面默认英文，右键雪绪打开设置后，可在「Language」中切换中文，选择会记住。已经写进事件里的说明文字（比如“阅读 main.swift”）要到下一条事件才换语言。
-- 素材按 192×208 画和做动作，发出去的是 2 倍图条（384×416，被拎起来那张 384×480），用动画专用的超分模型放大。原来抠图留下的那圈又粗又糊的黑边去掉了，换成轮廓外一圈 0.5 点的细描边。Retina／高分屏上放大也是清楚的；超过 200% 才会重新变软。
+- 当前动作直接使用已验收的 384×416 素材（被拎起来那张 384×480），默认按 192×208 点显示。正式生成流程复用现有 2 倍源图，不再额外超分。原来抠图留下的那圈又粗又糊的黑边去掉了，换成轮廓外一圈 0.5 点的细描边。Retina／高分屏上放大也是清楚的；超过 200% 才会重新变软。
 - 点一下跳回聊天需要对应的桌面版：Claude 的聊天要桌面版 Claude，Codex 的聊天要 Codex 桌面版（`codex://threads/<会话 ID>`）。在终端里跑的助手没有聊天窗口可开，点了只把那个应用带到最前面；Deep Code 的聊天在终端里，点一下只是放下牌子。这套跳转在 macOS 上实测过，Windows 那边照同一套写的，还没在实机上验过。
 - 大小：macOS 是 50%–200% 的滑条，Windows 是七个整档加 ±5%，因为 Win32 的原生菜单塞不进滑条。
-- 安装包没有签名、没有公证。从源码自己编译就不会有第一次打开的那些提示。
+- macOS 包使用临时签名、未做公证；Windows 程序没有代码签名。从源码自己编译就不会有第一次打开的那些提示。
 
 ## 素材是怎么来的
 
-人物由 ChatGPT 的图像模型按同一套参考图生成，再由 `YukioPlayer/tools/` 里的 Python 脚本抠图、裁切、做成动作。动画有意不逐帧生成：每个状态只有一张定稿底图；手、笔、放大镜、纸这类要明显移动的部件抠成单独一层，平移旋转 2 到 5 像素，原位置补齐；头和眼睛用局部小幅变形；每一帧都会检查桌腿是否纹丝不动。做好的帧再用 Real-ESRGAN 的动画模型超分成 2 倍、描一圈细细的深色轮廓；1 倍时不动的地方，2 倍各帧也逐像素一致。
+每个状态复用已验收的主图和修正后的 SAM 2.1 小部件蒙版。头颈固定，保留手、道具、阅读视线和独立眨眼的原动作。正式生成流程直接使用现有 2 倍素材，详见[动画输入与制作流程](sources/approved-animation-rig/README.md)。
 
 如果雪绪让你敲键盘的日子好过了一点，点个 ⭐ 能让更多人找到她。

@@ -1,22 +1,11 @@
 #!/usr/bin/env python3
-"""生成雪绪的动作图条（Resources/Assets/motion/ 与 motion.json）。
+"""动画生成入口：默认复用已验收的 SAM 小部件蒙版和 2 倍主图。
 
-用法（在 YukioPlayer 目录）：
-  python3 tools/motion/make_motion.py                  生成全部动作（1 倍，写到 build/motion-1x/）
-  python3 tools/motion/make_motion.py --only respond   只重生成某一段（可写多次），motion.json 里只换这一条
-  python3 tools/motion/make_motion.py --eyes out.png   眨眼检测图（检查眼睛框）
-  python3 tools/motion/make_motion.py --parts 目录      每个动作的部件蒙版、补齐后的背景和几个时刻的放大局部
-  python3 tools/motion/make_motion.py --sheet 目录      局部变形的放大对照图
-  python3 tools/motion/make_motion.py --html out.html  新旧动作并排播放的预览页
+  python tools/motion/make_motion.py --out build/neck-stability-sam/after
+  python tools/motion/make_motion.py --only read_file --out build/read-candidate
 
-这里生成的是 1 倍图条（192×208 一格，手工标的坐标都按 1 倍）；应用实际播放的 2 倍图条由
-tools/motion/upscale_motion.py 从 build/motion-1x/ 超分得到，写进 Resources/Assets/motion/。改完动作两步都要跑。
-
-需要 numpy、opencv-python、Pillow。每个动作只用一张已确认的底图，桌椅逐像素不动：
-- 手、笔、放大镜、纸这类要明显移动的东西抠成一层单独平移、旋转（从部件内部的点漫延选取，遇描边即停），
-  原位置用四周像素补齐；
-- 头、眼这类只动 1–2 像素的用局部平滑变形；
-- 眨眼画在底图上，眼皮跟着头动。
+保留原手部/道具曲线和 v4 独立眼皮，固定头颈；眼球独立平移、双眼同步。无需超分。
+下方旧算法仅供历史动作参考；显式 --legacy 才能运行旧的实验入口。
 """
 from __future__ import annotations
 
@@ -625,6 +614,11 @@ requestAnimationFrame(frame);
 
 
 if __name__ == '__main__':
+    if '--legacy' not in sys.argv:
+        from approved_motion import main
+        main()
+        sys.exit(0)
+    sys.argv.remove('--legacy')
     ap = argparse.ArgumentParser()
     ap.add_argument('--eyes')
     ap.add_argument('--parts')

@@ -42,5 +42,5 @@ ZIP="dist/Yukio-$VERSION-macOS.zip"
 ditto -c -k --sequesterRsrc --keepParent "$APP" "$ZIP"
 shasum -a 256 "$ZIP" | tee "$ZIP.sha256"
 
-codesign -v "$APP" && echo "签名自检通过（临时签名，别人下载后第一次打开仍需右键→打开）"
+codesign -v "$APP" && echo "签名自检通过（临时签名，下载后首次打开可能需要在系统设置的隐私与安全性中放行）"
 echo "$ZIP"
