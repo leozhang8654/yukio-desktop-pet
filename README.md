@@ -21,7 +21,7 @@
 
 She follows three families of agent, and you pick which one in her menu under **Assistant**: **Claude Code**, **DeepSeek's [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)**, and **GPT's [Codex](https://developers.openai.com/codex/)** (the desktop app and the CLI both write the same session logs). The default, **Auto**, follows all three at once and shows whichever chat has something to say. Both builds use native windows and work entirely from local session logs.
 
-## New in 0.3.2
+## New in 0.3.3
 
 - Right-click opens a compact settings window above other apps; **Open App ↗** leads to the full assistant.
 - Opt-in **Launch at login** on macOS and Windows, with actual system status and error reporting. See [startup guide](docs/STARTUP.md).
@@ -49,8 +49,8 @@ Grab the file for your system from the [latest release](https://github.com/leozh
 
 | You use | Download | Then |
 | --- | --- | --- |
-| macOS 13 or newer (Apple silicon and Intel) | [Yukio-0.3.2-macOS.zip](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.2/Yukio-0.3.2-macOS.zip) | Unzip, drag `Yukio.app` into Applications, allow it once (below) |
-| Windows 10 / 11, 64-bit | [Yukio-0.3.2-Windows.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.2/Yukio-0.3.2-Windows.exe) | Double-click. Python and the artwork are packed inside |
+| macOS 13 or newer (Apple silicon and Intel) | [Yukio-0.3.3-macOS.zip](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.3/Yukio-0.3.3-macOS.zip) | Unzip, drag `Yukio.app` into Applications, allow it once (below) |
+| Windows 10 / 11, 64-bit | [Yukio-0.3.3-Windows.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.3/Yukio-0.3.3-Windows.exe) | Double-click. Python and the artwork are packed inside |
 
 <details>
 <summary><b>macOS says "Apple could not verify Yukio…"</b></summary>
@@ -185,3 +185,5 @@ Both players have window-less modes for poking around: `--demo`, `--replay sessi
 Each state uses approved artwork and corrected SAM 2.1 component masks. The head and neck stay fixed, while hands, attached props, reading gaze and independent eyelids retain their reviewed animation. The production generator reuses the existing 2x sources directly; see [animation inputs and workflow](sources/approved-animation-rig/README.md).
 
 If Yukio makes your day at the keyboard a little nicer, a ⭐ helps other people find her.
+
+Settings now includes a large **Lower sign** icon button. It lowers the current completion sign without opening the chat; later completed turns can raise the sign again.

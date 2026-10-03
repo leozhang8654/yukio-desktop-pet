@@ -1,7 +1,7 @@
 import AppKit
 import YukioCore
 
-/// 设置面板只放文字与系统控件。没有角色图、头像、装饰图，也不自绘图标。
+/// 设置面板使用文字、系统控件和醒目的取消举牌图标。
 struct SettingsSnapshot {
     let status: String
     let following: Bool
@@ -32,6 +32,7 @@ enum SettingsChange {
     case resetPosition
     case toggleDemo
     case openAssistant
+    case lowerSign
 }
 
 final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMenuDelegate {
@@ -70,6 +71,7 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
     private let demoButton = NSButton()
     private let doneButton = NSButton()
     private let openAssistantButton = NSButton()
+    private let lowerSignButton = NSButton()
 
     private let followingHeading = NSTextField(labelWithString: "")
     private let displayHeading = NSTextField(labelWithString: "")
@@ -81,7 +83,7 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
 
     init() {
         let panel = NSPanel(
-            contentRect: NSRect(x: 0, y: 0, width: 420, height: 570),
+            contentRect: NSRect(x: 0, y: 0, width: 420, height: 656),
             styleMask: [.titled, .closable, .nonactivatingPanel],
             backing: .buffered,
             defer: false
@@ -128,7 +130,7 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         let needsApproval = snapshot.launchAtLogin == .requiresApproval
         startupHint.isHidden = !needsApproval
         loginItemsButton.isHidden = !needsApproval
-        let contentSize = NSSize(width: 420, height: needsApproval ? 630 : 570)
+        let contentSize = NSSize(width: 420, height: needsApproval ? 716 : 656)
         if window?.contentView?.frame.size != contentSize {
             window?.setContentSize(contentSize)
         }
@@ -217,7 +219,11 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         openAssistantButton.widthAnchor.constraint(equalToConstant: 144).isActive = true
         openAssistantButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
         stack.addArrangedSubview(header)
-        stack.setCustomSpacing(18, after: header)
+        stack.setCustomSpacing(12, after: header)
+        lowerSignButton.widthAnchor.constraint(equalToConstant: 372).isActive = true
+        lowerSignButton.heightAnchor.constraint(equalToConstant: 72).isActive = true
+        stack.addArrangedSubview(lowerSignButton)
+        stack.setCustomSpacing(14, after: lowerSignButton)
 
         stack.addArrangedSubview(followingHeading)
         stack.addArrangedSubview(row(title: followTitle, control: followSwitch))
@@ -267,6 +273,17 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
     }
 
     private func configureActions() {
+        lowerSignButton.bezelStyle = .regularSquare
+        lowerSignButton.bezelColor = NSColor(calibratedRed: 0.18, green: 0.43, blue: 0.54, alpha: 1)
+        lowerSignButton.contentTintColor = .white
+        lowerSignButton.font = .systemFont(ofSize: 18, weight: .semibold)
+        lowerSignButton.image = NSImage(systemSymbolName: "square.and.arrow.down", accessibilityDescription: nil)?
+            .withSymbolConfiguration(.init(pointSize: 36, weight: .medium))
+        lowerSignButton.imagePosition = .imageLeading
+        lowerSignButton.imageScaling = .scaleNone
+        lowerSignButton.target = self
+        lowerSignButton.action = #selector(lowerSign)
+        lowerSignButton.setAccessibilityIdentifier("lowerSignButton")
         openAssistantButton.bezelStyle = .regularSquare
         openAssistantButton.bezelColor = NSColor(calibratedRed: 0.18, green: 0.43, blue: 0.54, alpha: 1)
         openAssistantButton.contentTintColor = .white
@@ -359,6 +376,9 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         languageTitle.stringValue = tr("Language", "语言")
         resetButton.title = tr("Reset position", "复位位置")
         doneButton.title = tr("Done", "完成")
+        lowerSignButton.title = tr("Lower sign", "取消举牌")
+        lowerSignButton.toolTip = tr("Lower the current completion sign without opening the chat.", "放下当前完成牌，不打开聊天。")
+        lowerSignButton.setAccessibilityLabel(lowerSignButton.title)
         openAssistantButton.title = tr("Open App ↗", "打开助手 App ↗")
         openAssistantButton.toolTip = tr("Open the full assistant window", "切换到完整的助手 App 页面")
 
@@ -471,6 +491,7 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
     @objc private func toggleHidden() { onChange?(.toggleHidden) }
     @objc private func resetPosition() { onChange?(.resetPosition) }
     @objc private func toggleDemo() { onChange?(.toggleDemo) }
+    @objc private func lowerSign() { onChange?(.lowerSign) }
     @objc private func openAssistant() { onChange?(.openAssistant) }
     @objc private func closePanel() { close() }
 }

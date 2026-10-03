@@ -8,7 +8,7 @@
 
 只依赖 Pillow 一个库。窗口、托盘、菜单都用 ctypes 直接调 Windows API，助手主窗口使用 Python 自带的 Tk/ttk。
 
-## 个人助手（0.3.2）
+## 个人助手（0.3.3）
 
 首页、提醒、个性化和扩展页已同步 macOS 当前实现。单次提醒支持新增、编辑、删除、稍后五分钟和确认完成；关闭主窗口后仍然计时，唤醒或重启后补上错过的提醒。名字和提示音设置保存在本机。AI 与屏幕观察仍在规划中，详见[助手说明](../docs/ASSISTANT.md)。
 
@@ -16,7 +16,7 @@
 
 ## 下载（不用装 Python）
 
-到 [Releases](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest) 下载 `Yukio-0.3.2-Windows.exe`，放哪儿都行，双击就开。Python、Pillow、素材都打包在里面了，需要 Windows 10 或更新的 64 位系统。
+到 [Releases](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest) 下载 `Yukio-0.3.3-Windows.exe`，放哪儿都行，双击就开。Python、Pillow、素材都打包在里面了，需要 Windows 10 或更新的 64 位系统。
 
 第一次打开 Windows 可能弹蓝色的「Windows 已保护你的电脑」——这个程序没买代码签名证书，点「更多信息」→「仍要运行」，以后不再问。
 
@@ -242,3 +242,5 @@ Resources/Yukio.ico        exe 的图标（从 macOS 版的封面图裁的）
 - **大小控制**：助手的桌宠设置提供 50%–200% 滑条；托盘菜单保留整档与 ±5% 微调。
 - 应用没有数字签名，Windows SmartScreen 第一次可能拦一下（「更多信息」→「仍要运行」）。
 - macOS 版在 `../YukioPlayer`（Swift，跟随 Claude Code），两边互不影响。
+
+设置顶部新增大号 **取消举牌** 图标按钮，点击放下当前完成牌，不跳转聊天；之后新的任务完成仍会正常举牌提醒。

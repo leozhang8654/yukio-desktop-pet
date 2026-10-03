@@ -287,6 +287,26 @@ class AppLogicTests(unittest.TestCase):
         advance(a, 80)
         self.assertEqual(a.shown_state, PetState.write_file)
 
+    def test_lower_sign_does_not_open_chat_and_next_turn_can_raise_again(self):
+        from yukio.events import Kind, PetEvent
+        a = make_app()
+        fake_win32.OPENED_URLS[:] = []
+        for _ in range(2):
+            t = now()
+            a.router.ingest(PetEvent(t, "test", "S", Kind.task_start), t)
+            advance(a, 30)
+            t = now()
+            a.router.ingest(PetEvent(t, "test", "S", Kind.final_answer), t)
+            a.router.ingest(PetEvent(t, "test", "S", Kind.task_end), t)
+            advance(a, 400)
+            self.assertEqual(a.router.completed_session, "S")
+            a._drop_sign()
+            self.assertIsNone(a.router.completed_session)
+            a._drop_sign()
+            advance(a, 80)
+            self.assertEqual(a.shown_state, PetState.idle)
+        self.assertEqual(fake_win32.OPENED_URLS, [])
+
     def test_clicking_the_raised_sign_opens_that_chat_and_puts_it_down(self):
         from yukio.events import Kind, PetEvent
         a = make_app()

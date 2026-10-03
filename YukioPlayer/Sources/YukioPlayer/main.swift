@@ -1890,6 +1890,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             resetPetPosition()
         case .toggleDemo:
             simulation == nil ? startDemo() : stopDemo()
+        case .lowerSign:
+            menuDropSign()
         case .openAssistant:
             settingsWindow?.close()
             showAssistant()
@@ -1973,7 +1975,13 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     @objc private func menuOpenChat() { petClicked() }
-    @objc private func menuDropSign() { router.dismissCompletion(now: nowMs()) }
+    @objc private func menuDropSign() {
+        let now = nowMs()
+        if let sim = simulation { sim.router.dismissCompletion(now: now) }
+        else { router.dismissCompletion(now: now) }
+        updateBubble(now: now)
+        updateCards(now: now, immediate: true)
+    }
     /// 空的 representedObject 表示“自动”。
     @objc private func menuPickChat(_ sender: NSMenuItem) {
         let id = sender.representedObject as? String

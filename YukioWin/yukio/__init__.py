@@ -1,3 +1,3 @@
 """雪绪桌面播放器 · DeepSeek / Windows 版。"""
 
-__version__ = "0.3.2"
+__version__ = "0.3.3"

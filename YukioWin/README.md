@@ -8,7 +8,7 @@ The artwork, the activity mapping, the debounce and hold times, the focus rules,
 
 The only dependency is Pillow. The window, the tray and the menus call the Windows API directly through ctypes; the assistant window uses Python’s bundled Tk/ttk.
 
-## Personal assistant (0.3.2)
+## Personal assistant (0.3.3)
 
 Home, Reminders, Personalization and Extensions match the implemented macOS features. Create, edit, delete, snooze or complete local one-time reminders; closing the main window keeps reminders running, and missed reminders appear after wake or relaunch. Names and sound preferences are saved locally. AI and screen observation remain planned features. See [assistant guide](../docs/ASSISTANT.md).
 
@@ -244,3 +244,5 @@ The **Verify published Windows release** workflow downloads the public exe and i
 - **Size controls:** use the 50–200% slider in the assistant’s Pet settings, or the fixed sizes and ±5% nudges in the tray menu.
 - The app is not digitally signed, so Windows SmartScreen may block it the first time ("More info" → "Run anyway").
 - The macOS edition lives in `../YukioPlayer` (Swift, follows Claude Code); the two don't affect each other.
+
+Settings now includes a large **Lower sign** icon button. It lowers the current completion sign without opening the chat; later completed turns can raise the sign again.

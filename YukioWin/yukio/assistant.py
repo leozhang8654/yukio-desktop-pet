@@ -242,6 +242,8 @@ class AssistantWindow:
         self.entries[key] = value
 
     def _settings(self):
+        from .pet_settings import lower_sign_button
+        lower_sign_button(self.body, self.app._drop_sign)
         self.label(self.body, tr("Pet settings", "桌宠设置"), 24)
         self._check(self.body, "petVisible", tr("Show Yukio", "显示雪绪"), lambda v: self.app.set_hidden(not v))
         for key, en, zh in [("follow", "Follow AI activity", "跟随 AI 活动"), ("showBubble", "Show task bubble", "头顶显示任务"),

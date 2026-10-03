@@ -9,8 +9,8 @@ class PetSettingsWindow:
         self.assistant, self.app = assistant, assistant.app
         self.window = tk.Toplevel(assistant.root)
         self.window.withdraw()
-        self.window.geometry('420x570')
-        self.window.minsize(420, 480)
+        self.window.geometry('420x656')
+        self.window.minsize(420, 656)
         self.window.attributes('-topmost', True)
         self.window.protocol('WM_DELETE_WINDOW', self.window.withdraw)
         self.body = ttk.Frame(self.window, padding=18)
@@ -36,6 +36,7 @@ class PetSettingsWindow:
         ttk.Label(head, text='Yukio', font=('Segoe UI', 19)).pack(side='left')
         self.open_button = ttk.Button(head, text=tr('Open App ↗', '打开助手 App ↗'), command=self.open_assistant)
         self.open_button.pack(side='right', ipady=8)
+        self.lower_sign_button = lower_sign_button(self.body, self.app._drop_sign)
         for key, en, zh, action in [
             ('petVisible','Show Yukio','显示雪绪',lambda v:self.app.set_hidden(not v)),
             ('follow','Follow AI activity','跟随 AI 活动',lambda v:self.app.settings.set('follow',v)),
@@ -84,3 +85,22 @@ class PetSettingsWindow:
     def open_assistant(self):
         self.window.withdraw()
         self.assistant.present()
+
+
+def lower_sign_button(parent, command):
+    # Draw the same card/down-arrow icon at an ample size on every Windows font.
+    icon = tk.PhotoImage(master=parent, width=48, height=48)
+    for x, y, width, height in [(7, 4, 27, 3), (7, 4, 3, 29), (31, 4, 3, 17),
+                                (7, 30, 14, 3), (29, 23, 3, 19)]:
+        icon.put('#ffffff', to=(x, y, x+width, y+height))
+    for i in range(10):
+        icon.put('#ffffff', to=(20+i, 32+i, 23+i, 35+i))
+        icon.put('#ffffff', to=(38-i, 32+i, 41-i, 35+i))
+    button = tk.Button(parent, text=tr('Lower sign', '取消举牌'), image=icon,
+                       compound='left', font=('Segoe UI', 18, 'bold'),
+                       background='#2e6e8a', foreground='white',
+                       activebackground='#245970', activeforeground='white',
+                       relief='flat', cursor='hand2', padx=16, pady=8, command=command)
+    button.icon = icon
+    button.pack(fill='x', pady=(0, 12))
+    return button

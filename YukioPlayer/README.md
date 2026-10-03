@@ -6,7 +6,7 @@ One Yukio (雪绪) who changes what she is doing based on what your coding agent
 With several chats open at once, whichever one has just finished or is waiting for your decision is shown first; the other chats that have something to say stack above the bubble as cards of the same design, and clicking one takes you to that chat. You can also pin one chat in the menu so she follows only that one. Every motion moves gently and continuously (writing, typing, moving her eyes, blinking), and the small bubble over her head shows the big task, the current task, and progress.
 Native Swift / AppKit. It needs only the Xcode Command Line Tools and has no third-party dependencies.
 
-## Personal assistant (0.3.2)
+## Personal assistant (0.3.3)
 
 The main window includes Home, Reminders, Personalization and planned Extensions. One-time reminders support editing, deletion, five-minute snooze and completion. Data is stored locally; the clock keeps running when the window closes, and catches up after wake or relaunch. Use `--pet-only` to start with the main window hidden, or `--assistant-only` to start with the pet hidden. See [assistant guide](../docs/ASSISTANT.md).
 
@@ -361,3 +361,5 @@ Claude Code has only nine event names: `PreToolUse`, `PostToolUse`, `Notificatio
 - Once a chat is pinned she no longer switches automatically; when it stops she idles and waits. If you forget you pinned one, the menu's second line "Following: … (pinned)" reminds you.
 - The main loop runs at 30 Hz over the 50 fps animation timeline. Release builds load lossless pages with a 32 MiB page-cache cap; total process memory also includes frames, windows and other resources.
 - The app is ad-hoc signed on this machine; distributing it to others needs a proper signature and notarization.
+
+Settings now includes a large **Lower sign** icon button. It lowers the current completion sign without opening the chat; later completed turns can raise the sign again.

@@ -21,7 +21,7 @@
 
 她认三家助手，在菜单「跟随的助手」里挑：**Claude Code**、**DeepSeek 的 [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)**、**GPT 的 [Codex](https://developers.openai.com/codex/)**（桌面版与命令行写的是同一份会话记录）。默认的**自动**三家一起跟，谁有话说就显示谁。两版都使用原生窗口，完全基于本机会话记录工作。
 
-## 0.3.2 更新
+## 0.3.3 更新
 
 - 右键打开置顶小设置窗口，点击 **打开助手 App ↗** 进入完整助手。
 - 双平台增加可选的 **登录时自动启动**，读取系统状态并显示操作失败原因。见[启动说明](docs/STARTUP.md)。
@@ -49,8 +49,8 @@ AI 对话、屏幕观察、自动活动记录、新闻简报和日历接入仍�
 
 | 你用的是 | 下载 | 怎么开 |
 | --- | --- | --- |
-| macOS 13 或更新（Apple 芯片与 Intel 通用） | [Yukio-0.3.2-macOS.zip](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.2/Yukio-0.3.2-macOS.zip) | 解压，把 `Yukio.app` 拖进「应用程序」，第一次按下面放行一次 |
-| Windows 10 / 11（64 位） | [Yukio-0.3.2-Windows.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.2/Yukio-0.3.2-Windows.exe) | 双击就开。Python 和素材都打包在里面 |
+| macOS 13 或更新（Apple 芯片与 Intel 通用） | [Yukio-0.3.3-macOS.zip](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.3/Yukio-0.3.3-macOS.zip) | 解压，把 `Yukio.app` 拖进「应用程序」，第一次按下面放行一次 |
+| Windows 10 / 11（64 位） | [Yukio-0.3.3-Windows.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.3/Yukio-0.3.3-Windows.exe) | 双击就开。Python 和素材都打包在里面 |
 
 <details>
 <summary><b>macOS 第一次打开：「Apple 无法验证“Yukio”是否包含可能危害 Mac 安全或泄漏隐私的恶意软件」</b></summary>
@@ -185,3 +185,5 @@ powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1    # 打出 dist\
 每个状态复用已验收的主图和修正后的 SAM 2.1 小部件蒙版。头颈固定，保留手、道具、阅读视线和独立眨眼的原动作。正式生成流程直接使用现有 2 倍素材，详见[动画输入与制作流程](sources/approved-animation-rig/README.md)。
 
 如果雪绪让你敲键盘的日子好过了一点，点个 ⭐ 能让更多人找到她。
+
+设置顶部新增大号 **取消举牌** 图标按钮，点击放下当前完成牌，不跳转聊天；之后新的任务完成仍会正常举牌提醒。

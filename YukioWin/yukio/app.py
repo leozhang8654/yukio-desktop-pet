@@ -1275,7 +1275,11 @@ class PetApp:
         self._update_question(now_ms(), immediate=True)
 
     def _drop_sign(self) -> None:
-        self.router.dismiss_completion(now_ms())
+        now = now_ms()
+        router = self.demo[3] if self.demo else self.router
+        router.dismiss_completion(now)
+        self._update_bubble(now)
+        self._update_cards(now, immediate=True)
 
     #: 大小的可选范围与步长。macOS 版这里是一条 50%–200% 的滑条；
     #: Win32 的托盘菜单是系统原生弹出菜单，塞不进滑条，所以改成几个整档
