@@ -58,7 +58,7 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw "Core/player tests failed" }
           python run.py --check
           if ($LASTEXITCODE -ne 0) { throw "Artwork check failed" }
-      - name: Verify the downloaded assistant window and reminders
+      - name: Verify downloaded compact settings and outside-click dismissal
         working-directory: YukioWin
         run: powershell -ExecutionPolicy Bypass -File scripts/smoke-assistant.ps1 -Exe build/published-release/Yukio.exe
       - name: Run the downloaded exe at 100%, 150% and 200%

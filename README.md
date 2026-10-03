@@ -23,23 +23,13 @@ She follows three families of agent, and you pick which one in her menu under **
 
 ## New in 0.3.3
 
-- Right-click opens a compact settings window above other apps; **Open App ↗** leads to the full assistant.
-- Opt-in **Launch at login** on macOS and Windows, with actual system status and error reporting. See [startup guide](docs/STARTUP.md).
-- Answered or dismissed question cards stay closed across chat switches. Structured Codex replies target the matching question instead of clearing unrelated questions.
+- A large **Lower sign** icon button in settings lowers the current completion sign without opening the chat. New completed turns can raise it again.
+- Click outside the compact settings window to close it. Right-click Yukio or reopen the app to return to settings.
+- The standalone assistant page and its App entry are suspended in both release builds. Existing local data is preserved.
 
-Codex now suppresses the completion card for the chat you are actively viewing, on both platforms. Other chats still notify you; unavailable or stale view data keeps reminders enabled.
+Launch at login, question cards, activity following and the existing pet controls remain available. See the [startup guide](docs/STARTUP.md) and [assistant status](docs/ASSISTANT.md).
 
-The 0.3 release also includes:
-
-- **A personal assistant on both platforms:** Home, Reminders, Personalization and Extensions, alongside the existing desktop pet.
-- Create, edit or delete a one-time reminder; snooze for five minutes or mark it complete. Reminders are saved locally and catch up after wake or relaunch. Closing the main window keeps the app and reminder clock running.
-- Customize the assistant name, your name and reminder sound. Open the assistant from **Open App ↗** in the right-click settings, from the tray/menu bar, or by launching the app again. Pet controls remain available from the sidebar and tray/menu bar.
-- Codex async questions remain visible while other tools run and close when answered. Duplicate answers and outdated delivery results are ignored; automatic input stops if the clipboard or foreground app changes.
-- Includes the stable head/neck, synchronized gaze, independent blinking and transparent-window fixes from 0.2.2.
-
-AI conversations, screen observation, automatic activity records, news briefings and calendar connections are **planned, not active features**. See [assistant guide](docs/ASSISTANT.md) and [personalization design](docs/PERSONALIZATION.md).
-
-<img src="docs/readme/assistant-windows.png" width="900" alt="Yukio personal assistant on Windows: Home, Reminders, Personalization, Extensions and pet settings">
+<img src="docs/readme/settings-macos.png" width="420" alt="Yukio settings with a large Lower sign button">
 
 [Full changelog](CHANGELOG.md)
 
@@ -79,7 +69,7 @@ The exe is not code-signed. Click **More info**, then **Run anyway**. Only proce
 
 The SHA-256 of every file is on the release page if you want to check a download.
 
-Once running, Yukio appears in the bottom-right corner of the screen and a small avatar of her appears in the macOS menu bar or the Windows tray. The assistant window opens on launch. Right-click Yukio for compact settings and click **Open App ↗** to enter the assistant, or launch the app again to reopen it; use the sidebar for pet settings, or the menu-bar/tray avatar for the full pet menu. Pet settings let you hide Yukio and bring her back; on macOS, Space in pet settings also toggles visibility. Want a tour first? Pick **Play demo** from Settings or the menu and she walks through every state in 60 seconds. English is the default, 中文 is one click away in Settings, and the choice is remembered.
+Once running, Yukio appears in the bottom-right corner of the screen and a small avatar of her appears in the macOS menu bar or the Windows tray. Right-click Yukio or launch the app again for compact settings; click outside to close. Use the menu-bar/tray avatar for the full pet menu. Pet settings let you hide Yukio and bring her back; on macOS, Space in pet settings also toggles visibility. Want a tour first? Pick **Play demo** from Settings or the menu and she walks through every state in 60 seconds. English is the default, 中文 is one click away in Settings, and the choice is remembered.
 
 ## What she does
 

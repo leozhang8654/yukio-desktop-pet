@@ -749,7 +749,6 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private var questionPanel: QuestionPanel!
     private var statusItem: NSStatusItem!
     private var settingsWindow: SettingsPanelController?
-    private var assistantWindow: AssistantWindowController?
     private var reminderStore: ReminderStore?
     private var reminderPanel: ReminderPanelController?
     private var timer: Timer?
@@ -1661,9 +1660,9 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             : tr("Yukio: ", "雪绪：") + (swing != nil ? L10n.heldName : L10n.stateName(shownState))
     }
 
-    /// 再次打开 App 时回到主窗口，不依赖菜单栏图标是否可见。
+    /// 再次打开 App 时显示桌宠设置。
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-        showAssistant()
+        showSettings()
         return false
     }
 
@@ -1676,18 +1675,6 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         reminderPanel = delivery
         store.onRing = { [weak delivery] in delivery?.present() }
         store.start()
-        if CommandLine.arguments.contains("--assistant-only") || Bundle.main.object(forInfoDictionaryKey: "YukioAssistantOnly") as? Bool == true {
-            setHidden(true)
-        }
-        if !CommandLine.arguments.contains("--pet-only") { showAssistant() }
-    }
-
-    private func showAssistant() {
-        guard let store = reminderStore else { return }
-        if assistantWindow == nil {
-            assistantWindow = AssistantWindowController(store: store, openPetSettings: { [weak self] in self?.showSettings() })
-        }
-        assistantWindow?.present()
     }
 
     func menuNeedsUpdate(_ menu: NSMenu) {
@@ -1892,9 +1879,6 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             simulation == nil ? startDemo() : stopDemo()
         case .lowerSign:
             menuDropSign()
-        case .openAssistant:
-            settingsWindow?.close()
-            showAssistant()
         }
         refreshSettingsPanel()
     }
@@ -1908,7 +1892,6 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     private func buildMenu() -> NSMenu {
         let menu = NSMenu()
-        menu.addItem(action(tr("Open Yukio Assistant", "打开 Yukio 助手"), #selector(menuShowAssistant)))
         menu.addItem(.separator())
         let chats = simulation == nil ? router.sessionSummaries(now: nowMs(), quietWithinMs: Self.chatListWindowMs,
                                                                 limit: Self.chatListLimit) : []
@@ -1999,7 +1982,6 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     @objc private func menuStartDemo() { startDemo() }
     @objc private func menuStopDemo() { stopDemo() }
     @objc private func menuToggleFollow() { following.toggle() }
-    @objc private func menuShowAssistant() { showAssistant() }
     @objc private func menuShowSettings() { showSettings() }
     @objc private func menuToggleBubble() {
         showBubble.toggle()

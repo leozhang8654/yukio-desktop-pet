@@ -52,7 +52,7 @@ class PetApp:
         self.launch_at_login = LaunchAtLogin()
         self._ticking = False
         self._next_reminder_tick = 0.0
-        self._assistant_only = "--assistant-only" in argv
+        self._assistant_only = False
         set_language(self.settings.get("language"))   # 先定语言，回放会话记录时生成的说明文字才是对的语言
         root = assets_root()
         if not root:
@@ -927,11 +927,9 @@ class PetApp:
         self.control.start_timer(FRAME_MS)
         try:
             self._ensure_assistant()
-            if "--pet-only" not in self.argv:
-                self.show_assistant()
-            if "--assistant-smoke" in self.argv:
+            if "--settings-smoke" in self.argv:
                 from .assistant_smoke import schedule
-                schedule(self, self.argv[self.argv.index("--assistant-smoke") + 1])
+                schedule(self, self.argv[self.argv.index("--settings-smoke") + 1])
             return self.win32.run_message_loop(pre_dispatch=self._pre_dispatch)
         finally:
             self.shutdown()
@@ -983,8 +981,8 @@ class PetApp:
                 tray.re_add()
             return 0
         if msg == control.show_menu_message:
-            # Reopening the executable returns to the assistant window.
-            self.show_assistant()
+            # Reopening the executable returns to compact pet settings.
+            self.show_settings()
             return 0
         if msg in (w.WM_DESTROY, w.WM_CLOSE):
             w.quit_loop()
@@ -1182,8 +1180,7 @@ class PetApp:
         chats = [] if self.demo else self.router.session_summaries(
             now_ms(), quiet_within_ms=self.CHAT_LIST_WINDOW_MS, limit=self.CHAT_LIST_LIMIT)
         label = held_name() if self.swing is not None else state_name(self.shown_state)
-        items: List[w.MenuItem] = [Item(tr("Open Yukio Assistant", "打开 Yukio 助手"), self.show_assistant),
-                                 Item(tr("Pet settings", "桌宠设置"), self.show_settings),
+        items: List[w.MenuItem] = [Item(tr("Pet settings", "桌宠设置"), self.show_settings),
                                   Item(tr("Hide Yukio", "收起雪绪") if not self.pet_hidden else tr("Show Yukio", "显示雪绪"),
                                        lambda: self.set_hidden(not self.pet_hidden)), SEP,
                                   Item(tr("Yukio", "雪绪") + " · " + label, None)]
@@ -1396,7 +1393,8 @@ class PetApp:
         self._ensure_assistant().show_pet_settings()
 
     def show_assistant(self) -> None:
-        self._ensure_assistant().present()
+        # The standalone assistant page is suspended in all shipped builds.
+        return
 
     def quit(self) -> None:
         if self.assistant is not None:

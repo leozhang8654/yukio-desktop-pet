@@ -2,6 +2,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from .l10n import tr
+from .outside_click import OutsideClickDismissal
 
 
 class PetSettingsWindow:
@@ -16,6 +17,7 @@ class PetSettingsWindow:
         self.body = ttk.Frame(self.window, padding=18)
         self.body.pack(fill='both', expand=True)
         self.values = {}
+        self.outside_click = OutsideClickDismissal(self.window)
 
     def present(self):
         self.refresh()
@@ -34,8 +36,6 @@ class PetSettingsWindow:
         for child in self.body.winfo_children(): child.destroy()
         head = ttk.Frame(self.body); head.pack(fill='x', pady=(0,12))
         ttk.Label(head, text='Yukio', font=('Segoe UI', 19)).pack(side='left')
-        self.open_button = ttk.Button(head, text=tr('Open App ↗', '打开助手 App ↗'), command=self.open_assistant)
-        self.open_button.pack(side='right', ipady=8)
         self.lower_sign_button = lower_sign_button(self.body, self.app._drop_sign)
         for key, en, zh, action in [
             ('petVisible','Show Yukio','显示雪绪',lambda v:self.app.set_hidden(not v)),
@@ -81,10 +81,6 @@ class PetSettingsWindow:
         except (OSError, ImportError, ValueError) as error:
             messagebox.showerror(tr('Could not update startup','未能更改启动设置'),str(error),parent=self.window)
         self.refresh()
-
-    def open_assistant(self):
-        self.window.withdraw()
-        self.assistant.present()
 
 
 def lower_sign_button(parent, command):

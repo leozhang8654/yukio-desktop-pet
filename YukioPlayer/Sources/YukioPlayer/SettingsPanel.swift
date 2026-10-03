@@ -31,12 +31,13 @@ enum SettingsChange {
     case toggleHidden
     case resetPosition
     case toggleDemo
-    case openAssistant
     case lowerSign
 }
 
 final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMenuDelegate {
     var onChange: ((SettingsChange) -> Void)?
+
+    private let outsideClickMonitor = SettingsOutsideClickMonitor()
 
     private let root = NSView()
     private let stack = NSStackView()
@@ -70,7 +71,6 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
     private let resetButton = NSButton()
     private let demoButton = NSButton()
     private let doneButton = NSButton()
-    private let openAssistantButton = NSButton()
     private let lowerSignButton = NSButton()
 
     private let followingHeading = NSTextField(labelWithString: "")
@@ -110,6 +110,20 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         showWindow(nil)
         window?.makeKeyAndOrderFront(nil)
         window?.orderFrontRegardless()
+        if let window {
+            outsideClickMonitor.start(window: window,
+                isInteracting: { [weak self] in self?.trackingPopupMenu ?? false },
+                dismiss: { [weak self] in self?.close() })
+        }
+    }
+
+    override func close() {
+        outsideClickMonitor.stop()
+        super.close()
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        outsideClickMonitor.stop()
     }
 
     func apply(_ snapshot: SettingsSnapshot) {
@@ -206,18 +220,15 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         statusLabel.lineBreakMode = .byTruncatingTail
         statusLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
-        // Use the existing header area for a generous App entry, without growing the panel.
         let identity = NSStackView(views: [brandLabel, statusLabel])
         identity.orientation = .vertical
         identity.alignment = .leading
         identity.spacing = 8
-        let header = NSStackView(views: [identity, NSView(), openAssistantButton])
+        let header = NSStackView(views: [identity, NSView()])
         header.orientation = .horizontal
         header.alignment = .centerY
         header.spacing = 12
         header.widthAnchor.constraint(equalToConstant: 372).isActive = true
-        openAssistantButton.widthAnchor.constraint(equalToConstant: 144).isActive = true
-        openAssistantButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
         stack.addArrangedSubview(header)
         stack.setCustomSpacing(12, after: header)
         lowerSignButton.widthAnchor.constraint(equalToConstant: 372).isActive = true
@@ -284,15 +295,6 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         lowerSignButton.target = self
         lowerSignButton.action = #selector(lowerSign)
         lowerSignButton.setAccessibilityIdentifier("lowerSignButton")
-        openAssistantButton.bezelStyle = .regularSquare
-        openAssistantButton.bezelColor = NSColor(calibratedRed: 0.18, green: 0.43, blue: 0.54, alpha: 1)
-        openAssistantButton.contentTintColor = .white
-        openAssistantButton.font = .systemFont(ofSize: 14, weight: .semibold)
-        openAssistantButton.wantsLayer = true
-        openAssistantButton.layer?.cornerRadius = 8
-        openAssistantButton.layer?.masksToBounds = true
-        openAssistantButton.target = self
-        openAssistantButton.action = #selector(openAssistant)
         startupSwitch.target = self
         startupSwitch.action = #selector(startupChanged)
         startupSwitch.setAccessibilityIdentifier("launchAtLoginSwitch")
@@ -379,8 +381,6 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         lowerSignButton.title = tr("Lower sign", "取消举牌")
         lowerSignButton.toolTip = tr("Lower the current completion sign without opening the chat.", "放下当前完成牌，不打开聊天。")
         lowerSignButton.setAccessibilityLabel(lowerSignButton.title)
-        openAssistantButton.title = tr("Open App ↗", "打开助手 App ↗")
-        openAssistantButton.toolTip = tr("Open the full assistant window", "切换到完整的助手 App 页面")
 
         for heading in [followingHeading, displayHeading, interfaceHeading, startupHeading] {
             heading.font = .systemFont(ofSize: 11, weight: .semibold)
@@ -492,7 +492,6 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
     @objc private func resetPosition() { onChange?(.resetPosition) }
     @objc private func toggleDemo() { onChange?(.toggleDemo) }
     @objc private func lowerSign() { onChange?(.lowerSign) }
-    @objc private func openAssistant() { onChange?(.openAssistant) }
     @objc private func closePanel() { close() }
 }
 

@@ -7,14 +7,14 @@ $env:LOCALAPPDATA = Join-Path $out "profile"
 $env:YUKIO_REMINDER_FILE = Join-Path $out "reminders.json"
 $report = Join-Path $out "report.json"
 if (Test-Path $report) { Remove-Item $report }
-$process = Start-Process -FilePath (Resolve-Path $Exe) -ArgumentList "--allow-multiple", "--assistant-only", "--assistant-smoke", "build/assistant-smoke" -PassThru
+$process = Start-Process -FilePath (Resolve-Path $Exe) -ArgumentList "--allow-multiple", "--settings-smoke", "build/assistant-smoke" -PassThru
 try {
     if (-not $process.WaitForExit(65000)) { throw "Assistant did not finish within 65 seconds" }
     if (-not (Test-Path $report)) { throw "Missing assistant smoke report" }
     $result = Get-Content $report -Raw | ConvertFrom-Json
     Get-Content $report
     if (-not $result.ok) { throw "Assistant smoke failed" }
-    foreach ($name in @("home", "reminders", "extensions", "delivery", "settings")) {
+    foreach ($name in @("settings")) {
         if (-not (Test-Path (Join-Path $out "$name.png"))) { throw "Missing $name screenshot" }
     }
 } finally {

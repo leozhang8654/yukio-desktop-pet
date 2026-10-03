@@ -1,4 +1,4 @@
-"""Exercise the real bundled Tk UI and reminder delivery on a Windows runner."""
+"""Exercise compact settings in the actual Windows release executable."""
 import json
 import os
 from pathlib import Path
@@ -48,7 +48,7 @@ def schedule(app, output):
         shot.save(output / name)
     def setup():
         nonlocal startup_test
-        check(ui.root.winfo_viewable(),"assistant opens")
+        check(not ui.root.winfo_viewable(), "standalone assistant stays hidden on launch")
         from .startup import LaunchAtLogin, RegistryBackend
         startup_test = LaunchAtLogin(RegistryBackend("YukioSmoke-" + str(os.getpid())))
         check(startup_test.status == "disabled", "startup initially off")
@@ -60,6 +60,7 @@ def schedule(app, output):
         check(settings.window.winfo_viewable(), "native pet right-click opens settings")
         check(not ui.root.winfo_viewable(), "right-click keeps main window closed")
         check(bool(settings.window.attributes("-topmost")), "settings stay above other apps")
+        app.stop_demo()  # First launch starts a demo; this fixture targets the live router.
         from .events import Kind, PetEvent
         from .app import now_ms
         t = now_ms() - app.router.config.respond_hold_ms - 100
@@ -80,67 +81,42 @@ def schedule(app, output):
         settings.startup_button.invoke()
         check(startup_test.status == "disabled", "startup checkbox removes registration")
         screenshot("settings.png")
-        settings.open_button.invoke()
-        check(ui.root.winfo_viewable(), "open app button shows assistant")
-        check(not settings.window.winfo_viewable(), "open app button hides settings")
-
-        ui.new_button.invoke()
-        ui.edit_title.set("Windows reminder smoke")
-        ui.edit_due.set(datetime.fromtimestamp(time.time()+600).strftime("%Y-%m-%d %H:%M"))
-        ui.save_button.invoke()
-        check(len(app.reminders.list("scheduled"))==1,"create through editor")
-        item=app.reminders.list("scheduled")[0]
-        ui.edit(item)
-        ui.edit_title.set("Edited reminder")
-        ui.save_button.invoke()
-        check(app.reminders.items[0]["title"]=="Edited reminder","edit through editor")
-        ui.navigate("personal")
-        ui.entries["assistantName"].set("Yukio Test")
-        ui.entries["assistantUserName"].set("Tester")
-        app.settings.set("assistantReminderSound",False)
-        from .settings import Settings
-        restored=Settings(app.settings.path)
-        check(restored.get("assistantName")=="Yukio Test" and restored.get("assistantUserName")=="Tester","personalization survives reload")
-        ui.navigate("settings")
-        app.set_hidden(True)
-        check(app.pet_hidden,"hide pet")
-        app.set_hidden(False)
-        check(not app.pet_hidden,"show pet")
-        ui.navigate("extensions")
-        screenshot("extensions.png")
-        ui.navigate("reminders")
-        screenshot("reminders.png")
-        item=app.reminders.items[0]
-        check(app.reminders.save(item["title"],time.time()+2,item["id"]),"schedule near-term delivery")
-        ui.root.withdraw()
-        ui.root.after(4500,guard(delivered))
-    def delivered():
-        check(not ui.root.winfo_viewable(),"main window stays closed")
-        check(len(app.reminders.list("ringing"))==1,"timer rings with main window closed")
-        check(ui.delivery is not None and ui.delivery.winfo_viewable(),"delivery panel is visible")
-        screenshot("delivery.png")
-        rid=app.reminders.items[0]["id"]
-        ui.act("snooze",rid)
-        check(app.reminders.items[0]["status"]=="scheduled" and app.reminders.due_at(app.reminders.items[0])>time.time()+290,"snooze five minutes")
-        check(ui.delivery is None,"snooze hides delivery")
-        check(app.reminders.save("Confirm me",time.time()+1,rid),"reschedule")
-        ui.root.after(2500,guard(complete))
-    def complete():
-        check(len(app.reminders.list("ringing"))==1,"reminder fires again")
-        rid=app.reminders.items[0]["id"]
-        ui.act("complete",rid)
-        check(len(app.reminders.list("completed"))==1 and ui.delivery is None,"complete dismisses delivery")
-        from .reminders import ReminderStore
-        check(len(ReminderStore(app.reminders.path).list("completed"))==1,"completion persists")
-        ui.act("remove",rid)
-        check(not ReminderStore(app.reminders.path).items,"deletion persists")
+        check(not hasattr(settings, "open_button"), "settings have no standalone App entry")
         app.show_assistant()
-        ui.navigate("home")
-        check(ui.root.winfo_viewable(),"reopen after close")
-        app.set_hidden(True)
-        ui.root.after(400,guard(home_ready))
-    def home_ready():
-        screenshot("home.png")
+        check(not ui.root.winfo_viewable(), "legacy assistant action stays disabled")
+        app._on_control_message(app.control.show_menu_message, 0, 0)
+        ui.root.update()
+        check(settings.window.winfo_viewable(), "reopening app shows compact settings")
+        check(not ui.root.winfo_viewable(), "reopening app keeps standalone page hidden")
+        check(bool(settings.outside_click.hook), "outside click hook installed in packaged exe")
+        click_at(settings.lower_sign_button.winfo_rootx() + 20,
+                 settings.lower_sign_button.winfo_rooty() + 20)
+        ui.root.after(250, guard(inside_clicked))
+    def click_at(x, y):
+        import ctypes
+        ctypes.windll.user32.SetCursorPos(int(x), int(y))
+        ctypes.windll.user32.mouse_event(0x0002, 0, 0, 0, 0)
+        ctypes.windll.user32.mouse_event(0x0004, 0, 0, 0, 0)
+    def inside_clicked():
+        settings = ui.pet_settings
+        check(settings.window.winfo_viewable(), "clicking inside settings keeps it open")
+        # A separate native top-level window is an unambiguous outside target.
+        import tkinter as tk
+        ui.smoke_outside = tk.Toplevel(ui.root)
+        ui.smoke_outside.geometry('100x80+0+0')
+        ui.smoke_outside.attributes('-topmost', True)
+        ui.root.update_idletasks()
+        click_at(ui.smoke_outside.winfo_rootx() + 20, ui.smoke_outside.winfo_rooty() + 20)
+        ui.root.after(250, guard(outside_clicked))
+    def outside_clicked():
+        settings = ui.pet_settings
+        check(not settings.window.winfo_viewable(), "clicking outside hides settings")
+        check(settings.outside_click.hook is None, "outside click hook released after hiding")
+        ui.smoke_outside.destroy()
+        app.win32.user32.SendMessageW(app.pet.hwnd, app.win32.WM_RBUTTONUP, 0, 0)
+        ui.root.update()
+        check(settings.window.winfo_viewable(), "right-click reopens settings after outside dismissal")
+        check(bool(settings.outside_click.hook), "outside click hook reinstalled on reopen")
         finish()
     ui.root.after(500,guard(setup))
     ui.root.after(45000,lambda:finish("Assistant smoke timed out"))

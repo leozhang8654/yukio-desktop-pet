@@ -6,13 +6,13 @@ Yukio (雪绪), a white-haired, blue-eyed girl in a butler's uniform, sits in th
 
 The artwork, the activity mapping, the debounce and hold times, the focus rules, the sign and the card stack, and the swing parameters for when she is picked up are all identical to the macOS edition (`../YukioPlayer`, Swift). Only the two ends are swapped: **whose session logs she reads** (all three families) and **what draws the window** (a Windows layered window instead of AppKit). The assistant uses Tk/ttk on Windows and SwiftUI on macOS. Platform-specific limitations are listed below.
 
-The only dependency is Pillow. The window, the tray and the menus call the Windows API directly through ctypes; the assistant window uses Python’s bundled Tk/ttk.
+The only dependency is Pillow. The window, the tray and the menus call the Windows API directly through ctypes; compact settings use Python’s bundled Tk/ttk.
 
-## Personal assistant (0.3.3)
+## Release interface (0.3.3)
 
-Home, Reminders, Personalization and Extensions match the implemented macOS features. Create, edit, delete, snooze or complete local one-time reminders; closing the main window keeps reminders running, and missed reminders appear after wake or relaunch. Names and sound preferences are saved locally. AI and screen observation remain planned features. See [assistant guide](../docs/ASSISTANT.md).
+The standalone assistant page and its entries are suspended in release builds; existing local data is preserved. Right-click Yukio or reopen the app for compact settings, and click outside to close. The large **Lower sign** button lowers the current completion sign without opening the chat. See [assistant status](../docs/ASSISTANT.md).
 
-Right-click Yukio for compact, topmost settings; click **Open App ↗** or reopen the exe to return to the assistant. The settings include opt-in [launch at login](../docs/STARTUP.md). Pet settings in its sidebar include visibility, a 50–200% size slider, agent source, language and card switches. `--pet-only` starts with the main window hidden; `--assistant-only` starts with the pet hidden. The system tray remains available in both modes.
+Settings include visibility, a 50–200% size slider, agent source, language, card switches and opt-in [launch at login](../docs/STARTUP.md). The tray menu remains available.
 
 ## Download (no Python needed)
 
@@ -45,7 +45,7 @@ The result is `dist\Yukio.exe` (artwork included). Without a Windows dev environ
 | --- | --- |
 | Move her | Press on her and drag. While dragged she looks picked up by an invisible hand by the back of her collar and swings like a pendulum: drag right and her feet trail behind to the left, stop and she swings past vertical before settling, yank her upward and she first drops, then bounces back. Once you let go and the swing dies down she returns to her current pose, and the position is remembered |
 | Click her | While she is holding up the ✅ done card: the sign goes down (that turn is over). While the ❓ question card is up: the card stays, the question is still waiting for you. If the chat she is following belongs to the Claude desktop app, either click also jumps back to that chat (see "Click to jump back to the chat" below) |
-| Open assistant / menu | Right-click Yukio for compact settings, then **Open App ↗** for the assistant; click the tray avatar for the pet menu |
+| Open settings / menu | Right-click Yukio or reopen the exe for compact settings; click the tray avatar for the pet menu |
 | Change size | Menu › Size: seven fixed steps, 50% / 75% / 100% / 125% / 150% / 175% / 200%, plus "Bigger (+5%)" and "Smaller (−5%)", so she can stop at any multiple of 5% between 50% and 200%. On high-DPI screens the display scaling is applied on top automatically, so she stays sharp |
 | Change language | Menu › Language: English / 中文. English is the default; the choice is remembered in settings.json as "language". Descriptions already attached to earlier events keep their language until the next event |
 | Pause following | Menu › Follow AI activity. With it off she stays idle but still receives events, so she catches up the moment you turn it back on |

@@ -6,9 +6,9 @@ One Yukio (雪绪) who changes what she is doing based on what your coding agent
 With several chats open at once, whichever one has just finished or is waiting for your decision is shown first; the other chats that have something to say stack above the bubble as cards of the same design, and clicking one takes you to that chat. You can also pin one chat in the menu so she follows only that one. Every motion moves gently and continuously (writing, typing, moving her eyes, blinking), and the small bubble over her head shows the big task, the current task, and progress.
 Native Swift / AppKit. It needs only the Xcode Command Line Tools and has no third-party dependencies.
 
-## Personal assistant (0.3.3)
+## Release interface (0.3.3)
 
-The main window includes Home, Reminders, Personalization and planned Extensions. One-time reminders support editing, deletion, five-minute snooze and completion. Data is stored locally; the clock keeps running when the window closes, and catches up after wake or relaunch. Use `--pet-only` to start with the main window hidden, or `--assistant-only` to start with the pet hidden. See [assistant guide](../docs/ASSISTANT.md).
+The standalone assistant page and its entries are suspended in release builds; existing local data is preserved. Right-click Yukio or reopen the app for compact settings, and click outside to close. The large **Lower sign** button lowers the current completion sign without opening the chat. See [assistant status](../docs/ASSISTANT.md).
 
 ## Build and run
 
@@ -24,8 +24,8 @@ Once running: Yukio appears in the bottom-right corner of the screen, and her sm
 Settings and menu entry points:
 
 1. The menu bar avatar. On first run it sits toward the right (about 260 points from the right edge); hold ⌘ and drag to move it, and the system remembers the spot.
-2. Right-click (or control-click) Yukio to open floating pet settings. **Open App ↗** opens the assistant. [Launch at login](../docs/STARTUP.md) is optional and reads the macOS system setting.
-3. Open Yukio.app again (from Finder, Spotlight, or `open build/Yukio.app`): the assistant window opens.
+2. Right-click (or control-click) Yukio to open floating pet settings. Click outside to close. [Launch at login](../docs/STARTUP.md) is optional and reads the macOS system setting.
+3. Open Yukio.app again (from Finder, Spotlight, or `open build/Yukio.app`): compact settings open.
 
 When the menu bar on a notch display is full, macOS pushes the icons that don't fit under the notch or off the screen (measured on this machine: with a plain text title, which read "雪绪" at the time, it was pushed to x=0 and completely invisible). After switching to the avatar and placing it toward the right it is visible, but it pushes the leftmost of the other icons into the notch. You can turn off icons you don't need in "System Settings › Menu Bar" to free up room.
 

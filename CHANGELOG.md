@@ -1,5 +1,12 @@
 # Changelog / 更新记录
 
+## 0.3.3
+
+- Add a large lower-sign button to macOS and Windows settings.
+- Close compact settings when clicking outside, while keeping controls and dropdowns usable.
+- Suspend the standalone assistant page and its entry points in release builds; reopening shows pet settings.
+
+
 ## 0.3.2 — 2026-09-26
 
 - macOS and Windows add opt-in launch at login with live system status, failure reporting and no automatic registration.

@@ -464,12 +464,12 @@ class TrayTests(unittest.TestCase):
         a.show_settings.assert_called_once_with()
         a.show_assistant.assert_not_called()
 
-    def test_second_launch_opens_assistant(self):
+    def test_second_launch_opens_pet_settings(self):
         from unittest.mock import Mock
         a = make_app()
-        a.show_assistant = Mock()
+        a.show_settings = Mock()
         a._on_control_message(a.control.show_menu_message, 0, 0)
-        a.show_assistant.assert_called_once_with()
+        a.show_settings.assert_called_once_with()
 
 
 class StateFileTests(unittest.TestCase):
