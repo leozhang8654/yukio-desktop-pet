@@ -13,7 +13,9 @@ final class SettingsOutsideClickMonitor {
                   window.attachedSheet == nil else { return }
             if event.window === window { return }
             // Include the title bar; menu tracking is handled by the controller.
-            if !window.frame.contains(NSEvent.mouseLocation) { dismiss() }
+            let point = event.window.map { $0.convertPoint(toScreen: event.locationInWindow) }
+                ?? event.locationInWindow
+            if !window.frame.contains(point) { dismiss() }
         }
         let mask: NSEvent.EventTypeMask = [.leftMouseDown, .rightMouseDown, .otherMouseDown]
         local = NSEvent.addLocalMonitorForEvents(matching: mask) { event in
