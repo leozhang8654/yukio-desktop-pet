@@ -62,11 +62,11 @@ def schedule(app, output):
         check(bool(settings.window.attributes("-topmost")), "settings stay above other apps")
         from .events import Kind, PetEvent
         from .app import now_ms
-        t = now_ms()
+        t = now_ms() - app.router.config.respond_hold_ms - 100
         app.router.ingest(PetEvent(t, 'test', 'lower-sign-smoke', Kind.task_start), t)
         app.router.ingest(PetEvent(t, 'test', 'lower-sign-smoke', Kind.final_answer), t)
         app.router.ingest(PetEvent(t, 'test', 'lower-sign-smoke', Kind.task_end), t)
-        app.router.settle(t + 10000)
+        app.router.settle(now_ms())
         check(app.router.completed_session == 'lower-sign-smoke', 'completion sign raised before button')
         check(settings.lower_sign_button.winfo_height() >= 64, 'lower sign button has large click target')
         settings.lower_sign_button.invoke()
