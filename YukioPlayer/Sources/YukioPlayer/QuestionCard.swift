@@ -46,6 +46,7 @@ struct QuestionCardLayout {
 
     /// 已经答过、等她接着干活时那行字。
     let sentNotice: String?
+    let isSending: Bool
     let header: String?
     /// 折过行、必要时截断过的问题正文。
     let question: String
@@ -69,8 +70,9 @@ struct QuestionCardLayout {
     private let hintRect: NSRect
     private let openChatRect: NSRect?
 
-    init(_ q: PetQuestion, picked: Set<Int> = [], canOpenChat: Bool = true, sentNotice: String? = nil) {
+    init(_ q: PetQuestion, picked: Set<Int> = [], canOpenChat: Bool = true, sentNotice: String? = nil, isSending: Bool = false) {
         self.sentNotice = sentNotice
+        self.isSending = isSending
         self.multiSelect = q.multiSelect
         self.picked = picked
         self.canOpenChat = canOpenChat
@@ -95,19 +97,15 @@ struct QuestionCardLayout {
             : nil
         y += hintH + Self.gap
 
-        if sentNotice == nil {
-            inputRect = NSRect(x: Self.padX, y: y, width: innerW - Self.sendWidth - 4, height: Self.inputHeight)
-            sendRect = NSRect(x: Self.width - Self.padX - Self.sendWidth, y: y,
-                              width: Self.sendWidth, height: Self.inputHeight)
-            noticeRect = .zero
-            y += Self.inputHeight + Self.gap
-        } else {
-            inputRect = .zero
-            sendRect = .zero
-            let h = CardLook.lineHeight(Self.optionFont)
+        inputRect = NSRect(x: Self.padX, y: y, width: innerW - Self.sendWidth - 4, height: Self.inputHeight)
+        sendRect = NSRect(x: Self.width - Self.padX - Self.sendWidth, y: y,
+                          width: Self.sendWidth, height: Self.inputHeight)
+        y += Self.inputHeight + Self.gap
+        if sentNotice != nil {
+            let h = CardLook.lineHeight(Self.optionFont) * 2
             noticeRect = NSRect(x: Self.padX, y: y, width: innerW, height: h)
             y += h + Self.gap
-        }
+        } else { noticeRect = .zero }
 
         var rects: [NSRect] = []
         var lines: [(String, String?)] = []
@@ -152,8 +150,8 @@ struct QuestionCardLayout {
         func r(_ rect: NSRect) -> NSRect { rect.offsetBy(dx: bounds.minX, dy: bounds.minY) }
         guard bounds.contains(point) else { return nil }
         if r(Self.closeRect(NSRect(origin: .zero, size: size))).contains(point) { return .close }
-        for (i, rect) in optionRects.enumerated() where r(rect).contains(point) { return .option(i) }
-        if sentNotice == nil {
+        for (i, rect) in optionRects.enumerated() where !isSending && r(rect).contains(point) { return .option(i) }
+        if !isSending {
             if r(inputRect).contains(point) { return .input }
             if r(sendRect).contains(point) { return .send }
         }
@@ -193,14 +191,13 @@ struct QuestionCardLayout {
 
         if let notice = sentNotice {
             CardLook.draw(notice, Self.optionFont, CardLook.accent, in: r(noticeRect))
-        } else {
-            drawInput(in: r(inputRect))
-            drawSend(in: r(sendRect))
         }
+        drawInput(in: r(inputRect))
+        drawSend(in: r(sendRect))
 
         var hint = multiSelect ? tr("Pick any, ⏎ to send", "可多选，⏎ 送出") : tr("Click an option or type ⏎", "点选项，或打字 ⏎")
         if hiddenOptions > 0 { hint = tr("\(hiddenOptions) more in the chat", "还有 \(hiddenOptions) 个选项在聊天里") }
-        if sentNotice != nil { hint = tr("Check the chat", "请到聊天中确认") }
+        if sentNotice != nil { hint = isSending ? tr("Waiting for receipt", "等待接收确认") : tr("Click or type to retry", "可重选或输入后重试") }
         let hintRectOnScreen = r(hintRect)
         CardLook.draw(hint, Self.hintFont, CardLook.muted,
                       in: NSRect(x: hintRectOnScreen.minX, y: hintRectOnScreen.minY,

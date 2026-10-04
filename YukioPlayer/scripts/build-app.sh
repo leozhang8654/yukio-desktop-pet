@@ -16,6 +16,11 @@ else
   swift build -c release
   BIN="$(swift build -c release --show-bin-path)/YukioPlayer"
 fi
+# Reject an old externally supplied binary: it can silently restore the permission loop.
+if /usr/bin/nm -u "$BIN" | /usr/bin/grep -q AXIsProcessTrusted; then
+  echo "旧版键盘回答程序不能打包，请重新构建后台回答版本。" >&2
+  exit 1
+fi
 APP="build/Yukio.app"
 # 可单独试用新助手窗口，不覆盖旧包，也不再放出第二只桌宠。
 if [ "${YUKIO_ASSISTANT_PREVIEW:-0}" = "1" ]; then
@@ -35,6 +40,9 @@ if [ -n "${YUKIO_PAGED_ASSETS:-}" ]; then
   rm -rf "$APP/Contents/Resources/Assets/motion/windows-pages"
   cp -R "$PAGE_SOURCE" "$APP/Contents/Resources/Assets/motion/windows-pages"
 fi
+cp Resources/BACKGROUND-ANSWERS.md "$APP/Contents/Resources/BACKGROUND-ANSWERS.md"
+mkdir -p "$APP/Contents/Resources/deepseek-answers"
+cp integrations/deepseek/*.mjs integrations/deepseek/package.json "$APP/Contents/Resources/deepseek-answers/"
 cp Resources/AppIcon.icns "$APP/Contents/Resources/AppIcon.icns"   # 访达里显示的封面，tools/icon/make_icon.py 生成
 
 cat > "$APP/Contents/Info.plist" <<'PLIST'
@@ -48,8 +56,8 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
   <key>CFBundleExecutable</key><string>YukioPlayer</string>
   <key>CFBundleIconFile</key><string>AppIcon</string>
   <key>CFBundlePackageType</key><string>APPL</string>
-  <key>CFBundleShortVersionString</key><string>0.3.3</string>
-  <key>CFBundleVersion</key><string>10</string>
+  <key>CFBundleShortVersionString</key><string>0.3.4</string>
+  <key>CFBundleVersion</key><string>11</string>
   <key>LSMinimumSystemVersion</key><string>13.0</string>
   <key>LSUIElement</key><true/>
   <key>NSHighResolutionCapable</key><true/>

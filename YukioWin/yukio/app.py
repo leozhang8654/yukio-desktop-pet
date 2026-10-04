@@ -139,6 +139,8 @@ class PetApp:
         self.text_input = None
         self._delivery = None
         self._delivery_question = None
+        self._codex_answers = {}
+        self._answer_executor = ThreadPoolExecutor(max_workers=2, thread_name_prefix="yukio-answer")
         #: 会话 → 深链（查一次要翻几百份记录，问题卡每帧都要问）。
         self._chat_url_cache = {}
         self.tray = win32.TrayIcon(self.control.hwnd, self._tray_icon_path(), self._tray_tip())
@@ -566,7 +568,9 @@ class PetApp:
             self._question_signature = signature
             self.question_layout = QuestionCardLayout(
                 pending.question, picked=self.picked_options, can_open_chat=can_open,
-                sent_notice=self.answer_notice, scale=self.scale)
+                sent_notice=self.answer_notice, scale=self.scale,
+                is_sending=(question_key(pending) in self._codex_answers)
+                if self.router.session_source(pending.session) == "codex" else None)
             self._question_image = self.question_layout.render()
             self._question_target = 1.0
             self._position_question()
@@ -738,12 +742,18 @@ class PetApp:
         from .answer import AnswerDelivery, COPIED, TYPED
         pending = self.shown_question
         text = self._composed_answer(typed)
-        if pending is None or not text or self.answer_notice is not None:
+        if pending is None or not text:
+            return
+        is_codex = self.router.session_source(pending.session) == "codex"
+        if self.answer_notice is not None and not is_codex:
             return
         if self.demo:
             self.answer_notice = tr("Demo only - nothing was sent", "模拟演示，不会真的送出")
             self.question_presentation.set_notice(question_key(pending), self.answer_notice)
             self._update_question(now_ms(), immediate=True)
+            return
+        if is_codex:
+            self._send_codex_answer(pending, text)
             return
         url = self._chat_url(pending.session)
         self.picked_options = set()
@@ -774,7 +784,33 @@ class PetApp:
         if outcome is not None:
             self._answer_finished(outcome)
 
+    def _send_codex_answer(self, pending, text):
+        from .codex_answer import send_answer
+        key = question_key(pending)
+        if key in self._codex_answers:
+            return
+        self.question_presentation.set_notice(key, tr("Sending in background…", "正在后台回答…"))
+        self._codex_answers[key] = self._answer_executor.submit(
+            send_answer, pending.session, pending.call_id, pending.question, text)
+        self._update_question(now_ms(), immediate=True)
+
+    def _tick_codex_answers(self):
+        for key, future in list(self._codex_answers.items()):
+            if not future.done():
+                continue
+            del self._codex_answers[key]
+            try:
+                future.result()
+                self.question_presentation.dismiss(key)
+                self.question_presentation.set_notice(key, None)
+            except Exception as error:
+                from .codex_answer import AnswerError
+                notice = str(error) if isinstance(error, AnswerError) else tr("Could not send · retry", "发送失败 · 可重试")
+                self.question_presentation.set_notice(key, notice)
+            self._update_question(now_ms(), immediate=True)
+
     def _tick_delivery(self, now: float) -> None:
+        self._tick_codex_answers()
         if self._delivery is None or not self._delivery.busy:
             return
         current = self.shown_question
@@ -941,6 +977,7 @@ class PetApp:
 
     def shutdown(self) -> None:
         self._open_chat_executor.shutdown(wait=False, cancel_futures=True)
+        self._answer_executor.shutdown(wait=False, cancel_futures=True)
         try:
             if self.assistant is not None:
                 self.assistant.destroy()

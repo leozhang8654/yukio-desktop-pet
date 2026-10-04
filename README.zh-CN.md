@@ -21,17 +21,14 @@
 
 她认三家助手，在菜单「跟随的助手」里挑：**Claude Code**、**DeepSeek 的 [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)**、**GPT 的 [Codex](https://developers.openai.com/codex/)**（桌面版与命令行写的是同一份会话记录）。默认的**自动**三家一起跟，谁有话说就显示谁。两版都使用原生窗口，完全基于本机会话记录工作。
 
-## 0.3.3 更新
+## 0.3.4 更新
 
-- 设置顶部新增大号 **取消举牌** 图标按钮，放下当前完成牌，不跳转聊天；新任务完成后仍会正常举牌。
-- 点击设置窗口外部即可关闭；右键雪绪或再次打开程序返回设置。
-- macOS、Windows 正式版均暂停独立助手页面及 App 入口，保留已有本地数据。
+- macOS 和 Windows 的 GPT / Codex 问题卡改为后台直传，不切换窗口、不改粘贴板、不模拟按键。
+- 兼容最新聊天记录格式，修复待答问题被误判为已结束。
+- 失败保留答案并可重试；收到回执后只收起对应问题。
+- macOS 回答不再需要辅助功能权限。Claude Code / Deep Code 后台连接见[回答说明](YukioPlayer/Resources/BACKGROUND-ANSWERS.md)。
 
-登录时自动启动、问题卡、活动跟随和原有桌宠操作继续保留。参见[启动说明](docs/STARTUP.md)和[助手当前状态](docs/ASSISTANT.md)。
-
-<img src="docs/readme/settings-macos.png" width="420" alt="雪绪设置顶部的大号取消举牌按钮">
-
-[完整更新记录](CHANGELOG.md)
+保留原有取消举牌按钮、紧凑设置、开机启动和动画。
 
 ## 下载（不用编译）
 
@@ -39,8 +36,8 @@
 
 | 你用的是 | 下载 | 怎么开 |
 | --- | --- | --- |
-| macOS 13 或更新（Apple 芯片与 Intel 通用） | [Yukio-0.3.3-macOS.zip](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.3/Yukio-0.3.3-macOS.zip) | 解压，把 `Yukio.app` 拖进「应用程序」，第一次按下面放行一次 |
-| Windows 10 / 11（64 位） | [Yukio-0.3.3-Windows.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.3/Yukio-0.3.3-Windows.exe) | 双击就开。Python 和素材都打包在里面 |
+| macOS 13 或更新（Apple 芯片与 Intel 通用） | [Yukio-0.3.4-macOS.zip](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.4/Yukio-0.3.4-macOS.zip) | 解压，把 `Yukio.app` 拖进「应用程序」，第一次按下面放行一次 |
+| Windows 10 / 11（64 位） | [Yukio-0.3.4-Windows.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.4/Yukio-0.3.4-Windows.exe) | 双击就开。Python 和素材都打包在里面 |
 
 <details>
 <summary><b>macOS 第一次打开：「Apple 无法验证“Yukio”是否包含可能危害 Mac 安全或泄漏隐私的恶意软件」</b></summary>

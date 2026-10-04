@@ -742,3 +742,55 @@ class AssistantIntegrationTests(unittest.TestCase):
         a.assistant.pump.side_effect=a.tick
         before=a.tick_count;a.tick()
         self.assertEqual(a.tick_count,before+1)
+
+
+class CodexBackgroundAnswerTests(unittest.TestCase):
+    QUESTION = QuestionCardTests.QUESTION
+    setUp = QuestionCardTests.setUp
+    _asking_app = QuestionCardTests._asking_app
+    """The GPT route must never invoke the legacy keyboard/clipboard backend."""
+    def _codex_app(self):
+        from concurrent.futures import Future
+        from unittest.mock import Mock
+        a = self._asking_app()
+        a.router.session_source = Mock(return_value='codex')
+        a._answer_executor.shutdown(wait=False)
+        a._answer_executor = Mock()
+        a._answer_executor.submit.side_effect = lambda *args: Future()
+        return a
+
+    def test_gpt_success_waits_for_receipt_without_keyboard_or_clipboard(self):
+        a = self._codex_app(); key = (a.shown_question.session, a.shown_question.call_id)
+        a._send_answer('A'); a._send_answer('B')
+        self.assertEqual(a._answer_executor.submit.call_count, 1)
+        self.assertEqual(fake_win32.OPENED_URLS, [])
+        self.assertEqual(fake_win32.TYPED, [])
+        self.assertIsNone(fake_win32.CLIPBOARD[0])
+        self.assertEqual(fake_win32.RETURNS[0], 0)
+        self.assertTrue(a.question_layout.is_sending)
+        self.assertIsNotNone(a.shown_question)
+        a._codex_answers[key].set_result(None); a._tick_codex_answers()
+        self.assertTrue(a.question_presentation.is_dismissed(key))
+        self.assertIsNone(a.shown_question)
+
+    def test_gpt_failure_keeps_selection_and_allows_retry(self):
+        from yukio.codex_answer import AnswerError
+        a = self._codex_app(); key = (a.shown_question.session, a.shown_question.call_id)
+        a.picked_options = {0}; a._send_answer('A')
+        a._codex_answers[key].set_exception(AnswerError('unavailable')); a._tick_codex_answers()
+        self.assertFalse(a.question_presentation.is_dismissed(key))
+        self.assertEqual(a.picked_options, {0})
+        self.assertFalse(a.question_layout.is_sending)
+        self.assertIsNotNone(a.question_layout.input_rect)
+        a._send_answer('B')
+        self.assertEqual(a._answer_executor.submit.call_count, 2)
+        a._codex_answers[key].set_result(None); a._tick_codex_answers()
+
+    def test_gpt_receipt_is_scoped_to_original_question(self):
+        from yukio.router import PendingQuestion
+        a = self._codex_app(); old = a.shown_question
+        key = (old.session, old.call_id); a._send_answer('A')
+        a.shown_question = PendingQuestion('other', 'other', old.question)
+        a._codex_answers[key].set_result(None); a._tick_codex_answers()
+        self.assertTrue(a.question_presentation.is_dismissed(key))
+        self.assertFalse(a.question_presentation.is_dismissed(('other', 'other')))

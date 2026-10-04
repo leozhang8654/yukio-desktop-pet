@@ -188,14 +188,7 @@ are noted as "N more in the chat". The card sits on whichever side of her has ro
 - **✕** puts the card away for this question only; she keeps the ❓ card up and the next question brings the card back.
 - **"Open the chat ›"** jumps to the chat instead, exactly like clicking her.
 
-How the answer gets there: Yukio copies it to the clipboard, opens that chat through the deep link (which brings Claude or Codex to the front),
-waits until that app really is frontmost, and then presses ⌘V and ⏎ for you. **It needs the system's Accessibility permission**
-(macOS asks the first time, in System Settings › Privacy & Security › Accessibility). Without the permission — or if the app doesn't come to the front,
-or you switch away while it is happening — she does not press any key at all: the answer is simply on the clipboard, the chat is open, and the card says so
-("Copied · press ⌘V in the chat"). She never types into an app other than the one the answer belongs to. The clipboard is put back afterwards
-unless you copied something else in the meantime.
-
-For a chat with no window to jump to (Deep Code runs in a terminal) the answer is only copied. In the demo nothing is sent anywhere.
+Answers use background connections without switching apps, changing the clipboard, or requiring Accessibility. GPT / Codex supports both current canonical history and legacy snapshots. Failed sends keep your input and allow retry; the card closes only after a receipt. Claude Code and Deep Code require the setup described in [Background answers](Resources/BACKGROUND-ANSWERS.md). Ordinary provider websites are not connected. Demo mode never sends.
 
 Settings › **Answer here** turns the whole card off; then the ❓ card behaves as it used to — click her to go and answer in the chat.
 `./.build/release/YukioPlayer --question out.png` draws the card offscreen (single-select, multi-select, no options, already answered)

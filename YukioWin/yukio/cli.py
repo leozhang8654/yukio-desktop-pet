@@ -587,6 +587,9 @@ def main(argv: Optional[List[str]] = None) -> int:
                 return argv[i + 1]
         return None
 
+    if value_after("--codex-answer-smoke"):
+        from .answer_smoke import run
+        return run(value_after("--codex-answer-smoke"))
     if "--help" in argv or "-h" in argv:
         print(__doc__)
         return 0

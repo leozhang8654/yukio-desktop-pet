@@ -739,6 +739,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     /// refreshOpenChat 的后台读取是否还在路上。
     private var openChatBusy = false
     private let codexOpenChat = CodexOpenChat()
+    private let claudeAnswerBridge = ClaudeQuestionBridge()
+    private var deepSeekInstaller: Process?
     private var openChatProcessID: pid_t?
     private let defaults = UserDefaults.standard
 
@@ -1164,6 +1166,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         if tickCount % 8 == 0 {
             // 约每 0.27 秒读一次会话记录。事件始终进入路由器；暂停跟随只影响显示。
             for e in feeds.poll(now: now) { router.ingest(e, now: min(e.ts, now)) }
+            for e in claudeAnswerBridge.poll(now: now, enabled: following && showQuestionCard && !petHidden
+                 , providers: provider == .auto ? ["claude", "deepseek"] : [provider.rawValue]) { router.ingest(e, now: now) }
         }
         router.tick(now: now)
 
@@ -1438,7 +1442,6 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             guard let self else { return }
             // 要收键盘输入（还要能用输入法）就得让这扇窗口成为 key；
             // 只有你真的点了它才会走到这里，问题立起来的那一刻不抢你正在敲的东西。
-            NSApp.activate(ignoringOtherApps: true)
             self.questionPanel.makeKeyAndOrderFront(nil)
             // 键盘先交给卡片本身（数字键 1–9 选选项、Esc 收卡）；点在输入框上时紧接着的
             // mouseUp 会把它转交给文本框。
@@ -1477,54 +1480,54 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         return labels.isEmpty ? nil : labels.joined(separator: tr(", ", "、"))
     }
 
-    /// 替你把答案按进那条聊天里（见 AnswerSender：深链带到前面 → ⌘V → 回车）。
+    /// Answer through the provider's background channel; never open or activate a chat.
     private func sendAnswer(_ typed: String) {
-        guard answerNotice == nil, let pending = shownQuestion, let text = composedAnswer(typed) else { return }
+        guard let pending = shownQuestion, let text = composedAnswer(typed) else { return }
+        let key = QuestionPresentationState.Key(pending)
+        guard !answersInFlight.contains(key) else { return }
         guard simulation == nil else {
-            answerNotice = tr("Demo only — nothing was sent", "模拟演示，不会真的送出")
-            questionPresentation.setNotice(answerNotice!, for: .init(pending))
+            questionPresentation.setNotice(tr("Demo only — nothing was sent", "模拟演示，不会真的送出"), for: key)
             updateQuestion(now: nowMs(), immediate: true)
             return
         }
-        let session = pending.session
-        let owner = AgentProvider.owner(ofSource: router.sourceOfSession(session) ?? "")
-        // Deep Code 跑在终端里，没有能带到前面的窗口：只复制，让人自己贴。
-        let bundleID: String?
-        switch owner {
-        case .gpt: bundleID = Self.codexBundleID
-        case .deepseek: bundleID = nil
-        default: bundleID = Self.claudeBundleID
-        }
-        answerNotice = tr("Sending…", "正在送过去…")
-        questionPresentation.setNotice(answerNotice!, for: .init(pending))
-        pickedOptions = []
-        questionPanel.cardView.answerText = ""
+        let owner = AgentProvider.owner(ofSource: router.sourceOfSession(pending.session) ?? "")
+        answersInFlight.insert(key)
+        questionPresentation.setNotice(tr("Sending in background…", "正在后台回答…"), for: key)
         updateQuestion(now: nowMs(), immediate: true)
-        AnswerSender.send(text, to: bundleID, bringToFront: { [weak self] in
-            guard let self, bundleID != nil else { return }
-            self.openChat(session: session)
-        }, completion: { [weak self] outcome in
-            guard let self else { return }
-            let key = QuestionPresentationState.Key(pending)
-            let notice: String
-            switch outcome {
-            case .typed:
-                notice = tr("Pasted · check the chat", "已粘贴并按回车 · 请在聊天中确认")
-                self.questionPresentation.dismiss(key)
-            case .needsPermission:
-                notice = tr("Copied · allow Accessibility first", "已复制 · 先给辅助功能权限")
-            case .clipboardChanged:
-                notice = tr("Clipboard changed · answer in chat", "剪贴板已更改 · 请到聊天中回答")
-            case .copied:
-                notice = tr("Copied · press ⌘V in the chat", "已复制 · 到聊天里 ⌘V")
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            let result: Result<Void, Error>
+            do {
+                switch owner {
+                case .gpt:
+                    try CodexAnswerClient().send(session: pending.session, callID: pending.callID,
+                                                 question: pending.question, answer: text)
+                case .claude:
+                    try ClaudeQuestionBridge().send(session: pending.session, callID: pending.callID, answer: text)
+                case .deepseek:
+                    guard pending.callID.hasPrefix("yukio-deepseek:") else { throw BackgroundAnswerSetup.Failure.deepSeekNotConnected }
+                    try ClaudeQuestionBridge().send(session: pending.session, callID: pending.callID, answer: text, provider: "deepseek")
+                default:
+                    throw CodexAnswerClient.Failure.ambiguous
+                }
+                result = .success(())
+            } catch { result = .failure(error) }
+            DispatchQueue.main.async {
+                guard let self else { return }
+                self.answersInFlight.remove(key)
+                switch result {
+                case .success:
+                    self.questionPresentation.dismiss(key)
+                case .failure(let error):
+                    self.questionPresentation.setNotice(error.localizedDescription, for: key)
+                }
+                self.updateQuestion(now: nowMs(), immediate: true)
             }
-            self.questionPresentation.setNotice(notice, for: key)
-            self.updateQuestion(now: nowMs(), immediate: true)
-        })
+        }
     }
 
     /// 这张卡此刻该长什么样：内容没变就不重算排版（每秒 30 次量文字太浪费）。
     private var questionSignature: String = ""
+    private var answersInFlight: Set<QuestionPresentationState.Key> = []
 
     private func updateQuestion(now: Double, immediate: Bool = false) {
         guard let questionPanel else { return }
@@ -1550,7 +1553,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         guard signature != questionSignature || immediate else { return }
         questionSignature = signature
         let layout = QuestionCardLayout(pending.question, picked: pickedOptions,
-                                        canOpenChat: canOpen, sentNotice: answerNotice)
+                                        canOpenChat: canOpen, sentNotice: answerNotice, isSending: answersInFlight.contains(.init(pending)))
         questionPanel.cardView.card = layout
         showQuestionPanel(layout)
     }
@@ -1892,6 +1895,11 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     private func buildMenu() -> NSMenu {
         let menu = NSMenu()
+        menu.addItem(action(tr("Connect Claude background answers", "连接 Claude 后台回答"), #selector(menuConnectClaudeAnswers)))
+        let deepSeekSetup = action(deepSeekInstaller == nil ? tr("Install DeepSeek answer adapter", "安装 DeepSeek 回答适配器") : tr("Installing DeepSeek adapter…", "正在安装 DeepSeek 适配器…"), #selector(menuConnectDeepSeekAnswers))
+        deepSeekSetup.isEnabled = deepSeekInstaller == nil
+        menu.addItem(deepSeekSetup)
+        menu.addItem(action(tr("Background answer setup (GPT / Claude / DeepSeek)", "后台回答说明（GPT / Claude / DeepSeek）"), #selector(menuAnswerHelp)))
         menu.addItem(.separator())
         let chats = simulation == nil ? router.sessionSummaries(now: nowMs(), quietWithinMs: Self.chatListWindowMs,
                                                                 limit: Self.chatListLimit) : []
@@ -1996,6 +2004,41 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     @objc private func menuResetPosition() {
         resetPetPosition()
     }
+    @objc private func menuConnectClaudeAnswers() {
+        let alert = NSAlert()
+        do {
+            try BackgroundAnswerSetup.installClaude()
+            alert.messageText = tr("Claude answers connected", "已连接 Claude 后台回答")
+            alert.informativeText = tr("Restart Claude Code for the new hook. Keep Yukio following with question cards enabled.", "重启 Claude Code 后生效。保持雪绪跟随并开启问题卡片；提问后可直接在卡片回答。")
+        } catch { alert.messageText = error.localizedDescription }
+        alert.runModal()
+    }
+    @objc private func menuConnectDeepSeekAnswers() {
+        guard deepSeekInstaller == nil else { return }
+        do {
+            let process = try BackgroundAnswerSetup.deepSeekInstaller()
+            process.terminationHandler = { [weak self] process in
+                DispatchQueue.main.async {
+                    self?.deepSeekInstaller = nil
+                    let alert = NSAlert()
+                    alert.messageText = process.terminationStatus == 0 ? tr("DeepSeek adapter installed", "DeepSeek 适配器已安装") : tr("DeepSeek setup failed", "DeepSeek 适配器安装失败")
+                    alert.informativeText = process.terminationStatus == 0 ? tr("Launch yukio-deepseek as described in Background answer setup. Your existing model settings are used.", "请按「后台回答说明」启动 yukio-deepseek，沿用原有 Deep Code 模型设置。") : tr("See ~/Library/Application Support/YukioPlayer/deepseek-setup.log", "详情见 ~/Library/Application Support/YukioPlayer/deepseek-setup.log")
+                    alert.runModal()
+                }
+            }
+            deepSeekInstaller = process
+            try process.run()
+        } catch {
+            deepSeekInstaller = nil
+            let alert = NSAlert()
+            alert.messageText = tr("Node.js 22+ and Git are required", "请先安装 Node.js 22+ 和 Git")
+            alert.informativeText = tr("See Background answer setup for manual installation.", "手动安装步骤见「后台回答说明」。")
+            alert.runModal()
+        }
+    }
+    @objc private func menuAnswerHelp() {
+        if let url = Bundle.main.url(forResource: "BACKGROUND-ANSWERS", withExtension: "md") { NSWorkspace.shared.open(url) }
+    }
     @objc private func menuQuit() { NSApp.terminate(nil) }
 }
 
@@ -2005,6 +2048,14 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
 setvbuf(stdout, nil, _IOLBF, 0)
 
 let args = CommandLine.arguments
+if args.contains("--claude-answer-hook") {
+    FileHandle.standardOutput.write(ClaudeQuestionBridge.runHook(input: FileHandle.standardInput.readDataToEndOfFile()))
+    exit(0)
+}
+if args.contains("--connect-claude-answers") {
+    do { try BackgroundAnswerSetup.installClaude(); print("Claude AskUserQuestion bridge installed"); exit(0) }
+    catch { FileHandle.standardError.write(Data("\(error)\n".utf8)); exit(1) }
+}
 if args.contains("--check") { runCheck() }
 if args.contains("--motion-benchmark") { runMotionBenchmark() }
 if let i = args.firstIndex(of: "--snapshot"), i + 1 < args.count { runSnapshot(path: args[i + 1]) }
@@ -2035,6 +2086,17 @@ if args.contains("--menu") {
     for line in controller.menuTitlesForCheck() { print(line) }
     exit(0)
 }
+
+#if DEBUG
+if let path = Bundle.main.object(forInfoDictionaryKey: "YukioAnswerCheck") as? String {
+    NSApplication.shared.setActivationPolicy(.accessory)
+    let check = try AnswerCardCheck(path: path)
+    withExtendedLifetime(check) { NSApplication.shared.run() }
+    exit(0)
+}
+
+// End of the opt-in native integration fixture.
+#endif
 
 // 只允许一个雪绪：已有实例在运行时直接退出。
 let running = NSRunningApplication.runningApplications(withBundleIdentifier: Bundle.main.bundleIdentifier ?? "")
