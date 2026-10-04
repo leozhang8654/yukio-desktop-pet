@@ -50,7 +50,7 @@ class CardStackTests(unittest.TestCase):
         cards = h.router.cards(h.now)
         self.assertEqual(sessions(cards), ["done", "work"])
         self.assertEqual(cards[0].status, CardStatus.ready)
-        self.assertEqual(cards[0].title, "写个脚本")
+        self.assertEqual(cards[0].title, "会话 done…")
         self.assertEqual(cards[0].subtitle, "点开看看")
         self.assertEqual(cards[0].status_label, "答完了")
         self.assertEqual(cards[1].status, CardStatus.running)

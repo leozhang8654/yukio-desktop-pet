@@ -31,6 +31,28 @@ import Testing
         try h.close()
     }
 
+    @Test func codexChatTitleComesFromIndexAndTracksRenames() throws {
+        defer { try? FileManager.default.removeItem(at: root) }
+        let sessions = root.appendingPathComponent("sessions")
+        let file = sessions.appendingPathComponent("rollout-chat.jsonl")
+        let index = root.appendingPathComponent("session_index.jsonl")
+        let t = now()
+        try append(file, #"{"timestamp":"\#(stamp(t))","type":"response_item","payload":{"type":"message","role":"user","content":[{"type":"input_text","text":"please fix this"}]}}"# + "\n")
+        try append(index, "{\"id\":\"rollout-chat\",\"thread_name\":\"Login validation\"}\n{broken\n")
+        let source = CodexSessionsSource(sessionsDir: sessions)
+        let router = ActivityRouter(now: t)
+        let first = source.poll(now: t)
+        for event in first { router.ingest(event, now: t) }
+        #expect(first.last?.kind == .sessionTitle)
+        #expect(router.sessionSummaries(now: t).first?.title == "Login validation")
+        #expect(router.cards(now: t, includeFocused: true).first?.title == "Login validation")
+        #expect(source.poll(now: t + 1).isEmpty)
+        try append(index, "{\"id\":\"rollout-chat\",\"thread_name\":\"Fix login errors\"}\n")
+        let renamed = source.poll(now: t + 2)
+        #expect(renamed.count == 1)
+        #expect(renamed.first?.detail == "Fix login errors")
+    }
+
     @Test func settingsValueMapsToAProvider() {
         #expect(AgentProvider(code: nil) == .auto)
         #expect(AgentProvider(code: "gpt") == .gpt)

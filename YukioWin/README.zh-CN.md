@@ -1,4 +1,4 @@
-[English](README.md) · **简体中文**
+> 0.3.5：聊天名称显示真实标题，并同步标题改名。详见[更新说明](../docs/releases/0.3.5.md)。
 
 # 雪绪 · 桌面宠物（Windows 版，跟随 DeepSeek、Claude 或 GPT）
 

@@ -37,7 +37,7 @@ private extension Harness {
         #expect(h.router.focusedSession == "ask")
         #expect(h.cards.map(\.session) == ["done", "work"])
         #expect(h.cards[0].status == .ready)
-        #expect(h.cards[0].title == "写个脚本")
+        #expect(h.cards[0].title == "会话 done…")
         #expect(h.cards[0].subtitle == "点开看看")
         #expect(h.cards[1].status == .running)
         #expect(h.cards[1].subtitle == "编辑 Login.swift")

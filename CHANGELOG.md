@@ -1,5 +1,10 @@
 # Changelog / 更新记录
 
+## 0.3.5 — 2026-10-04
+
+- Show saved Codex chat titles in bubbles, notification cards and chat menus on macOS and Windows; track title changes automatically.
+- Chats without titles display a session label instead of user input.
+
 ## 0.3.4 — 2026-10-04
 
 - Replace GPT / Codex keyboard forwarding with background desktop IPC on macOS and Windows.

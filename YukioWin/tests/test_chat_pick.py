@@ -94,7 +94,7 @@ class ChatPickTests(unittest.TestCase):
         listed = h.router.session_summaries(h.now)
         self.assertEqual(listed[0].id, "B")        # 仍排在最前，等你处理
         self.assertTrue(listed[0].sign_yielded)
-        self.assertEqual(listed[0].menu_label, "写个脚本 · 举着牌子等你（先让位了）")
+        self.assertEqual(listed[0].menu_label, "会话 B… · 举着牌子等你（先让位了）")
 
         # A 也停了：牌子重新举回来，点它照样跳回 B。
         h.send(Kind.task_abort, session="A")
@@ -151,7 +151,7 @@ class ChatPickTests(unittest.TestCase):
         chats = h.router.session_summaries(h.now)
         self.assertEqual([c.id for c in chats], ["bad", "work"])
         self.assertTrue(chats[0].wants_you and not chats[1].wants_you)
-        self.assertEqual(chats[0].menu_label, "跑个构建 · 出错停住了")
+        self.assertEqual(chats[0].menu_label, "会话 bad… · 出错停住了")
 
     def test_a_chat_that_finishes_while_she_follows_another_one_keeps_its_card(self):
         h = Harness()
@@ -263,8 +263,8 @@ class ChatPickTests(unittest.TestCase):
         self.assertEqual([c.id for c in chats], ["done", "work", "old"])
         self.assertEqual(chats[0].menu_label, "写个备份脚本 · 举着牌子等你点")
         self.assertTrue(chats[0].raised_sign and chats[0].focused)
-        self.assertEqual(chats[1].menu_label, "改登录页 · 修改文件")
-        self.assertEqual(chats[2].menu_label, "看看昨天的报错 · 10 分钟前")
+        self.assertEqual(chats[1].menu_label, "会话 work… · 修改文件")
+        self.assertEqual(chats[2].menu_label, "会话 old… · 10 分钟前")
 
         # 安静太久的不列；等你处理的和在跑的一定留着。
         self.assertEqual([c.id for c in h.router.session_summaries(h.now, quiet_within_ms=60000)],

@@ -205,6 +205,24 @@ class CodexSourceTests(unittest.TestCase):
         with open(self.path, "ab") as fh:
             fh.write(data + b"\n")
 
+    def test_chat_title_index_and_rename(self):
+        self.append(line({"type": "message", "role": "user",
+                          "content": [{"type": "input_text", "text": "please fix this"}]}))
+        index = os.path.join(self.root, "session_index.jsonl")
+        with open(index, "w", encoding="utf-8") as stream:
+            stream.write(json.dumps({"id": SESSION, "thread_name": "Login validation"}) + "\n{broken\n")
+        source = CodexSessionsSource(os.path.join(self.root, "sessions"))
+        now = time.time() * 1000
+        first = source.poll(now)
+        self.assertEqual(first[-1].kind, Kind.session_title)
+        self.assertEqual(first[-1].detail, "Login validation")
+        self.assertEqual(source.poll(now + 1), [])
+        with open(index, "a", encoding="utf-8") as stream:
+            stream.write(json.dumps({"id": SESSION, "thread_name": "Fix login errors"}) + "\n")
+        renamed = source.poll(now + 2)
+        self.assertEqual(len(renamed), 1)
+        self.assertEqual(renamed[0].detail, "Fix login errors")
+
     def test_sessions_are_found_under_the_date_folders_and_only_new_lines_are_read(self):
         self.append(line({"type": "message", "role": "user",
                           "content": [{"type": "input_text", "text": "改动画"}]}, stamp=ts(-5)))

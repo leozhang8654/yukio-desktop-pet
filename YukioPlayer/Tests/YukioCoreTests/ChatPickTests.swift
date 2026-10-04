@@ -108,7 +108,7 @@ private extension Harness {
         let listed = h.router.sessionSummaries(now: h.now)
         #expect(listed.first?.id == "B")        // 仍排在最前，等你处理
         #expect(listed.first?.signYielded == true)
-        #expect(listed.first?.menuLabel == "写个脚本 · 举着牌子等你（先让位了）")
+        #expect(listed.first?.menuLabel == "会话 B… · 举着牌子等你（先让位了）")
 
         // A 也停了：牌子重新举回来，点它照样跳回 B。
         h.to("A", .taskAbort)
@@ -167,7 +167,7 @@ private extension Harness {
         let chats = h.router.sessionSummaries(now: h.now)
         #expect(chats.map(\.id) == ["bad", "work"])
         #expect(chats[0].wantsYou && !chats[1].wantsYou)
-        #expect(chats[0].menuLabel == "跑个构建 · 出错停住了")
+        #expect(chats[0].menuLabel == "会话 bad… · 出错停住了")
     }
 
     @Test func pinnedChatIsNotStolenByOtherChats() {
@@ -264,8 +264,8 @@ private extension Harness {
         #expect(chats.map(\.id) == ["done", "work", "old"])
         #expect(chats[0].menuLabel == "写个备份脚本 · 举着牌子等你点")
         #expect(chats[0].raisedSign && chats[0].focused)
-        #expect(chats[1].menuLabel == "改登录页 · 修改文件")
-        #expect(chats[2].menuLabel == "看看昨天的报错 · 10 分钟前")
+        #expect(chats[1].menuLabel == "会话 work… · 修改文件")
+        #expect(chats[2].menuLabel == "会话 old… · 10 分钟前")
 
         // 安静太久的不列；等你处理的和在跑的一定留着。
         #expect(h.router.sessionSummaries(now: h.now, quietWithinMs: 60_000).map(\.id) == ["done", "work"])

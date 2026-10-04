@@ -1,4 +1,4 @@
-[English](README.md) · **简体中文**
+> 0.3.5：聊天名称显示真实标题，并同步标题改名。详见[更新说明](../docs/releases/0.3.5.md)。
 
 # 雪绪桌面播放器（macOS，跟随 Claude、DeepSeek 或 GPT）
 

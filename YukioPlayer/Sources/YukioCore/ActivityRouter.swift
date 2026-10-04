@@ -572,7 +572,7 @@ public final class ActivityRouter {
             let rank = (wants ? attentionRank(s, now: now) : nil)
                 ?? (wants ? 3 : (live ? 4 : ((pinned || focused) ? 5 : 6)))
             rows.append((rank, quiet, SessionSummary(
-                id: id, title: s.title ?? s.prompt, state: desired(for: s, now: now, arming: false),
+                id: id, title: s.title, state: desired(for: s, now: now, arming: false),
                 live: live, wantsYou: wants, raisedSign: s.sign == .raised,
                 signYielded: signOverdue(s, now: now),
                 quietMs: quiet, focused: focused, pinned: pinned)))
@@ -736,7 +736,7 @@ public final class ActivityRouter {
         default:
             current = inProgress ?? s.lastDetail[displayed] ?? Self.stateText(displayed)
         }
-        return StatusLine(title: s.title ?? s.prompt, current: current, progress: progress)
+        return StatusLine(title: SessionSummary.displayName(title: s.title, id: s.id), current: current, progress: progress)
     }
 
     /// 状态的说法（按界面语言）：气泡没有更具体的文字时用它，聊天列表里也用它。

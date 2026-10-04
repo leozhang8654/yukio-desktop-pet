@@ -1,4 +1,4 @@
-**English** · [简体中文](README.zh-CN.md)
+> 0.3.5: Show actual chat titles and track renames. See [release notes](../docs/releases/0.3.5.md).
 
 # Yukio desktop pet (Windows edition: DeepSeek, Claude or GPT)
 

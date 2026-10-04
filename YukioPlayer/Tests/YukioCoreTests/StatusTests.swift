@@ -19,7 +19,7 @@ extension Harness {
         #expect(h.line == nil)
         h.event(.taskStart, detail: "修一下登录页")
         h.run(to: 1000)
-        #expect(h.line == StatusLine(title: "修一下登录页", current: "思考中", progress: nil))
+        #expect(h.line == StatusLine(title: "会话 s1…", current: "思考中", progress: nil))
         h.event(.activityStart, id: "a", .write_file, detail: "编辑 main.swift")
         h.run(to: 1200)
         // 还没过防抖：文字仍跟着正在显示的动作。
@@ -49,7 +49,7 @@ extension Harness {
         h.event(.todoUpdate, todos: [TodoItem(id: "1", status: .completed), TodoItem(id: "2", status: .inProgress)])
         h.event(.activityStart, id: "e", .write_file, detail: "编辑 a.swift")
         h.run(to: 1000)
-        #expect(h.line == StatusLine(title: nil, current: "改代码", progress: .init(done: 1, total: 3)))
+        #expect(h.line == StatusLine(title: "会话 s1…", current: "改代码", progress: .init(done: 1, total: 3)))
         // 一批全部完成后又新建任务：进度从头算。
         h.event(.todoUpdate, todos: [TodoItem(id: "2", status: .completed), TodoItem(id: "3", status: .completed)])
         h.event(.todoUpdate, todos: [TodoItem(id: "4", subject: "写文档")])
