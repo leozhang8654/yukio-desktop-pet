@@ -4,7 +4,7 @@ import YukioCore
 /// 立在她身边的那张问题卡的窗口。
 ///
 /// 和气泡、卡叠一样是跟着她走的透明子窗口，但这一张要收键盘输入（自己写一句回答），
-/// 所以它能成为 key 窗口——不过只有你真的点了它才会（`NSApp.activate` 在控制器里调），
+/// 所以它能成为 key 窗口——不过只有你点输入框时才取键盘焦点，不激活目标聊天，
 /// 问题立起来的那一刻不抢你正在敲的东西。
 final class QuestionPanel: NSPanel {
     let cardView = QuestionCardView(frame: NSRect(x: 0, y: 0, width: QuestionCardLayout.width, height: 40))
@@ -77,11 +77,12 @@ final class QuestionCardView: NSView, NSTextFieldDelegate {
     }
 
     private func placeField() {
-        guard let card, card.sentNotice == nil else {
+        guard let card else {
             field.isHidden = true
             return
         }
         field.isHidden = false
+        field.isEnabled = !card.isSending
         field.frame = card.textFieldFrame(in: bounds).insetBy(dx: 5, dy: 4)
     }
 
@@ -102,7 +103,7 @@ final class QuestionCardView: NSView, NSTextFieldDelegate {
 
     override func mouseDown(with event: NSEvent) {
         // 和点雪绪一样在 mouseUp 里处理；这里只把窗口变成 key，输入法才用得上。
-        onActivate?()
+        if card?.hit(at: convert(event.locationInWindow, from: nil), in: bounds) == .input { onActivate?() }
     }
 
     override func mouseUp(with event: NSEvent) {
@@ -119,6 +120,7 @@ final class QuestionCardView: NSView, NSTextFieldDelegate {
 
     /// 数字键 1–9 等于点对应的选项，Esc 等于点 ✕。输入框拿到焦点时这些键归输入框。
     override func keyDown(with event: NSEvent) {
+        guard card?.isSending != true else { return }
         guard let chars = event.charactersIgnoringModifiers, let first = chars.first else {
             super.keyDown(with: event)
             return

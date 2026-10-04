@@ -170,7 +170,9 @@ Long questions are cut with an ellipsis (the full one is in the chat); at most s
 - **✕** puts the card away for this question only; the next question brings it back.
 - **"Open the chat >"** jumps to the chat instead.
 
-How the answer gets there: Yukio copies it to the clipboard, opens that chat through the deep link the Claude desktop app registers,
+**GPT / Codex:** replies use the running desktop app's local named pipe. Yukio validates the exact thread and question, supports current canonical history and older snapshots, and waits for a receipt. No application activation, clipboard or synthetic keyboard input is involved. Failures keep your answer and allow retry. Codex must be running locally; ordinary ChatGPT websites are not connected.
+
+**Claude / other sources:** the existing delivery method remains: Yukio copies it to the clipboard, opens that chat through the deep link the Claude desktop app registers,
 waits until `Claude.exe` really is the foreground application, and then types the answer with `SendInput` (Unicode mode, so the keyboard
 layout and the IME are not involved) and presses Enter. No extra permission is needed on Windows. If that app doesn't come to the front
 within 2.5 seconds, or you switch away while it is happening, **not a single key is pressed**: the answer is just on the clipboard and the card

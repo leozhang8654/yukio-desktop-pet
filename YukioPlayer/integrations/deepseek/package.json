@@ -1,0 +1,8 @@
+{
+  "name": "yukio-deepseek-answers",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": { "setup": "node setup.mjs", "test": "node --test bridge.test.mjs" }
+}

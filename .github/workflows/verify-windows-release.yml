@@ -7,7 +7,7 @@ on:
       release_tag:
         description: Published release tag to test (for example v0.3.2)
         required: true
-        default: v0.3.2
+        default: v0.3.4
         type: string
 
 permissions:
@@ -58,6 +58,11 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw "Core/player tests failed" }
           python run.py --check
           if ($LASTEXITCODE -ne 0) { throw "Artwork check failed" }
+      - name: Verify downloaded exe answers over an isolated named pipe
+        working-directory: YukioWin
+        env:
+          PYTHONPATH: .
+        run: python tests/test_codex_answer.py --exe build/published-release/Yukio.exe
       - name: Verify downloaded compact settings and outside-click dismissal
         working-directory: YukioWin
         run: powershell -ExecutionPolicy Bypass -File scripts/smoke-assistant.ps1 -Exe build/published-release/Yukio.exe

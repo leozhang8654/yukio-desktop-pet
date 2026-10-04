@@ -1,5 +1,15 @@
 # Changelog / 更新记录
 
+## 0.3.4 — 2026-10-04
+
+- Replace GPT / Codex keyboard forwarding with background desktop IPC on macOS and Windows.
+- Read canonical conversation history in addition to legacy turns; validate the exact live question and reject expired or duplicate answers.
+- Keep failed replies editable and retryable; dismiss only after a matching receipt.
+- Remove the macOS Accessibility requirement for replies and reject obsolete keyboard-sender binaries during packaging.
+- Windows source and packaged-exe checks exercise actual named-pipe I/O, fragmented frames, accepted/rejected replies, expired questions, and blocking-request receipts.
+- macOS also ships the existing Claude Code question-hook and isolated Deep Code adapter setup.
+
+
 ## 0.3.3
 
 - Add a large lower-sign button to macOS and Windows settings.

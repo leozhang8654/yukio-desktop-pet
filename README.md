@@ -21,11 +21,12 @@
 
 She follows three families of agent, and you pick which one in her menu under **Assistant**: **Claude Code**, **DeepSeek's [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)**, and **GPT's [Codex](https://developers.openai.com/codex/)** (the desktop app and the CLI both write the same session logs). The default, **Auto**, follows all three at once and shows whichever chat has something to say. Both builds use native windows and work entirely from local session logs.
 
-## New in 0.3.3
+## New in 0.3.4
 
-- A large **Lower sign** icon button in settings lowers the current completion sign without opening the chat. New completed turns can raise it again.
-- Click outside the compact settings window to close it. Right-click Yukio or reopen the app to return to settings.
-- The standalone assistant page and its App entry are suspended in both release builds. Existing local data is preserved.
+- GPT / Codex question cards now answer through the desktop app in the background on macOS and Windows. No focus switching, clipboard changes or simulated keystrokes.
+- Support the current canonical conversation history so live questions are no longer mistaken for expired ones.
+- Failed sends preserve your answer and allow retry; successful receipts dismiss only the matching question.
+- macOS no longer requires Accessibility for answering. Claude Code and Deep Code background setup is described in the [answer guide](YukioPlayer/Resources/BACKGROUND-ANSWERS.md).
 
 Launch at login, question cards, activity following and the existing pet controls remain available. See the [startup guide](docs/STARTUP.md) and [assistant status](docs/ASSISTANT.md).
 
@@ -39,8 +40,8 @@ Grab the file for your system from the [latest release](https://github.com/leozh
 
 | You use | Download | Then |
 | --- | --- | --- |
-| macOS 13 or newer (Apple silicon and Intel) | [Yukio-0.3.3-macOS.zip](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.3/Yukio-0.3.3-macOS.zip) | Unzip, drag `Yukio.app` into Applications, allow it once (below) |
-| Windows 10 / 11, 64-bit | [Yukio-0.3.3-Windows.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.3/Yukio-0.3.3-Windows.exe) | Double-click. Python and the artwork are packed inside |
+| macOS 13 or newer (Apple silicon and Intel) | [Yukio-0.3.4-macOS.zip](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.4/Yukio-0.3.4-macOS.zip) | Unzip, drag `Yukio.app` into Applications, allow it once (below) |
+| Windows 10 / 11, 64-bit | [Yukio-0.3.4-Windows.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.4/Yukio-0.3.4-Windows.exe) | Double-click. Python and the artwork are packed inside |
 
 <details>
 <summary><b>macOS says "Apple could not verify Yukio…"</b></summary>

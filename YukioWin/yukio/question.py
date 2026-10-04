@@ -125,12 +125,13 @@ class QuestionCardLayout:
 
     def __init__(self, question: PetQuestion, picked: Optional[Sequence[int]] = None,
                  can_open_chat: bool = True, sent_notice: Optional[str] = None,
-                 typed: str = "", scale: float = 1.0):
+                 typed: str = "", scale: float = 1.0, is_sending: Optional[bool] = None):
         self.scale = max(0.5, float(scale))
         self.question = question
         self.picked = set(picked or ())
         self.can_open_chat = bool(can_open_chat)
         self.sent_notice = sent_notice
+        self.is_sending = (sent_notice is not None) if is_sending is None else is_sending
         #: 输入框里已经写下的字（真正的输入框盖在上面时不用画，快照要）。
         self.typed = typed
         s = self.scale
@@ -177,7 +178,8 @@ class QuestionCardLayout:
         if self.options:
             y += GAP * s - OPTION_GAP * s
 
-        if sent_notice is None:
+        self._notice_rect = None
+        if not self.is_sending:
             self._input_rect = (PAD_X * s, y, inner_w - SEND_WIDTH * s - 4 * s, INPUT_HEIGHT * s)
             self._send_rect = (width - PAD_X * s - SEND_WIDTH * s, y, SEND_WIDTH * s, INPUT_HEIGHT * s)
             self._notice_rect = None
@@ -185,6 +187,7 @@ class QuestionCardLayout:
         else:
             self._input_rect = None
             self._send_rect = None
+        if sent_notice is not None:
             self._notice_rect = (PAD_X * s, y, inner_w, _line_height(self._option_font))
             y += _line_height(self._option_font) + GAP * s
 
@@ -261,11 +264,11 @@ class QuestionCardLayout:
             nx, ny, nw, _ = self._notice_rect
             draw.text((nx, ny), _fit_one(draw, self.sent_notice or "", self._option_font, nw),
                       font=self._option_font, fill=ACCENT + (255,))
-        else:
+        if self._input_rect is not None:
             self._draw_input(draw)
             self._draw_send(draw)
 
-        if self.sent_notice is not None:
+        if self.is_sending:
             hint = tr("Check the chat", "请到聊天中确认")
         elif self.hidden_options > 0:
             hint = tr("%d more in the chat", "还有 %d 个选项在聊天里") % self.hidden_options
