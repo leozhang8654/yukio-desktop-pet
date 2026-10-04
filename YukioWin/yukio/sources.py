@@ -259,6 +259,10 @@ class CodexSessionsSource:
         self.status = Status()
         self._files: Dict[str, TailedFile] = {}
         self._parsers: Dict[str, CodexRolloutParser] = {}
+        self._known_sessions = set()
+        self._titles = {}
+        self._emitted_titles = {}
+        self._index_stamp = None
         self._started = False
         self._last_scan = float("-inf")
 
@@ -282,6 +286,33 @@ class CodexSessionsSource:
                 continue
             for obj in objects:
                 out += self._parsers[path].events_from_line(obj, fallback_ts=now)
+        self._known_sessions.update(e.session for e in out)
+        index_path = os.path.join(os.path.dirname(self.projects_dir), "session_index.jsonl")
+        try:
+            stat = os.stat(index_path)
+            stamp = (stat.st_mtime_ns, stat.st_size)
+            if stamp != self._index_stamp:
+                loaded = {}
+                with open(index_path, encoding="utf-8") as stream:
+                    for line in stream:
+                        try:
+                            row = json.loads(line)
+                        except ValueError:
+                            continue
+                        if not isinstance(row, dict):
+                            continue
+                        session, title = row.get("id"), row.get("thread_name")
+                        if isinstance(session, str) and isinstance(title, str) and title.strip():
+                            loaded[session] = title
+                self._titles = loaded
+                self._index_stamp = stamp
+        except (OSError, UnicodeError):
+            pass
+        for session in sorted(self._known_sessions):
+            title = self._titles.get(session)
+            if title and self._emitted_titles.get(session) != title:
+                out.append(PetEvent(now, self.source, session, Kind.session_title, detail=title))
+                self._emitted_titles[session] = title
         self.status.tracked_files = len(self._files)
         if out:
             self.status.events_received += len(out)

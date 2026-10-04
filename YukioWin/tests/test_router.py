@@ -380,7 +380,7 @@ class StatusLineTests(unittest.TestCase):
         self.assertIsNone(h.line)
         h.send(Kind.task_start, detail="修一下登录页")
         h.run(1000)
-        self.assertEqual(h.line, StatusLine("修一下登录页", "思考中", None))
+        self.assertEqual(h.line, StatusLine("会话 s1…", "思考中", None))
         h.send(Kind.activity_start, id="a", activity=PetState.write_file, detail="编辑 main.py")
         h.run(1200)
         self.assertEqual(h.line.current, "思考中")
@@ -408,7 +408,7 @@ class StatusLineTests(unittest.TestCase):
                                         TodoItem("2", status=TodoStatus.in_progress)])
         h.send(Kind.activity_start, id="e", activity=PetState.write_file, detail="编辑 a.py")
         h.run(1000)
-        self.assertEqual(h.line, StatusLine(None, "改代码", Progress(1, 3)))
+        self.assertEqual(h.line, StatusLine("会话 s1…", "改代码", Progress(1, 3)))
         h.send(Kind.todo_update, todos=[TodoItem("2", status=TodoStatus.completed),
                                         TodoItem("3", status=TodoStatus.completed)])
         h.send(Kind.todo_update, todos=[TodoItem("4", "写文档")])

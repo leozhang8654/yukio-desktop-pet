@@ -257,18 +257,18 @@ class AppLogicTests(unittest.TestCase):
         rows = {i.text: i for i in picker.submenu}
         self.assertTrue(rows["自动（完成和提问优先）"].checked)
         # 自动跟着的那条前面有箭头；两条都列出来。
-        self.assertIn("→ 改登录页 · 阅读文件", rows)
-        self.assertIn("写个脚本 · 修改文件", rows)
+        self.assertIn("→ 会话 A… · 阅读文件", rows)
+        self.assertIn("会话 B… · 修改文件", rows)
         # 挑定 B：立刻换过去，菜单里改成打勾。
-        rows["写个脚本 · 修改文件"].action()
+        rows["会话 B… · 修改文件"].action()
         self.assertEqual(a.router.pinned_session, "B")
         self.assertEqual(a.router.displayed, PetState.write_file)
         a.show_menu()
         picker = [i for i in fake_win32.LAST_MENU if i.text.startswith("跟随的聊天")][0]
         rows = {i.text: i for i in picker.submenu}
         self.assertFalse(rows["自动（完成和提问优先）"].checked)
-        self.assertTrue(rows["写个脚本 · 修改文件"].checked)
-        self.assertIn("正在跟：写个脚本 · 修改文件（挑定的）", [i.text for i in fake_win32.LAST_MENU])
+        self.assertTrue(rows["会话 B… · 修改文件"].checked)
+        self.assertIn("正在跟：会话 B… · 修改文件（挑定的）", [i.text for i in fake_win32.LAST_MENU])
         # 回到自动。
         rows["自动（完成和提问优先）"].action()
         self.assertIsNone(a.router.pinned_session)

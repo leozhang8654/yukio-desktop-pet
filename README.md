@@ -1,4 +1,4 @@
-<div align="center">
+> 0.3.5: Show actual chat titles and track renames. See [release notes](docs/releases/0.3.5.md).
 
 **English** · [简体中文](README.zh-CN.md)
 
@@ -21,7 +21,7 @@
 
 She follows three families of agent, and you pick which one in her menu under **Assistant**: **Claude Code**, **DeepSeek's [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)**, and **GPT's [Codex](https://developers.openai.com/codex/)** (the desktop app and the CLI both write the same session logs). The default, **Auto**, follows all three at once and shows whichever chat has something to say. Both builds use native windows and work entirely from local session logs.
 
-## New in 0.3.4
+## New in 0.3.5
 
 - GPT / Codex question cards now answer through the desktop app in the background on macOS and Windows. No focus switching, clipboard changes or simulated keystrokes.
 - Support the current canonical conversation history so live questions are no longer mistaken for expired ones.
@@ -40,8 +40,8 @@ Grab the file for your system from the [latest release](https://github.com/leozh
 
 | You use | Download | Then |
 | --- | --- | --- |
-| macOS 13 or newer (Apple silicon and Intel) | [Yukio-0.3.4-macOS.zip](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.4/Yukio-0.3.4-macOS.zip) | Unzip, drag `Yukio.app` into Applications, allow it once (below) |
-| Windows 10 / 11, 64-bit | [Yukio-0.3.4-Windows.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.4/Yukio-0.3.4-Windows.exe) | Double-click. Python and the artwork are packed inside |
+| macOS 13 or newer (Apple silicon and Intel) | [Yukio-0.3.5-macOS.zip](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.5/Yukio-0.3.5-macOS.zip) | Unzip, drag `Yukio.app` into Applications, allow it once (below) |
+| Windows 10 / 11, 64-bit | [Yukio-0.3.5-Windows.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.5/Yukio-0.3.5-Windows.exe) | Double-click. Python and the artwork are packed inside |
 
 <details>
 <summary><b>macOS says "Apple could not verify Yukio…"</b></summary>

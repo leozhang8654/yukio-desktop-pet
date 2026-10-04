@@ -133,6 +133,11 @@ public final class JSONLTreeSource {
 public final class CodexSessionsSource {
     public let sessionsDir: URL
     private let tree: JSONLTreeSource
+    private var knownSessions: Set<String> = []
+    private var titles: [String: String] = [:]
+    private var emittedTitles: [String: String] = [:]
+    private var indexStamp: String?
+
 
     public init(sessionsDir: URL = CodexSessionsSource.defaultSessionsDir()) {
         self.sessionsDir = sessionsDir
@@ -173,6 +178,29 @@ public final class CodexSessionsSource {
         var out = tree.poll(now: now)
         // 文件被删时用当前时间报中断（记录里没有时间可用）。
         for i in out.indices where out[i].ts == 0 && out[i].kind == .taskAbort { out[i].ts = now }
+        knownSessions.formUnion(out.map(\.session))
+        let indexURL = sessionsDir.deletingLastPathComponent().appendingPathComponent("session_index.jsonl")
+        if let attrs = try? FileManager.default.attributesOfItem(atPath: indexURL.path) {
+            let stamp = "\(attrs[.modificationDate] ?? "")-\(attrs[.size] ?? "")"
+            if stamp != indexStamp, let data = try? Data(contentsOf: indexURL) {
+                var loaded: [String: String] = [:]
+                for line in data.split(separator: 10) {
+                    guard let row = (try? JSONSerialization.jsonObject(with: Data(line))) as? [String: Any],
+                          let id = row["id"] as? String,
+                          let name = row["thread_name"] as? String,
+                          !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { continue }
+                    loaded[id] = name
+                }
+                titles = loaded
+                indexStamp = stamp
+            }
+        }
+        for id in knownSessions.sorted() {
+            guard let title = titles[id], emittedTitles[id] != title else { continue }
+            out.append(PetEvent(ts: now, source: CodexRolloutParser.source,
+                                session: id, kind: .sessionTitle, detail: title))
+            emittedTitles[id] = title
+        }
         return out
     }
 }

@@ -624,7 +624,7 @@ class ActivityRouter:
             if rank is None:
                 rank = 3 if wants else (4 if live else (5 if (pinned or focused) else 6))
             rows.append((rank, quiet, SessionSummary(
-                id=id, title=s.title or s.prompt, state=self._desired(s, now, arming=False),
+                id=id, title=s.title, state=self._desired(s, now, arming=False),
                 live=live, raised_sign=s.sign == SIGN_RAISED, quiet_ms=quiet,
                 focused=focused, pinned=pinned, wants_you=wants,
                 sign_yielded=self._sign_overdue(s, now))))
@@ -771,7 +771,7 @@ class ActivityRouter:
             current = in_progress or tr("Thinking", "思考中")
         else:
             current = in_progress or s.last_detail.get(d) or state_text(d)
-        return StatusLine(title=s.title or s.prompt, current=current, progress=progress)
+        return StatusLine(title=display_name(s.title, s.id), current=current, progress=progress)
 
     # MARK: 头顶那摞通知卡
 
@@ -795,7 +795,7 @@ class ActivityRouter:
                 continue
             quiet = max(0.0, now - s.last_event_at)
             rows.append((CardStatus.rank(status), quiet, ActivityCard(
-                session=id, title=display_name(s.title or s.prompt, id),
+                session=id, title=display_name(s.title, id),
                 subtitle=self._card_subtitle(s, status, now), status=status, quiet_ms=quiet)))
         rows.sort(key=lambda r: (r[0], r[1], r[2].session))
         return [r[2] for r in rows[:limit]]

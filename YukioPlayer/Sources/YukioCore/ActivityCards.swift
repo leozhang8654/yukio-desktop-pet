@@ -36,7 +36,7 @@ public struct ActivityCard: Equatable, Sendable {
 
     /// 转录会话 ID：点这张卡就用它去找对应的聊天。
     public let session: String
-    /// 聊天名：会话标题或请求第一行，都没有时用会话 ID 前 8 位。
+    /// 聊天名：会话标题，尚无标题时用会话 ID 前 8 位。
     public let title: String
     /// 第二行：正在做什么，或在等什么。
     public let subtitle: String
@@ -70,7 +70,7 @@ public extension ActivityRouter {
             guard !isCardDismissed(id: id, s) else { continue }
             let quiet = max(0, now - s.lastEventAt)
             rows.append((status.rank, quiet, ActivityCard(
-                session: id, title: SessionSummary.displayName(title: s.title ?? s.prompt, id: id),
+                session: id, title: SessionSummary.displayName(title: s.title, id: id),
                 subtitle: cardSubtitle(s, status: status, now: now), status: status, quietMs: quiet)))
         }
         return rows.sorted {
