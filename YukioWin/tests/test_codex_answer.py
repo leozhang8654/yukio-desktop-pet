@@ -90,7 +90,7 @@ class TransportTests(unittest.TestCase):
         if os.name == 'nt':
             import _winapi
             endpoint = r'\\.\pipe\yukio-answer-test-' + str(uuid.uuid4())
-            handle = _winapi.CreateNamedPipe(endpoint, 3 | _winapi.FILE_FLAG_OVERLAPPED, 0, 1, 65536, 65536, 0, None)
+            handle = _winapi.CreateNamedPipe(endpoint, 3 | _winapi.FILE_FLAG_OVERLAPPED, 0, 1, 65536, 65536, 0, _winapi.NULL)
             listener = None
         else:
             endpoint = str(Path(tmp)/'ipc.sock')
@@ -173,7 +173,7 @@ class TransportTests(unittest.TestCase):
     def test_named_pipe_read_timeout_is_cancelled(self):
         import _winapi
         endpoint = r'\\.\pipe\yukio-answer-timeout-' + str(uuid.uuid4())
-        handle = _winapi.CreateNamedPipe(endpoint, 3 | _winapi.FILE_FLAG_OVERLAPPED, 0, 1, 4096, 4096, 0, None)
+        handle = _winapi.CreateNamedPipe(endpoint, 3 | _winapi.FILE_FLAG_OVERLAPPED, 0, 1, 4096, 4096, 0, _winapi.NULL)
         operation = _winapi.ConnectNamedPipe(handle, overlapped=True)
         client = NamedPipe(endpoint, time.monotonic() + .15)
         try:

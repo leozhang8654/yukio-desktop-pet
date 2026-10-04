@@ -113,7 +113,7 @@ class NamedPipe:
         self.api = _winapi
         self.deadline = deadline
         self.handle = _winapi.CreateFile(path, _winapi.GENERIC_READ | _winapi.GENERIC_WRITE,
-            0, None, _winapi.OPEN_EXISTING,
+            0, _winapi.NULL, _winapi.OPEN_EXISTING,
             _winapi.FILE_FLAG_OVERLAPPED | 0x100000 | 0x10000, 0)  # SQOS: identification only
 
     def _finish(self, operation, error):
