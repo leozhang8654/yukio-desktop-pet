@@ -71,22 +71,31 @@ enum CardLook {
     static let accent = NSColor(srgbRed: 0.24, green: 0.58, blue: 0.90, alpha: 1)
 
     /// 每条聊天按实际来源配色，自动跟随时同样保留各自的颜色。
-    static func paper(for provider: AgentProvider?) -> NSColor {
+    static func providerAccent(for provider: AgentProvider?) -> NSColor? {
         switch provider {
-        case .claude: return NSColor(srgbRed: 1, green: 219 / 255, blue: 181 / 255, alpha: 0.94)
-        case .deepseek: return NSColor(srgbRed: 201 / 255, green: 226 / 255, blue: 1, alpha: 0.94)
-        default: return NSColor(white: 1, alpha: 0.94)
+        case .claude: return NSColor(srgbRed: 217 / 255, green: 119 / 255, blue: 70 / 255, alpha: 1)
+        case .deepseek: return NSColor(srgbRed: 77 / 255, green: 128 / 255, blue: 228 / 255, alpha: 1)
+        case .gpt: return NSColor(srgbRed: 80 / 255, green: 85 / 255, blue: 94 / 255, alpha: 1)
+        default: return nil
         }
     }
 
-    /// 卡片的底：助手配色 + 一圈淡描边。
+    /// 白底卡片，只在顶部用两点高的细线标记助手。
     static func box(_ rect: NSRect, radius: CGFloat = radius, provider: AgentProvider? = nil) {
         let path = NSBezierPath(roundedRect: rect.insetBy(dx: 0.5, dy: 0.5), xRadius: radius, yRadius: radius)
-        paper(for: provider).setFill()
+        NSColor(white: 1, alpha: 0.94).setFill()
         path.fill()
         ink.withAlphaComponent(0.16).setStroke()
         path.lineWidth = 1
         path.stroke()
+        if let color = providerAccent(for: provider) {
+            NSGraphicsContext.saveGraphicsState()
+            path.addClip()
+            color.setFill()
+            NSBezierPath(rect: NSRect(x: rect.minX, y: rect.maxY - 2.5,
+                                     width: rect.width, height: 2)).fill()
+            NSGraphicsContext.restoreGraphicsState()
+        }
     }
 
     /// 用含中文的样本量行高：中文字形来自后备字体，行高比西文字体的上下伸部大。

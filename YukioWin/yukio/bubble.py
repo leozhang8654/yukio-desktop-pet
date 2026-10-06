@@ -35,9 +35,25 @@ ACCENT = (61, 148, 230)
 PAPER = (255, 255, 255, 240)
 
 
-def paper_for_provider(provider: Optional[str]):
-    return {"claude": (255, 219, 181, 240),
-            "deepseek": (201, 226, 255, 240)}.get(provider, PAPER)
+def provider_accent(provider: Optional[str]):
+    return {"gpt": (80, 85, 94, 255), "claude": (217, 119, 70, 255),
+            "deepseek": (77, 128, 228, 255)}.get(provider)
+
+
+def draw_provider_box(draw, rect, scale, provider):
+    radius = RADIUS * scale
+    draw.rounded_rectangle(rect, radius=radius, fill=PAPER,
+                           outline=INK + (41,), width=max(1, int(round(scale))))
+    color = provider_accent(provider)
+    if color is None:
+        return
+    x0, y0, x1, y1 = rect
+    width, height = int(round(x1 - x0 + 1)), int(round(y1 - y0 + 1))
+    mask = Image.new("L", (width, height), 0)
+    band = ImageDraw.Draw(mask)
+    band.rounded_rectangle((0, 0, width - 1, height - 1), radius=radius, fill=255)
+    band.rectangle((0, max(1, int(round(2 * scale))), width, height), fill=0)
+    draw.bitmap((x0, y0), mask, fill=color)
 
 
 #: 按顺序找一个带中文字形的字体；找不到就退回 Pillow 自带位图字体（只有西文）。
@@ -164,9 +180,7 @@ class BubbleLayout:
         w, h = self.size_px
         image = Image.new("RGBA", (w, h), (0, 0, 0, 0))
         draw = ImageDraw.Draw(image)
-        radius = RADIUS * s
-        draw.rounded_rectangle((0, 0, w - 1, h - 1), radius=radius, fill=paper_for_provider(self.provider),
-                               outline=INK + (41,), width=max(1, int(round(s))))
+        draw_provider_box(draw, (0, 0, w - 1, h - 1), s, self.provider)
 
         x = PAD_X * s
         inner_w = w - 2 * PAD_X * s

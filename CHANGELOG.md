@@ -1,5 +1,9 @@
 # Changelog / 更新记录
 
+## 0.3.7 — 2026-10-05
+
+- Replace colored task-bubble and notification-card backgrounds with white surfaces and a thin top edge: GPT charcoal, Claude orange, DeepSeek blue.
+
 ## 0.3.6 — 2026-10-05
 
 - Color task bubbles and activity cards by the actual chat provider: GPT white, Claude orange, DeepSeek blue, on macOS and Windows.

@@ -1,4 +1,4 @@
-> 0.3.6: Agent-colored task bubbles: GPT white, Claude orange, DeepSeek blue. See [release notes](../docs/releases/0.3.6.md).
+> 0.3.7: White task bubbles with a thin provider-colored top edge. See [release notes](../docs/releases/0.3.7.md).
 
 # Yukio desktop player (macOS, follows Claude Code, DeepSeek or GPT)
 
