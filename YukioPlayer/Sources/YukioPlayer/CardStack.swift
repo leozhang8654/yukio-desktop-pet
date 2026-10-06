@@ -136,7 +136,7 @@ struct CardStackLayout {
         self.expanded = expanded
         showsAuto = expanded && pinned
         let cardHeight = 2 * CardLook.padY + CardLook.lineHeight(CardLook.titleFont)
-            + CardLook.lineGap + CardLook.lineHeight(CardLook.currentFont)
+            + CardLook.lineGap + CardLook.lineHeight(CardLook.currentFont) + CardLook.stripeHeight
         var room = Self.maxExpanded
         if expanded, maxHeight.isFinite {
             var left = maxHeight - Self.rowHeight                      // “收起”那条
@@ -236,10 +236,12 @@ struct CardStackLayout {
     }
 
     private static func closeRect(_ card: NSRect) -> NSRect {
-        NSRect(x: card.maxX - closeBox - 1, y: card.maxY - closeBox - 1, width: closeBox, height: closeBox)
+        NSRect(x: card.maxX - closeBox - 1, y: card.maxY - CardLook.stripeHeight - closeBox - 1, width: closeBox, height: closeBox)
     }
 
-    private func draw(_ card: ActivityCard, in rect: NSRect) {
+    private func draw(_ card: ActivityCard, in outerRect: NSRect) {
+        let rect = NSRect(x: outerRect.minX, y: outerRect.minY, width: outerRect.width,
+                          height: outerRect.height - CardLook.stripeHeight)
         CardLook.box(rect, provider: card.provider)
         // 左边一条状态色：橙＝等你回答，红＝出错，绿＝答完了，蓝＝在跑。
         let bar = NSBezierPath(roundedRect: NSRect(x: rect.minX + 4, y: rect.minY + 5,
@@ -257,7 +259,7 @@ struct CardStackLayout {
         top -= th
         CardLook.draw(CardLook.singleLine(card.title), CardLook.titleFont, CardLook.muted,
                       in: NSRect(x: x, y: top, width: max(10, right - x - Self.closeBox), height: th))
-        drawClose(in: Self.closeRect(rect))
+        drawClose(in: Self.closeRect(outerRect))
 
         // 下行：在做什么（和气泡下行一样的深色粗字），右边一个短状态标签。
         top -= CardLook.lineGap

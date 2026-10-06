@@ -1,4 +1,4 @@
-> 0.3.7: White task bubbles with a thin provider-colored top edge. See [release notes](../docs/releases/0.3.7.md).
+> 0.3.8: White task bubbles with a thin provider-colored top edge. See [release notes](../docs/releases/0.3.8.md).
 
 # Yukio desktop pet (Windows edition: DeepSeek, Claude or GPT)
 

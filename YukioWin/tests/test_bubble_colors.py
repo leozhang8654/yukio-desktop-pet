@@ -20,9 +20,9 @@ class BubbleColorTests(unittest.TestCase):
             router.tick(1000)
             for scale in (1, 1.5, 2):
                 image = BubbleLayout(router.status_line(1000), scale=scale).render()
-                self.assertEqual(image.getpixel((image.width // 2, 0)), color)
-                self.assertEqual(image.getpixel((image.width // 2, int(3 * scale))), (255, 255, 255, 240))
+                self.assertEqual(image.getpixel((image.width // 2, int(3 * scale))), color)
+                self.assertEqual(image.getpixel((image.width // 2, int(6 * scale))), (255, 255, 255, 240))
                 card = next(c for c in router.cards(1000, include_focused=True) if c.session == source)
                 image = CardStackLayout([card], scale=scale).render()
-                self.assertEqual(image.getpixel((image.width // 2, 0)), color)
-                self.assertEqual(image.getpixel((image.width // 2, int(3 * scale))), (255, 255, 255, 240))
+                self.assertEqual(image.getpixel((image.width // 2, int(3 * scale))), color)
+                self.assertEqual(image.getpixel((image.width // 2, int(6 * scale))), (255, 255, 255, 240))
