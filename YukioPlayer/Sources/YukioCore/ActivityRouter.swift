@@ -51,10 +51,13 @@ public struct StatusLine: Equatable, Sendable {
     /// 任务清单进度；没有清单时为 nil。
     public let progress: Progress?
 
-    public init(title: String?, current: String, progress: Progress?) {
+    public let provider: AgentProvider?
+
+    public init(title: String?, current: String, progress: Progress?, provider: AgentProvider? = nil) {
         self.title = title
         self.current = current
         self.progress = progress
+        self.provider = provider
     }
 }
 
@@ -736,7 +739,7 @@ public final class ActivityRouter {
         default:
             current = inProgress ?? s.lastDetail[displayed] ?? Self.stateText(displayed)
         }
-        return StatusLine(title: SessionSummary.displayName(title: s.title, id: s.id), current: current, progress: progress)
+        return StatusLine(title: SessionSummary.displayName(title: s.title, id: s.id), current: current, progress: progress, provider: AgentProvider.owner(ofSource: s.source))
     }
 
     /// 状态的说法（按界面语言）：气泡没有更具体的文字时用它，聊天列表里也用它。

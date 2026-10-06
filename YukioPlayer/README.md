@@ -1,4 +1,4 @@
-> 0.3.5: Show actual chat titles and track renames. See [release notes](../docs/releases/0.3.5.md).
+> 0.3.6: Agent-colored task bubbles: GPT white, Claude orange, DeepSeek blue. See [release notes](../docs/releases/0.3.6.md).
 
 # Yukio desktop player (macOS, follows Claude Code, DeepSeek or GPT)
 

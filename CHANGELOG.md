@@ -1,5 +1,10 @@
 # Changelog / 更新记录
 
+## 0.3.6 — 2026-10-05
+
+- Color task bubbles and activity cards by the actual chat provider: GPT white, Claude orange, DeepSeek blue, on macOS and Windows.
+- Preserve per-chat colors when following multiple assistants or switching focus; use darker secondary text for readability.
+
 ## 0.3.5 — 2026-10-04
 
 - Show saved Codex chat titles in bubbles, notification cards and chat menus on macOS and Windows; track title changes automatically.
