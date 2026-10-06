@@ -23,6 +23,7 @@ BAR_HEIGHT = 2.5
 BAR_GAP = 4.0
 PROGRESS_GAP = 6.0
 RADIUS = 7.0
+PROVIDER_STRIPE = 4.0
 
 TITLE_SIZE = 10.0
 CURRENT_SIZE = 11.5
@@ -42,18 +43,14 @@ def provider_accent(provider: Optional[str]):
 
 def draw_provider_box(draw, rect, scale, provider):
     radius = RADIUS * scale
-    draw.rounded_rectangle(rect, radius=radius, fill=PAPER,
+    x0, y0, x1, y1 = rect
+    stripe = PROVIDER_STRIPE * scale
+    draw.rounded_rectangle((x0, y0 + stripe, x1, y1), radius=radius, fill=PAPER,
                            outline=INK + (41,), width=max(1, int(round(scale))))
     color = provider_accent(provider)
-    if color is None:
-        return
-    x0, y0, x1, y1 = rect
-    width, height = int(round(x1 - x0 + 1)), int(round(y1 - y0 + 1))
-    mask = Image.new("L", (width, height), 0)
-    band = ImageDraw.Draw(mask)
-    band.rounded_rectangle((0, 0, width - 1, height - 1), radius=radius, fill=255)
-    band.rectangle((0, max(1, int(round(4 * scale))), width, height), fill=0)
-    draw.bitmap((x0, y0), mask, fill=color)
+    if color is not None:
+        draw.rounded_rectangle((x0 + radius, y0, x1 - radius, y0 + stripe - 1),
+                               radius=stripe / 2, fill=color)
 
 
 #: 按顺序找一个带中文字形的字体；找不到就退回 Pillow 自带位图字体（只有西文）。
@@ -166,7 +163,7 @@ class BubbleLayout:
         if self.progress:
             current_w += PROGRESS_GAP * s + self._progress_w
         width = min(MAX_WIDTH * s, max(MIN_WIDTH * s, max(title_w, current_w) + 2 * PAD_X * s))
-        height = 2 * PAD_Y * s + _line_height(self._current_font)
+        height = PROVIDER_STRIPE * s + 2 * PAD_Y * s + _line_height(self._current_font)
         if self.title:
             height += _line_height(self._title_font) + LINE_GAP * s
         if self.progress:
@@ -184,7 +181,7 @@ class BubbleLayout:
 
         x = PAD_X * s
         inner_w = w - 2 * PAD_X * s
-        top = PAD_Y * s
+        top = (PAD_Y + PROVIDER_STRIPE) * s
         if self.title:
             lh = _line_height(self._title_font)
             draw.text((x, top), _fit(draw, self.title, self._title_font, inner_w),

@@ -2,7 +2,7 @@
 
 ## 0.3.8 — 2026-10-05
 
-- Increase provider top-edge thickness from 2 to 4 points on macOS and Windows for clearer visibility.
+- Increase provider top-edge thickness from 2 to 4 points on macOS and Windows for clearer visibility, extending above the original bubble without consuming content space.
 
 ## 0.3.7 — 2026-10-05
 

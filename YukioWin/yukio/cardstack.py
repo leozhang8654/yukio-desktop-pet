@@ -15,7 +15,7 @@ from PIL import Image, ImageDraw
 
 from .bubble import (ACCENT, INK, MUTED, PAD_X, PAD_Y, PAPER, LINE_GAP, MAX_WIDTH, RADIUS,
                      CURRENT_SIZE, TITLE_SIZE, PROGRESS_SIZE, _fit, _line_height, _single_line,
-                     _text_width, load_font, draw_provider_box)
+                     _text_width, load_font, draw_provider_box, PROVIDER_STRIPE)
 from .cards import ActivityCard, CardStatus
 from .l10n import tr
 
@@ -71,7 +71,7 @@ class CardStackLayout:
         self._title_font = load_font(TITLE_SIZE * s)
         self._current_font = load_font(CURRENT_SIZE * s)
         self._small_font = load_font(PROGRESS_SIZE * s)
-        card_h = (2 * PAD_Y * s + _line_height(self._title_font) + LINE_GAP * s
+        card_h = (PROVIDER_STRIPE * s + 2 * PAD_Y * s + _line_height(self._title_font) + LINE_GAP * s
                   + _line_height(self._current_font))
 
         #: 每张卡的矩形（左上原点，第 0 张在最下面、离气泡最近）。
@@ -123,6 +123,7 @@ class CardStackLayout:
     def _close_rect(self, card):
         rx, ry, rw, rh = card
         s = self.scale
+        ry += PROVIDER_STRIPE * s
         box = CLOSE_BOX * s
         return (rx + rw - box - s, ry + s, rx + rw - s, ry + box + s)
 
@@ -150,6 +151,8 @@ class CardStackLayout:
         s = self.scale
         rx, ry, rw, rh = rect
         draw_provider_box(draw, (rx, ry, rx + rw - 1, ry + rh - 1), s, card.provider)
+        ry += PROVIDER_STRIPE * s
+        rh -= PROVIDER_STRIPE * s
         color = STATUS_COLOR.get(card.status, ACCENT)
         bar = (rx + 4 * s, ry + 5 * s, rx + 4 * s + STRIPE * s, ry + rh - 5 * s)
         draw.rounded_rectangle(bar, radius=STRIPE * s / 2, fill=color + (255,))

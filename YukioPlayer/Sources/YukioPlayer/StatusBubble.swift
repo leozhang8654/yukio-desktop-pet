@@ -61,6 +61,7 @@ enum CardLook {
     static let radius: CGFloat = 7
     /// 叠起来时两张卡之间的缝。
     static let stackGap: CGFloat = 4
+    static let stripeHeight: CGFloat = 4
 
     static let titleFont = NSFont.systemFont(ofSize: 10, weight: .medium)
     static let currentFont = NSFont.systemFont(ofSize: 11.5, weight: .semibold)
@@ -89,12 +90,10 @@ enum CardLook {
         path.lineWidth = 1
         path.stroke()
         if let color = providerAccent(for: provider) {
-            NSGraphicsContext.saveGraphicsState()
-            path.addClip()
             color.setFill()
-            NSBezierPath(rect: NSRect(x: rect.minX, y: rect.maxY - 4.5,
-                                     width: rect.width, height: 4)).fill()
-            NSGraphicsContext.restoreGraphicsState()
+            let stripe = NSRect(x: rect.minX + radius, y: rect.maxY,
+                                width: max(0, rect.width - 2 * radius), height: stripeHeight)
+            NSBezierPath(roundedRect: stripe, xRadius: stripeHeight / 2, yRadius: stripeHeight / 2).fill()
         }
     }
 
@@ -159,7 +158,7 @@ struct BubbleLayout {
         var h = 2 * Self.padY + Self.lineHeight(Self.currentFont)
         if title != nil { h += Self.lineHeight(Self.titleFont) + Self.lineGap }
         if progress != nil { h += Self.barGap + Self.barHeight }
-        size = NSSize(width: w, height: ceil(h))
+        size = NSSize(width: w, height: ceil(h) + CardLook.stripeHeight)
     }
 
     /// 气泡左下角：水平居中于雪绪，底边贴在头顶线上方。headTop：人物最高点距窗口顶的点数（已乘缩放）。
@@ -167,7 +166,9 @@ struct BubbleLayout {
         NSPoint(x: (pet.midX - size.width / 2).rounded(), y: (pet.maxY - headTop + 3).rounded())
     }
 
-    func draw(in bounds: NSRect) {
+    func draw(in outerBounds: NSRect) {
+        let bounds = NSRect(x: outerBounds.minX, y: outerBounds.minY, width: outerBounds.width,
+                            height: outerBounds.height - CardLook.stripeHeight)
         CardLook.box(bounds, provider: provider)
 
         let x = bounds.minX + Self.padX
