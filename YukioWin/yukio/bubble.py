@@ -30,9 +30,15 @@ PROGRESS_SIZE = 10.0
 
 #: 制服的深蓝与眼睛的蓝。
 INK = (31, 41, 69)
-MUTED = (97, 112, 143)
+MUTED = (76, 88, 111)
 ACCENT = (61, 148, 230)
 PAPER = (255, 255, 255, 240)
+
+
+def paper_for_provider(provider: Optional[str]):
+    return {"claude": (255, 219, 181, 240),
+            "deepseek": (201, 226, 255, 240)}.get(provider, PAPER)
+
 
 #: 按顺序找一个带中文字形的字体；找不到就退回 Pillow 自带位图字体（只有西文）。
 FONT_CANDIDATES = {
@@ -125,6 +131,7 @@ class BubbleLayout:
     """一条气泡的排版与绘制。scale：一个点等于多少像素（雪绪的缩放 × 屏幕缩放）。"""
 
     def __init__(self, line: StatusLine, scale: float = 1.0):
+        self.provider = line.provider
         self.scale = max(0.5, float(scale))
         self.title = _single_line(line.title) if line.title else None
         self.current = _single_line(line.current)
@@ -158,7 +165,7 @@ class BubbleLayout:
         image = Image.new("RGBA", (w, h), (0, 0, 0, 0))
         draw = ImageDraw.Draw(image)
         radius = RADIUS * s
-        draw.rounded_rectangle((0, 0, w - 1, h - 1), radius=radius, fill=PAPER,
+        draw.rounded_rectangle((0, 0, w - 1, h - 1), radius=radius, fill=paper_for_provider(self.provider),
                                outline=INK + (41,), width=max(1, int(round(s))))
 
         x = PAD_X * s

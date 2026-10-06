@@ -14,6 +14,21 @@ extension Harness {
 
 @Suite struct StatusLineTests {
     init() { L10n.language = .chinese }   // 这些测试按中文文案断言
+    @Test func mixedAgentChatsKeepTheirOwnBubbleAndCardProvider() {
+        let router = ActivityRouter(now: 0)
+        let sources: [(String, AgentProvider)] = [("codex", .gpt), ("claude-transcript", .claude),
+                                                  ("claude-hook", .claude), ("deepcode", .deepseek)]
+        for (source, _) in sources {
+            router.ingest(PetEvent(ts: 0, source: source, session: source, kind: .taskStart), now: 0)
+        }
+        for (source, provider) in sources {
+            #expect(router.pinSession(source, now: 1000))
+            _ = router.tick(now: 1000)
+            #expect(router.statusLine(now: 1000)?.provider == provider)
+            #expect(router.cards(now: 1000, includeFocused: true).first { $0.session == source }?.provider == provider)
+        }
+    }
+
     @Test func hiddenWhenIdleAndTextFollowsTheDisplayedPose() {
         let h = Harness()
         #expect(h.line == nil)

@@ -240,7 +240,7 @@ struct CardStackLayout {
     }
 
     private func draw(_ card: ActivityCard, in rect: NSRect) {
-        CardLook.box(rect)
+        CardLook.box(rect, provider: card.provider)
         // 左边一条状态色：橙＝等你回答，红＝出错，绿＝答完了，蓝＝在跑。
         let bar = NSBezierPath(roundedRect: NSRect(x: rect.minX + 4, y: rect.minY + 5,
                                                    width: Self.stripe, height: rect.height - 10),

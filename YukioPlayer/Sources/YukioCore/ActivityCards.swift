@@ -44,11 +44,14 @@ public struct ActivityCard: Equatable, Sendable {
     /// 距最近一次事件多久（毫秒）。
     public let quietMs: Double
 
-    public init(session: String, title: String, subtitle: String, status: Status, quietMs: Double) {
+    public let provider: AgentProvider?
+
+    public init(session: String, title: String, subtitle: String, status: Status, quietMs: Double, provider: AgentProvider? = nil) {
         self.session = session
         self.title = title
         self.subtitle = subtitle
         self.status = status
+        self.provider = provider
         self.quietMs = quietMs
     }
 }
@@ -71,7 +74,7 @@ public extension ActivityRouter {
             let quiet = max(0, now - s.lastEventAt)
             rows.append((status.rank, quiet, ActivityCard(
                 session: id, title: SessionSummary.displayName(title: s.title, id: id),
-                subtitle: cardSubtitle(s, status: status, now: now), status: status, quietMs: quiet)))
+                subtitle: cardSubtitle(s, status: status, now: now), status: status, quietMs: quiet, provider: AgentProvider.owner(ofSource: s.source))))
         }
         return rows.sorted {
             if $0.rank != $1.rank { return $0.rank < $1.rank }

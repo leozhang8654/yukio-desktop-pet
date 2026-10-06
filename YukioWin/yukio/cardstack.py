@@ -15,7 +15,7 @@ from PIL import Image, ImageDraw
 
 from .bubble import (ACCENT, INK, MUTED, PAD_X, PAD_Y, PAPER, LINE_GAP, MAX_WIDTH, RADIUS,
                      CURRENT_SIZE, TITLE_SIZE, PROGRESS_SIZE, _fit, _line_height, _single_line,
-                     _text_width, load_font)
+                     _text_width, load_font, paper_for_provider)
 from .cards import ActivityCard, CardStatus
 from .l10n import tr
 
@@ -149,7 +149,7 @@ class CardStackLayout:
     def _draw_card(self, draw, card: ActivityCard, rect) -> None:
         s = self.scale
         rx, ry, rw, rh = rect
-        draw.rounded_rectangle((rx, ry, rx + rw - 1, ry + rh - 1), radius=RADIUS * s, fill=PAPER,
+        draw.rounded_rectangle((rx, ry, rx + rw - 1, ry + rh - 1), radius=RADIUS * s, fill=paper_for_provider(card.provider),
                                outline=INK + (41,), width=max(1, int(round(s))))
         color = STATUS_COLOR.get(card.status, ACCENT)
         bar = (rx + 4 * s, ry + 5 * s, rx + 4 * s + STRIPE * s, ry + rh - 5 * s)

@@ -1,4 +1,4 @@
-> 0.3.5：聊天名称显示真实标题，并同步标题改名。详见[更新说明](../docs/releases/0.3.5.md)。
+> 0.3.6：任务气泡按助手配色：GPT 白色、Claude 橙色、DeepSeek 蓝色。详见[更新说明](../docs/releases/0.3.6.md)。
 
 # 雪绪桌面播放器（macOS，跟随 Claude、DeepSeek 或 GPT）
 

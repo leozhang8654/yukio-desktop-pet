@@ -67,13 +67,22 @@ enum CardLook {
     static let smallFont = NSFont.monospacedDigitSystemFont(ofSize: 10, weight: .medium)
     /// 制服的深蓝与眼睛的蓝。
     static let ink = NSColor(srgbRed: 0.12, green: 0.16, blue: 0.27, alpha: 1)
-    static let muted = NSColor(srgbRed: 0.38, green: 0.44, blue: 0.56, alpha: 1)
+    static let muted = NSColor(srgbRed: 76 / 255, green: 88 / 255, blue: 111 / 255, alpha: 1)
     static let accent = NSColor(srgbRed: 0.24, green: 0.58, blue: 0.90, alpha: 1)
 
-    /// 卡片的底：半透明白 + 一圈淡描边。
-    static func box(_ rect: NSRect, radius: CGFloat = radius) {
+    /// 每条聊天按实际来源配色，自动跟随时同样保留各自的颜色。
+    static func paper(for provider: AgentProvider?) -> NSColor {
+        switch provider {
+        case .claude: return NSColor(srgbRed: 1, green: 219 / 255, blue: 181 / 255, alpha: 0.94)
+        case .deepseek: return NSColor(srgbRed: 201 / 255, green: 226 / 255, blue: 1, alpha: 0.94)
+        default: return NSColor(white: 1, alpha: 0.94)
+        }
+    }
+
+    /// 卡片的底：助手配色 + 一圈淡描边。
+    static func box(_ rect: NSRect, radius: CGFloat = radius, provider: AgentProvider? = nil) {
         let path = NSBezierPath(roundedRect: rect.insetBy(dx: 0.5, dy: 0.5), xRadius: radius, yRadius: radius)
-        NSColor(white: 1, alpha: 0.94).setFill()
+        paper(for: provider).setFill()
         path.fill()
         ink.withAlphaComponent(0.16).setStroke()
         path.lineWidth = 1
@@ -120,6 +129,7 @@ struct BubbleLayout {
     private static let muted = CardLook.muted
     private static let accent = CardLook.accent
 
+    let provider: AgentProvider?
     let title: String?
     let current: String
     let progress: StatusLine.Progress?
@@ -128,6 +138,7 @@ struct BubbleLayout {
     private let progressWidth: CGFloat
 
     init(_ line: StatusLine) {
+        provider = line.provider
         title = line.title.map(Self.singleLine)
         current = Self.singleLine(line.current)
         progress = line.progress
@@ -148,7 +159,7 @@ struct BubbleLayout {
     }
 
     func draw(in bounds: NSRect) {
-        CardLook.box(bounds)
+        CardLook.box(bounds, provider: provider)
 
         let x = bounds.minX + Self.padX
         let innerW = bounds.width - 2 * Self.padX

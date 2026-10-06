@@ -14,6 +14,11 @@ from .cards import ActivityCard, CardStatus
 from .events import Kind, PetEvent, PetQuestion, PetState, TodoItem, TodoStatus
 from .l10n import tr
 
+def provider_for_source(source: str) -> Optional[str]:
+    return {"codex": "gpt", "claude-transcript": "claude", "claude-hook": "claude",
+            "deepcode": "deepseek"}.get(source)
+
+
 INF = float("inf")
 
 #: 勾选卡的三种情形：没举、举着、用户点过了（这一轮不再举）。
@@ -64,6 +69,7 @@ class StatusLine(NamedTuple):
     title: Optional[str]
     current: str
     progress: Optional[Progress]
+    provider: Optional[str] = None
 
 
 class PendingQuestion(NamedTuple):
@@ -771,7 +777,7 @@ class ActivityRouter:
             current = in_progress or tr("Thinking", "思考中")
         else:
             current = in_progress or s.last_detail.get(d) or state_text(d)
-        return StatusLine(title=display_name(s.title, s.id), current=current, progress=progress)
+        return StatusLine(title=display_name(s.title, s.id), current=current, progress=progress, provider=provider_for_source(s.source))
 
     # MARK: 头顶那摞通知卡
 
@@ -796,7 +802,7 @@ class ActivityRouter:
             quiet = max(0.0, now - s.last_event_at)
             rows.append((CardStatus.rank(status), quiet, ActivityCard(
                 session=id, title=display_name(s.title, id),
-                subtitle=self._card_subtitle(s, status, now), status=status, quiet_ms=quiet)))
+                subtitle=self._card_subtitle(s, status, now), status=status, quiet_ms=quiet, provider=provider_for_source(s.source))))
         rows.sort(key=lambda r: (r[0], r[1], r[2].session))
         return [r[2] for r in rows[:limit]]
 

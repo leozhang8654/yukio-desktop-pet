@@ -9,7 +9,7 @@
 
 from __future__ import annotations
 
-from typing import NamedTuple
+from typing import NamedTuple, Optional
 from .l10n import tr
 
 
@@ -48,6 +48,7 @@ class ActivityCard(NamedTuple):
     status: str
     #: 距最近一次事件多久（毫秒）。
     quiet_ms: float
+    provider: Optional[str] = None
 
     @property
     def rank(self) -> int:
