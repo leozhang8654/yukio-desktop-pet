@@ -596,7 +596,7 @@ func runChatLink(session: String) -> Never {
     exit(0)
 }
 
-/// --open-chat: diagnose the currently foreground Claude/Codex selection without UI automation.
+/// Diagnose foreground chat identities without activating or typing in other apps.
 func runOpenChat() -> Never {
     let front = NSWorkspace.shared.frontmostApplication
     let bundle = front?.bundleIdentifier ?? "-"
@@ -610,6 +610,12 @@ func runOpenChat() -> Never {
     default: session = nil
     }
     print("最前面的应用 \(bundle)")
+    print("浏览器辅助功能权限 \(BrowserOpenChat.hasAccessibilityAccess ? "已允许" : "未允许（设置中可启用）")")
+    if BrowserOpenChat.supportedBundles.contains(bundle), let pid = front?.processIdentifier {
+        for document in BrowserOpenChat.read(processID: pid) {
+            print("可见聊天文档 \(document.provider.rawValue) / \(document.id)")
+        }
+    }
     if let session { print("正在看的聊天 \(session)（这条不举完成牌）") }
     else { print("无法确认正在看的聊天：保留完成提醒") }
     exit(0)
@@ -742,6 +748,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private let claudeAnswerBridge = ClaudeQuestionBridge()
     private var deepSeekInstaller: Process?
     private var openChatProcessID: pid_t?
+    private var openChatObservedAt: Double = -.infinity
     private let defaults = UserDefaults.standard
 
     private var panel: PetPanel!
@@ -1132,33 +1139,53 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     // MARK: 主循环
 
-    /// Match the selected chat only while its desktop application is in front.
-    /// File IO stays off the animation thread; recheck the process when it returns.
+    /// Match visible chat documents and desktop selection only in the foreground app.
+    /// Read on the utility queue and discard results after focus changes or expiry.
     private func refreshOpenChat() {
         let front = NSWorkspace.shared.frontmostApplication
         let bundle = front?.bundleIdentifier
-        guard bundle == Self.claudeBundleID || bundle == Self.codexBundleID,
+        guard let bundle, BrowserOpenChat.supportedBundles.contains(bundle),
               let pid = front?.processIdentifier else {
             router.openChatSession = nil
+            router.visibleChatSessions = []
             openChatProcessID = nil
             return
         }
-        if openChatProcessID != pid { router.openChatSession = nil }
+        if openChatProcessID != pid {
+            router.openChatSession = nil
+            router.visibleChatSessions = []
+        }
         guard !openChatBusy else { return }
         openChatProcessID = pid
         openChatBusy = true
         let links = self.links
         let codex = codexOpenChat
+        let candidates = router.sessionSummaries(now: nowMs()).compactMap { row -> (String, AgentProvider)? in
+            guard let owner = AgentProvider.owner(ofSource: router.sourceOfSession(row.id) ?? "") else { return nil }
+            return (row.id, owner)
+        }
+        let started = nowMs()
         DispatchQueue.global(qos: .utility).async {
-            let session = bundle == Self.codexBundleID
-                ? codex.focusedSession(processID: pid, now: Date().timeIntervalSince1970 * 1000)
-                : links.focusedTranscriptSession()
+            let documents = BrowserOpenChat.read(processID: pid)
+            let aliases = documents.contains { $0.provider == .claude } ? links.transcriptAliases() : [:]
+            let visible = Set(candidates.filter { candidate in
+                documents.contains { $0.matches(session: candidate.0, provider: candidate.1, aliases: aliases) }
+            }.map { $0.0 })
+            let session: String?
+            if bundle == Self.codexBundleID, !documents.contains(where: { $0.provider == .gpt }) {
+                session = codex.focusedSession(processID: pid, now: Date().timeIntervalSince1970 * 1000)
+            } else if bundle == Self.claudeBundleID, documents.isEmpty {
+                session = links.focusedTranscriptSession()
+            } else { session = nil }
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 self.openChatBusy = false
                 let current = NSWorkspace.shared.frontmostApplication
-                self.router.openChatSession = current?.processIdentifier == pid
-                    && current?.bundleIdentifier == bundle ? session : nil
+                let valid = current?.processIdentifier == pid && current?.bundleIdentifier == bundle
+                    && nowMs() >= started && nowMs() - started < 1500
+                self.router.openChatSession = valid ? session : nil
+                self.router.visibleChatSessions = valid ? visible : []
+                self.openChatObservedAt = valid ? started : -.infinity
             }
         }
     }
@@ -1167,8 +1194,10 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let now = nowMs()
         tickCount += 1
         // Clear immediately when the user leaves the app; refresh selected chat every 0.5 s.
-        if NSWorkspace.shared.frontmostApplication?.processIdentifier != openChatProcessID {
+        if NSWorkspace.shared.frontmostApplication?.processIdentifier != openChatProcessID
+            || now - openChatObservedAt > 1500 {
             router.openChatSession = nil
+            router.visibleChatSessions = []
         }
         if tickCount % 15 == 0 { refreshOpenChat() }
         if tickCount % 8 == 0 {
@@ -1898,6 +1927,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         case .language(let value):
             language = value
             updateStatusTitle()
+        case .browserChatPermission:
+            BrowserOpenChat.openPermissionSettings()
         case .toggleHidden:
             toggleHidden()
         case .resetPosition:

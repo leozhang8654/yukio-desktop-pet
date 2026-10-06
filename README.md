@@ -187,3 +187,5 @@ Each state uses approved artwork and corrected SAM 2.1 component masks. The head
 If Yukio makes your day at the keyboard a little nicer, a ⭐ helps other people find her.
 
 Settings now includes a large **Lower sign** icon button. It lowers the current completion sign without opening the chat; later completed turns can raise the sign again.
+
+Completion signs are acknowledged when the matching tracked chat is visible in its app, a web page, or an extension’s embedded chat document. Browser detection on macOS requires Accessibility access, enabled from Yukio settings. See [chat visibility and supported routes](docs/BROWSER-CHAT-VISIBILITY.md). Unknown or unmapped chat IDs keep their reminders.

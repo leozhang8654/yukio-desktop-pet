@@ -276,6 +276,19 @@ public final class ActivityRouter {
     /// 举牌是为了"这条答完了、点我跳过去看"。要是那条聊天本来就开在眼前，人自己已经看见了，
     /// 再举一块牌只是挡路——所以这条聊天不举牌；已经举着的，等你切过去也就放下。
     public var openChatSession: String?
+    /// More than one chat can be visible (a browser page and an extension side panel).
+    public var visibleChatSessions: Set<String> = []
+
+    private func isChatVisible(_ id: String) -> Bool {
+        openChatSession == id || visibleChatSessions.contains(id)
+    }
+
+    /// Record that this finished turn was seen, even during respondHoldMs or while pinned elsewhere.
+    private func acknowledgeVisibleCompletions() {
+        for s in sessions.values where isChatVisible(s.id) {
+            if !s.taskActive, s.finalAnswerAt != nil, s.taskEndedAt != nil { s.sign = .dismissed }
+        }
+    }
 
     var sessions: [String: SessionModel] = [:]
     private var anonymousCounter = 0
@@ -434,7 +447,7 @@ public final class ActivityRouter {
             // 举起来就不放下：等用户点击（点击后 dismissCompletion 把它记成 .dismissed）。
             // 举牌只发生在任务刚结束时，所以启动时回放到的旧记录不会举牌。
             // 那条聊天正开在眼前：答完的结果他自己看得见，不举牌；已经举着的也就此放下。
-            let inSight = openChatSession != nil && openChatSession == s.id
+            let inSight = isChatVisible(s.id)
             if s.sign == .raised {
                 if inSight {
                     if arming { s.sign = .dismissed }
@@ -505,7 +518,7 @@ public final class ActivityRouter {
             let age = now - end
             guard age >= config.respondHoldMs, age < config.completeArmMs else { continue }
             // 那条聊天正开在眼前：人已经看见了，这一轮就不举牌（也不进身侧那叠卡）。
-            if openChatSession == s.id {
+            if isChatVisible(s.id) {
                 s.sign = .dismissed
                 continue
             }
@@ -515,6 +528,7 @@ public final class ActivityRouter {
     }
 
     func updateFocus(now: Double) {
+        acknowledgeVisibleCompletions()
         armPendingSigns(now: now)
         // 用户在菜单里挑定了一条：只跟这条，完成与提问也不抢。
         if let p = pinnedSession {
@@ -726,6 +740,8 @@ public final class ActivityRouter {
 
     public func reset(now: Double) {
         sessions.removeAll()
+        openChatSession = nil
+        visibleChatSessions.removeAll()
         focusedSession = nil
         pinnedSession = nil
         temporarySession = nil

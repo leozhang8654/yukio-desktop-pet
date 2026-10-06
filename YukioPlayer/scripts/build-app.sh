@@ -17,7 +17,7 @@ else
   BIN="$(swift build -c release --show-bin-path)/YukioPlayer"
 fi
 # Reject an old externally supplied binary: it can silently restore the permission loop.
-if /usr/bin/nm -u "$BIN" | /usr/bin/grep -q AXIsProcessTrusted; then
+if /usr/bin/nm -u "$BIN" | /usr/bin/grep -Eq 'CGEventPost|CGEventCreateKeyboardEvent|AXUIElementSetAttributeValue'; then
   echo "旧版键盘回答程序不能打包，请重新构建后台回答版本。" >&2
   exit 1
 fi

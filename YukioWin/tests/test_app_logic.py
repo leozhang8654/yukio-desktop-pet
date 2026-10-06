@@ -92,9 +92,9 @@ class AppLogicTests(unittest.TestCase):
              patch.object(fake_win32, "foreground_process_id", return_value=42), \
              patch.object(fake_win32, "foreground_process_name", return_value="Codex.exe"):
             a._refresh_open_chat()
-            self.assertIs(a._open_chat_executor.submit.call_args.args[0].__self__, a.codex_open_chat)
+            self.assertIs(a._open_chat_executor.submit.call_args.args[0].__self__, a)
             self.assertEqual(a._open_chat_executor.submit.call_args.args[1], 42)
-            future.set_result("selected-chat")
+            future.set_result(("selected-chat", {"visible-chat"}, now()))
             a._refresh_open_chat()
             self.assertEqual(a.router.open_chat_session, "selected-chat")
         with patch.object(app_module.os, "name", "nt"), \
@@ -102,6 +102,47 @@ class AppLogicTests(unittest.TestCase):
              patch.object(fake_win32, "foreground_process_name", return_value="Other.exe"):
             a._refresh_open_chat()
             self.assertIsNone(a.router.open_chat_session)
+
+    def test_browser_matches_only_visible_chats_from_the_same_provider(self):
+        from unittest.mock import patch
+        from yukio.visible_chat import VisibleChat
+        a = make_app()
+        one = '11111111-1111-4111-8111-111111111111'
+        two = '22222222-2222-4222-8222-222222222222'
+        with patch.object(app_module.browser_open_chat, 'read', return_value=[VisibleChat('gpt', one), VisibleChat('claude', two)]), \
+             patch.object(a.links, 'transcript_aliases', return_value={}):
+            selected, visible, started = a._read_visible_chats(42, 'chrome.exe', [(one, 'gpt'), (two, 'claude'), ('other', 'gpt')])
+            self.assertIsNone(selected)
+            self.assertEqual(visible, {one, two})
+            self.assertEqual(started, now())
+            self.assertEqual(a._read_visible_chats(42, 'chrome.exe', [(one, 'claude')])[1], set())
+
+    def test_slow_focus_result_cannot_acknowledge_an_unseen_completion(self):
+        from concurrent.futures import Future
+        from unittest.mock import patch, Mock
+        a = make_app()
+        a._open_chat_pid = 42
+        future = Future()
+        future.set_result(('old-chat', {'old-chat'}, now() - 2000))
+        a._open_chat_future = future
+        a._open_chat_executor = Mock()
+        with patch.object(app_module.os, 'name', 'nt'), \
+             patch.object(fake_win32, 'foreground_process_id', return_value=42), \
+             patch.object(fake_win32, 'foreground_process_name', return_value='Chrome.exe'):
+            a._refresh_open_chat()
+            self.assertIsNone(a.router.open_chat_session)
+            self.assertEqual(a.router.visible_chat_sessions, set())
+
+    def test_expired_browser_observation_is_cleared_while_reader_is_busy(self):
+        from unittest.mock import patch
+        a = make_app()
+        a._open_chat_pid = 42
+        a.router.visible_chat_sessions = {'old-chat'}
+        a._open_chat_observed_at = now() - 2000
+        with patch.object(app_module.os, 'name', 'nt'), \
+             patch.object(fake_win32, 'foreground_process_id', return_value=42):
+            a.tick()
+        self.assertEqual(a.router.visible_chat_sessions, set())
 
     def test_leaving_codex_clears_selection_before_next_log_poll(self):
         from unittest.mock import patch

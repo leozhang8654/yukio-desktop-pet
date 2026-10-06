@@ -321,6 +321,7 @@ class ActivityRouter:
         #: 举牌是为了"这条答完了、点我跳过去看"。要是那条聊天本来就开在眼前，人自己已经看见了，
         #: 再举一块牌只是挡路——所以这条聊天不举牌；已经举着的，等你切过去也就放下。
         self.open_chat_session: Optional[str] = None
+        self.visible_chat_sessions = set()
         self._sessions: Dict[str, _Session] = {}
         self._anonymous = 0
         #: 被点掉／划掉的卡：会话 → 那一轮的 key，下一轮会重新出现。
@@ -485,7 +486,7 @@ class ActivityRouter:
             # 举起来就不放下：等用户点击（点击后 dismiss_completion 把它记成 dismissed）。
             # 举牌只发生在任务刚结束时，所以启动时回放到的旧记录不会举牌。
             # 那条聊天正开在眼前：答完的结果他自己看得见，不举牌；已经举着的也就此放下。
-            in_sight = self.open_chat_session is not None and self.open_chat_session == s.id
+            in_sight = self._is_chat_visible(s.id)
             if s.sign == SIGN_RAISED:
                 if in_sight:
                     if arming:
@@ -561,13 +562,20 @@ class ActivityRouter:
             age = now - s.task_ended_at
             if cfg.respond_hold_ms <= age < cfg.complete_arm_ms:
                 # 那条聊天正开在眼前：人已经看见了，这一轮就不举牌（也不进身侧那叠卡）。
-                if self.open_chat_session == s.id:
+                if self._is_chat_visible(s.id):
                     s.sign = SIGN_DISMISSED
                     continue
                 s.sign = SIGN_RAISED
                 s.sign_raised_at = now
 
+    def _is_chat_visible(self, session):
+        return self.open_chat_session == session or session in self.visible_chat_sessions
+
     def _update_focus(self, now: float) -> None:
+        # Acknowledge every visible completed turn before choosing which chat to follow.
+        for s in self._sessions.values():
+            if self._is_chat_visible(s.id) and not s.task_active and s.final_answer_at is not None and s.task_ended_at is not None:
+                s.sign = SIGN_DISMISSED
         self._arm_pending_signs(now)
         # 用户在菜单里挑定了一条：只跟这条，完成与提问也不抢。
         if self.pinned_session is not None:
@@ -758,6 +766,8 @@ class ActivityRouter:
 
     def reset(self, now: float) -> None:
         self._sessions = {}
+        self.open_chat_session = None
+        self.visible_chat_sessions = set()
         self.focused_session = None
         self.pinned_session = None
         self._dismissed_cards = {}

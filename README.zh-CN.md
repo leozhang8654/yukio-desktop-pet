@@ -183,3 +183,5 @@ powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1    # 打出 dist\
 如果雪绪让你敲键盘的日子好过了一点，点个 ⭐ 能让更多人找到她。
 
 设置顶部新增大号 **取消举牌** 图标按钮，点击放下当前完成牌，不跳转聊天；之后新的任务完成仍会正常举牌提醒。
+
+网页、Chrome 扩展侧栏与 App 中打开对应聊天后自动放下完成牌，配置与支持范围见[浏览器聊天识别](docs/BROWSER-CHAT-VISIBILITY.md)。macOS 网页识别需在雪绪设置里启用辅助功能权限。

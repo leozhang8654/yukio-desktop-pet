@@ -153,6 +153,20 @@ class ChatLinks:
             return stem if is_desktop_session_id(stem) else None
         return None
 
+    def transcript_aliases(self):
+        aliases, ambiguous = {}, set()
+        for path in self._records():
+            head = self._read_head(path)
+            if head is None:
+                continue
+            session, desktop = value_of("cliSessionId", head), value_of("sessionId", head)
+            if not session or not desktop or not is_transcript_session_id(session) or not is_desktop_session_id(desktop):
+                continue
+            if desktop in aliases and aliases[desktop] != session:
+                ambiguous.add(desktop)
+            aliases[desktop] = session
+        return {key: value for key, value in aliases.items() if key not in ambiguous}
+
     def focused_session(self) -> Optional[str]:
         """桌面版此刻选中的那条聊天，返回它的转录会话 ID。认不出时 None。
 

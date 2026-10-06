@@ -501,27 +501,34 @@ def run_chat_link(session: str) -> int:
 
 
 def run_open_chat() -> int:
-    """查桌面版 Claude 此刻选中的是哪条聊天。
-
-    那条聊天答完时雪绪不举牌——人已经看着它了，再举一块只是挡路。
-    还要求桌面版 Claude 真在最前面才算"开在眼前"，这里一并打印出来。
-    """
-    from .chatlinks import ChatLinks
-    links = ChatLinks()
-    print("桌面版会话记录：%s（存在=%s）" % (links.sessions_dir, os.path.isdir(links.sessions_dir)))
-    session = links.focused_session()
-    if not session:
-        print("认不出此刻开着哪条聊天：照常举牌")
-        return 1
-    print("此刻开着的聊天：%s" % session)
+    """Diagnose foreground desktop / browser / extension chat detection."""
     if os.name != "nt":
-        print("（这里不是 Windows，最前面那个程序查不了；Windows 上会一并判断。）")
+        print("当前不是 Windows；无法检查前台窗口与 UI Automation。")
+        return 1
+    from .win32 import foreground_process_id, foreground_process_name
+    from .browser_open_chat import read, SUPPORTED_EXES
+    from .chatlinks import ChatLinks
+    from .codex_open_chat import CodexOpenChat
+    pid = foreground_process_id()
+    front = (foreground_process_name() or "").lower()
+    print("最前面的程序：%s" % (front or "-"))
+    if not pid or front not in SUPPORTED_EXES:
+        print("无法确认正在看的聊天：保留完成提醒")
         return 0
-    from .win32 import foreground_process_name
-    front = foreground_process_name() or "-"
-    from .app import CLAUDE_DESKTOP_EXE
-    in_sight = front.lower() == CLAUDE_DESKTOP_EXE.lower()
-    print("最前面的程序：%s%s" % (front, "（算开在眼前，这条不举牌）" if in_sight else "（没在看 Claude，照常举牌）"))
+    documents = read(pid)
+    for document in documents:
+        print("可见聊天文档 %s / %s" % (document.provider, document.id))
+    selected = None
+    if front == 'codex.exe':
+        selected = CodexOpenChat().focused_session(pid, now_ms())
+    elif front == 'claude.exe' and not documents:
+        selected = ChatLinks().focused_session()
+    if foreground_process_id() != pid:
+        print("前台窗口已改变：本次检测作废")
+    elif selected:
+        print("正在看的桌面聊天：%s（这条不举完成牌）" % selected)
+    elif not documents:
+        print("无法确认正在看的聊天：保留完成提醒")
     return 0
 
 

@@ -46,6 +46,21 @@ public struct ClaudeSessionLinks: Sendable {
         return nil
     }
 
+    /// Explicit desktop -> transcript identities, also used by browser continuation views.
+    public func transcriptAliases() -> [String: String] {
+        var aliases: [String: String] = [:]
+        var ambiguous: Set<String> = []
+        for url in records() {
+            guard let head = Self.readHead(url, bytes: headBytes),
+                  let session = Self.value(of: "cliSessionId", in: head), Self.isTranscriptSessionID(session),
+                  let desktop = Self.value(of: "sessionId", in: head), Self.isDesktopSessionID(desktop) else { continue }
+            if let old = aliases[desktop], old != session { ambiguous.insert(desktop) }
+            aliases[desktop] = session
+        }
+        for key in ambiguous { aliases.removeValue(forKey: key) }
+        return aliases
+    }
+
     /// 点击举着的牌子时要打开的链接。认不出会话时 nil。
     public func chatURL(forTranscriptSession session: String) -> URL? {
         desktopSessionID(forTranscriptSession: session).flatMap(Self.chatURL(desktopSession:))
