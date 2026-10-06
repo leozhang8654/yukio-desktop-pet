@@ -80,7 +80,7 @@ enum CardLook {
         }
     }
 
-    /// 白底卡片，只在顶部用两点高的细线标记助手。
+    /// 白底卡片，只在顶部用四点高的细线标记助手。
     static func box(_ rect: NSRect, radius: CGFloat = radius, provider: AgentProvider? = nil) {
         let path = NSBezierPath(roundedRect: rect.insetBy(dx: 0.5, dy: 0.5), xRadius: radius, yRadius: radius)
         NSColor(white: 1, alpha: 0.94).setFill()
@@ -92,8 +92,8 @@ enum CardLook {
             NSGraphicsContext.saveGraphicsState()
             path.addClip()
             color.setFill()
-            NSBezierPath(rect: NSRect(x: rect.minX, y: rect.maxY - 2.5,
-                                     width: rect.width, height: 2)).fill()
+            NSBezierPath(rect: NSRect(x: rect.minX, y: rect.maxY - 4.5,
+                                     width: rect.width, height: 4)).fill()
             NSGraphicsContext.restoreGraphicsState()
         }
     }

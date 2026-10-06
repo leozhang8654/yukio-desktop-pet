@@ -1,5 +1,9 @@
 # Changelog / 更新记录
 
+## 0.3.8 — 2026-10-05
+
+- Increase provider top-edge thickness from 2 to 4 points on macOS and Windows for clearer visibility.
+
 ## 0.3.7 — 2026-10-05
 
 - Replace colored task-bubble and notification-card backgrounds with white surfaces and a thin top edge: GPT charcoal, Claude orange, DeepSeek blue.

@@ -52,7 +52,7 @@ def draw_provider_box(draw, rect, scale, provider):
     mask = Image.new("L", (width, height), 0)
     band = ImageDraw.Draw(mask)
     band.rounded_rectangle((0, 0, width - 1, height - 1), radius=radius, fill=255)
-    band.rectangle((0, max(1, int(round(2 * scale))), width, height), fill=0)
+    band.rectangle((0, max(1, int(round(4 * scale))), width, height), fill=0)
     draw.bitmap((x0, y0), mask, fill=color)
 
 
