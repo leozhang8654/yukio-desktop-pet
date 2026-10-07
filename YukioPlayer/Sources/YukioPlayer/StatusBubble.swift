@@ -30,6 +30,10 @@ final class BubbleView: NSView {
     var layout: BubbleLayout? {
         didSet { needsDisplay = true }
     }
+    /// 以 100% 时的排版为基准，整张卡（含文字与描边）跟人物等比缩放。
+    var scale: CGFloat = 1 {
+        didSet { needsDisplay = true }
+    }
 
     /// 点这张卡：摊开别的聊天来挑。平时窗口是穿透的，由控制器按需打开。
     var onClick: (() -> Void)?
@@ -38,7 +42,13 @@ final class BubbleView: NSView {
     override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }
 
     override func draw(_ dirtyRect: NSRect) {
-        layout?.draw(in: bounds)
+        guard let layout else { return }
+        NSGraphicsContext.saveGraphicsState()
+        let transform = NSAffineTransform()
+        transform.scale(by: scale)
+        transform.concat()
+        layout.draw(in: NSRect(origin: .zero, size: layout.size))
+        NSGraphicsContext.restoreGraphicsState()
     }
 
     override func mouseDown(with event: NSEvent) {
@@ -162,8 +172,9 @@ struct BubbleLayout {
     }
 
     /// 气泡左下角：水平居中于雪绪，底边贴在头顶线上方。headTop：人物最高点距窗口顶的点数（已乘缩放）。
-    static func origin(size: NSSize, petFrame pet: NSRect, headTop: CGFloat) -> NSPoint {
-        NSPoint(x: (pet.midX - size.width / 2).rounded(), y: (pet.maxY - headTop + 3).rounded())
+    static func origin(size: NSSize, petFrame pet: NSRect, headTop: CGFloat,
+                       scale: CGFloat = 1) -> NSPoint {
+        NSPoint(x: (pet.midX - size.width / 2).rounded(), y: (pet.maxY - headTop + 3 * scale).rounded())
     }
 
     func draw(in outerBounds: NSRect) {
