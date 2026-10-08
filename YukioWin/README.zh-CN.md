@@ -1,4 +1,4 @@
-> 0.3.8：任务气泡统一白底，以顶部细色线区分助手。详见[更新说明](../docs/releases/0.3.8.md)。
+> 0.3.9：任务气泡与上方卡片随雪绪同比例缩放。详见[更新说明](../docs/releases/0.3.9.md)。
 
 # 雪绪 · 桌面宠物（Windows 版，跟随 DeepSeek、Claude 或 GPT）
 
@@ -16,7 +16,7 @@
 
 ## 下载（不用装 Python）
 
-到 [Releases](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest) 下载 `Yukio-0.3.3-Windows.exe`，放哪儿都行，双击就开。Python、Pillow、素材都打包在里面了，需要 Windows 10 或更新的 64 位系统。
+到 [Releases](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest) 下载 `Yukio-0.3.9-Windows.exe`，放哪儿都行，双击就开。Python、Pillow、素材都打包在里面了，需要 Windows 10 或更新的 64 位系统。
 
 第一次打开 Windows 可能弹蓝色的「Windows 已保护你的电脑」——这个程序没买代码签名证书，点「更多信息」→「仍要运行」，以后不再问。
 

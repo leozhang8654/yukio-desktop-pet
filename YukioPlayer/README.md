@@ -1,4 +1,4 @@
-> 0.3.8: White task bubbles with a thin provider-colored top edge. See [release notes](../docs/releases/0.3.8.md).
+> 0.3.9: Task bubbles and stacked cards now scale with Yukio. See [release notes](../docs/releases/0.3.9.md).
 
 # Yukio desktop player (macOS, follows Claude Code, DeepSeek or GPT)
 
