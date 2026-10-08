@@ -4,6 +4,7 @@ All network work runs on one daemon worker. Only the Tk/main thread touches UI
 or settings. Velopack owns verified downloads, process handoff and replacement.
 """
 from __future__ import annotations
+import math
 import queue
 import sys
 import threading
@@ -16,13 +17,21 @@ CHECK_INTERVAL = 6 * 60 * 60
 REMIND_INTERVAL = 24 * 60 * 60
 
 
+def timestamp(value):
+    try:
+        result = float(value)
+        return result if math.isfinite(result) else 0
+    except (TypeError, ValueError):
+        return 0
+
+
 def automatic_check_due(settings, now):
-    last = settings.get('updateLastCheck', 0)
+    last = timestamp(settings.get('updateLastCheck', 0))
     return settings.get('automaticUpdates', True) and (now < last or now - last >= CHECK_INTERVAL)
 
 
 def should_notify(settings, version, now):
-    return version != settings.get('updateDeferredVersion', '') or now >= settings.get('updateDeferredUntil', 0)
+    return version != settings.get('updateDeferredVersion', '') or now >= timestamp(settings.get('updateDeferredUntil', 0))
 
 
 def make_manager():
@@ -124,7 +133,7 @@ class UpdateController:
                 self._show(tr('No newer stable version is available.', '暂无更新的正式版本。'))
             return
         release = value.TargetFullRelease
-        if self.manual or should_notify(self.settings, release.Version, time.time()):
+        if self.manual or (self.settings.get('automaticUpdates', True) and should_notify(self.settings, release.Version, time.time())):
             self._show(tr('Yukio %s is available', '发现新版本 Yukio %s') % release.Version,
                        notes=release.NotesMarkdown or tr('Improvements and fixes.', '体验改进与问题修复。'), install=True)
 

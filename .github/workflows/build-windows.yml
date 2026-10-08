@@ -98,7 +98,11 @@ jobs:
             YukioWin/smoke/
             YukioWin/smoke-150/
             YukioWin/build/assistant-smoke/
-            YukioWin/build/update-test/
+            YukioWin/build/update-test/upgrade-result.json
+            YukioWin/build/update-test/upgrade-result.json.error.txt
+            YukioWin/build/update-test/timeout.png
+            YukioWin/build/update-test/windows.txt
+            YukioWin/build/update-test/native-smoke/
           if-no-files-found: warn
 
       - name: Keep the exe
@@ -107,7 +111,11 @@ jobs:
           name: Yukio-Windows
           path: |
             YukioWin/dist/releases/*
-            YukioWin/build/update-test/*
+            YukioWin/build/update-test/upgrade-result.json
+            YukioWin/build/update-test/upgrade-result.json.error.txt
+            YukioWin/build/update-test/timeout.png
+            YukioWin/build/update-test/windows.txt
+            YukioWin/build/update-test/native-smoke/*
 
       - name: Publish a Release when a win-v* tag is pushed
         if: startsWith(github.ref, 'refs/tags/win-v')

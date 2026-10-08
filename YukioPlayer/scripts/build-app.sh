@@ -1,5 +1,5 @@
 #!/bin/sh
-# 构建 build/Yukio.app（显示名“雪绪”）。只需要 Xcode Command Line Tools，无第三方依赖。
+# 构建 build/Yukio.app（显示名“雪绪”）。SwiftPM 固定版本的 Sparkle 用于更新。
 # 可选参数 $1：已经编好的可执行文件（发版脚本用它塞进通用二进制），不给就现场编译。
 # 资源随应用打包在 Contents/Resources/Assets，不依赖本机其他路径。
 # 可选环境变量 YUKIO_PAGED_ASSETS 指向 prepare-windows-assets.py 生成的 Assets；
@@ -21,7 +21,7 @@ if /usr/bin/nm -u "$BIN" | /usr/bin/grep -q AXIsProcessTrusted; then
   echo "旧版键盘回答程序不能打包，请重新构建后台回答版本。" >&2
   exit 1
 fi
-APP="build/Yukio.app"
+APP="${YUKIO_APP_OUTPUT:-build/Yukio.app}"
 # 可单独试用新助手窗口，不覆盖旧包，也不再放出第二只桌宠。
 if [ "${YUKIO_ASSISTANT_PREVIEW:-0}" = "1" ]; then
   APP="build/Yukio Assistant Preview.app"

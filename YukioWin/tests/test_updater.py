@@ -37,6 +37,16 @@ class UpdateTests(unittest.TestCase):
         self.settings.set('automaticUpdates', False)
         self.assertFalse(automatic_check_due(self.settings, CHECK_INTERVAL * 2))
 
+    def test_corrupted_timestamp_does_not_disable_future_checks(self):
+        for value in ('invalid', None, float('nan')):
+            self.settings.set('updateLastCheck', value)
+            self.assertTrue(automatic_check_due(self.settings, CHECK_INTERVAL + 1))
+
+    def test_opt_out_while_checking_suppresses_background_prompt(self):
+        self.settings.set('automaticUpdates', False)
+        self.controller._handle('checked', self.update)
+        self.controller._show.assert_not_called()
+
     def test_defer_persists_but_a_new_version_is_announced(self):
         c = self.controller
         c.pending = self.update

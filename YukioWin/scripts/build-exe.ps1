@@ -4,7 +4,7 @@
 #   powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1
 #
 # 需要：Python 3.9 或更新（勾选“Add python.exe to PATH”安装即可）。
-# 产物：dist\Yukio\Yukio.exe，可以直接拷给别人双击运行，对方不用装 Python。
+# 产物：dist\Yukio\Yukio.exe，是程序目录；分发 dist\releases 下的 Setup 安装包。
 
 $ErrorActionPreference = "Stop"
 $root = Split-Path -Parent $PSScriptRoot
@@ -21,9 +21,10 @@ if (-not (Test-Path $venv)) {
 }
 $venvPython = Join-Path $venv "Scripts\python.exe"
 
-Write-Host "== 装依赖（pillow、pyinstaller）"
+Write-Host "== 装依赖（requirements.txt、pyinstaller）"
 & $venvPython -m pip install --upgrade pip | Out-Null
-& $venvPython -m pip install --upgrade pillow pyinstaller
+& $venvPython -m pip install --upgrade pyinstaller -r requirements.txt
+if ($LASTEXITCODE -ne 0) { throw "依赖安装失败" }
 
 Write-Host "== 先跑一遍自测"
 & $venvPython run.py --selftest
