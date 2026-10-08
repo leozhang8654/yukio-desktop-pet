@@ -29,6 +29,7 @@ verification. Do not interpret this report as confirmation of a published releas
 Native GitHub Actions Windows runners were used. These are real Windows automated
 results, not a claim of manual testing on a friend's PC.
 
+- [Final 248-test run, upgrade and packaged regressions](https://github.com/leozhang8654/yukio-desktop-pet/actions/runs/37735984170): passed at source `035012bf7e47780d64afc0f2009ceb374a08467e`.
 - [Installed upgrade and regressions](https://github.com/leozhang8654/yukio-desktop-pet/actions/runs/37735245309): passed.
 - [Missing feed, tampered package, installed upgrade and regressions](https://github.com/leozhang8654/yukio-desktop-pet/actions/runs/37735701914): passed.
 - CI installs a packaged 0.3.99 baseline, discovers 0.4.0 with release notes,
