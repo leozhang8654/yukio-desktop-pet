@@ -76,3 +76,14 @@ clicks, downgrade refusal, download-before-restart, failed handoff and settings
 preservation. Qualify actual packaged upgrades on both platforms before publishing.
 Windows results must come from a Windows environment; local Python tests on macOS
 are not a substitute. Keep previous installers and a backup of the installed Mac app.
+
+To reproduce a Mac upgrade test without the production key, run
+`scripts/prepare_macos_update_test.py --app <packaged-app> --out <new-directory>
+--sign-tool <Sparkle-bin/sign_update>`. Serve the generated feed directory on
+127.0.0.1:18744 and launch the baseline app. The fixture has its own bundle ID,
+public key and preferences. Its temporary private key is deleted after signing.
+These fixtures must never be released. Use the production key for public packages.
+
+Release preparation can use `YUKIO_SIGN_UPDATES=0` and a fresh
+`YUKIO_RELEASE_OUTPUT` directory while Keychain approval is pending. That deliberately
+omits appcast.xml; do not publish until `make_appcast.py` has signed and verified it.

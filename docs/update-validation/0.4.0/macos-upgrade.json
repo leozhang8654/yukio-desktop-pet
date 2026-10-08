@@ -1,0 +1,17 @@
+{
+  "baseline_version": "0.3.99",
+  "installed_version": "0.4.0",
+  "bundle_files_match_target": true,
+  "automatic_discovery": true,
+  "release_notes_displayed": true,
+  "postpone_then_manual_check": true,
+  "single_install_click_restarted": true,
+  "settings_preserved": {
+    "scale": 1.35,
+    "language": "zh"
+  },
+  "unsigned_feed_rejected": true,
+  "offline_error_preserved_old_app": true,
+  "no_update_after_upgrade": true,
+  "trust_root": "isolated temporary test key; not the production signing key"
+}
