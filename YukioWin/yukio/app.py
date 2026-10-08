@@ -1378,15 +1378,19 @@ class PetApp:
         self._clamp_to_screen()
         self._save_position()
         self._render(now_ms())
-        self.bubble_hold.value = None      # 让气泡按新比例重画
-        self._bubble_image = None
-        self._bubble_alpha = 0.0
-        self.bubble.hide()
-        self.cards_hold.value = []
-        self.cards_layout = None
-        self._cards_image = None
-        self._cards_alpha = 0.0
-        self.cards.hide()
+        # 当前内容立即按新比例重画，保留淡入淡出进度，拖动大小时不会闪一下。
+        if self.bubble_hold.value is not None:
+            from .bubble import BubbleLayout
+            self._bubble_image = BubbleLayout(self.bubble_hold.value, self.scale).render()
+            self._position_bubble()
+            self._paint_bubble()
+        if self.cards_hold.value:
+            from .cardstack import CardStackLayout
+            self.cards_layout = CardStackLayout(self.cards_hold.value, expanded=self.cards_expanded,
+                                                scale=self.scale)
+            self._cards_image = self.cards_layout.render()
+            self._position_cards()
+            self._paint_cards()
 
     def _reset_position(self) -> None:
         self._finish_hang()

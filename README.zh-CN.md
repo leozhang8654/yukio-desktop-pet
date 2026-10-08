@@ -1,4 +1,4 @@
-> 0.3.8：任务气泡统一白底，以顶部细色线区分助手。详见[更新说明](docs/releases/0.3.8.md)。
+> 0.3.9：任务气泡与上方卡片随雪绪同比例缩放。详见[更新说明](docs/releases/0.3.9.md)。
 
 [English](README.md) · **简体中文**
 
@@ -21,7 +21,12 @@
 
 她认三家助手，在菜单「跟随的助手」里挑：**Claude Code**、**DeepSeek 的 [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)**、**GPT 的 [Codex](https://developers.openai.com/codex/)**（桌面版与命令行写的是同一份会话记录）。默认的**自动**三家一起跟，谁有话说就显示谁。两版都使用原生窗口，完全基于本机会话记录工作。
 
-## 0.3.8 更新
+## 0.3.9 更新
+
+- 任务气泡和上方通知卡随人物大小同步变化；100% 时保持原尺寸，文字、描边、间距和点击区域使用相同百分比。
+- Windows 调整大小时立即重绘正在显示的气泡，不再短暂消失。
+
+### 近期更新
 
 - macOS 和 Windows 的 GPT / Codex 问题卡改为后台直传，不切换窗口、不改粘贴板、不模拟按键。
 - 兼容最新聊天记录格式，修复待答问题被误判为已结束。
@@ -36,8 +41,8 @@
 
 | 你用的是 | 下载 | 怎么开 |
 | --- | --- | --- |
-| macOS 13 或更新（Apple 芯片与 Intel 通用） | [Yukio-0.3.8-macOS.zip](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.8/Yukio-0.3.8-macOS.zip) | 解压，把 `Yukio.app` 拖进「应用程序」，第一次按下面放行一次 |
-| Windows 10 / 11（64 位） | [Yukio-0.3.8-Windows.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.8/Yukio-0.3.8-Windows.exe) | 双击就开。Python 和素材都打包在里面 |
+| macOS 13 或更新（Apple 芯片与 Intel 通用） | [Yukio-0.3.9-macOS.dmg](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.9/Yukio-0.3.9-macOS.dmg) · [ZIP](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.9/Yukio-0.3.9-macOS.zip) | 打开 DMG，把 `Yukio.app` 拖进「应用程序」，第一次按下面放行一次 |
+| Windows 10 / 11（64 位） | [Yukio-0.3.9-Windows.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.9/Yukio-0.3.9-Windows.exe) | 双击就开。Python 和素材都打包在里面 |
 
 <details>
 <summary><b>macOS 第一次打开：「Apple 无法验证“Yukio”是否包含可能危害 Mac 安全或泄漏隐私的恶意软件」</b></summary>

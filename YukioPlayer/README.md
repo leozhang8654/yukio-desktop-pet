@@ -1,4 +1,4 @@
-> 0.3.8: White task bubbles with a thin provider-colored top edge. See [release notes](../docs/releases/0.3.8.md).
+> 0.3.9: Task bubbles and stacked cards now scale with Yukio. See [release notes](../docs/releases/0.3.9.md).
 
 # Yukio desktop player (macOS, follows Claude Code, DeepSeek or GPT)
 
@@ -138,7 +138,7 @@ Because the head-top line of the standing pose (y2) and the seated pose (y22) di
 
 ## The head bubble
 
-The small bubble over Yukio's head is at most 180 points wide and two lines tall; it fades in when there is a task and fades out when there isn't. "Show task bubble" in the menu turns it off.
+At 100% size, the small bubble over Yukio's head is at most 180 points wide and two lines tall. The bubble and the cards above it scale with Yukio at the same percentage. It fades in when there is a task and fades out when there isn't. "Show task bubble" in the menu turns it off.
 
 | Position | Content | Source |
 | --- | --- | --- |

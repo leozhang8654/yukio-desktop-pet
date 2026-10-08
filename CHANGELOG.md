@@ -1,5 +1,10 @@
 # Changelog / 更新记录
 
+## 0.3.9 — 2026-10-07
+
+- Scale the task bubble and stacked notification cards with Yukio from their 100% baseline, including text, spacing and hit regions. / 任务气泡和通知卡以 100% 原尺寸为基准，文字、间距与点击区域随人物同步缩放。
+- Redraw Windows task cards immediately during size changes without resetting their fade. / Windows 调整大小时立即重绘，不再让气泡短暂消失。
+
 ## 0.3.8 — 2026-10-05
 
 - Increase provider top-edge thickness from 2 to 4 points on macOS and Windows for clearer visibility, extending above the original bubble without consuming content space.

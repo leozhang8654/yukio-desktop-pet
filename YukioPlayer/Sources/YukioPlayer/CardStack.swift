@@ -33,6 +33,9 @@ final class CardStackView: NSView {
     var layout: CardStackLayout? {
         didSet { needsDisplay = true }
     }
+    var scale: CGFloat = 1 {
+        didSet { needsDisplay = true }
+    }
 
     /// 点了第几张卡的正文（去那条聊天）。
     var onOpen: ((Int) -> Void)?
@@ -49,12 +52,20 @@ final class CardStackView: NSView {
     override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }
 
     override func draw(_ dirtyRect: NSRect) {
-        layout?.draw(in: bounds)
+        guard let layout else { return }
+        NSGraphicsContext.saveGraphicsState()
+        let transform = NSAffineTransform()
+        transform.scale(by: scale)
+        transform.concat()
+        layout.draw(in: NSRect(origin: .zero, size: layout.size))
+        NSGraphicsContext.restoreGraphicsState()
     }
 
     /// 窗口内坐标（左下原点）上有没有可点的东西。
     func hit(at point: NSPoint) -> CardStackLayout.Hit? {
-        layout?.hit(at: point, in: bounds)
+        guard let layout else { return nil }
+        return layout.hit(at: NSPoint(x: point.x / scale, y: point.y / scale),
+                          in: NSRect(origin: .zero, size: layout.size))
     }
 
     override func mouseDown(with event: NSEvent) {
@@ -172,10 +183,11 @@ struct CardStackLayout {
 
     /// 这摞卡的左下角：和气泡同一竖线上居中，压在气泡上面往上长。
     /// bubbleTop 是气泡的上边（没有气泡时传头顶线），留一条缝接着叠。
-    static func origin(size: NSSize, petFrame pet: NSRect, bubbleTop: CGFloat, visible: NSRect) -> NSPoint {
+    static func origin(size: NSSize, petFrame pet: NSRect, bubbleTop: CGFloat, visible: NSRect,
+                       scale: CGFloat = 1) -> NSPoint {
         var x = (pet.midX - size.width / 2).rounded()
         x = min(max(x, visible.minX + 4), visible.maxX - size.width - 4)
-        var y = (bubbleTop + CardLook.stackGap).rounded()
+        var y = (bubbleTop + CardLook.stackGap * scale).rounded()
         y = min(max(y, visible.minY + 4), visible.maxY - size.height - 4)
         return NSPoint(x: x, y: y)
     }

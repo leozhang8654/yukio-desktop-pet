@@ -985,8 +985,14 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         render()
         clampToScreen()
         savePosition()
+        bubble.bubbleView.scale = scale
+        cardStack.stackView.scale = scale
         positionBubble()
-        positionCards()
+        if cardsHold.value.isEmpty {
+            positionCards()
+        } else {
+            layoutCards(cardsHold.value)
+        }
         positionQuestion()
     }
 
@@ -1260,6 +1266,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     private func setUpBubble() {
         bubble = BubblePanel()
+        bubble.bubbleView.scale = scale
         // 子窗口：拖动雪绪时跟着走。
         panel.addChildWindow(bubble, ordered: .above)
         // 点头顶这张卡＝摊开挑聊天。点雪绪本人仍是“跳到那条聊天并放下牌子”，两处不打架。
@@ -1288,7 +1295,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     private func positionBubble() {
         bubblePlacedForHang = swing != nil
-        guard let bubble, let size = bubble.bubbleView.layout?.size else { return }
+        guard let bubble, let layoutSize = bubble.bubbleView.layout?.size else { return }
+        let size = NSSize(width: layoutSize.width * scale, height: layoutSize.height * scale)
         // 被拎着时图更高，气泡改贴在被捏起的领口上方；晃动时气泡不跟着歪，免得字在抖。
         var pet = panel.frame
         var headTop = library.headTopInset(for: stateTimeline.spec.id)
@@ -1296,7 +1304,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             pet = geo.spriteRect.offsetBy(dx: panel.frame.minX, dy: panel.frame.minY)
             headTop = CGFloat(heldSpec.hang?.gripY ?? 0)
         }
-        var origin = BubbleLayout.origin(size: size, petFrame: pet, headTop: headTop * scale)
+        var origin = BubbleLayout.origin(size: size, petFrame: pet, headTop: headTop * scale,
+                                         scale: scale)
         if let vf = (panel.screen ?? NSScreen.main)?.visibleFrame {
             // 雪绪靠近屏幕边缘时气泡仍留在屏幕内（顶到上边时会压在头上）。
             origin.x = min(max(origin.x, vf.minX + 4), vf.maxX - size.width - 4)
@@ -1316,6 +1325,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     private func setUpCards() {
         cardStack = CardStackPanel()
+        cardStack.stackView.scale = scale
         panel.addChildWindow(cardStack, ordered: .above)
         cardStack.stackView.onOpen = { [weak self] i in self?.cardTapped(i, pick: true) }
         cardStack.stackView.onDismiss = { [weak self] i in self?.cardTapped(i, pick: false) }
@@ -1384,13 +1394,18 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             fade(cardStack, to: 0)
             return
         }
+        layoutCards(value)
+        fade(cardStack, to: 1)
+    }
+
+    private func layoutCards(_ cards: [ActivityCard]) {
         let anchor = cardsAnchor()
-        let layout = CardStackLayout(cards: value, expanded: cardsExpanded,
+        let available = anchor.visible.maxY - anchor.bubbleTop - (CardLook.stackGap + 6) * scale
+        let layout = CardStackLayout(cards: cards, expanded: cardsExpanded,
                                      pinned: router.pinnedSession != nil,
-                                     maxHeight: anchor.visible.maxY - anchor.bubbleTop - CardLook.stackGap - 6)
+                                     maxHeight: available / scale)
         cardStack.stackView.layout = layout
         positionCards(layout)
-        fade(cardStack, to: 1)
     }
 
     /// 雪绪挪了、变大小了、被拎起放下了：照当前这叠重摆一次。
@@ -1410,16 +1425,17 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             headTop = CGFloat(heldSpec.hang?.gripY ?? 0)
         }
         let bubbleTop = (bubble?.alphaValue ?? 0) > 0.01 && bubble.bubbleView.layout != nil
-            ? bubble.frame.maxY : pet.maxY - headTop * scale + 3
+            ? bubble.frame.maxY : pet.maxY - headTop * scale + 3 * scale
         return (pet, bubbleTop, visible)
     }
 
     private func positionCards(_ layout: CardStackLayout) {
         guard let cardStack, layout.size.height > 0 else { return }
         let a = cardsAnchor()
-        let origin = CardStackLayout.origin(size: layout.size, petFrame: a.pet,
-                                            bubbleTop: a.bubbleTop, visible: a.visible)
-        cardStack.setFrame(NSRect(origin: origin, size: layout.size), display: true)
+        let size = NSSize(width: layout.size.width * scale, height: layout.size.height * scale)
+        let origin = CardStackLayout.origin(size: size, petFrame: a.pet,
+                                            bubbleTop: a.bubbleTop, visible: a.visible, scale: scale)
+        cardStack.setFrame(NSRect(origin: origin, size: size), display: true)
     }
 
     private func fade(_ window: NSWindow, to alpha: CGFloat) {
