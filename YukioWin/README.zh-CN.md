@@ -38,7 +38,7 @@ python run.py
 powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1
 ```
 
-打出来的是 `dist\Yukio.exe`（素材已经打包进去）。没有 Windows 开发环境时，也可以在 GitHub 的 Actions 里跑「Build Windows Yukio」，下载它产出的 exe。
+打出来的是 `dist\releases\YukioDesktop-win-Setup.exe`（素材已经打包进去）。没有 Windows 开发环境时，也可以在 GitHub 的 Actions 里跑「Build Windows Yukio」，下载它产出的 exe。
 
 ## 操作
 

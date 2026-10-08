@@ -32,13 +32,13 @@ pip install pillow
 python run.py
 ```
 
-Yukio appears in the bottom-right corner of the screen, and a small avatar of her appears in the taskbar tray. To get a `Yukio.exe` that anyone can double-click without installing Python:
+Yukio appears in the bottom-right corner of the screen, and a small avatar of her appears in the taskbar tray. To get a Setup installer that anyone can run without installing Python:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1
 ```
 
-The result is `dist\Yukio.exe` (artwork included). Without a Windows dev environment, you can also run the "Build Windows Yukio" workflow under GitHub Actions and download the exe it produces.
+The result is `dist\releases\YukioDesktop-win-Setup.exe` (artwork included). Without a Windows dev environment, you can also run the "Build Windows Yukio" workflow under GitHub Actions and download the exe it produces.
 
 ## How to use
 

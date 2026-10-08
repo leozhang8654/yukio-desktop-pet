@@ -89,7 +89,7 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
 
     init() {
         let panel = NSPanel(
-            contentRect: NSRect(x: 0, y: 0, width: 420, height: 656),
+            contentRect: NSRect(x: 0, y: 0, width: 420, height: 728),
             styleMask: [.titled, .closable, .nonactivatingPanel],
             backing: .buffered,
             defer: false
@@ -151,7 +151,7 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         let needsApproval = snapshot.launchAtLogin == .requiresApproval
         startupHint.isHidden = !needsApproval
         loginItemsButton.isHidden = !needsApproval
-        let contentSize = NSSize(width: 420, height: needsApproval ? 716 : 656)
+        let contentSize = NSSize(width: 420, height: needsApproval ? 788 : 728)
         if window?.contentView?.frame.size != contentSize {
             window?.setContentSize(contentSize)
         }
@@ -207,6 +207,7 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         root.wantsLayer = true
         root.layer?.backgroundColor = NSColor(calibratedRed: 0.065, green: 0.105, blue: 0.165, alpha: 0.98).cgColor
 
+        stack.setAccessibilityIdentifier("settingsContentStack")
         stack.orientation = .vertical
         stack.alignment = .leading
         stack.spacing = 6

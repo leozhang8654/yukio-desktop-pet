@@ -13,6 +13,8 @@ import Testing
             if view.accessibilityIdentifier() == id { return view }
             return view.subviews.compactMap { find(id, in: $0) }.first
         }
+        let stack = try #require(find("settingsContentStack", in: root))
+        #expect(root.bounds.contains(stack.convert(stack.bounds, to: root)))
         let button = try #require(find("checkForUpdatesButton", in: root) as? NSButton)
         let toggle = try #require(find("automaticUpdatesSwitch", in: root) as? NSSwitch)
         var checks = 0
