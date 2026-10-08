@@ -11,7 +11,10 @@ function Run-Bounded($Exe, $Arguments, $Label) {
         Stop-Process -Id $p.Id -Force
         throw "$Label timed out"
     }
-    if ($p.ExitCode -ne 0) { throw "$Label failed: $($p.ExitCode)" }
+    if ($p.ExitCode -ne 0) {
+        Get-ChildItem "$test/*.error.txt" | ForEach-Object { Get-Content $_.FullName }
+        throw "$Label failed: $($p.ExitCode)"
+    }
 }
 $install = Join-Path $test 'installed'
 $setup = (Get-ChildItem build/update-baseline/*Setup.exe | Select-Object -First 1).FullName

@@ -33,7 +33,7 @@ jobs:
         run: dotnet tool install -g vpk --version 1.2.161
 
       - name: Install dependencies
-        run: python -m pip install --upgrade pip pillow pyinstaller
+        run: python -m pip install --upgrade pip pyinstaller -r YukioWin/requirements.txt
 
       - name: Self-test (core tests + player logic)
         working-directory: YukioWin

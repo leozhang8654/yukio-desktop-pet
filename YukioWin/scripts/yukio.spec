@@ -7,6 +7,7 @@
 """
 
 import os
+import velopack  # Fail packaging early if the updater dependency is missing.
 
 ROOT = os.path.abspath(os.path.join(SPECPATH, ".."))
 REPO = os.path.dirname(ROOT)
