@@ -15,9 +15,12 @@ struct SettingsSnapshot {
     let language: UILanguage
     let demoPlaying: Bool
     var launchAtLogin: LaunchAtLoginStatus = .disabled
+    var automaticUpdates: Bool = true
 }
 
 enum SettingsChange {
+    case checkForUpdates
+    case automaticUpdates(Bool)
     case following(Bool)
     case launchAtLogin(Bool)
     case openLoginItems
@@ -71,6 +74,9 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
     private let resetButton = NSButton()
     private let demoButton = NSButton()
     private let doneButton = NSButton()
+    private let updateButton = NSButton()
+    private let updateTitle = NSTextField(labelWithString: "")
+    private let updateSwitch = NSSwitch()
     private let lowerSignButton = NSButton()
 
     private let followingHeading = NSTextField(labelWithString: "")
@@ -136,6 +142,7 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
 
         refreshLabels(language: snapshot.language)
         statusLabel.stringValue = snapshot.status
+        updateSwitch.state = snapshot.automaticUpdates ? .on : .off
         followSwitch.state = snapshot.following ? .on : .off
         bubbleSwitch.state = snapshot.showBubble ? .on : .off
         cardsSwitch.state = snapshot.showCards ? .on : .off
@@ -271,6 +278,9 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         stack.addArrangedSubview(startupHint)
         stack.addArrangedSubview(loginItemsButton)
 
+        stack.addArrangedSubview(row(title: updateTitle, control: updateSwitch))
+        stack.addArrangedSubview(updateButton)
+
         let buttons = NSStackView(views: [hideButton, resetButton, demoButton, NSView(), doneButton])
         buttons.orientation = .horizontal
         buttons.alignment = .centerY
@@ -334,6 +344,13 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         demoButton.bezelStyle = .rounded
         demoButton.target = self
         demoButton.action = #selector(toggleDemo)
+        updateSwitch.target = self
+        updateSwitch.action = #selector(updatePreferenceChanged)
+        updateSwitch.setAccessibilityIdentifier("automaticUpdatesSwitch")
+        updateButton.bezelStyle = .rounded
+        updateButton.target = self
+        updateButton.action = #selector(checkForUpdates)
+        updateButton.setAccessibilityIdentifier("checkForUpdatesButton")
         doneButton.bezelStyle = .rounded
         doneButton.keyEquivalent = "\r"
         doneButton.target = self
@@ -377,6 +394,9 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         scaleTitle.stringValue = tr("Size", "大小")
         languageTitle.stringValue = tr("Language", "语言")
         resetButton.title = tr("Reset position", "复位位置")
+        updateTitle.stringValue = tr("Automatically check for updates", "自动检查新版本")
+        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "dev"
+        updateButton.title = tr("Check for updates…", "检查更新…") + " (" + version + ")"
         doneButton.title = tr("Done", "完成")
         lowerSignButton.title = tr("Lower sign", "取消举牌")
         lowerSignButton.toolTip = tr("Lower the current completion sign without opening the chat.", "放下当前完成牌，不打开聊天。")
@@ -422,6 +442,12 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         let x = left >= visible.minX ? left : min(right, visible.maxX - size.width)
         let y = min(max(anchor.midY - size.height / 2, visible.minY + 12), visible.maxY - size.height - 12)
         window.setFrameOrigin(NSPoint(x: x, y: y))
+    }
+
+    @objc private func checkForUpdates() { onChange?(.checkForUpdates) }
+    @objc private func updatePreferenceChanged() {
+        guard !updating else { return }
+        onChange?(.automaticUpdates(updateSwitch.state == .on))
     }
 
     @objc private func startupChanged() {

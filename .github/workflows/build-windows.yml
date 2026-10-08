@@ -25,6 +25,12 @@ jobs:
         with:
           python-version: "3.12"
 
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - name: Install Velopack packaging tool
+        run: dotnet tool install -g vpk --version 1.2.161
+
       - name: Install dependencies
         run: python -m pip install --upgrade pip pillow pyinstaller
 
@@ -40,27 +46,46 @@ jobs:
         working-directory: YukioWin
         run: python scripts/prepare-windows-assets.py
 
+      - name: Build an older updater-capable baseline for upgrade testing
+        working-directory: YukioWin
+        shell: pwsh
+        run: |
+          $original = Get-Content yukio/__init__.py -Raw
+          try {
+            $original.Replace('0.4.0', '0.3.99') | Set-Content yukio/__init__.py
+            python -m PyInstaller --noconfirm --clean scripts/yukio.spec
+            if ($LASTEXITCODE -ne 0) { throw "Baseline build failed" }
+            ./scripts/package-release.ps1 -Version 0.3.99 -Output build/update-baseline
+          } finally { $original | Set-Content yukio/__init__.py }
+
       - name: Package
         working-directory: YukioWin
         run: python -m PyInstaller --noconfirm --clean scripts/yukio.spec
+
+      - name: Build installer and upgrade from the installed baseline
+        working-directory: YukioWin
+        shell: pwsh
+        run: |
+          ./scripts/package-release.ps1
+          ./scripts/test-upgrade.ps1
 
       - name: Packaged Codex background answers over a real Windows named pipe
         working-directory: YukioWin
         env:
           PYTHONPATH: .
-        run: python tests/test_codex_answer.py --exe dist/Yukio.exe
+        run: python tests/test_codex_answer.py --exe dist/Yukio/Yukio.exe
 
       - name: Compact settings, lower-sign button and outside-click dismissal in the packaged exe
         working-directory: YukioWin
-        run: powershell -ExecutionPolicy Bypass -File scripts/smoke-assistant.ps1 -Exe dist/Yukio.exe
+        run: powershell -ExecutionPolicy Bypass -File scripts/smoke-assistant.ps1 -Exe dist/Yukio/Yukio.exe
 
       - name: Smoke test (find the windows, measure, check the pose, compare screenshots pixel by pixel)
         working-directory: YukioWin
-        run: powershell -ExecutionPolicy Bypass -File scripts/smoke-test.ps1 -Exe dist/Yukio.exe
+        run: powershell -ExecutionPolicy Bypass -File scripts/smoke-test.ps1 -Exe dist/Yukio/Yukio.exe
 
       - name: Smoke test again at 150% scaling (the HiDPI path)
         working-directory: YukioWin
-        run: powershell -ExecutionPolicy Bypass -File scripts/smoke-test.ps1 -Exe dist/Yukio.exe -Scale 1.5 -OutDir smoke-150
+        run: powershell -ExecutionPolicy Bypass -File scripts/smoke-test.ps1 -Exe dist/Yukio/Yukio.exe -Scale 1.5 -OutDir smoke-150
 
       - name: Keep the smoke-test screenshots and logs
         if: always()
@@ -71,17 +96,20 @@ jobs:
             YukioWin/smoke/
             YukioWin/smoke-150/
             YukioWin/build/assistant-smoke/
+            YukioWin/build/update-test/
           if-no-files-found: warn
 
       - name: Keep the exe
         uses: actions/upload-artifact@v4
         with:
           name: Yukio-Windows
-          path: YukioWin/dist/Yukio.exe
+          path: |
+            YukioWin/dist/releases/*
+            YukioWin/build/update-test/*
 
       - name: Publish a Release when a win-v* tag is pushed
         if: startsWith(github.ref, 'refs/tags/win-v')
         uses: softprops/action-gh-release@v2
         with:
-          files: YukioWin/dist/Yukio.exe
+          files: YukioWin/dist/releases/*
           fail_on_unmatched_files: true

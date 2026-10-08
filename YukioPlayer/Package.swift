@@ -7,10 +7,11 @@ import PackageDescription
 let package = Package(
     name: "YukioPlayer",
     platforms: [.macOS(.v13)],
+    dependencies: [.package(url: "https://github.com/sparkle-project/Sparkle", exact: "2.10.0")],
     targets: [
         .target(name: "YukioCore"),
-        .executableTarget(name: "YukioPlayer", dependencies: ["YukioCore"]),
-        .testTarget(name: "YukioCoreTests", dependencies: ["YukioCore"]),
+        .executableTarget(name: "YukioPlayer", dependencies: ["YukioCore", .product(name: "Sparkle", package: "Sparkle")]),
+        .testTarget(name: "YukioCoreTests", dependencies: ["YukioCore", .product(name: "Sparkle", package: "Sparkle")]),
         .testTarget(name: "YukioPlayerTests", dependencies: ["YukioPlayer"]),
     ]
 )

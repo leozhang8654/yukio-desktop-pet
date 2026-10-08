@@ -9,6 +9,10 @@ from typing import Any, Dict
 from .sources import app_data_dir
 
 DEFAULTS: Dict[str, Any] = {
+    "automaticUpdates": True,
+    "updateLastCheck": 0,
+    "updateDeferredVersion": "",
+    "updateDeferredUntil": 0,
     "follow": True,
     "petVisible": True,
     "showCards": True,

@@ -48,6 +48,7 @@ class PetApp:
         self.reminders = ReminderStore(os.environ.get("YUKIO_REMINDER_FILE") or
                                        os.path.join(os.path.dirname(self.settings.path), "reminders.json"))
         self.assistant = None
+        self.updater = None
         from .startup import LaunchAtLogin
         self.launch_at_login = LaunchAtLogin()
         self._ticking = False
@@ -963,6 +964,8 @@ class PetApp:
         self.control.start_timer(FRAME_MS)
         try:
             self._ensure_assistant()
+            from .updater import UpdateController
+            self.updater = UpdateController(self)
             if "--settings-smoke" in self.argv:
                 from .assistant_smoke import schedule
                 schedule(self, self.argv[self.argv.index("--settings-smoke") + 1])
@@ -1289,6 +1292,7 @@ class PetApp:
         items.append(Item(tr("Size", "大小"), None, submenu=self._scale_menu()))
         items.append(Item(tr("Back to the bottom-right corner", "回到屏幕右下角"), self._reset_position))
         items.append(SEP)
+        items.append(Item(tr("Check for updates…", "检查更新…"), lambda: self.updater.check()))
         items.append(Item(tr("Quit Yukio", "退出雪绪"), self.quit))
         w.show_menu(self.control.hwnd, items)
 
