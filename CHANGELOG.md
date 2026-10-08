@@ -1,5 +1,12 @@
 # Changelog / 更新记录
 
+## 0.4.0 — 2026-10-07
+
+- 自动检测新版、查看更新说明并在应用内更新和重启；支持稍后和关闭自动检查。
+- macOS 接入 Sparkle，更新列表和压缩包都使用 Ed25519 签名。
+- Windows 改为 Velopack 安装包，支持退出后替换及保留用户设置。
+- 更新专项单元测试与 Windows 安装升级重启验证。
+
 ## 0.3.9 — 2026-10-07
 
 - Scale the task bubble and stacked notification cards with Yukio from their 100% baseline, including text, spacing and hit regions. / 任务气泡和通知卡以 100% 原尺寸为基准，文字、间距与点击区域随人物同步缩放。

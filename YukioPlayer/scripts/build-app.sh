@@ -61,6 +61,8 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
   <key>LSMinimumSystemVersion</key><string>13.0</string>
   <key>SUFeedURL</key><string>https://github.com/leozhang8654/yukio-desktop-pet/releases/latest/download/appcast.xml</string>
   <key>SUPublicEDKey</key><string>UuIYaOS2mImMarKEoskVy22Juxl1pQeAL5s+mPnqHFg=</string>
+  <key>SURequireSignedFeed</key><true/>
+  <key>SUVerifyUpdateBeforeExtraction</key><true/>
   <key>SUEnableAutomaticChecks</key><true/>
   <key>SUScheduledCheckInterval</key><integer>21600</integer>
   <key>SUAutomaticallyUpdate</key><false/>
@@ -72,6 +74,8 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
 </plist>
 PLIST
 
+SOURCE_REVISION="$(git rev-parse HEAD)"
+/usr/libexec/PlistBuddy -c "Add :YukioSourceRevision string $SOURCE_REVISION" "$APP/Contents/Info.plist"
 if [ "${YUKIO_ASSISTANT_PREVIEW:-0}" = "1" ]; then
   /usr/libexec/PlistBuddy -c 'Set :CFBundleIdentifier local.yukio.assistant.preview' "$APP/Contents/Info.plist"
   /usr/libexec/PlistBuddy -c 'Set :CFBundleName Yukio Assistant Preview' "$APP/Contents/Info.plist"

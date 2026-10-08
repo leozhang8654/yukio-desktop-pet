@@ -19,6 +19,7 @@ env:
 jobs:
   build:
     runs-on: windows-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -63,6 +64,7 @@ jobs:
         run: python -m PyInstaller --noconfirm --clean scripts/yukio.spec
 
       - name: Build installer and upgrade from the installed baseline
+        timeout-minutes: 5
         working-directory: YukioWin
         shell: pwsh
         run: |
