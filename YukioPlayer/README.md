@@ -1,4 +1,4 @@
-> **0.4.1: Answer receipt lowers the question sign immediately.** Failed sends keep the question visible for retry. [Release notes](../docs/releases/0.4.1.md).
+> **0.4.2: Quit Yukio from right-click settings.** The new button exits the app normally. [Release notes](../docs/releases/0.4.2.md).
 
 
 # Yukio desktop player (macOS, follows Claude Code, DeepSeek or GPT)

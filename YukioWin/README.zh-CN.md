@@ -1,4 +1,4 @@
-> **0.4.1：GPT 确认收到答案后立即放下问题牌。** 发送失败时仍举牌，保留答案以便重试。[更新说明](../docs/releases/0.4.1.md)。
+> **0.4.2：右键设置新增「退出雪绪」按钮。** 点击即可正常退出程序。[更新说明](../docs/releases/0.4.2.md)。
 
 
 # 雪绪 · 桌面宠物（Windows 版，跟随 DeepSeek、Claude 或 GPT）
@@ -17,7 +17,7 @@
 
 ## 下载（不用装 Python）
 
-到 [Releases](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest) 下载 `Yukio-0.4.1-Windows-Setup.exe`，放哪儿都行，双击就开。Python、Pillow、素材都打包在里面了，需要 Windows 10 或更新的 64 位系统。
+到 [Releases](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest) 下载 `Yukio-0.4.2-Windows-Setup.exe`，放哪儿都行，双击就开。Python、Pillow、素材都打包在里面了，需要 Windows 10 或更新的 64 位系统。
 
 第一次打开 Windows 可能弹蓝色的「Windows 已保护你的电脑」——这个程序没买代码签名证书，点「更多信息」→「仍要运行」，以后不再问。
 
