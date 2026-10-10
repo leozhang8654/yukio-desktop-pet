@@ -34,6 +34,30 @@ class QuestionLifecycleTests(unittest.TestCase):
         answer=self.event(p,{"type":"message","role":"user","content":self.tagged_reply()})
         self.assertEqual([e.kind for e in answer],[Kind.activity_end])
 
+    def test_confirmed_answer_lowers_sign_before_transcript_updates(self):
+        p = CodexRolloutParser("test"); router = ActivityRouter(now=0)
+        for e in self.start(p): router.ingest(e, 0)
+        for now in range(0, 501, 25): router.tick(now)
+        self.assertIs(router.displayed, PetState.question_for_user)
+        self.assertFalse(router.acknowledge_question("test", "other", 500))
+        self.assertIs(router.displayed, PetState.question_for_user)
+        self.assertTrue(router.acknowledge_question("test", "q", 500))
+        self.assertIsNot(router.displayed, PetState.question_for_user)
+        self.assertIsNone(router.asking_question)
+        for e in self.start(p): router.ingest(e, 600)
+        router.tick(1000)
+        self.assertIsNone(router.asking_question)
+
+    def test_transcript_answer_lowers_sign_without_pose_hold(self):
+        p = CodexRolloutParser("test"); router = ActivityRouter(now=0)
+        for e in self.start(p): router.ingest(e, 0)
+        for now in range(0, 501, 25): router.tick(now)
+        self.assertIs(router.displayed, PetState.question_for_user)
+        for e in self.event(p,{"type":"message","role":"user","content":self.tagged_reply()}):
+            router.ingest(e, 500)
+        self.assertIsNot(router.displayed, PetState.question_for_user)
+        self.assertIsNone(router.asking_question)
+
     def tagged_reply(self, call="q", index=0):
         return '<send_user_message_question_reply>' + json.dumps([{
             'questionItemId':json.dumps(['functions.request_user_input_async',call,index]),

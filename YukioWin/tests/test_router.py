@@ -192,9 +192,10 @@ class RouterTests(unittest.TestCase):
         self.assertFalse(h.router.dismiss_completion(h.now))
         self.assertIs(h.router.displayed, PetState.question_for_user)
         h.send(Kind.activity_end, id="q")
+        self.assertIs(h.router.displayed, PetState.thinking)  # No pose-hold delay after receipt.
         h.send(Kind.thinking)
         h.run(8000)
-        self.assertEqual(h.states, [PetState.question_for_user, PetState.thinking])
+        self.assertEqual(h.states, [PetState.question_for_user])  # Changed during ingest, not tick.
 
     def test_abort_goes_to_idle_without_report(self):
         h = Harness()

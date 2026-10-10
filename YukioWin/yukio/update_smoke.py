@@ -13,8 +13,8 @@ def run(args):
     settings = Settings()
     manager = velopack.UpdateManager(source)
     if mode == '--update-smoke-verify':
-        assert manager.get_current_version() == '0.4.0'
-        assert __version__ == '0.4.0'
+        assert manager.get_current_version() == '0.4.1'
+        assert __version__ == '0.4.1'
         assert manager.check_for_updates() is None
         assert settings.get('scale') == 1.35 and settings.get('language') == 'zh'
         report.write_text(json.dumps({'installed_version': manager.get_current_version(),
@@ -26,7 +26,7 @@ def run(args):
     settings.set('scale', 1.35)
     settings.set('language', 'zh')
     update = manager.check_for_updates()
-    assert update and update.TargetFullRelease.Version == '0.4.0'
+    assert update and update.TargetFullRelease.Version == '0.4.1'
     assert update.TargetFullRelease.NotesMarkdown.strip()
     # A missing feed must fail without changing the installed version.
     import tempfile

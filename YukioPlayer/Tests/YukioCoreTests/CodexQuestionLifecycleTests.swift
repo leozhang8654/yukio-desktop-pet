@@ -70,11 +70,31 @@ import Testing
         #expect(reply.map(\.kind) == [.activityEnd])
         #expect(reply.first?.eventID == "question")
         for e in reply { h.router.ingest(e, now: 5000) }
+        #expect(h.router.displayed != .question_for_user)
+        #expect(h.router.askingQuestion == nil)
         h.run(to: 9000)
         #expect(h.router.askingQuestion == nil)
         // Replaying a duplicate start cannot bring the answered card back.
         for e in start(parser) { h.router.ingest(e, now: 9000) }
         h.run(to: 12000)
+        #expect(h.router.askingQuestion == nil)
+    }
+
+    @Test func confirmedBackgroundAnswerLowersSignBeforeTranscriptUpdates() {
+        let parser = CodexRolloutParser(session: "test")
+        let h = Harness(session: "test")
+        for e in start(parser) { h.router.ingest(e, now: 0) }
+        h.run(to: 500)
+        #expect(h.router.displayed == .question_for_user)
+        #expect(!h.router.acknowledgeQuestion(session: "test", callID: "other", now: 500))
+        #expect(h.router.displayed == .question_for_user)
+
+        #expect(h.router.acknowledgeQuestion(session: "test", callID: "question", now: 500))
+        #expect(h.router.displayed != .question_for_user)
+        #expect(h.router.askingQuestion == nil)
+        // Stale transcript events for the same call cannot raise the sign again.
+        for e in start(parser) { h.router.ingest(e, now: 600) }
+        h.run(to: 1000)
         #expect(h.router.askingQuestion == nil)
     }
 

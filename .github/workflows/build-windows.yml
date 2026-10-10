@@ -53,7 +53,7 @@ jobs:
         run: |
           $original = Get-Content yukio/__init__.py -Raw
           try {
-            $original.Replace('0.4.0', '0.3.99') | Set-Content yukio/__init__.py
+            $original.Replace('0.4.1', '0.3.99') | Set-Content yukio/__init__.py
             python -m PyInstaller --noconfirm --clean scripts/yukio.spec
             if ($LASTEXITCODE -ne 0) { throw "Baseline build failed" }
             ./scripts/package-release.ps1 -Version 0.3.99 -Output build/update-baseline

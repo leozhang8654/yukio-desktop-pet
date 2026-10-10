@@ -1,4 +1,4 @@
-> **0.4.0: In-app updates.** Automatically discover stable releases and read what changed, then click to download, install and restart. Settings are retained. Install this version once to enable future updates. On Windows, close the old standalone EXE and run the new Setup installer, then use its shortcut. [Update guide](../docs/UPDATES.md).
+> **0.4.1: Answer receipt lowers the question sign immediately.** Failed sends keep the question visible for retry. [Release notes](../docs/releases/0.4.1.md).
 
 
 # Yukio desktop player (macOS, follows Claude Code, DeepSeek or GPT)

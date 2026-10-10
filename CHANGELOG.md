@@ -1,5 +1,9 @@
 # Changelog / 更新记录
 
+## 0.4.1 — 2026-10-09
+
+- Lower the ❓ question sign immediately after GPT confirms an answer from Yukio's card, or when the accepted answer appears in the session log. Failed sends keep the question visible for retry. / GPT 确认收到答案或会话记录出现已接收的回答后，立即放下问号牌；发送失败时仍举牌并允许重试。
+
 ## 0.4.0 — 2026-10-07
 
 - 自动检测新版、查看更新说明并在应用内更新和重启；支持稍后和关闭自动检查。

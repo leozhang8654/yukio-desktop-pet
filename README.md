@@ -1,4 +1,4 @@
-> **0.4.0: In-app updates.** Automatically discover stable releases and read what changed, then click to download, install and restart. Settings are retained. Install this version once to enable future updates. On Windows, close the old standalone EXE and run the new Setup installer, then use its shortcut. [Update guide](docs/UPDATES.md).
+> **0.4.1: Question signs lower on answer receipt.** Once GPT confirms an answer, Yukio immediately lowers that question sign. Failed sends keep the question visible for retry. [Release notes](docs/releases/0.4.1.md).
 
 
 **English** · [简体中文](README.zh-CN.md)
@@ -22,15 +22,14 @@
 
 She follows three families of agent, and you pick which one in her menu under **Assistant**: **Claude Code**, **DeepSeek's [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)**, and **GPT's [Codex](https://developers.openai.com/codex/)** (the desktop app and the CLI both write the same session logs). The default, **Auto**, follows all three at once and shows whichever chat has something to say. Both builds use native windows and work entirely from local session logs.
 
-## New in 0.4.0
+## New in 0.4.1
 
-- Automatically check for stable releases and show release notes.
-- Choose **Update and restart** or postpone; preferences are retained.
-- Manually check for updates or disable automatic checks in settings.
-- macOS uses signed Sparkle updates; Windows now has a Velopack installer.
+- Yukio immediately lowers the ❓ sign after GPT confirms an answer sent from the card. A failed send leaves the sign and answer available for retry.
+- Answering directly in the GPT chat also lowers the sign as soon as Yukio reads the accepted answer from the session log.
 
 ### Recent updates
 
+- In-app updates show release notes and let you install and restart after confirming. macOS uses Sparkle; Windows uses a Velopack installer.
 - GPT / Codex question cards now answer through the desktop app in the background on macOS and Windows. No focus switching, clipboard changes or simulated keystrokes.
 - Support the current canonical conversation history so live questions are no longer mistaken for expired ones.
 - Failed sends preserve your answer and allow retry; successful receipts dismiss only the matching question.
@@ -48,8 +47,8 @@ Grab the file for your system from the [latest release](https://github.com/leozh
 
 | You use | Download | Then |
 | --- | --- | --- |
-| macOS 13 or newer (Apple silicon and Intel) | [Yukio-0.4.0-macOS.dmg](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.0/Yukio-0.4.0-macOS.dmg) · [ZIP](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.0/Yukio-0.4.0-macOS.zip) | Open the DMG and drag `Yukio.app` into Applications; allow it once (below) |
-| Windows 10 / 11, 64-bit | [Yukio-0.4.0-Windows-Setup.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.0/Yukio-0.4.0-Windows-Setup.exe) | Run Setup once, then use the new shortcut. Future updates install inside Yukio |
+| macOS 13 or newer (Apple silicon and Intel) | [Yukio-0.4.1-macOS.dmg](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.1/Yukio-0.4.1-macOS.dmg) · [ZIP](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.1/Yukio-0.4.1-macOS.zip) | Open the DMG and drag `Yukio.app` into Applications; allow it once (below) |
+| Windows 10 / 11, 64-bit | [Yukio-0.4.1-Windows-Setup.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.1/Yukio-0.4.1-Windows-Setup.exe) | Run Setup once, then use the new shortcut. Future updates install inside Yukio |
 
 <details>
 <summary><b>macOS says "Apple could not verify Yukio…"</b></summary>

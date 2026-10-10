@@ -179,9 +179,10 @@ final class Harness {
         #expect(!h.router.dismissCompletion(now: h.now))
         #expect(h.router.displayed == .question_for_user)
         h.send(.activityEnd, id: "q")
+        #expect(h.router.displayed == .thinking) // Answer receipt bypasses the normal pose hold.
         h.send(.thinking)
         h.run(to: 8000)
-        #expect(h.states == [.question_for_user, .thinking])
+        #expect(h.states == [.question_for_user]) // The second change happened during ingest, not tick.
         // 答完了：再点就不是“去回答”了。
         #expect(h.router.askingSession == nil)
     }
