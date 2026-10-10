@@ -1,11 +1,13 @@
 # In-app updates / 应用内更新
 
 Starting with 0.4.0, Yukio checks for stable releases automatically. The update
-window shows release notes and asks before downloading and restarting. Settings
+window opens when a newer release is found, shows its version and release notes,
+and offers Install/Update and Later before downloading and restarting. Settings
 includes a manual check button and an automatic-check switch. Checks use GitHub;
 no account or token is needed and no local chat data is uploaded.
 
-从 0.4.0 开始，雪绪自动检查正式版本并展示更新内容；用户点击后才下载、安装并重启。
+从 0.4.0 开始，雪绪自动检查正式版本。发现新版时主动弹出更新窗口，显示新版本号、
+更新内容和“更新／稍后”按钮；用户点击更新后才下载、安装并重启。
 设置里可以关闭自动检查，或随时手动检查。无更新及后台网络错误不弹窗。
 Windows 点击稍后后，同一版本 24 小时内不再自动提醒；手动检查仍可立即查看。
 Mac 的稍后/跳过及提醒调度由 Sparkle 管理。正常定期检查间隔为 6 小时。
