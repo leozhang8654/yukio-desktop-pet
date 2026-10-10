@@ -1,8 +1,9 @@
 # 0.4.0 update qualification
 
-Status: implementation and isolated native upgrade testing complete; public release
-and desktop replacement are gated on production update signing and public-download
-verification. Do not interpret this report as confirmation of a published release.
+Status: **released and verified**. [Yukio 0.4.0](https://github.com/leozhang8654/yukio-desktop-pet/releases/tag/v0.4.0)
+is public. Both platform packages and tag were built from
+`5ffc426cfd2b9d00162ceb07d452266b4d58581b`. The user's desktop app is now 0.4.0.
+See [release provenance](release-provenance.json) and [SHA-256 checksums](SHA256SUMS.txt).
 
 ## macOS
 
@@ -40,9 +41,27 @@ results, not a claim of manual testing on a friend's PC.
   native screenshots/animation-pixel comparisons at 100% and 150% pass.
 - Current local Python suite: 248 tests, one platform-specific skip, all others pass.
 
-## Release gate
+## Final delivery
 
-Production Keychain authorization completed and the production archive/feed signing
-succeeded. The final source is ready for merge and fresh same-source packaging.
-Public-download verification and desktop replacement remain pending until the
-release is published; final evidence will be recorded below after delivery.
+- Production signing succeeded. Both archive and appcast signatures were verified
+  independently against the public key embedded in the application.
+- [Final same-source Windows build and upgrade](https://github.com/leozhang8654/yukio-desktop-pet/actions/runs/38017080549)
+  passed all 248 tests, tampered-package/missing-feed rejection, actual installed
+  upgrade/restart/preferences checks and packaged native regressions.
+- All ten public payload/metadata downloads matched their published checksums.
+  The latest-release appcast matches the signed versioned feed.
+- [Public Windows installer verification](https://github.com/leozhang8654/yukio-desktop-pet/actions/runs/38017525626)
+  downloaded and installed the published Setup, verified SHA-256 and version,
+  passed matching-source tests, named-pipe answering, settings interactions and
+  actual native rendering at 100%, 150% and 200%.
+- The downloaded Mac ZIP, mounted DMG and installed desktop app match across all
+  254 regular bundle files. The universal binary and nested signatures verify.
+- The old desktop app was backed up before replacement. The actual desktop app
+  runs 0.4.0 build 17, retains the original English/125% preferences and has automatic
+  checks enabled. Its manual check against the production feed displayed
+  “You're up to date” for 0.4.0.
+- These builds still use ad-hoc macOS app signing and have no Windows Authenticode
+  certificate. Initial operating-system trust prompts remain documented.
+
+The earlier isolated-upgrade reports below document pre-release qualification;
+the final publication source and hashes are in `release-provenance.json`.
