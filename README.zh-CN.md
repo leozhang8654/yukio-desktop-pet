@@ -1,4 +1,4 @@
-> **0.4.0：应用内一键更新。** 自动检查新版并展示更新内容，点击后下载、安装并重启；保留设置。旧版用户先安装一次此版本。Windows 请先退出旧的独立 EXE，运行新的 Setup 安装包，之后使用新快捷方式。 [更新说明](docs/UPDATES.md).
+> **0.4.1：回答确认后立即放下问题牌。** GPT 收到答案后，雪绪立刻收起对应的问号牌；发送失败时继续举牌，方便重试。[更新说明](docs/releases/0.4.1.md)。
 
 
 [English](README.md) · **简体中文**
@@ -22,15 +22,14 @@
 
 她认三家助手，在菜单「跟随的助手」里挑：**Claude Code**、**DeepSeek 的 [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)**、**GPT 的 [Codex](https://developers.openai.com/codex/)**（桌面版与命令行写的是同一份会话记录）。默认的**自动**三家一起跟，谁有话说就显示谁。两版都使用原生窗口，完全基于本机会话记录工作。
 
-## 0.4.0 更新
+## 0.4.1 更新
 
-- 自动检测正式版本并展示更新内容。
-- 选择“更新并重启”或“稍后再说”，保留原有设置。
-- 设置中支持手动检查与关闭自动检查。
-- macOS 接入 Sparkle 签名更新；Windows 提供 Velopack 安装包。
+- 在雪绪卡片里回答后，GPT 确认收到就立即放下对应的问题牌；失败时保留答案和举牌，仍可重试。
+- 直接在 GPT 聊天中回答时，雪绪从会话记录确认答案后也立即放下问题牌。
 
 ### 近期更新
 
+- 应用内检查正式版、查看更新说明，确认后更新并重启；macOS 使用 Sparkle，Windows 使用 Velopack 安装包。
 - macOS 和 Windows 的 GPT / Codex 问题卡改为后台直传，不切换窗口、不改粘贴板、不模拟按键。
 - 兼容最新聊天记录格式，修复待答问题被误判为已结束。
 - 失败保留答案并可重试；收到回执后只收起对应问题。
@@ -44,8 +43,8 @@
 
 | 你用的是 | 下载 | 怎么开 |
 | --- | --- | --- |
-| macOS 13 或更新（Apple 芯片与 Intel 通用） | [Yukio-0.4.0-macOS.dmg](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.0/Yukio-0.4.0-macOS.dmg) · [ZIP](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.0/Yukio-0.4.0-macOS.zip) | 打开 DMG，把 `Yukio.app` 拖进「应用程序」，第一次按下面放行一次 |
-| Windows 10 / 11（64 位） | [Yukio-0.4.0-Windows-Setup.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.0/Yukio-0.4.0-Windows-Setup.exe) | 双击安装，之后从新快捷方式打开；内置自动检查和一键更新 |
+| macOS 13 或更新（Apple 芯片与 Intel 通用） | [Yukio-0.4.1-macOS.dmg](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.1/Yukio-0.4.1-macOS.dmg) · [ZIP](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.1/Yukio-0.4.1-macOS.zip) | 打开 DMG，把 `Yukio.app` 拖进「应用程序」，第一次按下面放行一次 |
+| Windows 10 / 11（64 位） | [Yukio-0.4.1-Windows-Setup.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.1/Yukio-0.4.1-Windows-Setup.exe) | 双击安装，之后从新快捷方式打开；内置自动检查和一键更新 |
 
 <details>
 <summary><b>macOS 第一次打开：「Apple 无法验证“Yukio”是否包含可能危害 Mac 安全或泄漏隐私的恶意软件」</b></summary>

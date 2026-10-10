@@ -353,12 +353,18 @@ public final class ActivityRouter {
             }
             // 重复的结束（两个适配器都报告）找不到未结束调用，不会再次触发沮丧。
             guard let call, s.taskActive else { break }
-            s.lastToolState = call.state
+            // A received answer ends the question pose immediately. It must not
+            // linger as the most recently completed tool during the grace period.
+            s.lastToolState = call.state == .question_for_user ? nil : call.state
             // 失败的工具没有合并窗口：沮丧之后直接回思考，不再显示原来的动作。
-            s.lastToolEndedAt = failed ? nil : now
+            s.lastToolEndedAt = failed || call.state == .question_for_user ? nil : now
             if failed {
                 s.failedAt = now
                 s.failedDetail = call.detail
+            }
+            if call.state == .question_for_user && displayed == .question_for_user {
+                let want = desiredState(now: now)
+                if want != displayed { commit(want, now: now) }
             }
 
         case .thinking:
@@ -660,6 +666,23 @@ public final class ActivityRouter {
             self.callID = callID
             self.question = question
         }
+    }
+
+    /// The provider confirmed this exact answer. Retire its question before
+    /// the transcript watcher catches up, and bypass the pose's minimum hold.
+    @discardableResult
+    public func acknowledgeQuestion(session: String, callID: String, now: Double) -> Bool {
+        guard let s = sessions[session],
+              let index = s.open.firstIndex(where: { $0.id == callID && $0.state == .question_for_user }) else { return false }
+        s.open.remove(at: index)
+        s.markEnded(callID)
+        s.lastEventAt = max(s.lastEventAt, now)
+        if s.lastToolState == .question_for_user {
+            s.lastToolState = nil
+            s.lastToolEndedAt = nil
+        }
+        commit(desiredState(now: now), now: now)
+        return true
     }
 
     /// 用户点了举着的牌子：放下，立刻回到此刻该显示的状态（不等防抖）。返回是否真的放下了。

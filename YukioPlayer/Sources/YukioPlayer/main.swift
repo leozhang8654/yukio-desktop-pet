@@ -1535,10 +1535,12 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
                 switch result {
                 case .success:
                     self.questionPresentation.dismiss(key)
+                    self.router.acknowledgeQuestion(session: pending.session, callID: pending.callID, now: nowMs())
                 case .failure(let error):
                     self.questionPresentation.setNotice(error.localizedDescription, for: key)
                 }
                 self.updateQuestion(now: nowMs(), immediate: true)
+                if case .success = result { self.tick() }
             }
         }
     }

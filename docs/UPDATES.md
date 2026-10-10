@@ -14,12 +14,12 @@ Mac 的稍后/跳过及提醒调度由 Sparkle 管理。正常定期检查间隔
 
 ## First installation
 
-Versions before 0.4.0 cannot install updates themselves. Install 0.4.0 once:
+Versions before 0.4.0 cannot install updates themselves. Install the latest release once:
 
 - macOS: copy Yukio.app from the DMG into Applications, replacing the previous
   copy. Existing preferences use the same bundle identifier. Avoid running two
   different copies simultaneously.
-- Windows: close the old standalone Yukio.exe, run `Yukio-0.4.0-Windows-Setup.exe`,
+- Windows: close the old standalone Yukio.exe, run the latest `Yukio-<version>-Windows-Setup.exe`,
   then use the new shortcut. Installation is per user in `%LOCALAPPDATA%\YukioDesktop`.
   Settings remain in the existing application-data folder. The old standalone
   EXE is not deleted automatically because it may be in a user-selected folder.

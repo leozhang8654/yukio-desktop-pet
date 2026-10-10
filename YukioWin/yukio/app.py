@@ -804,6 +804,7 @@ class PetApp:
                 future.result()
                 self.question_presentation.dismiss(key)
                 self.question_presentation.set_notice(key, None)
+                self.router.acknowledge_question(key[0], key[1], now_ms())
             except Exception as error:
                 from .codex_answer import AnswerError
                 notice = str(error) if isinstance(error, AnswerError) else tr("Could not send · retry", "发送失败 · 可重试")

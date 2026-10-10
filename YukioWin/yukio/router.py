@@ -400,12 +400,18 @@ class ActivityRouter:
             if call is None or not s.task_active:
                 pass
             else:
-                s.last_tool_state = call.state
+                # A received answer must not keep the question pose alive
+                # through the usual completed-tool grace period.
+                s.last_tool_state = None if call.state is PetState.question_for_user else call.state
                 # 失败的工具没有合并窗口：沮丧之后直接回思考，不再显示原来的动作。
-                s.last_tool_ended_at = None if failed else now
+                s.last_tool_ended_at = None if failed or call.state is PetState.question_for_user else now
                 if failed:
                     s.failed_at = now
                     s.failed_detail = call.detail
+                if call.state is PetState.question_for_user and self.displayed is PetState.question_for_user:
+                    want = self.desired_state(now)
+                    if want is not self.displayed:
+                        self._commit(want, now)
 
         elif kind is Kind.thinking:
             if e.ts < s.task_ended_ts:
@@ -699,6 +705,23 @@ class ActivityRouter:
         if call is None or call.question is None:
             return None
         return PendingQuestion(session, call.id, call.question)
+
+    def acknowledge_question(self, session: str, call_id: str, now: float) -> bool:
+        """Provider receipt ends this exact question before the log watcher catches up."""
+        s = self._sessions.get(session)
+        if s is None:
+            return False
+        call = next((c for c in s.open if c.id == call_id and c.state is PetState.question_for_user), None)
+        if call is None:
+            return False
+        s.open.remove(call)
+        s.mark_ended(call_id)
+        s.last_event_at = max(s.last_event_at, now)
+        if s.last_tool_state is PetState.question_for_user:
+            s.last_tool_state = None
+            s.last_tool_ended_at = None
+        self._commit(self.desired_state(now), now)
+        return True
 
     def dismiss_completion(self, now: float) -> bool:
         """用户点了举着的牌子：放下，立刻回到此刻该显示的状态（不等防抖）。返回是否真的放下了。"""
