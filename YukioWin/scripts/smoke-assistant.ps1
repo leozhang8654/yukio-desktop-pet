@@ -10,6 +10,7 @@ if (Test-Path $report) { Remove-Item $report }
 $process = Start-Process -FilePath (Resolve-Path $Exe) -ArgumentList "--allow-multiple", "--settings-smoke", "build/assistant-smoke" -PassThru
 try {
     if (-not $process.WaitForExit(65000)) { throw "Assistant did not finish within 65 seconds" }
+    if ($process.ExitCode -ne 0) { throw "Assistant exited with code $($process.ExitCode)" }
     if (-not (Test-Path $report)) { throw "Missing assistant smoke report" }
     $result = Get-Content $report -Raw | ConvertFrom-Json
     Get-Content $report

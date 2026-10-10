@@ -1866,6 +1866,9 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     private func applySettings(_ change: SettingsChange) {
         switch change {
+        case .quit:
+            NSApp.terminate(nil)
+            return
         case .launchAtLogin(let value):
             do {
                 try launchAtLogin.setEnabled(value)

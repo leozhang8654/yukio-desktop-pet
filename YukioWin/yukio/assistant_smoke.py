@@ -19,12 +19,15 @@ def schedule(app, output):
         if not condition:
             raise AssertionError(name)
         checks.append(name)
-    def finish(error=None):
+    def finish(error=None, quit_from_settings=False):
         if startup_test is not None:
             try: startup_test.set_enabled(False)
             except Exception: error = (error or "") + " Startup test cleanup failed"
         (output / "report.json").write_text(json.dumps({"ok":error is None,"checks":checks,"error":error},ensure_ascii=False,indent=2),encoding="utf-8")
-        app.quit()
+        if quit_from_settings:
+            ui.pet_settings.quit_button.invoke()
+        else:
+            app.quit()
     def guard(fn):
         def wrapped():
             try: fn()
@@ -117,6 +120,10 @@ def schedule(app, output):
         ui.root.update()
         check(settings.window.winfo_viewable(), "right-click reopens settings after outside dismissal")
         check(bool(settings.outside_click.hook), "outside click hook reinstalled on reopen")
-        finish()
+        button = settings.quit_button
+        check(button.winfo_viewable(), "quit button visible in right-click settings")
+        check(button.winfo_rooty() + button.winfo_height() <= settings.window.winfo_rooty() + settings.window.winfo_height(), "quit button fits inside settings")
+        checks.append("exit requested through settings quit button")
+        finish(quit_from_settings=True)
     ui.root.after(500,guard(setup))
     ui.root.after(45000,lambda:finish("Assistant smoke timed out"))

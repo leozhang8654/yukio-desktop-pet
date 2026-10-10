@@ -19,6 +19,7 @@ struct SettingsSnapshot {
 }
 
 enum SettingsChange {
+    case quit
     case checkForUpdates
     case automaticUpdates(Bool)
     case following(Bool)
@@ -74,6 +75,7 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
     private let resetButton = NSButton()
     private let demoButton = NSButton()
     private let doneButton = NSButton()
+    private let quitButton = NSButton()
     private let updateButton = NSButton()
     private let updateTitle = NSTextField(labelWithString: "")
     private let updateSwitch = NSSwitch()
@@ -280,7 +282,11 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         stack.addArrangedSubview(loginItemsButton)
 
         stack.addArrangedSubview(row(title: updateTitle, control: updateSwitch))
-        stack.addArrangedSubview(updateButton)
+        let updateActions = NSStackView(views: [updateButton, NSView(), quitButton])
+        updateActions.orientation = .horizontal
+        updateActions.alignment = .centerY
+        updateActions.widthAnchor.constraint(equalToConstant: 372).isActive = true
+        stack.addArrangedSubview(updateActions)
 
         let buttons = NSStackView(views: [hideButton, resetButton, demoButton, NSView(), doneButton])
         buttons.orientation = .horizontal
@@ -352,6 +358,10 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         updateButton.target = self
         updateButton.action = #selector(checkForUpdates)
         updateButton.setAccessibilityIdentifier("checkForUpdatesButton")
+        quitButton.bezelStyle = .rounded
+        quitButton.target = self
+        quitButton.action = #selector(quitApp)
+        quitButton.setAccessibilityIdentifier("quitYukioButton")
         doneButton.bezelStyle = .rounded
         doneButton.keyEquivalent = "\r"
         doneButton.target = self
@@ -398,6 +408,7 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         updateTitle.stringValue = tr("Automatically check for updates", "自动检查新版本")
         let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "dev"
         updateButton.title = tr("Check for updates…", "检查更新…") + " (" + version + ")"
+        quitButton.title = tr("Quit Yukio", "退出雪绪")
         doneButton.title = tr("Done", "完成")
         lowerSignButton.title = tr("Lower sign", "取消举牌")
         lowerSignButton.toolTip = tr("Lower the current completion sign without opening the chat.", "放下当前完成牌，不打开聊天。")
@@ -445,6 +456,7 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         window.setFrameOrigin(NSPoint(x: x, y: y))
     }
 
+    @objc private func quitApp() { onChange?(.quit) }
     @objc private func checkForUpdates() { onChange?(.checkForUpdates) }
     @objc private func updatePreferenceChanged() {
         guard !updating else { return }

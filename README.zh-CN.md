@@ -1,4 +1,4 @@
-> **0.4.1：回答确认后立即放下问题牌。** GPT 收到答案后，雪绪立刻收起对应的问号牌；发送失败时继续举牌，方便重试。[更新说明](docs/releases/0.4.1.md)。
+> **0.4.2：回答确认后立即放下问题牌。** GPT 收到答案后，雪绪立刻收起对应的问号牌；发送失败时继续举牌，方便重试。[更新说明](docs/releases/0.4.2.md)。
 
 
 [English](README.md) · **简体中文**
@@ -22,12 +22,14 @@
 
 她认三家助手，在菜单「跟随的助手」里挑：**Claude Code**、**DeepSeek 的 [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)**、**GPT 的 [Codex](https://developers.openai.com/codex/)**（桌面版与命令行写的是同一份会话记录）。默认的**自动**三家一起跟，谁有话说就显示谁。两版都使用原生窗口，完全基于本机会话记录工作。
 
-## 0.4.1 更新
+## 0.4.2 更新
+
+- 右键打开的设置面板新增「退出雪绪」按钮，可直接关闭程序；「完成」仍只关闭设置面板。
+
+### 近期更新
 
 - 在雪绪卡片里回答后，GPT 确认收到就立即放下对应的问题牌；失败时保留答案和举牌，仍可重试。
 - 直接在 GPT 聊天中回答时，雪绪从会话记录确认答案后也立即放下问题牌。
-
-### 近期更新
 
 - 应用内检查正式版、查看更新说明，确认后更新并重启；macOS 使用 Sparkle，Windows 使用 Velopack 安装包。
 - macOS 和 Windows 的 GPT / Codex 问题卡改为后台直传，不切换窗口、不改粘贴板、不模拟按键。
@@ -43,8 +45,8 @@
 
 | 你用的是 | 下载 | 怎么开 |
 | --- | --- | --- |
-| macOS 13 或更新（Apple 芯片与 Intel 通用） | [Yukio-0.4.1-macOS.dmg](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.1/Yukio-0.4.1-macOS.dmg) · [ZIP](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.1/Yukio-0.4.1-macOS.zip) | 打开 DMG，把 `Yukio.app` 拖进「应用程序」，第一次按下面放行一次 |
-| Windows 10 / 11（64 位） | [Yukio-0.4.1-Windows-Setup.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.1/Yukio-0.4.1-Windows-Setup.exe) | 双击安装，之后从新快捷方式打开；内置自动检查和一键更新 |
+| macOS 13 或更新（Apple 芯片与 Intel 通用） | [Yukio-0.4.2-macOS.dmg](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.2/Yukio-0.4.2-macOS.dmg) · [ZIP](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.2/Yukio-0.4.2-macOS.zip) | 打开 DMG，把 `Yukio.app` 拖进「应用程序」，第一次按下面放行一次 |
+| Windows 10 / 11（64 位） | [Yukio-0.4.2-Windows-Setup.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.2/Yukio-0.4.2-Windows-Setup.exe) | 双击安装，之后从新快捷方式打开；内置自动检查和一键更新 |
 
 <details>
 <summary><b>macOS 第一次打开：「Apple 无法验证“Yukio”是否包含可能危害 Mac 安全或泄漏隐私的恶意软件」</b></summary>

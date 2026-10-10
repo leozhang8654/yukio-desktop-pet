@@ -75,8 +75,11 @@ class PetSettingsWindow:
         ttk.Checkbutton(self.body,text=tr('Automatically check for updates','自动检查新版本'),variable=self.update_value,
                         command=lambda:self.app.settings.set('automaticUpdates',self.update_value.get())).pack(anchor='w')
         from . import __version__
-        ttk.Button(self.body,text=tr('Check for updates…','检查更新…')+'  ('+__version__+')',
-                   command=lambda:self.app.updater.check()).pack(anchor='w')
+        update_actions=ttk.Frame(self.body);update_actions.pack(fill='x')
+        ttk.Button(update_actions,text=tr('Check for updates…','检查更新…')+'  ('+__version__+')',
+                   command=lambda:self.app.updater.check()).pack(side='left')
+        self.quit_button=ttk.Button(update_actions,text=tr('Quit Yukio','退出雪绪'),command=self.app.quit)
+        self.quit_button.pack(side='right')
         bar=ttk.Frame(self.body);bar.pack(fill='x',side='bottom',pady=(10,0))
         ttk.Button(bar,text=tr('Reset position','复位位置'),command=self.app._reset_position).pack(side='left')
         ttk.Button(bar,text=tr('Play demo','播放演示'),command=self.app.start_demo).pack(side='left',padx=6)
