@@ -7,7 +7,7 @@ on:
       release_tag:
         description: Published release tag to test (for example v0.3.2)
         required: true
-        default: v0.3.4
+        default: v0.4.0
         type: string
 
 permissions:
@@ -30,15 +30,15 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install test dependency
-        run: python -m pip install pillow
-      - name: Download the published exe and verify its SHA-256
+        run: python -m pip install -r YukioWin/requirements.txt
+      - name: Download the published installer and verify its SHA-256
         env:
           GH_TOKEN: ${{ github.token }}
         shell: pwsh
         run: |
           if ($env:RELEASE_TAG -notmatch '^v\d+\.\d+\.\d+$') { throw "Expected a version tag" }
           $version = $env:RELEASE_TAG.Substring(1)
-          $name = "Yukio-$version-Windows.exe"
+          $name = "Yukio-$version-Windows-Setup.exe"
           gh release download $env:RELEASE_TAG --repo $env:GITHUB_REPOSITORY --pattern $name --pattern SHA256SUMS.txt --dir YukioWin/build/published-release
           if ($LASTEXITCODE -ne 0) { throw "Release download failed" }
           $sum = Get-Content YukioWin/build/published-release/SHA256SUMS.txt | Where-Object { $_ -match ("  " + [regex]::Escape($name) + '$') }
@@ -46,7 +46,14 @@ jobs:
           $expected = ($sum -split '\s+')[0]
           $actual = (Get-FileHash "YukioWin/build/published-release/$name" -Algorithm SHA256).Hash.ToLowerInvariant()
           if ($actual -ne $expected) { throw "Published exe checksum mismatch" }
-          Copy-Item "YukioWin/build/published-release/$name" YukioWin/build/published-release/Yukio.exe
+          $install = Join-Path $env:GITHUB_WORKSPACE 'YukioWin/build/published-install'
+          $setup = (Resolve-Path "YukioWin/build/published-release/$name").Path
+          $process = Start-Process $setup -ArgumentList @('--silent','--installto',"`"$install`"") -PassThru
+          if (-not $process.WaitForExit(120000)) { throw 'Published installer timed out' }
+          if ($process.ExitCode -ne 0) { throw 'Published installer failed' }
+          [xml]$manifest = Get-Content "$install/current/sq.version"
+          if ($manifest.package.metadata.version -ne $version) { throw 'Installed package version mismatch' }
+          "YUKIO_INSTALLED_EXE=$install/current/Yukio.exe" >> $env:GITHUB_ENV
           "${actual}  ${name}" | Tee-Object YukioWin/build/published-release/verified-sha256.txt
       - name: Test matching release source
         working-directory: YukioWin
@@ -62,17 +69,17 @@ jobs:
         working-directory: YukioWin
         env:
           PYTHONPATH: .
-        run: python tests/test_codex_answer.py --exe build/published-release/Yukio.exe
+        run: python tests/test_codex_answer.py --exe "$env:YUKIO_INSTALLED_EXE"
       - name: Verify downloaded compact settings and outside-click dismissal
         working-directory: YukioWin
-        run: powershell -ExecutionPolicy Bypass -File scripts/smoke-assistant.ps1 -Exe build/published-release/Yukio.exe
+        run: powershell -ExecutionPolicy Bypass -File scripts/smoke-assistant.ps1 -Exe "$env:YUKIO_INSTALLED_EXE"
       - name: Run the downloaded exe at 100%, 150% and 200%
         working-directory: YukioWin
         shell: pwsh
         run: |
           foreach ($scale in @(1.0, 1.5, 2.0)) {
             $outDir = "build/release-verification/smoke-$([int]($scale * 100))"
-            powershell -ExecutionPolicy Bypass -File scripts/smoke-test.ps1 -Exe build/published-release/Yukio.exe -Scale $scale -OutDir $outDir
+            powershell -ExecutionPolicy Bypass -File scripts/smoke-test.ps1 -Exe "$env:YUKIO_INSTALLED_EXE" -Scale $scale -OutDir $outDir
             if ($LASTEXITCODE -ne 0) { throw "Published exe failed at scale $scale" }
             if (-not (Test-Path "$outDir/screenshot.png")) { throw "Screenshot required for release verification" }
           }

@@ -1,4 +1,5 @@
-> 0.3.9: Task bubbles and stacked cards now scale with Yukio. See [release notes](../docs/releases/0.3.9.md).
+> **0.4.0: In-app updates.** Automatically discover stable releases and read what changed, then click to download, install and restart. Settings are retained. Install this version once to enable future updates. On Windows, close the old standalone EXE and run the new Setup installer, then use its shortcut. [Update guide](../docs/UPDATES.md).
+
 
 # Yukio desktop pet (Windows edition: DeepSeek, Claude or GPT)
 
@@ -6,7 +7,7 @@ Yukio (雪绪), a white-haired, blue-eyed girl in a butler's uniform, sits in th
 
 The artwork, the activity mapping, the debounce and hold times, the focus rules, the sign and the card stack, and the swing parameters for when she is picked up are all identical to the macOS edition (`../YukioPlayer`, Swift). Only the two ends are swapped: **whose session logs she reads** (all three families) and **what draws the window** (a Windows layered window instead of AppKit). The assistant uses Tk/ttk on Windows and SwiftUI on macOS. Platform-specific limitations are listed below.
 
-The only dependency is Pillow. The window, the tray and the menus call the Windows API directly through ctypes; compact settings use Python’s bundled Tk/ttk.
+Dependencies include Pillow, Windows UI Automation and Velopack. The window, the tray and the menus call the Windows API directly through ctypes; compact settings use Python’s bundled Tk/ttk.
 
 ## Release interface (0.3.3)
 
@@ -31,13 +32,13 @@ pip install pillow
 python run.py
 ```
 
-Yukio appears in the bottom-right corner of the screen, and a small avatar of her appears in the taskbar tray. To get a `Yukio.exe` that anyone can double-click without installing Python:
+Yukio appears in the bottom-right corner of the screen, and a small avatar of her appears in the taskbar tray. To get a Setup installer that anyone can run without installing Python:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1
 ```
 
-The result is `dist\Yukio.exe` (artwork included). Without a Windows dev environment, you can also run the "Build Windows Yukio" workflow under GitHub Actions and download the exe it produces.
+The result is `dist\releases\YukioDesktop-win-Setup.exe` (artwork included). Without a Windows dev environment, you can also run the "Build Windows Yukio" workflow under GitHub Actions and download the exe it produces.
 
 ## How to use
 

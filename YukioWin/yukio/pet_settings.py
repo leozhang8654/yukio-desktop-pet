@@ -10,8 +10,8 @@ class PetSettingsWindow:
         self.assistant, self.app = assistant, assistant.app
         self.window = tk.Toplevel(assistant.root)
         self.window.withdraw()
-        self.window.geometry('420x656')
-        self.window.minsize(420, 656)
+        self.window.geometry('420x746')
+        self.window.minsize(420, 746)
         self.window.attributes('-topmost', True)
         self.window.protocol('WM_DELETE_WINDOW', self.window.withdraw)
         self.body = ttk.Frame(self.window, padding=18)
@@ -70,6 +70,13 @@ class PetSettingsWindow:
                 'unavailable':tr('Cannot read the Windows startup setting.','无法读取 Windows 启动设置。')}
         ttk.Label(self.body,text=labels[status],wraplength=370).pack(anchor='w',pady=5)
         ttk.Button(self.body,text=tr('Windows Startup Apps…','Windows 启动应用…'),command=self.app.launch_at_login.open_settings).pack(anchor='w')
+        ttk.Separator(self.body).pack(fill='x',pady=8)
+        self.update_value=tk.BooleanVar(value=self.app.settings.get('automaticUpdates',True))
+        ttk.Checkbutton(self.body,text=tr('Automatically check for updates','自动检查新版本'),variable=self.update_value,
+                        command=lambda:self.app.settings.set('automaticUpdates',self.update_value.get())).pack(anchor='w')
+        from . import __version__
+        ttk.Button(self.body,text=tr('Check for updates…','检查更新…')+'  ('+__version__+')',
+                   command=lambda:self.app.updater.check()).pack(anchor='w')
         bar=ttk.Frame(self.body);bar.pack(fill='x',side='bottom',pady=(10,0))
         ttk.Button(bar,text=tr('Reset position','复位位置'),command=self.app._reset_position).pack(side='left')
         ttk.Button(bar,text=tr('Play demo','播放演示'),command=self.app.start_demo).pack(side='left',padx=6)

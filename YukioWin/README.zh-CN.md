@@ -1,4 +1,5 @@
-> 0.3.9：任务气泡与上方卡片随雪绪同比例缩放。详见[更新说明](../docs/releases/0.3.9.md)。
+> **0.4.0：应用内一键更新。** 自动检查新版并展示更新内容，点击后下载、安装并重启；保留设置。旧版用户先安装一次此版本。Windows 请先退出旧的独立 EXE，运行新的 Setup 安装包，之后使用新快捷方式。 [更新说明](../docs/UPDATES.md).
+
 
 # 雪绪 · 桌面宠物（Windows 版，跟随 DeepSeek、Claude 或 GPT）
 
@@ -16,7 +17,7 @@
 
 ## 下载（不用装 Python）
 
-到 [Releases](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest) 下载 `Yukio-0.3.9-Windows.exe`，放哪儿都行，双击就开。Python、Pillow、素材都打包在里面了，需要 Windows 10 或更新的 64 位系统。
+到 [Releases](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest) 下载 `Yukio-0.4.0-Windows-Setup.exe`，放哪儿都行，双击就开。Python、Pillow、素材都打包在里面了，需要 Windows 10 或更新的 64 位系统。
 
 第一次打开 Windows 可能弹蓝色的「Windows 已保护你的电脑」——这个程序没买代码签名证书，点「更多信息」→「仍要运行」，以后不再问。
 
@@ -37,7 +38,7 @@ python run.py
 powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1
 ```
 
-打出来的是 `dist\Yukio.exe`（素材已经打包进去）。没有 Windows 开发环境时，也可以在 GitHub 的 Actions 里跑「Build Windows Yukio」，下载它产出的 exe。
+打出来的是 `dist\releases\YukioDesktop-win-Setup.exe`（素材已经打包进去）。没有 Windows 开发环境时，也可以在 GitHub 的 Actions 里跑「Build Windows Yukio」，下载它产出的 exe。
 
 ## 操作
 

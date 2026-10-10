@@ -1,4 +1,5 @@
-> 0.3.9：任务气泡与上方卡片随雪绪同比例缩放。详见[更新说明](docs/releases/0.3.9.md)。
+> **0.4.0：应用内一键更新。** 自动检查新版并展示更新内容，点击后下载、安装并重启；保留设置。旧版用户先安装一次此版本。Windows 请先退出旧的独立 EXE，运行新的 Setup 安装包，之后使用新快捷方式。 [更新说明](docs/UPDATES.md).
+
 
 [English](README.md) · **简体中文**
 
@@ -11,8 +12,8 @@
 <a href="https://github.com/leozhang8654/yukio-desktop-pet/releases"><img alt="累计下载" src="https://img.shields.io/github/downloads/leozhang8654/yukio-desktop-pet/total?color=2f6feb"></a>
 <img alt="macOS 13 或更新" src="https://img.shields.io/badge/macOS-13%2B-000000?logo=apple&logoColor=white">
 <img alt="Windows 10 与 11" src="https://img.shields.io/badge/Windows-10%20%2F%2011-0078D4">
-<img alt="Swift 与 AppKit，无第三方依赖" src="https://img.shields.io/badge/Swift%20%2B%20AppKit-%E9%9B%B6%E4%BE%9D%E8%B5%96-F05138?logo=swift&logoColor=white">
-<img alt="Python、Tk 与 ctypes，第三方依赖为 Pillow" src="https://img.shields.io/badge/Python%20%2B%20Tk%20%2B%20ctypes-%E5%8F%AA%E8%A6%81%20Pillow-3776AB?logo=python&logoColor=white">
+<img alt="Swift、AppKit 与 Sparkle" src="https://img.shields.io/badge/Swift%20%2B%20AppKit-Sparkle-F05138?logo=swift&logoColor=white">
+<img alt="Python、Tk、Pillow 与 Velopack" src="https://img.shields.io/badge/Python%20%2B%20Tk%20%2B%20ctypes-Pillow%20%2B%20Velopack-3776AB?logo=python&logoColor=white">
 </p>
 
 </div>
@@ -21,10 +22,12 @@
 
 她认三家助手，在菜单「跟随的助手」里挑：**Claude Code**、**DeepSeek 的 [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)**、**GPT 的 [Codex](https://developers.openai.com/codex/)**（桌面版与命令行写的是同一份会话记录）。默认的**自动**三家一起跟，谁有话说就显示谁。两版都使用原生窗口，完全基于本机会话记录工作。
 
-## 0.3.9 更新
+## 0.4.0 更新
 
-- 任务气泡和上方通知卡随人物大小同步变化；100% 时保持原尺寸，文字、描边、间距和点击区域使用相同百分比。
-- Windows 调整大小时立即重绘正在显示的气泡，不再短暂消失。
+- 自动检测正式版本并展示更新内容。
+- 选择“更新并重启”或“稍后再说”，保留原有设置。
+- 设置中支持手动检查与关闭自动检查。
+- macOS 接入 Sparkle 签名更新；Windows 提供 Velopack 安装包。
 
 ### 近期更新
 
@@ -41,8 +44,8 @@
 
 | 你用的是 | 下载 | 怎么开 |
 | --- | --- | --- |
-| macOS 13 或更新（Apple 芯片与 Intel 通用） | [Yukio-0.3.9-macOS.dmg](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.9/Yukio-0.3.9-macOS.dmg) · [ZIP](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.9/Yukio-0.3.9-macOS.zip) | 打开 DMG，把 `Yukio.app` 拖进「应用程序」，第一次按下面放行一次 |
-| Windows 10 / 11（64 位） | [Yukio-0.3.9-Windows.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.9/Yukio-0.3.9-Windows.exe) | 双击就开。Python 和素材都打包在里面 |
+| macOS 13 或更新（Apple 芯片与 Intel 通用） | [Yukio-0.4.0-macOS.dmg](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.0/Yukio-0.4.0-macOS.dmg) · [ZIP](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.0/Yukio-0.4.0-macOS.zip) | 打开 DMG，把 `Yukio.app` 拖进「应用程序」，第一次按下面放行一次 |
+| Windows 10 / 11（64 位） | [Yukio-0.4.0-Windows-Setup.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.0/Yukio-0.4.0-Windows-Setup.exe) | 双击安装，之后从新快捷方式打开；内置自动检查和一键更新 |
 
 <details>
 <summary><b>macOS 第一次打开：「Apple 无法验证“Yukio”是否包含可能危害 Mac 安全或泄漏隐私的恶意软件」</b></summary>

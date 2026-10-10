@@ -751,6 +751,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private var questionPanel: QuestionPanel!
     private var statusItem: NSStatusItem!
     private var settingsWindow: SettingsPanelController?
+    private let softwareUpdates = SoftwareUpdates()
     private var reminderStore: ReminderStore?
     private var reminderPanel: ReminderPanelController?
     private var timer: Timer?
@@ -872,6 +873,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         ) { [weak self] _ in self?.screensChanged() }
 
         setUpAssistant()
+        softwareUpdates.start()
         if CommandLine.arguments.contains("--demo") { startDemo() }
     }
 
@@ -1815,7 +1817,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
                                 scale: scale,
                                 language: language,
                                 demoPlaying: simulation != nil,
-                                launchAtLogin: launchAtLogin.status)
+                                launchAtLogin: launchAtLogin.status,
+                                automaticUpdates: softwareUpdates.automaticallyChecks)
     }
 
     private func showSettings() {
@@ -1896,6 +1899,10 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             resetPetPosition()
         case .toggleDemo:
             simulation == nil ? startDemo() : stopDemo()
+        case .checkForUpdates:
+            softwareUpdates.checkForUpdates()
+        case .automaticUpdates(let enabled):
+            softwareUpdates.automaticallyChecks = enabled
         case .lowerSign:
             menuDropSign()
         }
@@ -1911,6 +1918,9 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     private func buildMenu() -> NSMenu {
         let menu = NSMenu()
+        let updates = NSMenuItem(title: tr("Check for updates…", "检查更新…"), action: #selector(SoftwareUpdates.checkForUpdates(_:)), keyEquivalent: "")
+        updates.target = softwareUpdates
+        menu.addItem(updates)
         menu.addItem(action(tr("Connect Claude background answers", "连接 Claude 后台回答"), #selector(menuConnectClaudeAnswers)))
         let deepSeekSetup = action(deepSeekInstaller == nil ? tr("Install DeepSeek answer adapter", "安装 DeepSeek 回答适配器") : tr("Installing DeepSeek adapter…", "正在安装 DeepSeek 适配器…"), #selector(menuConnectDeepSeekAnswers))
         deepSeekSetup.isEnabled = deepSeekInstaller == nil

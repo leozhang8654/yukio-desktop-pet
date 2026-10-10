@@ -1,4 +1,5 @@
-> 0.3.9: Task bubbles and stacked cards now scale with Yukio. See [release notes](docs/releases/0.3.9.md).
+> **0.4.0: In-app updates.** Automatically discover stable releases and read what changed, then click to download, install and restart. Settings are retained. Install this version once to enable future updates. On Windows, close the old standalone EXE and run the new Setup installer, then use its shortcut. [Update guide](docs/UPDATES.md).
+
 
 **English** · [简体中文](README.zh-CN.md)
 
@@ -11,8 +12,8 @@
 <a href="https://github.com/leozhang8654/yukio-desktop-pet/releases"><img alt="Total downloads" src="https://img.shields.io/github/downloads/leozhang8654/yukio-desktop-pet/total?color=2f6feb"></a>
 <img alt="macOS 13 or newer" src="https://img.shields.io/badge/macOS-13%2B-000000?logo=apple&logoColor=white">
 <img alt="Windows 10 and 11" src="https://img.shields.io/badge/Windows-10%20%2F%2011-0078D4">
-<img alt="Swift and AppKit, no third-party dependencies" src="https://img.shields.io/badge/Swift%20%2B%20AppKit-zero%20dependencies-F05138?logo=swift&logoColor=white">
-<img alt="Python, Tk and ctypes; Pillow is the external dependency" src="https://img.shields.io/badge/Python%20%2B%20Tk%20%2B%20ctypes-Pillow%20only-3776AB?logo=python&logoColor=white">
+<img alt="Swift, AppKit and Sparkle" src="https://img.shields.io/badge/Swift%20%2B%20AppKit-Sparkle-F05138?logo=swift&logoColor=white">
+<img alt="Python, Tk, Pillow and Velopack" src="https://img.shields.io/badge/Python%20%2B%20Tk%20%2B%20ctypes-Pillow%20%2B%20Velopack-3776AB?logo=python&logoColor=white">
 </p>
 
 </div>
@@ -21,10 +22,12 @@
 
 She follows three families of agent, and you pick which one in her menu under **Assistant**: **Claude Code**, **DeepSeek's [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)**, and **GPT's [Codex](https://developers.openai.com/codex/)** (the desktop app and the CLI both write the same session logs). The default, **Auto**, follows all three at once and shows whichever chat has something to say. Both builds use native windows and work entirely from local session logs.
 
-## New in 0.3.9
+## New in 0.4.0
 
-- The task bubble and the cards above it now grow and shrink with Yukio. Their existing size at 100% is the baseline; text, outlines, spacing and click regions follow the same percentage.
-- On Windows, changing size redraws the visible bubble immediately without restarting its fade.
+- Automatically check for stable releases and show release notes.
+- Choose **Update and restart** or postpone; preferences are retained.
+- Manually check for updates or disable automatic checks in settings.
+- macOS uses signed Sparkle updates; Windows now has a Velopack installer.
 
 ### Recent updates
 
@@ -45,8 +48,8 @@ Grab the file for your system from the [latest release](https://github.com/leozh
 
 | You use | Download | Then |
 | --- | --- | --- |
-| macOS 13 or newer (Apple silicon and Intel) | [Yukio-0.3.9-macOS.dmg](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.9/Yukio-0.3.9-macOS.dmg) · [ZIP](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.9/Yukio-0.3.9-macOS.zip) | Open the DMG and drag `Yukio.app` into Applications; allow it once (below) |
-| Windows 10 / 11, 64-bit | [Yukio-0.3.9-Windows.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.9/Yukio-0.3.9-Windows.exe) | Double-click. Python and the artwork are packed inside |
+| macOS 13 or newer (Apple silicon and Intel) | [Yukio-0.4.0-macOS.dmg](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.0/Yukio-0.4.0-macOS.dmg) · [ZIP](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.0/Yukio-0.4.0-macOS.zip) | Open the DMG and drag `Yukio.app` into Applications; allow it once (below) |
+| Windows 10 / 11, 64-bit | [Yukio-0.4.0-Windows-Setup.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.0/Yukio-0.4.0-Windows-Setup.exe) | Run Setup once, then use the new shortcut. Future updates install inside Yukio |
 
 <details>
 <summary><b>macOS says "Apple could not verify Yukio…"</b></summary>

@@ -3,10 +3,11 @@
 
 用法（Windows，在 YukioWin 目录）：
     pyinstaller --noconfirm scripts\yukio.spec
-产物：dist\Yukio.exe
+产物：dist\Yukio\Yukio.exe（由 Velopack 生成安装包）
 """
 
 import os
+import velopack  # Fail packaging early if the updater dependency is missing.
 
 ROOT = os.path.abspath(os.path.join(SPECPATH, ".."))
 REPO = os.path.dirname(ROOT)
@@ -44,19 +45,9 @@ try:
 except AttributeError:
     pyz = PYZ(a.pure)
 
-parts = [pyz, a.scripts, a.binaries]
-if hasattr(a, "zipfiles"):
-    parts.append(a.zipfiles)
-parts += [a.datas, []]
-
 exe = EXE(
-    *parts,
-    name="Yukio",
-    debug=False,
-    bootloader_ignore_signals=False,
-    strip=False,
-    upx=False,
-    runtime_tmpdir=None,
-    console=False,          # 桌面宠物不要黑框
+    pyz, a.scripts, [], exclude_binaries=True, name="Yukio", debug=False,
+    bootloader_ignore_signals=False, strip=False, upx=False, console=False,
     icon=ICON if os.path.exists(ICON) else None,
 )
+coll = COLLECT(exe, a.binaries, a.datas, strip=False, upx=False, name="Yukio")

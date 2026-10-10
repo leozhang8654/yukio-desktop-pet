@@ -35,12 +35,20 @@ VERSION="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$APP/
 
 test -f "$APP/Contents/Resources/Assets/motion/windows-pages/manifest.json"
 
-rm -rf dist
-mkdir -p dist
-ZIP="dist/Yukio-$VERSION-macOS.zip"
+DIST="${YUKIO_RELEASE_OUTPUT:-dist}"
+mkdir -p "$DIST"
+ZIP="$DIST/Yukio-$VERSION-macOS.zip"
 # ditto 保留签名与符号链接；--keepParent 让别人解压后直接得到 Yukio.app
 ditto -c -k --sequesterRsrc --keepParent "$APP" "$ZIP"
 shasum -a 256 "$ZIP" | tee "$ZIP.sha256"
 
 codesign -v "$APP" && echo "签名自检通过（临时签名，下载后首次打开可能需要在系统设置的隐私与安全性中放行）"
 echo "$ZIP"
+
+DMG="$DIST/Yukio-$VERSION-macOS.dmg"
+sh ./scripts/package-macos-dmg.sh "$APP" "$DMG"
+if [ "${YUKIO_SIGN_UPDATES:-1}" = "1" ]; then
+  python3 ../scripts/make_appcast.py --archive "$ZIP" --notes "../docs/releases/$VERSION.md" --sign-tool .build/artifacts/sparkle/Sparkle/bin/sign_update --output "$DIST/appcast.xml"
+else
+  echo "Update feed is NOT signed yet; these packages are not ready to publish."
+fi

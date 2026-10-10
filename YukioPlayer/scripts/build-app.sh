@@ -1,5 +1,5 @@
 #!/bin/sh
-# 构建 build/Yukio.app（显示名“雪绪”）。只需要 Xcode Command Line Tools，无第三方依赖。
+# 构建 build/Yukio.app（显示名“雪绪”）。SwiftPM 固定版本的 Sparkle 用于更新。
 # 可选参数 $1：已经编好的可执行文件（发版脚本用它塞进通用二进制），不给就现场编译。
 # 资源随应用打包在 Contents/Resources/Assets，不依赖本机其他路径。
 # 可选环境变量 YUKIO_PAGED_ASSETS 指向 prepare-windows-assets.py 生成的 Assets；
@@ -21,7 +21,7 @@ if /usr/bin/nm -u "$BIN" | /usr/bin/grep -q AXIsProcessTrusted; then
   echo "旧版键盘回答程序不能打包，请重新构建后台回答版本。" >&2
   exit 1
 fi
-APP="build/Yukio.app"
+APP="${YUKIO_APP_OUTPUT:-build/Yukio.app}"
 # 可单独试用新助手窗口，不覆盖旧包，也不再放出第二只桌宠。
 if [ "${YUKIO_ASSISTANT_PREVIEW:-0}" = "1" ]; then
   APP="build/Yukio Assistant Preview.app"
@@ -56,15 +56,26 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
   <key>CFBundleExecutable</key><string>YukioPlayer</string>
   <key>CFBundleIconFile</key><string>AppIcon</string>
   <key>CFBundlePackageType</key><string>APPL</string>
-  <key>CFBundleShortVersionString</key><string>0.3.9</string>
-  <key>CFBundleVersion</key><string>16</string>
+  <key>CFBundleShortVersionString</key><string>0.4.0</string>
+  <key>CFBundleVersion</key><string>17</string>
   <key>LSMinimumSystemVersion</key><string>13.0</string>
+  <key>SUFeedURL</key><string>https://github.com/leozhang8654/yukio-desktop-pet/releases/latest/download/appcast.xml</string>
+  <key>SUPublicEDKey</key><string>UuIYaOS2mImMarKEoskVy22Juxl1pQeAL5s+mPnqHFg=</string>
+  <key>SURequireSignedFeed</key><true/>
+  <key>SUVerifyUpdateBeforeExtraction</key><true/>
+  <key>SUEnableAutomaticChecks</key><true/>
+  <key>SUScheduledCheckInterval</key><integer>21600</integer>
+  <key>SUAutomaticallyUpdate</key><false/>
+  <key>SUAllowsAutomaticUpdates</key><false/>
+  <key>SUEnableInstallerLauncherService</key><true/>
   <key>LSUIElement</key><true/>
   <key>NSHighResolutionCapable</key><true/>
 </dict>
 </plist>
 PLIST
 
+SOURCE_REVISION="$(git rev-parse HEAD)"
+/usr/libexec/PlistBuddy -c "Add :YukioSourceRevision string $SOURCE_REVISION" "$APP/Contents/Info.plist"
 if [ "${YUKIO_ASSISTANT_PREVIEW:-0}" = "1" ]; then
   /usr/libexec/PlistBuddy -c 'Set :CFBundleIdentifier local.yukio.assistant.preview' "$APP/Contents/Info.plist"
   /usr/libexec/PlistBuddy -c 'Set :CFBundleName Yukio Assistant Preview' "$APP/Contents/Info.plist"
@@ -72,6 +83,13 @@ if [ "${YUKIO_ASSISTANT_PREVIEW:-0}" = "1" ]; then
   /usr/libexec/PlistBuddy -c 'Add :YukioAssistantOnly bool true' "$APP/Contents/Info.plist"
 fi
 
+# Preserve Sparkle's signed nested services and symlinks. The host remains ad-hoc
+# signed until a Developer ID identity is configured; Ed25519 protects updates.
+SPARKLE=".build/artifacts/sparkle/Sparkle/Sparkle.xcframework/macos-arm64_x86_64/Sparkle.framework"
+test -d "$SPARKLE"
+mkdir -p "$APP/Contents/Frameworks"
+ditto "$SPARKLE" "$APP/Contents/Frameworks/Sparkle.framework"
+install_name_tool -add_rpath @executable_path/../Frameworks "$APP/Contents/MacOS/YukioPlayer"
 # 本机自用的临时签名；分发给他人需要正式签名与公证。
 codesign --force --sign - "$APP" >/dev/null
 echo "$APP"
