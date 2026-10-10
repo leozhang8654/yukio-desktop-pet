@@ -99,7 +99,7 @@ jobs:
             YukioWin/smoke-150/
             YukioWin/build/assistant-smoke/
             YukioWin/build/update-test/upgrade-result.json
-            YukioWin/build/update-test/upgrade-result.json.error.txt
+            YukioWin/build/update-test/upgrade-result.error.txt
             YukioWin/build/update-test/timeout.png
             YukioWin/build/update-test/windows.txt
             YukioWin/build/update-test/native-smoke/
@@ -112,7 +112,7 @@ jobs:
           path: |
             YukioWin/dist/releases/*
             YukioWin/build/update-test/upgrade-result.json
-            YukioWin/build/update-test/upgrade-result.json.error.txt
+            YukioWin/build/update-test/upgrade-result.error.txt
             YukioWin/build/update-test/timeout.png
             YukioWin/build/update-test/windows.txt
             YukioWin/build/update-test/native-smoke/*

@@ -42,12 +42,7 @@ results, not a claim of manual testing on a friend's PC.
 
 ## Release gate
 
-Production `sign_update` is waiting for the user's macOS Keychain approval. The
-computer-control tool refused access to SecurityAgent, so the authorization must
-be completed by the user. An independent temporary test key allowed native upgrade
-testing to finish without reading or bypassing the protected production key.
-
-After authorization: sign/verify the final ZIP and appcast, merge the reviewed source,
-prepare all GitHub release assets with checksums, verify public downloads, replace
-and verify the user's running desktop app, and record the final source/package hashes.
-The original desktop app remains 0.3.9 until this gate is completed.
+Production Keychain authorization completed and the production archive/feed signing
+succeeded. The final source is ready for merge and fresh same-source packaging.
+Public-download verification and desktop replacement remain pending until the
+release is published; final evidence will be recorded below after delivery.
