@@ -147,22 +147,29 @@ enum BrowserOpenChat {
             })
     }
 
-    // Chromium exposes anonymous layout groups omitted by some UI inspectors.
-    // Follow only the leading group chain, stopping at the first button row;
-    // never search later siblings (messages, recent-chat lists or menus).
+    // Chromium inserts anonymous groups around individual header controls.
+    // Read only the first three buttons in document order, stopping immediately
+    // on any unexpected first button. Never descend into buttons, menus or text.
     static func selectedHeader<Node>(_ root: Node, children: (Node) -> [Node],
                                      role: (Node) -> String, label: (Node) -> String) -> String? {
-        var node = root
-        for _ in 0..<16 {
-            let items = children(node)
-            let buttons = items.filter { role($0) == kAXButtonRole }
-            if !buttons.isEmpty {
-                guard buttons.count >= 3,
-                      label(buttons[0]) == "New chat", label(buttons[2]) == "More actions" else { return nil }
-                return label(buttons[1])
+        var stack: [(Node, Int)] = [(root, 0)]
+        var buttons: [String] = []
+        var visited = 0
+        while let (node, depth) = stack.popLast(), visited < 128 {
+            visited += 1
+            let kind = role(node)
+            if kind == kAXButtonRole {
+                let title = label(node)
+                if buttons.isEmpty && title != "New chat" { return nil }
+                buttons.append(title)
+                if buttons.count == 3 { return buttons[2] == "More actions" ? buttons[1] : nil }
+                continue
             }
-            guard let next = items.first(where: { role($0) == kAXGroupRole }) else { return nil }
-            node = next
+            guard ["AXWebArea", "AXGroup", "AXScrollArea", "AXLayoutArea", "AXLayoutItem"].contains(kind),
+                  depth < 16 else { continue }
+            let items = children(node)
+            guard stack.count + items.count <= 128 else { return nil }
+            stack.append(contentsOf: items.reversed().map { ($0, depth + 1) })
         }
         return nil
     }

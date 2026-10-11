@@ -18,10 +18,17 @@ import Testing
     }
     @Test func loadingAndMenusDoNotBorrowMessageOrHistoryTitles() {
         let header = Node(children: [button("New chat"), button("旧聊天"), button("More actions")])
-        #expect(read(Node(children: [Node(), header])) == nil)
+        #expect(read(Node(children: [Node(role: "AXMenu", children: [header])])) == nil)
         #expect(read(Node(children: [button("Loading"), header])) == nil)
         #expect(read(Node(children: [button("New chat"), button("旧聊天")])) == nil)
         #expect(read(Node(children: [button("Other"), button("旧聊天"), button("More actions")])) == nil)
+    }
+    @Test func individualButtonsWrappedInLayoutGroups() {
+        let tree = Node(children: [Node(children: [button("New chat")]),
+            Node(children: [Node(children: [button("目标聊天")])]),
+            Node(children: [button("More actions")]),
+            Node(children: [button("聊天里的按钮")])])
+        #expect(read(tree) == "目标聊天")
     }
     @Test func malformedNestingIsBounded() {
         var tree = Node(children: [button("New chat"), button("目标聊天"), button("More actions")])
