@@ -1158,10 +1158,11 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
         let started = nowMs()
         DispatchQueue.global(qos: .utility).async {
+            BrowserOpenChat.notes = []
             var documents: [VisibleChat] = []
             var selected: String?
             for (pid, bundle) in apps {
-                let found = BrowserOpenChat.read(processID: pid, snapshot: snapshot,
+                let found = BrowserOpenChat.read(processID: pid, snapshot: snapshot, nativeGPT: bundle == Self.codexBundleID,
                     gptTitles: candidates.filter { $0.1 == .gpt }.map { (id: $0.0, title: $0.2) })
                 documents += found
                 if bundle == Self.codexBundleID, !found.contains(where: { $0.provider == .gpt }),
@@ -1175,6 +1176,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
                 documents.contains { $0.matches(session: candidate.0, provider: candidate.1, aliases: aliases) }
             }.map { $0.0 })
             if let selected, candidates.contains(where: { $0.0 == selected && $0.1 == .gpt }) { visible.insert(selected) }
+            let notes = BrowserOpenChat.notes
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 self.openChatBusy = false
@@ -1183,18 +1185,18 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
                 self.router.openChatSession = nil
                 self.router.visibleChatSessions = valid ? visible : []
                 self.openChatObservedAt = valid ? started : -.infinity
-                self.recordChatVisibility(valid: valid, windows: snapshot.windows.count, screens: snapshot.screens.count)
+                self.recordChatVisibility(valid: valid, windows: snapshot.windows.count, screens: snapshot.screens.count, notes: notes)
 
             }
         }
     }
 
-    /// Local, content-free status so support can verify the running app itself.
-    private func recordChatVisibility(valid: Bool, windows: Int, screens: Int) {
+    /// Local status for validating the installed app; diagnostic notes contain document addresses, never message bodies.
+    private func recordChatVisibility(valid: Bool, windows: Int, screens: Int, notes: [String]) {
         let report: [String: Any] = [
             "checkedAt": ISO8601DateFormatter().string(from: Date()),
             "version": Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "dev",
-            "screens": screens, "windows": windows,
+            "screens": screens, "windows": windows, "scannerNotes": notes,
             "accessAllowed": BrowserOpenChat.hasAccessibilityAccess,
             "observationValid": valid,
             "visibleSessions": router.visibleChatSessions.sorted(),

@@ -2,9 +2,10 @@ import AppKit
 import ApplicationServices
 import YukioCore
 
-/// Reads only document addresses in the foreground window. No page text, history,
-/// cookies, tab activation, AppleScript permission, or browser debugging port.
+/// Reads on-screen document addresses and the official GPT selected-chat header.
+/// Never reads message bodies, cookies, history or activates browser tabs.
 enum BrowserOpenChat {
+    static var notes: [String] = []
     static let supportedBundles: Set<String> = [
         "com.google.Chrome", "com.google.Chrome.beta", "com.google.Chrome.dev", "com.google.Chrome.canary",
         "org.chromium.Chromium", "com.microsoft.edgemac", "com.brave.Browser", "company.thebrowser.Browser",
@@ -66,19 +67,22 @@ enum BrowserOpenChat {
         read(processID: processID, snapshot: .capture())
     }
 
-    static func read(processID: pid_t, snapshot: Snapshot, gptTitles: [(id: String, title: String?)] = []) -> [VisibleChat] {
+    static func read(processID: pid_t, snapshot: Snapshot, nativeGPT: Bool = false, gptTitles: [(id: String, title: String?)] = []) -> [VisibleChat] {
         guard hasAccessibilityAccess else { return [] }
+        notes.append("read pid=\(processID) osWindows=\(snapshot.mainWindows(pid: processID).count)")
         let app = AXUIElementCreateApplication(processID)
         AXUIElementSetMessagingTimeout(app, 0.1)
         guard let windows = value(app, kAXWindowsAttribute) as? [AXUIElement] else { return [] }
+        notes.append("axWindows=\(windows.count)")
         var chats: [VisibleChat] = []
         for window in windows {
             guard value(window, kAXMinimizedAttribute) as? Bool != true,
                   let rect = bounds(window) else { continue }
             let matches = snapshot.mainWindows(pid: processID).filter { equivalent($0.bounds, rect) }
+            notes.append("axFrame=\(rect) matches=\(matches.count)")
             guard matches.count == 1, let onScreen = matches.first,
                   snapshot.readable(rect.insetBy(dx: 20, dy: 50), in: onScreen) else { continue }
-            chats += documents(in: window, onScreen: onScreen, snapshot: snapshot, gptTitles: gptTitles)
+            chats += documents(in: window, onScreen: onScreen, snapshot: snapshot, nativeGPT: nativeGPT, gptTitles: gptTitles)
         }
         // Window moves, tab changes are checked again at the next poll. Never use
         // a result after a window has vanished, moved or been covered meanwhile.
@@ -86,7 +90,7 @@ enum BrowserOpenChat {
         return chats
     }
 
-    private static func documents(in window: AXUIElement, onScreen: Window, snapshot: Snapshot, gptTitles: [(id: String, title: String?)]) -> [VisibleChat] {
+    private static func documents(in window: AXUIElement, onScreen: Window, snapshot: Snapshot, nativeGPT: Bool, gptTitles: [(id: String, title: String?)]) -> [VisibleChat] {
         let deadline = ProcessInfo.processInfo.systemUptime + 0.8
         var queue: [(AXUIElement, Int)] = [(window, 0)]
         var cursor = 0
@@ -98,6 +102,14 @@ enum BrowserOpenChat {
             let role = value(node, kAXRoleAttribute) as? String ?? ""
             if role == "AXWebArea" {
                 let address = urlString(value(node, kAXURLAttribute))
+                notes.append("document=\(address) frame=\(String(describing: bounds(node)))")
+                if nativeGPT, address.hasPrefix("app://-/"),
+                   let rect = bounds(node), snapshot.readable(rect, in: onScreen),
+                   let title = value(node, kAXTitleAttribute) as? String,
+                   let id = VisibleChatTitle.session(header: title, candidates: gptTitles),
+                   let chat = VisibleChat(url: "codex://threads/" + id) {
+                    chats.append(chat)
+                }
                 if let rect = bounds(node), snapshot.readable(rect, in: onScreen),
                    let chat = VisibleChat(url: address) { chats.append(chat) }
                 if address == "chrome-extension://hehggadaopoacecdllhhajmbjkdcmajg/codex-sidepanel/index.html",
@@ -118,6 +130,7 @@ enum BrowserOpenChat {
             guard queue.count + children.count <= 1024 else { return [] }
             queue.append(contentsOf: children.map { ($0, depth + 1) })
         }
+        notes.append("scan visited=\(cursor)/\(queue.count) found=\(chats.count) timedOut=\(ProcessInfo.processInfo.systemUptime >= deadline)")
         guard cursor >= queue.count, ProcessInfo.processInfo.systemUptime < deadline else { return [] }
         return chats
     }
@@ -125,21 +138,30 @@ enum BrowserOpenChat {
     /// Only the first row of the official panel. Never traverse message contents,
     /// recent-chat menus or arbitrary buttons whose text happens to match a title.
     private static func sidePanelHeader(_ root: AXUIElement) -> String? {
-        var node = root
-        for _ in 0..<5 {
-            guard let children = value(node, kAXChildrenAttribute) as? [AXUIElement] else { return nil }
-            let buttons = children.filter { value($0, kAXRoleAttribute) as? String == kAXButtonRole }
-            if buttons.count >= 3 {
-                func label(_ item: AXUIElement) -> String {
-                    for key in [kAXTitleAttribute, kAXDescriptionAttribute] {
-                        if let text = value(item, key) as? String, !text.isEmpty { return text }
-                    }
-                    return ""
+        selectedHeader(root, children: { value($0, kAXChildrenAttribute) as? [AXUIElement] ?? [] },
+            role: { value($0, kAXRoleAttribute) as? String ?? "" }, label: { item in
+                for key in [kAXTitleAttribute, kAXDescriptionAttribute] {
+                    if let text = value(item, key) as? String, !text.isEmpty { return text }
                 }
-                guard label(buttons[0]) == "New chat", label(buttons[2]) == "More actions" else { return nil }
+                return ""
+            })
+    }
+
+    // Chromium exposes anonymous layout groups omitted by some UI inspectors.
+    // Follow only the leading group chain, stopping at the first button row;
+    // never search later siblings (messages, recent-chat lists or menus).
+    static func selectedHeader<Node>(_ root: Node, children: (Node) -> [Node],
+                                     role: (Node) -> String, label: (Node) -> String) -> String? {
+        var node = root
+        for _ in 0..<16 {
+            let items = children(node)
+            let buttons = items.filter { role($0) == kAXButtonRole }
+            if !buttons.isEmpty {
+                guard buttons.count >= 3,
+                      label(buttons[0]) == "New chat", label(buttons[2]) == "More actions" else { return nil }
                 return label(buttons[1])
             }
-            guard let next = children.first(where: { value($0, kAXRoleAttribute) as? String == kAXGroupRole }) else { return nil }
+            guard let next = items.first(where: { role($0) == kAXGroupRole }) else { return nil }
             node = next
         }
         return nil
