@@ -34,3 +34,14 @@ import Testing
         #expect(!ChatWindowVisibility.canRead(chat, screens: [mac, external], covers: [mac]))
     }
 }
+
+@Test func transparentDockDisplaySurfaceIsNotAnOpaqueWindow() {
+    let display = CGRect(x: 0, y: 0, width: 1710, height: 1112)
+    #expect(ChatWindowVisibility.isDesktopOverlay(isDock: true, layer: 20, bounds: display, screens: [display]))
+    #expect(!ChatWindowVisibility.isDesktopOverlay(isDock: false, layer: 20, bounds: display, screens: [display]))
+    #expect(!ChatWindowVisibility.isDesktopOverlay(isDock: true, layer: 0, bounds: display, screens: [display]))
+    #expect(!ChatWindowVisibility.isDesktopOverlay(isDock: true, layer: 20,
+        bounds: CGRect(x: 200, y: 1000, width: 1000, height: 100), screens: [display]))
+    let external = CGRect(x: -88, y: -1080, width: 1920, height: 1080)
+    #expect(ChatWindowVisibility.isDesktopOverlay(isDock: true, layer: 20, bounds: external, screens: [display, external]))
+}

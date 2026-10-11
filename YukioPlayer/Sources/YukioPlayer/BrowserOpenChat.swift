@@ -27,12 +27,18 @@ enum BrowserOpenChat {
         let pid: pid_t
         let bounds: CGRect
         let layer: Int
+        let isDesktopOverlay: Bool
     }
     struct Snapshot {
         let windows: [Window]
         let screens: [CGRect]
         static func capture() -> Snapshot {
             let list = CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID) as? [[String: Any]] ?? []
+            var ids = [CGDirectDisplayID](repeating: 0, count: 32)
+            var count: UInt32 = 0
+            CGGetActiveDisplayList(32, &ids, &count)
+            let screens = ids.prefix(Int(count)).map(CGDisplayBounds)
+            let dockPIDs = Set(NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.dock").map(\.processIdentifier))
             let windows = list.compactMap { row -> Window? in
                 guard let id = row[kCGWindowNumber as String] as? Int,
                       let pid = row[kCGWindowOwnerPID as String] as? Int32,
@@ -41,16 +47,15 @@ enum BrowserOpenChat {
                       let bounds = CGRect(dictionaryRepresentation: raw as CFDictionary),
                       (row[kCGWindowAlpha as String] as? Double ?? 1) > 0.05,
                       pid != ProcessInfo.processInfo.processIdentifier else { return nil }
-                return Window(id: id, pid: pid, bounds: bounds, layer: layer)
+                let overlay = ChatWindowVisibility.isDesktopOverlay(isDock: dockPIDs.contains(pid),
+                    layer: layer, bounds: bounds, screens: screens)
+                return Window(id: id, pid: pid, bounds: bounds, layer: layer, isDesktopOverlay: overlay)
             }
-            var ids = [CGDirectDisplayID](repeating: 0, count: 32)
-            var count: UInt32 = 0
-            CGGetActiveDisplayList(32, &ids, &count)
-            return Snapshot(windows: windows, screens: ids.prefix(Int(count)).map(CGDisplayBounds))
+            return Snapshot(windows: windows, screens: screens)
         }
         func readable(_ rect: CGRect, in window: Window) -> Bool {
             guard let index = windows.firstIndex(of: window) else { return false }
-            let covers = windows[..<index].map(\.bounds)
+            let covers = windows[..<index].filter { !$0.isDesktopOverlay }.map(\.bounds)
             return ChatWindowVisibility.canRead(rect.intersection(window.bounds), screens: screens, covers: covers)
         }
         func mainWindows(pid: pid_t) -> [Window] {

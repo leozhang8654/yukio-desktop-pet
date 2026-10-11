@@ -4,6 +4,16 @@ import CoreGraphics
 /// Screen coordinates remain in the system's global coordinate space, including
 /// negative coordinates and displays above/below the primary screen.
 public enum ChatWindowVisibility {
+    /// The macOS Dock publishes a transparent, screen-sized input surface at
+    /// layer 20 with window alpha 1. Its rectangle is not opaque content.
+    /// Keep ordinary windows and the actual small Dock strip as occluders.
+    public static func isDesktopOverlay(isDock: Bool, layer: Int, bounds: CGRect, screens: [CGRect]) -> Bool {
+        isDock && layer == 20 && screens.contains {
+            abs($0.minX - bounds.minX) < 2 && abs($0.minY - bounds.minY) < 2 &&
+            abs($0.width - bounds.width) < 2 && abs($0.height - bounds.height) < 2
+        }
+    }
+
     public static func exposedParts(of rect: CGRect, screens: [CGRect], covers: [CGRect]) -> [CGRect] {
         guard !rect.isEmpty else { return [] }
         var parts = screens.map { rect.intersection($0) }.filter { !$0.isNull && !$0.isEmpty }
