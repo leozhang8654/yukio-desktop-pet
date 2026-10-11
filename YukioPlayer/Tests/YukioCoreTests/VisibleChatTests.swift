@@ -8,7 +8,7 @@ import Testing
 
     @Test func webAppAndExtensionDocumentRoutes() {
         for url in ["https://claude.ai/chat/\(a)", "https://claude.ai/code/\(a)",
-                    "https://claude.ai/cic/task/cse_0123456789"] {
+                    "https://claude.ai/cic/task/cse_0123456789", "https://claude.ai/cowork/cse_0123456789"] {
             #expect(VisibleChat(url: url)?.provider == .claude)
         }
         for url in ["https://chatgpt.com/c/\(a)", "https://chat.openai.com/c/\(a)",
@@ -22,6 +22,7 @@ import Testing
         for url in ["https://claude.ai/", "https://claude.ai/recents", "https://chatgpt.com/",
                     "https://claude.ai.evil.test/chat/\(a)", "https://claude.ai@evil.test/chat/\(a)",
                     "http://claude.ai/chat/\(a)", "https://claude.ai/chat/no-id",
+                    "https://claude.ai/cowork/projects", "https://claude.ai/cowork/cse_0123456789/share",
                     "https://chatgpt.com/share/\(a)", "https://chatgpt.com/c/\(a)/extra",
                     "chrome-extension://test/sidepanel.html?session=\(a)"] {
             #expect(VisibleChat(url: url) == nil, "\(url)")

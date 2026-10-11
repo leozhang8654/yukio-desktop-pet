@@ -1162,7 +1162,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             var documents: [VisibleChat] = []
             var selected: String?
             for (pid, bundle) in apps {
-                let found = BrowserOpenChat.read(processID: pid, snapshot: snapshot, nativeGPT: bundle == Self.codexBundleID,
+                let found = BrowserOpenChat.read(processID: pid, snapshot: snapshot, nativeGPT: bundle == Self.codexBundleID, nativeClaude: bundle == Self.claudeBundleID,
                     gptTitles: candidates.filter { $0.1 == .gpt }.map { (id: $0.0, title: $0.2) })
                 documents += found
                 if bundle == Self.codexBundleID, !found.contains(where: { $0.provider == .gpt }),

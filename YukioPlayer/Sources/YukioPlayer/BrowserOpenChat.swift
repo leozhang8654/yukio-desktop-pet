@@ -6,6 +6,7 @@ import YukioCore
 /// Never reads message bodies, cookies, history or activates browser tabs.
 enum BrowserOpenChat {
     static var notes: [String] = []
+    private static var accessibilityRequested: Set<pid_t> = []
     static let supportedBundles: Set<String> = [
         "com.google.Chrome", "com.google.Chrome.beta", "com.google.Chrome.dev", "com.google.Chrome.canary",
         "org.chromium.Chromium", "com.microsoft.edgemac", "com.brave.Browser", "company.thebrowser.Browser",
@@ -72,11 +73,18 @@ enum BrowserOpenChat {
         read(processID: processID, snapshot: .capture())
     }
 
-    static func read(processID: pid_t, snapshot: Snapshot, nativeGPT: Bool = false, gptTitles: [(id: String, title: String?)] = []) -> [VisibleChat] {
+    static func read(processID: pid_t, snapshot: Snapshot, nativeGPT: Bool = false, nativeClaude: Bool = false, gptTitles: [(id: String, title: String?)] = []) -> [VisibleChat] {
         guard hasAccessibilityAccess else { return [] }
         notes.append("read pid=\(processID) osWindows=\(snapshot.mainWindows(pid: processID).count)")
         let app = AXUIElementCreateApplication(processID)
         AXUIElementSetMessagingTimeout(app, 0.1)
+        if nativeClaude, !accessibilityRequested.contains(processID) {
+            // Electron's documented opt-in exposes the UI tree. This only enables
+            // reading; it does not focus a window, edit text or press any control.
+            let result = AXUIElementSetAttributeValue(app, "AXManualAccessibility" as CFString, kCFBooleanTrue)
+            if result == .success { accessibilityRequested.insert(processID) }
+            notes.append("electronAccessibility=\(result.rawValue)")
+        }
         guard let windows = value(app, kAXWindowsAttribute) as? [AXUIElement] else { return [] }
         notes.append("axWindows=\(windows.count)")
         var chats: [VisibleChat] = []

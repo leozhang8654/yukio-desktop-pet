@@ -1,6 +1,6 @@
 import Foundation
 
-/// A document currently displayed in the foreground window, never a history link.
+/// A document currently displayed on screen, never a history link.
 public struct VisibleChat: Equatable, Sendable {
     public let provider: AgentProvider
     public let id: String
@@ -15,7 +15,7 @@ public struct VisibleChat: Equatable, Sendable {
             provider = .claude
             if path.count == 2, path[0] == "chat" { identity = path[1] }
             if path.count == 3, path[0] == "cic", path[1] == "task" { identity = path[2] }
-            if path.count == 2, path[0] == "code" { identity = path[1] }
+            if path.count == 2, ["code", "cowork"].contains(path[0]) { identity = path[1] }
         } else if url.scheme == "https", ["chatgpt.com", "chat.openai.com"].contains(host ?? "") {
             provider = .gpt
             if path.count == 2, path[0] == "c" { identity = path[1] }
