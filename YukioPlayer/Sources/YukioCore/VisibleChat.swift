@@ -15,7 +15,7 @@ public struct VisibleChat: Equatable, Sendable {
             provider = .claude
             if path.count == 2, path[0] == "chat" { identity = path[1] }
             if path.count == 3, path[0] == "cic", path[1] == "task" { identity = path[2] }
-            if path.count == 2, ["code", "cowork"].contains(path[0]) { identity = path[1] }
+            if path.count == 2, ["code", "cowork", "epitaxy"].contains(path[0]) { identity = path[1] }
         } else if url.scheme == "https", ["chatgpt.com", "chat.openai.com"].contains(host ?? "") {
             provider = .gpt
             if path.count == 2, path[0] == "c" { identity = path[1] }

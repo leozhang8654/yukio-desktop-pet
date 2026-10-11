@@ -8,7 +8,7 @@ import Testing
 
     @Test func webAppAndExtensionDocumentRoutes() {
         for url in ["https://claude.ai/chat/\(a)", "https://claude.ai/code/\(a)",
-                    "https://claude.ai/cic/task/cse_0123456789", "https://claude.ai/cowork/cse_0123456789"] {
+                    "https://claude.ai/cic/task/cse_0123456789", "https://claude.ai/cowork/cse_0123456789", "https://claude.ai/epitaxy/local_\(a)"] {
             #expect(VisibleChat(url: url)?.provider == .claude)
         }
         for url in ["https://chatgpt.com/c/\(a)", "https://chat.openai.com/c/\(a)",
@@ -37,6 +37,9 @@ import Testing
         let app = try #require(VisibleChat(url: "claude://code/continue?session=local_\(a)"))
         #expect(!app.matches(session: a, provider: .claude))
         #expect(app.matches(session: a, provider: .claude, aliases: ["local_\(a)": a]))
+        let nativeDocument = try #require(VisibleChat(url: "https://claude.ai/epitaxy/local_\(a)"))
+        #expect(nativeDocument.matches(session: a, provider: .claude, aliases: ["local_\(a)": a]))
+        #expect(!nativeDocument.matches(session: b, provider: .claude, aliases: ["local_\(a)": a]))
     }
 
     @Test func readingDuringResponseHoldAcknowledgesThatTurnOnly() {
