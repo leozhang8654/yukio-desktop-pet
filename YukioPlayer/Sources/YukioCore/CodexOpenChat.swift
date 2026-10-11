@@ -6,6 +6,9 @@ import Foundation
 /// This is an internal log format. Missing/changed data fails open: keep completion reminders.
 public struct CodexOpenChatState {
     private var selected: [String: String] = [:]
+    private var selectedAt: [String: Double] = [:]
+    private var visibleWindows: [String: Bool] = [:]
+    private var visibilityAt: [String: Double] = [:]
     private var focusedWindow: String?
     private var focusObservedAt: Double = -.infinity
 
@@ -32,6 +35,10 @@ public struct CodexOpenChatState {
               let window = fields["rendererWindowId"], Int(window) != nil,
               let focused = fields["rendererWindowFocused"], ["true", "false"].contains(focused),
               let visible = fields["rendererWindowVisible"], ["true", "false"].contains(visible) else { return }
+        if at >= (visibilityAt[window] ?? -.infinity) {
+            visibleWindows[window] = visible == "true"
+            visibilityAt[window] = at
+        }
         if at >= focusObservedAt {
             if focused == "true" && visible == "true" {
                 focusedWindow = window
@@ -42,12 +49,23 @@ public struct CodexOpenChatState {
             }
         }
         guard body.hasPrefix("thread_stream_view_activity_changed "),
-              let id = fields["conversationId"], UUID(uuidString: id) != nil else { return }
+              let id = fields["conversationId"], UUID(uuidString: id) != nil,
+              at >= (selectedAt[window] ?? -.infinity) else { return }
+        selectedAt[window] = at
         if fields["active"] == "true" {
-            selected[window] = id
+            selected[window] = id.lowercased()
         } else if fields["active"] == "false", selected[window] == id {
             selected.removeValue(forKey: window)
         }
+    }
+
+    /// Selection does not expire while the OS independently confirms that the
+    /// sole main window is on screen. Never guess between multiple windows.
+    public func visibleSession(now: Double) -> String? {
+        let windows = visibleWindows.filter { $0.value }.map(\.key)
+        guard windows.count == 1, let window = windows.first,
+              let at = selectedAt[window], at <= now else { return nil }
+        return selected[window]
     }
 
     public func session(now: Double) -> String? {
@@ -72,7 +90,7 @@ public final class CodexOpenChat {
         self.logsDirectory = logsDirectory
     }
 
-    public func focusedSession(processID: Int32, now: Double) -> String? {
+    public func focusedSession(processID: Int32, now: Double, visibleSingleWindow: Bool = false) -> String? {
         if self.processID != processID {
             self.processID = processID
             state = CodexOpenChatState()
@@ -123,6 +141,6 @@ public final class CodexOpenChat {
                 partial[file] = data
             } catch { return nil }
         }
-        return state.session(now: now)
+        return visibleSingleWindow ? state.visibleSession(now: now) : state.session(now: now)
     }
 }

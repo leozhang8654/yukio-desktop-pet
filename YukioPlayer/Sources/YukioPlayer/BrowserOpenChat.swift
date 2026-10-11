@@ -21,43 +21,132 @@ enum BrowserOpenChat {
         }
     }
 
+    struct Window: Equatable {
+        let id: Int
+        let pid: pid_t
+        let bounds: CGRect
+        let layer: Int
+    }
+    struct Snapshot {
+        let windows: [Window]
+        let screens: [CGRect]
+        static func capture() -> Snapshot {
+            let list = CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID) as? [[String: Any]] ?? []
+            let windows = list.compactMap { row -> Window? in
+                guard let id = row[kCGWindowNumber as String] as? Int,
+                      let pid = row[kCGWindowOwnerPID as String] as? Int32,
+                      let layer = row[kCGWindowLayer as String] as? Int,
+                      let raw = row[kCGWindowBounds as String] as? [String: Any],
+                      let bounds = CGRect(dictionaryRepresentation: raw as CFDictionary),
+                      (row[kCGWindowAlpha as String] as? Double ?? 1) > 0.05,
+                      pid != ProcessInfo.processInfo.processIdentifier else { return nil }
+                return Window(id: id, pid: pid, bounds: bounds, layer: layer)
+            }
+            var ids = [CGDirectDisplayID](repeating: 0, count: 32)
+            var count: UInt32 = 0
+            CGGetActiveDisplayList(32, &ids, &count)
+            return Snapshot(windows: windows, screens: ids.prefix(Int(count)).map(CGDisplayBounds))
+        }
+        func readable(_ rect: CGRect, in window: Window) -> Bool {
+            guard let index = windows.firstIndex(of: window) else { return false }
+            let covers = windows[..<index].map(\.bounds)
+            return ChatWindowVisibility.canRead(rect.intersection(window.bounds), screens: screens, covers: covers)
+        }
+        func mainWindows(pid: pid_t) -> [Window] {
+            windows.filter { $0.pid == pid && $0.layer == 0 && $0.bounds.width >= 160 && $0.bounds.height >= 120 }
+        }
+        func visibleSingleWindow(pid: pid_t) -> Bool {
+            let main = mainWindows(pid: pid)
+            guard main.count == 1, let window = main.first else { return false }
+            return readable(window.bounds.insetBy(dx: 40, dy: 70), in: window)
+        }
+    }
+
     static func read(processID: pid_t) -> [VisibleChat] {
-        guard AXIsProcessTrusted() else { return [] }
+        read(processID: processID, snapshot: .capture())
+    }
+
+    static func read(processID: pid_t, snapshot: Snapshot, gptTitles: [(id: String, title: String?)] = []) -> [VisibleChat] {
+        guard hasAccessibilityAccess else { return [] }
         let app = AXUIElementCreateApplication(processID)
-        AXUIElementSetMessagingTimeout(app, 0.15)
-        guard let window = element(app, kAXFocusedWindowAttribute),
-              value(window, kAXMinimizedAttribute) as? Bool != true else { return [] }
-        let windowBounds = bounds(window)
-        let deadline = ProcessInfo.processInfo.systemUptime + 0.35
+        AXUIElementSetMessagingTimeout(app, 0.1)
+        guard let windows = value(app, kAXWindowsAttribute) as? [AXUIElement] else { return [] }
+        var chats: [VisibleChat] = []
+        for window in windows {
+            guard value(window, kAXMinimizedAttribute) as? Bool != true,
+                  let rect = bounds(window) else { continue }
+            let matches = snapshot.mainWindows(pid: processID).filter { equivalent($0.bounds, rect) }
+            guard matches.count == 1, let onScreen = matches.first,
+                  snapshot.readable(rect.insetBy(dx: 20, dy: 50), in: onScreen) else { continue }
+            chats += documents(in: window, onScreen: onScreen, snapshot: snapshot, gptTitles: gptTitles)
+        }
+        // Window moves, tab changes are checked again at the next poll. Never use
+        // a result after a window has vanished, moved or been covered meanwhile.
+        guard Snapshot.capture().windows == snapshot.windows else { return [] }
+        return chats
+    }
+
+    private static func documents(in window: AXUIElement, onScreen: Window, snapshot: Snapshot, gptTitles: [(id: String, title: String?)]) -> [VisibleChat] {
+        let deadline = ProcessInfo.processInfo.systemUptime + 0.8
         var queue: [(AXUIElement, Int)] = [(window, 0)]
         var cursor = 0
         var chats: [VisibleChat] = []
-        while cursor < queue.count && cursor < 512 && ProcessInfo.processInfo.systemUptime < deadline {
+        while cursor < queue.count && cursor < 1024 && ProcessInfo.processInfo.systemUptime < deadline {
             let (node, depth) = queue[cursor]
             cursor += 1
             if value(node, "AXHidden") as? Bool == true { continue }
-            if let rect = bounds(node), let windowBounds,
-               rect.isEmpty || !rect.intersects(windowBounds) { continue }
             let role = value(node, kAXRoleAttribute) as? String ?? ""
             if role == "AXWebArea" {
                 let address = urlString(value(node, kAXURLAttribute))
-                if let chat = VisibleChat(url: address) { chats.append(chat) }
-                // Only extension wrappers may contain another chat document. Never
-                // scan conversation links or messages inside an ordinary website.
+                if let rect = bounds(node), snapshot.readable(rect, in: onScreen),
+                   let chat = VisibleChat(url: address) { chats.append(chat) }
+                if address == "chrome-extension://hehggadaopoacecdllhhajmbjkdcmajg/codex-sidepanel/index.html",
+                   let rect = bounds(node), snapshot.readable(rect, in: onScreen),
+                   let header = sidePanelHeader(node),
+                   let id = VisibleChatTitle.session(header: header, candidates: gptTitles),
+                   let chat = VisibleChat(url: "codex://threads/" + id) {
+                    chats.append(chat)
+                    continue
+                }
                 if !address.hasPrefix("chrome-extension://") { continue }
             } else if role == kAXWindowRole {
                 if let chat = VisibleChat(url: urlString(value(node, kAXDocumentAttribute))) { chats.append(chat) }
             }
-            // Tab/history/link trees cannot describe the currently open document.
             if ["AXLink", kAXToolbarRole, kAXMenuRole, kAXTabGroupRole].contains(role) { continue }
-            guard depth < 20, let children = value(node, kAXChildrenAttribute) as? [AXUIElement] else { continue }
-            guard queue.count + children.count <= 512 else { return [] }
+            // Layout containers can have a zero frame even when children are visible.
+            guard depth < 30, let children = value(node, kAXChildrenAttribute) as? [AXUIElement] else { continue }
+            guard queue.count + children.count <= 1024 else { return [] }
             queue.append(contentsOf: children.map { ($0, depth + 1) })
         }
-        // An incomplete or slow read cannot acknowledge an unseen completion.
-        guard cursor >= queue.count, ProcessInfo.processInfo.systemUptime < deadline,
-              let current = element(app, kAXFocusedWindowAttribute), CFEqual(window, current) else { return [] }
+        guard cursor >= queue.count, ProcessInfo.processInfo.systemUptime < deadline else { return [] }
         return chats
+    }
+
+    /// Only the first row of the official panel. Never traverse message contents,
+    /// recent-chat menus or arbitrary buttons whose text happens to match a title.
+    private static func sidePanelHeader(_ root: AXUIElement) -> String? {
+        var node = root
+        for _ in 0..<5 {
+            guard let children = value(node, kAXChildrenAttribute) as? [AXUIElement] else { return nil }
+            let buttons = children.filter { value($0, kAXRoleAttribute) as? String == kAXButtonRole }
+            if buttons.count >= 3 {
+                func label(_ item: AXUIElement) -> String {
+                    for key in [kAXTitleAttribute, kAXDescriptionAttribute] {
+                        if let text = value(item, key) as? String, !text.isEmpty { return text }
+                    }
+                    return ""
+                }
+                guard label(buttons[0]) == "New chat", label(buttons[2]) == "More actions" else { return nil }
+                return label(buttons[1])
+            }
+            guard let next = children.first(where: { value($0, kAXRoleAttribute) as? String == kAXGroupRole }) else { return nil }
+            node = next
+        }
+        return nil
+    }
+
+    private static func equivalent(_ a: CGRect, _ b: CGRect) -> Bool {
+        abs(a.minX - b.minX) < 2 && abs(a.minY - b.minY) < 2 && abs(a.width - b.width) < 2 && abs(a.height - b.height) < 2
     }
 
     private static func bounds(_ node: AXUIElement) -> CGRect? {

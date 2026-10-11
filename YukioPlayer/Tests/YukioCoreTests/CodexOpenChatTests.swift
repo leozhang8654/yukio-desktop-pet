@@ -103,4 +103,26 @@ import Testing
         h.run(to: 28000)
         #expect(h.router.completedSession == nil)
     }
+    @Test func quietVisibleChatDoesNotExpireAfterTenSeconds() {
+        var s = CodexOpenChatState()
+        s.ingest(line(view(a)))
+        #expect(s.visibleSession(now: base + 3_600_000) == a)
+        #expect(s.session(now: base + 3_600_000) == nil)
+        s.ingest(line(view(b), second: 2))
+        s.ingest(line(view(a), second: 1)) // Late data from an older file cannot undo navigation.
+        #expect(s.visibleSession(now: base + 3_600_000) == b)
+        s.ingest(line(view(b, active: false), second: 3))
+        #expect(s.visibleSession(now: base + 3_600_000) == nil)
+    }
+
+    @Test func visibleFallbackNeverGuessesBetweenWindowsOrUsesFutureData() {
+        var s = CodexOpenChatState()
+        s.ingest(line(view(a)))
+        #expect(s.visibleSession(now: base - 1) == nil)
+        s.ingest(line(view(b), second: 1, window: 2, focused: false))
+        #expect(s.visibleSession(now: base + 1000) == nil)
+        s.ingest(line("status", second: 2, window: 2, visible: false))
+        #expect(s.visibleSession(now: base + 2000) == a)
+    }
+
 }
