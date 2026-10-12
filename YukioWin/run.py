@@ -12,7 +12,7 @@ if __name__ == "__main__":
             import velopack
             velopack.App().set_auto_apply_on_startup(False).run()
         from yukio.cli import main
-        if len(sys.argv) == 4 and sys.argv[1] in ("--update-smoke", "--update-smoke-verify"):
+        if len(sys.argv) == 5 and sys.argv[1] in ("--update-smoke", "--update-smoke-verify"):
             from yukio.update_smoke import run
             sys.exit(run(sys.argv[1:]))
         sys.exit(main())
@@ -26,7 +26,7 @@ if __name__ == "__main__":
             pass
         sys.exit(0)
     except Exception:
-        if len(sys.argv) == 4 and sys.argv[1].startswith('--update-smoke'):
+        if len(sys.argv) == 5 and sys.argv[1].startswith('--update-smoke'):
             import traceback
             from pathlib import Path
             Path(sys.argv[3]).with_suffix('.error.txt').write_text(traceback.format_exc(), encoding='utf-8')
