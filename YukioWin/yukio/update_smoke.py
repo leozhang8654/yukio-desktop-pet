@@ -8,13 +8,13 @@ from .settings import Settings
 def run(args):
     import velopack
     from . import __version__
-    mode, source, report = args
+    mode, source, report, expected_version = args
     report = Path(report).resolve()
     settings = Settings()
     manager = velopack.UpdateManager(source)
     if mode == '--update-smoke-verify':
-        assert manager.get_current_version() == '0.4.2'
-        assert __version__ == '0.4.2'
+        assert manager.get_current_version() == expected_version
+        assert __version__ == expected_version
         assert manager.check_for_updates() is None
         assert settings.get('scale') == 1.35 and settings.get('language') == 'zh'
         report.write_text(json.dumps({'installed_version': manager.get_current_version(),
@@ -26,7 +26,7 @@ def run(args):
     settings.set('scale', 1.35)
     settings.set('language', 'zh')
     update = manager.check_for_updates()
-    assert update and update.TargetFullRelease.Version == '0.4.2'
+    assert update and update.TargetFullRelease.Version == expected_version
     assert update.TargetFullRelease.NotesMarkdown.strip()
     # A missing feed must fail without changing the installed version.
     import tempfile
@@ -61,5 +61,5 @@ def run(args):
     assert Settings().get('scale') == 1.35
     manager.download_updates(update)
     manager.wait_exit_then_apply_updates(update, silent=True, restart=True,
-        restart_args=['--update-smoke-verify', source, str(report)])
+        restart_args=['--update-smoke-verify', source, str(report), expected_version])
     return 0
