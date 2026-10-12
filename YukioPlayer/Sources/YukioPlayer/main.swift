@@ -1199,6 +1199,11 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             "screens": screens, "windows": windows, "scannerNotes": notes,
             "accessAllowed": BrowserOpenChat.hasAccessibilityAccess,
             "observationValid": valid,
+            "displayedState": shownState.rawValue,
+            "following": following,
+            "focusedSession": router.focusedSession ?? "",
+            "pinnedSession": router.pinnedSession ?? "",
+            "workingSessions": router.sessionSummaries(now: nowMs()).filter(\.live).map(\.id).sorted(),
             "visibleSessions": router.visibleChatSessions.sorted(),
             "raisedSigns": router.sessionSummaries(now: nowMs()).filter(\.raisedSign).map(\.id).sorted(),
         ]
