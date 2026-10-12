@@ -17,10 +17,21 @@ else
   BIN="$(swift build -c release --show-bin-path)/YukioPlayer"
 fi
 # Reject an old externally supplied binary: it can silently restore the permission loop.
-if /usr/bin/nm -u "$BIN" | /usr/bin/grep -q AXIsProcessTrusted; then
+if /usr/bin/nm -u "$BIN" | /usr/bin/grep -Eq 'CGEventPost|CGEventCreateKeyboardEvent'; then
   echo "旧版键盘回答程序不能打包，请重新构建后台回答版本。" >&2
   exit 1
 fi
+# The only permitted AX setter is Electron's documented read-tree opt-in.
+# Reject any new setter call that could edit controls or restore foreground typing.
+python3 - <<'PYAX'
+from pathlib import Path
+allowed = 'let result = AXUIElementSetAttributeValue(app, "AXManualAccessibility" as CFString, kCFBooleanTrue)'
+for path in Path('Sources').rglob('*.swift'):
+    for line in path.read_text().splitlines():
+        if 'AXUIElementSetAttributeValue' in line:
+            if path.name != 'BrowserOpenChat.swift' or line.strip() != allowed:
+                raise SystemExit('Unexpected accessibility write: ' + str(path))
+PYAX
 APP="${YUKIO_APP_OUTPUT:-build/Yukio.app}"
 # 可单独试用新助手窗口，不覆盖旧包，也不再放出第二只桌宠。
 if [ "${YUKIO_ASSISTANT_PREVIEW:-0}" = "1" ]; then
@@ -56,8 +67,8 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
   <key>CFBundleExecutable</key><string>YukioPlayer</string>
   <key>CFBundleIconFile</key><string>AppIcon</string>
   <key>CFBundlePackageType</key><string>APPL</string>
-  <key>CFBundleShortVersionString</key><string>0.4.2</string>
-  <key>CFBundleVersion</key><string>19</string>
+  <key>CFBundleShortVersionString</key><string>0.4.3</string>
+  <key>CFBundleVersion</key><string>22</string>
   <key>LSMinimumSystemVersion</key><string>13.0</string>
   <key>SUFeedURL</key><string>https://github.com/leozhang8654/yukio-desktop-pet/releases/latest/download/appcast.xml</string>
   <key>SUPublicEDKey</key><string>UuIYaOS2mImMarKEoskVy22Juxl1pQeAL5s+mPnqHFg=</string>

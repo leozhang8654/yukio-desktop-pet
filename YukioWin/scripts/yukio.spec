@@ -8,6 +8,9 @@
 
 import os
 import velopack  # Fail packaging early if the updater dependency is missing.
+from PyInstaller.utils.hooks import collect_all
+
+uia_datas, uia_binaries, uia_hiddenimports = collect_all("uiautomation")
 
 ROOT = os.path.abspath(os.path.join(SPECPATH, ".."))
 REPO = os.path.dirname(ROOT)
@@ -29,9 +32,9 @@ ICON = os.path.join(ROOT, "Resources", "Yukio.ico")
 a = Analysis(
     [os.path.join(ROOT, "run.py")],
     pathex=[ROOT],
-    binaries=[],
-    datas=[(ASSETS, "Assets")],
-    hiddenimports=[],
+    binaries=uia_binaries,
+    datas=[(ASSETS, "Assets")] + uia_datas,
+    hiddenimports=uia_hiddenimports,
     hookspath=[],
     runtime_hooks=[],
     # 用不上的大件全部排掉，exe 能小一半。

@@ -369,6 +369,7 @@ class CodexRolloutParser:
 
     def __init__(self, session: str = ""):
         self.session = session
+        self.parent_session = None
         #: item_completed 报了失败、还没等到对应的输出：下一条输出算失败。
         self._pending_failure = False
         self._async_questions = set()
@@ -391,9 +392,13 @@ class CodexRolloutParser:
         ts = parse_timestamp(obj.get("timestamp")) or parse_timestamp(payload.get("timestamp")) or now
 
         if kind == "session_meta":
-            found = payload.get("session_id") or payload.get("id")
+            found = payload.get("id") or payload.get("session_id")
             if isinstance(found, str) and found:
                 self.session = found
+            source = as_dict(payload.get("source"))
+            spawn = as_dict(as_dict(source.get("subagent")).get("thread_spawn"))
+            parent = spawn.get("parent_thread_id")
+            self.parent_session = parent if isinstance(parent, str) and parent else None
             return []
         if not self.session:
             found = payload.get("thread_id") or payload.get("session_id")
@@ -404,15 +409,19 @@ class CodexRolloutParser:
 
         def ev(kind_, event_id=None, activity=None, tool=None, detail=None, todos=None, at=None,
                question=None):
+            if self.parent_session and kind_ == Kind.final_answer:
+                kind_ = Kind.thinking
             return PetEvent(ts if at is None else at, SOURCE, self.session, kind_, event_id=event_id,
                             activity=activity, tool=tool, detail=detail, todos=todos, question=question)
 
+        if kind == "task_started":
+            return [ev(Kind.task_start)]
         if kind == "task_complete":
             self._async_questions.clear()
             self._pending_failure = False
             # 有回答才算答完：没有 last_agent_message 的一轮（被压缩、被接管）只算结束。
             answered = bool(payload.get("last_agent_message"))
-            return [ev(Kind.final_answer), ev(Kind.task_end)] if answered else [ev(Kind.task_end)]
+            return [ev(Kind.final_answer), ev(Kind.task_end)] if answered and not self.parent_session else [ev(Kind.task_end)]
         if kind == "turn_aborted":
             self._async_questions.clear()
             self._pending_failure = False

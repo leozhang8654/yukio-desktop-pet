@@ -15,6 +15,8 @@ from typing import List, Optional, Tuple
 from .catalog import AnimationCatalog, HELD_ID, SpriteTimeline, assets_root
 from .blink import BlinkClock
 from .chatlinks import ChatLinks
+from . import browser_open_chat
+from .router import provider_for_source
 from .demo import DEMO_DURATION_MS, demo_steps
 from .events import PetState
 from .l10n import set_language, tr
@@ -68,6 +70,7 @@ class PetApp:
         self._open_chat_executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="yukio-focus")
         self._open_chat_future = None
         self._open_chat_pid = None
+        self._open_chat_observed_at = float("-inf")
 
 
         start = now_ms()
@@ -839,34 +842,55 @@ class PetApp:
 
     # MARK: 主循环
 
+    def _read_visible_chats(self, pid, front, candidates):
+        started = now_ms()
+        documents = browser_open_chat.read(pid)
+        aliases = self.links.transcript_aliases() if any(d.provider == 'claude' for d in documents) else {}
+        visible = {session for session, provider in candidates
+                   if any(d.matches(session, provider, aliases) for d in documents)}
+        selected = None
+        if front == 'codex.exe' and not any(d.provider == 'gpt' for d in documents):
+            selected = self.codex_open_chat.focused_session(pid, now_ms())
+        elif front == 'claude.exe' and not documents:
+            selected = self.links.focused_session()
+        return selected, visible, started
+
+    def _clear_open_chat(self):
+        self.router.open_chat_session = None
+        self.router.visible_chat_sessions = set()
+
     def _refresh_open_chat(self) -> None:
-        """Read selected-view logs off the animation thread; apply only to the same PID."""
+        """Read visible documents/logs off the animation thread; discard stale results."""
         try:
             if os.name != "nt":
-                self.router.open_chat_session = None
+                self._clear_open_chat()
                 return
             pid = self.win32.foreground_process_id()
             if pid != self._open_chat_pid:
-                self.router.open_chat_session = None
+                self._clear_open_chat()
             if self._open_chat_future is not None:
                 if not self._open_chat_future.done():
                     return
-                session = self._open_chat_future.result()
+                selected, visible, started = self._open_chat_future.result()
                 self._open_chat_future = None
-                self.router.open_chat_session = session if pid == self._open_chat_pid else None
+                if pid == self._open_chat_pid and 0 <= now_ms() - started < 1500:
+                    self.router.open_chat_session = selected
+                    self.router.visible_chat_sessions = visible
+                    self._open_chat_observed_at = started
+                else:
+                    self._clear_open_chat()
             front = (self.win32.foreground_process_name() or "").lower()
-            if not pid or self.win32.foreground_process_id() != pid or front not in ("claude.exe", "codex.exe"):
-                self.router.open_chat_session = None
+            if not pid or self.win32.foreground_process_id() != pid or front not in browser_open_chat.SUPPORTED_EXES:
+                self._clear_open_chat()
                 self._open_chat_pid = None
                 return
             self._open_chat_pid = pid
-            if front == "codex.exe":
-                self._open_chat_future = self._open_chat_executor.submit(self.codex_open_chat.focused_session, pid, now_ms())
-            else:
-                self._open_chat_future = self._open_chat_executor.submit(self.links.focused_session)
+            candidates = [(row.id, provider_for_source(self.router.session_source(row.id)))
+                          for row in self.router.session_summaries(now_ms())]
+            self._open_chat_future = self._open_chat_executor.submit(self._read_visible_chats, pid, front, candidates)
         except Exception:
             self._open_chat_future = None
-            self.router.open_chat_session = None
+            self._clear_open_chat()
 
     def tick(self) -> None:
         # Tk.update() can dispatch Win32 timers; never reenter the app tick.
@@ -894,8 +918,10 @@ class PetApp:
                         winsound.PlaySound("SystemAsterisk", winsound.SND_ALIAS | winsound.SND_ASYNC)
                     except (ImportError, RuntimeError):
                         pass
-        if os.name == "nt" and self.win32.foreground_process_id() != self._open_chat_pid:
-            self.router.open_chat_session = None
+        if os.name == "nt" and (self.win32.foreground_process_id() != self._open_chat_pid
+                               or now - self._open_chat_observed_at > 1500):
+            self._clear_open_chat()
+
         self.tick_count += 1
         if self.tick_count % OPEN_CHAT_EVERY_TICKS == 0:
             self._refresh_open_chat()

@@ -596,22 +596,30 @@ func runChatLink(session: String) -> Never {
     exit(0)
 }
 
-/// --open-chat: diagnose the currently foreground Claude/Codex selection without UI automation.
+/// Diagnose foreground chat identities without activating or typing in other apps.
 func runOpenChat() -> Never {
-    let front = NSWorkspace.shared.frontmostApplication
-    let bundle = front?.bundleIdentifier ?? "-"
-    let session: String?
-    switch bundle {
-    case "com.openai.codex":
-        session = front.flatMap { CodexOpenChat().focusedSession(processID: $0.processIdentifier,
-                                    now: Date().timeIntervalSince1970 * 1000) }
-    case "com.anthropic.claudefordesktop":
-        session = ClaudeSessionLinks().focusedTranscriptSession()
-    default: session = nil
+    let snapshot = BrowserOpenChat.Snapshot.capture()
+    print("屏幕数量 \(snapshot.screens.count)")
+    print("网页识别权限 \(BrowserOpenChat.hasAccessibilityAccess ? "已允许" : "未允许")")
+    let reader = CodexOpenChat()
+    let feeds = AgentSources(provider: .auto)
+    let router = ActivityRouter(now: nowMs())
+    for event in feeds.poll(now: nowMs()) { router.ingest(event, now: min(event.ts, nowMs())) }
+    let titles = router.sessionSummaries(now: nowMs()).filter {
+        AgentProvider.owner(ofSource: router.sourceOfSession($0.id) ?? "") == .gpt
+    }.map { (id: $0.id, title: $0.title) }
+    for app in NSWorkspace.shared.runningApplications {
+        guard let bundle = app.bundleIdentifier, BrowserOpenChat.supportedBundles.contains(bundle) else { continue }
+        let pid = app.processIdentifier
+        let single = !app.isHidden && snapshot.visibleSingleWindow(pid: pid)
+        print("应用 \(bundle) 屏幕内窗口 \(snapshot.mainWindows(pid: pid).count) 单窗口聊天区可见 \(single)")
+        let docs = BrowserOpenChat.read(processID: pid, snapshot: snapshot, gptTitles: titles)
+        for doc in docs { print("已认出聊天 \(doc.provider.rawValue) / \(doc.id)") }
+        if bundle == "com.openai.codex", single,
+           let session = reader.focusedSession(processID: pid, now: Date().timeIntervalSince1970 * 1000, visibleSingleWindow: true) {
+            print("已认出 App 聊天 \(session)")
+        }
     }
-    print("最前面的应用 \(bundle)")
-    if let session { print("正在看的聊天 \(session)（这条不举完成牌）") }
-    else { print("无法确认正在看的聊天：保留完成提醒") }
     exit(0)
 }
 
@@ -741,7 +749,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private let codexOpenChat = CodexOpenChat()
     private let claudeAnswerBridge = ClaudeQuestionBridge()
     private var deepSeekInstaller: Process?
-    private var openChatProcessID: pid_t?
+    private var openChatObservedAt: Double = -.infinity
     private let defaults = UserDefaults.standard
 
     private var panel: PetPanel!
@@ -1132,43 +1140,87 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     // MARK: 主循环
 
-    /// Match the selected chat only while its desktop application is in front.
-    /// File IO stays off the animation thread; recheck the process when it returns.
+    /// Poll all on-screen windows, including the other display and unfocused apps.
     private func refreshOpenChat() {
-        let front = NSWorkspace.shared.frontmostApplication
-        let bundle = front?.bundleIdentifier
-        guard bundle == Self.claudeBundleID || bundle == Self.codexBundleID,
-              let pid = front?.processIdentifier else {
-            router.openChatSession = nil
-            openChatProcessID = nil
-            return
-        }
-        if openChatProcessID != pid { router.openChatSession = nil }
         guard !openChatBusy else { return }
-        openChatProcessID = pid
         openChatBusy = true
+        let snapshot = BrowserOpenChat.Snapshot.capture()
+        let apps = NSWorkspace.shared.runningApplications.compactMap { app -> (pid_t, String)? in
+            guard let bundle = app.bundleIdentifier, BrowserOpenChat.supportedBundles.contains(bundle),
+                  !app.isHidden, !snapshot.mainWindows(pid: app.processIdentifier).isEmpty else { return nil }
+            return (app.processIdentifier, bundle)
+        }
         let links = self.links
         let codex = codexOpenChat
+        let candidates = router.sessionSummaries(now: nowMs()).compactMap { row -> (String, AgentProvider, String?)? in
+            guard let owner = AgentProvider.owner(ofSource: router.sourceOfSession(row.id) ?? "") else { return nil }
+            return (row.id, owner, row.title)
+        }
+        let started = nowMs()
         DispatchQueue.global(qos: .utility).async {
-            let session = bundle == Self.codexBundleID
-                ? codex.focusedSession(processID: pid, now: Date().timeIntervalSince1970 * 1000)
-                : links.focusedTranscriptSession()
+            BrowserOpenChat.notes = []
+            var documents: [VisibleChat] = []
+            var selected: String?
+            for (pid, bundle) in apps {
+                let found = BrowserOpenChat.read(processID: pid, snapshot: snapshot, nativeGPT: bundle == Self.codexBundleID, nativeClaude: bundle == Self.claudeBundleID,
+                    gptTitles: candidates.filter { $0.1 == .gpt }.map { (id: $0.0, title: $0.2) })
+                documents += found
+                if bundle == Self.codexBundleID, !found.contains(where: { $0.provider == .gpt }),
+                   snapshot.visibleSingleWindow(pid: pid) {
+                    selected = codex.focusedSession(processID: pid, now: Date().timeIntervalSince1970 * 1000,
+                                                   visibleSingleWindow: true)
+                }
+            }
+            let aliases = documents.contains { $0.provider == .claude } ? links.transcriptAliases() : [:]
+            var visible = Set(candidates.filter { candidate in
+                documents.contains { $0.matches(session: candidate.0, provider: candidate.1, aliases: aliases) }
+            }.map { $0.0 })
+            if let selected, candidates.contains(where: { $0.0 == selected && $0.1 == .gpt }) { visible.insert(selected) }
+            let notes = BrowserOpenChat.notes
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 self.openChatBusy = false
-                let current = NSWorkspace.shared.frontmostApplication
-                self.router.openChatSession = current?.processIdentifier == pid
-                    && current?.bundleIdentifier == bundle ? session : nil
+                let valid = nowMs() >= started && nowMs() - started < 4000
+                    && BrowserOpenChat.Snapshot.capture().windows == snapshot.windows
+                self.router.openChatSession = nil
+                self.router.visibleChatSessions = valid ? visible : []
+                self.openChatObservedAt = valid ? started : -.infinity
+                self.recordChatVisibility(valid: valid, windows: snapshot.windows.count, screens: snapshot.screens.count, notes: notes)
+
             }
+        }
+    }
+
+    /// Local status for validating the installed app; diagnostic notes contain document addresses, never message bodies.
+    private func recordChatVisibility(valid: Bool, windows: Int, screens: Int, notes: [String]) {
+        let report: [String: Any] = [
+            "checkedAt": ISO8601DateFormatter().string(from: Date()),
+            "version": Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "dev",
+            "screens": screens, "windows": windows, "scannerNotes": notes,
+            "accessAllowed": BrowserOpenChat.hasAccessibilityAccess,
+            "observationValid": valid,
+            "displayedState": shownState.rawValue,
+            "following": following,
+            "focusedSession": router.focusedSession ?? "",
+            "pinnedSession": router.pinnedSession ?? "",
+            "workingSessions": router.sessionSummaries(now: nowMs()).filter(\.live).map(\.id).sorted(),
+            "visibleSessions": router.visibleChatSessions.sorted(),
+            "raisedSigns": router.sessionSummaries(now: nowMs()).filter(\.raisedSign).map(\.id).sorted(),
+        ]
+        let directory = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Application Support/YukioPlayer")
+        let url = directory.appendingPathComponent("chat-visibility-status.json")
+        if let data = try? JSONSerialization.data(withJSONObject: report, options: [.prettyPrinted, .sortedKeys]) {
+            DispatchQueue.global(qos: .utility).async { try? data.write(to: url, options: .atomic) }
         }
     }
 
     private func tick() {
         let now = nowMs()
         tickCount += 1
-        // Clear immediately when the user leaves the app; refresh selected chat every 0.5 s.
-        if NSWorkspace.shared.frontmostApplication?.processIdentifier != openChatProcessID {
+        // Expire stalled observations; changing foreground apps does not hide the other screen.
+        if now - openChatObservedAt > 4000 {
             router.openChatSession = nil
+            router.visibleChatSessions = []
         }
         if tickCount % 15 == 0 { refreshOpenChat() }
         if tickCount % 8 == 0 {
@@ -1898,6 +1950,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         case .language(let value):
             language = value
             updateStatusTitle()
+        case .browserChatPermission:
+            BrowserOpenChat.openPermissionSettings()
         case .toggleHidden:
             toggleHidden()
         case .resetPosition:

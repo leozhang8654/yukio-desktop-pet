@@ -137,17 +137,36 @@ public final class CodexSessionsSource {
     private var titles: [String: String] = [:]
     private var emittedTitles: [String: String] = [:]
     private var indexStamp: String?
+    private final class Metadata { var parents: [String: String] = [:] }
+    private let metadata: Metadata
 
 
     public init(sessionsDir: URL = CodexSessionsSource.defaultSessionsDir()) {
         self.sessionsDir = sessionsDir
+        let metadata = Metadata()
+        self.metadata = metadata
         tree = JSONLTreeSource(
             root: sessionsDir,
             // sessions/<年>/<月>/<日>/<文件>：多留一层，以后换目录结构也还能找到。
             maxDepth: 5,
             // 平时都是 rollout-….jsonl；将来改名了也照跟，反正这棵目录里只有会话记录。
             matches: { _ in true },
-            makeParser: { url in CodexRolloutParser(session: Self.sessionID(fromFileName: url.lastPathComponent)) },
+            makeParser: { url in
+                let parser = CodexRolloutParser(session: Self.sessionID(fromFileName: url.lastPathComponent))
+                // Tail replay skips the header of large files. Always load identity first,
+                // bounded to one MiB; only the first metadata line is parsed here.
+                if let handle = try? FileHandle(forReadingFrom: url) {
+                    defer { try? handle.close() }
+                    if let head = try? handle.read(upToCount: 1 << 20),
+                       let newline = head.firstIndex(of: 10),
+                       let row = try? JSONSerialization.jsonObject(with: head.prefix(upTo: newline)) as? [String: Any],
+                       row["type"] as? String == "session_meta" {
+                        _ = parser.events(from: row)
+                    }
+                }
+                if let parent = parser.parentSession { metadata.parents[parser.session] = parent }
+                return parser
+            },
             onGone: { name in
                 PetEvent(ts: 0, source: CodexRolloutParser.source,
                          session: Self.sessionID(fromFileName: name), kind: .taskAbort)
@@ -196,7 +215,9 @@ public final class CodexSessionsSource {
             }
         }
         for id in knownSessions.sorted() {
-            guard let title = titles[id], emittedTitles[id] != title else { continue }
+            let parentTitle = metadata.parents[id].flatMap { titles[$0] }
+            let resolved = titles[id] ?? parentTitle.map { "\($0) · " + tr("Helping", "协作中") }
+            guard let title = resolved, emittedTitles[id] != title else { continue }
             out.append(PetEvent(ts: now, source: CodexRolloutParser.source,
                                 session: id, kind: .sessionTitle, detail: title))
             emittedTitles[id] = title

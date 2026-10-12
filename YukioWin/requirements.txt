@@ -2,3 +2,4 @@
 pillow>=9.0
 
 velopack==1.2.161; sys_platform == "win32"
+uiautomation>=2.0,<3; sys_platform == "win32"

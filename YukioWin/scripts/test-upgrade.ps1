@@ -1,4 +1,6 @@
 $ErrorActionPreference = 'Stop'
+$expectedVersion = python -c "from yukio import __version__; print(__version__)"
+if ($LASTEXITCODE -ne 0 -or $expectedVersion -notmatch '^\d+\.\d+\.\d+$') { throw 'Cannot determine expected update version' }
 $test = Join-Path $PWD 'build/update-test'
 New-Item -ItemType Directory -Force $test | Out-Null
 function Run-Bounded($Exe, $Arguments, $Label) {
@@ -21,7 +23,7 @@ $setup = (Get-ChildItem build/update-baseline/*Setup.exe | Select-Object -First 
 Run-Bounded $setup @('--silent', '--installto', "`"$install`"") 'Baseline installation'
 $source = (Resolve-Path dist/releases).Path
 $report = Join-Path $test 'upgrade-result.json'
-Run-Bounded (Join-Path $install 'current/Yukio.exe') @('--update-smoke', "`"$source`"", "`"$report`"") 'Upgrade initiation'
+Run-Bounded (Join-Path $install 'current/Yukio.exe') @('--update-smoke', "`"$source`"", "`"$report`"", $expectedVersion) 'Upgrade initiation'
 $deadline = (Get-Date).AddMinutes(1)
 while (-not (Test-Path $report) -and (Get-Date) -lt $deadline) {
     if (Test-Path "$test/upgrade-result.error.txt") { Get-Content "$test/upgrade-result.error.txt"; throw 'Upgrade failed' }

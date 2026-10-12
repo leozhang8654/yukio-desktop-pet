@@ -21,6 +21,7 @@ public final class CodexRolloutParser {
 
     /// 会话 ID：先用文件名里的那个，读到 session_meta 就换成它写的。
     public private(set) var session: String
+    public private(set) var parentSession: String?
     /// item_completed 报了失败、还没等到对应的输出：下一条输出算失败。
     private var pendingFailure = false
     private var asyncQuestions: Set<String> = []
@@ -43,7 +44,12 @@ public final class CodexRolloutParser {
             ?? now
 
         if kind == "session_meta" {
-            if let id = (payload["session_id"] ?? payload["id"]) as? String, !id.isEmpty { session = id }
+            // A helper shares session_id with its parent; id identifies this worker.
+            if let id = (payload["id"] ?? payload["session_id"]) as? String, !id.isEmpty { session = id }
+            let source = payload["source"] as? [String: Any]
+            let subagent = source?["subagent"] as? [String: Any]
+            let spawn = subagent?["thread_spawn"] as? [String: Any]
+            parentSession = spawn?["parent_thread_id"] as? String
             return []
         }
         if session.isEmpty, let id = (payload["thread_id"] ?? payload["session_id"]) as? String { session = id }
@@ -52,12 +58,15 @@ public final class CodexRolloutParser {
 
         switch kind {
         // MARK: 一轮的开头与结尾（event_msg）
+        case "task_started":
+            return [ev(ts, .taskStart)]
+
         case "task_complete":
             asyncQuestions.removeAll()
             pendingFailure = false
             // 有回答才算答完：没有 last_agent_message 的一轮（被压缩、被接管）只算结束。
             let answered = (payload["last_agent_message"] as? String)?.isEmpty == false
-            return answered ? [ev(ts, .finalAnswer), ev(ts, .taskEnd)] : [ev(ts, .taskEnd)]
+            return answered && parentSession == nil ? [ev(ts, .finalAnswer), ev(ts, .taskEnd)] : [ev(ts, .taskEnd)]
 
         case "turn_aborted":
             asyncQuestions.removeAll()
@@ -113,7 +122,7 @@ public final class CodexRolloutParser {
     private func ev(_ ts: Double, _ kind: PetEvent.Kind, id: String? = nil, activity: PetState? = nil,
                     tool: String? = nil, detail: String? = nil, todos: [TodoItem]? = nil,
                     question: PetQuestion? = nil) -> PetEvent {
-        PetEvent(ts: ts, source: Self.source, session: session, kind: kind, eventID: id, activity: activity,
+        PetEvent(ts: ts, source: Self.source, session: session, kind: parentSession != nil && kind == .finalAnswer ? .thinking : kind, eventID: id, activity: activity,
                  tool: tool, detail: detail, todos: todos, question: question)
     }
 

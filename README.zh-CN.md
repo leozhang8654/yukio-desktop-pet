@@ -1,4 +1,4 @@
-> **0.4.2：回答确认后立即放下问题牌。** GPT 收到答案后，雪绪立刻收起对应的问号牌；发送失败时继续举牌，方便重试。[更新说明](docs/releases/0.4.2.md)。
+> **0.4.3：修复聊天放牌与协作任务工作显示。** Mac 可辨认双屏可见聊天；两版修复协助助手误举完成牌。[更新说明](docs/releases/0.4.3.md)。
 
 
 [English](README.md) · **简体中文**
@@ -22,9 +22,11 @@
 
 她认三家助手，在菜单「跟随的助手」里挑：**Claude Code**、**DeepSeek 的 [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)**、**GPT 的 [Codex](https://developers.openai.com/codex/)**（桌面版与命令行写的是同一份会话记录）。默认的**自动**三家一起跟，谁有话说就显示谁。两版都使用原生窗口，完全基于本机会话记录工作。
 
-## 0.4.2 更新
+## 0.4.3 更新
 
-- 右键打开的设置面板新增「退出雪绪」按钮，可直接关闭程序；「完成」仍只关闭设置面板。
+- Mac：聊天在任意一块屏幕露出时，放下对应完成牌；支持可识别的 App、网页和官方 GPT 插件聊天，静静阅读也不会十秒后失效。
+- 两版：协助助手完成自己的部分时，不再单独举完成牌；聊天名称及大记录重启后的识别保持一致。
+- 网页必须能对应到雪绪已跟随的聊天。Windows 本轮保留前台窗口识别方式，不宣称已有 Mac 的双屏遮挡判断。详见[识别范围和限制](docs/BROWSER-CHAT-VISIBILITY.md)。
 
 ### 近期更新
 
@@ -45,8 +47,8 @@
 
 | 你用的是 | 下载 | 怎么开 |
 | --- | --- | --- |
-| macOS 13 或更新（Apple 芯片与 Intel 通用） | [Yukio-0.4.2-macOS.dmg](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.2/Yukio-0.4.2-macOS.dmg) · [ZIP](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.2/Yukio-0.4.2-macOS.zip) | 打开 DMG，把 `Yukio.app` 拖进「应用程序」，第一次按下面放行一次 |
-| Windows 10 / 11（64 位） | [Yukio-0.4.2-Windows-Setup.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.2/Yukio-0.4.2-Windows-Setup.exe) | 双击安装，之后从新快捷方式打开；内置自动检查和一键更新 |
+| macOS 13 或更新（Apple 芯片与 Intel 通用） | [Yukio-0.4.3-macOS.dmg](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.3/Yukio-0.4.3-macOS.dmg) · [ZIP](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.3/Yukio-0.4.3-macOS.zip) | 打开 DMG，把 `Yukio.app` 拖进「应用程序」，第一次按下面放行一次 |
+| Windows 10 / 11（64 位） | [Yukio-0.4.3-Windows-Setup.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.3/Yukio-0.4.3-Windows-Setup.exe) | 双击安装，之后从新快捷方式打开；内置自动检查和一键更新 |
 
 <details>
 <summary><b>macOS 第一次打开：「Apple 无法验证“Yukio”是否包含可能危害 Mac 安全或泄漏隐私的恶意软件」</b></summary>
@@ -183,3 +185,5 @@ powershell -ExecutionPolicy Bypass -File scripts\build-exe.ps1    # 打出 dist\
 如果雪绪让你敲键盘的日子好过了一点，点个 ⭐ 能让更多人找到她。
 
 设置顶部新增大号 **取消举牌** 图标按钮，点击放下当前完成牌，不跳转聊天；之后新的任务完成仍会正常举牌提醒。
+
+网页、Chrome 扩展侧栏与 App 中打开对应聊天后自动放下完成牌，配置与支持范围见[浏览器聊天识别](docs/BROWSER-CHAT-VISIBILITY.md)。macOS 网页识别需在雪绪设置里启用辅助功能权限。
