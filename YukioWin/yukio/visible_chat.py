@@ -32,7 +32,7 @@ class VisibleChat:
             identity = None
             if url.scheme == 'https' and url.hostname == 'claude.ai':
                 provider = 'claude'
-                if len(path) == 2 and path[0] in ('chat', 'code'):
+                if len(path) == 2 and path[0] in ('chat', 'code', 'cowork', 'epitaxy'):
                     identity = path[1]
                 if len(path) == 3 and path[:2] == ['cic', 'task']:
                     identity = path[2]

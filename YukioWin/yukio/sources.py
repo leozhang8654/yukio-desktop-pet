@@ -22,6 +22,7 @@ from .parsers_claude import ClaudeTranscriptParser
 from .parsers_codex import CodexRolloutParser, session_id_from_file_name
 from .parsers_deepcode import DeepCodeIndexParser, DeepCodeMessageParser
 from .tailer import TailedFile
+from .l10n import tr
 
 MB = 1 << 20
 
@@ -260,6 +261,7 @@ class CodexSessionsSource:
         self._files: Dict[str, TailedFile] = {}
         self._parsers: Dict[str, CodexRolloutParser] = {}
         self._known_sessions = set()
+        self._parents = {}
         self._titles = {}
         self._emitted_titles = {}
         self._index_stamp = None
@@ -310,6 +312,10 @@ class CodexSessionsSource:
             pass
         for session in sorted(self._known_sessions):
             title = self._titles.get(session)
+            if not title:
+                parent_title = self._titles.get(self._parents.get(session))
+                if parent_title:
+                    title = parent_title + " · " + tr("Helping", "协作中")
             if title and self._emitted_titles.get(session) != title:
                 out.append(PetEvent(now, self.source, session, Kind.session_title, detail=title))
                 self._emitted_titles[session] = title
@@ -344,7 +350,19 @@ class CodexSessionsSource:
                 tail = (size - self.bootstrap_tail_bytes if size > self.bootstrap_tail_bytes else 0) if recent else size
                 file = TailedFile(path, offset=tail, skip_partial_line=bool(recent and tail > 0))
                 self._files[path] = file
-                self._parsers[path] = CodexRolloutParser(session_id_from_file_name(file_name))
+                parser = CodexRolloutParser(session_id_from_file_name(file_name))
+                self._parsers[path] = parser
+                try:
+                    with open(path, "rb") as stream:
+                        header = stream.readline(1 << 20)
+                    if header.endswith(b"\n"):
+                        row = json.loads(header)
+                        if isinstance(row, dict) and row.get("type") == "session_meta":
+                            parser.events(row, now)
+                except (OSError, ValueError):
+                    pass
+                if parser.parent_session:
+                    self._parents[parser.session] = parser.parent_session
                 if recent:
                     for obj in file.read_new() or []:
                         out += self._parsers[path].events_from_line(obj, fallback_ts=now)

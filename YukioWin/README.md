@@ -1,4 +1,4 @@
-> **0.4.2: Quit Yukio from right-click settings.** The new button exits the app normally. [Release notes](../docs/releases/0.4.2.md).
+> **0.4.3: Visible chats and helper activity.** macOS recognizes chats across displays; both platforms fix helper completion signs. [Release notes](../docs/releases/0.4.3.md).
 
 
 # Yukio desktop pet (Windows edition: DeepSeek, Claude or GPT)

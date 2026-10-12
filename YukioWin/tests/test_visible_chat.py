@@ -24,6 +24,8 @@ class VisibleChatTests(unittest.TestCase):
     def test_web_app_and_extension_documents(self):
         for path, provider in [(f'https://claude.ai/chat/{A}', 'claude'),
                                (f'https://claude.ai/code/{A}', 'claude'),
+                               (f'https://claude.ai/epitaxy/local_{A}', 'claude'),
+                               ('https://claude.ai/cowork/cse_0123456789', 'claude'),
                                ('https://claude.ai/cic/task/cse_0123456789', 'claude'),
                                (f'https://chatgpt.com/c/{A}', 'gpt'),
                                (f'https://chat.openai.com/c/{A}', 'gpt'),

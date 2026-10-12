@@ -1,4 +1,4 @@
-> **0.4.2: Quit from settings.** Right-click Yukio and choose **Quit Yukio** to close the app on macOS and Windows. [Release notes](docs/releases/0.4.2.md).
+> **0.4.3: Visible chats and helper activity.** macOS recognizes chats across displays; both platforms fix helper completion signs. [Release notes](docs/releases/0.4.3.md).
 
 
 **English** · [简体中文](README.zh-CN.md)
@@ -22,9 +22,11 @@
 
 She follows three families of agent, and you pick which one in her menu under **Assistant**: **Claude Code**, **DeepSeek's [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)**, and **GPT's [Codex](https://developers.openai.com/codex/)** (the desktop app and the CLI both write the same session logs). The default, **Auto**, follows all three at once and shows whichever chat has something to say. Both builds use native windows and work entirely from local session logs.
 
-## New in 0.4.2
+## New in 0.4.3
 
-- Added **Quit Yukio** to the right-click settings panel on macOS and Windows. **Done** still only closes settings.
+- macOS acknowledges matching tracked chats visible on either display, including supported app, web and official GPT extension views. Quiet reading no longer expires after ten seconds.
+- Both platforms keep helper activity separate from the parent task, suppress internal completion signs, and preserve identity and titles when restarting with large logs.
+- Web conversations must map to a tracked session. Windows retains foreground-window detection; this release does not claim macOS multi-display occlusion support on Windows. See [scope and limitations](docs/BROWSER-CHAT-VISIBILITY.md).
 
 ### Recent updates
 
@@ -49,8 +51,8 @@ Grab the file for your system from the [latest release](https://github.com/leozh
 
 | You use | Download | Then |
 | --- | --- | --- |
-| macOS 13 or newer (Apple silicon and Intel) | [Yukio-0.4.2-macOS.dmg](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.2/Yukio-0.4.2-macOS.dmg) · [ZIP](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.2/Yukio-0.4.2-macOS.zip) | Open the DMG and drag `Yukio.app` into Applications; allow it once (below) |
-| Windows 10 / 11, 64-bit | [Yukio-0.4.2-Windows-Setup.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.2/Yukio-0.4.2-Windows-Setup.exe) | Run Setup once, then use the new shortcut. Future updates install inside Yukio |
+| macOS 13 or newer (Apple silicon and Intel) | [Yukio-0.4.3-macOS.dmg](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.3/Yukio-0.4.3-macOS.dmg) · [ZIP](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.3/Yukio-0.4.3-macOS.zip) | Open the DMG and drag `Yukio.app` into Applications; allow it once (below) |
+| Windows 10 / 11, 64-bit | [Yukio-0.4.3-Windows-Setup.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.3/Yukio-0.4.3-Windows-Setup.exe) | Run Setup once, then use the new shortcut. Future updates install inside Yukio |
 
 <details>
 <summary><b>macOS says "Apple could not verify Yukio…"</b></summary>
