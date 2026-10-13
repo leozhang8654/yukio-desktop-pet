@@ -748,6 +748,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private var openChatBusy = false
     private let codexOpenChat = CodexOpenChat()
     private let claudeAnswerBridge = ClaudeQuestionBridge()
+    private let codexApprovalMonitor = CodexApprovalMonitor()
+    private let surfaceApprovalBridge = SurfaceApprovalBridge()
     private var deepSeekInstaller: Process?
     private var openChatObservedAt: Double = -.infinity
     private let defaults = UserDefaults.standard
@@ -1222,7 +1224,23 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             router.openChatSession = nil
             router.visibleChatSessions = []
         }
-        if tickCount % 15 == 0 { refreshOpenChat() }
+        if tickCount % 15 == 0 {
+            refreshOpenChat()
+            let sessions = router.sessionSummaries(now: now, quietWithinMs: 24 * 60 * 60 * 1000).filter {
+                router.sourceOfSession($0.id) == "codex" && !$0.id.hasPrefix("surface-")
+            }.map(\.id)
+            codexApprovalMonitor.poll(sessions: sessions, enabled: following && showQuestionCard && !petHidden) { [weak self] events in
+                guard let self else { return }
+                for event in events { self.router.ingest(event, now: nowMs()) }
+            }
+        }
+        if tickCount % 60 == 0 {
+            surfaceApprovalBridge.poll(enabled: following && showQuestionCard && !petHidden,
+                providers: provider == .auto ? ["gpt", "claude", "deepseek"] : [provider.rawValue]) { [weak self] events in
+                    guard let self else { return }
+                    for event in events { self.router.ingest(event, now: nowMs()) }
+                }
+        }
         if tickCount % 8 == 0 {
             // 约每 0.27 秒读一次会话记录。事件始终进入路由器；暂停跟随只影响显示。
             for e in feeds.poll(now: now) { router.ingest(e, now: min(e.ts, now)) }
@@ -1533,6 +1551,12 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     /// 点了一个选项：单选直接答出去，多选先记下来，写完（或按 ⏎）一起送。
     private func questionOptionPicked(_ i: Int) {
         guard let q = shownQuestion?.question, i < q.options.count else { return }
+        if q.isApproval {
+            let original = shownQuestion
+            guard let answer = ApprovalReview.answer(q), shownQuestion == original else { return }
+            sendAnswer(answer)
+            return
+        }
         guard q.multiSelect else {
             sendAnswer(q.options[i].label)
             return
@@ -1561,16 +1585,25 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             return
         }
         let owner = AgentProvider.owner(ofSource: router.sourceOfSession(pending.session) ?? "")
+        let titles = router.sessionSummaries(now: nowMs()).filter { router.sourceOfSession($0.id) == "codex" }.map { (id: $0.id, title: $0.title) }
         answersInFlight.insert(key)
         questionPresentation.setNotice(tr("Sending in background…", "正在后台回答…"), for: key)
         updateQuestion(now: nowMs(), immediate: true)
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             let result: Result<Void, Error>
             do {
-                switch owner {
+                if pending.callID.hasPrefix("surface-approval:") {
+                    guard let self else { throw CodexAnswerClient.Failure.unavailable }
+                    try self.surfaceApprovalBridge.send(session: pending.session, callID: pending.callID, question: pending.question, answer: text)
+                } else { switch owner {
                 case .gpt:
-                    try CodexAnswerClient().send(session: pending.session, callID: pending.callID,
-                                                 question: pending.question, answer: text)
+                    do {
+                        try CodexAnswerClient().send(session: pending.session, callID: pending.callID,
+                                                     question: pending.question, answer: text)
+                    } catch CodexAnswerClient.Failure.unavailable where !pending.question.isApproval {
+                        guard let self else { throw CodexAnswerClient.Failure.unavailable }
+                        try self.surfaceApprovalBridge.sendQuestion(session: pending.session, titles: titles, callID: pending.callID, question: pending.question, answer: text, provider: "gpt")
+                    }
                 case .claude:
                     try ClaudeQuestionBridge().send(session: pending.session, callID: pending.callID, answer: text)
                 case .deepseek:
@@ -1578,7 +1611,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
                     try ClaudeQuestionBridge().send(session: pending.session, callID: pending.callID, answer: text, provider: "deepseek")
                 default:
                     throw CodexAnswerClient.Failure.ambiguous
-                }
+                } }
                 result = .success(())
             } catch { result = .failure(error) }
             DispatchQueue.main.async {

@@ -33,7 +33,7 @@ a = Analysis(
     [os.path.join(ROOT, "run.py")],
     pathex=[ROOT],
     binaries=uia_binaries,
-    datas=[(ASSETS, "Assets")] + uia_datas,
+    datas=[(ASSETS, "Assets"), (os.path.join(REPO, "YukioPlayer", "integrations", "deepseek"), "integrations/deepseek")] + uia_datas,
     hiddenimports=uia_hiddenimports,
     hookspath=[],
     runtime_hooks=[],

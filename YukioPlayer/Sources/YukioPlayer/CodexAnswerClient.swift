@@ -8,11 +8,11 @@ final class CodexAnswerClient {
         case unavailable, protocolMismatch, expired, ambiguous, rejected(String)
         var errorDescription: String? {
             switch self {
-            case .unavailable: return tr("Codex connection unavailable · retry", "Codex 未连接 · 可重试")
-            case .protocolMismatch: return tr("Codex connection format changed", "Codex 接口格式已变化")
+            case .unavailable: return tr("Chat unavailable · open the chat", "暂时联系不上这条聊天 · 请打开聊天")
+            case .protocolMismatch: return tr("Chat connection needs an update", "聊天软件已变化 · 需要更新连接")
             case .expired: return tr("Question expired or already answered", "问题已结束或已回答")
             case .ambiguous: return tr("Answer this question in the chat", "此问题暂不支持后台回答")
-            case .rejected: return tr("Not confirmed · check before retrying", "未确认接收 · 核对后重试")
+            case .rejected: return tr("Delivery uncertain · check the chat", "尚未确认送达 · 请在聊天中核对")
             }
         }
     }
@@ -50,6 +50,9 @@ final class CodexAnswerClient {
     /// The mutation is constructed only from a freshly fetched question in this exact thread.
     static func submission(snapshot: [String: Any], session: String, callID: String,
                            question: PetQuestion, answer: String) throws -> (method: String, params: [String: Any]) {
+        if question.isApproval {
+            return try approvalSubmission(snapshot: snapshot, session: session, callID: callID, question: question, answer: answer)
+        }
         guard snapshot["id"] as? String == session else { throw Failure.protocolMismatch }
         let turns = try Self.turns(in: snapshot)
         guard let turn = turns.last(where: { $0["status"] as? String == "inProgress" }) else { throw Failure.expired }
@@ -101,6 +104,8 @@ final class CodexAnswerClient {
     }
 
     func send(session: String, callID: String, question: PetQuestion, answer: String) throws {
+        var dispatched = false
+        do {
         let connection = try Connection(path: socketPath)
         let ownerReply = try connection.request("thread-owner-discovery", params: ["hostId": "local", "conversationId": session])
         guard let owner = ownerReply["handledByClientId"] as? String else { throw Failure.unavailable }
@@ -108,6 +113,7 @@ final class CodexAnswerClient {
         defer { try? connection.follow(session: session, owner: owner, following: false) }
         let snapshot = try connection.snapshot(session: session, owner: owner)
         let submission = try Self.submission(snapshot: snapshot, session: session, callID: callID, question: question, answer: answer)
+        dispatched = true
         let response = try connection.request(submission.method, params: submission.params, target: owner)
         guard let result = response["result"] as? [String: Any] else { throw Failure.protocolMismatch }
         if submission.method == "thread-follower-steer-turn" {
@@ -119,12 +125,27 @@ final class CodexAnswerClient {
             _ = try connection.request("thread-follower-load-complete-history", params: ["conversationId": session], target: owner)
             let updated = try connection.snapshot(session: session, owner: owner)
             let turns = try Self.turns(in: updated)
-            let confirmed = turns.flatMap { $0["items"] as? [[String: Any]] ?? [] }.contains {
+            let confirmed = question.isApproval ? !(updated["requests"] as? [[String: Any]] ?? []).contains {
+                String(describing: $0["id"] ?? "") == String(describing: submission.params["requestId"] ?? "")
+            } : turns.flatMap { $0["items"] as? [[String: Any]] ?? [] }.contains {
                 String(describing: $0["requestId"] ?? "") == String(describing: submission.params["requestId"] ?? "")
                     && $0["completed"] as? Bool == true
             }
             guard confirmed else { throw Failure.rejected("unconfirmed") }
         }
+        } catch {
+            if dispatched { throw Failure.rejected("unconfirmed") }
+            throw error
+        }
+    }
+
+    func pendingApprovals(session: String) throws -> [Approval] {
+        let connection = try Connection(path: socketPath)
+        let reply = try connection.request("thread-owner-discovery", params: ["hostId": "local", "conversationId": session])
+        guard let owner = reply["handledByClientId"] as? String else { throw Failure.unavailable }
+        try connection.follow(session: session, owner: owner, following: true)
+        defer { try? connection.follow(session: session, owner: owner, following: false) }
+        return try Self.approvals(snapshot: connection.snapshot(session: session, owner: owner), session: session)
     }
 
     private final class Connection {

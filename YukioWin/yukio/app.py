@@ -67,6 +67,12 @@ class PetApp:
         from .codex_open_chat import CodexOpenChat
         from concurrent.futures import ThreadPoolExecutor
         self.codex_open_chat = CodexOpenChat()
+        from .answer_bridge import AnswerBridge
+        from .approval_monitor import ApprovalMonitor
+        self.answer_bridge = AnswerBridge()
+        self.approval_monitor = ApprovalMonitor()
+        from .surface_approval import SurfaceApprovalBridge
+        self.surface_approval_bridge = SurfaceApprovalBridge()
         self._open_chat_executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="yukio-focus")
         self._open_chat_future = None
         self._open_chat_pid = None
@@ -699,6 +705,14 @@ class PetApp:
         pending = self.shown_question
         if pending is None or index >= len(pending.question.options):
             return
+        if pending.question.approval:
+            self._ensure_assistant()
+            from .approval_review import present
+            def answer(text):
+                if self.shown_question == pending:
+                    self._send_answer(text)
+            present(self.assistant.root, pending.question, answer)
+            return
         if not pending.question.multi_select:
             self._send_answer(pending.question.options[index].label)
             return
@@ -749,14 +763,14 @@ class PetApp:
         if pending is None or not text:
             return
         is_codex = self.router.session_source(pending.session) == "codex"
-        if self.answer_notice is not None and not is_codex:
+        if self.answer_notice is not None and not (is_codex or pending.call_id.startswith(("yukio-", "surface-approval:"))):
             return
         if self.demo:
             self.answer_notice = tr("Demo only - nothing was sent", "模拟演示，不会真的送出")
             self.question_presentation.set_notice(question_key(pending), self.answer_notice)
             self._update_question(now_ms(), immediate=True)
             return
-        if is_codex:
+        if is_codex or pending.call_id.startswith(("yukio-", "surface-approval:")):
             self._send_codex_answer(pending, text)
             return
         url = self._chat_url(pending.session)
@@ -794,8 +808,10 @@ class PetApp:
         if key in self._codex_answers:
             return
         self.question_presentation.set_notice(key, tr("Sending in background…", "正在后台回答…"))
+        sender = (self.surface_approval_bridge.send if pending.call_id.startswith('surface-approval:') else
+                  self.answer_bridge.send if pending.call_id.startswith('yukio-') else send_answer)
         self._codex_answers[key] = self._answer_executor.submit(
-            send_answer, pending.session, pending.call_id, pending.question, text)
+            sender, pending.session, pending.call_id, pending.question, text)
         self._update_question(now_ms(), immediate=True)
 
     def _tick_codex_answers(self):
@@ -933,6 +949,16 @@ class PetApp:
                         self.router.ingest(e, min(e.ts, now))
                 except Exception:
                     traceback.print_exc()
+        providers = {'auto': ('claude', 'deepseek', 'gpt'), 'deepcode': ('deepseek',)}.get(self.settings.get('source'), (self.settings.get('source'),))
+        enabled = self.follow and self.show_question_card and not self.pet_hidden
+        if self.tick_count % POLL_EVERY_TICKS == 0:
+            for event in self.answer_bridge.poll(now, enabled, providers):
+                self.router.ingest(event, now)
+        sessions = [s.id for s in self.router.session_summaries(now, quiet_within_ms=86400000) if self.router.session_source(s.id) == 'codex' and not s.id.startswith('surface-')]
+        for event in self.approval_monitor.poll(sessions, now, enabled):
+            self.router.ingest(event, now)
+        for event in self.surface_approval_bridge.poll(now, enabled, providers):
+            self.router.ingest(event, now)
         self.router.tick(now)
 
         if self.demo:

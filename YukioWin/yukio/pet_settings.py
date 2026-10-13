@@ -19,6 +19,32 @@ class PetSettingsWindow:
         self.values = {}
         self.outside_click = OutsideClickDismissal(self.window)
 
+    def connect_claude(self):
+        try:
+            from .answer_setup import install_claude
+            install_claude()
+            messagebox.showinfo('Yukio', tr('Connected. Restart Claude Code to load the new hooks.', '已连接。请重启 Claude Code，使新连接生效。'), parent=self.window)
+        except Exception:
+            messagebox.showerror('Yukio', tr('Could not connect. Existing settings were preserved.', '连接失败，请重试。'), parent=self.window)
+
+    def connect_deepseek(self):
+        if getattr(self, '_setup_future', None) is not None:
+            return
+        from concurrent.futures import ThreadPoolExecutor
+        from .answer_setup import install_deepseek
+        self._setup_pool = ThreadPoolExecutor(max_workers=1)
+        self._setup_future = self._setup_pool.submit(install_deepseek)
+        def finish():
+            if not self._setup_future.done():
+                self.window.after(200, finish); return
+            try:
+                launcher = self._setup_future.result()
+                messagebox.showinfo('Yukio', tr('Connected. Start Deep Code with this launcher:', '已连接。今后通过这个入口启动 Deep Code：') + '\n' + str(launcher), parent=self.window)
+            except Exception as error:
+                messagebox.showerror('Yukio', str(error), parent=self.window)
+            self._setup_future = None; self._setup_pool.shutdown(wait=False)
+        self.window.after(200, finish)
+
     def present(self):
         self.refresh()
         self.window.deiconify()
@@ -49,9 +75,16 @@ class PetSettingsWindow:
         ttk.Label(self.body,text=tr('Size (50–200%)','大小（50–200%）')).pack(anchor='w',pady=(10,0))
         ttk.Scale(self.body,from_=0.5,to=2,value=self.app.scale,command=lambda v:self.app._set_scale(float(v))).pack(fill='x')
         row=ttk.Frame(self.body);row.pack(fill='x',pady=8)
-        source=ttk.Combobox(row,values=('auto','claude','deepcode','gpt'),state='readonly',width=12)
-        source.set(self.app.settings.get('source'));source.pack(side='left')
-        source.bind('<<ComboboxSelected>>',lambda _:self.app._set_source(source.get()))
+        connections = ttk.Menubutton(self.body, text=tr('Connect answers and approvals…', '连接回答与批准…'))
+        menu = tk.Menu(connections, tearoff=False)
+        menu.add_command(label='Claude Code', command=self.connect_claude)
+        menu.add_command(label='DeepSeek · Deep Code', command=self.connect_deepseek)
+        connections.configure(menu=menu); connections.pack(fill='x', pady=4)
+        source_codes=('auto','claude','deepcode','gpt')
+        source=ttk.Combobox(row,values=(tr('All assistants','全部助手'),'Claude','DeepSeek','GPT'),state='readonly',width=12)
+        selected=self.app.settings.get('source')
+        source.current(source_codes.index(selected) if selected in source_codes else 0);source.pack(side='left')
+        source.bind('<<ComboboxSelected>>',lambda _:self.app._set_source(source_codes[source.current()]))
         lang=ttk.Combobox(row,values=('English','中文'),state='readonly',width=12)
         lang.set('中文' if self.app.settings.get('language')=='zh' else 'English');lang.pack(side='right')
         def language(_):

@@ -17,10 +17,10 @@ class AnswerError(Exception):
     def __init__(self, code):
         self.code = code
         messages = {
-            'unavailable': ('Codex connection unavailable · retry', 'Codex 未连接 · 可重试'),
+            'unavailable': ('Chat unavailable · open the chat', '暂时联系不上这条聊天 · 请打开聊天'),
             'protocol': ('Codex connection format changed', 'Codex 接口格式已变化'),
             'expired': ('Question expired or already answered', '问题已结束或已回答'),
-            'rejected': ('Not confirmed · check before retrying', '未确认接收 · 核对后重试'),
+            'rejected': ('Delivery uncertain · check the chat', '尚未确认送达 · 请在聊天中核对'),
         }
         super().__init__(tr(*messages[code]))
 
@@ -51,6 +51,9 @@ def turns_in(snapshot):
 
 
 def submission(snapshot, session, call_id, question, answer):
+    if question.approval:
+        from .approvals import submission as approve
+        return approve(snapshot, session, call_id, question, answer)
     if snapshot.get('id') != session:
         raise AnswerError('protocol')
     turn = next((t for t in reversed(turns_in(snapshot)) if t.get('status') == 'inProgress'), None)
@@ -235,6 +238,7 @@ class Connection:
 
 def send_answer(session, call_id, question, answer, endpoint=None):
     connection = None
+    dispatched = False
     try:
         connection = Connection(endpoint)
         owner = connection.request('thread-owner-discovery', dict(hostId='local', conversationId=session)).get('handledByClientId')
@@ -244,6 +248,7 @@ def send_answer(session, call_id, question, answer, endpoint=None):
         try:
             state = connection.snapshot(session, owner)
             method, params = submission(state, session, call_id, question, answer)
+            dispatched = True
             result = connection.request(method, params, target=owner).get('result', {})
             if method == 'thread-follower-steer-turn':
                 if not isinstance(result.get('result', {}).get('turnId'), str):
@@ -253,8 +258,9 @@ def send_answer(session, call_id, question, answer, endpoint=None):
                     raise AnswerError('protocol')
                 connection.request('thread-follower-load-complete-history', dict(conversationId=session), target=owner)
                 updated = connection.snapshot(session, owner)
-                if not any(str(item.get('requestId')) == str(params['requestId']) and item.get('completed') is True
-                           for turn in turns_in(updated) for item in turn.get('items', [])):
+                confirmed = (not any(str(r.get('id')) == str(params['requestId']) for r in updated.get('requests', []))) if question.approval else any(str(item.get('requestId')) == str(params['requestId']) and item.get('completed') is True
+                           for turn in turns_in(updated) for item in turn.get('items', []))
+                if not confirmed:
                     raise AnswerError('rejected')
         finally:
             try:
@@ -264,9 +270,27 @@ def send_answer(session, call_id, question, answer, endpoint=None):
     except AnswerError:
         raise
     except (OSError, EOFError):
-        raise AnswerError('unavailable') from None
+        raise AnswerError('rejected' if dispatched else 'unavailable') from None
     except (KeyError, ValueError, TypeError, AttributeError):
         raise AnswerError('protocol') from None
     finally:
         if connection:
+            connection.close()
+
+
+def pending_approvals(session, endpoint=None):
+    from .approvals import pending
+    connection = Connection(endpoint, timeout=5)
+    owner = None
+    try:
+        owner = connection.request('thread-owner-discovery', dict(hostId='local', conversationId=session)).get('handledByClientId')
+        if not owner:
+            raise AnswerError('unavailable')
+        connection.follow(session, owner, True)
+        return pending(connection.snapshot(session, owner), session)
+    finally:
+        try:
+            if owner:
+                connection.follow(session, owner, False)
+        finally:
             connection.close()

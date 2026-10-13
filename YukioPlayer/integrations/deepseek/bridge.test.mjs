@@ -38,3 +38,40 @@ test('tool authorization and answered or unrelated messages are never treated as
 test('missing listener leaves the normal CLI question untouched', async () => {
   const m=fixture();assert.equal(await answerPending(m,pendingQuestion(m,'s'),{root:'/nonexistent/yukio-test'}),false);assert.equal(m.calls,0);
 });
+
+test('approval allows only current batch once; deny never resumes execution', async () => {
+  const {pendingApproval, ALLOW, DENY} = await import('./bridge.mjs');
+  for (const answer of [ALLOW, DENY]) {
+    const root = await fs.mkdtemp(path.join(os.tmpdir(),'yukio-approval-test-'));
+    try {
+      await fs.writeFile(path.join(root,'listener-deepseek'),String(process.pid));
+      const entry={status:'ask_permission',planMode:true,askPermissions:[{toolCallId:'a',name:'Bash',command:'echo 中文',scopes:['shell']}]};
+      let called=0;
+      const manager={getSession:()=>entry, denySessionPermission:()=>{called++;entry.status='permission_denied';},
+        replySession:(_,prompt)=>{called++;assert.deepEqual(prompt.permissions,[{toolCallId:'a',permission:'allow'}]);assert.equal(prompt.alwaysAllows,undefined);assert.equal(prompt.planMode,true);entry.status='pending';entry.askPermissions=[];return Promise.resolve();}};
+      const work=answerPending(manager,pendingApproval(manager,'s'),{root,timeoutMs:1500});
+      let dir;
+      for(let i=0;i<60;i++){dir=(await fs.readdir(root)).find(n=>n!=='listener-deepseek');if(dir)break;await pause(10);}
+      assert.ok(dir);await fs.writeFile(path.join(root,dir,'answer-0.json'),JSON.stringify(answer));
+      assert.equal(await work,true);assert.equal(called,1);
+      assert.equal(JSON.parse(await fs.readFile(path.join(root,dir,'receipt-0.json'),'utf8')),answer);
+    }finally{await fs.rm(root,{recursive:true,force:true});}
+  }
+});
+test('changed permission batch and free text cannot authorize execution', async () => {
+  const {pendingApproval, ALLOW} = await import('./bridge.mjs');
+  const root=await fs.mkdtemp(path.join(os.tmpdir(),'yukio-stale-approval-'));
+  try {
+    await fs.writeFile(path.join(root,'listener-deepseek'),String(process.pid));
+    const entry={status:'ask_permission',askPermissions:[{toolCallId:'a',command:'echo test',scopes:[]}]};
+    let called=0;const m={getSession:()=>entry,replySession:()=>{called++;}};
+    const original=pendingApproval(m,'s');const work=answerPending(m,original,{root,timeoutMs:500});
+    let dir;for(let i=0;i<40;i++){dir=(await fs.readdir(root)).find(n=>n!=='listener-deepseek');if(dir)break;await pause(10);}
+    await fs.writeFile(path.join(root,dir,'answer-0.json'),JSON.stringify('yes'));
+    await pause(130);assert.equal(called,0);
+    entry.askPermissions[0].command='different operation';
+    await fs.writeFile(path.join(root,dir,'answer-0.json'),JSON.stringify(ALLOW));
+    assert.equal(await work,false);assert.equal(called,0);
+    entry.askPermissions[0].scopes='bad';assert.equal(pendingApproval(m,'s'),null);
+  }finally{await fs.rm(root,{recursive:true,force:true});}
+});

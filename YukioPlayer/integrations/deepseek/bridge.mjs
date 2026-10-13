@@ -1,9 +1,9 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
-import { randomUUID } from 'node:crypto';
+import { randomUUID, createHash } from 'node:crypto';
 
-export const defaultRoot = process.env.YUKIO_ANSWER_BRIDGE_DIR || path.join(os.homedir(), 'Library/Application Support/YukioPlayer/answers');
+export const defaultRoot = process.env.YUKIO_ANSWER_BRIDGE_DIR || (process.platform === 'win32' ? path.join(process.env.LOCALAPPDATA || path.join(os.homedir(), 'AppData/Local'), 'Yukio/answers') : path.join(os.homedir(), 'Library/Application Support/YukioPlayer/answers'));
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 async function read(file) { try { return JSON.parse(await fs.readFile(file, 'utf8')); } catch { return null; } }
 async function write(file, value) {
@@ -28,6 +28,21 @@ export function pendingQuestion(manager, session) {
   }
   return null;
 }
+export const ALLOW = '允许这一次 / Allow once';
+export const DENY = '拒绝 / Deny';
+export function pendingApproval(manager, session) {
+  const entry = manager.getSession(session);
+  const requests = entry?.askPermissions;
+  if (entry?.status !== 'ask_permission' || !Array.isArray(requests) || !requests.length ||
+      requests.some(r => typeof r.toolCallId !== 'string' || !r.toolCallId || typeof r.command !== 'string' || !Array.isArray(r.scopes) || r.scopes.some(s => typeof s !== 'string')) ||
+      new Set(requests.map(r => r.toolCallId)).size !== requests.length) return null;
+  const snapshot = JSON.stringify(requests);
+  if (Buffer.byteLength(snapshot) > 60000) return null;
+  return {session, callID: 'approval:' + createHash('sha256').update(snapshot).digest('hex'), approval: true,
+    permissions: requests.map(r => ({toolCallId: r.toolCallId, permission: 'allow'})),
+    questions: [{question: requests.map(r => `${r.description || r.name}\n${r.command}\n申请范围：${r.scopes.join(', ')}`).join('\n\n'),
+      header: 'DeepSeek · 等你批准 / Approval', options: [ALLOW, DENY]}]};
+}
 export function formatAnswers(questions, answers) {
   const clean = s => s.replace(/\s+/g, ' ').trim();
   return [`Questions ${questions.length}/${questions.length} answered`, ...questions.flatMap((q, i) => [` - ${clean(q.question)}`, `   answer: ${clean(answers[i])}`])].join('\n');
@@ -46,24 +61,44 @@ export async function answerPending(manager, pending, {root = defaultRoot, timeo
   await write(path.join(dir, 'request.json'), {
     provider: 'deepseek', id, session: pending.session, callID: pending.callID,
     pid: process.pid, createdAt: started, expiresAt: started + timeoutMs,
-    questions: pending.questions.map(q => ({text: q.question, header: q.header || null, multiSelect: !!q.multiSelect,
+    questions: pending.questions.map(q => ({approval: !!pending.approval, text: q.question, header: q.header || null, multiSelect: !!q.multiSelect,
       options: (q.options || []).map(o => ({label: typeof o === 'string' ? o : o.label, detail: o.description || null}))}))
   });
   const answers = [];
   try {
     while (!signal?.aborted && Date.now() - started < timeoutMs) {
-      const current = pendingQuestion(manager, pending.session);
+      const current = pending.approval ? pendingApproval(manager, pending.session) : pendingQuestion(manager, pending.session);
       if (current?.callID !== pending.callID) return false;
       try { if (Date.now() - (await fs.stat(listener)).mtimeMs > 5000) return false; } catch { return false; }
       for (let i = 0; i < pending.questions.length; i++) {
         if (answers[i]) continue;
         const answer = await read(path.join(dir, `answer-${i}.json`));
         if (typeof answer !== 'string' || !answer.trim() || Buffer.byteLength(answer) > 65536) continue;
+        if (pending.approval && answer !== ALLOW && answer !== DENY) continue;
         answers[i] = answer;
         // Partial receipt advances the card. The last answer requires a saved model input.
         if (i < pending.questions.length - 1) await write(path.join(dir, `receipt-${i}.json`), answer);
       }
       if (pending.questions.every((_, i) => answers[i])) {
+        if (pending.approval) {
+          // Re-check immediately before the synchronous invocation; terminal replies win races.
+          if (pendingApproval(manager, pending.session)?.callID !== pending.callID) return false;
+          if (answers[0] === DENY) {
+            manager.denySessionPermission(pending.session);
+            if (manager.getSession(pending.session)?.status !== 'permission_denied') return false;
+          } else {
+            let failure;
+            const execution = Promise.resolve(manager.replySession(pending.session, {
+              text: '/continue', command: 'continue', imageUrls: [], permissions: pending.permissions,
+              planMode: !!manager.getSession(pending.session)?.planMode
+            })).catch(error => { failure = error; });
+            // replySession synchronously consumes this exact permission batch before its first await.
+            if (pendingApproval(manager, pending.session)?.callID === pending.callID || failure) return false;
+            void execution;
+          }
+          await write(path.join(dir, 'receipt-0.json'), answers[0]);
+          return true;
+        }
         const text = formatAnswers(pending.questions, answers);
         let failure;
         const execution = Promise.resolve(manager.replySession(pending.session, {text, imageUrls: [], isAnswers: true, planMode: !!manager.getSession(pending.session)?.planMode})).catch(error => { failure = error; });
@@ -94,7 +129,7 @@ export function attachYukioAnswers(manager, options = {}) {
   const timer = setInterval(async () => {
     if (busy || controller.signal.aborted) return;
     const session = manager.getActiveSessionId();
-    const pending = session && pendingQuestion(manager, session);
+    const pending = session && (pendingApproval(manager, session) || pendingQuestion(manager, session));
     if (!pending) return;
     busy = true;
     try { await answerPending(manager, pending, {...options, signal: controller.signal}); }

@@ -47,6 +47,7 @@ struct QuestionCardLayout {
     /// 已经答过、等她接着干活时那行字。
     let sentNotice: String?
     let isSending: Bool
+    let isApproval: Bool
     let header: String?
     /// 折过行、必要时截断过的问题正文。
     let question: String
@@ -73,6 +74,7 @@ struct QuestionCardLayout {
     init(_ q: PetQuestion, picked: Set<Int> = [], canOpenChat: Bool = true, sentNotice: String? = nil, isSending: Bool = false) {
         self.sentNotice = sentNotice
         self.isSending = isSending
+        self.isApproval = q.isApproval
         self.multiSelect = q.multiSelect
         self.picked = picked
         self.canOpenChat = canOpenChat
@@ -151,7 +153,7 @@ struct QuestionCardLayout {
         guard bounds.contains(point) else { return nil }
         if r(Self.closeRect(NSRect(origin: .zero, size: size))).contains(point) { return .close }
         for (i, rect) in optionRects.enumerated() where !isSending && r(rect).contains(point) { return .option(i) }
-        if !isSending {
+        if !isSending && !isApproval {
             if r(inputRect).contains(point) { return .input }
             if r(sendRect).contains(point) { return .send }
         }
@@ -192,10 +194,13 @@ struct QuestionCardLayout {
         if let notice = sentNotice {
             CardLook.draw(notice, Self.optionFont, CardLook.accent, in: r(noticeRect))
         }
-        drawInput(in: r(inputRect))
-        drawSend(in: r(sendRect))
+        if !isApproval {
+            drawInput(in: r(inputRect))
+            drawSend(in: r(sendRect))
+        }
 
         var hint = multiSelect ? tr("Pick any, ⏎ to send", "可多选，⏎ 送出") : tr("Click an option or type ⏎", "点选项，或打字 ⏎")
+        if isApproval { hint = tr("Click to review full request", "点击查看完整申请并选择") }
         if hiddenOptions > 0 { hint = tr("\(hiddenOptions) more in the chat", "还有 \(hiddenOptions) 个选项在聊天里") }
         if sentNotice != nil { hint = isSending ? tr("Waiting for receipt", "等待接收确认") : tr("Click or type to retry", "可重选或输入后重试") }
         let hintRectOnScreen = r(hintRect)

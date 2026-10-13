@@ -77,6 +77,12 @@ jobs:
           PYTHONPATH: .
         run: python tests/test_codex_answer.py --exe dist/Yukio/Yukio.exe
 
+      - name: Packaged Claude approval hook round trip
+        working-directory: YukioWin
+        env:
+          PYTHONPATH: .
+        run: python scripts/check-packaged-hook.py dist/Yukio/Yukio.exe
+
       - name: Compact settings, lower-sign button and outside-click dismissal in the packaged exe
         working-directory: YukioWin
         run: powershell -ExecutionPolicy Bypass -File scripts/smoke-assistant.ps1 -Exe dist/Yukio/Yukio.exe

@@ -100,22 +100,23 @@ class PetQuestion:
     与 macOS 版 `YukioCore/PetQuestion.swift` 同形。
     """
 
-    __slots__ = ("header", "text", "options", "multi_select")
+    __slots__ = ("header", "text", "options", "multi_select", "approval")
 
     def __init__(self, text: str, header: Optional[str] = None,
-                 options: Optional[List[QuestionOption]] = None, multi_select: bool = False):
+                 options: Optional[List[QuestionOption]] = None, multi_select: bool = False, approval: bool = False):
         #: 问题的小标题（AskUserQuestion 的 header），没有时 None。
         self.header = header
         self.text = text
         self.options: List[QuestionOption] = list(options or [])
         #: 可以多选：送回去时把选中的几项连起来。
         self.multi_select = bool(multi_select)
+        self.approval = bool(approval)
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, PetQuestion):
             return NotImplemented
-        return ((self.header, self.text, self.options, self.multi_select)
-                == (other.header, other.text, other.options, other.multi_select))
+        return ((self.header, self.text, self.options, self.multi_select, self.approval)
+                == (other.header, other.text, other.options, other.multi_select, other.approval))
 
     def __repr__(self) -> str:
         return "PetQuestion(%r, %d 个选项)" % (self.text, len(self.options))

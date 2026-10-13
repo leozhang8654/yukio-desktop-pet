@@ -8,6 +8,13 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 if __name__ == "__main__":
     try:
+        if sys.argv[1:] == ["--claude-answer-hook"]:
+            from yukio.hook_stdio import run
+            sys.exit(run())
+        if sys.argv[1:] == ["--connect-claude-answers"]:
+            from yukio.answer_setup import install_claude
+            install_claude()
+            sys.exit(0)
         if sys.platform == "win32" and getattr(sys, "frozen", False):
             import velopack
             velopack.App().set_auto_apply_on_startup(False).run()

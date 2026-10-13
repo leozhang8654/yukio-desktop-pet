@@ -18,6 +18,7 @@ final class AnswerCardCheck {
         panel.cardView.card = QuestionCardLayout(question, canOpenChat: false)
         panel.setFrame(NSRect(origin: NSPoint(x: 200, y: 250), size: panel.cardView.card!.size), display: true)
         panel.cardView.onOption = { [weak self] index in self?.send(self!.question.options[index].label) }
+        panel.cardView.onActivate = { [weak self] in self?.panel.makeKeyAndOrderFront(nil); self?.panel.cardView.focusField() }
         panel.cardView.onSend = { [weak self] text in self?.send(text) }
         panel.cardView.onClose = { NSApp.terminate(nil) }
         panel.orderFrontRegardless()

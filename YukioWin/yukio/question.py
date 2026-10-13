@@ -179,7 +179,7 @@ class QuestionCardLayout:
             y += GAP * s - OPTION_GAP * s
 
         self._notice_rect = None
-        if not self.is_sending:
+        if not self.is_sending and not question.approval:
             self._input_rect = (PAD_X * s, y, inner_w - SEND_WIDTH * s - 4 * s, INPUT_HEIGHT * s)
             self._send_rect = (width - PAD_X * s - SEND_WIDTH * s, y, SEND_WIDTH * s, INPUT_HEIGHT * s)
             self._notice_rect = None
@@ -270,6 +270,8 @@ class QuestionCardLayout:
 
         if self.is_sending:
             hint = tr("Check the chat", "请到聊天中确认")
+        elif self.question.approval:
+            hint = tr("Click to review full request", "点击查看完整申请并选择")
         elif self.hidden_options > 0:
             hint = tr("%d more in the chat", "还有 %d 个选项在聊天里") % self.hidden_options
         elif self.question.multi_select:

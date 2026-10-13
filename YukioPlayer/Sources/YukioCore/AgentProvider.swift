@@ -26,9 +26,9 @@ public enum AgentProvider: String, CaseIterable, Sendable {
     public var displayName: String {
         switch self {
         case .auto: return tr("Auto (whoever is working)", "自动（谁在干活跟谁）")
-        case .claude: return tr("Claude Code", "Claude Code")
-        case .deepseek: return tr("DeepSeek (Deep Code)", "DeepSeek（Deep Code）")
-        case .gpt: return tr("GPT (Codex)", "GPT（Codex）")
+        case .claude: return "Claude"
+        case .deepseek: return "DeepSeek"
+        case .gpt: return "GPT"
         }
     }
 

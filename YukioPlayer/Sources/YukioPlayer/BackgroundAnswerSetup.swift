@@ -25,6 +25,15 @@ enum BackgroundAnswerSetup {
         pre.removeAll { ($0["hooks"] as? [Any])?.isEmpty == true }
         pre.append(["matcher": "AskUserQuestion", "hooks": [["type": "command", "command": quoted, "timeout": 600]]])
         hooks["PreToolUse"] = pre
+        var permissions = hooks["PermissionRequest"] as? [[String: Any]] ?? []
+        for index in permissions.indices {
+            var commands = permissions[index]["hooks"] as? [[String: Any]] ?? []
+            commands.removeAll { ($0["command"] as? String)?.contains("YukioAnswerBridge' --claude-answer-hook") == true }
+            permissions[index]["hooks"] = commands
+        }
+        permissions.removeAll { ($0["hooks"] as? [Any])?.isEmpty == true }
+        permissions.append(["matcher": "*", "hooks": [["type": "command", "command": quoted, "timeout": 600]]])
+        hooks["PermissionRequest"] = permissions
         result["hooks"] = hooks
         return result
     }
