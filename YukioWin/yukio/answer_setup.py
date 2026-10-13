@@ -12,12 +12,15 @@ def hook_command(executable):
     # PowerShell receives an encoded script; paths never become shell syntax.
     exe = str(executable).replace("'", "''")
     args = '--claude-answer-hook' if getattr(sys, 'frozen', False) else '"' + str(Path(__file__).resolve().parents[1] / 'run.py') + '" --claude-answer-hook'
-    script = (f"$p=New-Object System.Diagnostics.Process;$p.StartInfo.FileName='{exe}';"
+    script = ("[Console]::InputEncoding=[System.Text.UTF8Encoding]::new($false);"
+              "[Console]::OutputEncoding=[System.Text.UTF8Encoding]::new($false);"
+              f"$p=New-Object System.Diagnostics.Process;$p.StartInfo.FileName='{exe}';"
               f"$p.StartInfo.Arguments='{args.replace(chr(39), chr(39)*2)}';"
               "$p.StartInfo.UseShellExecute=$false;$p.StartInfo.CreateNoWindow=$true;"
               "$p.StartInfo.RedirectStandardInput=$true;$p.StartInfo.RedirectStandardOutput=$true;"
               "$p.StartInfo.StandardOutputEncoding=[System.Text.Encoding]::UTF8;"
-              "$null=$p.Start();$p.StandardInput.Write([Console]::In.ReadToEnd());$p.StandardInput.Close();"
+              "$null=$p.Start();$bytes=[System.Text.Encoding]::UTF8.GetBytes([Console]::In.ReadToEnd());"
+              "$p.StandardInput.BaseStream.Write($bytes,0,$bytes.Length);$p.StandardInput.Close();"
               "[Console]::Out.Write($p.StandardOutput.ReadToEnd());$p.WaitForExit();exit $p.ExitCode")
     return 'powershell.exe -NoProfile -NonInteractive -EncodedCommand ' + base64.b64encode(script.encode('utf-16le')).decode()
 
