@@ -46,7 +46,7 @@ final class SurfaceApprovalBridge {
             count += 1
             guard count <= 160, depth <= 14, ProcessInfo.processInfo.systemUptime < deadline else { contentComplete = false; return nil }
             if value(node, "AXHidden") as? Bool == true { continue }
-            let role = value(node, kAXRoleAttribute) as? String ?? ""
+            guard let role = value(node, kAXRoleAttribute) as? String else { contentComplete = false; return nil }
             if role == kAXButtonRole {
                 let text = label(node)
                 guard value(node, kAXEnabledAttribute) as? Bool != false else { continue }
@@ -164,7 +164,7 @@ extension SurfaceApprovalBridge {
             count += 1
             guard count <= 100, depth < 15, ProcessInfo.processInfo.systemUptime < deadline else { contentComplete = false; return nil }
             if value(node, "AXHidden") as? Bool == true { continue }
-            let role = value(node, kAXRoleAttribute) as? String ?? ""
+            guard let role = value(node, kAXRoleAttribute) as? String else { contentComplete = false; return nil }
             if [kAXTextFieldRole, kAXTextAreaRole].contains(role) {
                 if value(node, kAXEnabledAttribute) as? Bool != false { fields.append(node) }
                 continue

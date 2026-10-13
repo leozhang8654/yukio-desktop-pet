@@ -33,7 +33,12 @@ def pending(snapshot, session):
         body = json.dumps(dict(request=request, details=details), sort_keys=True, ensure_ascii=False).encode()
         if len(body) >= 65536:
             continue
-        q = question('GPT', json.dumps(details, ensure_ascii=False, sort_keys=True, indent=2))
+        display = {k:v for k,v in details.items() if k not in ('threadId','turnId','itemId','availableDecisions')}
+        sections = [{'item/fileChange/requestApproval':'GPT 申请修改文件', 'item/permissions/requestApproval':'GPT 申请临时访问权限'}.get(request['method'], 'GPT 申请运行以下操作')]
+        for key, title in [('reason','申请原因'),('cwd','操作位置'),('command','具体操作')]:
+            if isinstance(display.get(key), str): sections.append(title + '：\n' + display.pop(key))
+        if display: sections.append('申请详情：\n' + json.dumps(display, ensure_ascii=False, sort_keys=True, indent=2))
+        q = question('GPT', '\n\n'.join(sections))
         if 'availableDecisions' in p and 'accept' not in p['availableDecisions']:
             q.options = [QuestionOption(DENY)]
         result.append(('codex-approval:' + hashlib.sha256(body).hexdigest(), q, request))

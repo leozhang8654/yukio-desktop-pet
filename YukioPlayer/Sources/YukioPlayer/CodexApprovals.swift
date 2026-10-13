@@ -31,8 +31,17 @@ extension CodexAnswerClient {
             let data = try JSONSerialization.data(withJSONObject: ["request": request, "details": details], options: [.sortedKeys, .withoutEscapingSlashes])
             guard data.count < 65536 else { return nil }
             let key = "codex-approval:" + SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
-            let display = try JSONSerialization.data(withJSONObject: details, options: [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes])
-            var q = ApprovalQuestion.make(provider: "GPT", details: String(decoding: display, as: UTF8.self))
+            var displayDetails = details
+            for key in ["threadId", "turnId", "itemId", "availableDecisions"] { displayDetails.removeValue(forKey: key) }
+            var sections: [String] = [method == "item/fileChange/requestApproval" ? "GPT 申请修改文件" : method == "item/permissions/requestApproval" ? "GPT 申请临时访问权限" : "GPT 申请运行以下操作"]
+            for (key, title) in [("reason", "申请原因"), ("cwd", "操作位置"), ("command", "具体操作")] {
+                if let text = displayDetails[key] as? String { sections.append("\(title)：\n\(text)"); displayDetails.removeValue(forKey: key) }
+            }
+            if !displayDetails.isEmpty {
+                let display = try JSONSerialization.data(withJSONObject: displayDetails, options: [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes])
+                sections.append("申请详情：\n" + String(decoding: display, as: UTF8.self))
+            }
+            var q = ApprovalQuestion.make(provider: "GPT", details: sections.joined(separator: "\n\n"))
             if let decisions = p["availableDecisions"] as? [Any], !decisions.contains(where: { $0 as? String == "accept" }) {
                 q = PetQuestion(header: q.header, text: q.text, options: [.init(label: ApprovalQuestion.deny)])
                 q.approval = true

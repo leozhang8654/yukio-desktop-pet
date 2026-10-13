@@ -27,7 +27,7 @@ final class QuestionPanel: NSPanel {
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
         // Accessory panels may exist before the assistant window installs an Edit menu.
         // Route standard shortcuts to this field editor, never to another application's editor.
-        if event.modifierFlags.intersection(.deviceIndependentFlagsMask) == .command,
+        if event.modifierFlags.intersection([.command, .control, .option, .shift]) == .command,
            let editor = firstResponder as? NSTextView, editor.isEditable {
             switch event.charactersIgnoringModifiers?.lowercased() {
             case "v": editor.paste(nil); return true
