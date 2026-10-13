@@ -25,3 +25,7 @@ The reported screenshot came from a GPT extension conversation that was not owne
 - Ordinary Claude desktop chat is not covered merely by installing Claude Code hooks. Deep Code requires the isolated adapter launcher.
 - Windows native tests confirm the packaged local helper and UI on a runner, not logged-in GPT/Claude/DeepSeek products, a physical Windows multi-monitor setup, or all scaling configurations.
 - Desktop installation and public release must be verified separately. A feature branch or successful build alone is not a completed update.
+
+## Installed candidate follow-up
+
+Source `3d25d00` passed [final native Windows run 38329725138](https://github.com/leozhang8654/yukio-desktop-pet/actions/runs/38329725138), including all 270 tests, upgrade, packaged replies/hooks, settings, 100% and 150% rendering. The copied macOS Claude helper originally failed to load Sparkle; installation now includes that signed framework. The installed helper then passed Chinese allow/deny round trips and repeat installation. The running desktop candidate also displayed a real question-mark pose and allow/deny card for a clearly labeled display-only fixture, which was removed afterward. Desktop and ZIP executable hashes matched. Website/extension end-to-end approval remains unverified; public stable release is still 0.4.3.
