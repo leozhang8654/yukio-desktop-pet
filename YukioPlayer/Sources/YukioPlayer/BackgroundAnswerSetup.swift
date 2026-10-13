@@ -63,6 +63,17 @@ enum BackgroundAnswerSetup {
         try fm.createDirectory(at: support, withIntermediateDirectories: true, attributes: [.posixPermissions: 0o700])
         guard let executable = Bundle.main.executableURL else { throw Failure.unavailable }
         let helper = support.appendingPathComponent("YukioAnswerBridge")
+        // The copied executable still links Sparkle through @executable_path.
+        // Install its signed dependency before publishing the new helper/config.
+        guard let frameworks = Bundle.main.privateFrameworksURL else { throw Failure.unavailable }
+        let sparkle = frameworks.appendingPathComponent("Sparkle.framework")
+        guard fm.fileExists(atPath: sparkle.path) else { throw Failure.unavailable }
+        let staged = support.appendingPathComponent(".Sparkle-staged-" + UUID().uuidString)
+        try fm.copyItem(at: sparkle, to: staged)
+        let installed = support.appendingPathComponent("Sparkle.framework")
+        if fm.fileExists(atPath: installed.path) {
+            _ = try fm.replaceItemAt(installed, withItemAt: staged)
+        } else { try fm.moveItem(at: staged, to: installed) }
         // Atomic replacement; an existing running hook keeps its original inode.
         try Data(contentsOf: executable).write(to: helper, options: .atomic)
         try fm.setAttributes([.posixPermissions: 0o700], ofItemAtPath: helper.path)
