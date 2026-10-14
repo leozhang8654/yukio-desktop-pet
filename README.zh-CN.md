@@ -1,6 +1,4 @@
-> **0.4.6 修复候选**：修复插件聊天入口与切回聊天自动放牌。见[说明](docs/releases/0.4.6.md)。下方正式下载链接保持原版本。
-
-> **0.4.5：千夏皮肤与专用拖动站姿。** 在设置中切换雪绪／千夏；新增默认开启的待机隐身，并修复批准申请与回答框粘贴。[更新说明](docs/releases/0.4.5.md)。
+> **0.4.6**：GPT 插件聊天对应原 Chrome 标签页，看到对应聊天时自动放下完成牌。包含千夏、待机隐身、批准申请与粘贴修复。[更新说明与测试范围](docs/releases/0.4.6.md)。
 
 [English](README.md) · **简体中文**
 
@@ -23,7 +21,9 @@
 
 她认三家助手，在菜单「跟随的助手」里挑：**Claude Code**、**DeepSeek 的 [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)**、**GPT 的 [Codex](https://developers.openai.com/codex/)**（桌面版与命令行写的是同一份会话记录）。默认的**自动**三家一起跟，谁有话说就显示谁。两版都使用原生窗口，完全基于本机会话记录工作。
 
-## 0.4.5 更新
+## 0.4.6 更新
+
+- 对应聊天显示后放下完成牌，不会自动回答或批准。GPT 官方 Chrome 插件记住原浏览器标签页，修复全屏重复标签和较早聊天名称遗漏。[实际检查范围](docs/validation/plugin-signs-0.4.6.md)。
 
 - 在「设置 → 显示 → 皮肤」切换雪绪或千夏，立即生效并记住选择。千夏包含 12 种动作、独立眨眼和专用拖动站姿。
 - 拎起时摆动，松手后恢复当前动作；修复 Mac 连续拖动后的落点偏移。
@@ -49,8 +49,8 @@
 
 | 你用的是 | 下载 | 怎么开 |
 | --- | --- | --- |
-| macOS 13 或更新（Apple 芯片与 Intel 通用） | [Yukio-0.4.5-macOS.dmg](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.5/Yukio-0.4.5-macOS.dmg) · [ZIP](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.5/Yukio-0.4.5-macOS.zip) | 打开 DMG，把 `Yukio.app` 拖进「应用程序」，第一次按下面放行一次 |
-| Windows 10 / 11（64 位） | [Yukio-0.4.5-Windows-Setup.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.5/Yukio-0.4.5-Windows-Setup.exe) | 双击安装，之后从新快捷方式打开；内置自动检查和一键更新 |
+| macOS 13 或更新（Apple 芯片与 Intel 通用） | [Yukio-0.4.6-macOS.dmg](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.6/Yukio-0.4.6-macOS.dmg) · [ZIP](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.6/Yukio-0.4.6-macOS.zip) | 打开 DMG，把 `Yukio.app` 拖进「应用程序」，第一次按下面放行一次 |
+| Windows 10 / 11（64 位） | [Yukio-0.4.6-Windows-Setup.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.6/Yukio-0.4.6-Windows-Setup.exe) | 双击安装，之后从新快捷方式打开；内置自动检查和一键更新 |
 
 <details>
 <summary><b>macOS 第一次打开：「Apple 无法验证“Yukio”是否包含可能危害 Mac 安全或泄漏隐私的恶意软件」</b></summary>
@@ -85,12 +85,12 @@ xattr -dr com.apple.quarantine /Applications/Yukio.app
 
 - **十二种状态，同一只她。** 思考、读文件、看图片、写文件、跑测试、看网页、递交回答、✅ 勾选卡、❓ 问号卡、其他工作、出错、空闲。每家助手的工具对应哪个状态都写得清清楚楚，逐条有测试；三家共用同一套规则（同一条 shell 命令，不管是 Claude 的 `Bash`、Deep Code 的 `bash` 还是 Codex 的 `exec`，判出来一样）；认不出的工作一律坐在电脑前敲键盘，不瞎猜。
 - **小幅、连续、不抽搐。** 每个状态只有一张定稿的底图，动作由脚本生成：笔沿着一行往右写，放大镜在照片上来回扫，手指在平板上往上划，两只手轮流敲键盘，眨眼时眼皮用的是脸颊的肤色。桌椅逐像素不动，生成时会自动检查。素材时间轴为每秒 50 帧，桌面播放器以 30 Hz 更新。
-- **轮到你的时候她会举牌。** 答完先递交报告，然后举起 ✅ 牌，一直举到你点她为止；`AskUserQuestion` 等你拿主意时立起 ❓ 牌。点她一下，桌面版 Claude 就用它自己的 `claude://` 深链打开那条聊天。那条聊天要是已经开在你眼前，她干脆不举。
-- **不用跑回聊天也能答。** ❓ 牌立起来时，那道题连同选项就抄在她身边的卡片上。点一个选项，或者自己写一句，雪绪把那条聊天带到最前面替你送进去（macOS 第一次会要一次「辅助功能」权限，Windows 不用）。那个应用没被带到前面时，她一个键都不按，只把答案留在粘贴板里。
+- **轮到你的时候她会举牌。** 完成时举起 ✅；认出对应聊天正在显示后，会把那一轮记作已看过并放下。问题和批准申请用 ❓ 提醒，直到真正处理才结束。插件聊天打开入口对应原浏览器标签页。
+- **不用跑回聊天也能答。** 问题与批准申请显示在身旁卡片。已连接的本机入口可回传答案；批准前先查看完整申请。发送失败保留答案。网页与插件仍属实验接入，见[回答说明](YukioPlayer/Resources/BACKGROUND-ANSWERS.md)。
 - **头顶一个小气泡。** 上行是聊天标题，下行是当前这一步：有任务清单时取进行中的那一项，没有就取正在跑的工具，“编辑 main.swift”“$ swift test”“developer.apple.com”。旁边是已完成／总数和一条细进度条。气泡里只出现文件名、命令的前几个词和网址域名。
 - **几条聊天一起跑也不乱。** 她一次只能演一条，所以先演最需要你的那条：等你回答的，然后是出错停住的，然后是答完举着牌的，最后才是还在干活的。其余每条聊天各一张小卡，压着气泡往上叠。点气泡摊开，点一张就换到那条聊天，也可以在菜单里挑定一条只跟它。
 - **拎起来会晃。** 按住她拖，她像被一只看不见的大手捏着后领的小猫：单摆带惯性，匀速时略微后仰，猛地往上一提会先坠一下再弹回来。松手大约一秒晃停。
-- **会话在本机处理。** 会话记录只读，不修改助手设置。可关闭的自动更新检查会连接 GitHub 获取版本与安装包。任务标题与待回答的问题会显示在本机；回答问题时会使用粘贴板和前台应用控制。
+- **会话在本机处理。** 本地读取活动记录与已允许的窗口信息；连接问题与批准回传需设置相应入口。可关闭的更新检查连接 GitHub 获取安装包；不会上传聊天记录。
 - **分页加载，内存有上限。** 正式包运行时读取由无损原图集生成、逐像素一致的小分页；macOS 页缓存上限 32 MiB，Windows 上限 64 MiB，不再一次性展开约 1 GB 的整套图集。macOS 运行时仍然没有第三方依赖。
 
 ## 桌前的一天

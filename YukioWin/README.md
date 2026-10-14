@@ -1,4 +1,4 @@
-> **0.4.5：千夏皮肤、拖动站姿与待机隐身。** 在设置里切换角色；批准申请与回答框粘贴也已修复。[更新说明](../docs/releases/0.4.5.md)。
+> **0.4.6**: browser chat destinations, visible-chat completion reminders, approval cards, answer pasting and Qianxia. [Release notes](../docs/releases/0.4.6.md).
 
 # Yukio desktop pet (Windows edition: DeepSeek, Claude or GPT)
 
@@ -170,14 +170,9 @@ Long questions are cut with an ellipsis (the full one is in the chat); at most s
 - **✕** puts the card away for this question only; the next question brings it back.
 - **"Open the chat >"** jumps to the chat instead.
 
-**GPT / Codex:** replies use the running desktop app's local named pipe. Yukio validates the exact thread and question, supports current canonical history and older snapshots, and waits for a receipt. No application activation, clipboard or synthetic keyboard input is involved. Failures keep your answer and allow retry. Codex must be running locally; ordinary ChatGPT websites are not connected.
+**Local connections:** GPT / Codex uses its local background connection. Claude Code requires the question/approval hooks; DeepSeek requires the separate adapter entry point. Yukio validates the chat and request, waits for a receipt and preserves failed answers. Approval choices first show the full request and never auto-allow.
 
-**Claude / other sources:** the existing delivery method remains: Yukio copies it to the clipboard, opens that chat through the deep link the Claude desktop app registers,
-waits until `Claude.exe` really is the foreground application, and then types the answer with `SendInput` (Unicode mode, so the keyboard
-layout and the IME are not involved) and presses Enter. No extra permission is needed on Windows. If that app doesn't come to the front
-within 2.5 seconds, or you switch away while it is happening, **not a single key is pressed**: the answer is just on the clipboard and the card
-says "Copied - press Ctrl+V in the chat". She never types into an app other than the one the answer belongs to. Chats with no window to jump to
-(Deep Code runs in a terminal, and so does Claude Code outside the desktop app) are copy-only. In the demo nothing is sent anywhere.
+**Web and plugins:** only recognized, verifiable page structures are supported, and integration remains experimental. No blanket support for every website or third-party app is claimed. See the [answer guide](../YukioPlayer/Resources/BACKGROUND-ANSWERS.md) for setup and limits. Yukio does not type into arbitrary foreground fields.
 
 Menu › **Answer here** turns the card off; then the ❓ card behaves as it used to.
 `python -m yukio --question out.png` draws the card offscreen (single-select, multi-select, no options, already answered) and prints

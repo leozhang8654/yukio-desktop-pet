@@ -1,4 +1,4 @@
-> **0.4.5：千夏皮肤、拖动站姿与待机隐身。** 在设置里切换角色；批准申请与回答框粘贴也已修复。[更新说明](../docs/releases/0.4.5.md)。
+> **0.4.6**: browser chat destinations, visible-chat completion reminders, approval cards, answer pasting and Qianxia. [Release notes](../docs/releases/0.4.6.md).
 
 # Yukio desktop player (macOS, follows Claude Code, DeepSeek or GPT)
 

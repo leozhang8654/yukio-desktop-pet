@@ -1,5 +1,12 @@
 # Changelog / 更新记录
 
+## 0.4.6 — 2026-10-13
+
+- GPT 插件聊天记住原 Chrome 标签页；去除全屏重复标签，保留较早聊天的名称与来源。
+- 对应聊天显示后放下完成牌；待回答和待批准问题不会自动处理。
+- 包含此前 0.4.4–0.4.5 开发中的批准卡、粘贴修复、待机隐身与千夏；这两个版本未正式发布。
+- See [verification scope](docs/validation/plugin-signs-0.4.6.md) for actual Mac and native Windows checks and remaining manual interaction limits.
+
 ## 0.4.5 — 2026-10-13
 
 - Add selectable Yukio / Qianxia skins with persistent preferences, twelve Qianxia activities, independent blinking and the supplied standing held pose. / 新增千夏皮肤与专用拖动站姿，设置中可切换并记住选择。
