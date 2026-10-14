@@ -36,6 +36,8 @@ u.GetWindowTextW.argtypes = [wintypes.HWND, wintypes.LPWSTR, ctypes.c_int]
 u.GetWindowRect.argtypes = [wintypes.HWND, ctypes.POINTER(wintypes.RECT)]
 u.IsWindowVisible.argtypes = [wintypes.HWND]
 u.ClientToScreen.argtypes = [wintypes.HWND, ctypes.POINTER(wintypes.POINT)]
+u.SetForegroundWindow.argtypes = [wintypes.HWND]
+u.PostMessageW.argtypes = [wintypes.HWND, wintypes.UINT, wintypes.WPARAM, wintypes.LPARAM]
 checks = []
 
 def run(args, **kw):
@@ -192,19 +194,28 @@ def audit_bridge(scenario):
         req=wait(lambda:next((root/'answers').glob('*/request.json'),None),'bridge request')
         request=json.loads(req.read_text(encoding='utf-8'))
         question=decode_question(request['questions'][0])
-        window=wait(lambda:find(proc.pid,'YukioQuestion'),'question card')
+        wait(lambda:find(proc.pid,'YukioQuestion'),'question card')
         time.sleep(.6)
+        window=find(proc.pid,'YukioQuestion')
         layout=QuestionCardLayout(question,can_open_chat=False,scale=1)
         x,y,w,h=layout._option_rects[0]
         capture('bridge-'+scenario+'-card')
-        click(window['rect'][0]+x+w/2,window['rect'][1]+y+h/2)
+        card_point=(window['rect'][0]+x+w/2,window['rect'][1]+y+h/2)
+        write(root/'click-debug.json',dict(card_window=window,card_point=card_point))
+        # Deliver the native card event to the enumerated instance, independent
+        # of the hosted runner's terminal stealing foreground mouse input.
+        u.SetCursorPos(round(card_point[0]),round(card_point[1]))
+        u.PostMessageW(window['hwnd'],0x0202,0,0)
         if scenario!='question':
             review=wait(lambda:find(proc.pid,title=question.header),'approval review')
             # Derive button positions from the same released native widget layout.
             import tkinter as tk
             from tkinter import ttk
             from yukio.approval_review import present
-            tkroot=tk.Tk();tkroot.withdraw();ttk.Style(tkroot).theme_use('clam')
+            tkroot=tk.Tk();tkroot.withdraw()
+            style=ttk.Style(tkroot);style.theme_use('clam')
+            style.configure('TLabel',font=('Segoe UI',10))
+            style.configure('TButton',font=('Segoe UI',10),padding=(12,8))
             clone=present(tkroot,question,lambda _:None);clone.update_idletasks()
             label=question.options[0 if scenario=='allow' else 1].label
             def descendants(widget):
@@ -215,10 +226,16 @@ def audit_bridge(scenario):
             offset=(button.winfo_rootx()-clone.winfo_rootx()+button.winfo_width()/2,
                     button.winfo_rooty()-clone.winfo_rooty()+button.winfo_height()/2)
             clone.destroy();tkroot.destroy()
+            review=find(proc.pid,title=question.header)
             origin=wintypes.POINT();u.ClientToScreen(review['hwnd'],ctypes.byref(origin))
+            target=(origin.x+offset[0],origin.y+offset[1])
+            write(root/'click-debug.json',dict(card_window=window,card_point=card_point,
+                review=review,client_origin=[origin.x,origin.y],button_offset=offset,button_point=target))
             capture('bridge-'+scenario+'-review')
             assert not (req.parent/'answer-0.json').exists(),'Approval sent before confirmation'
-            click(origin.x+offset[0],origin.y+offset[1])
+            u.SetForegroundWindow(review['hwnd']);time.sleep(.3)
+            click(*target)
+            time.sleep(.8);capture('bridge-'+scenario+'-after-click')
         wait(lambda:result.exists(),'DeepSeek acknowledgement',30)
         report=json.loads(result.read_text(encoding='utf-8'))
         assert node.wait(timeout=5)==0 and report['accepted'],report

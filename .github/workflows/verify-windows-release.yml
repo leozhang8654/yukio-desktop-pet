@@ -14,6 +14,11 @@ on:
         required: false
         default: ''
         type: string
+      extended_only:
+        description: Run the extra Windows/DeepSeek audit after an existing standard verification
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -84,6 +89,7 @@ jobs:
           "YUKIO_INSTALLED_EXE=$install/current/Yukio.exe" >> $env:GITHUB_ENV
           "${actual}  ${name}" | Tee-Object YukioWin/build/published-release/verified-sha256.txt
       - name: Test matching release source
+        if: ${{ !inputs.extended_only }}
         working-directory: YukioWin
         shell: pwsh
         run: |
@@ -94,11 +100,13 @@ jobs:
           python run.py --check
           if ($LASTEXITCODE -ne 0) { throw "Artwork check failed" }
       - name: Verify downloaded exe answers over an isolated named pipe
+        if: ${{ !inputs.extended_only }}
         working-directory: YukioWin
         env:
           PYTHONPATH: .
         run: python tests/test_codex_answer.py --exe "$env:YUKIO_INSTALLED_EXE"
       - name: Verify downloaded compact settings and outside-click dismissal
+        if: ${{ !inputs.extended_only }}
         working-directory: YukioWin
         shell: pwsh
         run: |
@@ -107,6 +115,7 @@ jobs:
           $report = Get-Content build/assistant-smoke/report.json -Raw | ConvertFrom-Json
           if ($report.packageProvenance.sourceRevision -ne (git rev-parse HEAD)) { throw "Installer source commit mismatch" }
       - name: Run the downloaded exe at 100%, 150% and 200%
+        if: ${{ !inputs.extended_only }}
         working-directory: YukioWin
         shell: pwsh
         run: |
@@ -156,5 +165,6 @@ jobs:
             YukioWin/build/windows-audit/*.png
             YukioWin/build/windows-audit/*.log
             YukioWin/build/windows-audit/bridge-*/result.json
+            YukioWin/build/windows-audit/bridge-*/click-debug.json
             YukioWin/build/windows-audit/**/error.log
           if-no-files-found: warn
