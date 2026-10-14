@@ -27,7 +27,7 @@ env:
 jobs:
   verify:
     runs-on: windows-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
@@ -50,6 +50,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: _audit
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
       - name: Install test dependency
         run: python -m pip install -r YukioWin/requirements.txt
       - name: Download the published installer and verify its SHA-256
@@ -111,6 +118,30 @@ jobs:
             if (-not (Test-Path "$outDir/screenshot.png")) { throw "Screenshot required for release verification" }
           }
           }
+      - name: Audit portable package, update feed and native DeepSeek sessions
+        if: ${{ !cancelled() && env.YUKIO_INSTALLED_EXE != '' }}
+        working-directory: YukioWin
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python ../_audit/YukioWin/scripts/audit-windows-release.py --exe "$env:YUKIO_INSTALLED_EXE" --out build/windows-audit --tag "$env:RELEASE_TAG"
+      - name: Test the DeepSeek adapter shipped in the public package
+        if: ${{ !cancelled() && env.YUKIO_INSTALLED_EXE != '' }}
+        shell: pwsh
+        run: |
+          $integration = Join-Path (Split-Path $env:YUKIO_INSTALLED_EXE) '_internal/integrations/deepseek'
+          node --test "$integration/bridge.test.mjs"
+          if ($LASTEXITCODE -ne 0) { throw 'Packaged DeepSeek adapter tests failed' }
+      - name: Install the shipped DeepSeek connection on native Windows
+        if: ${{ !cancelled() && env.YUKIO_INSTALLED_EXE != '' }}
+        working-directory: YukioWin
+        shell: pwsh
+        run: |
+          $integration = Join-Path (Split-Path $env:YUKIO_INSTALLED_EXE) '_internal/integrations/deepseek'
+          $env:YUKIO_DEEPSEEK_RUNTIME = Join-Path $PWD 'build/windows-audit/deepseek-runtime'
+          node "$integration/setup.mjs" 2>&1 | Tee-Object build/windows-audit/deepseek-install.log
+          if ($LASTEXITCODE -ne 0) { throw 'Public DeepSeek connection installation failed' }
+          & "$env:YUKIO_DEEPSEEK_RUNTIME/yukio-deepseek.cmd" --help 2>&1 | Tee-Object build/windows-audit/deepseek-launch.log
+          if ($LASTEXITCODE -ne 0) { throw 'Installed Deep Code launcher failed' }
       - name: Keep verification evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -120,4 +151,10 @@ jobs:
             YukioWin/build/release-verification/
             YukioWin/build/assistant-smoke/
             YukioWin/build/published-release/verified-sha256.txt
+            YukioWin/build/windows-audit/audit-report.json
+            YukioWin/build/windows-audit/download-hashes.json
+            YukioWin/build/windows-audit/*.png
+            YukioWin/build/windows-audit/*.log
+            YukioWin/build/windows-audit/bridge-*/result.json
+            YukioWin/build/windows-audit/**/error.log
           if-no-files-found: warn
