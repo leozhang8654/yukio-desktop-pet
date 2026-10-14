@@ -153,18 +153,13 @@ The text follows the motion Yukio is currently showing (debounced) and never run
 
 When it's your turn she holds up a sign: the ✅ done card when a turn's answer is in, and the ❓ question card when `AskUserQuestion` is waiting for your decision. Both signs are clickable, and clicking jumps to the chat that sign belongs to.
 
-When a turn's answer is in, Yukio hands over the report, raises the ✅ done card 3 seconds later, and then **keeps holding it**. It never comes down on its own; however long you are away from the computer, it's still up when you get back.
+After a turn finishes, Yukio keeps a completion reminder until the corresponding chat is recognized as visible or you open it from the pet. Reading that turn acknowledges it; switching away does not raise the same reminder again.
 
-There is only one case where she doesn't hold it up: **that chat is already open in front of you**, meaning the Claude desktop app is frontmost and the chat it has selected is this very one.
-You're already looking at the finished answer, and a sign would just be in the way. The same goes for a sign already up: switch over to that chat yourself and
-the sign comes down on the spot, no click needed (that turn counts as seen, and switching away won't bring it back up).
+macOS checks supported on-screen chat windows across displays, including unfocused visible windows. It identifies direct chat addresses or the official GPT sidepanel's unique selected-chat title. This requires effective Accessibility permission; a stale permission for an older temporary-signed build may need re-adding. Unknown, ambiguous or hidden chats are not guessed.
 
-How she knows which chat is open: the desktop app records each session in `~/Library/Application Support/Claude/claude-code-sessions/…/local_*.json`,
-where `lastFocusedAt` is updated when you switch to a chat, so the one with the largest value is the currently selected chat.
-`./.build/release/YukioPlayer --open-chat` checks this on the spot. This is the desktop app's internal record, not a public interface;
-when it can't be read she **falls back to holding up the sign as usual**. Better one sign too many than a reminder swallowed.
+Official GPT sidepanel destinations use the observed Chrome tab, never a desktop fallback. See [release verification limits](../docs/validation/plugin-signs-0.4.6.md) for what has and has not been tested.
 
-- **Click her** (a single left click, no holding): opens the Claude chat that turn belongs to, lowers the sign, and returns to idle. "Open this chat and lower the sign" in the menu does the same thing; use it when the mouse is hard to aim.
+- **Click her** (a single left click, no holding): opens the corresponding connected chat and lowers the completion reminder after opening succeeds. "Open this chat and lower the sign" in the menu does the same thing; use it when the mouse is hard to aim.
 - **Not clicking is fine too**: send the next request in that chat and the sign steps aside for the new motion on its own. It also comes down when the turn is interrupted or that session's record is deleted.
 - **Leaving it up doesn't get in the way**: if 15 minutes pass without a click, she goes to follow the chats still working, sign still in hand; when that chat stops, the sign comes back up on its own.
 - **Click her while the ❓ question card is up**: opens that chat so you can answer. Unlike the done card, this card doesn't go away; the question is still waiting for you, and the card clears itself once you answer in the chat. The matching menu item is "Open this chat to answer".
