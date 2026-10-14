@@ -65,7 +65,7 @@ class PetSettingsWindow:
         self.content.yview_moveto(0)
         w, h = self.window.winfo_width(), self.window.winfo_height()
         x = max(left, min(self.app.pet.x-w-12, right-w))
-        y = max(top, min(self.app.pet.y, bottom-h))
+        y = max(top, min(self.app.pet.y, bottom-h-48))
         self.window.geometry(f'+{x}+{y}')
 
     def refresh(self):

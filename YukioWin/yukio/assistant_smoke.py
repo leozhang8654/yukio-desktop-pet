@@ -137,7 +137,7 @@ def schedule(app, output):
         check(button.winfo_rooty() + button.winfo_height() <= settings.window.winfo_rooty() + settings.window.winfo_height(), "quit button fits inside settings")
         left, top, right, bottom = app.win32.work_area()
         check(settings.window.winfo_rooty() + settings.window.winfo_height() <= bottom,
-              "settings fit within the desktop work area")
+              f"settings fit within the desktop work area ({settings.window.winfo_rooty()} + {settings.window.winfo_height()} <= {bottom})")
         check(button.winfo_rooty() >= settings.content.winfo_rooty(), "quit button reachable by scrolling")
         screenshot("settings-bottom.png")
         settings.content.yview_moveto(0)
