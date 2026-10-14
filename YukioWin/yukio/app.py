@@ -884,10 +884,9 @@ class PetApp:
 
     # MARK: 主循环
 
-    def _read_visible_chats(self, pid, front, candidates):
+    def _read_visible_chats(self, pid, front, candidates, titles=()):
         started = now_ms()
-        documents = browser_open_chat.read(pid, titles=[(s.id, s.title) for s in self.router.session_summaries(now_ms())
-                                                       if self.router.session_source(s.id) == "codex"])
+        documents = browser_open_chat.read(pid, titles=titles)
         aliases = self.links.transcript_aliases() if any(d.provider == 'claude' for d in documents) else {}
         visible = {session for session, provider in candidates
                    if any(d.matches(session, provider, aliases) for d in documents)}
@@ -928,9 +927,10 @@ class PetApp:
                 self._open_chat_pid = None
                 return
             self._open_chat_pid = pid
-            candidates = [(row.id, provider_for_source(self.router.session_source(row.id)))
-                          for row in self.router.session_summaries(now_ms())]
-            self._open_chat_future = self._open_chat_executor.submit(self._read_visible_chats, pid, front, candidates)
+            rows = self.router.session_summaries(now_ms())
+            candidates = [(row.id, provider_for_source(self.router.session_source(row.id))) for row in rows]
+            titles = [(row.id, row.title) for row in rows if self.router.session_source(row.id) == "codex"]
+            self._open_chat_future = self._open_chat_executor.submit(self._read_visible_chats, pid, front, candidates, titles)
         except Exception:
             self._open_chat_future = None
             self._clear_open_chat()

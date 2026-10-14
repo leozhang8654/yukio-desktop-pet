@@ -1,3 +1,5 @@
+> **0.4.6 candidate**: browser-plugin chat destinations and visible-chat sign acknowledgement. See [notes](docs/releases/0.4.6.md). Published download links below are unchanged.
+
 > **0.4.5: Qianxia skin and held pose.** Switch characters in Settings, hide automatically while idle, and use improved approval cards and answer pasting. [Release notes](docs/releases/0.4.5.md).
 
 **English** · [简体中文](README.zh-CN.md)

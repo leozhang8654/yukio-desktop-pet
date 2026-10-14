@@ -77,8 +77,8 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
   <key>CFBundleExecutable</key><string>YukioPlayer</string>
   <key>CFBundleIconFile</key><string>AppIcon</string>
   <key>CFBundlePackageType</key><string>APPL</string>
-  <key>CFBundleShortVersionString</key><string>0.4.5</string>
-  <key>CFBundleVersion</key><string>26</string>
+  <key>CFBundleShortVersionString</key><string>0.4.6</string>
+  <key>CFBundleVersion</key><string>27</string>
   <key>LSMinimumSystemVersion</key><string>13.0</string>
   <key>SUFeedURL</key><string>https://github.com/leozhang8654/yukio-desktop-pet/releases/latest/download/appcast.xml</string>
   <key>SUPublicEDKey</key><string>UuIYaOS2mImMarKEoskVy22Juxl1pQeAL5s+mPnqHFg=</string>

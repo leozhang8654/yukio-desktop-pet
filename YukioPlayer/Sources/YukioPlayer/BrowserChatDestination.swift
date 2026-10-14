@@ -13,6 +13,11 @@ enum BrowserChatDestination {
     private static let lock = NSLock()
     private static var targets: [String: Target] = [:]
 
+    static var sessions: [String] {
+        lock.lock(); defer { lock.unlock() }
+        return targets.keys.sorted()
+    }
+
     static func contains(_ session: String) -> Bool {
         lock.lock(); defer { lock.unlock() }
         return targets[session] != nil

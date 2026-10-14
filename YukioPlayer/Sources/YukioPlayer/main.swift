@@ -1276,6 +1276,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             "pinnedSession": router.pinnedSession ?? "",
             "workingSessions": router.sessionSummaries(now: nowMs()).filter(\.live).map(\.id).sorted(),
             "visibleSessions": router.visibleChatSessions.sorted(),
+            "browserDestinations": BrowserChatDestination.sessions,
             "raisedSigns": router.sessionSummaries(now: nowMs()).filter(\.raisedSign).map(\.id).sorted(),
         ]
         let directory = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Application Support/YukioPlayer")
