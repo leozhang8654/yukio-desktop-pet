@@ -137,7 +137,11 @@ public final class CodexSessionsSource {
     private var titles: [String: String] = [:]
     private var emittedTitles: [String: String] = [:]
     private var indexStamp: String?
-    private final class Metadata { var parents: [String: String] = [:] }
+    private final class Metadata {
+        var parents: [String: String] = [:]
+        var origins: [String: String] = [:]
+        var sessions: Set<String> = []
+    }
     private let metadata: Metadata
 
 
@@ -165,6 +169,8 @@ public final class CodexSessionsSource {
                     }
                 }
                 if let parent = parser.parentSession { metadata.parents[parser.session] = parent }
+                metadata.origins[parser.session] = parser.originator
+                metadata.sessions.insert(parser.session)
                 return parser
             },
             onGone: { name in
@@ -193,11 +199,16 @@ public final class CodexSessionsSource {
 
     public var status: JSONLTreeSource.Status { tree.status }
 
+    public func isBrowserSession(_ session: String) -> Bool {
+        metadata.origins[session] == "codex-chrome-extension-sidepanel"
+    }
+
     public func poll(now: Double) -> [PetEvent] {
         var out = tree.poll(now: now)
         // 文件被删时用当前时间报中断（记录里没有时间可用）。
         for i in out.indices where out[i].ts == 0 && out[i].kind == .taskAbort { out[i].ts = now }
         knownSessions.formUnion(out.map(\.session))
+        knownSessions.formUnion(metadata.sessions)
         let indexURL = sessionsDir.deletingLastPathComponent().appendingPathComponent("session_index.jsonl")
         if let attrs = try? FileManager.default.attributesOfItem(atPath: indexURL.path) {
             let stamp = "\(attrs[.modificationDate] ?? "")-\(attrs[.size] ?? "")"
@@ -302,6 +313,8 @@ public final class AgentSources {
         public let found: Bool
         public let trackedFiles: Int
     }
+
+    public func isBrowserSession(_ session: String) -> Bool { codex?.isBrowserSession(session) == true }
 
     public private(set) var provider: AgentProvider
     private var claude: ClaudeTranscriptSource?

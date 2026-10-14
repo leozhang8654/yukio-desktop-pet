@@ -444,7 +444,7 @@ public final class ActivityRouter {
             let age = now - end
             // 先递交报告（整理文件那一下），再举勾选卡。
             if age < min(config.respondHoldMs, config.completeArmMs) { return .respond }
-            // 举起来就不放下：等用户点击（点击后 dismissCompletion 把它记成 .dismissed）。
+            // 用户点击或让对应聊天显示在屏幕上后，把这一轮记为已读。
             // 举牌只发生在任务刚结束时，所以启动时回放到的旧记录不会举牌。
             // 那条聊天正开在眼前：答完的结果他自己看得见，不举牌；已经举着的也就此放下。
             let inSight = isChatVisible(s.id)

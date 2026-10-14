@@ -416,8 +416,9 @@ class PetApp:
         if self.shown_state is PetState.task_complete:
             session = self.router.completed_session
             if session:
-                self._open_chat(session)
-                self.router.dismiss_completion(now)
+                opened = self._open_chat(session)
+                if not self._is_browser_session(session) or opened:
+                    self.router.dismiss_completion(now)
             return
         if self.shown_state is PetState.question_for_user:
             session = self.router.asking_session
@@ -429,6 +430,8 @@ class PetApp:
 
         认不出会话时（终端里跑的 Claude Code、Deep Code 的会话）什么都不做，不乱跳到别的聊天。
         """
+        if self._is_browser_session(session):
+            return browser_open_chat.open_session(session)
         try:
             url = self._chat_url(session)
         except Exception:
@@ -587,7 +590,8 @@ class PetApp:
             self._fade_question()
             return
 
-        can_open = not self.demo and bool(self._chat_url(pending.session))
+        can_open = not self.demo and (bool(self._chat_url(pending.session)) or
+                                      (self._is_browser_session(pending.session) and browser_open_chat.has_session(pending.session)))
         signature = "%s|%s|%s|%s|%.2f" % (question_key(pending), sorted(self.picked_options),
                                           self.answer_notice or "", can_open, self.scale)
         if signature != self._question_signature or immediate:
@@ -750,11 +754,17 @@ class PetApp:
                   if i < len(pending.question.options)]
         return tr(", ", "、").join(labels) if labels else None
 
+    def _is_browser_session(self, session):
+        return any(getattr(source, "is_browser_session", lambda _: False)(session)
+                   for source in self.sources)
+
     def _chat_url(self, session: str) -> Optional[str]:
         """这条聊天能不能跳回去（顺带给出深链）。
 
         查一次要翻几百份记录，问题卡每帧都要问一次「能不能跳」，所以按会话记住结果。
         """
+        if self._is_browser_session(session):
+            return None
         if self.router.session_source(session) == "codex":
             import uuid
             try:
@@ -876,7 +886,8 @@ class PetApp:
 
     def _read_visible_chats(self, pid, front, candidates):
         started = now_ms()
-        documents = browser_open_chat.read(pid)
+        documents = browser_open_chat.read(pid, titles=[(s.id, s.title) for s in self.router.session_summaries(now_ms())
+                                                       if self.router.session_source(s.id) == "codex"])
         aliases = self.links.transcript_aliases() if any(d.provider == 'claude' for d in documents) else {}
         visible = {session for session, provider in candidates
                    if any(d.matches(session, provider, aliases) for d in documents)}

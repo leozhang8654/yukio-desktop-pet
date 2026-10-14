@@ -1086,8 +1086,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
         guard following else { return }
         if shownState == .task_complete, let session = router.completedSession {
-            openChat(session: session)
-            router.dismissCompletion(now: now)
+            if openChat(session: session) { router.dismissCompletion(now: now) }
             return
         }
         if shownState == .question_for_user, let session = router.askingSession {
@@ -1097,14 +1096,18 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     /// 用各家桌面版自己注册的深链打开这条聊天。认不出会话时（例如在终端里跑的），
     /// 至少把那个应用带到前面，不乱跳到别的聊天。
-    private func openChat(session: String) {
+    @discardableResult
+    private func openChat(session: String) -> Bool {
         switch AgentProvider.owner(ofSource: router.sourceOfSession(session) ?? "") {
         case .gpt:
+            if feeds.isBrowserSession(session) {
+                return BrowserChatDestination.open(session: session)
+            }
             // Codex 桌面版（ChatGPT.app，标识 com.openai.codex）注册的深链。
             // 会话 ID 就是记录文件名里的那个，应用自己的日志里叫 threadId，两边是同一个。
             if let url = URL(string: "codex://threads/\(session)") {
                 NSWorkspace.shared.open(url)
-                return
+                return true
             }
             activate(Self.codexBundleID)
         case .deepseek:
@@ -1113,15 +1116,17 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         default:
             if let url = links.chatURL(forTranscriptSession: session) {
                 NSWorkspace.shared.open(url)
-                return
+                return true
             }
             activate(Self.claudeBundleID)
         }
+        return true
     }
 
     /// 举着的牌子能不能点回那条聊天（Deep Code 没有窗口可跳）。
     private func canOpenChat(session: String?) -> Bool {
         guard let session else { return false }
+        if feeds.isBrowserSession(session) { return BrowserChatDestination.contains(session) }
         return AgentProvider.owner(ofSource: router.sourceOfSession(session) ?? "") != .deepseek
     }
 
