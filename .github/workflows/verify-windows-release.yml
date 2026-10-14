@@ -9,6 +9,11 @@ on:
         required: true
         default: v0.4.5
         type: string
+      build_source_commit:
+        description: Optional exact build commit when only documentation or validation tooling differs from the immutable release tag
+        required: false
+        default: ''
+        type: string
 
 permissions:
   contents: read
@@ -17,6 +22,7 @@ env:
   PYTHONIOENCODING: utf-8
   PYTHONUTF8: "1"
   RELEASE_TAG: ${{ inputs.release_tag }}
+  BUILD_SOURCE_COMMIT: ${{ inputs.build_source_commit }}
 
 jobs:
   verify:
@@ -25,7 +31,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.release_tag }}
+          ref: ${{ inputs.build_source_commit || inputs.release_tag }}
+          fetch-depth: 0
+      - name: Verify build source is application-identical to the release tag
+        shell: pwsh
+        run: |
+          if ($env:RELEASE_TAG -notmatch '^v\d+\.\d+\.\d+$') { throw 'Invalid release tag' }
+          if ($env:BUILD_SOURCE_COMMIT -and $env:BUILD_SOURCE_COMMIT -notmatch '^[0-9a-f]{40}$') { throw 'Build commit must be an exact SHA' }
+          if ($env:BUILD_SOURCE_COMMIT -and (git rev-parse HEAD) -ne $env:BUILD_SOURCE_COMMIT) { throw 'Unexpected build source' }
+          $changed = @(git diff --name-only $env:RELEASE_TAG HEAD)
+          if ($LASTEXITCODE -ne 0) { throw 'Cannot compare release source' }
+          foreach ($path in $changed) {
+            if ($path -notmatch '\.md$' -and $path -notmatch '^YukioWin/tests/' -and $path -ne 'YukioWin/scripts/check_screenshot.py') {
+              throw "Application or packaging code differs from release tag: $path"
+            }
+          }
+          Write-Host 'Application code, packaging configuration and artwork match the release tag.'
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
