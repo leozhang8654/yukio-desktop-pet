@@ -40,7 +40,7 @@ def schedule(app, output):
         ui.root.update()
         import ctypes
         ctypes.windll.dwmapi.DwmFlush()
-        target = ui.delivery if name == "delivery.png" else ui.pet_settings.window if name == "settings.png" else ui.root
+        target = ui.delivery if name == "delivery.png" else ui.pet_settings.window if name.startswith("settings") else ui.root
         x, y = target.winfo_rootx(), target.winfo_rooty()
         shot = ImageGrab.grab(bbox=(x, y, x + target.winfo_width(), y + target.winfo_height()))
         if name == "home.png":
@@ -130,9 +130,18 @@ def schedule(app, output):
         ui.root.update()
         check(settings.window.winfo_viewable(), "right-click reopens settings after outside dismissal")
         check(bool(settings.outside_click.hook), "outside click hook reinstalled on reopen")
+        settings.content.yview_moveto(1)
+        ui.root.update()
         button = settings.quit_button
         check(button.winfo_viewable(), "quit button visible in right-click settings")
         check(button.winfo_rooty() + button.winfo_height() <= settings.window.winfo_rooty() + settings.window.winfo_height(), "quit button fits inside settings")
+        left, top, right, bottom = app.win32.work_area()
+        check(settings.window.winfo_rooty() + settings.window.winfo_height() <= bottom,
+              "settings fit within the desktop work area")
+        check(button.winfo_rooty() >= settings.content.winfo_rooty(), "quit button reachable by scrolling")
+        screenshot("settings-bottom.png")
+        settings.content.yview_moveto(0)
+        ui.root.update()
         verify_skin_drag()
     def verify_skin_drag():
         from .settings import Settings
