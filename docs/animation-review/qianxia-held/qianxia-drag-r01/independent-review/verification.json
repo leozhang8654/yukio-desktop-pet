@@ -1,0 +1,147 @@
+{
+  "frozen_count": 148,
+  "mismatches": [],
+  "candidate_diff_vs_recreated_proportional_fit_pixels": 0,
+  "source_size": [
+    1024,
+    1536
+  ],
+  "candidate_size": [
+    384,
+    496
+  ],
+  "source_sha256": "dbbe355d88c3313f45d26dd7b0806560c90d0baabe1e27c45962844ada3ea213",
+  "candidate_sha256": "74e35643af95cf5dd424e206ff90087bd7e5cd07d07b48e7981304254bf343af",
+  "candidate_components": [
+    {
+      "area": 76445,
+      "bbox": [
+        47,
+        8,
+        304,
+        471
+      ],
+      "maxAlpha": 255
+    },
+    {
+      "area": 1,
+      "bbox": [
+        193,
+        15,
+        1,
+        1
+      ],
+      "maxAlpha": 3
+    },
+    {
+      "area": 1,
+      "bbox": [
+        223,
+        30,
+        1,
+        1
+      ],
+      "maxAlpha": 3
+    },
+    {
+      "area": 7,
+      "bbox": [
+        150,
+        44,
+        7,
+        1
+      ],
+      "maxAlpha": 4
+    },
+    {
+      "area": 1,
+      "bbox": [
+        59,
+        205,
+        1,
+        1
+      ],
+      "maxAlpha": 1
+    },
+    {
+      "area": 4,
+      "bbox": [
+        281,
+        368,
+        3,
+        2
+      ],
+      "maxAlpha": 1
+    }
+  ],
+  "transitions": [
+    {
+      "index": 0,
+      "ms": 33.333,
+      "asset": "2f157ebb2846b75c0989",
+      "x": 150,
+      "y": 120,
+      "held": false,
+      "angle": 0,
+      "sag": 0
+    },
+    {
+      "index": 18,
+      "ms": 633.332,
+      "asset": "8d02219d5d4a76993607",
+      "x": 79,
+      "y": 86,
+      "held": true,
+      "angle": 0.0,
+      "sag": 0.0
+    },
+    {
+      "index": 65,
+      "ms": 2199.995,
+      "asset": "2f157ebb2846b75c0989",
+      "x": 330,
+      "y": 120,
+      "held": false,
+      "angle": 0,
+      "sag": 0
+    },
+    {
+      "index": 103,
+      "ms": 3466.658,
+      "asset": "8d02219d5d4a76993607",
+      "x": 236,
+      "y": 74,
+      "held": true,
+      "angle": 0.0,
+      "sag": 0.0
+    },
+    {
+      "index": 133,
+      "ms": 4466.656,
+      "asset": "2f157ebb2846b75c0989",
+      "x": 150,
+      "y": 20,
+      "held": false,
+      "angle": 0,
+      "sag": 0
+    }
+  ],
+  "trace_min_angle": {
+    "ms": 1133.331,
+    "asset": "ce90bda71a0e676d6cf4",
+    "x": 259,
+    "y": 86,
+    "held": true,
+    "angle": -8.108230114769412,
+    "sag": 0.0
+  },
+  "trace_max_angle": {
+    "ms": 3733.324,
+    "asset": "bea6b6452f36411becc1",
+    "x": 79,
+    "y": -14,
+    "held": true,
+    "angle": 8.695511104800149,
+    "sag": -0.7795839057725245
+  }
+}

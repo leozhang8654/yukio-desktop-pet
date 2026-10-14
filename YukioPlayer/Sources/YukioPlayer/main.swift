@@ -735,6 +735,9 @@ struct HangGeometry {
         }
         box = box.insetBy(dx: -1, dy: -1)
         box = NSRect(x: box.minX, y: box.minY - sagRoom, width: box.width, height: box.height + sagRoom)
+        // NSWindow rounds its frame to whole points. Keep the offset on the same
+        // grid so expanding/restoring the held canvas cannot accumulate drift.
+        box = box.integral
         return HangGeometry(panelSize: box.size,
                             offset: NSPoint(x: box.minX, y: box.minY),
                             spriteRect: sprite.offsetBy(dx: -box.minX, dy: -box.minY),
@@ -1145,7 +1148,6 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     private func dragBegan() {
-        guard skin.supportsHeldAnimation else { return }
         let now = nowMs()
         // 上一次还在晃就又被抓住：窗口已经是放大的，只要把手重新握上。
         if swing != nil {
@@ -1171,10 +1173,6 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     private func dragEnded() {
-        guard skin.supportsHeldAnimation else {
-            clampToScreen(); savePosition(); positionBubble(); positionCards(); positionQuestion()
-            return
-        }
         guard swing != nil else { return }
         // 贴边和保存位置都按平时那块算；放大的窗口跟着挪同样的距离。
         let normal = clamped(normalFrame())
@@ -2378,10 +2376,20 @@ extension AppController {
         let newPixels = library.frame("write_file", 0).image.dataProvider?.data
         checks["artActuallyChanged"] = originalPixels != newPixels
         dragBegan()
-        checks["qianxiaKeepsPoseWhenDragged"] = swing == nil && heldTimeline == nil
-        panel.setFrameOrigin(NSPoint(x: origin.x + 10, y: origin.y))
+        checks["qianxiaUsesHeldPose"] = swing != nil && heldTimeline?.spec.id == "held"
+        checks["heldCanvasFitsFullBody"] = heldSpec.frameHeight == 248 && heldSpec.pixelScale == 2
+        let hanging = panel.frame
+        panel.setFrameOrigin(NSPoint(x: hanging.minX + 10, y: hanging.minY))
         dragEnded()
-        checks["plainDragSaved"] = defaults.double(forKey: "originX") == Double(panel.frame.minX)
+        checks["dragSavedNormalPosition"] = abs(defaults.double(forKey: "originX") - Double(normalFrame().minX)) < 1
+        checks["releaseKeepsSwingUntilSettled"] = swing != nil && releasedAt != nil
+        finishHang()
+        checks["releaseRestoresActivity"] = swing == nil && heldTimeline == nil &&
+            panel.frame.size == petSize && stateTimeline.spec.id == "write_file"
+        checks["releasePreservesPosition"] = abs(panel.frame.minX - origin.x - 10) < 1
+        let restoredOrigin = panel.frame.origin
+        for _ in 0..<3 { dragBegan(); dragEnded(); finishHang() }
+        checks["repeatedDragsDoNotDrift"] = panel.frame.origin == restoredOrigin
         try switchSkin(to: .yukio)
         checks["switchBackRestoresArt"] = originalPixels == library.frame("write_file", 0).image.dataProvider?.data
         dragBegan()

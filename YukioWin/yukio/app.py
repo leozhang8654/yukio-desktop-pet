@@ -1164,8 +1164,6 @@ class PetApp:
         return (self.pet.x - self.hang_geo.offset[0], self.pet.y - self.hang_geo.offset[1])
 
     def _drag_began(self) -> None:
-        if self.skin != "yukio":
-            return
         now = now_ms()
         # 上一次还在晃就又被抓住：窗口已经是放大的，只要把手重新握上。
         if self.swing is not None:
@@ -1192,13 +1190,6 @@ class PetApp:
         self.tray.set_tip(self._tray_tip())
 
     def _drag_ended(self) -> None:
-        if self.skin != "yukio":
-            self._clamp_to_screen()
-            self._save_position()
-            self._position_bubble()
-            self._position_cards()
-            self._position_question()
-            return
         if self.swing is None:
             return
         # 贴边和保存位置都按平时那块算；放大的窗口跟着挪同样的距离。

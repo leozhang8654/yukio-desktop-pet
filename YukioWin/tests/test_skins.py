@@ -2,7 +2,7 @@
 import os
 import unittest
 from unittest.mock import patch
-from test_app_logic import make_app, app_module
+from test_app_logic import make_app, app_module, CLOCK
 from yukio.catalog import CatalogError, SpriteTimeline
 from yukio.events import PetState
 from yukio.settings import Settings
@@ -26,10 +26,19 @@ class SkinTests(unittest.TestCase):
         self.assertEqual(Settings(app.settings.path).get('skin'), 'qianxia')
         self.assertNotEqual(before, app.library.frame('write_file', 0).image.tobytes())
         app._drag_began()
-        self.assertIsNone(app.swing)
+        self.assertIsNotNone(app.swing)
+        self.assertEqual(app.held_timeline.spec.id, 'held')
+        self.assertEqual(app.held_spec.frame_height, 248)
         app.pet.move(app.pet.x + 10, app.pet.y)
         app._drag_ended()
-        self.assertEqual(app.settings.get('originX'), app.pet.x)
+        self.assertEqual(app.settings.get('originX'), app._normal_frame()[0])
+        for _ in range(90):
+            CLOCK[0] += 33
+            app._advance_hang(CLOCK[0])
+        self.assertIsNone(app.swing)
+        self.assertEqual(app.timeline.spec.id, 'write_file')
+        self.assertEqual(app.pet.images[-1][2], app.pet_size)
+        self.assertEqual((app.pet.x, app.pet.y), (origin[0] + 10, origin[1]))
         app.set_skin('yukio')
         self.assertEqual(before, app.library.frame('write_file', 0).image.tobytes())
         app._drag_began()

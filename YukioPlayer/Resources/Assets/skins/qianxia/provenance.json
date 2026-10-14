@@ -30,5 +30,5 @@
     "motion/write_file-eyes.webp": "513146129776b35d3f9e22350247de8855c9a9b9d82662ffd0f1424eaca320ca",
     "motion/write_file.webp": "6ad5c60a306896113040f94e499186bdabd9ae68de2d637089ca2558d09af5cf"
   },
-  "heldFrame": "Exact first idle frame; compatibility only. Dragging keeps the active pose."
+  "heldFrame": "Supplied held pose; see held-provenance.json."
 }

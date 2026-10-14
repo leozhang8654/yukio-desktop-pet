@@ -1,0 +1,10 @@
+{
+  "canvasPixels": [384, 496],
+  "resizedPixels": [320, 480],
+  "offsetPixels": [32, 8],
+  "pixelScale": 2,
+  "gripInSourcePixels": [530, 150],
+  "resampling": "Pillow premultiplied RGBa LANCZOS",
+  "alphaPolicy": "Preserve source alpha; no background removal, recoloring, mask cleanup or redrawing",
+  "sourceSha256": "dbbe355d88c3313f45d26dd7b0806560c90d0baabe1e27c45962844ada3ea213"
+}

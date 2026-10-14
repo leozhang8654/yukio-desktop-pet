@@ -5,17 +5,22 @@ import YukioCore
 
 @Suite @MainActor struct SkinTests {
     static var root: URL {
-        URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent()
+        if let candidate = ProcessInfo.processInfo.environment["YUKIO_TEST_ASSETS"] {
+            return URL(fileURLWithPath: candidate)
+        }
+        return URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent()
             .deletingLastPathComponent().appendingPathComponent("Resources/Assets")
     }
 
-    @Test func switchPreservesActivityAndSettings() throws {
+    @Test(arguments: [0.5, 1.0, 1.25, 2.0])
+    func switchPreservesActivityAndSettings(scale: Double) throws {
         _ = NSApplication.shared
         let catalog = try AnimationCatalog.load(assetsRoot: Self.root)
         let library = try SpriteLibrary(catalog: catalog, assetsRoot: Self.root)
         let suite = "local.yukio.skin-tests." + UUID().uuidString
         let defaults = try #require(UserDefaults(suiteName: suite))
         defer { defaults.removePersistentDomain(forName: suite) }
+        defaults.set(scale, forKey: "scale")
         let controller = AppController(catalog: catalog, library: library, defaults: defaults, bundledAssets: Self.root)
         for (name, passed) in try controller.skinSwitchForCheck() {
             #expect(passed, "\(name)")

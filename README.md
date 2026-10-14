@@ -1,6 +1,6 @@
 > In development: **Hide when idle** is on by default. Yukio disappears while idle and returns for work, questions, completion notices, or errors. Turn it off in Settings to keep her visible. [Behavior and local verification](docs/IDLE-VISIBILITY.md).
 
-> **Qianxia skin (0.4.5 in development):** Choose Yukio or Qianxia in **Settings → Display → Skin**. Switching is immediate and persists after restart. See [skin details](docs/SKINS.md). Public downloads will include this feature after a separate release.
+> **Qianxia skin (0.4.5 in development):** Choose Yukio or Qianxia in **Settings → Display → Skin**. Switching is immediate and persists after restart. Qianxia also has a dedicated held pose that swings while dragging and restores the current activity after release. See [skin details](docs/SKINS.md). Public downloads will include this feature after a separate release.
 
 > **开发中的 0.4.4**：批准申请问号牌、回答框粘贴修复，以及网页／插件的实验接入。实际支持范围和限制见[回答与批准说明](YukioPlayer/Resources/BACKGROUND-ANSWERS.md)；下方 0.4.3 下载包尚不包含这些改动。
 

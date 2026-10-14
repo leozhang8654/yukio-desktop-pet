@@ -5,8 +5,6 @@ public enum PetSkin: String, CaseIterable, Sendable {
     case yukio
     case qianxia
 
-    public var supportsHeldAnimation: Bool { self == .yukio }
-
     public func name(chinese: Bool) -> String {
         switch self {
         case .yukio: return chinese ? "雪绪" : "Yukio"

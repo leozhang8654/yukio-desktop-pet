@@ -1,0 +1,30 @@
+{
+  "source": "sources/qianxia-held/original.png",
+  "sourceSha256": "dbbe355d88c3313f45d26dd7b0806560c90d0baabe1e27c45962844ada3ea213",
+  "outputSha256": "74e35643af95cf5dd424e206ff90087bd7e5cd07d07b48e7981304254bf343af",
+  "parameters": {
+    "canvasPixels": [
+      384,
+      496
+    ],
+    "resizedPixels": [
+      320,
+      480
+    ],
+    "offsetPixels": [
+      32,
+      8,
+      352,
+      488
+    ],
+    "pixelScale": 2,
+    "gripInSourcePixels": [
+      530,
+      150
+    ],
+    "resampling": "Pillow premultiplied RGBa LANCZOS",
+    "alphaPolicy": "Preserve source alpha; no background removal, recoloring, mask cleanup or redrawing",
+    "sourceSha256": "dbbe355d88c3313f45d26dd7b0806560c90d0baabe1e27c45962844ada3ea213"
+  },
+  "drag": "Use the supplied held pose and the existing drag/settle physics."
+}
