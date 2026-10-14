@@ -91,18 +91,29 @@ enum BrowserChatDestination {
     }
 
     private static func tabs(_ root: AXUIElement) -> [AXUIElement] {
+        collectTabs(root, children: { value($0, kAXChildrenAttribute) as? [AXUIElement] ?? [] },
+                    role: { value($0, kAXRoleAttribute) as? String ?? "" },
+                    same: { CFEqual($0, $1) })
+    }
+
+    static func collectTabs<Node>(_ root: Node, children: (Node) -> [Node],
+                                  role: (Node) -> String, same: (Node, Node) -> Bool) -> [Node] {
         var queue = [(root, false)], cursor = 0
-        var found: [AXUIElement] = []
+        var found: [Node] = [], visited: [Node] = []
         while cursor < queue.count && cursor < 512 {
             let (node, inTabs) = queue[cursor]; cursor += 1
-            let role = value(node, kAXRoleAttribute) as? String ?? ""
-            if role == "AXWebArea" || role == kAXToolbarRole || role == kAXMenuRole { continue }
-            if inTabs && ["AXRadioButton", "AXTab", "AXButton"].contains(role) {
+            // Chrome's full-screen accessibility graph can reference the same
+            // tab strip through several containers. It is not necessarily a tree.
+            guard !visited.contains(where: { same($0, node) }) else { continue }
+            visited.append(node)
+            let kind = role(node)
+            if kind == "AXWebArea" || kind == kAXToolbarRole || kind == kAXMenuRole { continue }
+            if inTabs && ["AXRadioButton", "AXTab", "AXButton"].contains(kind) {
                 found.append(node); continue
             }
-            let children = value(node, kAXChildrenAttribute) as? [AXUIElement] ?? []
-            guard queue.count + children.count <= 512 else { return [] }
-            queue += children.map { ($0, inTabs || role == kAXTabGroupRole) }
+            let items = children(node)
+            guard queue.count + items.count <= 512 else { return [] }
+            queue += items.map { ($0, inTabs || kind == kAXTabGroupRole) }
         }
         return cursor == queue.count ? found : []
     }
