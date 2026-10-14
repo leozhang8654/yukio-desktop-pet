@@ -15,10 +15,10 @@
 - `YukioWin/scripts/prepare-windows-assets.py` 同时为两套皮肤生成无损分页，并逐页回读核对像素。macOS 打包通过 `YUKIO_PAGED_ASSETS` 附加同源分页；Windows 包直接使用分页。
 - 检查命令接受 `--skin yukio` / `--skin qianxia`，可搭配 `--check`、`--snapshot`；macOS 也支持 `--blink-snapshots`。离线检查不修改已保存的皮肤。
 
-0.4.5 当前为本地开发版本，公开下载链接仍指向已发布版本。Windows 的跨平台逻辑和素材检查不代表 Windows 原生界面或安装包实测。
+随 [0.4.5](releases/0.4.5.md) 提供 macOS 通用包和 Windows 安装包。发布页的 `validation.json` 记录对应提交、包哈希和原生验证证据；本地跨平台逻辑测试与 Windows 原生界面验证分别记录。
 
 ## English
 
 Choose **Yukio** or **Qianxia** in **Pet settings → Skin**. The change is immediate and persists after restart. Existing users keep Yukio by default. Switching preserves the current activity, position, size and other preferences.
 
-Qianxia uses the supplied R07 assets unchanged, including twelve action states and twelve eyelid levels where present. Dragging uses the separately supplied standing pose with the existing swing and settle behavior, then restores the current activity. The transparent source is fitted proportionally without redrawing; its source, parameters and hashes are retained. Loading errors retain the previous skin; an unavailable saved skin falls back to Yukio on startup. Native Windows validation and a public release are separate from local source and asset checks.
+Qianxia uses the supplied R07 assets unchanged, including twelve action states and twelve eyelid levels where present. Dragging uses the separately supplied standing pose with the existing swing and settle behavior, then restores the current activity. The transparent source is fitted proportionally without redrawing; its source, parameters and hashes are retained. Loading errors retain the previous skin; an unavailable saved skin falls back to Yukio on startup. Available in 0.4.5 for macOS and Windows. The release attachment `validation.json` records package hashes and native validation evidence separately from portable source tests.

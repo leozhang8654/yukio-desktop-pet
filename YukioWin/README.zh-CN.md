@@ -1,5 +1,4 @@
-> **0.4.3：修复聊天放牌与协作任务工作显示。** Mac 可辨认双屏可见聊天；两版修复协助助手误举完成牌。[更新说明](../docs/releases/0.4.3.md)。
-
+> **0.4.5：千夏皮肤、拖动站姿与待机隐身。** 在设置里切换角色；批准申请与回答框粘贴也已修复。[更新说明](../docs/releases/0.4.5.md)。
 
 # 雪绪 · 桌面宠物（Windows 版，跟随 DeepSeek、Claude 或 GPT）
 
@@ -17,7 +16,7 @@
 
 ## 下载（不用装 Python）
 
-到 [Releases](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest) 下载 `Yukio-0.4.3-Windows-Setup.exe`，放哪儿都行，双击就开。Python、Pillow、素材都打包在里面了，需要 Windows 10 或更新的 64 位系统。
+到 [Releases](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest) 下载 `Yukio-0.4.5-Windows-Setup.exe`，放哪儿都行，双击就开。Python、Pillow、素材都打包在里面了，需要 Windows 10 或更新的 64 位系统。
 
 第一次打开 Windows 可能弹蓝色的「Windows 已保护你的电脑」——这个程序没买代码签名证书，点「更多信息」→「仍要运行」，以后不再问。
 

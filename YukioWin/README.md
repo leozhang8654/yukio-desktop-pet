@@ -1,7 +1,4 @@
-> **开发中的 0.4.4**：批准申请问号牌、回答框粘贴修复，以及网页／插件的实验接入。实际支持范围和限制见[回答与批准说明](../YukioPlayer/Resources/BACKGROUND-ANSWERS.md)；下方 0.4.3 下载包尚不包含这些改动。
-
-> **0.4.3: Visible chats and helper activity.** macOS recognizes chats across displays; both platforms fix helper completion signs. [Release notes](../docs/releases/0.4.3.md).
-
+> **0.4.5：千夏皮肤、拖动站姿与待机隐身。** 在设置里切换角色；批准申请与回答框粘贴也已修复。[更新说明](../docs/releases/0.4.5.md)。
 
 # Yukio desktop pet (Windows edition: DeepSeek, Claude or GPT)
 

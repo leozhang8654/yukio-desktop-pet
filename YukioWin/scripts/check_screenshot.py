@@ -18,6 +18,7 @@ from PIL import Image
 from yukio.catalog import AnimationCatalog, assets_root
 from yukio.console import force_utf8_console
 from yukio.sprites import SpriteLibrary
+from yukio.skins import skin_root
 
 #: 允许的单通道色差（截屏和色彩管理可能差一两个数）。
 TOLERANCE = 6
@@ -64,6 +65,7 @@ def main() -> int:
     if not root:
         print("找不到素材目录")
         return 1
+    root = skin_root(root, sys.argv[7] if len(sys.argv) > 7 else "yukio")
     catalog = AnimationCatalog.load(root)
     library = SpriteLibrary(catalog, root)
     spec = catalog.specs.get(spec_id)
