@@ -15,6 +15,7 @@ DEFAULTS: Dict[str, Any] = {
     "updateDeferredUntil": 0,
     "follow": True,
     "petVisible": True,
+    "hideWhenIdle": True,
     "showCards": True,
     "showQuestionCard": True,
     "assistantName": "Yukio",
@@ -22,6 +23,7 @@ DEFAULTS: Dict[str, Any] = {
     "assistantReminderSound": True,
     "showBubble": True,
     "scale": 1.0,
+    "skin": "yukio",
     "source": "auto",      # auto / claude / deepcode（DeepSeek）/ gpt（Codex）
     "language": "en",      # en / zh：界面语言，默认英文
     "originX": None,

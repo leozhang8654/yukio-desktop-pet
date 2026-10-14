@@ -7,6 +7,10 @@
 """
 
 import os
+import json
+import hashlib
+import subprocess
+from pathlib import Path
 import velopack  # Fail packaging early if the updater dependency is missing.
 from PyInstaller.utils.hooks import collect_all
 
@@ -29,11 +33,20 @@ if not ASSETS:
 
 ICON = os.path.join(ROOT, "Resources", "Yukio.ico")
 
+# Keep the actual source commit and exact packaged resources inside each installer.
+provenance_path = Path(ROOT) / "build" / "build-provenance.json"
+provenance_path.parent.mkdir(parents=True, exist_ok=True)
+provenance_path.write_text(json.dumps({
+    "sourceRevision": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=REPO, text=True).strip(),
+    "assetSha256": {p.relative_to(ASSETS).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
+                    for p in sorted(Path(ASSETS).rglob("*")) if p.is_file()},
+}, indent=2), encoding="utf-8")
+
 a = Analysis(
     [os.path.join(ROOT, "run.py")],
     pathex=[ROOT],
     binaries=uia_binaries,
-    datas=[(ASSETS, "Assets")] + uia_datas,
+    datas=[(str(provenance_path), "."), (ASSETS, "Assets"), (os.path.join(REPO, "YukioPlayer", "integrations", "deepseek"), "integrations/deepseek")] + uia_datas,
     hiddenimports=uia_hiddenimports,
     hookspath=[],
     runtime_hooks=[],

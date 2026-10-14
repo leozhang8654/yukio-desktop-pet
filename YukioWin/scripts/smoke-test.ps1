@@ -12,7 +12,8 @@ param(
     [int]$WaitSeconds = 10,
     # 放大倍数：默认 100%。设成 1.5 就是模拟“菜单里选了 150%”，走的是放大绘制那条路
     # （高分屏上系统缩放 150% 走的也是这条）。
-    [double]$Scale = 1.0
+    [double]$Scale = 1.0,
+    [ValidateSet("yukio", "qianxia")] [string]$Skin = "yukio"
 )
 
 $ErrorActionPreference = "Stop"
@@ -25,12 +26,11 @@ if (-not (Test-Path $Exe)) { throw "没找到 $Exe" }
 # 干净的第一次运行：清掉上次的设置和日志
 $appData = Join-Path $env:LOCALAPPDATA "Yukio"
 if (Test-Path $appData) { Remove-Item -Recurse -Force $appData }
-if ($Scale -ne 1.0) {
-    New-Item -ItemType Directory -Force -Path $appData | Out-Null
-    $json = "{`"follow`": true, `"showBubble`": true, `"scale`": $Scale, `"source`": `"auto`", `"originX`": null, `"originY`": null}"
-    Set-Content -Path (Join-Path $appData "settings.json") -Value $json -Encoding UTF8
-    Write-Host "== 这一遍按 $($Scale * 100)% 放大跑"
-}
+New-Item -ItemType Directory -Force -Path $appData | Out-Null
+@{ follow = $true; showBubble = $true; scale = $Scale; skin = $Skin; source = "auto"; originX = $null; originY = $null } |
+    ConvertTo-Json | Set-Content -Path (Join-Path $appData "settings.json") -Encoding UTF8
+Write-Host "== $Skin at $($Scale * 100)%"
+
 
 Write-Host "== 造一份 Deep Code 会话"
 $previous = $ErrorActionPreference
@@ -150,7 +150,7 @@ try {
 
 # 屏幕上那一块像素，和图条逐点比
 if ((Test-Path $shot) -and $petRect -and $state) {
-    $checkArgs = @($shot, $state[0], $petRect.left, $petRect.top, $petRect.width, $petRect.height)
+    $checkArgs = @($shot, $state[0], $petRect.left, $petRect.top, $petRect.width, $petRect.height, $Skin)
     $stderrFile = Join-Path $out "pixels-stderr.txt"
     # 本机命令只要往 stderr 写一个字，ErrorActionPreference=Stop 就会把它当错误抛出来，
     # 所以这一段临时放宽，自己看退出码。

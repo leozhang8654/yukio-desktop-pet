@@ -44,7 +44,7 @@ def advance(application, ticks: int, step: float = 33.0):
         application.tick()
 
 
-def make_app(argv=None, dpi=1.0, first_run=False, sources=None, **overrides):
+def make_app(argv=None, dpi=1.0, first_run=False, sources=None, hide_when_idle=False, **overrides):
     """first_run=False 时先放一份设置文件：这样就不是“第一次打开”，不会自动播演示。"""
     fake_win32.QUIT[:] = []
     fake_win32.CURSOR[:] = [0, 0]
@@ -54,7 +54,9 @@ def make_app(argv=None, dpi=1.0, first_run=False, sources=None, **overrides):
     settings_path = os.path.join(tempfile.mkdtemp(prefix="yukio-test-"), "settings.json")
     if not first_run:
         with open(settings_path, "w", encoding="utf-8") as fh:
-            fh.write('{"language": "zh"}')   # 测试按中文文案断言
+            import json
+            # Existing rendering/drag tests explicitly exercise the always-visible setting.
+            json.dump({"language": "zh", "hideWhenIdle": hide_when_idle}, fh)
     application = object.__new__(app_module.PetApp)
     # 用临时设置文件，不碰用户自己的设置；来源用空列表，事件由测试直接喂。
     original_settings = Settings

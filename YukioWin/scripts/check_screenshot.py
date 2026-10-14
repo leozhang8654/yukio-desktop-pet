@@ -18,6 +18,7 @@ from PIL import Image
 from yukio.catalog import AnimationCatalog, assets_root
 from yukio.console import force_utf8_console
 from yukio.sprites import SpriteLibrary
+from yukio.skins import skin_root
 
 #: 允许的单通道色差（截屏和色彩管理可能差一两个数）。
 TOLERANCE = 6
@@ -52,6 +53,36 @@ def static_pixels(library: SpriteLibrary, spec_id: str, size=None, limit: int = 
     return out
 
 
+def best_frame_match(screen, library, spec_id, rect):
+    """For moving/near-opaque skins, compare against every decoded frame.
+
+    Alpha 253/254 has no exactly opaque static pixels. Bound the unknown
+    desktop background contribution mathematically; retain the same 90% ratio
+    and per-channel tolerance, requiring at least 100 high-alpha samples.
+    """
+    left, top, width, height = rect
+    if left < 0 or top < 0 or left + width > screen.width or top + height > screen.height:
+        return 0.0, 0, None
+    actual = list(screen.crop((left, top, left + width, top + height)).convert('RGB').getdata())
+    best = (0.0, 0, None)
+    for index in range(library.frame_count(spec_id)):
+        frame = library.frame(spec_id, index).image.resize((width, height), Image.BILINEAR).convert('RGBA')
+        hit = count = 0
+        for pixel, observed in zip(frame.getdata(), actual):
+            alpha = pixel[3]
+            if alpha < 253:
+                continue
+            count += 1
+            # Any desktop background is in [0,255]. Quantization adds <=1.
+            if all((pixel[c] * alpha // 255 - TOLERANCE - 1) <= observed[c] <=
+                   ((pixel[c] * alpha + 255 * (255 - alpha)) // 255 + TOLERANCE + 1)
+                   for c in range(3)):
+                hit += 1
+        if count >= 100 and hit / count > best[0]:
+            best = (hit / count, count, index)
+    return best
+
+
 def main() -> int:
     force_utf8_console()
     if len(sys.argv) < 7:
@@ -64,6 +95,7 @@ def main() -> int:
     if not root:
         print("找不到素材目录")
         return 1
+    root = skin_root(root, sys.argv[7] if len(sys.argv) > 7 else "yukio")
     catalog = AnimationCatalog.load(root)
     library = SpriteLibrary(catalog, root)
     spec = catalog.specs.get(spec_id)
@@ -74,8 +106,9 @@ def main() -> int:
     screen = Image.open(path).convert("RGB")
     pixels = static_pixels(library, spec_id, (width, height))
     if not pixels:
-        print("这个动作没有可比对的静止像素")
-        return 1
+        ratio, count, index = best_frame_match(screen, library, spec_id, (left, top, width, height))
+        print("动态帧比对：最佳帧 %s，%d 个高不透明像素，匹配率 %.1f%%" % (index, count, ratio * 100))
+        return 0 if index is not None and ratio >= REQUIRED_RATIO else 1
 
     hit = miss = outside = 0
     for x, y, (r, g, b) in pixels:

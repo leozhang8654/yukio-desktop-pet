@@ -24,6 +24,23 @@ final class QuestionPanel: NSPanel {
         contentView = cardView
     }
 
+    override func performKeyEquivalent(with event: NSEvent) -> Bool {
+        // Accessory panels may exist before the assistant window installs an Edit menu.
+        // Route standard shortcuts to this field editor, never to another application's editor.
+        if event.modifierFlags.intersection([.command, .control, .option, .shift]) == .command,
+           let editor = firstResponder as? NSTextView, editor.isEditable {
+            switch event.charactersIgnoringModifiers?.lowercased() {
+            case "v": editor.paste(nil); return true
+            case "c": editor.copy(nil); return true
+            case "x": editor.cut(nil); return true
+            case "a": editor.selectAll(nil); return true
+            case "z": editor.undoManager?.undo(); return true
+            default: break
+            }
+        }
+        return super.performKeyEquivalent(with: event)
+    }
+
     override var canBecomeKey: Bool { true }
     override var canBecomeMain: Bool { false }
 }
@@ -81,7 +98,7 @@ final class QuestionCardView: NSView, NSTextFieldDelegate {
             field.isHidden = true
             return
         }
-        field.isHidden = false
+        field.isHidden = card.isApproval
         field.isEnabled = !card.isSending
         field.frame = card.textFieldFrame(in: bounds).insetBy(dx: 5, dy: 4)
     }
@@ -126,7 +143,7 @@ final class QuestionCardView: NSView, NSTextFieldDelegate {
             return
         }
         if first == "\u{1b}" { onClose?(); return }
-        if first == "\r" || first == "\u{3}" { onSend?(answerText); return }
+        if first == "\r" || first == "\u{3}" { if card?.isApproval != true { onSend?(answerText) }; return }
         if let n = first.wholeNumberValue, n >= 1, n <= (card?.options.count ?? 0) {
             onOption?(n - 1)
             return

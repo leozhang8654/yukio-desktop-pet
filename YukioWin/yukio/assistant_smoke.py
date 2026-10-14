@@ -15,6 +15,7 @@ def schedule(app, output):
     ui = app.assistant
     checks = []
     startup_test = None
+    package_provenance = None
     def check(condition, name):
         if not condition:
             raise AssertionError(name)
@@ -23,7 +24,7 @@ def schedule(app, output):
         if startup_test is not None:
             try: startup_test.set_enabled(False)
             except Exception: error = (error or "") + " Startup test cleanup failed"
-        (output / "report.json").write_text(json.dumps({"ok":error is None,"checks":checks,"error":error},ensure_ascii=False,indent=2),encoding="utf-8")
+        (output / "report.json").write_text(json.dumps({"ok":error is None,"checks":checks,"error":error,"packageProvenance":package_provenance},ensure_ascii=False,indent=2),encoding="utf-8")
         if quit_from_settings:
             ui.pet_settings.quit_button.invoke()
         else:
@@ -50,7 +51,16 @@ def schedule(app, output):
             check(len(shot.crop((0,0,200,400)).getcolors(1000000)) > 30,"home text painted")
         shot.save(output / name)
     def setup():
-        nonlocal startup_test
+        nonlocal startup_test, package_provenance
+        import hashlib
+        import sys
+        provenance_path = Path(sys._MEIPASS) / "build-provenance.json"
+        package_provenance = json.loads(provenance_path.read_text(encoding="utf-8"))
+        for relative, expected in package_provenance["assetSha256"].items():
+            actual = hashlib.sha256((Path(app.bundled_assets) / relative).read_bytes()).hexdigest()
+            if actual != expected:
+                raise AssertionError("Packaged asset mismatch: " + relative)
+        checks.append("all bundled assets match packaging provenance")
         check(not ui.root.winfo_viewable(), "standalone assistant stays hidden on launch")
         from .startup import LaunchAtLogin, RegistryBackend
         startup_test = LaunchAtLogin(RegistryBackend("YukioSmoke-" + str(os.getpid())))
@@ -123,6 +133,53 @@ def schedule(app, output):
         button = settings.quit_button
         check(button.winfo_viewable(), "quit button visible in right-click settings")
         check(button.winfo_rooty() + button.winfo_height() <= settings.window.winfo_rooty() + settings.window.winfo_height(), "quit button fits inside settings")
+        verify_skin_drag()
+    def verify_skin_drag():
+        from .settings import Settings
+        from .app import now_ms
+        settings = ui.pet_settings
+        original_position = (app.pet.x, app.pet.y)
+        original_state = app.shown_state
+        for index, skin in ((1, "qianxia"), (0, "yukio"), (1, "qianxia")):
+            settings.skin_picker.current(index)
+            settings.skin_picker.event_generate("<<ComboboxSelected>>")
+            ui.root.update()
+            check(app.skin == skin, "settings selects " + skin)
+            check(Settings(app.settings.path).get("skin") == skin, "selection persists: " + skin)
+            check((app.pet.x, app.pet.y) == original_position, "skin switch preserves position: " + skin)
+            check(app.shown_state == original_state, "skin switch preserves activity: " + skin)
+        screenshot("settings.png")
+        settings.window.withdraw()
+        app.set_hide_when_idle(False)
+        app.pet.move(400, 250)
+        app._painted = None
+        app._render(now_ms())
+        # Drive the actual native window procedure and capture its rendered held pose.
+        w = app.win32
+        w.user32.SetCursorPos(490, 310)
+        w.user32.SendMessageW(app.pet.hwnd, w.WM_LBUTTONDOWN, 1, 0)
+        w.user32.SetCursorPos(520, 335)
+        w.user32.SendMessageW(app.pet.hwnd, w.WM_MOUSEMOVE, 1, 0)
+        check(app.swing is not None and app.hang_geo is not None, "native drag starts Qianxia held pose")
+        check(app.held_spec.frame_height == 248, "Qianxia standing pose selected")
+        ui.root.after(250, guard(held_visible))
+    def held_visible():
+        import ctypes
+        from PIL import ImageGrab
+        w = app.win32
+        ctypes.windll.dwmapi.DwmFlush()
+        x, y = app.pet.x, app.pet.y
+        width, height = app.hang_geo.panel_size
+        ImageGrab.grab(bbox=(x, y, x + width, y + height)).save(output / "qianxia-held.png")
+        w.user32.SendMessageW(app.pet.hwnd, w.WM_LBUTTONUP, 0, 0)
+        check(app._released_at is not None, "native release starts settling")
+        ui.root.after(3000, guard(settled))
+    def settled():
+        check(app.swing is None and app.hang_geo is None, "release restores activity after settling")
+        check((app.pet.x, app.pet.y) == (430, 275), "drag restores exact release position")
+        check((app.settings.get("originX"), app.settings.get("originY")) == (430, 275), "release position persists")
+        app.win32.user32.SendMessageW(app.pet.hwnd, app.win32.WM_RBUTTONUP, 0, 0)
+        ui.root.update()
         checks.append("exit requested through settings quit button")
         finish(quit_from_settings=True)
     ui.root.after(500,guard(setup))

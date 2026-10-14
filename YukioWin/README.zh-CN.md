@@ -1,5 +1,4 @@
-> **0.4.3：修复聊天放牌与协作任务工作显示。** Mac 可辨认双屏可见聊天；两版修复协助助手误举完成牌。[更新说明](../docs/releases/0.4.3.md)。
-
+> **0.4.6**: browser chat destinations, visible-chat completion reminders, approval cards, answer pasting and Qianxia. [Release notes](../docs/releases/0.4.6.md).
 
 # 雪绪 · 桌面宠物（Windows 版，跟随 DeepSeek、Claude 或 GPT）
 
@@ -17,7 +16,7 @@
 
 ## 下载（不用装 Python）
 
-到 [Releases](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest) 下载 `Yukio-0.4.3-Windows-Setup.exe`，放哪儿都行，双击就开。Python、Pillow、素材都打包在里面了，需要 Windows 10 或更新的 64 位系统。
+到 [Releases](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest) 下载 `Yukio-0.4.6-Windows-Setup.exe`，放哪儿都行，双击就开。Python、Pillow、素材都打包在里面了，需要 Windows 10 或更新的 64 位系统。
 
 第一次打开 Windows 可能弹蓝色的「Windows 已保护你的电脑」——这个程序没买代码签名证书，点「更多信息」→「仍要运行」，以后不再问。
 
@@ -170,13 +169,9 @@ claude://code/continue?session=local_…
 - **✕**：这一道题先不在这儿答；换一道题卡片会重新立起来。
 - **「打开聊天 >」**：跳过去自己答。
 
-**GPT / Codex：**通过正在运行的桌面应用本地命名管道回答，核对具体聊天和问题，兼容最新 canonical 记录与旧版格式，收到回执才收卡。不切换窗口、不改粘贴板、不模拟按键；失败保留输入并可以重试。需要本机 Codex 桌面版，普通 ChatGPT 网站未接入。
+**本机连接：**GPT / Codex 使用本机后台连接；Claude Code 需设置问题和批准钩子，DeepSeek 需从单独适配入口启动。发送前核对具体聊天和问题，收到回执才结束；失败保留输入。批准前显示完整申请，不会自动选择允许。
 
-**Claude 等其他来源：**沿用现有发送方式：先复制一份到粘贴板，用桌面版 Claude 注册的深链打开那条聊天，
-**等到最前面的确实是 `Claude.exe`**，再用 `SendInput` 的 Unicode 模式把答案逐字打进去（不看键盘布局、也不经过输入法），
-最后按一下回车。Windows 上这件事不需要额外授权。那个应用 2.5 秒内没到最前面、或者这中间你又切走了，
-**一个键都不会按**：答案就留在粘贴板里，卡片上写着「已复制 · 到聊天里 Ctrl+V」。绝不会往别的应用里乱按键。
-跳不过去的聊天（Deep Code 跑在终端里，命令行版 Claude Code 也一样）只复制。模拟演示里不会真的送出去。
+**网页与插件：**只支持能够识别并核对的页面结构，仍属实验接入，不能保证所有网页和第三方 App 都能回传。完整条件与设置见[回答说明](../YukioPlayer/Resources/BACKGROUND-ANSWERS.md)。不向任意当前输入框模拟敲字。
 
 菜单 › **在这儿回答问题** 可以整张卡关掉，关掉后问号卡还是老样子。
 `python -m yukio --question out.png` 离屏画出这张卡（单选、多选、没有选项、已答过四种）并打印点击分区——

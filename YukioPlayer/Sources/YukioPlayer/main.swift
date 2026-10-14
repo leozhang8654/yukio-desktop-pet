@@ -5,14 +5,35 @@ func nowMs() -> Double { Date().timeIntervalSince1970 * 1000 }
 
 // MARK: - 命令行模式（无窗口）
 
-func loadCatalogOrExit() -> (AnimationCatalog, URL) {
+func loadCatalogOrExit(useSavedSkin: Bool = false) -> (AnimationCatalog, URL) {
     guard let root = AssetLocator.assetsRoot() else {
         FileHandle.standardError.write(Data("找不到资源目录 Assets（可用 YUKIO_ASSETS 指定）\n".utf8))
         exit(1)
     }
+    let args = CommandLine.arguments
+    if args.last == "--skin" {
+        FileHandle.standardError.write(Data("--skin requires yukio or qianxia\n".utf8))
+        exit(1)
+    }
+    let explicit = args.firstIndex(of: "--skin").flatMap { $0 + 1 < args.count ? args[$0 + 1] : nil }
+    if let explicit, PetSkin(rawValue: explicit) == nil {
+        FileHandle.standardError.write(Data("Unknown skin: \(explicit)\n".utf8))
+        exit(1)
+    }
+    let skin = PetSkin(rawValue: explicit ?? (useSavedSkin ? UserDefaults.standard.string(forKey: "skin") : nil) ?? "yukio") ?? .yukio
+    let selected = skin.assetsRoot(in: root)
     do {
-        return (try AnimationCatalog.load(assetsRoot: root), root)
+        let catalog = try AnimationCatalog.load(assetsRoot: selected)
+        // Recover a broken saved skin before creating any windows.
+        if useSavedSkin && skin != .yukio { _ = try SpriteLibrary(catalog: catalog, assetsRoot: selected) }
+        return (catalog, selected)
     } catch {
+        if useSavedSkin && explicit == nil && skin != .yukio,
+           let fallback = try? AnimationCatalog.load(assetsRoot: root) {
+            FileHandle.standardError.write(Data("Skin unavailable; using Yukio: \(error)\n".utf8))
+            UserDefaults.standard.set(PetSkin.yukio.rawValue, forKey: "skin")
+            return (fallback, root)
+        }
         FileHandle.standardError.write(Data("资源加载失败：\(error)\n".utf8))
         exit(1)
     }
@@ -146,7 +167,7 @@ func runMotionBenchmark() -> Never {
             for _ in 0..<2 {
                 for (step, index) in spec.sequence.enumerated() {
                     let start = ProcessInfo.processInfo.systemUptime
-                    _ = library.frame(spec.id, index, blinkLevel: clock.level(at: time))
+                    _ = library.frame(spec.id, index, blinkLevel: clock.level(at: time, levels: spec.blink?.levels ?? 6))
                     samples.append((ProcessInfo.processInfo.systemUptime - start) * 1000)
                     time += Double(spec.durationsMs[step])
                 }
@@ -714,6 +735,9 @@ struct HangGeometry {
         }
         box = box.insetBy(dx: -1, dy: -1)
         box = NSRect(x: box.minX, y: box.minY - sagRoom, width: box.width, height: box.height + sagRoom)
+        // NSWindow rounds its frame to whole points. Keep the offset on the same
+        // grid so expanding/restoring the held canvas cannot accumulate drift.
+        box = box.integral
         return HangGeometry(panelSize: box.size,
                             offset: NSPoint(x: box.minX, y: box.minY),
                             spriteRect: sprite.offsetBy(dx: -box.minX, dy: -box.minY),
@@ -738,8 +762,10 @@ struct HangGeometry {
 
 
 final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
-    private let catalog: AnimationCatalog
-    private let library: SpriteLibrary
+    private var catalog: AnimationCatalog
+    private var library: SpriteLibrary
+    private var skin: PetSkin
+    private let bundledAssets: URL
     private let router = ActivityRouter(now: nowMs())
     /// 跟着哪一家（Claude／DeepSeek／GPT，或三家都跟）的本机会话记录。菜单里换。
     private var feeds: AgentSources
@@ -748,9 +774,11 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private var openChatBusy = false
     private let codexOpenChat = CodexOpenChat()
     private let claudeAnswerBridge = ClaudeQuestionBridge()
+    private let codexApprovalMonitor = CodexApprovalMonitor()
+    private let surfaceApprovalBridge = SurfaceApprovalBridge()
     private var deepSeekInstaller: Process?
     private var openChatObservedAt: Double = -.infinity
-    private let defaults = UserDefaults.standard
+    private let defaults: UserDefaults
 
     private var panel: PetPanel!
     private var view: PetView!
@@ -765,8 +793,17 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private var timer: Timer?
     private var tickCount = 0
 
-    /// 此刻收起着没有。只管这一次运行，重开还是露着的。
-    private var petHidden = false
+    /// 手动收起只管本次运行；待机隐身由活动状态和持久化开关决定。
+    private var manuallyHidden = false
+    private var idleHidden = false
+    private var appliedPetHidden: Bool?
+    // “显示雪绪”会让她在本次待机期间保持可见，下一次工作后恢复自动隐身。
+    private var revealedWhileIdle = false
+    private var petHidden: Bool { manuallyHidden || idleHidden }
+    private var hideWhenIdle: Bool {
+        get { defaults.object(forKey: "hideWhenIdle") as? Bool ?? true }
+        set { defaults.set(newValue, forKey: "hideWhenIdle") }
+    }
 
     private var shownState: PetState = .idle
     private var stateTimeline: SpriteTimeline
@@ -838,7 +875,12 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         set { defaults.set(newValue.rawValue, forKey: "language"); L10n.language = newValue }
     }
 
-    init(catalog: AnimationCatalog, library: SpriteLibrary) {
+    init(catalog: AnimationCatalog, library: SpriteLibrary, defaults: UserDefaults = .standard,
+         skin: PetSkin = .yukio, bundledAssets: URL? = nil) {
+        self.skin = skin
+        self.bundledAssets = bundledAssets ?? (skin == .yukio ? library.assetsRoot
+            : library.assetsRoot.deletingLastPathComponent().deletingLastPathComponent())
+        self.defaults = defaults
         // 先定语言，再回放会话记录：回放时生成的说明文字才是对的语言。
         L10n.language = UILanguage(code: UserDefaults.standard.string(forKey: "language"))
         self.catalog = catalog
@@ -862,12 +904,12 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         setUpWindow()
         setUpStatusItem()
         render()
-        panel.orderFrontRegardless()
         setUpBubble()
-        updateBubble(now: now)
         setUpCards()
-        updateCards(now: now)
         setUpQuestion()
+        updatePetVisibility(now: now)
+        updateBubble(now: now)
+        updateCards(now: now)
         updateQuestion(now: now)
 
         // 30 Hz：小幅动作一帧约 67 ms、眨眼一帧 50–110 ms，都能按时换帧。
@@ -955,22 +997,46 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     /// 收起／放回来。气泡和卡叠是子窗口，跟着母窗口一起进出；菜单栏那只头像一直在。
     private func setHidden(_ value: Bool) {
-        guard value != petHidden else { return }
-        petHidden = value
+        manuallyHidden = value
+        revealedWhileIdle = !value && shownState == .idle
         if value {
+            view.cancelDrag()
             finishHang()
+        }
+        updatePetVisibility(now: nowMs())
+    }
+
+    private func updatePetVisibility(now: Double) {
+        if shownState != .idle { revealedWhileIdle = false }
+        let source: ActivityRouter? = simulation?.router ?? (following ? router : nil)
+        let hasNotice = source?.statusLine(now: now) != nil
+            || (following && showBubble && showCards && !router.cards(now: now).isEmpty)
+        idleHidden = hideWhenIdle && shownState == .idle && !revealedWhileIdle
+            && simulation == nil && !hasNotice
+            && !view.pressed && !view.dragging && swing == nil
+        guard appliedPetHidden != petHidden || panel.isVisible == petHidden else { return }
+        appliedPetHidden = petHidden
+        if petHidden {
             collapseCards()
-            updateQuestion(now: nowMs(), immediate: true)   // 先把问题卡收掉（它是独立的子窗口）
+            updateQuestion(now: now, immediate: true)
+            for window in [bubble as NSWindow?, cardStack as NSWindow?, questionPanel as NSWindow?] {
+                window?.ignoresMouseEvents = true
+                window?.orderOut(nil)
+            }
+            panel.ignoresMouseEvents = true
             panel.orderOut(nil)
         } else {
             // 收起期间可能拔了显示器：先挪回屏幕内再露面。
             clampToScreen()
             savePosition()
-            panel.orderFrontRegardless()
             render()
+            panel.orderFrontRegardless()
             positionBubble()
-            positionCards()
-            updateQuestion(now: nowMs(), immediate: true)
+            updateBubble(now: now, force: true)
+            updateCards(now: now, immediate: true)
+            if !cardsHold.value.isEmpty { cardStack.orderFrontRegardless() }
+            updateQuestion(now: now, immediate: true)
+            updateMousePassThrough()
         }
         updateStatusTitle()
     }
@@ -1020,8 +1086,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
         guard following else { return }
         if shownState == .task_complete, let session = router.completedSession {
-            openChat(session: session)
-            router.dismissCompletion(now: now)
+            if openChat(session: session) { router.dismissCompletion(now: now) }
             return
         }
         if shownState == .question_for_user, let session = router.askingSession {
@@ -1031,14 +1096,18 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     /// 用各家桌面版自己注册的深链打开这条聊天。认不出会话时（例如在终端里跑的），
     /// 至少把那个应用带到前面，不乱跳到别的聊天。
-    private func openChat(session: String) {
+    @discardableResult
+    private func openChat(session: String) -> Bool {
         switch AgentProvider.owner(ofSource: router.sourceOfSession(session) ?? "") {
         case .gpt:
+            if feeds.isBrowserSession(session) {
+                return BrowserChatDestination.open(session: session)
+            }
             // Codex 桌面版（ChatGPT.app，标识 com.openai.codex）注册的深链。
             // 会话 ID 就是记录文件名里的那个，应用自己的日志里叫 threadId，两边是同一个。
             if let url = URL(string: "codex://threads/\(session)") {
                 NSWorkspace.shared.open(url)
-                return
+                return true
             }
             activate(Self.codexBundleID)
         case .deepseek:
@@ -1047,15 +1116,17 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         default:
             if let url = links.chatURL(forTranscriptSession: session) {
                 NSWorkspace.shared.open(url)
-                return
+                return true
             }
             activate(Self.claudeBundleID)
         }
+        return true
     }
 
     /// 举着的牌子能不能点回那条聊天（Deep Code 没有窗口可跳）。
     private func canOpenChat(session: String?) -> Bool {
         guard let session else { return false }
+        if feeds.isBrowserSession(session) { return BrowserChatDestination.contains(session) }
         return AgentProvider.owner(ofSource: router.sourceOfSession(session) ?? "") != .deepseek
     }
 
@@ -1205,6 +1276,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             "pinnedSession": router.pinnedSession ?? "",
             "workingSessions": router.sessionSummaries(now: nowMs()).filter(\.live).map(\.id).sorted(),
             "visibleSessions": router.visibleChatSessions.sorted(),
+            "browserDestinations": BrowserChatDestination.sessions,
             "raisedSigns": router.sessionSummaries(now: nowMs()).filter(\.raisedSign).map(\.id).sorted(),
         ]
         let directory = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Application Support/YukioPlayer")
@@ -1215,6 +1287,10 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     private func tick() {
+        if view.pressed && NSEvent.pressedMouseButtons & 1 == 0 {
+            view.cancelDrag()
+            finishHang()
+        }
         let now = nowMs()
         tickCount += 1
         // Expire stalled observations; changing foreground apps does not hide the other screen.
@@ -1222,11 +1298,27 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             router.openChatSession = nil
             router.visibleChatSessions = []
         }
-        if tickCount % 15 == 0 { refreshOpenChat() }
+        if tickCount % 15 == 0 {
+            refreshOpenChat()
+            let sessions = router.sessionSummaries(now: now, quietWithinMs: 24 * 60 * 60 * 1000).filter {
+                router.sourceOfSession($0.id) == "codex" && !$0.id.hasPrefix("surface-")
+            }.map(\.id)
+            codexApprovalMonitor.poll(sessions: sessions, enabled: following && showQuestionCard && !manuallyHidden) { [weak self] events in
+                guard let self else { return }
+                for event in events { self.router.ingest(event, now: nowMs()) }
+            }
+        }
+        if tickCount % 60 == 0 {
+            surfaceApprovalBridge.poll(enabled: following && showQuestionCard && !manuallyHidden,
+                providers: provider == .auto ? ["gpt", "claude", "deepseek"] : [provider.rawValue]) { [weak self] events in
+                    guard let self else { return }
+                    for event in events { self.router.ingest(event, now: nowMs()) }
+                }
+        }
         if tickCount % 8 == 0 {
             // 约每 0.27 秒读一次会话记录。事件始终进入路由器；暂停跟随只影响显示。
             for e in feeds.poll(now: now) { router.ingest(e, now: min(e.ts, now)) }
-            for e in claudeAnswerBridge.poll(now: now, enabled: following && showQuestionCard && !petHidden
+            for e in claudeAnswerBridge.poll(now: now, enabled: following && showQuestionCard && !manuallyHidden
                  , providers: provider == .auto ? ["claude", "deepseek"] : [provider.rawValue]) { router.ingest(e, now: now) }
         }
         router.tick(now: now)
@@ -1271,6 +1363,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
                 finishHang()
             }
         }
+        updatePetVisibility(now: now)
         // 收起时不画、也不去抢鼠标；状态照样跟着走。
         if !petHidden {
             render()
@@ -1330,12 +1423,13 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     /// 上次摆放气泡时是否被拎着。拎起和放下时各重新摆一次。
     private var bubblePlacedForHang = false
 
-    private func updateBubble(now: Double) {
+    private func updateBubble(now: Double, force: Bool = false) {
         if (swing != nil) != bubblePlacedForHang { positionBubble(); positionCards() }
         let source: ActivityRouter? = simulation?.router ?? (following ? router : nil)
         let line = showBubble ? source?.statusLine(now: now) : nil
         let visibilityChanged = (line == nil) != (bubbleHold.value == nil)
-        guard bubbleHold.update(line, now: now, immediate: visibilityChanged) else { return }
+        let changed = bubbleHold.update(line, now: now, immediate: visibilityChanged || force)
+        guard changed || force else { return }
         if let line = bubbleHold.value {
             bubble.bubbleView.layout = BubbleLayout(line)
             positionBubble()
@@ -1369,6 +1463,10 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     private func fadeBubble(to alpha: CGFloat) {
+        if alpha > 0, !petHidden {
+            if bubble.parent == nil { panel.addChildWindow(bubble, ordered: .above) }
+            bubble.orderFrontRegardless()
+        }
         NSAnimationContext.runAnimationGroup { ctx in
             ctx.duration = 0.18
             self.bubble.animator().alphaValue = alpha
@@ -1533,6 +1631,12 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     /// 点了一个选项：单选直接答出去，多选先记下来，写完（或按 ⏎）一起送。
     private func questionOptionPicked(_ i: Int) {
         guard let q = shownQuestion?.question, i < q.options.count else { return }
+        if q.isApproval {
+            let original = shownQuestion
+            guard let answer = ApprovalReview.answer(q), shownQuestion == original else { return }
+            sendAnswer(answer)
+            return
+        }
         guard q.multiSelect else {
             sendAnswer(q.options[i].label)
             return
@@ -1561,16 +1665,25 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             return
         }
         let owner = AgentProvider.owner(ofSource: router.sourceOfSession(pending.session) ?? "")
+        let titles = router.sessionSummaries(now: nowMs()).filter { router.sourceOfSession($0.id) == "codex" }.map { (id: $0.id, title: $0.title) }
         answersInFlight.insert(key)
         questionPresentation.setNotice(tr("Sending in background…", "正在后台回答…"), for: key)
         updateQuestion(now: nowMs(), immediate: true)
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             let result: Result<Void, Error>
             do {
-                switch owner {
+                if pending.callID.hasPrefix("surface-approval:") {
+                    guard let self else { throw CodexAnswerClient.Failure.unavailable }
+                    try self.surfaceApprovalBridge.send(session: pending.session, callID: pending.callID, question: pending.question, answer: text)
+                } else { switch owner {
                 case .gpt:
-                    try CodexAnswerClient().send(session: pending.session, callID: pending.callID,
-                                                 question: pending.question, answer: text)
+                    do {
+                        try CodexAnswerClient().send(session: pending.session, callID: pending.callID,
+                                                     question: pending.question, answer: text)
+                    } catch CodexAnswerClient.Failure.unavailable where !pending.question.isApproval {
+                        guard let self else { throw CodexAnswerClient.Failure.unavailable }
+                        try self.surfaceApprovalBridge.sendQuestion(session: pending.session, titles: titles, callID: pending.callID, question: pending.question, answer: text, provider: "gpt")
+                    }
                 case .claude:
                     try ClaudeQuestionBridge().send(session: pending.session, callID: pending.callID, answer: text)
                 case .deepseek:
@@ -1578,7 +1691,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
                     try ClaudeQuestionBridge().send(session: pending.session, callID: pending.callID, answer: text, provider: "deepseek")
                 default:
                     throw CodexAnswerClient.Failure.ambiguous
-                }
+                } }
                 result = .success(())
             } catch { result = .failure(error) }
             DispatchQueue.main.async {
@@ -1731,7 +1844,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
         button.appearsDisabled = petHidden
         button.toolTip = petHidden
-            ? tr("Yukio: hidden", "雪绪：已收起")
+            ? (manuallyHidden ? tr("Yukio: hidden", "雪绪：已收起") : tr("Yukio: hidden while idle", "雪绪：待机隐身中"))
             : tr("Yukio: ", "雪绪：") + (swing != nil ? L10n.heldName : L10n.stateName(shownState))
     }
 
@@ -1872,7 +1985,9 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
                                 language: language,
                                 demoPlaying: simulation != nil,
                                 launchAtLogin: launchAtLogin.status,
-                                automaticUpdates: softwareUpdates.automaticallyChecks)
+                                automaticUpdates: softwareUpdates.automaticallyChecks,
+                                hideWhenIdle: hideWhenIdle,
+                                skin: skin)
     }
 
     private func showSettings() {
@@ -1916,8 +2031,35 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         positionQuestion()
     }
 
+    private func switchSkin(to picked: PetSkin) throws {
+        guard picked != skin else { return }
+        let root = picked.assetsRoot(in: bundledAssets)
+        let nextCatalog = try AnimationCatalog.load(assetsRoot: root)
+        let nextLibrary = try SpriteLibrary(catalog: nextCatalog, assetsRoot: root)
+        // Commit only after loading succeeds. Session routing and preferences survive.
+        view.cancelDrag()
+        finishHang()
+        catalog = nextCatalog
+        library = nextLibrary
+        skin = picked
+        defaults.set(picked.rawValue, forKey: "skin")
+        let now = nowMs()
+        stateTimeline = SpriteTimeline(spec: catalog.spec(for: shownState), now: now)
+        blinkClock = BlinkClock(seed: stateTimeline.spec.blink?.seed ?? 11003, now: now)
+        blinkLevel = 0
+        statusIcon = library.avatarImage().map { NSImage(cgImage: $0, size: NSSize(width: 18, height: 18)) }
+        render()
+        positionBubble(); positionCards(); positionQuestion()
+        updateStatusTitle()
+    }
+
     private func applySettings(_ change: SettingsChange) {
         switch change {
+        case .hideWhenIdle(let value):
+            hideWhenIdle = value
+            revealedWhileIdle = false
+            updatePetVisibility(now: nowMs())
+
         case .quit:
             NSApp.terminate(nil)
             return
@@ -1945,6 +2087,13 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         case .showQuestionCard(let value):
             showQuestionCard = value
             updateQuestion(now: nowMs(), immediate: true)
+        case .skin(let picked):
+            do { try switchSkin(to: picked) } catch {
+                let alert = NSAlert()
+                alert.messageText = tr("Could not load skin", "未能载入皮肤")
+                alert.informativeText = String(describing: error)
+                if let window = settingsWindow?.window { alert.beginSheetModal(for: window) }
+            }
         case .scale(let value):
             applyScale(value)
         case .language(let value):
@@ -2191,7 +2340,7 @@ if Bundle.main.bundleIdentifier != nil && !running.isEmpty {
     exit(0)
 }
 
-let (catalog, assetsRoot) = loadCatalogOrExit()
+let (catalog, assetsRoot) = loadCatalogOrExit(useSavedSkin: true)
 let library: SpriteLibrary
 do {
     library = try SpriteLibrary(catalog: catalog, assetsRoot: assetsRoot)
@@ -2203,7 +2352,135 @@ do {
 let app = NSApplication.shared
 // 平时是 .accessory（不进 Dock、不抢前台）；YUKIO_DOCK=1 时临时当普通 App，见 DockMode。
 app.setActivationPolicy(DockMode.isEnabled ? .regular : .accessory)
-let controller = AppController(catalog: catalog, library: library)
+let controller = AppController(catalog: catalog, library: library, skin: PetSkin.identify(assetsRoot: assetsRoot))
 app.delegate = controller
 DockMode.armIfEnabled()
 app.run()
+
+#if DEBUG
+extension AppController {
+    func skinSwitchForCheck() throws -> [String: Bool] {
+        _ = NSApplication.shared
+        hideWhenIdle = false
+        setUpWindow(); setUpBubble(); setUpCards(); setUpQuestion()
+        defer {
+            for window in [bubble as NSWindow?, cardStack as NSWindow?, questionPanel as NSWindow?] {
+                if let window { panel.removeChildWindow(window); window.close() }
+            }
+            panel.close()
+        }
+        shownState = .write_file
+        stateTimeline = SpriteTimeline(spec: catalog.spec(for: shownState), now: nowMs())
+        let origin = panel.frame.origin, oldScale = scale, oldFollowing = following
+        let originalPixels = library.frame("write_file", 0).image.dataProvider?.data
+        try switchSkin(to: .qianxia)
+        var checks = ["statePreserved": shownState == .write_file && stateTimeline.spec.id == "write_file",
+                      "skinRemembered": defaults.string(forKey: "skin") == "qianxia",
+                      "positionPreserved": panel.frame.origin == origin,
+                      "preferencesPreserved": scale == oldScale && following == oldFollowing,
+                      "twelveEyelidLevels": stateTimeline.spec.blink?.levels == 12]
+        let newPixels = library.frame("write_file", 0).image.dataProvider?.data
+        checks["artActuallyChanged"] = originalPixels != newPixels
+        dragBegan()
+        checks["qianxiaUsesHeldPose"] = swing != nil && heldTimeline?.spec.id == "held"
+        checks["heldCanvasFitsFullBody"] = heldSpec.frameHeight == 248 && heldSpec.pixelScale == 2
+        let hanging = panel.frame
+        panel.setFrameOrigin(NSPoint(x: hanging.minX + 10, y: hanging.minY))
+        dragEnded()
+        checks["dragSavedNormalPosition"] = abs(defaults.double(forKey: "originX") - Double(normalFrame().minX)) < 1
+        checks["releaseKeepsSwingUntilSettled"] = swing != nil && releasedAt != nil
+        finishHang()
+        checks["releaseRestoresActivity"] = swing == nil && heldTimeline == nil &&
+            panel.frame.size == petSize && stateTimeline.spec.id == "write_file"
+        checks["releasePreservesPosition"] = abs(panel.frame.minX - origin.x - 10) < 1
+        let restoredOrigin = panel.frame.origin
+        for _ in 0..<3 { dragBegan(); dragEnded(); finishHang() }
+        checks["repeatedDragsDoNotDrift"] = panel.frame.origin == restoredOrigin
+        try switchSkin(to: .yukio)
+        checks["switchBackRestoresArt"] = originalPixels == library.frame("write_file", 0).image.dataProvider?.data
+        dragBegan()
+        checks["yukioStillHangs"] = swing != nil
+        try switchSkin(to: .qianxia)
+        checks["switchEndsOldHang"] = swing == nil && heldTimeline == nil && panel.frame.size == petSize
+        return checks
+    }
+
+    /// Exercise automatic visibility through the production tick and real windows.
+    /// Uses injected events only; no transcript polling or application timer.
+    func idleVisibilityForCheck() -> [String: Bool] {
+        var checks: [String: Bool] = [:]
+        following = true
+        setUpWindow(); setUpBubble(); setUpCards(); setUpQuestion()
+        defer {
+            for window in [bubble as NSWindow?, cardStack as NSWindow?, questionPanel as NSWindow?] {
+                if let window { panel.removeChildWindow(window); window.close() }
+            }
+            panel.close()
+        }
+        func step() {
+            // A single tick doesn't poll the user's logs or frontmost app.
+            tickCount = 0
+            tick()
+        }
+        func event(_ kind: PetEvent.Kind, activity: PetState? = nil) {
+            let now = nowMs()
+            router.ingest(PetEvent(ts: now, source: "test", session: "visibility", kind: kind,
+                                   eventID: activity?.rawValue, activity: activity,
+                                   question: activity == .question_for_user ? PetQuestion(text: "Choose a path", options: [.init(label: "Continue")]) : nil), now: now)
+            router.settle(now: now)
+            step()
+        }
+        step()
+        checks["idleHiddenByDefault"] = hideWhenIdle && !panel.isVisible && panel.ignoresMouseEvents
+        checks["idleLeavesNoChildWindows"] = !bubble.isVisible && !cardStack.isVisible && !questionPanel.isVisible
+        let origin = panel.frame.origin
+        event(.taskStart)
+        checks["workAutomaticallyAppears"] = panel.isVisible && !petHidden && panel.frame.origin == origin
+        event(.activityStart, activity: .write_file)
+        checks["workAndBubbleVisible"] = panel.isVisible && bubble.isVisible
+        event(.taskAbort)
+        checks["returnToIdleHidesEverything"] = !panel.isVisible && !bubble.isVisible && !cardStack.isVisible
+        applySettings(.hideWhenIdle(false))
+        checks["switchOffShowsIdleImmediately"] = panel.isVisible && defaults.object(forKey: "hideWhenIdle") as? Bool == false
+        applySettings(.hideWhenIdle(true))
+        checks["switchOnHidesIdleImmediately"] = !panel.isVisible
+        setHidden(false); step()
+        checks["explicitShowRevealsCurrentIdle"] = panel.isVisible
+        event(.taskStart); event(.taskAbort)
+        checks["nextIdleResumesAutoHide"] = !panel.isVisible
+        event(.taskStart)
+        setHidden(true)
+        event(.activityStart, activity: .read_file)
+        checks["manualHideSurvivesWork"] = !panel.isVisible && !bubble.isVisible
+        setHidden(false)
+        checks["manualShowRestoresWork"] = panel.isVisible && bubble.isVisible
+        dragBegan()
+        event(.taskAbort)
+        checks["dragDoesNotDisappearAtIdle"] = panel.isVisible && swing != nil
+        finishHang(); step()
+        checks["hideAfterInteractionEnds"] = !panel.isVisible
+        startDemo(); step()
+        checks["demoIdleRemainsVisible"] = panel.isVisible
+        stopDemo(); step()
+        checks["demoEndRestoresAutoHide"] = !panel.isVisible
+        event(.taskStart)
+        event(.activityStart, activity: .question_for_user)
+        checks["questionVisible"] = panel.isVisible && questionPanel.isVisible && shownState == .question_for_user
+        event(.activityEnd, activity: .question_for_user)
+        event(.finalAnswer); event(.taskEnd)
+        let later = nowMs() + 4_000
+        router.settle(now: later)
+        shownState = router.displayed
+        updatePetVisibility(now: later)
+        checks["completionVisible"] = panel.isVisible && shownState == .task_complete
+        _ = router.dismissCompletion(now: later)
+        shownState = router.displayed
+        updatePetVisibility(now: later)
+        checks["loweringCompletionHidesIdle"] = !panel.isVisible
+        event(.taskStart); event(.taskFailed)
+        checks["failureVisible"] = panel.isVisible && shownState == .failed
+        return checks
+    }
+
+}
+#endif

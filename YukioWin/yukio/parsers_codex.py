@@ -370,6 +370,7 @@ class CodexRolloutParser:
     def __init__(self, session: str = ""):
         self.session = session
         self.parent_session = None
+        self.originator = None
         #: item_completed 报了失败、还没等到对应的输出：下一条输出算失败。
         self._pending_failure = False
         self._async_questions = set()
@@ -392,6 +393,7 @@ class CodexRolloutParser:
         ts = parse_timestamp(obj.get("timestamp")) or parse_timestamp(payload.get("timestamp")) or now
 
         if kind == "session_meta":
+            self.originator = payload.get("originator")
             found = payload.get("id") or payload.get("session_id")
             if isinstance(found, str) and found:
                 self.session = found

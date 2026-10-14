@@ -21,15 +21,16 @@ if /usr/bin/nm -u "$BIN" | /usr/bin/grep -Eq 'CGEventPost|CGEventCreateKeyboardE
   echo "旧版键盘回答程序不能打包，请重新构建后台回答版本。" >&2
   exit 1
 fi
-# The only permitted AX setter is Electron's documented read-tree opt-in.
-# Reject any new setter call that could edit controls or restore foreground typing.
+# Allow only the audited read-tree opt-in and exact-question answer field.
+# No global keyboard synthesis or arbitrary accessibility writes.
 python3 - <<'PYAX'
 from pathlib import Path
 allowed = 'let result = AXUIElementSetAttributeValue(app, "AXManualAccessibility" as CFString, kCFBooleanTrue)'
 for path in Path('Sources').rglob('*.swift'):
     for line in path.read_text().splitlines():
         if 'AXUIElementSetAttributeValue' in line:
-            if path.name != 'BrowserOpenChat.swift' or line.strip() != allowed:
+            answer_field = path.name == 'SurfaceApprovalBridge.swift' and line.strip() == 'guard AXUIElementSetAttributeValue(target.field, kAXValueAttribute as CFString, answer as CFString) == .success else { throw CodexAnswerClient.Failure.unavailable }'
+            if not answer_field and (path.name != 'BrowserOpenChat.swift' or line.strip() != allowed):
                 raise SystemExit('Unexpected accessibility write: ' + str(path))
 PYAX
 APP="${YUKIO_APP_OUTPUT:-build/Yukio.app}"
@@ -50,6 +51,15 @@ if [ -n "${YUKIO_PAGED_ASSETS:-}" ]; then
   fi
   rm -rf "$APP/Contents/Resources/Assets/motion/windows-pages"
   cp -R "$PAGE_SOURCE" "$APP/Contents/Resources/Assets/motion/windows-pages"
+  for SKIN in "$YUKIO_PAGED_ASSETS"/skins/*; do
+    [ -d "$SKIN" ] || continue
+    SKIN_NAME="$(basename "$SKIN")"
+    SKIN_TARGET="$APP/Contents/Resources/Assets/skins/$SKIN_NAME/motion"
+    test -f "$SKIN/motion/windows-pages/manifest.json"
+    test -d "$SKIN_TARGET"
+    rm -rf "$SKIN_TARGET/windows-pages"
+    cp -R "$SKIN/motion/windows-pages" "$SKIN_TARGET/windows-pages"
+  done
 fi
 cp Resources/BACKGROUND-ANSWERS.md "$APP/Contents/Resources/BACKGROUND-ANSWERS.md"
 mkdir -p "$APP/Contents/Resources/deepseek-answers"
@@ -67,8 +77,8 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
   <key>CFBundleExecutable</key><string>YukioPlayer</string>
   <key>CFBundleIconFile</key><string>AppIcon</string>
   <key>CFBundlePackageType</key><string>APPL</string>
-  <key>CFBundleShortVersionString</key><string>0.4.3</string>
-  <key>CFBundleVersion</key><string>22</string>
+  <key>CFBundleShortVersionString</key><string>0.4.6</string>
+  <key>CFBundleVersion</key><string>27</string>
   <key>LSMinimumSystemVersion</key><string>13.0</string>
   <key>SUFeedURL</key><string>https://github.com/leozhang8654/yukio-desktop-pet/releases/latest/download/appcast.xml</string>
   <key>SUPublicEDKey</key><string>UuIYaOS2mImMarKEoskVy22Juxl1pQeAL5s+mPnqHFg=</string>

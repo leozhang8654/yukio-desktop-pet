@@ -41,7 +41,11 @@ jobs:
 
       - name: Check artwork
         working-directory: YukioWin
-        run: python run.py --check
+        run: |
+          python run.py --check
+          if ($LASTEXITCODE -ne 0) { throw "Yukio artwork failed" }
+          python run.py --check --skin qianxia
+          if ($LASTEXITCODE -ne 0) { throw "Qianxia artwork failed" }
 
       - name: Prepare low-memory Windows artwork pages
         working-directory: YukioWin
@@ -77,6 +81,12 @@ jobs:
           PYTHONPATH: .
         run: python tests/test_codex_answer.py --exe dist/Yukio/Yukio.exe
 
+      - name: Packaged Claude approval hook round trip
+        working-directory: YukioWin
+        env:
+          PYTHONPATH: .
+        run: python scripts/check-packaged-hook.py dist/Yukio/Yukio.exe
+
       - name: Compact settings, lower-sign button and outside-click dismissal in the packaged exe
         working-directory: YukioWin
         run: powershell -ExecutionPolicy Bypass -File scripts/smoke-assistant.ps1 -Exe dist/Yukio/Yukio.exe
@@ -89,6 +99,17 @@ jobs:
         working-directory: YukioWin
         run: powershell -ExecutionPolicy Bypass -File scripts/smoke-test.ps1 -Exe dist/Yukio/Yukio.exe -Scale 1.5 -OutDir smoke-150
 
+      - name: Qianxia native rendering at 100% and 150%
+        working-directory: YukioWin
+        shell: pwsh
+        run: |
+          foreach ($scale in @(1.0, 1.5)) {
+            $outDir = "build/qianxia-smoke-$([int]($scale * 100))"
+            powershell -ExecutionPolicy Bypass -File scripts/smoke-test.ps1 -Exe dist/Yukio/Yukio.exe -Skin qianxia -Scale $scale -OutDir $outDir
+            if ($LASTEXITCODE -ne 0) { throw "Qianxia rendering failed at $scale" }
+            if (-not (Test-Path "$outDir/screenshot.png")) { throw "Qianxia screenshot required" }
+          }
+
       - name: Keep the smoke-test screenshots and logs
         if: always()
         uses: actions/upload-artifact@v4
@@ -98,6 +119,7 @@ jobs:
             YukioWin/smoke/
             YukioWin/smoke-150/
             YukioWin/build/assistant-smoke/
+            YukioWin/build/qianxia-smoke-*/
             YukioWin/build/update-test/upgrade-result.json
             YukioWin/build/update-test/upgrade-result.error.txt
             YukioWin/build/update-test/timeout.png

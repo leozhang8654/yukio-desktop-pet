@@ -1,0 +1,20 @@
+{
+  "animations": [
+    {
+      "id": "held",
+      "asset": "held.png",
+      "frameWidth": 192,
+      "frameHeight": 248,
+      "pixelScale": 2,
+      "frameCount": 1,
+      "nativeDurationsMs": [
+        1000
+      ],
+      "grip": {
+        "x": 98.8125,
+        "y": 27.4375,
+        "headTop": 4.0
+      }
+    }
+  ]
+}

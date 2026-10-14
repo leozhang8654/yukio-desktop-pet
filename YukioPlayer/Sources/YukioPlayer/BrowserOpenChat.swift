@@ -131,6 +131,7 @@ enum BrowserOpenChat {
                    let id = VisibleChatTitle.session(header: header, candidates: gptTitles),
                    let chat = VisibleChat(url: "codex://threads/" + id) {
                     chats.append(chat)
+                    BrowserChatDestination.remember(session: id, window: window, processID: onScreen.pid)
                     continue
                 }
                 if !address.hasPrefix("chrome-extension://") { continue }

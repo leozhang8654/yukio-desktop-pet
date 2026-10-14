@@ -52,6 +52,12 @@ def load_catalog_or_exit():
     if not root:
         sys.stderr.write("找不到素材目录 Assets（可用 YUKIO_ASSETS 指定）\n")
         raise SystemExit(1)
+    from .skins import skin_root
+    if "--skin" in sys.argv:
+        index = sys.argv.index("--skin")
+        if index + 1 >= len(sys.argv):
+            raise SystemExit("--skin requires yukio or qianxia")
+        root = skin_root(root, sys.argv[index + 1])
     try:
         return AnimationCatalog.load(root), root
     except CatalogError as exc:

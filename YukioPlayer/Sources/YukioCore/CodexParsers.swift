@@ -22,6 +22,7 @@ public final class CodexRolloutParser {
     /// 会话 ID：先用文件名里的那个，读到 session_meta 就换成它写的。
     public private(set) var session: String
     public private(set) var parentSession: String?
+    public private(set) var originator: String?
     /// item_completed 报了失败、还没等到对应的输出：下一条输出算失败。
     private var pendingFailure = false
     private var asyncQuestions: Set<String> = []
@@ -44,6 +45,7 @@ public final class CodexRolloutParser {
             ?? now
 
         if kind == "session_meta" {
+            originator = payload["originator"] as? String
             // A helper shares session_id with its parent; id identifies this worker.
             if let id = (payload["id"] ?? payload["session_id"]) as? String, !id.isEmpty { session = id }
             let source = payload["source"] as? [String: Any]

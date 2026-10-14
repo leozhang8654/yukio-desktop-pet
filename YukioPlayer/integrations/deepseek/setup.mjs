@@ -8,9 +8,9 @@ import {fileURLToPath} from 'node:url';
 import {spawnSync} from 'node:child_process';
 const revision = 'd370f3afe0391e22e22667479c5425efb3a14b5f';
 const here = path.dirname(fileURLToPath(import.meta.url));
-const root = process.env.YUKIO_DEEPSEEK_RUNTIME || path.join(os.homedir(), 'Library/Application Support/YukioPlayer/deepseek-runtime');
+const root = process.env.YUKIO_DEEPSEEK_RUNTIME || (process.platform === 'win32' ? path.join(process.env.LOCALAPPDATA || path.join(os.homedir(), 'AppData/Local'), 'Yukio/deepseek-runtime') : path.join(os.homedir(), 'Library/Application Support/YukioPlayer/deepseek-runtime'));
 function run(command, args, cwd = root) {
-  const result = spawnSync(command, args, {cwd, stdio: 'inherit'});
+  const result = spawnSync(process.platform === 'win32' && command === 'npm' ? 'npm.cmd' : command, args, {cwd, shell: process.platform === 'win32' && command === 'npm', stdio: 'inherit'});
   if (result.status !== 0) throw new Error(`${command} failed (${result.status})`);
 }
 if (Number(process.versions.node.split('.')[0]) < 22) throw new Error('Node.js 22 or newer required');
@@ -30,7 +30,7 @@ if (!source.includes('attachYukioAnswers')) {
 await fs.copyFile(path.join(here, 'bridge.mjs'), path.join(root, 'packages/cli/src/ui/core/yukio-answer-bridge.mjs'));
 run('npm', ['ci', '--ignore-scripts', '--no-audit', '--no-fund']);
 run('npm', ['run', 'bundle']);
-const launcher = path.join(root, 'yukio-deepseek');
+const launcher = path.join(root, process.platform === 'win32' ? 'yukio-deepseek.cmd' : 'yukio-deepseek');
 const quote = s => "'" + s.replaceAll("'", "'\\''") + "'";
-await fs.writeFile(launcher, '#!/bin/sh\nexec ' + quote(process.execPath) + ' ' + quote(path.join(root, 'packages/cli/dist/cli.js')) + ' "$@"\n', {mode: 0o755});
+await fs.writeFile(launcher, process.platform === 'win32' ? `@echo off\r\n"${process.execPath}" "${path.join(root, 'packages/cli/dist/cli.js')}" %*\r\n` : '#!/bin/sh\nexec ' + quote(process.execPath) + ' ' + quote(path.join(root, 'packages/cli/dist/cli.js')) + ' "$@"\n', {mode: 0o755});
 console.log('\nInstalled isolated CLI with Yukio background answers:\n' + launcher);

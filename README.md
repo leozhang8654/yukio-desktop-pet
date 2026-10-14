@@ -1,5 +1,4 @@
-> **0.4.3: Visible chats and helper activity.** macOS recognizes chats across displays; both platforms fix helper completion signs. [Release notes](docs/releases/0.4.3.md).
-
+> **0.4.6**: GPT plugin chats retain their Chrome tab destination; visible chats acknowledge completion reminders. Includes Qianxia, idle hiding, approval cards and answer pasting. [Release notes and verification limits](docs/releases/0.4.6.md).
 
 **English** · [简体中文](README.zh-CN.md)
 
@@ -18,15 +17,18 @@
 
 </div>
 
-**Yukio (雪绪)** is a white-haired, blue-eyed girl in a navy butler's uniform who sits in the corner of your screen and acts out what your AI coding agent is doing, as it happens. Claude Code reads a file, she opens a book. It edits, she picks up the pen. Tests run, she checks two sheets against each other. It finishes, and she holds up a ✅ card until you click her. That click drops you straight back into the chat that just finished.
+**Yukio (雪绪)** is a white-haired, blue-eyed girl in a navy butler's uniform who sits in the corner of your screen and acts out what your AI coding agent is doing, as it happens. Claude Code reads a file, she opens a book. It edits, she picks up the pen. Tests run, she checks two sheets against each other. It finishes, and she holds up a ✅ card until you open the corresponding chat or click her. Chat destinations depend on the connected source.
 
 She follows three families of agent, and you pick which one in her menu under **Assistant**: **Claude Code**, **DeepSeek's [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)**, and **GPT's [Codex](https://developers.openai.com/codex/)** (the desktop app and the CLI both write the same session logs). The default, **Auto**, follows all three at once and shows whichever chat has something to say. Both builds use native windows and work entirely from local session logs.
 
-## New in 0.4.3
+## New in 0.4.6
 
-- macOS acknowledges matching tracked chats visible on either display, including supported app, web and official GPT extension views. Quiet reading no longer expires after ten seconds.
-- Both platforms keep helper activity separate from the parent task, suppress internal completion signs, and preserve identity and titles when restarting with large logs.
-- Web conversations must map to a tracked session. Windows retains foreground-window detection; this release does not claim macOS multi-display occlusion support on Windows. See [scope and limitations](docs/BROWSER-CHAT-VISIBILITY.md).
+- Recognized visible chats acknowledge completion reminders; seeing a question or approval never answers or approves it. Official GPT Chrome sidepanel chats retain their browser tab, including full-screen duplicate-node and older-title fixes. [Actual verification scope](docs/validation/plugin-signs-0.4.6.md).
+
+- Choose Yukio or Qianxia in **Settings → Display → Skin**. Selection persists after restart. Qianxia includes twelve activities, independent blinking and a dedicated held pose.
+- Dragging swings the character and restores the current activity after release. Repeated macOS drags now preserve the release position.
+- **Hide when idle** is enabled by default. Work, questions, completion and errors bring the pet back; turn it off to keep her visible.
+- Actionable approval cards, reliable answer pasting, and UTF-8 Windows approval receipts. See the [answer guide](YukioPlayer/Resources/BACKGROUND-ANSWERS.md) for experimental web and plugin compatibility.
 
 ### Recent updates
 
@@ -51,8 +53,8 @@ Grab the file for your system from the [latest release](https://github.com/leozh
 
 | You use | Download | Then |
 | --- | --- | --- |
-| macOS 13 or newer (Apple silicon and Intel) | [Yukio-0.4.3-macOS.dmg](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.3/Yukio-0.4.3-macOS.dmg) · [ZIP](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.3/Yukio-0.4.3-macOS.zip) | Open the DMG and drag `Yukio.app` into Applications; allow it once (below) |
-| Windows 10 / 11, 64-bit | [Yukio-0.4.3-Windows-Setup.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.3/Yukio-0.4.3-Windows-Setup.exe) | Run Setup once, then use the new shortcut. Future updates install inside Yukio |
+| macOS 13 or newer (Apple silicon and Intel) | [Yukio-0.4.6-macOS.dmg](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.6/Yukio-0.4.6-macOS.dmg) · [ZIP](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.6/Yukio-0.4.6-macOS.zip) | Open the DMG and drag `Yukio.app` into Applications; allow it once (below) |
+| Windows 10 / 11, 64-bit | [Yukio-0.4.6-Windows-Setup.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.6/Yukio-0.4.6-Windows-Setup.exe) | Run Setup once, then use the new shortcut. Future updates install inside Yukio |
 
 <details>
 <summary><b>macOS says "Apple could not verify Yukio…"</b></summary>
@@ -87,12 +89,12 @@ Once running, Yukio appears in the bottom-right corner of the screen and a small
 
 - **Twelve states, one character.** Thinking, reading files, viewing an image, writing files, running tests, browsing the web, handing in the answer, the ✅ done card, the ❓ question card, other work, something failed, idle. The mapping from each agent's tools to a state is explicit and covered by tests (one set of rules for all three: shell commands are classified the same way whether they arrive as Claude's `Bash`, Deep Code's `bash`, or Codex's `exec`). Unknown work falls back to typing at the computer instead of guessing.
 - **Micro-motions, not slideshows.** Every state is one approved base image that a generator brings to life in small, continuous moves: the pen travels along the line, the magnifier sweeps the photo, a finger scrolls the tablet, two hands take turns on the keyboard, eyes blink in the right skin tone. The desk and chair never shift by a pixel, and the generator checks that. The artwork uses a 50 fps timeline; the desktop player updates at 30 Hz.
-- **She tells you when it is your turn.** After the final answer she holds up the ✅ card and keeps holding it until you click. `AskUserQuestion` raises the ❓ card instead. Click her and the Claude desktop app opens that exact chat through its own `claude://` link. If that chat is already in front of you, she skips the card altogether.
-- **Answer without leaving your seat.** When the ❓ card goes up, the question itself is copied onto a card beside her, options and all. Click an option — or type your own answer — and Yukio brings that chat to the front and puts the answer in for you (macOS asks once for Accessibility permission; Windows needs none). If that app doesn't come to the front, she presses nothing at all and just leaves the answer on the clipboard.
+- **She tells you when it is your turn.** The ✅ completion reminder is acknowledged when its chat is recognized as visible. Questions and approvals raise ❓ and remain pending until actually handled. Plugin chat entry points retain the original browser tab.
+- **Answer without leaving your seat.** Question and approval cards show beside the pet. Connected local sources support replies; approval choices first open the full request. Failed sends preserve your answer. Web/plugin integrations remain experimental; see the [answer guide](YukioPlayer/Resources/BACKGROUND-ANSWERS.md).
 - **A bubble over her head.** The session title on top, the current step below, taken from the task list when there is one and otherwise from the tool: "Edit main.swift", "$ swift test", "developer.apple.com". A progress count and a thin bar sit beside it. Only file names, the first words of a command, and domains ever appear.
 - **Several chats at once.** She can only act out one chat, so she picks the one that needs you: waiting for your answer, then stopped on an error, then done and holding a card, then whatever is still running. Every other chat becomes a small card stacked on top of the bubble. Click the bubble to fan them out, click a card to switch to that chat, or pin one chat from the menu.
 - **Pick her up.** Drag her and she dangles from an invisible hand like a kitten held by the scruff: a damped pendulum with inertia, air drag, and a little sag when you yank upward. Let go and she settles in about a second.
-- **Private by design.** She only reads the session logs the agents already write to disk, read-only. Session processing stays local and agent settings are unchanged. The optional update checker contacts GitHub to find and download releases. Task titles and pending questions appear locally; answering a question uses the clipboard and foreground app controls.
+- **Local activity processing.** Session logs and permitted window information are processed locally. Answer and approval connections require their corresponding setup. Optional update checks contact GitHub; chat logs are not uploaded.
 - **Paged artwork, bounded memory.** Release builds render from small, pixel-identical pages derived from the original lossless atlases. The page cache is capped at 32 MiB on macOS and 64 MiB on Windows instead of expanding the roughly 1 GB full atlas set at once. The macOS app still has no third-party runtime dependencies.
 
 ## A day at the desk

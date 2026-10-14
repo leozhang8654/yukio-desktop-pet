@@ -70,6 +70,7 @@ final class PetView: NSView {
     var onContextMenu: ((NSEvent) -> Void)?
 
     private(set) var dragging = false
+    private(set) var pressed = false
     /// 拖动开始时窗口会被放大以容下摆动，控制器改完窗口后由它重新取拖动基准。
     var onDragOriginChanged: (() -> NSPoint)?
     /// 这次按下是为了弹菜单（按住 control），松手不算点击。
@@ -154,6 +155,7 @@ final class PetView: NSView {
             return
         }
         suppressClick = false
+        pressed = true
         mouseStart = NSEvent.mouseLocation
         lastMouse = mouseStart
         originStart = window?.frame.origin ?? .zero
@@ -161,6 +163,7 @@ final class PetView: NSView {
     }
 
     override func mouseDragged(with event: NSEvent) {
+        guard pressed else { return }
         let m = NSEvent.mouseLocation
         let dx = m.x - mouseStart.x, dy = m.y - mouseStart.y
         if !dragging && hypot(dx, dy) > 3 {
@@ -180,6 +183,7 @@ final class PetView: NSView {
     }
 
     override func mouseUp(with event: NSEvent) {
+        pressed = false
         if dragging {
             dragging = false
             onDragEnded?()
@@ -194,5 +198,11 @@ final class PetView: NSView {
 
     override func rightMouseDown(with event: NSEvent) {
         onContextMenu?(event)
+    }
+
+    func cancelDrag() {
+        pressed = false
+        dragging = false
+        suppressClick = true
     }
 }

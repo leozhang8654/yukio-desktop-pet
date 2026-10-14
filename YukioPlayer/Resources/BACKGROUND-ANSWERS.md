@@ -1,44 +1,40 @@
-# 在雪绪卡片里后台回答 / Background answers
+# 在雪绪里回答问题、处理批准申请
 
-点选项或输入答案后，雪绪在后台提交，保持当前页面和前台应用不变。发送期间禁止重复点击；连接失败保留答案，可以重试。辅助功能权限不是这些后台通道的前提。只有主动点「打开聊天」才跳转。
+开发中的 0.4.4：现有 GPT、Claude、DeepSeek 三个选择同时用于对应的本机连接和可识别的网页／插件申请。正式下载版仍以 GitHub Release 为准。
 
-## 支持范围与连接方式
+有申请时，雪绪显示问号牌。点卡片选项后，先打开完整申请，用户看完再选择。回车、关闭和“稍后处理”不会批准。发送前再次核对申请，过期或内容改变就停止；不会把“允许一次”变成“以后都允许”。看不清、接不上或无法确认收到时，保留提示并请用户到原聊天核对。
 
-| 入口 | 后台回答方式 | 设置 |
+## 接入范围
+
+| 入口 | 当前实现 | 验证边界 |
 |---|---|---|
-| GPT：Codex macOS 桌面版、本机活动任务 | 同一 macOS 用户的 Codex IPC；发送前核对会话、问题和状态 | 保持 Codex 运行，无需辅助功能 |
-| Claude Code 的 AskUserQuestion | 官方 PreToolUse 钩子把答案填入 updatedInput.answers | 雪绪菜单 →「连接 Claude 后台回答」，然后重启 Claude Code |
-| DeepSeek：Deep Code CLI 0.4.1 | 随包适配器接入 SessionManager，保留正常终端界面和工具授权 | 按下方说明安装，通过 yukio-deepseek 启动 |
+| GPT / Codex 本机活动聊天 | 原有问题回答；命令、文件修改和权限申请 | 已有后台连接的聊天才能收到。插件与 App 不是必然共用一条连接 |
+| Claude Code | AskUserQuestion 和 PermissionRequest | 需安装雪绪连接后重启 Claude Code；不是普通 Claude 聊天的通用接口 |
+| DeepSeek / Deep Code 0.4.1 | 问题回答、当前工具申请允许／拒绝 | 需通过随包单独入口启动，并保留自己的模型配置 |
+| Chrome 的 GPT / Claude 官方插件，以及 ChatGPT、Claude、DeepSeek 网页 | 读取页面上真实存在的批准卡片和按钮，用户选择后回传 | 仅可识别的结构与按钮；不能保证每种网页版本或其他第三方 App 通用。没有按钮、只有“我将申请”的文字不会举批准牌 |
+| GPT 插件的普通问题回答 | macOS 在后台连接不可用时，尝试匹配当前聊天名称、完整问题和专门的提交按钮 | 不向普通聊天输入框盲发；匹配不唯一、题目已结束、已有其他草稿则停止。真实插件往返尚待验证 |
 
-这些不是通用网站自动点击器。ChatGPT 网页、Claude 普通聊天网页/桌面聊天、DeepSeek 网页和未接入适配器的第三方客户端目前没有后台发送通道；不能把识别到问题等同于已经连接回答。无法发送时会明确显示未连接，不会复制后假装成功或强制切换页面。Claude Code 的钩子不代表 Claude 普通桌面聊天已支持。
+macOS 网页／插件方式需要辅助功能权限；Windows 使用 UI Automation，可读性由目标软件决定。两个系统都不移动鼠标、不向当前任意输入框敲字。跨屏读取不依赖当前正在使用哪个屏幕。网页／插件识别目前属于实验功能，不能把底层检查通过写成所有真实服务已经测试通过。
 
-Codex 使用桌面应用的内部 IPC，升级后可能需要更新适配。当前卡片展示提问数组中的第一题；多题的阻塞式 request_user_input 请在原聊天完成，卡片不会错发一条普通消息来代替整组答案。
+## Claude 连接
 
-## Claude Code
+雪绪设置中的连接按钮会合并 `PreToolUse / AskUserQuestion` 与 `PermissionRequest`，保留其他钩子和权限规则，修改前备份配置。然后重启 Claude Code。
 
-安装按钮只合并 `AskUserQuestion` 的钩子，保留其他 hooks、模型和权限配置。配置位置遵从 `CLAUDE_CONFIG_DIR`，默认 `~/.claude/settings.json`；修改前自动备份到 `~/Library/Application Support/YukioPlayer/claude-settings-before-answers-*.json`。
+macOS 默认配置在 `~/.claude/settings.json`，也遵从 `CLAUDE_CONFIG_DIR`。Windows 同样遵从该配置位置，连接通过打包的雪绪程序处理，不需要额外安装 Python。Windows 备份在 `%LOCALAPPDATA%/Yukio`，macOS 在 `~/Library/Application Support/YukioPlayer`。
 
-保持雪绪运行、跟随 Claude（或全部）、开启问题卡。未开启时，新提问直接退回 Claude 原有流程；雪绪中途退出或停止跟随后，钩子也会退回。每组最多等待约 9.5 分钟，多题按顺序在卡片回答。回执表示钩子已接收答案；模型继续运行还取决于 Claude 登录和服务状态。不会替用户同意 Bash、文件修改等工具权限。
+保持雪绪运行、跟随对应助手并开启问题卡。未连接或雪绪退出时，退回 Claude 原有流程，不会自动允许。每次最多等待约 9.5 分钟。回执说明本地程序收到选择，不代表后续任务一定成功。Claude 未发出 PermissionRequest 的申请不属于此通道，例如某些独立的网络权限提示。
 
-官方接口：[Claude Code hooks](https://code.claude.com/docs/en/hooks)。
+依据：[Claude Code hooks](https://code.claude.com/docs/en/hooks)。
 
-## DeepSeek / Deep Code
+## DeepSeek 连接
 
-需要 macOS、Node.js 22+、Git 和原有 Deep Code 模型配置。先用雪绪菜单的「安装 DeepSeek 回答适配器」安装；GUI 自动识别 Homebrew 或官方安装器的 Node，也可以使用下面的手动命令。应用 Resources 中的 `deepseek-answers`（源码中 `YukioPlayer/integrations/deepseek`）包含安装器与适配器：
+需要 Node.js 22+、Git，以及原有 Deep Code 模型配置。使用雪绪中的 DeepSeek 连接／安装按钮，会从[官方仓库](https://github.com/lessweb/deepcode-cli)固定版本 `d370f3afe0391e22e22667479c5425efb3a14b5f` 构建单独入口，不覆盖原来的 Deep Code。今后从该入口启动需要连接的聊天：
 
-```sh
-cd "/path/to/Yukio.app/Contents/Resources/deepseek-answers"
-node setup.mjs
-```
+- macOS：`~/Library/Application Support/YukioPlayer/deepseek-runtime/yukio-deepseek`
+- Windows：`%LOCALAPPDATA%/Yukio/deepseek-runtime/yukio-deepseek.cmd`
 
-安装器从 [Deep Code 官方源码仓库](https://github.com/lessweb/deepcode-cli)固定提交 `d370f3afe0391e22e22667479c5425efb3a14b5f` 构建单独的 CLI，添加本地回答接收器；不覆盖原有 `deepcode` 命令、不改模型账号、不自动授权工具。默认安装位置：
+拒绝时保留 Deep Code 的拒绝状态；允许时只允许当前卡片列出的申请，不授予长期权限。已在其他终端启动的聊天不能自动接管。
 
-```sh
-"$HOME/Library/Application Support/YukioPlayer/deepseek-runtime/yukio-deepseek"
-```
+## 回答框与断线
 
-在要工作的项目目录运行上述命令。新会话的提问可在雪绪回答；已经通过其他终端或 VS Code 启动的会话不能被这个适配器接管。没有 DeepSeek 账号或模型配置时，雪绪不会代建账号或假装模型已经接收。
-
-## English
-
-Option clicks and typed replies use background transports; they do not activate the target app, paste into a window, or press Return globally. Failed sends remain retryable. Supported clients are local Codex desktop tasks, Claude Code AskUserQuestion hooks, and the supplied isolated Deep Code CLI adapter. Ordinary provider websites and unconnected clients are not supported. Claude hook receipts confirm local hook delivery, not subsequent model execution. The Deep Code adapter preserves tool permissions and plan mode. The menu provides Claude hook installation and this setup guide.
+macOS 小回答框直接支持 Command-V、Command-C、Command-X、Command-A、撤销，无需先打开助手窗口。发送失败保留原文。如果回复可能已经发出但回执丢失，会提示到原聊天核对，避免自动重复发送。

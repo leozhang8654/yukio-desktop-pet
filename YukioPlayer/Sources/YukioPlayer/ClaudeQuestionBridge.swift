@@ -63,7 +63,7 @@ final class ClaudeQuestionBridge {
                 if shown[id] == nil {
                     events.append(PetEvent(ts: now, source: source(r), session: r.session,
                         kind: .activityStart, eventID: id, activity: .question_for_user,
-                        tool: "AskUserQuestion", detail: r.questions[index].shortLabel, question: r.questions[index]))
+                        tool: r.questions[index].isApproval ? "PermissionRequest" : "AskUserQuestion", detail: r.questions[index].shortLabel, question: r.questions[index]))
                 }
             }
         }
@@ -83,6 +83,7 @@ final class ClaudeQuestionBridge {
               let savedRequest = try? JSONDecoder().decode(Request.self, from: requestData),
               savedRequest.id == String(parts[1]), savedRequest.session == session,
               (savedRequest.provider ?? "claude") == provider, index < savedRequest.questions.count else { throw Failure.expired }
+        if savedRequest.questions[index].isApproval && !ApprovalQuestion.accepts(answer) { throw Failure.expired }
         let receipt = dir.appendingPathComponent("receipt-\(index).json")
         if let data = try? Data(contentsOf: receipt), let saved = try? JSONDecoder().decode(String.self, from: data) {
             guard saved == answer else { throw Failure.expired }
@@ -107,16 +108,29 @@ final class ClaudeQuestionBridge {
     static func runHook(input: Data, root: URL = defaultRoot, waitSeconds: Double = 570) -> Data {
         let empty = Data("{}".utf8)
         guard let obj = try? JSONSerialization.jsonObject(with: input) as? [String: Any],
-              obj["hook_event_name"] as? String == "PreToolUse", obj["tool_name"] as? String == "AskUserQuestion",
-              let session = obj["session_id"] as? String, let callID = obj["tool_use_id"] as? String,
+              let session = obj["session_id"] as? String,
               let toolInput = obj["tool_input"] as? [String: Any],
-              let raw = toolInput["questions"] as? [[String: Any]], !raw.isEmpty,
+              let toolName = obj["tool_name"] as? String,
+              (obj["hook_event_name"] as? String == "PermissionRequest" ||
+               (obj["hook_event_name"] as? String == "PreToolUse" && toolName == "AskUserQuestion")),
               let attributes = try? FileManager.default.attributesOfItem(atPath: root.appendingPathComponent("listener").path),
               let modified = attributes[.modificationDate] as? Date, Date().timeIntervalSince(modified) < 4,
               let listenerText = try? String(contentsOf: root.appendingPathComponent("listener")),
               let listenerPID = Int32(listenerText), kill(listenerPID, 0) == 0 else { return empty }
-        let questions = raw.compactMap { PetQuestion.from(input: $0) }
-        guard questions.count == raw.count, Set(raw.compactMap { $0["question"] as? String }).count == raw.count else { return empty }
+        let isApproval = obj["hook_event_name"] as? String == "PermissionRequest"
+        let callID = obj["tool_use_id"] as? String ?? UUID().uuidString
+        let raw: [[String: Any]]
+        let questions: [PetQuestion]
+        if isApproval {
+            guard let data = try? JSONSerialization.data(withJSONObject: toolInput, options: [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]), data.count < 60000 else { return empty }
+            let text = "Claude 申请使用：\(toolName)\n工作位置：\(obj["cwd"] as? String ?? "未提供")\n\n" + String(decoding: data, as: UTF8.self)
+            let q = ApprovalQuestion.make(provider: "Claude", details: text)
+            questions = [q]; raw = [["question": text]]
+        } else {
+            raw = toolInput["questions"] as? [[String: Any]] ?? []
+            questions = raw.compactMap { PetQuestion.from(input: $0) }
+        }
+        guard !raw.isEmpty, questions.count == raw.count, Set(raw.compactMap { $0["question"] as? String }).count == raw.count else { return empty }
         let now = Date().timeIntervalSince1970 * 1000
         let r = Request(id: UUID().uuidString, session: session, callID: callID, questions: questions,
                         pid: getpid(), createdAt: now, expiresAt: now + waitSeconds * 1000)
@@ -135,10 +149,16 @@ final class ClaudeQuestionBridge {
                     guard let text = raw[index]["question"] as? String,
                           let data = try? Data(contentsOf: dir.appendingPathComponent("answer-\(index).json")), data.count < 65536,
                           let answer = try? JSONDecoder().decode(String.self, from: data), !answer.isEmpty else { continue }
+                    if isApproval && !ApprovalQuestion.accepts(answer) { continue }
                     answers[text] = answer
                     try data.write(to: dir.appendingPathComponent("receipt-\(index).json"), options: .atomic)
                 }
                 if answers.count == raw.count {
+                    if isApproval {
+                        let allow = answers.values.first == ApprovalQuestion.allow
+                        return try JSONSerialization.data(withJSONObject: ["hookSpecificOutput": [
+                            "hookEventName": "PermissionRequest", "decision": ["behavior": allow ? "allow" : "deny"]]])
+                    }
                     var updated = toolInput
                     updated["answers"] = answers
                     return try JSONSerialization.data(withJSONObject: ["hookSpecificOutput": ["hookEventName": "PreToolUse",

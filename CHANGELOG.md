@@ -1,5 +1,20 @@
 # Changelog / 更新记录
 
+## 0.4.6 — 2026-10-13
+
+- GPT 插件聊天记住原 Chrome 标签页；去除全屏重复标签，保留较早聊天的名称与来源。
+- 对应聊天显示后放下完成牌；待回答和待批准问题不会自动处理。
+- 包含此前 0.4.4–0.4.5 开发中的批准卡、粘贴修复、待机隐身与千夏；这两个版本未正式发布。
+- See [verification scope](docs/validation/plugin-signs-0.4.6.md) for actual Mac and native Windows checks and remaining manual interaction limits.
+
+## 0.4.5 — 2026-10-13
+
+- Add selectable Yukio / Qianxia skins with persistent preferences, twelve Qianxia activities, independent blinking and the supplied standing held pose. / 新增千夏皮肤与专用拖动站姿，设置中可切换并记住选择。
+- Preserve the release position through repeated macOS drags; retain the current activity when switching skins or ending a drag.
+- Add actionable approval cards, fix answer-panel paste handling and preserve UTF-8 in installed Windows approval hooks. Bundle the Claude hook runtime dependency. Experimental web/plugin integration limits remain documented in the answer guide.
+
+- Add a persistent Hide when idle setting, enabled by default, on macOS and Windows. Work and notices restore the pet automatically; dragging and demo playback stay visible. Manual hiding remains in effect until Show Yukio is selected.
+
 ## 0.4.2 — 2026-10-10
 
 - Added Quit Yukio / 退出雪绪 to right-click settings on macOS and Windows. It exits the app through the existing shutdown flow; Done still only closes settings.

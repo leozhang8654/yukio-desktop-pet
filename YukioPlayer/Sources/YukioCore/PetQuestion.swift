@@ -23,6 +23,9 @@ public struct PetQuestion: Codable, Equatable, Sendable {
     public let options: [Option]
     /// 可以多选：送回去时把选中的几项用「、」连起来。
     public let multiSelect: Bool
+    /// Present only for a decision bound to a pending approval request.
+    public var approval: Bool? = nil
+    public var isApproval: Bool { approval == true }
 
     public init(header: String? = nil, text: String, options: [Option] = [], multiSelect: Bool = false) {
         self.header = header

@@ -1,5 +1,4 @@
-> **0.4.3: Visible chats and helper activity.** macOS recognizes chats across displays; both platforms fix helper completion signs. [Release notes](../docs/releases/0.4.3.md).
-
+> **0.4.6**: browser chat destinations, visible-chat completion reminders, approval cards, answer pasting and Qianxia. [Release notes](../docs/releases/0.4.6.md).
 
 # Yukio desktop player (macOS, follows Claude Code, DeepSeek or GPT)
 
@@ -189,7 +188,7 @@ are noted as "N more in the chat". The card sits on whichever side of her has ro
 - **✕** puts the card away for this question only; she keeps the ❓ card up and the next question brings the card back.
 - **"Open the chat ›"** jumps to the chat instead, exactly like clicking her.
 
-Answers use background connections without switching apps, changing the clipboard, or requiring Accessibility. GPT / Codex supports both current canonical history and legacy snapshots. Failed sends keep your input and allow retry; the card closes only after a receipt. Claude Code and Deep Code require the setup described in [Background answers](Resources/BACKGROUND-ANSWERS.md). Ordinary provider websites are not connected. Demo mode never sends.
+Connected clients use background replies. Approval cards require explicit user decisions. Experimental page/panel controls require Accessibility on macOS. See [answers and approvals](Resources/BACKGROUND-ANSWERS.md) for client-specific limits and setup. Demo mode never sends.
 
 Settings › **Answer here** turns the whole card off; then the ❓ card behaves as it used to — click her to go and answer in the chat.
 `./.build/release/YukioPlayer --question out.png` draws the card offscreen (single-select, multi-select, no options, already answered)

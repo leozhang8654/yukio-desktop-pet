@@ -26,7 +26,9 @@ from .settings import Settings
 from .question_presentation import QuestionPresentationState, question_key
 from .reminders import ReminderStore
 from .sources import app_data_dir, default_sources
-from .sprites import SpriteLibrary
+from .sprites import SpriteLibrary, SpriteError
+from .catalog import CatalogError
+from .skins import normalize_skin, skin_root
 
 FRAME_MS = 33          # 约 30 Hz：小幅动作一帧 33–67 ms，眨眼 50–110 ms，都能按时换帧
 POLL_EVERY_TICKS = 8   # 约每 0.27 秒读一次会话记录
@@ -56,17 +58,35 @@ class PetApp:
         self._ticking = False
         self._next_reminder_tick = 0.0
         self._assistant_only = False
+        self._idle_hidden = False
+        self._revealed_while_idle = False
         set_language(self.settings.get("language"))   # 先定语言，回放会话记录时生成的说明文字才是对的语言
         root = assets_root()
         if not root:
             raise SystemExit("找不到素材目录 Assets（可用 YUKIO_ASSETS 指定）")
-        self.catalog = AnimationCatalog.load(root)
-        self.library = SpriteLibrary(self.catalog, root)
+        self.bundled_assets = root
+        self.skin = normalize_skin(self.settings.get("skin"))
+        try:
+            self.catalog = AnimationCatalog.load(skin_root(root, self.skin))
+            self.library = SpriteLibrary(self.catalog, skin_root(root, self.skin))
+        except (CatalogError, SpriteError, OSError, ValueError):
+            if self.skin == "yukio":
+                raise
+            self.skin = "yukio"
+            self.catalog = AnimationCatalog.load(root)
+            self.library = SpriteLibrary(self.catalog, root)
+        self.settings.set("skin", self.skin)
         self.sources = default_sources(self.settings.get("source"))
         self.links = ChatLinks()
         from .codex_open_chat import CodexOpenChat
         from concurrent.futures import ThreadPoolExecutor
         self.codex_open_chat = CodexOpenChat()
+        from .answer_bridge import AnswerBridge
+        from .approval_monitor import ApprovalMonitor
+        self.answer_bridge = AnswerBridge()
+        self.approval_monitor = ApprovalMonitor()
+        from .surface_approval import SurfaceApprovalBridge
+        self.surface_approval_bridge = SurfaceApprovalBridge()
         self._open_chat_executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="yukio-focus")
         self._open_chat_future = None
         self._open_chat_pid = None
@@ -151,6 +171,7 @@ class PetApp:
 
         x, y = self._restored_origin()
         self.pet.x, self.pet.y = x, y
+        self._update_pet_visibility(start)
         self._render(now_ms())
         self._write_state_file()
         if "--demo" in argv or self._should_greet():
@@ -239,6 +260,7 @@ class PetApp:
     def _render(self, now: float) -> None:
         if self.pet_hidden:
             self.pet.hide()
+            self._painted = None
             return
         if self.swing is not None and self.hang_geo is not None and self.held_timeline is not None:
             self._render_hanging()
@@ -394,8 +416,9 @@ class PetApp:
         if self.shown_state is PetState.task_complete:
             session = self.router.completed_session
             if session:
-                self._open_chat(session)
-                self.router.dismiss_completion(now)
+                opened = self._open_chat(session)
+                if not self._is_browser_session(session) or opened:
+                    self.router.dismiss_completion(now)
             return
         if self.shown_state is PetState.question_for_user:
             session = self.router.asking_session
@@ -407,6 +430,8 @@ class PetApp:
 
         认不出会话时（终端里跑的 Claude Code、Deep Code 的会话）什么都不做，不乱跳到别的聊天。
         """
+        if self._is_browser_session(session):
+            return browser_open_chat.open_session(session)
         try:
             url = self._chat_url(session)
         except Exception:
@@ -565,7 +590,8 @@ class PetApp:
             self._fade_question()
             return
 
-        can_open = not self.demo and bool(self._chat_url(pending.session))
+        can_open = not self.demo and (bool(self._chat_url(pending.session)) or
+                                      (self._is_browser_session(pending.session) and browser_open_chat.has_session(pending.session)))
         signature = "%s|%s|%s|%s|%.2f" % (question_key(pending), sorted(self.picked_options),
                                           self.answer_notice or "", can_open, self.scale)
         if signature != self._question_signature or immediate:
@@ -699,6 +725,14 @@ class PetApp:
         pending = self.shown_question
         if pending is None or index >= len(pending.question.options):
             return
+        if pending.question.approval:
+            self._ensure_assistant()
+            from .approval_review import present
+            def answer(text):
+                if self.shown_question == pending:
+                    self._send_answer(text)
+            present(self.assistant.root, pending.question, answer)
+            return
         if not pending.question.multi_select:
             self._send_answer(pending.question.options[index].label)
             return
@@ -720,11 +754,17 @@ class PetApp:
                   if i < len(pending.question.options)]
         return tr(", ", "、").join(labels) if labels else None
 
+    def _is_browser_session(self, session):
+        return any(getattr(source, "is_browser_session", lambda _: False)(session)
+                   for source in self.sources)
+
     def _chat_url(self, session: str) -> Optional[str]:
         """这条聊天能不能跳回去（顺带给出深链）。
 
         查一次要翻几百份记录，问题卡每帧都要问一次「能不能跳」，所以按会话记住结果。
         """
+        if self._is_browser_session(session):
+            return None
         if self.router.session_source(session) == "codex":
             import uuid
             try:
@@ -749,14 +789,14 @@ class PetApp:
         if pending is None or not text:
             return
         is_codex = self.router.session_source(pending.session) == "codex"
-        if self.answer_notice is not None and not is_codex:
+        if self.answer_notice is not None and not (is_codex or pending.call_id.startswith(("yukio-", "surface-approval:"))):
             return
         if self.demo:
             self.answer_notice = tr("Demo only - nothing was sent", "模拟演示，不会真的送出")
             self.question_presentation.set_notice(question_key(pending), self.answer_notice)
             self._update_question(now_ms(), immediate=True)
             return
-        if is_codex:
+        if is_codex or pending.call_id.startswith(("yukio-", "surface-approval:")):
             self._send_codex_answer(pending, text)
             return
         url = self._chat_url(pending.session)
@@ -794,8 +834,10 @@ class PetApp:
         if key in self._codex_answers:
             return
         self.question_presentation.set_notice(key, tr("Sending in background…", "正在后台回答…"))
+        sender = (self.surface_approval_bridge.send if pending.call_id.startswith('surface-approval:') else
+                  self.answer_bridge.send if pending.call_id.startswith('yukio-') else send_answer)
         self._codex_answers[key] = self._answer_executor.submit(
-            send_answer, pending.session, pending.call_id, pending.question, text)
+            sender, pending.session, pending.call_id, pending.question, text)
         self._update_question(now_ms(), immediate=True)
 
     def _tick_codex_answers(self):
@@ -842,9 +884,9 @@ class PetApp:
 
     # MARK: 主循环
 
-    def _read_visible_chats(self, pid, front, candidates):
+    def _read_visible_chats(self, pid, front, candidates, titles=()):
         started = now_ms()
-        documents = browser_open_chat.read(pid)
+        documents = browser_open_chat.read(pid, titles=titles)
         aliases = self.links.transcript_aliases() if any(d.provider == 'claude' for d in documents) else {}
         visible = {session for session, provider in candidates
                    if any(d.matches(session, provider, aliases) for d in documents)}
@@ -885,9 +927,10 @@ class PetApp:
                 self._open_chat_pid = None
                 return
             self._open_chat_pid = pid
-            candidates = [(row.id, provider_for_source(self.router.session_source(row.id)))
-                          for row in self.router.session_summaries(now_ms())]
-            self._open_chat_future = self._open_chat_executor.submit(self._read_visible_chats, pid, front, candidates)
+            rows = self.router.session_summaries(now_ms())
+            candidates = [(row.id, provider_for_source(self.router.session_source(row.id))) for row in rows]
+            titles = [(row.id, row.title) for row in rows if self.router.session_source(row.id) == "codex"]
+            self._open_chat_future = self._open_chat_executor.submit(self._read_visible_chats, pid, front, candidates, titles)
         except Exception:
             self._open_chat_future = None
             self._clear_open_chat()
@@ -933,6 +976,16 @@ class PetApp:
                         self.router.ingest(e, min(e.ts, now))
                 except Exception:
                     traceback.print_exc()
+        providers = {'auto': ('claude', 'deepseek', 'gpt'), 'deepcode': ('deepseek',)}.get(self.settings.get('source'), (self.settings.get('source'),))
+        enabled = self.follow and self.show_question_card and not self._assistant_only and self.settings.get("petVisible", True)
+        if self.tick_count % POLL_EVERY_TICKS == 0:
+            for event in self.answer_bridge.poll(now, enabled, providers):
+                self.router.ingest(event, now)
+        sessions = [s.id for s in self.router.session_summaries(now, quiet_within_ms=86400000) if self.router.session_source(s.id) == 'codex' and not s.id.startswith('surface-')]
+        for event in self.approval_monitor.poll(sessions, now, enabled):
+            self.router.ingest(event, now)
+        for event in self.surface_approval_bridge.poll(now, enabled, providers):
+            self.router.ingest(event, now)
         self.router.tick(now)
 
         if self.demo:
@@ -968,6 +1021,7 @@ class PetApp:
             self.blink_level = 0
         if self.swing is not None:
             self._advance_hang(now)
+        self._update_pet_visibility(now)
         self._render(now)
         self._update_bubble(now)
         self._update_cards(now)
@@ -1194,7 +1248,7 @@ class PetApp:
     # MARK: 托盘与菜单
 
     def _tray_icon_path(self) -> Optional[str]:
-        path = os.path.join(app_data_dir(), "tray.ico")
+        path = os.path.join(app_data_dir(), "tray-%s.ico" % self.skin)
         try:
             if not os.path.exists(path):
                 avatar = self.library.avatar_image(256)
@@ -1208,6 +1262,10 @@ class PetApp:
         return path
 
     def _tray_tip(self) -> str:
+        if self.pet_hidden:
+            if self._idle_hidden and self.settings.get("petVisible", True) and not self._assistant_only:
+                return tr("Yukio: hidden while idle", "雪绪：待机隐身中")
+            return tr("Yukio: hidden", "雪绪：已收起")
         label = held_name() if self.swing is not None else state_name(self.shown_state)
         return tr("Yukio: %s", "雪绪：%s") % label
 
@@ -1389,6 +1447,29 @@ class PetApp:
                 self.router.ingest(e, min(e.ts, now))
         self.router.settle(now)
 
+    def set_skin(self, skin):
+        if skin == self.skin:
+            return
+        root = skin_root(self.bundled_assets, skin)
+        catalog = AnimationCatalog.load(root)
+        library = SpriteLibrary(catalog, root)
+        # Decode the current pose before committing; keep the old skin on failure.
+        library.frame(self.shown_state.value, 0)
+        self._finish_hang()
+        self.catalog, self.library, self.skin = catalog, library, skin
+        self.settings.set("skin", skin)
+        now = now_ms()
+        self.timeline = SpriteTimeline(catalog.spec(self.shown_state), now)
+        blink = self.timeline.spec.blink
+        self.blink_clock = BlinkClock(blink.seed if blink else 11003, now)
+        self.blink_level = 0
+        self._painted = None
+        self._render(now)
+        self._position_bubble(); self._paint_bubble()
+        self._position_cards(); self._position_question()
+        self.tray.remove()
+        self.tray = self.win32.TrayIcon(self.control.hwnd, self._tray_icon_path(), self._tray_tip())
+
     def _set_language(self, code: str) -> None:
         self.settings.set("language", code)
         set_language(code)
@@ -1444,16 +1525,47 @@ class PetApp:
 
     @property
     def pet_hidden(self) -> bool:
-        return self._assistant_only or not self.settings.get("petVisible", True)
+        return self._assistant_only or not self.settings.get("petVisible", True) or self._idle_hidden
+
+    def _update_pet_visibility(self, now: float) -> None:
+        if self.shown_state is not PetState.idle:
+            self._revealed_while_idle = False
+        source = self.demo[3] if self.demo else (self.router if self.follow else None)
+        has_notice = bool((source and source.status_line(now)) or
+                          (self.follow and self.show_bubble and self.show_cards and self.router.cards(now)))
+        hidden = bool(self.settings.get("hideWhenIdle", True) and self.shown_state is PetState.idle
+                      and not self._revealed_while_idle and not self.demo and not has_notice
+                      and not self._drag_pending and not self._dragging and self.swing is None)
+        if hidden == self._idle_hidden:
+            return
+        self._idle_hidden = hidden
+        self._painted = None
+        if self.pet_hidden:
+            self.pet.hide()
+        else:
+            self._clamp_to_screen()
+        self._paint_bubble()
+        self._paint_cards()
+        self._paint_question()
+        self.tray.set_tip(self._tray_tip())
+
+    def set_hide_when_idle(self, enabled: bool) -> None:
+        self.settings.set("hideWhenIdle", enabled)
+        self._revealed_while_idle = False
+        self._update_pet_visibility(now_ms())
+        self._render(now_ms())
 
     def set_hidden(self, hidden: bool) -> None:
         self._assistant_only = False
         self.settings.set("petVisible", not hidden)
+        self._revealed_while_idle = not hidden and self.shown_state is PetState.idle
+        self._update_pet_visibility(now_ms())
         self._painted = None
         self._render(now_ms())
         self._paint_bubble()
         self._paint_cards()
         self._paint_question()
+        self.tray.set_tip(self._tray_tip())
 
     def _ensure_assistant(self):
         if self.assistant is None:

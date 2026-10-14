@@ -16,9 +16,13 @@ struct SettingsSnapshot {
     let demoPlaying: Bool
     var launchAtLogin: LaunchAtLoginStatus = .disabled
     var automaticUpdates: Bool = true
+    var hideWhenIdle: Bool = true
+    var skin: PetSkin = .yukio
 }
 
 enum SettingsChange {
+    case skin(PetSkin)
+    case hideWhenIdle(Bool)
     case quit
     case checkForUpdates
     case automaticUpdates(Bool)
@@ -54,7 +58,11 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
     private let chatTitle = NSTextField(labelWithString: "")
     private let bubbleTitle = NSTextField(labelWithString: "")
     private let cardsTitle = NSTextField(labelWithString: "")
+    private let idleHideTitle = NSTextField(labelWithString: "")
+    private let idleHideSwitch = NSSwitch()
     private let questionTitle = NSTextField(labelWithString: "")
+    private let skinTitle = NSTextField(labelWithString: "")
+    private let skinPopup = NSPopUpButton()
     private let scaleTitle = NSTextField(labelWithString: "")
     private let startupTitle = NSTextField(labelWithString: "")
     private let startupSwitch = NSSwitch()
@@ -148,6 +156,7 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         statusLabel.stringValue = snapshot.status
         updateSwitch.state = snapshot.automaticUpdates ? .on : .off
         followSwitch.state = snapshot.following ? .on : .off
+        idleHideSwitch.state = snapshot.hideWhenIdle ? .on : .off
         bubbleSwitch.state = snapshot.showBubble ? .on : .off
         cardsSwitch.state = snapshot.showCards ? .on : .off
         questionSwitch.state = snapshot.showQuestionCard ? .on : .off
@@ -155,10 +164,13 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         let needsApproval = snapshot.launchAtLogin == .requiresApproval
         startupHint.isHidden = !needsApproval
         loginItemsButton.isHidden = !needsApproval
-        let contentSize = NSSize(width: 420, height: needsApproval ? 788 : 728)
+        let contentSize = NSSize(width: 420, height: needsApproval ? 854 : 794)
         if window?.contentView?.frame.size != contentSize {
             window?.setContentSize(contentSize)
         }
+
+        sync(skinPopup, items: PetSkin.allCases.map { ($0.name(chinese: snapshot.language == .chinese), $0.rawValue) })
+        select(skinPopup, value: snapshot.skin.rawValue)
 
         sync(providerPopup, items: AgentProvider.allCases.map { ($0.displayName, $0.rawValue) })
         select(providerPopup, value: snapshot.provider.rawValue)
@@ -263,6 +275,8 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
 
         stack.addArrangedSubview(separator())
         stack.addArrangedSubview(displayHeading)
+        stack.addArrangedSubview(row(title: skinTitle, control: skinPopup, controlWidth: 210))
+        stack.addArrangedSubview(row(title: idleHideTitle, control: idleHideSwitch))
         stack.addArrangedSubview(row(title: bubbleTitle, control: bubbleSwitch))
         stack.addArrangedSubview(row(title: cardsTitle, control: cardsSwitch))
         stack.addArrangedSubview(row(title: questionTitle, control: questionSwitch))
@@ -322,6 +336,10 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         lowerSignButton.action = #selector(lowerSign)
         lowerSignButton.setAccessibilityIdentifier("lowerSignButton")
         startupSwitch.target = self
+        idleHideSwitch.target = self
+        idleHideSwitch.action = #selector(idleHideChanged)
+        idleHideSwitch.setAccessibilityIdentifier("hideWhenIdleSwitch")
+
         startupSwitch.action = #selector(startupChanged)
         startupSwitch.setAccessibilityIdentifier("launchAtLoginSwitch")
         loginItemsButton.bezelStyle = .rounded
@@ -346,6 +364,10 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         scaleSlider.target = self
         scaleSlider.action = #selector(scaleChanged)
 
+        skinPopup.target = self
+        skinPopup.action = #selector(skinChanged)
+        skinPopup.setAccessibilityIdentifier("skinPopup")
+        skinPopup.menu?.delegate = self
         languagePopup.target = self
         languagePopup.action = #selector(languageChanged)
         hideButton.bezelStyle = .rounded
@@ -409,8 +431,13 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         providerTitle.stringValue = tr("Assistant", "跟随的助手")
         chatTitle.stringValue = tr("Chat", "跟随的聊天")
         bubbleTitle.stringValue = tr("Task bubble", "任务气泡")
+        idleHideTitle.stringValue = tr("Hide when idle", "待机时隐身")
+        idleHideSwitch.setAccessibilityLabel(idleHideTitle.stringValue)
+        idleHideSwitch.toolTip = tr("Hide while idle and appear when working or showing a notice.", "待机时隐身，工作或有提醒时自动现形。")
         cardsTitle.stringValue = tr("Other chats", "其他聊天提醒")
         questionTitle.stringValue = tr("Answer here", "在这儿回答问题")
+        skinTitle.stringValue = tr("Skin", "皮肤")
+        skinPopup.setAccessibilityLabel(skinTitle.stringValue)
         scaleTitle.stringValue = tr("Size", "大小")
         languageTitle.stringValue = tr("Language", "语言")
         resetButton.title = tr("Reset position", "复位位置")
@@ -495,6 +522,11 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         alert.beginSheetModal(for: window)
     }
 
+    @objc private func idleHideChanged() {
+        guard !updating else { return }
+        onChange?(.hideWhenIdle(idleHideSwitch.state == .on))
+    }
+
     @objc private func followChanged() {
         guard !updating else { return }
         onChange?(.following(followSwitch.state == .on))
@@ -535,6 +567,12 @@ final class SettingsPanelController: NSWindowController, NSWindowDelegate, NSMen
         scaleSlider.doubleValue = value
         scaleReadout.stringValue = "\(Int((value * 100).rounded()))%"
         onChange?(.scale(CGFloat(value)))
+    }
+
+    @objc private func skinChanged() {
+        guard !updating, let value = skinPopup.selectedItem?.representedObject as? String,
+              let picked = PetSkin(rawValue: value) else { return }
+        onChange?(.skin(picked))
     }
 
     @objc private func languageChanged() {

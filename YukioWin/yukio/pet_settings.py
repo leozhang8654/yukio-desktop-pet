@@ -10,14 +10,40 @@ class PetSettingsWindow:
         self.assistant, self.app = assistant, assistant.app
         self.window = tk.Toplevel(assistant.root)
         self.window.withdraw()
-        self.window.geometry('420x746')
-        self.window.minsize(420, 746)
+        self.window.geometry('420x820')
+        self.window.minsize(420, 820)
         self.window.attributes('-topmost', True)
         self.window.protocol('WM_DELETE_WINDOW', self.window.withdraw)
         self.body = ttk.Frame(self.window, padding=18)
         self.body.pack(fill='both', expand=True)
         self.values = {}
         self.outside_click = OutsideClickDismissal(self.window)
+
+    def connect_claude(self):
+        try:
+            from .answer_setup import install_claude
+            install_claude()
+            messagebox.showinfo('Yukio', tr('Connected. Restart Claude Code to load the new hooks.', '已连接。请重启 Claude Code，使新连接生效。'), parent=self.window)
+        except Exception:
+            messagebox.showerror('Yukio', tr('Could not connect. Existing settings were preserved.', '连接失败，请重试。'), parent=self.window)
+
+    def connect_deepseek(self):
+        if getattr(self, '_setup_future', None) is not None:
+            return
+        from concurrent.futures import ThreadPoolExecutor
+        from .answer_setup import install_deepseek
+        self._setup_pool = ThreadPoolExecutor(max_workers=1)
+        self._setup_future = self._setup_pool.submit(install_deepseek)
+        def finish():
+            if not self._setup_future.done():
+                self.window.after(200, finish); return
+            try:
+                launcher = self._setup_future.result()
+                messagebox.showinfo('Yukio', tr('Connected. Start Deep Code with this launcher:', '已连接。今后通过这个入口启动 Deep Code：') + '\n' + str(launcher), parent=self.window)
+            except Exception as error:
+                messagebox.showerror('Yukio', str(error), parent=self.window)
+            self._setup_future = None; self._setup_pool.shutdown(wait=False)
+        self.window.after(200, finish)
 
     def present(self):
         self.refresh()
@@ -37,21 +63,48 @@ class PetSettingsWindow:
         head = ttk.Frame(self.body); head.pack(fill='x', pady=(0,12))
         ttk.Label(head, text='Yukio', font=('Segoe UI', 19)).pack(side='left')
         self.lower_sign_button = lower_sign_button(self.body, self.app._drop_sign)
+        def apply_toggle(value, action):
+            action(value.get())
+            self.values["petVisible"].set(not self.app.pet_hidden)
         for key, en, zh, action in [
             ('petVisible','Show Yukio','显示雪绪',lambda v:self.app.set_hidden(not v)),
+            ('hideWhenIdle','Hide when idle','待机时隐身',self.app.set_hide_when_idle),
             ('follow','Follow AI activity','跟随 AI 活动',lambda v:self.app.settings.set('follow',v)),
             ('showBubble','Show task bubble','头顶显示任务',lambda v:self.app.settings.set('showBubble',v)),
             ('showCards','Show other chats','显示别的聊天',lambda v:self.app.settings.set('showCards',v)),
             ('showQuestionCard','Answer here','在这儿回答问题',lambda v:self.app.settings.set('showQuestionCard',v))]:
             value=tk.BooleanVar(value=not self.app.pet_hidden if key=='petVisible' else self.app.settings.get(key,True))
             self.values[key]=value
-            ttk.Checkbutton(self.body,text=tr(en,zh),variable=value,command=lambda v=value,a=action:a(v.get())).pack(anchor='w',pady=3)
+            ttk.Checkbutton(self.body,text=tr(en,zh),variable=value,command=lambda v=value,a=action:apply_toggle(v,a)).pack(anchor='w',pady=3)
+        skin_row = ttk.Frame(self.body)
+        skin_row.pack(fill='x', pady=(10, 0))
+        ttk.Label(skin_row, text=tr('Skin', '皮肤')).pack(side='left')
+        skins = ('yukio', 'qianxia')
+        skin_picker = ttk.Combobox(skin_row, values=(tr('Yukio', '雪绪'), tr('Qianxia', '千夏')),
+                                  state='readonly', width=18)
+        skin_picker.current(skins.index(self.app.skin))
+        self.skin_picker = skin_picker
+        skin_picker.pack(side='right')
+        def choose_skin(_):
+            try:
+                self.app.set_skin(skins[skin_picker.current()])
+            except Exception as error:
+                messagebox.showerror(tr('Could not load skin', '未能载入皮肤'), str(error), parent=self.window)
+            skin_picker.current(skins.index(self.app.skin))
+        skin_picker.bind('<<ComboboxSelected>>', choose_skin)
         ttk.Label(self.body,text=tr('Size (50–200%)','大小（50–200%）')).pack(anchor='w',pady=(10,0))
         ttk.Scale(self.body,from_=0.5,to=2,value=self.app.scale,command=lambda v:self.app._set_scale(float(v))).pack(fill='x')
         row=ttk.Frame(self.body);row.pack(fill='x',pady=8)
-        source=ttk.Combobox(row,values=('auto','claude','deepcode','gpt'),state='readonly',width=12)
-        source.set(self.app.settings.get('source'));source.pack(side='left')
-        source.bind('<<ComboboxSelected>>',lambda _:self.app._set_source(source.get()))
+        connections = ttk.Menubutton(self.body, text=tr('Connect answers and approvals…', '连接回答与批准…'))
+        menu = tk.Menu(connections, tearoff=False)
+        menu.add_command(label='Claude Code', command=self.connect_claude)
+        menu.add_command(label='DeepSeek · Deep Code', command=self.connect_deepseek)
+        connections.configure(menu=menu); connections.pack(fill='x', pady=4)
+        source_codes=('auto','claude','deepcode','gpt')
+        source=ttk.Combobox(row,values=(tr('All assistants','全部助手'),'Claude','DeepSeek','GPT'),state='readonly',width=12)
+        selected=self.app.settings.get('source')
+        source.current(source_codes.index(selected) if selected in source_codes else 0);source.pack(side='left')
+        source.bind('<<ComboboxSelected>>',lambda _:self.app._set_source(source_codes[source.current()]))
         lang=ttk.Combobox(row,values=('English','中文'),state='readonly',width=12)
         lang.set('中文' if self.app.settings.get('language')=='zh' else 'English');lang.pack(side='right')
         def language(_):

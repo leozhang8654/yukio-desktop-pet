@@ -268,6 +268,10 @@ class CodexSessionsSource:
         self._started = False
         self._last_scan = float("-inf")
 
+    def is_browser_session(self, session):
+        return any(p.session == session and p.originator == "codex-chrome-extension-sidepanel"
+                   for p in self._parsers.values())
+
     @property
     def available(self) -> bool:
         return os.path.isdir(self.projects_dir)
@@ -361,6 +365,7 @@ class CodexSessionsSource:
                             parser.events(row, now)
                 except (OSError, ValueError):
                     pass
+                self._known_sessions.add(parser.session)
                 if parser.parent_session:
                     self._parents[parser.session] = parser.parent_session
                 if recent:

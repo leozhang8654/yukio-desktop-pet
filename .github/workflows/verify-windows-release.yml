@@ -7,7 +7,7 @@ on:
       release_tag:
         description: Published release tag to test (for example v0.3.2)
         required: true
-        default: v0.4.3
+        default: v0.4.5
         type: string
 
 permissions:
@@ -72,16 +72,23 @@ jobs:
         run: python tests/test_codex_answer.py --exe "$env:YUKIO_INSTALLED_EXE"
       - name: Verify downloaded compact settings and outside-click dismissal
         working-directory: YukioWin
-        run: powershell -ExecutionPolicy Bypass -File scripts/smoke-assistant.ps1 -Exe "$env:YUKIO_INSTALLED_EXE"
+        shell: pwsh
+        run: |
+          powershell -ExecutionPolicy Bypass -File scripts/smoke-assistant.ps1 -Exe "$env:YUKIO_INSTALLED_EXE"
+          if ($LASTEXITCODE -ne 0) { throw "Installed settings or held pose verification failed" }
+          $report = Get-Content build/assistant-smoke/report.json -Raw | ConvertFrom-Json
+          if ($report.packageProvenance.sourceRevision -ne (git rev-parse HEAD)) { throw "Installer source commit mismatch" }
       - name: Run the downloaded exe at 100%, 150% and 200%
         working-directory: YukioWin
         shell: pwsh
         run: |
+          foreach ($skin in @("yukio", "qianxia")) {
           foreach ($scale in @(1.0, 1.5, 2.0)) {
-            $outDir = "build/release-verification/smoke-$([int]($scale * 100))"
-            powershell -ExecutionPolicy Bypass -File scripts/smoke-test.ps1 -Exe "$env:YUKIO_INSTALLED_EXE" -Scale $scale -OutDir $outDir
+            $outDir = "build/release-verification/smoke-$skin-$([int]($scale * 100))"
+            powershell -ExecutionPolicy Bypass -File scripts/smoke-test.ps1 -Exe "$env:YUKIO_INSTALLED_EXE" -Scale $scale -Skin $skin -OutDir $outDir
             if ($LASTEXITCODE -ne 0) { throw "Published exe failed at scale $scale" }
             if (-not (Test-Path "$outDir/screenshot.png")) { throw "Screenshot required for release verification" }
+          }
           }
       - name: Keep verification evidence
         if: always()
