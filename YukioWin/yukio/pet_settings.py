@@ -83,6 +83,7 @@ class PetSettingsWindow:
         skin_picker = ttk.Combobox(skin_row, values=(tr('Yukio', '雪绪'), tr('Qianxia', '千夏')),
                                   state='readonly', width=18)
         skin_picker.current(skins.index(self.app.skin))
+        self.skin_picker = skin_picker
         skin_picker.pack(side='right')
         def choose_skin(_):
             try:

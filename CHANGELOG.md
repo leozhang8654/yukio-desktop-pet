@@ -1,6 +1,10 @@
 # Changelog / 更新记录
 
-## Unreleased / 未发布
+## 0.4.5 — 2026-10-13
+
+- Add selectable Yukio / Qianxia skins with persistent preferences, twelve Qianxia activities, independent blinking and the supplied standing held pose. / 新增千夏皮肤与专用拖动站姿，设置中可切换并记住选择。
+- Preserve the release position through repeated macOS drags; retain the current activity when switching skins or ending a drag.
+- Add actionable approval cards, fix answer-panel paste handling and preserve UTF-8 in installed Windows approval hooks. Bundle the Claude hook runtime dependency. Experimental web/plugin integration limits remain documented in the answer guide.
 
 - Add a persistent Hide when idle setting, enabled by default, on macOS and Windows. Work and notices restore the pet automatically; dragging and demo playback stay visible. Manual hiding remains in effect until Show Yukio is selected.
 

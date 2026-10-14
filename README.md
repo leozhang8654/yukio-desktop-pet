@@ -1,11 +1,4 @@
-> In development: **Hide when idle** is on by default. Yukio disappears while idle and returns for work, questions, completion notices, or errors. Turn it off in Settings to keep her visible. [Behavior and local verification](docs/IDLE-VISIBILITY.md).
-
-> **Qianxia skin (0.4.5 in development):** Choose Yukio or Qianxia in **Settings → Display → Skin**. Switching is immediate and persists after restart. Qianxia also has a dedicated held pose that swings while dragging and restores the current activity after release. See [skin details](docs/SKINS.md). Public downloads will include this feature after a separate release.
-
-> **开发中的 0.4.4**：批准申请问号牌、回答框粘贴修复，以及网页／插件的实验接入。实际支持范围和限制见[回答与批准说明](YukioPlayer/Resources/BACKGROUND-ANSWERS.md)；下方 0.4.3 下载包尚不包含这些改动。
-
-> **0.4.3: Visible chats and helper activity.** macOS recognizes chats across displays; both platforms fix helper completion signs. [Release notes](docs/releases/0.4.3.md).
-
+> **0.4.5: Qianxia skin and held pose.** Switch characters in Settings, hide automatically while idle, and use improved approval cards and answer pasting. [Release notes](docs/releases/0.4.5.md).
 
 **English** · [简体中文](README.zh-CN.md)
 
@@ -28,11 +21,12 @@
 
 She follows three families of agent, and you pick which one in her menu under **Assistant**: **Claude Code**, **DeepSeek's [Deep Code CLI](https://api-docs.deepseek.com/quick_start/agent_integrations/deepcode/)**, and **GPT's [Codex](https://developers.openai.com/codex/)** (the desktop app and the CLI both write the same session logs). The default, **Auto**, follows all three at once and shows whichever chat has something to say. Both builds use native windows and work entirely from local session logs.
 
-## New in 0.4.3
+## New in 0.4.5
 
-- macOS acknowledges matching tracked chats visible on either display, including supported app, web and official GPT extension views. Quiet reading no longer expires after ten seconds.
-- Both platforms keep helper activity separate from the parent task, suppress internal completion signs, and preserve identity and titles when restarting with large logs.
-- Web conversations must map to a tracked session. Windows retains foreground-window detection; this release does not claim macOS multi-display occlusion support on Windows. See [scope and limitations](docs/BROWSER-CHAT-VISIBILITY.md).
+- Choose Yukio or Qianxia in **Settings → Display → Skin**. Selection persists after restart. Qianxia includes twelve activities, independent blinking and a dedicated held pose.
+- Dragging swings the character and restores the current activity after release. Repeated macOS drags now preserve the release position.
+- **Hide when idle** is enabled by default. Work, questions, completion and errors bring the pet back; turn it off to keep her visible.
+- Actionable approval cards, reliable answer pasting, and UTF-8 Windows approval receipts. See the [answer guide](YukioPlayer/Resources/BACKGROUND-ANSWERS.md) for experimental web and plugin compatibility.
 
 ### Recent updates
 
@@ -57,8 +51,8 @@ Grab the file for your system from the [latest release](https://github.com/leozh
 
 | You use | Download | Then |
 | --- | --- | --- |
-| macOS 13 or newer (Apple silicon and Intel) | [Yukio-0.4.3-macOS.dmg](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.3/Yukio-0.4.3-macOS.dmg) · [ZIP](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.3/Yukio-0.4.3-macOS.zip) | Open the DMG and drag `Yukio.app` into Applications; allow it once (below) |
-| Windows 10 / 11, 64-bit | [Yukio-0.4.3-Windows-Setup.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.3/Yukio-0.4.3-Windows-Setup.exe) | Run Setup once, then use the new shortcut. Future updates install inside Yukio |
+| macOS 13 or newer (Apple silicon and Intel) | [Yukio-0.4.5-macOS.dmg](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.5/Yukio-0.4.5-macOS.dmg) · [ZIP](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.5/Yukio-0.4.5-macOS.zip) | Open the DMG and drag `Yukio.app` into Applications; allow it once (below) |
+| Windows 10 / 11, 64-bit | [Yukio-0.4.5-Windows-Setup.exe](https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.4.5/Yukio-0.4.5-Windows-Setup.exe) | Run Setup once, then use the new shortcut. Future updates install inside Yukio |
 
 <details>
 <summary><b>macOS says "Apple could not verify Yukio…"</b></summary>
