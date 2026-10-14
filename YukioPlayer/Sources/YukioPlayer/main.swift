@@ -752,7 +752,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private let surfaceApprovalBridge = SurfaceApprovalBridge()
     private var deepSeekInstaller: Process?
     private var openChatObservedAt: Double = -.infinity
-    private let defaults = UserDefaults.standard
+    private let defaults: UserDefaults
 
     private var panel: PetPanel!
     private var view: PetView!
@@ -767,8 +767,17 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private var timer: Timer?
     private var tickCount = 0
 
-    /// 此刻收起着没有。只管这一次运行，重开还是露着的。
-    private var petHidden = false
+    /// 手动收起只管本次运行；待机隐身由活动状态和持久化开关决定。
+    private var manuallyHidden = false
+    private var idleHidden = false
+    private var appliedPetHidden: Bool?
+    // “显示雪绪”会让她在本次待机期间保持可见，下一次工作后恢复自动隐身。
+    private var revealedWhileIdle = false
+    private var petHidden: Bool { manuallyHidden || idleHidden }
+    private var hideWhenIdle: Bool {
+        get { defaults.object(forKey: "hideWhenIdle") as? Bool ?? true }
+        set { defaults.set(newValue, forKey: "hideWhenIdle") }
+    }
 
     private var shownState: PetState = .idle
     private var stateTimeline: SpriteTimeline
@@ -840,7 +849,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         set { defaults.set(newValue.rawValue, forKey: "language"); L10n.language = newValue }
     }
 
-    init(catalog: AnimationCatalog, library: SpriteLibrary) {
+    init(catalog: AnimationCatalog, library: SpriteLibrary, defaults: UserDefaults = .standard) {
+        self.defaults = defaults
         // 先定语言，再回放会话记录：回放时生成的说明文字才是对的语言。
         L10n.language = UILanguage(code: UserDefaults.standard.string(forKey: "language"))
         self.catalog = catalog
@@ -864,12 +874,12 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         setUpWindow()
         setUpStatusItem()
         render()
-        panel.orderFrontRegardless()
         setUpBubble()
-        updateBubble(now: now)
         setUpCards()
-        updateCards(now: now)
         setUpQuestion()
+        updatePetVisibility(now: now)
+        updateBubble(now: now)
+        updateCards(now: now)
         updateQuestion(now: now)
 
         // 30 Hz：小幅动作一帧约 67 ms、眨眼一帧 50–110 ms，都能按时换帧。
@@ -957,22 +967,46 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     /// 收起／放回来。气泡和卡叠是子窗口，跟着母窗口一起进出；菜单栏那只头像一直在。
     private func setHidden(_ value: Bool) {
-        guard value != petHidden else { return }
-        petHidden = value
+        manuallyHidden = value
+        revealedWhileIdle = !value && shownState == .idle
         if value {
+            view.cancelDrag()
             finishHang()
+        }
+        updatePetVisibility(now: nowMs())
+    }
+
+    private func updatePetVisibility(now: Double) {
+        if shownState != .idle { revealedWhileIdle = false }
+        let source: ActivityRouter? = simulation?.router ?? (following ? router : nil)
+        let hasNotice = source?.statusLine(now: now) != nil
+            || (following && showBubble && showCards && !router.cards(now: now).isEmpty)
+        idleHidden = hideWhenIdle && shownState == .idle && !revealedWhileIdle
+            && simulation == nil && !hasNotice
+            && !view.pressed && !view.dragging && swing == nil
+        guard appliedPetHidden != petHidden || panel.isVisible == petHidden else { return }
+        appliedPetHidden = petHidden
+        if petHidden {
             collapseCards()
-            updateQuestion(now: nowMs(), immediate: true)   // 先把问题卡收掉（它是独立的子窗口）
+            updateQuestion(now: now, immediate: true)
+            for window in [bubble as NSWindow?, cardStack as NSWindow?, questionPanel as NSWindow?] {
+                window?.ignoresMouseEvents = true
+                window?.orderOut(nil)
+            }
+            panel.ignoresMouseEvents = true
             panel.orderOut(nil)
         } else {
             // 收起期间可能拔了显示器：先挪回屏幕内再露面。
             clampToScreen()
             savePosition()
-            panel.orderFrontRegardless()
             render()
+            panel.orderFrontRegardless()
             positionBubble()
-            positionCards()
-            updateQuestion(now: nowMs(), immediate: true)
+            updateBubble(now: now, force: true)
+            updateCards(now: now, immediate: true)
+            if !cardsHold.value.isEmpty { cardStack.orderFrontRegardless() }
+            updateQuestion(now: now, immediate: true)
+            updateMousePassThrough()
         }
         updateStatusTitle()
     }
@@ -1217,6 +1251,10 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     private func tick() {
+        if view.pressed && NSEvent.pressedMouseButtons & 1 == 0 {
+            view.cancelDrag()
+            finishHang()
+        }
         let now = nowMs()
         tickCount += 1
         // Expire stalled observations; changing foreground apps does not hide the other screen.
@@ -1229,13 +1267,13 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             let sessions = router.sessionSummaries(now: now, quietWithinMs: 24 * 60 * 60 * 1000).filter {
                 router.sourceOfSession($0.id) == "codex" && !$0.id.hasPrefix("surface-")
             }.map(\.id)
-            codexApprovalMonitor.poll(sessions: sessions, enabled: following && showQuestionCard && !petHidden) { [weak self] events in
+            codexApprovalMonitor.poll(sessions: sessions, enabled: following && showQuestionCard && !manuallyHidden) { [weak self] events in
                 guard let self else { return }
                 for event in events { self.router.ingest(event, now: nowMs()) }
             }
         }
         if tickCount % 60 == 0 {
-            surfaceApprovalBridge.poll(enabled: following && showQuestionCard && !petHidden,
+            surfaceApprovalBridge.poll(enabled: following && showQuestionCard && !manuallyHidden,
                 providers: provider == .auto ? ["gpt", "claude", "deepseek"] : [provider.rawValue]) { [weak self] events in
                     guard let self else { return }
                     for event in events { self.router.ingest(event, now: nowMs()) }
@@ -1244,7 +1282,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         if tickCount % 8 == 0 {
             // 约每 0.27 秒读一次会话记录。事件始终进入路由器；暂停跟随只影响显示。
             for e in feeds.poll(now: now) { router.ingest(e, now: min(e.ts, now)) }
-            for e in claudeAnswerBridge.poll(now: now, enabled: following && showQuestionCard && !petHidden
+            for e in claudeAnswerBridge.poll(now: now, enabled: following && showQuestionCard && !manuallyHidden
                  , providers: provider == .auto ? ["claude", "deepseek"] : [provider.rawValue]) { router.ingest(e, now: now) }
         }
         router.tick(now: now)
@@ -1289,6 +1327,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
                 finishHang()
             }
         }
+        updatePetVisibility(now: now)
         // 收起时不画、也不去抢鼠标；状态照样跟着走。
         if !petHidden {
             render()
@@ -1348,12 +1387,13 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     /// 上次摆放气泡时是否被拎着。拎起和放下时各重新摆一次。
     private var bubblePlacedForHang = false
 
-    private func updateBubble(now: Double) {
+    private func updateBubble(now: Double, force: Bool = false) {
         if (swing != nil) != bubblePlacedForHang { positionBubble(); positionCards() }
         let source: ActivityRouter? = simulation?.router ?? (following ? router : nil)
         let line = showBubble ? source?.statusLine(now: now) : nil
         let visibilityChanged = (line == nil) != (bubbleHold.value == nil)
-        guard bubbleHold.update(line, now: now, immediate: visibilityChanged) else { return }
+        let changed = bubbleHold.update(line, now: now, immediate: visibilityChanged || force)
+        guard changed || force else { return }
         if let line = bubbleHold.value {
             bubble.bubbleView.layout = BubbleLayout(line)
             positionBubble()
@@ -1387,6 +1427,10 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     private func fadeBubble(to alpha: CGFloat) {
+        if alpha > 0, !petHidden {
+            if bubble.parent == nil { panel.addChildWindow(bubble, ordered: .above) }
+            bubble.orderFrontRegardless()
+        }
         NSAnimationContext.runAnimationGroup { ctx in
             ctx.duration = 0.18
             self.bubble.animator().alphaValue = alpha
@@ -1764,7 +1808,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
         button.appearsDisabled = petHidden
         button.toolTip = petHidden
-            ? tr("Yukio: hidden", "雪绪：已收起")
+            ? (manuallyHidden ? tr("Yukio: hidden", "雪绪：已收起") : tr("Yukio: hidden while idle", "雪绪：待机隐身中"))
             : tr("Yukio: ", "雪绪：") + (swing != nil ? L10n.heldName : L10n.stateName(shownState))
     }
 
@@ -1905,7 +1949,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
                                 language: language,
                                 demoPlaying: simulation != nil,
                                 launchAtLogin: launchAtLogin.status,
-                                automaticUpdates: softwareUpdates.automaticallyChecks)
+                                automaticUpdates: softwareUpdates.automaticallyChecks,
+                                hideWhenIdle: hideWhenIdle)
     }
 
     private func showSettings() {
@@ -1951,6 +1996,11 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     private func applySettings(_ change: SettingsChange) {
         switch change {
+        case .hideWhenIdle(let value):
+            hideWhenIdle = value
+            revealedWhileIdle = false
+            updatePetVisibility(now: nowMs())
+
         case .quit:
             NSApp.terminate(nil)
             return
@@ -2240,3 +2290,85 @@ let controller = AppController(catalog: catalog, library: library)
 app.delegate = controller
 DockMode.armIfEnabled()
 app.run()
+
+#if DEBUG
+extension AppController {
+    /// Exercise automatic visibility through the production tick and real windows.
+    /// Uses injected events only; no transcript polling or application timer.
+    func idleVisibilityForCheck() -> [String: Bool] {
+        var checks: [String: Bool] = [:]
+        following = true
+        setUpWindow(); setUpBubble(); setUpCards(); setUpQuestion()
+        defer {
+            for window in [bubble as NSWindow?, cardStack as NSWindow?, questionPanel as NSWindow?] {
+                if let window { panel.removeChildWindow(window); window.close() }
+            }
+            panel.close()
+        }
+        func step() {
+            // A single tick doesn't poll the user's logs or frontmost app.
+            tickCount = 0
+            tick()
+        }
+        func event(_ kind: PetEvent.Kind, activity: PetState? = nil) {
+            let now = nowMs()
+            router.ingest(PetEvent(ts: now, source: "test", session: "visibility", kind: kind,
+                                   eventID: activity?.rawValue, activity: activity,
+                                   question: activity == .question_for_user ? PetQuestion(text: "Choose a path", options: [.init(label: "Continue")]) : nil), now: now)
+            router.settle(now: now)
+            step()
+        }
+        step()
+        checks["idleHiddenByDefault"] = hideWhenIdle && !panel.isVisible && panel.ignoresMouseEvents
+        checks["idleLeavesNoChildWindows"] = !bubble.isVisible && !cardStack.isVisible && !questionPanel.isVisible
+        let origin = panel.frame.origin
+        event(.taskStart)
+        checks["workAutomaticallyAppears"] = panel.isVisible && !petHidden && panel.frame.origin == origin
+        event(.activityStart, activity: .write_file)
+        checks["workAndBubbleVisible"] = panel.isVisible && bubble.isVisible
+        event(.taskAbort)
+        checks["returnToIdleHidesEverything"] = !panel.isVisible && !bubble.isVisible && !cardStack.isVisible
+        applySettings(.hideWhenIdle(false))
+        checks["switchOffShowsIdleImmediately"] = panel.isVisible && defaults.object(forKey: "hideWhenIdle") as? Bool == false
+        applySettings(.hideWhenIdle(true))
+        checks["switchOnHidesIdleImmediately"] = !panel.isVisible
+        setHidden(false); step()
+        checks["explicitShowRevealsCurrentIdle"] = panel.isVisible
+        event(.taskStart); event(.taskAbort)
+        checks["nextIdleResumesAutoHide"] = !panel.isVisible
+        event(.taskStart)
+        setHidden(true)
+        event(.activityStart, activity: .read_file)
+        checks["manualHideSurvivesWork"] = !panel.isVisible && !bubble.isVisible
+        setHidden(false)
+        checks["manualShowRestoresWork"] = panel.isVisible && bubble.isVisible
+        dragBegan()
+        event(.taskAbort)
+        checks["dragDoesNotDisappearAtIdle"] = panel.isVisible && swing != nil
+        finishHang(); step()
+        checks["hideAfterInteractionEnds"] = !panel.isVisible
+        startDemo(); step()
+        checks["demoIdleRemainsVisible"] = panel.isVisible
+        stopDemo(); step()
+        checks["demoEndRestoresAutoHide"] = !panel.isVisible
+        event(.taskStart)
+        event(.activityStart, activity: .question_for_user)
+        checks["questionVisible"] = panel.isVisible && questionPanel.isVisible && shownState == .question_for_user
+        event(.activityEnd, activity: .question_for_user)
+        event(.finalAnswer); event(.taskEnd)
+        let later = nowMs() + 4_000
+        router.settle(now: later)
+        shownState = router.displayed
+        updatePetVisibility(now: later)
+        checks["completionVisible"] = panel.isVisible && shownState == .task_complete
+        _ = router.dismissCompletion(now: later)
+        shownState = router.displayed
+        updatePetVisibility(now: later)
+        checks["loweringCompletionHidesIdle"] = !panel.isVisible
+        event(.taskStart); event(.taskFailed)
+        checks["failureVisible"] = panel.isVisible && shownState == .failed
+        return checks
+    }
+
+}
+#endif

@@ -56,6 +56,8 @@ class PetApp:
         self._ticking = False
         self._next_reminder_tick = 0.0
         self._assistant_only = False
+        self._idle_hidden = False
+        self._revealed_while_idle = False
         set_language(self.settings.get("language"))   # 先定语言，回放会话记录时生成的说明文字才是对的语言
         root = assets_root()
         if not root:
@@ -157,6 +159,7 @@ class PetApp:
 
         x, y = self._restored_origin()
         self.pet.x, self.pet.y = x, y
+        self._update_pet_visibility(start)
         self._render(now_ms())
         self._write_state_file()
         if "--demo" in argv or self._should_greet():
@@ -245,6 +248,7 @@ class PetApp:
     def _render(self, now: float) -> None:
         if self.pet_hidden:
             self.pet.hide()
+            self._painted = None
             return
         if self.swing is not None and self.hang_geo is not None and self.held_timeline is not None:
             self._render_hanging()
@@ -950,7 +954,7 @@ class PetApp:
                 except Exception:
                     traceback.print_exc()
         providers = {'auto': ('claude', 'deepseek', 'gpt'), 'deepcode': ('deepseek',)}.get(self.settings.get('source'), (self.settings.get('source'),))
-        enabled = self.follow and self.show_question_card and not self.pet_hidden
+        enabled = self.follow and self.show_question_card and not self._assistant_only and self.settings.get("petVisible", True)
         if self.tick_count % POLL_EVERY_TICKS == 0:
             for event in self.answer_bridge.poll(now, enabled, providers):
                 self.router.ingest(event, now)
@@ -994,6 +998,7 @@ class PetApp:
             self.blink_level = 0
         if self.swing is not None:
             self._advance_hang(now)
+        self._update_pet_visibility(now)
         self._render(now)
         self._update_bubble(now)
         self._update_cards(now)
@@ -1234,6 +1239,10 @@ class PetApp:
         return path
 
     def _tray_tip(self) -> str:
+        if self.pet_hidden:
+            if self._idle_hidden and self.settings.get("petVisible", True) and not self._assistant_only:
+                return tr("Yukio: hidden while idle", "雪绪：待机隐身中")
+            return tr("Yukio: hidden", "雪绪：已收起")
         label = held_name() if self.swing is not None else state_name(self.shown_state)
         return tr("Yukio: %s", "雪绪：%s") % label
 
@@ -1470,16 +1479,47 @@ class PetApp:
 
     @property
     def pet_hidden(self) -> bool:
-        return self._assistant_only or not self.settings.get("petVisible", True)
+        return self._assistant_only or not self.settings.get("petVisible", True) or self._idle_hidden
+
+    def _update_pet_visibility(self, now: float) -> None:
+        if self.shown_state is not PetState.idle:
+            self._revealed_while_idle = False
+        source = self.demo[3] if self.demo else (self.router if self.follow else None)
+        has_notice = bool((source and source.status_line(now)) or
+                          (self.follow and self.show_bubble and self.show_cards and self.router.cards(now)))
+        hidden = bool(self.settings.get("hideWhenIdle", True) and self.shown_state is PetState.idle
+                      and not self._revealed_while_idle and not self.demo and not has_notice
+                      and not self._drag_pending and not self._dragging and self.swing is None)
+        if hidden == self._idle_hidden:
+            return
+        self._idle_hidden = hidden
+        self._painted = None
+        if self.pet_hidden:
+            self.pet.hide()
+        else:
+            self._clamp_to_screen()
+        self._paint_bubble()
+        self._paint_cards()
+        self._paint_question()
+        self.tray.set_tip(self._tray_tip())
+
+    def set_hide_when_idle(self, enabled: bool) -> None:
+        self.settings.set("hideWhenIdle", enabled)
+        self._revealed_while_idle = False
+        self._update_pet_visibility(now_ms())
+        self._render(now_ms())
 
     def set_hidden(self, hidden: bool) -> None:
         self._assistant_only = False
         self.settings.set("petVisible", not hidden)
+        self._revealed_while_idle = not hidden and self.shown_state is PetState.idle
+        self._update_pet_visibility(now_ms())
         self._painted = None
         self._render(now_ms())
         self._paint_bubble()
         self._paint_cards()
         self._paint_question()
+        self.tray.set_tip(self._tray_tip())
 
     def _ensure_assistant(self):
         if self.assistant is None:

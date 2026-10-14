@@ -15,6 +15,7 @@ DEFAULTS: Dict[str, Any] = {
     "updateDeferredUntil": 0,
     "follow": True,
     "petVisible": True,
+    "hideWhenIdle": True,
     "showCards": True,
     "showQuestionCard": True,
     "assistantName": "Yukio",

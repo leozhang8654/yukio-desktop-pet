@@ -1,5 +1,9 @@
 # Changelog / 更新记录
 
+## Unreleased / 未发布
+
+- Add a persistent Hide when idle setting, enabled by default, on macOS and Windows. Work and notices restore the pet automatically; dragging and demo playback stay visible. Manual hiding remains in effect until Show Yukio is selected.
+
 ## 0.4.2 — 2026-10-10
 
 - Added Quit Yukio / 退出雪绪 to right-click settings on macOS and Windows. It exits the app through the existing shutdown flow; Done still only closes settings.

@@ -10,8 +10,8 @@ class PetSettingsWindow:
         self.assistant, self.app = assistant, assistant.app
         self.window = tk.Toplevel(assistant.root)
         self.window.withdraw()
-        self.window.geometry('420x746')
-        self.window.minsize(420, 746)
+        self.window.geometry('420x780')
+        self.window.minsize(420, 780)
         self.window.attributes('-topmost', True)
         self.window.protocol('WM_DELETE_WINDOW', self.window.withdraw)
         self.body = ttk.Frame(self.window, padding=18)
@@ -63,15 +63,19 @@ class PetSettingsWindow:
         head = ttk.Frame(self.body); head.pack(fill='x', pady=(0,12))
         ttk.Label(head, text='Yukio', font=('Segoe UI', 19)).pack(side='left')
         self.lower_sign_button = lower_sign_button(self.body, self.app._drop_sign)
+        def apply_toggle(value, action):
+            action(value.get())
+            self.values["petVisible"].set(not self.app.pet_hidden)
         for key, en, zh, action in [
             ('petVisible','Show Yukio','显示雪绪',lambda v:self.app.set_hidden(not v)),
+            ('hideWhenIdle','Hide when idle','待机时隐身',self.app.set_hide_when_idle),
             ('follow','Follow AI activity','跟随 AI 活动',lambda v:self.app.settings.set('follow',v)),
             ('showBubble','Show task bubble','头顶显示任务',lambda v:self.app.settings.set('showBubble',v)),
             ('showCards','Show other chats','显示别的聊天',lambda v:self.app.settings.set('showCards',v)),
             ('showQuestionCard','Answer here','在这儿回答问题',lambda v:self.app.settings.set('showQuestionCard',v))]:
             value=tk.BooleanVar(value=not self.app.pet_hidden if key=='petVisible' else self.app.settings.get(key,True))
             self.values[key]=value
-            ttk.Checkbutton(self.body,text=tr(en,zh),variable=value,command=lambda v=value,a=action:a(v.get())).pack(anchor='w',pady=3)
+            ttk.Checkbutton(self.body,text=tr(en,zh),variable=value,command=lambda v=value,a=action:apply_toggle(v,a)).pack(anchor='w',pady=3)
         ttk.Label(self.body,text=tr('Size (50–200%)','大小（50–200%）')).pack(anchor='w',pady=(10,0))
         ttk.Scale(self.body,from_=0.5,to=2,value=self.app.scale,command=lambda v:self.app._set_scale(float(v))).pack(fill='x')
         row=ttk.Frame(self.body);row.pack(fill='x',pady=8)
