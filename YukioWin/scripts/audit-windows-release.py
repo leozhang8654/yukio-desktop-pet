@@ -18,6 +18,7 @@ p = argparse.ArgumentParser()
 p.add_argument('--exe', required=True)
 p.add_argument('--out', required=True)
 p.add_argument('--tag', default='v0.4.6')
+p.add_argument('--only-approvals', action='store_true')
 a = p.parse_args()
 exe = Path(a.exe).resolve()
 out = Path(a.out).resolve()
@@ -69,6 +70,20 @@ def windows(pid):
 
 def find(pid, cls=None, title=None):
     return next((w for w in windows(pid) if (cls is None or w['cls']==cls) and (title is None or w['title']==title)),None)
+
+def child_windows(parent):
+    rows=[]
+    callback=ctypes.WINFUNCTYPE(wintypes.BOOL,wintypes.HWND,wintypes.LPARAM)
+    @callback
+    def enum(hwnd, _):
+        if u.IsWindowVisible(hwnd):
+            cls=ctypes.create_unicode_buffer(256);title=ctypes.create_unicode_buffer(1024);rect=wintypes.RECT()
+            u.GetClassNameW(hwnd,cls,256);u.GetWindowTextW(hwnd,title,1024);u.GetWindowRect(hwnd,ctypes.byref(rect))
+            rows.append(dict(hwnd=hwnd,cls=cls.value,title=title.value,rect=[rect.left,rect.top,rect.right,rect.bottom]))
+        return True
+    u.EnumChildWindows.argtypes=[wintypes.HWND,callback,wintypes.LPARAM]
+    u.EnumChildWindows(parent,enum,0)
+    return rows
 
 def click(x,y):
     u.SetCursorPos(round(x),round(y));time.sleep(.1)
@@ -208,29 +223,20 @@ def audit_bridge(scenario):
         u.PostMessageW(window['hwnd'],0x0202,0,0)
         if scenario!='question':
             review=wait(lambda:find(proc.pid,title=question.header),'approval review')
-            # Derive button positions from the same released native widget layout.
-            import tkinter as tk
-            from tkinter import ttk
-            from yukio.approval_review import present
-            tkroot=tk.Tk();tkroot.withdraw()
-            style=ttk.Style(tkroot);style.theme_use('clam')
-            style.configure('TLabel',font=('Segoe UI',10))
-            style.configure('TButton',font=('Segoe UI',10),padding=(12,8))
-            clone=present(tkroot,question,lambda _:None);clone.update_idletasks()
-            label=question.options[0 if scenario=='allow' else 1].label
-            def descendants(widget):
-                for child in widget.winfo_children():
-                    yield child
-                    yield from descendants(child)
-            button=next(w for w in descendants(clone) if isinstance(w,ttk.Button) and w.cget('text')==label)
-            offset=(button.winfo_rootx()-clone.winfo_rootx()+button.winfo_width()/2,
-                    button.winfo_rooty()-clone.winfo_rooty()+button.winfo_height()/2)
-            clone.destroy();tkroot.destroy()
+            # Read the actual native child windows. The released review packs
+            # Later at the left and Allow/Deny from right to left.
+            time.sleep(.5)
             review=find(proc.pid,title=question.header)
-            origin=wintypes.POINT();u.ClientToScreen(review['hwnd'],ctypes.byref(origin))
-            target=(origin.x+offset[0],origin.y+offset[1])
+            children=child_windows(review['hwnd'])
+            buttons=[w for w in children if 60<w['rect'][2]-w['rect'][0]<250
+                and 24<w['rect'][3]-w['rect'][1]<70 and w['rect'][3]>review['rect'][3]-65]
+            write(root/'native-children.json',dict(review=review,children=children,buttons=buttons))
+            assert len(buttons)==3,buttons
+            buttons.sort(key=lambda w:w['rect'][0],reverse=True)
+            button=buttons[0 if scenario=='allow' else 1]
+            x1,y1,x2,y2=button['rect'];target=((x1+x2)/2,(y1+y2)/2)
             write(root/'click-debug.json',dict(card_window=window,card_point=card_point,
-                review=review,client_origin=[origin.x,origin.y],button_offset=offset,button_point=target))
+                review=review,button=button,button_point=target))
             capture('bridge-'+scenario+'-review')
             assert not (req.parent/'answer-0.json').exists(),'Approval sent before confirmation'
             u.SetForegroundWindow(review['hwnd']);time.sleep(.3)
@@ -252,8 +258,11 @@ def audit_bridge(scenario):
         if node is not None and node.poll() is None:node.terminate();node.wait(timeout=5)
         stop(proc)
 
-for name,fn in [('downloads-portable-update-feed',audit_assets),('deepcode-native-states',audit_deepcode),
-                *[(f'deepseek-native-{s}',lambda s=s:audit_bridge(s)) for s in ('question','allow','deny')]]:
+tasks=[('downloads-portable-update-feed',audit_assets),('deepcode-native-states',audit_deepcode),
+       *[(f'deepseek-native-{s}',lambda s=s:audit_bridge(s)) for s in ('question','allow','deny')]]
+if a.only_approvals:
+    tasks=[t for t in tasks if t[0] in ('deepseek-native-allow','deepseek-native-deny')]
+for name,fn in tasks:
     print('AUDIT',name,flush=True)
     try:checks.append(dict(name=name,ok=True,detail=fn()))
     except Exception:checks.append(dict(name=name,ok=False,error=traceback.format_exc()));capture(name+'-failure')

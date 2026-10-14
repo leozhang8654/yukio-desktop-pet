@@ -19,6 +19,11 @@ on:
         required: false
         default: false
         type: boolean
+      approvals_only:
+        description: Recheck only native approval input after a completed extended audit
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -130,9 +135,14 @@ jobs:
       - name: Audit portable package, update feed and native DeepSeek sessions
         if: ${{ !cancelled() && env.YUKIO_INSTALLED_EXE != '' }}
         working-directory: YukioWin
+        shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
-        run: python ../_audit/YukioWin/scripts/audit-windows-release.py --exe "$env:YUKIO_INSTALLED_EXE" --out build/windows-audit --tag "$env:RELEASE_TAG"
+          APPROVALS_ONLY: ${{ inputs.approvals_only }}
+        run: |
+          $extra = @()
+          if ($env:APPROVALS_ONLY -eq 'true') { $extra += '--only-approvals' }
+          python ../_audit/YukioWin/scripts/audit-windows-release.py --exe "$env:YUKIO_INSTALLED_EXE" --out build/windows-audit --tag "$env:RELEASE_TAG" @extra
       - name: Test the DeepSeek adapter shipped in the public package
         if: ${{ !cancelled() && env.YUKIO_INSTALLED_EXE != '' }}
         shell: pwsh
@@ -141,7 +151,7 @@ jobs:
           node --test "$integration/bridge.test.mjs"
           if ($LASTEXITCODE -ne 0) { throw 'Packaged DeepSeek adapter tests failed' }
       - name: Install the shipped DeepSeek connection on native Windows
-        if: ${{ !cancelled() && env.YUKIO_INSTALLED_EXE != '' }}
+        if: ${{ !cancelled() && env.YUKIO_INSTALLED_EXE != '' && !inputs.approvals_only }}
         working-directory: YukioWin
         shell: pwsh
         run: |
@@ -166,5 +176,6 @@ jobs:
             YukioWin/build/windows-audit/*.log
             YukioWin/build/windows-audit/bridge-*/result.json
             YukioWin/build/windows-audit/bridge-*/click-debug.json
+            YukioWin/build/windows-audit/bridge-*/native-children.json
             YukioWin/build/windows-audit/**/error.log
           if-no-files-found: warn
