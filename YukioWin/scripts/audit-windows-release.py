@@ -39,6 +39,9 @@ u.IsWindowVisible.argtypes = [wintypes.HWND]
 u.ClientToScreen.argtypes = [wintypes.HWND, ctypes.POINTER(wintypes.POINT)]
 u.SetForegroundWindow.argtypes = [wintypes.HWND]
 u.PostMessageW.argtypes = [wintypes.HWND, wintypes.UINT, wintypes.WPARAM, wintypes.LPARAM]
+u.GetCursorPos.argtypes = [ctypes.POINTER(wintypes.POINT)]
+u.SendMessageTimeoutW.argtypes = [wintypes.HWND, wintypes.UINT, wintypes.WPARAM,
+    wintypes.LPARAM, wintypes.UINT, wintypes.UINT, ctypes.POINTER(ctypes.c_size_t)]
 checks = []
 
 def run(args, **kw):
@@ -219,10 +222,23 @@ def audit_bridge(scenario):
         write(root/'click-debug.json',dict(card_window=window,card_point=card_point))
         # Deliver the native card event to the enumerated instance, independent
         # of the hosted runner's terminal stealing foreground mouse input.
-        u.SetCursorPos(round(card_point[0]),round(card_point[1]))
-        u.PostMessageW(window['hwnd'],0x0202,0,0)
+        def card_event():
+            assert u.SetCursorPos(round(card_point[0]),round(card_point[1]))
+            cursor=wintypes.POINT();assert u.GetCursorPos(ctypes.byref(cursor))
+            assert (cursor.x,cursor.y)==tuple(map(round,card_point)),(cursor.x,cursor.y,card_point)
+            response=ctypes.c_size_t()
+            assert u.SendMessageTimeoutW(window['hwnd'],0x0202,0,0,2,5000,ctypes.byref(response)),ctypes.get_last_error()
+        card_event()
         if scenario!='question':
-            review=wait(lambda:find(proc.pid,title=question.header),'approval review')
+            # Retest an unacknowledged native input only while no review exists;
+            # no answer or authorization is sent by opening the review.
+            review=None
+            for attempt in range(3):
+                time.sleep(.5)
+                review=find(proc.pid,title=question.header)
+                if review:break
+                card_event()
+            review=review or wait(lambda:find(proc.pid,title=question.header),'approval review',5)
             # Read the actual native child windows. The released review packs
             # Later at the left and Allow/Deny from right to left.
             time.sleep(.5)
