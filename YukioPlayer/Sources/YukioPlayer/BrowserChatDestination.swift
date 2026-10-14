@@ -7,6 +7,7 @@ enum BrowserChatDestination {
     private struct Target {
         let pid: pid_t
         let window: AXUIElement
+        let tabWindow: AXUIElement
         let tab: AXUIElement
         let title: String
     }
@@ -24,11 +25,27 @@ enum BrowserChatDestination {
     }
 
     static func remember(session: String, window: AXUIElement, processID: pid_t) {
-        let selected = tabs(window).filter { (value($0, kAXValueAttribute) as? NSNumber)?.boolValue == true }
-        guard selected.count == 1, let tab = selected.first,
-              let title = value(tab, kAXTitleAttribute) as? String, !title.isEmpty else { return }
+        var owners = [window]
+        // Chrome can expose its full-screen tab strip as a separate AX window.
+        // Only accept a strip touching the same content window, never another
+        // browser window or another display's selected tab.
+        if tabs(window).isEmpty, let content = bounds(window) {
+            let app = AXUIElementCreateApplication(processID)
+            let siblings = value(app, kAXWindowsAttribute) as? [AXUIElement] ?? []
+            owners += siblings.filter { sibling in
+                guard !CFEqual(sibling, window), let frame = bounds(sibling) else { return false }
+                return isAttachedTabStrip(frame, content: content)
+            }
+        }
+        let selected = owners.flatMap { owner in
+            tabs(owner).filter { (value($0, kAXValueAttribute) as? NSNumber)?.boolValue == true }
+                .map { (owner, $0) }
+        }
+        BrowserOpenChat.notes.append("browserTabOwners=\(owners.count) selectedTabs=\(selected.count)")
+        guard selected.count == 1, let (owner, tab) = selected.first,
+              let title = tabTitle(tab) else { return }
         lock.lock(); defer { lock.unlock() }
-        targets[session] = Target(pid: processID, window: window, tab: tab, title: normalizedTitle(title))
+        targets[session] = Target(pid: processID, window: window, tabWindow: owner, tab: tab, title: normalizedTitle(title))
     }
 
     /// The exact observed tab must still belong to that window. Closed/replaced
@@ -37,8 +54,8 @@ enum BrowserChatDestination {
         lock.lock(); let target = targets[session]; lock.unlock()
         guard let target, let app = NSRunningApplication(processIdentifier: target.pid),
               !app.isTerminated,
-              tabs(target.window).contains(where: { CFEqual($0, target.tab) }),
-              let title = value(target.tab, kAXTitleAttribute) as? String,
+              tabs(target.tabWindow).contains(where: { CFEqual($0, target.tab) }),
+              let title = tabTitle(target.tab),
               normalizedTitle(title) == target.title else { return false }
         guard AXUIElementPerformAction(target.tab, kAXPressAction as CFString) == .success else { return false }
         guard AXUIElementPerformAction(target.window, kAXRaiseAction as CFString) == .success else { return false }
@@ -48,6 +65,29 @@ enum BrowserChatDestination {
     static func normalizedTitle(_ text: String) -> String {
         // Chrome adds changing memory usage to the tab's accessibility label.
         text.replacingOccurrences(of: #" - (?:内存用量|Memory usage).*?$"#, with: "", options: .regularExpression)
+    }
+
+    static func isAttachedTabStrip(_ strip: CGRect, content: CGRect) -> Bool {
+        abs(strip.minX - content.minX) <= 2 && abs(strip.width - content.width) <= 2
+            && strip.height >= 20 && strip.height <= 100
+            && strip.maxY <= content.minY + 2 && content.minY - strip.maxY <= 60
+    }
+
+    private static func tabTitle(_ tab: AXUIElement) -> String? {
+        // Chromium exposes some tab labels as AXDescription, leaving AXTitle empty.
+        for key in [kAXTitleAttribute, kAXDescriptionAttribute] {
+            if let title = value(tab, key) as? String, !title.isEmpty { return title }
+        }
+        return nil
+    }
+
+    private static func bounds(_ node: AXUIElement) -> CGRect? {
+        guard let position = value(node, kAXPositionAttribute), let size = value(node, kAXSizeAttribute),
+              CFGetTypeID(position) == AXValueGetTypeID(), CFGetTypeID(size) == AXValueGetTypeID() else { return nil }
+        var point = CGPoint.zero, extent = CGSize.zero
+        guard AXValueGetValue(position as! AXValue, .cgPoint, &point),
+              AXValueGetValue(size as! AXValue, .cgSize, &extent) else { return nil }
+        return CGRect(origin: point, size: extent)
     }
 
     private static func tabs(_ root: AXUIElement) -> [AXUIElement] {
