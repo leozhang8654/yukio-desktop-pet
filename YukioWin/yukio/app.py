@@ -26,7 +26,9 @@ from .settings import Settings
 from .question_presentation import QuestionPresentationState, question_key
 from .reminders import ReminderStore
 from .sources import app_data_dir, default_sources
-from .sprites import SpriteLibrary
+from .sprites import SpriteLibrary, SpriteError
+from .catalog import CatalogError
+from .skins import normalize_skin, skin_root
 
 FRAME_MS = 33          # 约 30 Hz：小幅动作一帧 33–67 ms，眨眼 50–110 ms，都能按时换帧
 POLL_EVERY_TICKS = 8   # 约每 0.27 秒读一次会话记录
@@ -62,8 +64,18 @@ class PetApp:
         root = assets_root()
         if not root:
             raise SystemExit("找不到素材目录 Assets（可用 YUKIO_ASSETS 指定）")
-        self.catalog = AnimationCatalog.load(root)
-        self.library = SpriteLibrary(self.catalog, root)
+        self.bundled_assets = root
+        self.skin = normalize_skin(self.settings.get("skin"))
+        try:
+            self.catalog = AnimationCatalog.load(skin_root(root, self.skin))
+            self.library = SpriteLibrary(self.catalog, skin_root(root, self.skin))
+        except (CatalogError, SpriteError, OSError, ValueError):
+            if self.skin == "yukio":
+                raise
+            self.skin = "yukio"
+            self.catalog = AnimationCatalog.load(root)
+            self.library = SpriteLibrary(self.catalog, root)
+        self.settings.set("skin", self.skin)
         self.sources = default_sources(self.settings.get("source"))
         self.links = ChatLinks()
         from .codex_open_chat import CodexOpenChat
@@ -1152,6 +1164,8 @@ class PetApp:
         return (self.pet.x - self.hang_geo.offset[0], self.pet.y - self.hang_geo.offset[1])
 
     def _drag_began(self) -> None:
+        if self.skin != "yukio":
+            return
         now = now_ms()
         # 上一次还在晃就又被抓住：窗口已经是放大的，只要把手重新握上。
         if self.swing is not None:
@@ -1178,6 +1192,13 @@ class PetApp:
         self.tray.set_tip(self._tray_tip())
 
     def _drag_ended(self) -> None:
+        if self.skin != "yukio":
+            self._clamp_to_screen()
+            self._save_position()
+            self._position_bubble()
+            self._position_cards()
+            self._position_question()
+            return
         if self.swing is None:
             return
         # 贴边和保存位置都按平时那块算；放大的窗口跟着挪同样的距离。
@@ -1225,7 +1246,7 @@ class PetApp:
     # MARK: 托盘与菜单
 
     def _tray_icon_path(self) -> Optional[str]:
-        path = os.path.join(app_data_dir(), "tray.ico")
+        path = os.path.join(app_data_dir(), "tray-%s.ico" % self.skin)
         try:
             if not os.path.exists(path):
                 avatar = self.library.avatar_image(256)
@@ -1423,6 +1444,29 @@ class PetApp:
             for e in source.poll(now):
                 self.router.ingest(e, min(e.ts, now))
         self.router.settle(now)
+
+    def set_skin(self, skin):
+        if skin == self.skin:
+            return
+        root = skin_root(self.bundled_assets, skin)
+        catalog = AnimationCatalog.load(root)
+        library = SpriteLibrary(catalog, root)
+        # Decode the current pose before committing; keep the old skin on failure.
+        library.frame(self.shown_state.value, 0)
+        self._finish_hang()
+        self.catalog, self.library, self.skin = catalog, library, skin
+        self.settings.set("skin", skin)
+        now = now_ms()
+        self.timeline = SpriteTimeline(catalog.spec(self.shown_state), now)
+        blink = self.timeline.spec.blink
+        self.blink_clock = BlinkClock(blink.seed if blink else 11003, now)
+        self.blink_level = 0
+        self._painted = None
+        self._render(now)
+        self._position_bubble(); self._paint_bubble()
+        self._position_cards(); self._position_question()
+        self.tray.remove()
+        self.tray = self.win32.TrayIcon(self.control.hwnd, self._tray_icon_path(), self._tray_tip())
 
     def _set_language(self, code: str) -> None:
         self.settings.set("language", code)

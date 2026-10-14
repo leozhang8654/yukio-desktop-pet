@@ -47,7 +47,7 @@ final class SpriteLibrary {
     private var frameOrder: [Int] = []
     private var bodySheets: [String: CGImage] = [:]
     private var recent: [String] = []
-    private let assetsRoot: URL
+    let assetsRoot: URL
     private var eyeSheets: [String: CGImage] = [:]
     private let pages: PagedSpriteLibrary?
 

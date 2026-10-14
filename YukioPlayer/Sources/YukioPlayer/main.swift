@@ -5,14 +5,35 @@ func nowMs() -> Double { Date().timeIntervalSince1970 * 1000 }
 
 // MARK: - 命令行模式（无窗口）
 
-func loadCatalogOrExit() -> (AnimationCatalog, URL) {
+func loadCatalogOrExit(useSavedSkin: Bool = false) -> (AnimationCatalog, URL) {
     guard let root = AssetLocator.assetsRoot() else {
         FileHandle.standardError.write(Data("找不到资源目录 Assets（可用 YUKIO_ASSETS 指定）\n".utf8))
         exit(1)
     }
+    let args = CommandLine.arguments
+    if args.last == "--skin" {
+        FileHandle.standardError.write(Data("--skin requires yukio or qianxia\n".utf8))
+        exit(1)
+    }
+    let explicit = args.firstIndex(of: "--skin").flatMap { $0 + 1 < args.count ? args[$0 + 1] : nil }
+    if let explicit, PetSkin(rawValue: explicit) == nil {
+        FileHandle.standardError.write(Data("Unknown skin: \(explicit)\n".utf8))
+        exit(1)
+    }
+    let skin = PetSkin(rawValue: explicit ?? (useSavedSkin ? UserDefaults.standard.string(forKey: "skin") : nil) ?? "yukio") ?? .yukio
+    let selected = skin.assetsRoot(in: root)
     do {
-        return (try AnimationCatalog.load(assetsRoot: root), root)
+        let catalog = try AnimationCatalog.load(assetsRoot: selected)
+        // Recover a broken saved skin before creating any windows.
+        if useSavedSkin && skin != .yukio { _ = try SpriteLibrary(catalog: catalog, assetsRoot: selected) }
+        return (catalog, selected)
     } catch {
+        if useSavedSkin && explicit == nil && skin != .yukio,
+           let fallback = try? AnimationCatalog.load(assetsRoot: root) {
+            FileHandle.standardError.write(Data("Skin unavailable; using Yukio: \(error)\n".utf8))
+            UserDefaults.standard.set(PetSkin.yukio.rawValue, forKey: "skin")
+            return (fallback, root)
+        }
         FileHandle.standardError.write(Data("资源加载失败：\(error)\n".utf8))
         exit(1)
     }
@@ -146,7 +167,7 @@ func runMotionBenchmark() -> Never {
             for _ in 0..<2 {
                 for (step, index) in spec.sequence.enumerated() {
                     let start = ProcessInfo.processInfo.systemUptime
-                    _ = library.frame(spec.id, index, blinkLevel: clock.level(at: time))
+                    _ = library.frame(spec.id, index, blinkLevel: clock.level(at: time, levels: spec.blink?.levels ?? 6))
                     samples.append((ProcessInfo.processInfo.systemUptime - start) * 1000)
                     time += Double(spec.durationsMs[step])
                 }
@@ -738,8 +759,10 @@ struct HangGeometry {
 
 
 final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
-    private let catalog: AnimationCatalog
-    private let library: SpriteLibrary
+    private var catalog: AnimationCatalog
+    private var library: SpriteLibrary
+    private var skin: PetSkin
+    private let bundledAssets: URL
     private let router = ActivityRouter(now: nowMs())
     /// 跟着哪一家（Claude／DeepSeek／GPT，或三家都跟）的本机会话记录。菜单里换。
     private var feeds: AgentSources
@@ -849,7 +872,11 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         set { defaults.set(newValue.rawValue, forKey: "language"); L10n.language = newValue }
     }
 
-    init(catalog: AnimationCatalog, library: SpriteLibrary, defaults: UserDefaults = .standard) {
+    init(catalog: AnimationCatalog, library: SpriteLibrary, defaults: UserDefaults = .standard,
+         skin: PetSkin = .yukio, bundledAssets: URL? = nil) {
+        self.skin = skin
+        self.bundledAssets = bundledAssets ?? (skin == .yukio ? library.assetsRoot
+            : library.assetsRoot.deletingLastPathComponent().deletingLastPathComponent())
         self.defaults = defaults
         // 先定语言，再回放会话记录：回放时生成的说明文字才是对的语言。
         L10n.language = UILanguage(code: UserDefaults.standard.string(forKey: "language"))
@@ -1118,6 +1145,7 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     private func dragBegan() {
+        guard skin.supportsHeldAnimation else { return }
         let now = nowMs()
         // 上一次还在晃就又被抓住：窗口已经是放大的，只要把手重新握上。
         if swing != nil {
@@ -1143,6 +1171,10 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     private func dragEnded() {
+        guard skin.supportsHeldAnimation else {
+            clampToScreen(); savePosition(); positionBubble(); positionCards(); positionQuestion()
+            return
+        }
         guard swing != nil else { return }
         // 贴边和保存位置都按平时那块算；放大的窗口跟着挪同样的距离。
         let normal = clamped(normalFrame())
@@ -1950,7 +1982,8 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
                                 demoPlaying: simulation != nil,
                                 launchAtLogin: launchAtLogin.status,
                                 automaticUpdates: softwareUpdates.automaticallyChecks,
-                                hideWhenIdle: hideWhenIdle)
+                                hideWhenIdle: hideWhenIdle,
+                                skin: skin)
     }
 
     private func showSettings() {
@@ -1994,6 +2027,28 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         positionQuestion()
     }
 
+    private func switchSkin(to picked: PetSkin) throws {
+        guard picked != skin else { return }
+        let root = picked.assetsRoot(in: bundledAssets)
+        let nextCatalog = try AnimationCatalog.load(assetsRoot: root)
+        let nextLibrary = try SpriteLibrary(catalog: nextCatalog, assetsRoot: root)
+        // Commit only after loading succeeds. Session routing and preferences survive.
+        view.cancelDrag()
+        finishHang()
+        catalog = nextCatalog
+        library = nextLibrary
+        skin = picked
+        defaults.set(picked.rawValue, forKey: "skin")
+        let now = nowMs()
+        stateTimeline = SpriteTimeline(spec: catalog.spec(for: shownState), now: now)
+        blinkClock = BlinkClock(seed: stateTimeline.spec.blink?.seed ?? 11003, now: now)
+        blinkLevel = 0
+        statusIcon = library.avatarImage().map { NSImage(cgImage: $0, size: NSSize(width: 18, height: 18)) }
+        render()
+        positionBubble(); positionCards(); positionQuestion()
+        updateStatusTitle()
+    }
+
     private func applySettings(_ change: SettingsChange) {
         switch change {
         case .hideWhenIdle(let value):
@@ -2028,6 +2083,13 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
         case .showQuestionCard(let value):
             showQuestionCard = value
             updateQuestion(now: nowMs(), immediate: true)
+        case .skin(let picked):
+            do { try switchSkin(to: picked) } catch {
+                let alert = NSAlert()
+                alert.messageText = tr("Could not load skin", "未能载入皮肤")
+                alert.informativeText = String(describing: error)
+                if let window = settingsWindow?.window { alert.beginSheetModal(for: window) }
+            }
         case .scale(let value):
             applyScale(value)
         case .language(let value):
@@ -2274,7 +2336,7 @@ if Bundle.main.bundleIdentifier != nil && !running.isEmpty {
     exit(0)
 }
 
-let (catalog, assetsRoot) = loadCatalogOrExit()
+let (catalog, assetsRoot) = loadCatalogOrExit(useSavedSkin: true)
 let library: SpriteLibrary
 do {
     library = try SpriteLibrary(catalog: catalog, assetsRoot: assetsRoot)
@@ -2286,13 +2348,49 @@ do {
 let app = NSApplication.shared
 // 平时是 .accessory（不进 Dock、不抢前台）；YUKIO_DOCK=1 时临时当普通 App，见 DockMode。
 app.setActivationPolicy(DockMode.isEnabled ? .regular : .accessory)
-let controller = AppController(catalog: catalog, library: library)
+let controller = AppController(catalog: catalog, library: library, skin: PetSkin.identify(assetsRoot: assetsRoot))
 app.delegate = controller
 DockMode.armIfEnabled()
 app.run()
 
 #if DEBUG
 extension AppController {
+    func skinSwitchForCheck() throws -> [String: Bool] {
+        _ = NSApplication.shared
+        hideWhenIdle = false
+        setUpWindow(); setUpBubble(); setUpCards(); setUpQuestion()
+        defer {
+            for window in [bubble as NSWindow?, cardStack as NSWindow?, questionPanel as NSWindow?] {
+                if let window { panel.removeChildWindow(window); window.close() }
+            }
+            panel.close()
+        }
+        shownState = .write_file
+        stateTimeline = SpriteTimeline(spec: catalog.spec(for: shownState), now: nowMs())
+        let origin = panel.frame.origin, oldScale = scale, oldFollowing = following
+        let originalPixels = library.frame("write_file", 0).image.dataProvider?.data
+        try switchSkin(to: .qianxia)
+        var checks = ["statePreserved": shownState == .write_file && stateTimeline.spec.id == "write_file",
+                      "skinRemembered": defaults.string(forKey: "skin") == "qianxia",
+                      "positionPreserved": panel.frame.origin == origin,
+                      "preferencesPreserved": scale == oldScale && following == oldFollowing,
+                      "twelveEyelidLevels": stateTimeline.spec.blink?.levels == 12]
+        let newPixels = library.frame("write_file", 0).image.dataProvider?.data
+        checks["artActuallyChanged"] = originalPixels != newPixels
+        dragBegan()
+        checks["qianxiaKeepsPoseWhenDragged"] = swing == nil && heldTimeline == nil
+        panel.setFrameOrigin(NSPoint(x: origin.x + 10, y: origin.y))
+        dragEnded()
+        checks["plainDragSaved"] = defaults.double(forKey: "originX") == Double(panel.frame.minX)
+        try switchSkin(to: .yukio)
+        checks["switchBackRestoresArt"] = originalPixels == library.frame("write_file", 0).image.dataProvider?.data
+        dragBegan()
+        checks["yukioStillHangs"] = swing != nil
+        try switchSkin(to: .qianxia)
+        checks["switchEndsOldHang"] = swing == nil && heldTimeline == nil && panel.frame.size == petSize
+        return checks
+    }
+
     /// Exercise automatic visibility through the production tick and real windows.
     /// Uses injected events only; no transcript polling or application timer.
     func idleVisibilityForCheck() -> [String: Bool] {

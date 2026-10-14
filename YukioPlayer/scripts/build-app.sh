@@ -51,6 +51,15 @@ if [ -n "${YUKIO_PAGED_ASSETS:-}" ]; then
   fi
   rm -rf "$APP/Contents/Resources/Assets/motion/windows-pages"
   cp -R "$PAGE_SOURCE" "$APP/Contents/Resources/Assets/motion/windows-pages"
+  for SKIN in "$YUKIO_PAGED_ASSETS"/skins/*; do
+    [ -d "$SKIN" ] || continue
+    SKIN_NAME="$(basename "$SKIN")"
+    SKIN_TARGET="$APP/Contents/Resources/Assets/skins/$SKIN_NAME/motion"
+    test -f "$SKIN/motion/windows-pages/manifest.json"
+    test -d "$SKIN_TARGET"
+    rm -rf "$SKIN_TARGET/windows-pages"
+    cp -R "$SKIN/motion/windows-pages" "$SKIN_TARGET/windows-pages"
+  done
 fi
 cp Resources/BACKGROUND-ANSWERS.md "$APP/Contents/Resources/BACKGROUND-ANSWERS.md"
 mkdir -p "$APP/Contents/Resources/deepseek-answers"
@@ -68,8 +77,8 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
   <key>CFBundleExecutable</key><string>YukioPlayer</string>
   <key>CFBundleIconFile</key><string>AppIcon</string>
   <key>CFBundlePackageType</key><string>APPL</string>
-  <key>CFBundleShortVersionString</key><string>0.4.4</string>
-  <key>CFBundleVersion</key><string>23</string>
+  <key>CFBundleShortVersionString</key><string>0.4.5</string>
+  <key>CFBundleVersion</key><string>24</string>
   <key>LSMinimumSystemVersion</key><string>13.0</string>
   <key>SUFeedURL</key><string>https://github.com/leozhang8654/yukio-desktop-pet/releases/latest/download/appcast.xml</string>
   <key>SUPublicEDKey</key><string>UuIYaOS2mImMarKEoskVy22Juxl1pQeAL5s+mPnqHFg=</string>

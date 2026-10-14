@@ -23,6 +23,7 @@ DEFAULTS: Dict[str, Any] = {
     "assistantReminderSound": True,
     "showBubble": True,
     "scale": 1.0,
+    "skin": "yukio",
     "source": "auto",      # auto / claude / deepcode（DeepSeek）/ gpt（Codex）
     "language": "en",      # en / zh：界面语言，默认英文
     "originX": None,

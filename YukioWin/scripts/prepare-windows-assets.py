@@ -40,7 +40,7 @@ def default_source() -> Path:
 
 def copy_non_motion_atlases(source: Path, output: Path) -> None:
     def ignore(directory: str, names):
-        if Path(directory).resolve() == (source / "motion").resolve():
+        if Path(directory).name == "motion":
             return [name for name in names if name.lower().endswith(".webp")]
         return []
 
@@ -118,16 +118,7 @@ def eye_pages(source: Path, output: Path, spec) -> dict:
             "atlasHeight": ((count + source_columns - 1) // source_columns) * blink.height}
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--source", type=Path, default=None)
-    parser.add_argument("--output", type=Path, default=ROOT / "build" / "windows-assets" / "Assets")
-    args = parser.parse_args()
-    source = (args.source or default_source()).resolve()
-    output = args.output.resolve()
-    if output.exists():
-        shutil.rmtree(output)
-    copy_non_motion_atlases(source, output)
+def prepare_pages(source, output):
     catalog = AnimationCatalog.load(str(source))
     states = {}
     for spec in sorted(catalog.specs.values(), key=lambda item: item.id):
@@ -144,6 +135,24 @@ def main() -> int:
     manifest_path.parent.mkdir(parents=True, exist_ok=True)
     manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print("OK:", manifest_path)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--source", type=Path, default=None)
+    parser.add_argument("--output", type=Path, default=ROOT / "build" / "windows-assets" / "Assets")
+    args = parser.parse_args()
+    source = (args.source or default_source()).resolve()
+    output = args.output.resolve()
+    if output.exists():
+        shutil.rmtree(output)
+    copy_non_motion_atlases(source, output)
+    prepare_pages(source, output)
+    skins = source / "skins"
+    if skins.is_dir():
+        for skin in sorted(skins.iterdir()):
+            if (skin / "activities/activities.json").is_file():
+                prepare_pages(skin, output / "skins" / skin.name)
     return 0
 
 

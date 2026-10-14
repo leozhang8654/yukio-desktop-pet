@@ -10,8 +10,8 @@ class PetSettingsWindow:
         self.assistant, self.app = assistant, assistant.app
         self.window = tk.Toplevel(assistant.root)
         self.window.withdraw()
-        self.window.geometry('420x780')
-        self.window.minsize(420, 780)
+        self.window.geometry('420x820')
+        self.window.minsize(420, 820)
         self.window.attributes('-topmost', True)
         self.window.protocol('WM_DELETE_WINDOW', self.window.withdraw)
         self.body = ttk.Frame(self.window, padding=18)
@@ -76,6 +76,21 @@ class PetSettingsWindow:
             value=tk.BooleanVar(value=not self.app.pet_hidden if key=='petVisible' else self.app.settings.get(key,True))
             self.values[key]=value
             ttk.Checkbutton(self.body,text=tr(en,zh),variable=value,command=lambda v=value,a=action:apply_toggle(v,a)).pack(anchor='w',pady=3)
+        skin_row = ttk.Frame(self.body)
+        skin_row.pack(fill='x', pady=(10, 0))
+        ttk.Label(skin_row, text=tr('Skin', '皮肤')).pack(side='left')
+        skins = ('yukio', 'qianxia')
+        skin_picker = ttk.Combobox(skin_row, values=(tr('Yukio', '雪绪'), tr('Qianxia', '千夏')),
+                                  state='readonly', width=18)
+        skin_picker.current(skins.index(self.app.skin))
+        skin_picker.pack(side='right')
+        def choose_skin(_):
+            try:
+                self.app.set_skin(skins[skin_picker.current()])
+            except Exception as error:
+                messagebox.showerror(tr('Could not load skin', '未能载入皮肤'), str(error), parent=self.window)
+            skin_picker.current(skins.index(self.app.skin))
+        skin_picker.bind('<<ComboboxSelected>>', choose_skin)
         ttk.Label(self.body,text=tr('Size (50–200%)','大小（50–200%）')).pack(anchor='w',pady=(10,0))
         ttk.Scale(self.body,from_=0.5,to=2,value=self.app.scale,command=lambda v:self.app._set_scale(float(v))).pack(fill='x')
         row=ttk.Frame(self.body);row.pack(fill='x',pady=8)
