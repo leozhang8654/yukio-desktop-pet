@@ -26,13 +26,15 @@ TOLERANCE = 6
 REQUIRED_RATIO = 0.90
 
 
-def static_pixels(library: SpriteLibrary, spec_id: str, size=None, limit: int = 12):
+def static_pixels(library: SpriteLibrary, spec_id: str, size=None):
     """各帧都不透明且颜色一致的像素：[(x, y, (r, g, b)), …]。
 
     size：屏幕上她实际占的像素尺寸。放大显示时先按播放器同样的办法（双线性）缩到这个尺寸
     再比，否则插值出来的颜色对不上。
     """
-    count = min(library.frame_count(spec_id), limit)
+    # A pixel stationary in the opening twelve frames can move later. Inspect
+    # the complete animation before calling it static, including the loop.
+    count = library.frame_count(spec_id)
     frames = [library.frame(spec_id, i).image for i in range(count)]
     if not frames:
         return []

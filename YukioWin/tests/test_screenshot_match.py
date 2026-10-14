@@ -9,6 +9,14 @@ check = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(check)
 
 class ScreenshotMatchTests(unittest.TestCase):
+    def test_opening_still_pixels_that_move_later_are_not_static(self):
+        frames = [Image.new('RGBA', (20, 20), (220, 30, 80, 255)) for _ in range(13)]
+        frames[-1].putpixel((3, 4), (30, 210, 150, 255))
+        library = SimpleNamespace(frame_count=lambda _: len(frames), frame=lambda _, i: SimpleNamespace(image=frames[i]))
+        pixels = check.static_pixels(library, 'test')
+        self.assertEqual(len(pixels), 399)
+        self.assertFalse(any((x, y) == (3, 4) for x, y, _ in pixels))
+
     def test_near_opaque_moving_frame_matches_without_relaxing_ratio(self):
         frames = [Image.new('RGBA', (20, 20), (220, 30, 80, 253)), Image.new('RGBA', (20, 20), (30, 210, 150, 254))]
         library = SimpleNamespace(frame_count=lambda _: 2, frame=lambda _, i: SimpleNamespace(image=frames[i]))
