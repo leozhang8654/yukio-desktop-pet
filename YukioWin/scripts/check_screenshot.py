@@ -3,9 +3,9 @@
 
     python scripts/check_screenshot.py 截屏.png 动作名 左 上 宽 高
 
-把该动作图条里“各帧都不透明、而且颜色完全一样”的那些像素（桌子、椅子、身体这些不动的部分）
-挑出来，逐个和截屏上同一位置的颜色比。分层窗口是逐像素 alpha 合成的，完全不透明的像素
-在屏幕上应当一模一样，所以匹配率低就说明她没画出来、画歪了或者画糊了。
+把该动作图条里“各帧都接近不透明、而且颜色完全一样”的那些像素（桌子、椅子、身体这些不动的部分）
+挑出来，逐个和截屏上同一位置的颜色比。分层窗口是逐像素 alpha 合成的，完全不透明的像素在屏幕上应当一致。千夏源图的不透明区域 alpha 为 254，
+按 alpha 合成公式把未知桌面底色计入允许区间（至多 1 个色阶），保留相同的色差与匹配率要求。
 """
 
 import os
@@ -27,7 +27,7 @@ REQUIRED_RATIO = 0.90
 
 
 def static_pixels(library: SpriteLibrary, spec_id: str, size=None, limit: int = 12):
-    """各帧都不透明且颜色一致的像素：[(x, y, (r, g, b)), …]。
+    """各帧都接近不透明且 RGBA 一致的像素：[(x, y, (r, g, b, a)), …]。
 
     size：屏幕上她实际占的像素尺寸。放大显示时先按播放器同样的办法（双线性）缩到这个尺寸
     再比，否则插值出来的颜色对不上。
@@ -44,12 +44,12 @@ def static_pixels(library: SpriteLibrary, spec_id: str, size=None, limit: int = 
     out = []
     for i in range(width * height):
         j = i * 4
-        if base[j + 3] != 255:
+        if base[j + 3] < 254:
             continue
         pixel = base[j:j + 4]
         if any(d[j:j + 4] != pixel for d in data[1:]):
             continue
-        out.append((i % width, i // width, (pixel[0], pixel[1], pixel[2])))
+        out.append((i % width, i // width, (pixel[0], pixel[1], pixel[2], pixel[3])))
     return out
 
 
@@ -80,14 +80,17 @@ def main() -> int:
         return 1
 
     hit = miss = outside = 0
-    for x, y, (r, g, b) in pixels:
+    for x, y, (r, g, b, a) in pixels:
         sx = left + x
         sy = top + y
         if not (0 <= sx < screen.size[0] and 0 <= sy < screen.size[1]):
             outside += 1
             continue
         sr, sg, sb = screen.getpixel((sx, sy))
-        if abs(sr - r) <= TOLERANCE and abs(sg - g) <= TOLERANCE and abs(sb - b) <= TOLERANCE:
+        # Source-over onto any background in [0, 255]. Alpha 254 permits only
+        # one extra code value; fully opaque Yukio keeps its original check.
+        if all(color * a / 255 - TOLERANCE <= actual <= color * a / 255 + (255 - a) + TOLERANCE
+               for color, actual in zip((r, g, b), (sr, sg, sb))):
             hit += 1
         else:
             miss += 1
