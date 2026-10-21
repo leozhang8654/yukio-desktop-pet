@@ -1,11 +1,11 @@
 {
   "project": {
-    "schema_version": 1,
-    "updated_at": "2026-10-21T06:01:33.348209+00:00",
-    "focus_id": "auto",
+    "updated_at": "2026-10-21T23:03:45.251609+00:00",
+    "focus_id": "coverage",
     "boundary": "目前支持 Codex 最近一天活跃的会话；未替换桌面 App，也未设置开机自动运行。Windows 实机检查仍待完成。",
-    "current_note": "已完成近期 Codex 聊天的自动发现、轮流保存和关闭后接着记录。已在 Mac 上进行实际运行检查；具体检查结果和限制可以展开查看。",
-    "work_state": "自动记录阶段已完成 · 当前显示已发布的开发进度",
+    "schema_version": 1,
+    "current_note": "已核查 Claude 本机记录的实际格式。正在补上操作与结果的对应、保存和重启接续；缺少明确结果时保持未知。",
+    "work_state": "正在接入 Claude 的可回查活动记录",
     "stages": [
       {
         "id": "audit",
@@ -194,9 +194,10 @@
       },
       {
         "id": "coverage",
-        "status": "planned",
+        "status": "active",
         "title": "把更多客户端和活动依据接进来",
         "summary": "继续接入 Claude 和 Deep Code，补齐可实际读取的活动与会话关系。",
+        "outcome": "先让 Claude 的操作和结果也能保存、回查，再逐步补上更多客户端与助手关系。",
         "details": [
           "逐个核实客户端真的提供哪些记录。",
           "记录工具请求、结果、已知任务和 Agent 的联系。",
@@ -230,7 +231,20 @@
             ]
           }
         ],
-        "checks": []
+        "checks": [
+          {
+            "label": "核查 Claude 实际记录",
+            "done": true
+          },
+          {
+            "label": "保存并正确对应结果",
+            "done": false
+          },
+          {
+            "label": "检查重启和多助手隔离",
+            "done": false
+          }
+        ]
       },
       {
         "id": "workbench",
@@ -430,12 +444,16 @@
       {
         "at": "2026-10-21T06:01:33.348209+00:00",
         "text": "自动记录阶段已完成检查，并在本机启动真实记录器。网站显示实际发现数量、保存数量、异常和空间占用；桌面 App 保持原安装版。"
+      },
+      {
+        "at": "2026-10-21T23:03:45.251609+00:00",
+        "text": "开始第 5 阶段：先接入 Claude 的可回查记录。已看到真实记录中既有明确失败标记，也有缺少结果标记的情况；后者不会直接算成功。"
       }
     ]
   },
   "collector": null,
   "publication": {
     "mode": "published",
-    "exported_at": "2026-10-21T22:54:47.028780+00:00"
+    "exported_at": "2026-10-21T23:05:39.203659+00:00"
   }
 }
