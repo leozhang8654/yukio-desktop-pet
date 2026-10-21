@@ -1,0 +1,15 @@
+{
+  "swift": {
+    "tests": 188,
+    "passed": true
+  },
+  "python": {
+    "tests": 257,
+    "skipped": 1,
+    "passed": true
+  },
+  "gitDiffCheck": true,
+  "windowsNative": "pending",
+  "manualNativeInputAndOcclusion": "pending",
+  "windowsKitSha256": "44a810bdbcda3c8ebfd80d654e81464c3b8ffc970191e718d7487bd2d4ad321c"
+}

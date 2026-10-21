@@ -43,6 +43,10 @@
 
 保留原有取消举牌按钮、紧凑设置、开机启动和动画。
 
+## 开发过程资料
+
+[查看开发过程归档](docs/development-evidence/2026-10-21/README.md)：设计与动画迭代、失败评审、排错回执、本地源码快照和需求调研，附完整下载与哈希校验。本地实验与已发布功能分别标明。
+
 ## 下载（不用编译）
 
 到 [Releases](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest) 下载对应的那个，不用装别的东西。

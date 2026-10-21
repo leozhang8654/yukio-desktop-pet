@@ -1,0 +1,134 @@
+{
+  "encodedChecks": "passed",
+  "dailyResourcesUnchanged": [
+    "default_work-eyes.webp",
+    "idle-eyes.webp",
+    "motion.json",
+    "default_work.webp",
+    "view_image-eyes.webp",
+    "verify-eyes.webp",
+    "read_web.webp",
+    "task_complete-eyes.webp",
+    "question_for_user.webp",
+    "thinking.webp",
+    "read_file.webp",
+    "failed.webp",
+    "task_complete.webp",
+    "view_image.webp",
+    "failed-eyes.webp",
+    "respond.webp",
+    "thinking-eyes.webp",
+    "idle.webp",
+    "read_file-eyes.webp",
+    "write_file.webp",
+    "question_for_user-eyes.webp",
+    "respond-eyes.webp",
+    "verify.webp",
+    "write_file-eyes.webp",
+    "read_web-eyes.webp"
+  ],
+  "states": [
+    {
+      "id": "interaction_airborne",
+      "uniqueFrames": 1,
+      "steps": 1,
+      "durationMs": 1000,
+      "loopSeamMeanRGBA": 0.0,
+      "decoded": true,
+      "maxCanvasBorderAlpha": 0,
+      "sha256": "83dbfb4f474fb0909a36d90d3802239ab03a103fb443d8e60eade649469a056a"
+    },
+    {
+      "id": "interaction_wall-impact",
+      "uniqueFrames": 7,
+      "steps": 7,
+      "durationMs": 140,
+      "loopSeamMeanRGBA": 0.01751784336419753,
+      "decoded": true,
+      "maxCanvasBorderAlpha": 0,
+      "sha256": "0641eddcdab5025d3086eca1138d3e93784c1c3a8c7382fb38b36075c3123768"
+    },
+    {
+      "id": "interaction_landing-impact",
+      "uniqueFrames": 12,
+      "steps": 12,
+      "durationMs": 240,
+      "loopSeamMeanRGBA": 0.01751784336419753,
+      "decoded": true,
+      "maxCanvasBorderAlpha": 0,
+      "sha256": "52ddc65884a89bf6ffbeee377944c760458fe0dc99ae213a9309d47a77f678bf"
+    },
+    {
+      "id": "interaction_dizzy-intro",
+      "uniqueFrames": 7,
+      "steps": 7,
+      "durationMs": 140,
+      "loopSeamMeanRGBA": 3.520299566849046,
+      "decoded": true,
+      "maxCanvasBorderAlpha": 0,
+      "sha256": "db79105be1d246ae6aea96b31636f0e51314b2638c7a8edbf7dbcc67b0cf07ec"
+    },
+    {
+      "id": "interaction_dizzy-loop",
+      "uniqueFrames": 45,
+      "steps": 45,
+      "durationMs": 900,
+      "loopSeamMeanRGBA": 4.226794858305275,
+      "decoded": true,
+      "maxCanvasBorderAlpha": 1,
+      "sha256": "189c3d8f8a770d26443294e45b5197c7df6b4fea35f0e4e08a528d02e8a87d79"
+    },
+    {
+      "id": "interaction_recover",
+      "uniqueFrames": 21,
+      "steps": 21,
+      "durationMs": 420,
+      "loopSeamMeanRGBA": 3.497176627384961,
+      "decoded": true,
+      "maxCanvasBorderAlpha": 0,
+      "sha256": "55f806aa0609de271e333b81b02bedc5103c0105501005f4a0cc38962e8b1251"
+    },
+    {
+      "id": "interaction_wall-impact_light",
+      "uniqueFrames": 7,
+      "steps": 7,
+      "durationMs": 140,
+      "loopSeamMeanRGBA": 0.01751784336419753,
+      "decoded": true,
+      "maxCanvasBorderAlpha": 0,
+      "sha256": "e3a47937c63bca854bb74e5566fe6684bca21e89b49a3d927c83243c883198ce"
+    },
+    {
+      "id": "interaction_wall-impact_medium",
+      "uniqueFrames": 7,
+      "steps": 7,
+      "durationMs": 140,
+      "loopSeamMeanRGBA": 0.01751784336419753,
+      "decoded": true,
+      "maxCanvasBorderAlpha": 0,
+      "sha256": "116c5c5ea316befaf2f3df4a9b9db5c24a3d228e0de8bc89b342364ee12ebd4f"
+    },
+    {
+      "id": "interaction_landing-impact_light",
+      "uniqueFrames": 12,
+      "steps": 12,
+      "durationMs": 240,
+      "loopSeamMeanRGBA": 0.01751784336419753,
+      "decoded": true,
+      "maxCanvasBorderAlpha": 0,
+      "sha256": "47ca1067db0c697e011d4a445b3cffae0c5b86b62d8cd354e2e83c81bf36b0b8"
+    },
+    {
+      "id": "interaction_landing-impact_medium",
+      "uniqueFrames": 12,
+      "steps": 12,
+      "durationMs": 240,
+      "loopSeamMeanRGBA": 0.01751784336419753,
+      "decoded": true,
+      "maxCanvasBorderAlpha": 0,
+      "sha256": "a32ef41b3716da67c60d9d4c0ab8bd979b1b94724d18c14c426d3f57893a561b"
+    }
+  ],
+  "visualReview": "pending",
+  "nativeWindows": "pending"
+}

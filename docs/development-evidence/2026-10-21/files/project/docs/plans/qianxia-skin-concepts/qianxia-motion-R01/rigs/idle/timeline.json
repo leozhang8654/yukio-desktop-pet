@@ -1,0 +1,8442 @@
+{
+  "duration_seconds": 14,
+  "samples": [
+    {
+      "time": 0.0,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.03333333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.06666666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.1,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.13333333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.16666666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.2,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.23333333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.26666666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.3,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.3333333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.36666666666666664,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.4,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.43333333333333335,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.4666666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.5,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.5333333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.5666666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.6,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.6333333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.6666666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.7,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.7333333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.7666666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.8,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.8333333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.8666666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.9,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.9333333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.9666666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.0,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.0333333333333332,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.0666666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.1,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.1333333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.1666666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.2,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.2333333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.08918518518518573,
+          -0.012740740740740818,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.014354691465747728
+    },
+    {
+      "time": 1.2666666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.34014814814814803,
+          -0.048592592592592576,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.05474812559029534
+    },
+    {
+      "time": 1.3,
+      "transforms": {
+        "touching-hand": [
+          0.7280000000000011,
+          -0.10400000000000016,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.11717434196459346
+    },
+    {
+      "time": 1.3333333333333333,
+      "transforms": {
+        "touching-hand": [
+          1.2278518518518515,
+          -0.17540740740740735,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.1976273801795927
+    },
+    {
+      "time": 1.3666666666666667,
+      "transforms": {
+        "touching-hand": [
+          1.8148148148148162,
+          -0.25925925925925947,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.2921012798262537
+    },
+    {
+      "time": 1.4,
+      "transforms": {
+        "touching-hand": [
+          2.463999999999999,
+          -0.35199999999999987,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.3965900804955292
+    },
+    {
+      "time": 1.4333333333333333,
+      "transforms": {
+        "touching-hand": [
+          3.1505185185185196,
+          -0.45007407407407424,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.5070878217783797
+    },
+    {
+      "time": 1.4666666666666666,
+      "transforms": {
+        "touching-hand": [
+          3.849481481481481,
+          -0.5499259259259258,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.6195885432657418
+    },
+    {
+      "time": 1.5,
+      "transforms": {
+        "touching-hand": [
+          4.536000000000001,
+          -0.6480000000000001,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.7300862845485944
+    },
+    {
+      "time": 1.5333333333333332,
+      "transforms": {
+        "touching-hand": [
+          5.185185185185184,
+          -0.7407407407407406,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.8345750852178678
+    },
+    {
+      "time": 1.5666666666666667,
+      "transforms": {
+        "touching-hand": [
+          5.772148148148149,
+          -0.8245925925925928,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.9290489848645308
+    },
+    {
+      "time": 1.6,
+      "transforms": {
+        "touching-hand": [
+          6.272000000000002,
+          -0.8960000000000004,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 1.0095020230795442
+    },
+    {
+      "time": 1.6333333333333333,
+      "transforms": {
+        "touching-hand": [
+          6.659851851851853,
+          -0.9514074074074075,
+          0
+        ],
+        "orb": [
+          1.6690827706692126,
+          -0.41727069266730316,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 1.071928239453828
+    },
+    {
+      "time": 1.6666666666666667,
+      "transforms": {
+        "touching-hand": [
+          6.910814814814815,
+          -0.9872592592592593,
+          0
+        ],
+        "orb": [
+          2.9137365481963444,
+          -0.7284341370490861,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 1.1123216735783756
+    },
+    {
+      "time": 1.7,
+      "transforms": {
+        "touching-hand": [
+          7.0,
+          -1.0,
+          0
+        ],
+        "orb": [
+          3.7200132399876376,
+          -0.9300033099969094,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 1.1266763650441216
+    },
+    {
+      "time": 1.7333333333333334,
+      "transforms": {
+        "touching-hand": [
+          7.0,
+          -1.0,
+          0
+        ],
+        "orb": [
+          4.108503196361493,
+          -1.0271257990903733,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 1.1266763650441216
+    },
+    {
+      "time": 1.7666666666666666,
+      "transforms": {
+        "touching-hand": [
+          6.953892668178383,
+          -0.9934132383111975,
+          0
+        ],
+        "orb": [
+          4.126570955595218,
+          -1.0316427388988045,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 1.119255216327175
+    },
+    {
+      "time": 1.8,
+      "transforms": {
+        "touching-hand": [
+          6.612244897959183,
+          -0.944606413994169,
+          0
+        ],
+        "orb": [
+          3.8400433713712667,
+          -0.9600108428428167,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 1.0642657209163207
+    },
+    {
+      "time": 1.8333333333333333,
+      "transforms": {
+        "touching-hand": [
+          5.998488284202572,
+          -0.8569268977432245,
+          0
+        ],
+        "orb": [
+          3.325056317764747,
+          -0.8312640794411867,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.9654792822578815
+    },
+    {
+      "time": 1.8666666666666667,
+      "transforms": {
+        "touching-hand": [
+          5.185185185185185,
+          -0.7407407407407407,
+          0
+        ],
+        "orb": [
+          2.6606265761971875,
+          -0.6651566440492969,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.8345750852178678
+    },
+    {
+      "time": 1.9,
+      "transforms": {
+        "touching-hand": [
+          4.244897959183676,
+          -0.6064139941690967,
+          0
+        ],
+        "orb": [
+          1.922359848387894,
+          -0.4805899620969735,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.6832323146623303
+    },
+    {
+      "time": 1.9333333333333333,
+      "transforms": {
+        "touching-hand": [
+          3.25018896447468,
+          -0.4643127092106686,
+          0
+        ],
+        "orb": [
+          1.1775483884484619,
+          -0.29438709711211547,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.5231301554572694
+    },
+    {
+      "time": 1.9666666666666666,
+      "transforms": {
+        "touching-hand": [
+          2.273620559334849,
+          -0.3248029370478356,
+          0
+        ],
+        "orb": [
+          0.48176432743718495,
+          -0.12044108185929624,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.36594779246871756
+    },
+    {
+      "time": 2.0,
+      "transforms": {
+        "touching-hand": [
+          1.387755102040818,
+          -0.198250728862974,
+          0
+        ],
+        "orb": [
+          -0.12307367888003702,
+          -0.030768419720009255,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.22336441056268944
+    },
+    {
+      "time": 2.033333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.66515495086924,
+          -0.09502213583846286,
+          0
+        ],
+        "orb": [
+          -0.6092863748053161,
+          -0.15232159370132903,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.10705919460520338
+    },
+    {
+      "time": 2.0666666666666664,
+      "transforms": {
+        "touching-hand": [
+          0.17838246409675307,
+          -0.02548320915667901,
+          0
+        ],
+        "orb": [
+          -0.9628738652390411,
+          -0.24071846630976027,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.15814229977203703
+    },
+    {
+      "time": 2.1,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          -1.1820582338515255,
+          -0.2955145584628814,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.19414111683190938
+    },
+    {
+      "time": 2.1333333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          -1.2751978967855482,
+          -0.31879947419638704,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.20943836502621233
+    },
+    {
+      "time": 2.1666666666666665,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          -1.2583398698003907,
+          -0.3145849674500977,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.20666960449246324
+    },
+    {
+      "time": 2.2,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          -1.1526543162837923,
+          -0.2881635790709481,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.18931182058205775
+    },
+    {
+      "time": 2.2333333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          -0.9819600430530577,
+          -0.24549001076326443,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.161277011557592
+    },
+    {
+      "time": 2.2666666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          -0.7705051450072231,
+          -0.19262628625180578,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.12654768190990484
+    },
+    {
+      "time": 2.3,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          -0.541118604243793,
+          -0.13527965106094825,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.08887326119637337
+    },
+    {
+      "time": 2.3333333333333335,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          -0.3138005703416533,
+          -0.07845014258541333,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.051538571826631505
+    },
+    {
+      "time": 2.3666666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          -0.10477473945713546,
+          -0.026193684864283865,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.017208191907520192
+    },
+    {
+      "time": 2.4,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0.07401173725081568,
+          -0.01850293431270392,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.012155679743232228
+    },
+    {
+      "time": 2.433333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0.21498542272597918,
+          -0.053746355681494794,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.03530918264035354
+    },
+    {
+      "time": 2.466666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0.31470678286230036,
+          -0.07867669571557509,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.05168740807328487
+    },
+    {
+      "time": 2.5,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0.3733719901453096,
+          -0.0933429975363274,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.061322575389857185
+    },
+    {
+      "time": 2.533333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0.3941395574362767,
+          -0.09853488935906918,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.06473343840175702
+    },
+    {
+      "time": 2.5666666666666664,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0.3823627236824302,
+          -0.09559068092060755,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.06279921249626015
+    },
+    {
+      "time": 2.6,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0.3448007266546382,
+          -0.08620018166365954,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.0566300341558231
+    },
+    {
+      "time": 2.6333333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0.28887038232821294,
+          -0.07221759558205323,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.04744404043624886
+    },
+    {
+      "time": 2.6666666666666665,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0.22198531386344467,
+          -0.05549632846586117,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.0364588440057757
+    },
+    {
+      "time": 2.7,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0.15101519118903162,
+          -0.037753797797257904,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.02480271871250866
+    },
+    {
+      "time": 2.7333333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0.08188271302074512,
+          -0.02047067825518628,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.01344840795471946
+    },
+    {
+      "time": 2.7666666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0.019302791025790966,
+          -0.004825697756447742,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.003170288316085142
+    },
+    {
+      "time": 2.8,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          -0.033342796096865815,
+          -0.008335699024216454,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.005476217234628213
+    },
+    {
+      "time": 2.8333333333333335,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          -0.07401068245147259,
+          -0.018502670612868147,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.01215550650309921
+    },
+    {
+      "time": 2.8666666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          -0.10190250745351019,
+          -0.025475626863377548,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.01673645683304503
+    },
+    {
+      "time": 2.9,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.933333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.966666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.0,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.033333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.0666666666666664,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.1,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.1333333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.1666666666666665,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.2,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.2333333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.2666666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.3,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.3333333333333335,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.3666666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.4,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.433333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.466666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.5,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.533333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.5666666666666664,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.6,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.6333333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.6666666666666665,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.6999999999999997,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.7333333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.7666666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.8,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.8333333333333335,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.8666666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.9,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.933333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.966666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.0,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.033333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.066666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.1,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.133333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.166666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.2,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.233333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.266666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.3,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.333333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.366666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.4,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.433333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.466666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.5,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.533333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.566666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.6,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.633333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.666666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.7,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.733333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.766666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.8,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.833333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.866666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.9,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.933333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.966666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.0,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.033333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.066666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.1,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.133333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.166666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.2,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.233333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.266666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.3,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.333333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.366666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.4,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.433333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.466666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.5,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.533333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.566666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.6,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.633333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.666666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.7,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.733333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.766666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.8,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.833333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.866666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.9,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.933333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.966666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.0,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.033333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.066666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.1,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.133333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.166666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.2,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.233333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.266666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.3,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.333333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.366666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.4,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.433333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.466666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.5,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.533333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.566666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.6,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.633333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.666666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.7,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.733333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.766666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.8,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.833333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.866666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.8999999999999995,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.933333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.966666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.0,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.033333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.066666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.1,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.133333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.166666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.2,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.233333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.266666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.3,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.333333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.366666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.3999999999999995,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.433333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.466666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.5,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.533333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.566666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.6,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.633333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.666666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.7,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.733333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.766666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.8,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.833333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.866666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.8999999999999995,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.933333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.966666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.0,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.033333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.066666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.1,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.133333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.166666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.2,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.233333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.266666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.3,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.333333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.366666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.4,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.433333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.466666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.5,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.533333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.566666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.6,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.633333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.666666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.7,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.733333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.766666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.8,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.833333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.866666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.9,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.933333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.966666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.0,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.033333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.066666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.1,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.133333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.166666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.2,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.233333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.266666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.3,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.333333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.366666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.4,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.433333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.466666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.5,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.533333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.566666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.6,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.633333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.666666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.7,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.733333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.766666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.8,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.833333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.866666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.9,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.933333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 9.966666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.0,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.033333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.066666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.1,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.133333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.166666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.2,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.233333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.266666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.3,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.333333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.366666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.4,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.433333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.466666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.5,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.533333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.566666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.6,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.633333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.666666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.7,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.733333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.766666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.8,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.833333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.866666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.9,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.933333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 10.966666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.0,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.033333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.066666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.1,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.133333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.166666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.2,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.233333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.266666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.3,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.333333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.366666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.4,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.433333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.466666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.5,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.533333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.566666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.6,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.633333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.666666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.7,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.733333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.766666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.8,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.833333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.866666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.9,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.933333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 11.966666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.0,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.033333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.066666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.1,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.133333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.166666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.2,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.233333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.266666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.3,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.333333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.366666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.4,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.433333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.466666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.5,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.533333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.566666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.6,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.633333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.666666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.7,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.733333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.766666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.8,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.833333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.866666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.9,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.933333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 12.966666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.0,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.033333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.066666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.1,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.133333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.166666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.2,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.233333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.266666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.299999999999999,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.333333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.366666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.4,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.433333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.466666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.5,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.533333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.566666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.6,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.633333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.666666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.7,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.733333333333333,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.766666666666666,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.799999999999999,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.833333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.866666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.9,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.933333333333334,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 13.966666666666667,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 14.0,
+      "transforms": {
+        "touching-hand": [
+          0.0,
+          -0.0,
+          0
+        ],
+        "orb": [
+          0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    }
+  ],
+  "display_size": [
+    192,
+    208
+  ],
+  "source_scale": 0.31867219917012446,
+  "pivots_source_px": {
+    "touching-hand": [
+      390,
+      790
+    ],
+    "orb": [
+      566,
+      765
+    ]
+  },
+  "maximum_displacement_display_px": 1.1266763650441216,
+  "peak_sample": 51
+}

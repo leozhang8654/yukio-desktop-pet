@@ -1,0 +1,131 @@
+{
+  "method": "within reviewer-specified corner ROIs only, remove source sclera/skin connected to external background; preserve dark iris contour and all non-ROI pixels",
+  "parts": [
+    {
+      "part": "default_work/iris-left",
+      "rois": [
+        [
+          437,
+          559,
+          462,
+          579
+        ]
+      ],
+      "changed_pixels": 28
+    },
+    {
+      "part": "default_work/iris-right",
+      "rois": [
+        [
+          623,
+          566,
+          642,
+          584
+        ]
+      ],
+      "changed_pixels": 20
+    },
+    {
+      "part": "failed/iris-left",
+      "rois": [
+        [
+          438,
+          545,
+          460,
+          562
+        ]
+      ],
+      "changed_pixels": 15
+    },
+    {
+      "part": "idle/iris-right",
+      "rois": [
+        [
+          625,
+          563,
+          644,
+          581
+        ]
+      ],
+      "changed_pixels": 13
+    },
+    {
+      "part": "read_web/iris-left",
+      "rois": [
+        [
+          428,
+          493,
+          450,
+          513
+        ],
+        [
+          434,
+          552,
+          456,
+          566
+        ]
+      ],
+      "changed_pixels": 44
+    },
+    {
+      "part": "read_web/iris-right",
+      "rois": [
+        [
+          672,
+          503,
+          693,
+          525
+        ]
+      ],
+      "changed_pixels": 9
+    },
+    {
+      "part": "respond/iris-left",
+      "rois": [
+        [
+          489,
+          544,
+          511,
+          563
+        ]
+      ],
+      "changed_pixels": 11
+    },
+    {
+      "part": "respond/iris-right",
+      "rois": [
+        [
+          625,
+          551,
+          644,
+          569
+        ]
+      ],
+      "changed_pixels": 27
+    },
+    {
+      "part": "view_image/iris-left",
+      "rois": [
+        [
+          443,
+          555,
+          464,
+          574
+        ]
+      ],
+      "changed_pixels": 17
+    },
+    {
+      "part": "write_file/iris-left",
+      "rois": [
+        [
+          438,
+          555,
+          463,
+          575
+        ]
+      ],
+      "changed_pixels": 18
+    }
+  ]
+}

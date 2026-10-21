@@ -1,0 +1,9 @@
+{
+  "ellipse": [
+    566.5,
+    763.8,
+    47.2,
+    46.2
+  ],
+  "occlusion": "subtract visible touching-hand selection; missing arc stays for later background repair"
+}

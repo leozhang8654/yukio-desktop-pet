@@ -1,0 +1,106 @@
+{
+  "scope": "Executed actual HTML selection and event functions in Node; not UI playback or production integration",
+  "rows": [
+    {
+      "state": "respond",
+      "refreshDuringEntryNoRestart": true,
+      "refreshAfter65sNoRestart": true,
+      "newEventRestarts": true
+    },
+    {
+      "state": "question_for_user",
+      "refreshDuringEntryNoRestart": true,
+      "refreshAfter65sNoRestart": true,
+      "newEventRestarts": true
+    },
+    {
+      "state": "failed",
+      "refreshDuringEntryNoRestart": true,
+      "refreshAfter65sNoRestart": true,
+      "newEventRestarts": true
+    }
+  ],
+  "events": [
+    {
+      "state": "respond",
+      "id": 0,
+      "previousId": 0,
+      "time": 0.3,
+      "restarted": false,
+      "before": 0,
+      "after": 0
+    },
+    {
+      "state": "respond",
+      "id": 0,
+      "previousId": 0,
+      "time": 65,
+      "restarted": false,
+      "before": 0,
+      "after": 0
+    },
+    {
+      "state": "respond",
+      "id": 1,
+      "previousId": 0,
+      "time": 65,
+      "restarted": true,
+      "before": 0,
+      "after": 65
+    },
+    {
+      "state": "question_for_user",
+      "id": 0,
+      "previousId": 0,
+      "time": 0.3,
+      "restarted": false,
+      "before": 0,
+      "after": 0
+    },
+    {
+      "state": "question_for_user",
+      "id": 0,
+      "previousId": 0,
+      "time": 65,
+      "restarted": false,
+      "before": 0,
+      "after": 0
+    },
+    {
+      "state": "question_for_user",
+      "id": 1,
+      "previousId": 0,
+      "time": 65,
+      "restarted": true,
+      "before": 0,
+      "after": 65
+    },
+    {
+      "state": "failed",
+      "id": 0,
+      "previousId": 0,
+      "time": 0.3,
+      "restarted": false,
+      "before": 0,
+      "after": 0
+    },
+    {
+      "state": "failed",
+      "id": 0,
+      "previousId": 0,
+      "time": 65,
+      "restarted": false,
+      "before": 0,
+      "after": 0
+    },
+    {
+      "state": "failed",
+      "id": 1,
+      "previousId": 0,
+      "time": 65,
+      "restarted": true,
+      "before": 0,
+      "after": 65
+    }
+  ]
+}

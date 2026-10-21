@@ -1,0 +1,272 @@
+{
+  "selection": "315331434243",
+  "generator": "built-in image_gen",
+  "status": "static_concepts_only_not_rigged_or_animation_approved",
+  "reference_sha256": "90172cc49c7f73c09fb7a2e12e6d065f319cbe8d8fe9c627473c57db26824721",
+  "files": [
+    {
+      "state": "idle",
+      "option": 3,
+      "filename": "01-idle.png",
+      "size": [
+        1206,
+        1304
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_pixels": 720657,
+      "visible_bbox": [
+        88,
+        0,
+        1188,
+        1284
+      ],
+      "sha256": "8e55c067b2e77fb29a0067bda9c4129f8f68355068b55c3392f9455981673ff4"
+    },
+    {
+      "state": "thinking",
+      "option": 1,
+      "filename": "02-thinking.png",
+      "size": [
+        1206,
+        1305
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_pixels": 716191,
+      "visible_bbox": [
+        0,
+        0,
+        1160,
+        1289
+      ],
+      "sha256": "a5582f82219311ab926f158e3070da88fb5641b7c2e1f5de8a2e07ac18cb575f"
+    },
+    {
+      "state": "read_file",
+      "option": 5,
+      "filename": "03-read_file.png",
+      "size": [
+        1206,
+        1305
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_pixels": 717961,
+      "visible_bbox": [
+        91,
+        0,
+        1156,
+        1287
+      ],
+      "sha256": "359aba13c1d61a6d96d149efe548a4b59b4e4e6c1da60e020602843abc6a8334"
+    },
+    {
+      "state": "view_image",
+      "option": 3,
+      "filename": "04-view_image.png",
+      "size": [
+        1206,
+        1305
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_pixels": 714880,
+      "visible_bbox": [
+        0,
+        0,
+        1194,
+        1287
+      ],
+      "sha256": "b99931ab3264d90dc1f22497e368f212df93b3b83bae1313b57f8b6747468c0b"
+    },
+    {
+      "state": "write_file",
+      "option": 3,
+      "filename": "05-write_file.png",
+      "size": [
+        1206,
+        1305
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_pixels": 719247,
+      "visible_bbox": [
+        85,
+        0,
+        1120,
+        1287
+      ],
+      "sha256": "7eeaf11583cbc316a5b82bcad3341d227a2398ac815708c0e19c1d56dfe59949"
+    },
+    {
+      "state": "verify",
+      "option": 1,
+      "filename": "06-verify.png",
+      "size": [
+        1206,
+        1305
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_pixels": 716106,
+      "visible_bbox": [
+        90,
+        0,
+        1122,
+        1283
+      ],
+      "sha256": "a455d11d31451f5c5cde29329f9c9368c9a067fcc3ef5f918f003c4bbf33dcf9"
+    },
+    {
+      "state": "read_web",
+      "option": 4,
+      "filename": "07-read_web.png",
+      "size": [
+        1206,
+        1305
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_pixels": 712556,
+      "visible_bbox": [
+        0,
+        0,
+        1134,
+        1305
+      ],
+      "sha256": "bf3bc596e3b290f5fd5bccf465b48a5687449ab230cb33356701b0e2a7677c7e"
+    },
+    {
+      "state": "default_work",
+      "option": 3,
+      "filename": "08-default_work.png",
+      "size": [
+        1202,
+        1308
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_pixels": 702385,
+      "visible_bbox": [
+        59,
+        0,
+        1172,
+        1292
+      ],
+      "sha256": "612ba2ad741fe80df402cdf065a0444bcf80f4aeffdebfbd7223ee93cd286702"
+    },
+    {
+      "state": "respond",
+      "option": 4,
+      "filename": "09-respond.png",
+      "size": [
+        1206,
+        1305
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_pixels": 709520,
+      "visible_bbox": [
+        81,
+        0,
+        1127,
+        1287
+      ],
+      "sha256": "a766991750fc24705af85c0f4112fa52f1fea38cd9442f57e4dca7827d9b61de"
+    },
+    {
+      "state": "task_complete",
+      "option": 2,
+      "filename": "10-task_complete.png",
+      "size": [
+        1205,
+        1306
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_pixels": 710713,
+      "visible_bbox": [
+        86,
+        0,
+        1191,
+        1288
+      ],
+      "sha256": "8dd7f3e55f95b405fab94c09594485627e527917dbde8b83e717beeb9d6fa663"
+    },
+    {
+      "state": "question_for_user",
+      "option": 4,
+      "filename": "11-question_for_user.png",
+      "size": [
+        1203,
+        1308
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_pixels": 704541,
+      "visible_bbox": [
+        0,
+        0,
+        1155,
+        1290
+      ],
+      "sha256": "d9a1d5773975bfa7359100658eeddc113e32f2589a55c89c4f970e27fd131abb"
+    },
+    {
+      "state": "failed",
+      "option": 3,
+      "filename": "12-failed.png",
+      "size": [
+        1206,
+        1305
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_pixels": 721012,
+      "visible_bbox": [
+        90,
+        0,
+        1114,
+        1283
+      ],
+      "sha256": "9417941c5c04bf2b47140f1e014998b7658197f70bd6da2c6741ec5391143c30"
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+[
+  {
+    "state": "write_file",
+    "body_unique_frames": 31,
+    "context_frames": [
+      0,
+      3,
+      0
+    ],
+    "detail_frames": [
+      0,
+      3,
+      9,
+      10,
+      20,
+      30
+    ],
+    "detail_roi_2x": [
+      96,
+      219,
+      287,
+      276
+    ],
+    "max_body_delta_frame": 3,
+    "has_blink": true,
+    "duration_ms": 3399,
+    "loopStart": 0,
+    "mode": "loop"
+  },
+  {
+    "state": "verify",
+    "body_unique_frames": 37,
+    "context_frames": [
+      0,
+      14,
+      0
+    ],
+    "detail_frames": [
+      0,
+      14,
+      25,
+      12,
+      24,
+      36
+    ],
+    "detail_roi_2x": [
+      101,
+      171,
+      179,
+      265
+    ],
+    "max_body_delta_frame": 14,
+    "has_blink": true,
+    "duration_ms": 4785,
+    "loopStart": 0,
+    "mode": "loop"
+  },
+  {
+    "state": "failed",
+    "body_unique_frames": 21,
+    "context_frames": [
+      0,
+      20,
+      20
+    ],
+    "detail_frames": [
+      0,
+      20,
+      7,
+      14
+    ],
+    "detail_roi_2x": [
+      89,
+      169,
+      181,
+      258
+    ],
+    "max_body_delta_frame": 20,
+    "has_blink": true,
+    "duration_ms": 5891,
+    "loopStart": 21,
+    "mode": "enter_then_hold"
+  }
+]

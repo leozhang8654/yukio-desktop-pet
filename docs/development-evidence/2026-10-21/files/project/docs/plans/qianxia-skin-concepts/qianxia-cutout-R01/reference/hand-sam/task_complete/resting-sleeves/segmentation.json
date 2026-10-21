@@ -1,0 +1,50 @@
+{
+  "state": "task_complete",
+  "part": "resting-sleeves",
+  "input_file": "source/10-task_complete.png",
+  "input_sha256": "f9c76a01b402a43e0f6ca46a1f3ec621a93684acf9dcc8eb8b720e98be0b53c1",
+  "box": [
+    301,
+    717,
+    892,
+    851
+  ],
+  "positive_points": [
+    [
+      415,
+      790
+    ],
+    [
+      715,
+      790
+    ]
+  ],
+  "negative_points": [
+    [
+      600,
+      695
+    ],
+    [
+      600,
+      858
+    ],
+    [
+      951,
+      790
+    ]
+  ],
+  "sam_scores": [
+    0.8749310374259949,
+    0.85076504945755,
+    0.9136475324630737
+  ],
+  "chosen_option": 2,
+  "selected_pixels": 59606,
+  "removed_fully_transparent_pixels": 0,
+  "components": 1,
+  "component_areas": [
+    59606
+  ],
+  "visual_review": "pending",
+  "status": "initial_candidate"
+}

@@ -1,0 +1,129 @@
+{
+  "date": "2026-10-18 America/Los_Angeles",
+  "scope": "Stage 0 audit and Stage 1.1 Codex result correlation; local uncommitted candidate",
+  "head": "b176e1e38eb65cee94d4045cf7e94ffa045bb9a4",
+  "branch": "release/v0.2.1",
+  "dirty_workspace_preserved": true,
+  "environment": {
+    "os": "macOS 27.0.1 (26A434)",
+    "arch": "arm64",
+    "swift": "6.1.2",
+    "python": "3.9.6"
+  },
+  "baseline": {
+    "swift_tests": 193,
+    "swift_failed": 0,
+    "python_tests_run": 266,
+    "python_failed": 0,
+    "python_skipped": 1
+  },
+  "regression_before": {
+    "constructed_tests": 2,
+    "failed": 2,
+    "findings": [
+      "A failure attached to B output",
+      "Starting B cleared pending A failure"
+    ]
+  },
+  "verification": {
+    "swift_tests": 196,
+    "swift_failed": 0,
+    "swift_parameterized_result_scenarios": 33,
+    "python_tests_run": 306,
+    "python_failed": 0,
+    "python_skipped": 1,
+    "parity": {
+      "shared_scenarios": 33,
+      "result_records": 57,
+      "exact_metadata_parity": true,
+      "malformed_json_rejected": true,
+      "oversized_record_rejected": true,
+      "native_windows_test": false
+    },
+    "native_windows": false,
+    "macos_app_packaged": false,
+    "installed_app_replaced": false,
+    "network_api_calls": 0
+  },
+  "real_log_probe": {
+    "scope": "Three recent local Codex rollout snapshots, read-only; not an independent execution ground truth or completeness measurement",
+    "cli_version_observed": "0.158.0-alpha.2.1",
+    "samples": [
+      {
+        "sample": 1,
+        "snapshot_sha256": "efa32e8959c32b9b4e592e9a4bf3b85ebf194d5d42fee6ebc0e07b656be6e779",
+        "source_records": 269,
+        "result_records": 80,
+        "association_counts": {
+          "unlinked": 52,
+          "explicit_call_id": 28
+        },
+        "outcome_counts": {
+          "succeeded": 51,
+          "unknown": 28,
+          "failed": 1
+        },
+        "exact_metadata_parity": true
+      },
+      {
+        "sample": 2,
+        "snapshot_sha256": "49a5eb6497985749f80764433f51f45cefbf6b7659fcfed28ce92f06edde02c9",
+        "source_records": 143,
+        "result_records": 39,
+        "association_counts": {
+          "unlinked": 23,
+          "explicit_call_id": 16
+        },
+        "outcome_counts": {
+          "succeeded": 23,
+          "unknown": 16
+        },
+        "exact_metadata_parity": true
+      },
+      {
+        "sample": 3,
+        "snapshot_sha256": "3ee34b56e970b46984242f219fcf142cf8ab6ac9820f9105a6635aa307384629",
+        "source_records": 182,
+        "result_records": 22,
+        "association_counts": {
+          "explicit_call_id": 17,
+          "unlinked": 5
+        },
+        "outcome_counts": {
+          "unknown": 17,
+          "succeeded": 4,
+          "failed": 1
+        },
+        "exact_metadata_parity": true
+      }
+    ],
+    "raw_logs_retained_in_repo": false
+  },
+  "source_sha256": {
+    "YukioPlayer/Sources/YukioCore/CodexParsers.swift": "e90fd774b2c0397ac2d3f7bc29d5bf25ac9fc3600acc766967f0ab6a8e7abd83",
+    "YukioPlayer/Sources/YukioCore/CodexToolResults.swift": "3781dc3abbd703a6a5bada5aca7cf106bb7621a7209485fae981539daaddc10e",
+    "YukioPlayer/Sources/YukioPlayer/CodexResultsReplay.swift": "18a992246129473964208a83451551851b615c61d85fb4e82962fa5aff7439a6",
+    "YukioPlayer/Sources/YukioPlayer/main.swift": "4b6efe101f0f6243d26dfd8c0476e197e69551755b95df34481aebbfe3c5bb1d",
+    "YukioPlayer/Tests/YukioCoreTests/CodexParserTests.swift": "410f6263e3fd1e9d130be53468a171f32c106d7a470c82583c17fed5984ca8d5",
+    "YukioPlayer/Tests/YukioCoreTests/CodexResultCorrelationTests.swift": "d674f530f941ee0dd34da384b880540f3c753146fb7d09f26f403d2e44c91e39",
+    "YukioWin/yukio/parsers_codex.py": "0a4ac24e543bfb7abc253931edbb8e712e276b8d894a9ed5e26304ef32e0b73b",
+    "YukioWin/yukio/codex_results.py": "31196c3472cce4b4621dc3fec68cb9b6c044a754079d2172fe2df682db48dbe9",
+    "YukioWin/yukio/codex_results_replay.py": "455e6fdb4d67c7248a48aa30c51f0ac5d6f99c336ca2a61f1c21025eddf16ffc",
+    "YukioWin/yukio/cli.py": "02d1a756527308796575f5de0202a337550a9dfb10bf5324566c02aa4b76bc4e",
+    "YukioWin/tests/test_parsers_codex.py": "67b678f28fcd5607a4f1bf77f4c5dcb2ecf2b568a8b8e90c01b4f3fcc59b5a54",
+    "YukioWin/tests/test_codex_result_correlation.py": "3fc317cc2675fd575c99e6c9021778d2962cb02364b28276572edfb79b76d8a1",
+    "YukioWin/tests/test_codex_results_replay.py": "dc459a1b28c7b04792ae1fec27a9c3425711055e7039680130b2e249ac84dbbd",
+    "tests/fixtures/codex-results-v1.json": "5abc2f42ce3c787490f5600d24f1b1ce5c4733204fd3ad872c58cfa9a23f2b03",
+    "tests/verify_codex_result_parity.py": "5d1e02591970a3eec01c21224fb9db5178055edee9d86a3dbb5cdf3707ad2807"
+  },
+  "limits": [
+    "No durable journal or persistent cursor yet",
+    "No activity workbench or Qwen integration",
+    "No complete multi-agent relationship capture",
+    "Results without sufficient identity remain unlinked",
+    "Display router does not retroactively replay late result corrections",
+    "Correlation and retired-ID windows are each bounded to 4096 calls",
+    "No claim of native Windows validation",
+    "Working checkout is not identical to the running 0.4.6 binary"
+  ]
+}

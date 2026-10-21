@@ -1,0 +1,269 @@
+{
+  "date": "2026-10-12",
+  "reviewer": "/root/cutout_independent_review",
+  "overall": "退回（验证未完成）",
+  "scope": "独立原生预览运行及事件逻辑采样补测；非连续视频审查",
+  "candidate_manifest_sha256": "f1e6a4855107f037e7d355bb76f6ce8fc01fe53ef80b7bdbe592b69897be01a6",
+  "candidate_hash_basis": "沿用R05静态审查375文件绑定；本次未重跑全量哈希",
+  "checks": [
+    {
+      "item": "原R05窗口可用/正常速度时钟推进",
+      "status": "通过"
+    },
+    {
+      "item": "一次进入后超过65秒时保持帧采样",
+      "status": "通过",
+      "limit": "采样与程序日志；不表示连续观看65秒"
+    },
+    {
+      "item": "U同事件不重启",
+      "status": "通过",
+      "event_time": 72.96742458333392
+    },
+    {
+      "item": "N新事件重启身体且全局时钟不清零",
+      "status": "通过",
+      "event_time": 81.01741179166675
+    },
+    {
+      "item": "连续三轮、循环边界观感、实际尺寸动作可辨认性、长期舒适度",
+      "status": "未测"
+    },
+    {
+      "item": "独立眨眼节奏连续观感及事件前后相位",
+      "status": "未测"
+    },
+    {
+      "item": "正式App任务气泡与真实调度",
+      "status": "未测"
+    },
+    {
+      "item": "慢速、放大、多背景、状态切换的独立运行补测",
+      "status": "未测",
+      "reason": "本次按限定窗口/保持/事件范围；此前静态覆盖不改变该状态"
+    }
+  ],
+  "new_confirmed_defects": [],
+  "states": [
+    {
+      "state": "idle",
+      "runtime_window_sample": "通过",
+      "overall_animation": "未测",
+      "pre_new_event_logged_frames": 51,
+      "expected_unique_frames": 51,
+      "pre_new_event_logged_counter": 5,
+      "counter_is_visual_pass": false
+    },
+    {
+      "state": "thinking",
+      "runtime_window_sample": "通过",
+      "overall_animation": "未测",
+      "pre_new_event_logged_frames": 25,
+      "expected_unique_frames": 25,
+      "pre_new_event_logged_counter": 9,
+      "counter_is_visual_pass": false
+    },
+    {
+      "state": "read_file",
+      "runtime_window_sample": "通过",
+      "overall_animation": "未测",
+      "pre_new_event_logged_frames": 25,
+      "expected_unique_frames": 25,
+      "pre_new_event_logged_counter": 9,
+      "counter_is_visual_pass": false
+    },
+    {
+      "state": "view_image",
+      "runtime_window_sample": "通过",
+      "overall_animation": "未测",
+      "pre_new_event_logged_frames": 66,
+      "expected_unique_frames": 66,
+      "pre_new_event_logged_counter": 9,
+      "counter_is_visual_pass": false
+    },
+    {
+      "state": "write_file",
+      "runtime_window_sample": "通过",
+      "overall_animation": "未测",
+      "pre_new_event_logged_frames": 31,
+      "expected_unique_frames": 31,
+      "pre_new_event_logged_counter": 21,
+      "counter_is_visual_pass": false
+    },
+    {
+      "state": "verify",
+      "runtime_window_sample": "通过",
+      "overall_animation": "未测",
+      "pre_new_event_logged_frames": 37,
+      "expected_unique_frames": 37,
+      "pre_new_event_logged_counter": 15,
+      "counter_is_visual_pass": false
+    },
+    {
+      "state": "read_web",
+      "runtime_window_sample": "通过",
+      "overall_animation": "未测",
+      "pre_new_event_logged_frames": 27,
+      "expected_unique_frames": 27,
+      "pre_new_event_logged_counter": 10,
+      "counter_is_visual_pass": false
+    },
+    {
+      "state": "default_work",
+      "runtime_window_sample": "通过",
+      "overall_animation": "未测",
+      "pre_new_event_logged_frames": 48,
+      "expected_unique_frames": 48,
+      "pre_new_event_logged_counter": 11,
+      "counter_is_visual_pass": false
+    },
+    {
+      "state": "respond",
+      "runtime_window_sample": "通过",
+      "overall_animation": "未测",
+      "pre_new_event_logged_frames": 25,
+      "expected_unique_frames": 25,
+      "pre_new_event_logged_counter": 0,
+      "counter_is_visual_pass": false
+    },
+    {
+      "state": "task_complete",
+      "runtime_window_sample": "通过",
+      "overall_animation": "未测",
+      "pre_new_event_logged_frames": 1,
+      "expected_unique_frames": 1,
+      "pre_new_event_logged_counter": 24,
+      "counter_is_visual_pass": false
+    },
+    {
+      "state": "question_for_user",
+      "runtime_window_sample": "通过",
+      "overall_animation": "未测",
+      "pre_new_event_logged_frames": 17,
+      "expected_unique_frames": 17,
+      "pre_new_event_logged_counter": 0,
+      "counter_is_visual_pass": false
+    },
+    {
+      "state": "failed",
+      "runtime_window_sample": "通过",
+      "overall_animation": "未测",
+      "pre_new_event_logged_frames": 21,
+      "expected_unique_frames": 21,
+      "pre_new_event_logged_counter": 0,
+      "counter_is_visual_pass": false
+    }
+  ],
+  "pre_event_elapsed": 72.91740329166714,
+  "screenshot_note": "CUA截图为离散采样，Retina截图像素不等于点尺寸；屏幕标示192×208、1x。",
+  "log_note": "日志定时刷新，与同名截图时间可能略有差异；事件时间取日志。N之后的累积计数不用于证明循环。静止状态计数也不是动作次数。",
+  "evidence": [
+    {
+      "file": "00-handoff-paused.png",
+      "sha256": "15c6ee6b741c5300abd2fc82da36a9fe2bead2675de28d278b2738b5d22f4809",
+      "bytes": 748450
+    },
+    {
+      "file": "01-reset-paused.json",
+      "sha256": "956cb2f325f63f95f273d6f3dd3c0672eae9eacc20a0b2b2f011320da9935be3",
+      "bytes": 3044
+    },
+    {
+      "file": "01-reset-paused.png",
+      "sha256": "59ef7f5d8e7b5d1db4074905b6e265d884795d0ce60ef7558425c4b71a7d68b9",
+      "bytes": 745318
+    },
+    {
+      "file": "02-enter-playing.json",
+      "sha256": "b171328d52e28b4524d040d64ab00e327f9a89b115f74e93ee370038a9432ea3",
+      "bytes": 3451
+    },
+    {
+      "file": "02-enter-playing.png",
+      "sha256": "06339d997eb54fdf1552f3dae59272e80c5ef0a8f80722c1c8266577c46fe4ba",
+      "bytes": 745312
+    },
+    {
+      "file": "03-running-sample.json",
+      "sha256": "d39f510da9f945ee76abb12792b3f6aeac78cb614d358e5ec2c0b8d23eb02d4c",
+      "bytes": 7306
+    },
+    {
+      "file": "03-running-sample.png",
+      "sha256": "6aaa9a5f0bfff58713fa79f5ea271adb282b68608f36cc2c2752a5301bcedcff",
+      "bytes": 745854
+    },
+    {
+      "file": "04-hold-sample.json",
+      "sha256": "2b6c72f164f37aca961dc908a619ae5f792977feafe16725f143a7701826615c",
+      "bytes": 7309
+    },
+    {
+      "file": "04-hold-sample.png",
+      "sha256": "dc3f625122097b3222cfd458efb9dc7a91a95021c7f940624e00a423d79720f3",
+      "bytes": 747266
+    },
+    {
+      "file": "05-over65-before-events.json",
+      "sha256": "d7e4eeab4a3fba44bf3e15a685fd712c4fb73966aebdddac9d3002e38cc24059",
+      "bytes": 7311
+    },
+    {
+      "file": "05-over65-before-events.png",
+      "sha256": "d1fe74a133ae1fedcb9823ae179153ab48b0b9eacaea9fd61e0c922dfae7e599",
+      "bytes": 746892
+    },
+    {
+      "file": "06-same-event.json",
+      "sha256": "9f6a353a27c351848e2537e719111bb4a35cd1a2eef75a2888e21071fd3e5564",
+      "bytes": 9820
+    },
+    {
+      "file": "06-same-event.png",
+      "sha256": "f0d3ad7ffd532b3803d4b947c6e09e8ed8db588147deb5475cbc5076a549ab67",
+      "bytes": 747357
+    },
+    {
+      "file": "07-new-event-enter.png",
+      "sha256": "ea38288685f9fc36175504509a10a65a9799523a02e0f4b9c24baab9a85671a5",
+      "bytes": 746332
+    },
+    {
+      "file": "07-new-event.json",
+      "sha256": "7df99b278134f84aafa49f3be3dde65e61c1b52453ef9773ea5ab45eb7a1a2e8",
+      "bytes": 12524
+    },
+    {
+      "file": "08-new-event-settled.json",
+      "sha256": "7df99b278134f84aafa49f3be3dde65e61c1b52453ef9773ea5ab45eb7a1a2e8",
+      "bytes": 12524
+    },
+    {
+      "file": "08-new-event-settled.png",
+      "sha256": "9f27b369a516fcd28267b2fa6f1886dd1d342fc3dced7f2c2ea19c21f79c250f",
+      "bytes": 747872
+    },
+    {
+      "file": "09-final-playing.png",
+      "sha256": "0c7349852ac176c825ac67ae6377f3485dbcd5d580beb10b971fb6aeb011a016",
+      "bytes": 749210
+    },
+    {
+      "file": "09-final-playing.json",
+      "sha256": "a6a7e176b80b83949cc1f1558704b94d6147cf4badbf24e1152d6d345b306438",
+      "bytes": 12525
+    }
+  ],
+  "final_state": {
+    "screenshot_elapsed": 178.4,
+    "log_elapsed": 178.00075016666597,
+    "grid": true,
+    "speed": 1,
+    "background": 0,
+    "playing": true,
+    "selected": 11,
+    "selected_basis": "交接值，本次未切状态",
+    "application_active": true,
+    "explicit_events": 24
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "state": "idle",
+  "part": "orb",
+  "crop": [
+    451,
+    648,
+    685,
+    879
+  ],
+  "positive_points": [
+    [
+      565,
+      765
+    ]
+  ],
+  "negative_points": [
+    [
+      501,
+      752
+    ],
+    [
+      569,
+      843
+    ]
+  ],
+  "scores": [
+    0.939918041229248,
+    0.9105467796325684,
+    0.9575127959251404
+  ],
+  "chosen": 2,
+  "components_xywh_area": [
+    [
+      521,
+      721,
+      93,
+      86,
+      6040
+    ],
+    [
+      519,
+      766,
+      1,
+      1,
+      1
+    ]
+  ],
+  "status": "candidate_requires_visual_review"
+}

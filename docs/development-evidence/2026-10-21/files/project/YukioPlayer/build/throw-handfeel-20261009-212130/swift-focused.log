@@ -1,0 +1,22 @@
+[0/1] Planning build
+Building for debugging...
+[0/5] Write sources
+[1/5] Write swift-version--1AB21518FC5DEDBE.txt
+[3/7] Emitting module YukioPlayer
+[4/7] Compiling YukioPlayer main.swift
+[4/9] Write Objects.LinkFileList
+[5/9] Linking YukioPlayer
+[6/9] Applying YukioPlayer
+[7/9] Write Objects.LinkFileList
+[8/9] Linking YukioPlayerPackageTests
+Build complete! (3.94s)
+◇ Test run started.
+↳ Testing Library Version: 124.4
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite InteractionLifecycleTests started.
+◇ Test placementThrowCatchAndTaskReportUseRealWindows() started.
+◇ Test cancelledPressCannotLeaveADragOrOpenAChatOnLateRelease() started.
+✔ Test cancelledPressCannotLeaveADragOrOpenAChatOnLateRelease() passed after 3.517 seconds.
+✔ Test placementThrowCatchAndTaskReportUseRealWindows() passed after 3.517 seconds.
+✔ Suite InteractionLifecycleTests passed after 3.517 seconds.
+✔ Test run with 2 tests passed after 3.517 seconds.

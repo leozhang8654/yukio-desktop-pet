@@ -1,0 +1,17 @@
+{
+  "installedApp": "/Users/developer/Desktop/Yukio.app",
+  "backupApp": "/Users/developer/Desktop/yukio-cloud-handoff/YukioPlayer/build/throw-dizzy-20261009-194744/desktop-test-install-20261009-211318/before/Yukio.app",
+  "previousVersion": "0.4.1",
+  "previousBuild": "18",
+  "previousPids": [
+    93551
+  ],
+  "localBuild": "throw-and-dizzy-20261009-211339",
+  "installedBinarySha256": "bb1b342542798f1ac82b5d64c238219db80ee59c235019aacb1d221ff0158f74",
+  "settings": "Existing preference domain retained; no defaults changed",
+  "scope": "Local throw-and-dizzy test; Windows deferred; no publication",
+  "runningProcess": "99120       00:14 /Users/developer/Desktop/Yukio.app/Contents/MacOS/YukioPlayer",
+  "bundleSignatureVerified": true,
+  "installedResourcesVerified": true,
+  "automaticDemo": false
+}

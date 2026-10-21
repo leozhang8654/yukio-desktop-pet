@@ -1,0 +1,512 @@
+[
+  {
+    "state": "default_work",
+    "part": "iris-left",
+    "bbox_with_margin": [
+      429,
+      497,
+      510,
+      584
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/default_work-iris-left-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/default_work/iris-left/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/08-default_work.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/default_work/iris-left.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/default_work/iris-left.png"
+  },
+  {
+    "state": "default_work",
+    "part": "iris-right",
+    "bbox_with_margin": [
+      617,
+      506,
+      705,
+      590
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/default_work-iris-right-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/default_work/iris-right/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/08-default_work.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/default_work/iris-right.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/default_work/iris-right.png"
+  },
+  {
+    "state": "default_work",
+    "part": "trackball-hand",
+    "bbox_with_margin": [
+      335,
+      727,
+      463,
+      828
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/default_work-trackball-hand-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/default_work/trackball-hand/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/08-default_work.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/default_work/trackball-hand.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/default_work/trackball-hand.png"
+  },
+  {
+    "state": "failed",
+    "part": "hand-and-card",
+    "bbox_with_margin": [
+      320,
+      571,
+      526,
+      768
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/failed-hand-and-card-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/failed/hand-and-card/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/12-failed.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/failed/hand-and-card.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/failed/hand-and-card.png"
+  },
+  {
+    "state": "failed",
+    "part": "iris-left",
+    "bbox_with_margin": [
+      425,
+      491,
+      507,
+      569
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/failed-iris-left-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/failed/iris-left/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/12-failed.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/failed/iris-left.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/failed/iris-left.png"
+  },
+  {
+    "state": "failed",
+    "part": "iris-right",
+    "bbox_with_margin": [
+      610,
+      501,
+      698,
+      576
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/failed-iris-right-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/failed/iris-right/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/12-failed.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/failed/iris-right.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/failed/iris-right.png"
+  },
+  {
+    "state": "idle",
+    "part": "iris-left",
+    "bbox_with_margin": [
+      431,
+      497,
+      516,
+      583
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/idle-iris-left-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/idle/iris-left/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/01-idle.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/idle/iris-left.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/idle/iris-left.png"
+  },
+  {
+    "state": "idle",
+    "part": "iris-right",
+    "bbox_with_margin": [
+      619,
+      507,
+      708,
+      587
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/idle-iris-right-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/idle/iris-right/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/01-idle.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/idle/iris-right.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/idle/iris-right.png"
+  },
+  {
+    "state": "idle",
+    "part": "orb",
+    "bbox_with_margin": [
+      509,
+      707,
+      624,
+      821
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/idle-orb-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/idle/orb/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/01-idle.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/idle/orb.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/idle/orb.png"
+  },
+  {
+    "state": "idle",
+    "part": "touching-hand",
+    "bbox_with_margin": [
+      374,
+      724,
+      538,
+      838
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/idle-touching-hand-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/idle/touching-hand/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/01-idle.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/idle/touching-hand.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/idle/touching-hand.png"
+  },
+  {
+    "state": "question_for_user",
+    "part": "button-cap",
+    "bbox_with_margin": [
+      749,
+      774,
+      853,
+      844
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/question_for_user-button-cap-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/question_for_user/button-cap/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/11-question_for_user.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/question_for_user/button-cap.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/question_for_user/button-cap.png"
+  },
+  {
+    "state": "question_for_user",
+    "part": "iris-left",
+    "bbox_with_margin": [
+      429,
+      486,
+      515,
+      578
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/question_for_user-iris-left-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/question_for_user/iris-left/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/11-question_for_user.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/question_for_user/iris-left.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/question_for_user/iris-left.png"
+  },
+  {
+    "state": "question_for_user",
+    "part": "iris-right",
+    "bbox_with_margin": [
+      616,
+      495,
+      706,
+      585
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/question_for_user-iris-right-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/question_for_user/iris-right/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/11-question_for_user.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/question_for_user/iris-right.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/question_for_user/iris-right.png"
+  },
+  {
+    "state": "question_for_user",
+    "part": "pressing-hand",
+    "bbox_with_margin": [
+      702,
+      708,
+      814,
+      801
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/question_for_user-pressing-hand-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/question_for_user/pressing-hand/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/11-question_for_user.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/question_for_user/pressing-hand.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/question_for_user/pressing-hand.png"
+  },
+  {
+    "state": "read_file",
+    "part": "iris-left",
+    "bbox_with_margin": [
+      437,
+      496,
+      519,
+      583
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/read_file-iris-left-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/read_file/iris-left/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/03-read_file.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/read_file/iris-left.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/read_file/iris-left.png"
+  },
+  {
+    "state": "read_file",
+    "part": "iris-right",
+    "bbox_with_margin": [
+      627,
+      506,
+      715,
+      587
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/read_file-iris-right-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/read_file/iris-right/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/03-read_file.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/read_file/iris-right.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/read_file/iris-right.png"
+  },
+  {
+    "state": "read_web",
+    "part": "iris-left",
+    "bbox_with_margin": [
+      424,
+      489,
+      504,
+      573
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/read_web-iris-left-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/read_web/iris-left/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/07-read_web.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/read_web/iris-left.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/read_web/iris-left.png"
+  },
+  {
+    "state": "read_web",
+    "part": "iris-right",
+    "bbox_with_margin": [
+      611,
+      499,
+      697,
+      582
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/read_web-iris-right-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/read_web/iris-right/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/07-read_web.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/read_web/iris-right.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/read_web/iris-right.png"
+  },
+  {
+    "state": "read_web",
+    "part": "pointing-hand",
+    "bbox_with_margin": [
+      315,
+      611,
+      442,
+      701
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/read_web-pointing-hand-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/read_web/pointing-hand/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/07-read_web.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/read_web/pointing-hand.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/read_web/pointing-hand.png"
+  },
+  {
+    "state": "respond",
+    "part": "hand-and-card",
+    "bbox_with_margin": [
+      292,
+      578,
+      542,
+      788
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/respond-hand-and-card-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/respond/hand-and-card/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/09-respond.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/respond/hand-and-card.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/respond/hand-and-card.png"
+  },
+  {
+    "state": "respond",
+    "part": "iris-left",
+    "bbox_with_margin": [
+      430,
+      489,
+      514,
+      568
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/respond-iris-left-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/respond/iris-left/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/09-respond.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/respond/iris-left.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/respond/iris-left.png"
+  },
+  {
+    "state": "respond",
+    "part": "iris-right",
+    "bbox_with_margin": [
+      618,
+      498,
+      709,
+      575
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/respond-iris-right-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/respond/iris-right/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/09-respond.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/respond/iris-right.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/respond/iris-right.png"
+  },
+  {
+    "state": "thinking",
+    "part": "iris-left",
+    "bbox_with_margin": [
+      406,
+      492,
+      485,
+      577
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/thinking-iris-left-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/thinking/iris-left/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/02-thinking.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/thinking/iris-left.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/thinking/iris-left.png"
+  },
+  {
+    "state": "thinking",
+    "part": "iris-right",
+    "bbox_with_margin": [
+      584,
+      513,
+      670,
+      593
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/thinking-iris-right-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/thinking/iris-right/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/02-thinking.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/thinking/iris-right.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/thinking/iris-right.png"
+  },
+  {
+    "state": "verify",
+    "part": "hand-and-probe",
+    "bbox_with_margin": [
+      360,
+      579,
+      514,
+      789
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/verify-hand-and-probe-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/verify/hand-and-probe/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/06-verify.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/verify/hand-and-probe.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/verify/hand-and-probe.png"
+  },
+  {
+    "state": "verify",
+    "part": "iris-left",
+    "bbox_with_margin": [
+      427,
+      501,
+      511,
+      584
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/verify-iris-left-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/verify/iris-left/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/06-verify.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/verify/iris-left.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/verify/iris-left.png"
+  },
+  {
+    "state": "verify",
+    "part": "iris-right",
+    "bbox_with_margin": [
+      613,
+      510,
+      705,
+      588
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/verify-iris-right-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/verify/iris-right/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/06-verify.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/verify/iris-right.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/verify/iris-right.png"
+  },
+  {
+    "state": "view_image",
+    "part": "hand-and-stylus",
+    "bbox_with_margin": [
+      362,
+      647,
+      530,
+      821
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/view_image-hand-and-stylus-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/view_image/hand-and-stylus/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/04-view_image.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/view_image/hand-and-stylus.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/view_image/hand-and-stylus.png"
+  },
+  {
+    "state": "view_image",
+    "part": "iris-left",
+    "bbox_with_margin": [
+      430,
+      494,
+      514,
+      580
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/view_image-iris-left-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/view_image/iris-left/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/04-view_image.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/view_image/iris-left.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/view_image/iris-left.png"
+  },
+  {
+    "state": "view_image",
+    "part": "iris-right",
+    "bbox_with_margin": [
+      620,
+      504,
+      708,
+      586
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/view_image-iris-right-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/view_image/iris-right/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/04-view_image.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/view_image/iris-right.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/view_image/iris-right.png"
+  },
+  {
+    "state": "write_file",
+    "part": "iris-left",
+    "bbox_with_margin": [
+      430,
+      497,
+      509,
+      580
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/write_file-iris-left-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/write_file/iris-left/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/05-write_file.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/write_file/iris-left.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/write_file/iris-left.png"
+  },
+  {
+    "state": "write_file",
+    "part": "iris-right",
+    "bbox_with_margin": [
+      609,
+      506,
+      697,
+      584
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/write_file-iris-right-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/write_file/iris-right/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/05-write_file.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/write_file/iris-right.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/write_file/iris-right.png"
+  },
+  {
+    "state": "write_file",
+    "part": "left-hand",
+    "bbox_with_margin": [
+      344,
+      729,
+      479,
+      823
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/write_file-left-hand-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/write_file/left-hand/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/05-write_file.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/write_file/left-hand.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/write_file/left-hand.png"
+  },
+  {
+    "state": "write_file",
+    "part": "right-hand",
+    "bbox_with_margin": [
+      731,
+      737,
+      859,
+      822
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/write_file-right-hand-reference.png",
+    "backgrounds": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/write_file/right-hand/four-backgrounds-200.png",
+    "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/05-write_file.png",
+    "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/write_file/right-hand.png",
+    "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/write_file/right-hand.png"
+  }
+]

@@ -1,0 +1,235 @@
+[
+  {
+    "state": "write_file",
+    "file": "evidence/write_file-all-frames-00-200.png",
+    "unique_frame_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "roi_384x416": [
+      96,
+      219,
+      287,
+      276
+    ]
+  },
+  {
+    "state": "write_file",
+    "file": "evidence/write_file-all-frames-09-200.png",
+    "unique_frame_indices": [
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "roi_384x416": [
+      96,
+      219,
+      287,
+      276
+    ]
+  },
+  {
+    "state": "write_file",
+    "file": "evidence/write_file-all-frames-18-200.png",
+    "unique_frame_indices": [
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+    ],
+    "roi_384x416": [
+      96,
+      219,
+      287,
+      276
+    ]
+  },
+  {
+    "state": "write_file",
+    "file": "evidence/write_file-all-frames-27-200.png",
+    "unique_frame_indices": [
+      27,
+      28,
+      29,
+      30
+    ],
+    "roi_384x416": [
+      96,
+      219,
+      287,
+      276
+    ]
+  },
+  {
+    "state": "verify",
+    "file": "evidence/verify-all-frames-00-200.png",
+    "unique_frame_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "roi_384x416": [
+      101,
+      171,
+      179,
+      265
+    ]
+  },
+  {
+    "state": "verify",
+    "file": "evidence/verify-all-frames-09-200.png",
+    "unique_frame_indices": [
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "roi_384x416": [
+      101,
+      171,
+      179,
+      265
+    ]
+  },
+  {
+    "state": "verify",
+    "file": "evidence/verify-all-frames-18-200.png",
+    "unique_frame_indices": [
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+    ],
+    "roi_384x416": [
+      101,
+      171,
+      179,
+      265
+    ]
+  },
+  {
+    "state": "verify",
+    "file": "evidence/verify-all-frames-27-200.png",
+    "unique_frame_indices": [
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35
+    ],
+    "roi_384x416": [
+      101,
+      171,
+      179,
+      265
+    ]
+  },
+  {
+    "state": "verify",
+    "file": "evidence/verify-all-frames-36-200.png",
+    "unique_frame_indices": [
+      36
+    ],
+    "roi_384x416": [
+      101,
+      171,
+      179,
+      265
+    ]
+  },
+  {
+    "state": "failed",
+    "file": "evidence/failed-all-frames-00-200.png",
+    "unique_frame_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "roi_384x416": [
+      89,
+      169,
+      181,
+      258
+    ]
+  },
+  {
+    "state": "failed",
+    "file": "evidence/failed-all-frames-09-200.png",
+    "unique_frame_indices": [
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "roi_384x416": [
+      89,
+      169,
+      181,
+      258
+    ]
+  },
+  {
+    "state": "failed",
+    "file": "evidence/failed-all-frames-18-200.png",
+    "unique_frame_indices": [
+      18,
+      19,
+      20
+    ],
+    "roi_384x416": [
+      89,
+      169,
+      181,
+      258
+    ]
+  }
+]

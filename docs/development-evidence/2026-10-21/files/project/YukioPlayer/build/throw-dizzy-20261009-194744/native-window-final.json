@@ -1,0 +1,52 @@
+{
+  "cases" : [
+    {
+      "events" : 2,
+      "exhaustions" : 0,
+      "frames" : 217,
+      "ground" : true,
+      "maxUpdateMs" : 22.060499992221594,
+      "p95UpdateMs" : 9.0698333224281669,
+      "phase" : "normal",
+      "room" : "{{-88, 1112}, {1920, 1080}}",
+      "session" : 1
+    },
+    {
+      "events" : 2,
+      "exhaustions" : 0,
+      "frames" : 219,
+      "ground" : true,
+      "maxUpdateMs" : 34.195708343759179,
+      "p95UpdateMs" : 8.8235416915267706,
+      "phase" : "normal",
+      "room" : "{{-88, 1112}, {1920, 1080}}",
+      "session" : 2
+    },
+    {
+      "events" : 3,
+      "exhaustions" : 0,
+      "frames" : 233,
+      "ground" : true,
+      "maxUpdateMs" : 59.337583370506763,
+      "p95UpdateMs" : 20.461875014007092,
+      "phase" : "normal",
+      "room" : "{{-88, 1112}, {1920, 1080}}",
+      "session" : 3
+    }
+  ],
+  "date" : "2026-10-10T03:42:08Z",
+  "note" : "Actual PetPanel and 60 Hz timer. Scripted demo releases; manual pointer, Dock occlusion and mixed DPI require separate observation.",
+  "os" : "Version 27.0.1 (Build 26A434)",
+  "screens" : [
+    {
+      "backingScale" : 2,
+      "frame" : "{{0, 0}, {1710, 1112}}",
+      "visibleFrame" : "{{0, 62}, {1710, 1012}}"
+    },
+    {
+      "backingScale" : 2,
+      "frame" : "{{-88, 1112}, {1920, 1080}}",
+      "visibleFrame" : "{{-88, 1112}, {1920, 1050}}"
+    }
+  ]
+}

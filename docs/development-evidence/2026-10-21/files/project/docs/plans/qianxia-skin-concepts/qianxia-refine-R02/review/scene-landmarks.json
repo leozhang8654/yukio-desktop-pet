@@ -1,0 +1,478 @@
+{
+  "method": "Canny edges + normalized template matching; source-complete patches matched independently to 11 states; not pixel identity",
+  "source_regions": {
+    "front_light": [
+      290,
+      895,
+      909,
+      925
+    ],
+    "left_desk_leg": [
+      131,
+      990,
+      229,
+      1228
+    ],
+    "right_desk_leg": [
+      970,
+      990,
+      1080,
+      1228
+    ],
+    "boxes": [
+      820,
+      1037,
+      962,
+      1217
+    ],
+    "left_chair_leg": [
+      394,
+      1000,
+      466,
+      1169
+    ],
+    "rabbit_base": [
+      116,
+      800,
+      270,
+      852
+    ]
+  },
+  "records": [
+    {
+      "state": "01-idle",
+      "matches": {
+        "front_light": {
+          "dx": 0,
+          "dy": 32,
+          "edge_match_score": 0.9751
+        },
+        "left_desk_leg": {
+          "dx": 0,
+          "dy": 30,
+          "edge_match_score": 0.4448
+        },
+        "right_desk_leg": {
+          "dx": -3,
+          "dy": 26,
+          "edge_match_score": 0.3724
+        },
+        "boxes": {
+          "dx": -2,
+          "dy": 34,
+          "edge_match_score": 0.3328
+        },
+        "left_chair_leg": {
+          "dx": 2,
+          "dy": 30,
+          "edge_match_score": 0.2729
+        },
+        "rabbit_base": {
+          "dx": -4,
+          "dy": 34,
+          "edge_match_score": 0.3403
+        }
+      }
+    },
+    {
+      "state": "02-thinking",
+      "matches": {
+        "front_light": {
+          "dx": 3,
+          "dy": 31,
+          "edge_match_score": 0.8132
+        },
+        "left_desk_leg": {
+          "dx": -1,
+          "dy": 31,
+          "edge_match_score": 0.334
+        },
+        "right_desk_leg": {
+          "dx": 4,
+          "dy": 56,
+          "edge_match_score": 0.2531
+        },
+        "boxes": {
+          "dx": -8,
+          "dy": 33,
+          "edge_match_score": 0.2335
+        },
+        "left_chair_leg": {
+          "dx": 2,
+          "dy": 33,
+          "edge_match_score": 0.2187
+        },
+        "rabbit_base": {
+          "dx": -5,
+          "dy": 33,
+          "edge_match_score": 0.2741
+        }
+      }
+    },
+    {
+      "state": "03-read_file",
+      "matches": {
+        "front_light": {
+          "dx": 1,
+          "dy": 32,
+          "edge_match_score": 0.9847
+        },
+        "left_desk_leg": {
+          "dx": -3,
+          "dy": 31,
+          "edge_match_score": 0.2666
+        },
+        "right_desk_leg": {
+          "dx": 4,
+          "dy": 31,
+          "edge_match_score": 0.3302
+        },
+        "boxes": {
+          "dx": 1,
+          "dy": 32,
+          "edge_match_score": 0.2297
+        },
+        "left_chair_leg": {
+          "dx": 5,
+          "dy": 34,
+          "edge_match_score": 0.3488
+        },
+        "rabbit_base": {
+          "dx": -7,
+          "dy": 35,
+          "edge_match_score": 0.3719
+        }
+      }
+    },
+    {
+      "state": "04-view_image",
+      "matches": {
+        "front_light": {
+          "dx": -2,
+          "dy": 17,
+          "edge_match_score": 0.7606
+        },
+        "left_desk_leg": {
+          "dx": 2,
+          "dy": 28,
+          "edge_match_score": 0.3178
+        },
+        "right_desk_leg": {
+          "dx": -1,
+          "dy": 31,
+          "edge_match_score": 0.3099
+        },
+        "boxes": {
+          "dx": -1,
+          "dy": 31,
+          "edge_match_score": 0.2434
+        },
+        "left_chair_leg": {
+          "dx": 7,
+          "dy": 28,
+          "edge_match_score": 0.2357
+        },
+        "rabbit_base": {
+          "dx": -3,
+          "dy": 33,
+          "edge_match_score": 0.3494
+        }
+      }
+    },
+    {
+      "state": "05-write_file",
+      "matches": {
+        "front_light": {
+          "dx": -3,
+          "dy": 17,
+          "edge_match_score": 0.762
+        },
+        "left_desk_leg": {
+          "dx": -4,
+          "dy": 54,
+          "edge_match_score": 0.3612
+        },
+        "right_desk_leg": {
+          "dx": -4,
+          "dy": 53,
+          "edge_match_score": 0.3324
+        },
+        "boxes": {
+          "dx": -5,
+          "dy": 30,
+          "edge_match_score": 0.203
+        },
+        "left_chair_leg": {
+          "dx": 2,
+          "dy": 32,
+          "edge_match_score": 0.3224
+        },
+        "rabbit_base": {
+          "dx": -4,
+          "dy": 33,
+          "edge_match_score": 0.3917
+        }
+      }
+    },
+    {
+      "state": "06-verify",
+      "matches": {
+        "front_light": {
+          "dx": -2,
+          "dy": 47,
+          "edge_match_score": 0.6594
+        },
+        "left_desk_leg": {
+          "dx": -1,
+          "dy": 31,
+          "edge_match_score": 0.3654
+        },
+        "right_desk_leg": {
+          "dx": -1,
+          "dy": 30,
+          "edge_match_score": 0.3307
+        },
+        "boxes": {
+          "dx": 3,
+          "dy": 32,
+          "edge_match_score": 0.258
+        },
+        "left_chair_leg": {
+          "dx": 2,
+          "dy": 38,
+          "edge_match_score": 0.2408
+        },
+        "rabbit_base": {
+          "dx": -4,
+          "dy": 35,
+          "edge_match_score": 0.3406
+        }
+      }
+    },
+    {
+      "state": "07-read_web",
+      "matches": {
+        "front_light": {
+          "dx": 1,
+          "dy": 32,
+          "edge_match_score": 0.9561
+        },
+        "left_desk_leg": {
+          "dx": -2,
+          "dy": 49,
+          "edge_match_score": 0.272
+        },
+        "right_desk_leg": {
+          "dx": -3,
+          "dy": 60,
+          "edge_match_score": 0.2213
+        },
+        "boxes": {
+          "dx": -6,
+          "dy": 29,
+          "edge_match_score": 0.188
+        },
+        "left_chair_leg": {
+          "dx": 1,
+          "dy": 39,
+          "edge_match_score": 0.1972
+        },
+        "rabbit_base": {
+          "dx": -2,
+          "dy": 35,
+          "edge_match_score": 0.3968
+        }
+      }
+    },
+    {
+      "state": "08-default_work",
+      "matches": {
+        "front_light": {
+          "dx": -1,
+          "dy": 32,
+          "edge_match_score": 0.7966
+        },
+        "left_desk_leg": {
+          "dx": -4,
+          "dy": 32,
+          "edge_match_score": 0.2873
+        },
+        "right_desk_leg": {
+          "dx": -2,
+          "dy": 32,
+          "edge_match_score": 0.3322
+        },
+        "boxes": {
+          "dx": -5,
+          "dy": 31,
+          "edge_match_score": 0.1605
+        },
+        "left_chair_leg": {
+          "dx": 2,
+          "dy": 31,
+          "edge_match_score": 0.2324
+        },
+        "rabbit_base": {
+          "dx": -7,
+          "dy": 29,
+          "edge_match_score": 0.2547
+        }
+      }
+    },
+    {
+      "state": "09-respond",
+      "matches": {
+        "front_light": {
+          "dx": 1,
+          "dy": 31,
+          "edge_match_score": 0.9782
+        },
+        "left_desk_leg": {
+          "dx": 0,
+          "dy": 31,
+          "edge_match_score": 0.3288
+        },
+        "right_desk_leg": {
+          "dx": -1,
+          "dy": 32,
+          "edge_match_score": 0.3551
+        },
+        "boxes": {
+          "dx": -8,
+          "dy": 34,
+          "edge_match_score": 0.2605
+        },
+        "left_chair_leg": {
+          "dx": -1,
+          "dy": 33,
+          "edge_match_score": 0.3194
+        },
+        "rabbit_base": {
+          "dx": -6,
+          "dy": 34,
+          "edge_match_score": 0.3749
+        }
+      }
+    },
+    {
+      "state": "11-question_for_user",
+      "matches": {
+        "front_light": {
+          "dx": -2,
+          "dy": 49,
+          "edge_match_score": 0.6631
+        },
+        "left_desk_leg": {
+          "dx": 1,
+          "dy": 32,
+          "edge_match_score": 0.3353
+        },
+        "right_desk_leg": {
+          "dx": -6,
+          "dy": 32,
+          "edge_match_score": 0.3192
+        },
+        "boxes": {
+          "dx": -4,
+          "dy": 30,
+          "edge_match_score": 0.1926
+        },
+        "left_chair_leg": {
+          "dx": 1,
+          "dy": 41,
+          "edge_match_score": 0.2123
+        },
+        "rabbit_base": {
+          "dx": -3,
+          "dy": 36,
+          "edge_match_score": 0.3044
+        }
+      }
+    },
+    {
+      "state": "12-failed",
+      "matches": {
+        "front_light": {
+          "dx": -1,
+          "dy": 32,
+          "edge_match_score": 0.9295
+        },
+        "left_desk_leg": {
+          "dx": -2,
+          "dy": 59,
+          "edge_match_score": 0.2295
+        },
+        "right_desk_leg": {
+          "dx": -3,
+          "dy": 30,
+          "edge_match_score": 0.2683
+        },
+        "boxes": {
+          "dx": -1,
+          "dy": 30,
+          "edge_match_score": 0.195
+        },
+        "left_chair_leg": {
+          "dx": 6,
+          "dy": 32,
+          "edge_match_score": 0.179
+        },
+        "rabbit_base": {
+          "dx": -3,
+          "dy": 35,
+          "edge_match_score": 0.3378
+        }
+      }
+    }
+  ],
+  "summary": {
+    "front_light": {
+      "median_dx": -1.0,
+      "median_dy": 32.0,
+      "dy_range": [
+        17,
+        49
+      ]
+    },
+    "left_desk_leg": {
+      "median_dx": -1.0,
+      "median_dy": 31.0,
+      "dy_range": [
+        28,
+        59
+      ]
+    },
+    "right_desk_leg": {
+      "median_dx": -2.0,
+      "median_dy": 32.0,
+      "dy_range": [
+        26,
+        60
+      ]
+    },
+    "boxes": {
+      "median_dx": -4.0,
+      "median_dy": 31.0,
+      "dy_range": [
+        29,
+        34
+      ]
+    },
+    "left_chair_leg": {
+      "median_dx": 2.0,
+      "median_dy": 33.0,
+      "dy_range": [
+        28,
+        41
+      ]
+    },
+    "rabbit_base": {
+      "median_dx": -4.0,
+      "median_dy": 34.0,
+      "dy_range": [
+        29,
+        36
+      ]
+    }
+  }
+}

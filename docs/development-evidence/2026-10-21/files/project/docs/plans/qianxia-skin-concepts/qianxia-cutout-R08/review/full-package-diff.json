@@ -1,0 +1,10 @@
+{
+  "baseline": "R07",
+  "files": 80,
+  "changed_files": [
+    "masks/verify/hand-and-probe.png",
+    "parts/verify/hand-and-probe.png"
+  ],
+  "unchanged_files": 78,
+  "all_source_images_unchanged": true
+}

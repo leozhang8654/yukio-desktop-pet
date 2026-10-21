@@ -1,0 +1,176 @@
+[
+  {
+    "mask": "masks/default_work/iris-left.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/default_work/iris-right.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/default_work/trackball-hand.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/failed/hand-and-card.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/failed/iris-left.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/failed/iris-right.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/idle/iris-left.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/idle/iris-right.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/idle/orb.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/idle/touching-hand.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/question_for_user/button-cap.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/question_for_user/iris-left.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/question_for_user/iris-right.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/question_for_user/pressing-hand.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/read_file/iris-left.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/read_file/iris-right.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/read_web/iris-left.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/read_web/iris-right.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/read_web/pointing-hand.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/respond/hand-and-card.png",
+    "enclosed_nonopaque_components": [
+      {
+        "bbox": [
+          356,
+          720,
+          360,
+          723
+        ],
+        "pixels": 5
+      },
+      {
+        "bbox": [
+          366,
+          720,
+          369,
+          721
+        ],
+        "pixels": 3
+      },
+      {
+        "bbox": [
+          372,
+          720,
+          377,
+          723
+        ],
+        "pixels": 6
+      }
+    ]
+  },
+  {
+    "mask": "masks/respond/iris-left.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/respond/iris-right.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/thinking/iris-left.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/thinking/iris-right.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/verify/hand-and-probe.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/verify/iris-left.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/verify/iris-right.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/view_image/hand-and-stylus.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/view_image/iris-left.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/view_image/iris-right.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/write_file/iris-left.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/write_file/iris-right.png",
+    "enclosed_nonopaque_components": []
+  },
+  {
+    "mask": "masks/write_file/left-hand.png",
+    "enclosed_nonopaque_components": [
+      {
+        "bbox": [
+          431,
+          764,
+          433,
+          769
+        ],
+        "pixels": 7
+      }
+    ]
+  },
+  {
+    "mask": "masks/write_file/right-hand.png",
+    "enclosed_nonopaque_components": []
+  }
+]

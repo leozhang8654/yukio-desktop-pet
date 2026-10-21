@@ -1,0 +1,50 @@
+{
+  "state": "idle",
+  "part": "touching-hand",
+  "input_file": "source/01-idle.png",
+  "input_sha256": "9c7769ab20bf96f77e8de0d6b6e78ee8e061ed5eb311b87575774df4f12be0b0",
+  "box": [
+    386,
+    727,
+    535,
+    835
+  ],
+  "positive_points": [
+    [
+      447,
+      774
+    ],
+    [
+      496,
+      751
+    ]
+  ],
+  "negative_points": [
+    [
+      350,
+      780
+    ],
+    [
+      564,
+      764
+    ],
+    [
+      563,
+      841
+    ]
+  ],
+  "sam_scores": [
+    0.7864753007888794,
+    0.9208006262779236,
+    0.9205007553100586
+  ],
+  "chosen_option": 1,
+  "selected_pixels": 6563,
+  "removed_fully_transparent_pixels": 0,
+  "components": 1,
+  "component_areas": [
+    6563
+  ],
+  "visual_review": "pending",
+  "status": "initial_candidate"
+}

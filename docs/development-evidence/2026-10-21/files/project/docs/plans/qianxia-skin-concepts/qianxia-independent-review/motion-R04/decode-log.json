@@ -1,0 +1,321 @@
+[
+  {
+    "state": "idle",
+    "body_unique_frames": 51,
+    "context_frames": [
+      0,
+      16,
+      0
+    ],
+    "detail_frames": [
+      0,
+      16,
+      28,
+      17,
+      34,
+      50
+    ],
+    "detail_roi_2x": [
+      106,
+      212,
+      212,
+      280
+    ],
+    "max_body_delta_frame": 16,
+    "has_blink": true,
+    "duration_ms": 13893,
+    "loopStart": 0,
+    "mode": "loop"
+  },
+  {
+    "state": "thinking",
+    "body_unique_frames": 25,
+    "context_frames": [
+      0,
+      8,
+      0
+    ],
+    "detail_frames": [
+      0,
+      8,
+      16,
+      24
+    ],
+    "detail_roi_2x": [
+      103,
+      141,
+      238,
+      199
+    ],
+    "max_body_delta_frame": 0,
+    "has_blink": true,
+    "duration_ms": 7953,
+    "loopStart": 0,
+    "mode": "loop"
+  },
+  {
+    "state": "read_file",
+    "body_unique_frames": 25,
+    "context_frames": [
+      0,
+      16,
+      0
+    ],
+    "detail_frames": [
+      0,
+      16,
+      8,
+      24
+    ],
+    "detail_roi_2x": [
+      113,
+      142,
+      252,
+      198
+    ],
+    "max_body_delta_frame": 0,
+    "has_blink": true,
+    "duration_ms": 5973,
+    "loopStart": 0,
+    "mode": "loop"
+  },
+  {
+    "state": "view_image",
+    "body_unique_frames": 66,
+    "context_frames": [
+      0,
+      45,
+      0
+    ],
+    "detail_frames": [
+      0,
+      45,
+      22,
+      44,
+      65
+    ],
+    "detail_roi_2x": [
+      102,
+      193,
+      182,
+      275
+    ],
+    "max_body_delta_frame": 45,
+    "has_blink": true,
+    "duration_ms": 5973,
+    "loopStart": 0,
+    "mode": "loop"
+  },
+  {
+    "state": "write_file",
+    "body_unique_frames": 31,
+    "context_frames": [
+      0,
+      3,
+      0
+    ],
+    "detail_frames": [
+      0,
+      3,
+      9,
+      10,
+      20,
+      30
+    ],
+    "detail_roi_2x": [
+      96,
+      219,
+      287,
+      276
+    ],
+    "max_body_delta_frame": 3,
+    "has_blink": true,
+    "duration_ms": 3399,
+    "loopStart": 0,
+    "mode": "loop"
+  },
+  {
+    "state": "verify",
+    "body_unique_frames": 37,
+    "context_frames": [
+      0,
+      14,
+      0
+    ],
+    "detail_frames": [
+      0,
+      14,
+      25,
+      12,
+      24,
+      36
+    ],
+    "detail_roi_2x": [
+      101,
+      171,
+      179,
+      265
+    ],
+    "max_body_delta_frame": 14,
+    "has_blink": true,
+    "duration_ms": 4785,
+    "loopStart": 0,
+    "mode": "loop"
+  },
+  {
+    "state": "read_web",
+    "body_unique_frames": 27,
+    "context_frames": [
+      0,
+      11,
+      0
+    ],
+    "detail_frames": [
+      0,
+      11,
+      26,
+      9,
+      18
+    ],
+    "detail_roi_2x": [
+      87,
+      181,
+      154,
+      237
+    ],
+    "max_body_delta_frame": 11,
+    "has_blink": true,
+    "duration_ms": 5973,
+    "loopStart": 0,
+    "mode": "loop"
+  },
+  {
+    "state": "default_work",
+    "body_unique_frames": 48,
+    "context_frames": [
+      0,
+      21,
+      0
+    ],
+    "detail_frames": [
+      0,
+      21,
+      16,
+      32,
+      47
+    ],
+    "detail_roi_2x": [
+      94,
+      219,
+      161,
+      278
+    ],
+    "max_body_delta_frame": 21,
+    "has_blink": true,
+    "duration_ms": 5379,
+    "loopStart": 0,
+    "mode": "loop"
+  },
+  {
+    "state": "respond",
+    "body_unique_frames": 25,
+    "context_frames": [
+      0,
+      24,
+      24
+    ],
+    "detail_frames": [
+      0,
+      24,
+      8,
+      16
+    ],
+    "detail_roi_2x": [
+      80,
+      171,
+      186,
+      264
+    ],
+    "max_body_delta_frame": 24,
+    "has_blink": true,
+    "duration_ms": 6188,
+    "loopStart": 25,
+    "mode": "enter_then_hold"
+  },
+  {
+    "state": "task_complete",
+    "body_unique_frames": 1,
+    "context_frames": [
+      0,
+      0,
+      0
+    ],
+    "detail_frames": [
+      0
+    ],
+    "detail_roi_2x": [
+      80,
+      90,
+      300,
+      270
+    ],
+    "max_body_delta_frame": 0,
+    "has_blink": false,
+    "duration_ms": 3000,
+    "loopStart": 0,
+    "mode": "static"
+  },
+  {
+    "state": "question_for_user",
+    "body_unique_frames": 17,
+    "context_frames": [
+      0,
+      8,
+      16
+    ],
+    "detail_frames": [
+      0,
+      8,
+      16,
+      5,
+      11
+    ],
+    "detail_roi_2x": [
+      211,
+      213,
+      286,
+      283
+    ],
+    "max_body_delta_frame": 8,
+    "has_blink": true,
+    "duration_ms": 6089,
+    "loopStart": 23,
+    "mode": "enter_then_hold"
+  },
+  {
+    "state": "failed",
+    "body_unique_frames": 21,
+    "context_frames": [
+      0,
+      20,
+      20
+    ],
+    "detail_frames": [
+      0,
+      20,
+      7,
+      14
+    ],
+    "detail_roi_2x": [
+      89,
+      169,
+      181,
+      258
+    ],
+    "max_body_delta_frame": 20,
+    "has_blink": true,
+    "duration_ms": 5891,
+    "loopStart": 21,
+    "mode": "enter_then_hold"
+  }
+]

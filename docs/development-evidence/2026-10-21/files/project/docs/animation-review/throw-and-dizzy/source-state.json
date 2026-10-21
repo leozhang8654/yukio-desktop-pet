@@ -1,0 +1,653 @@
+{
+  "baseCommit": "b176e1e38eb65cee94d4045cf7e94ffa045bb9a4",
+  "branch": "release/v0.2.1",
+  "preexistingDirtyWorktree": true,
+  "basis": "frozen working-file hashes, not a diff against HEAD",
+  "changedInputsAndCode": [
+    {
+      "path": "README.md",
+      "before": "050ea9df52317b2aad66d1db44cfee17847a3920416e51fb25b3f88684490966",
+      "after": "92c15169e6d4618577569b45b8b893386edc7a9ac3e43e1920835f71950b0b39"
+    },
+    {
+      "path": "README.zh-CN.md",
+      "before": "17922d775815c7225a00c00a46337150fbfb3a80959d8c3076fda17310cb7a77",
+      "after": "08fcd386e72a18e1efc53dabfc53e33d04c5271e46666af51fa39e1bd85224f7"
+    },
+    {
+      "path": "YukioPlayer/Sources/YukioCore/Catalog.swift",
+      "before": "c0ae6dcfef64a1f8ddbc183d47b9b60c1055f1d143df39950eb70f876758c2b0",
+      "after": "560e74f114593f7064c6d0b6bc5ea034e353926cd9794b5680eb1d765fdbe294"
+    },
+    {
+      "path": "YukioPlayer/Sources/YukioCore/DragVelocityTracker.swift",
+      "before": null,
+      "after": "df86901a1d5b19a51c2b2a01d6e85684e8aeec67693711f6ca6d6100d6cbad7c"
+    },
+    {
+      "path": "YukioPlayer/Sources/YukioCore/HangSwing.swift",
+      "before": "a7fc3594134de3e8cffe340451bbc1c40257f43bcd69e84e7464638e686133ac",
+      "after": "e55adfe3b7dde1cebeb93b974ef4092c74b86bac1a27e9e758e409514ae458a4"
+    },
+    {
+      "path": "YukioPlayer/Sources/YukioCore/ThrowPhysics.swift",
+      "before": null,
+      "after": "99cfc845c940830f5b72afce32a2610ddbf489f66166a89a76ff794988b604aa"
+    },
+    {
+      "path": "YukioPlayer/Sources/YukioPlayer/InteractionCheck.swift",
+      "before": null,
+      "after": "c995c513a5156e8f36194de06eaa1c8d62fe84c6497745f53aa288015e5250e9"
+    },
+    {
+      "path": "YukioPlayer/Sources/YukioPlayer/PagedSpriteLibrary.swift",
+      "before": "3938e77188a6c29fef1c5c91e52889c0d6174afa00f7a19a06b9ade2751eea68",
+      "after": "8ce3d7d408d4118a4a9a36e9c962fd4af5fe202f0d526570a5d5b15c5c552615"
+    },
+    {
+      "path": "YukioPlayer/Sources/YukioPlayer/PetWindow.swift",
+      "before": "195d372cd588499515d11448ee0effaa5b4fc11dc874abe54cc50ccf3c462165",
+      "after": "5ab45487e2c6a96d4cf5e9839f052909d3a558aa7166db30b09c4191aa9aceec"
+    },
+    {
+      "path": "YukioPlayer/Sources/YukioPlayer/SettingsPanel.swift",
+      "before": "525e15462205636f5687d6ab2297d6e93bf45a0fcc6c0f82ebf141ed54ab1465",
+      "after": "ac6df0d0e2e2c11b29c6f689a9a6bcdbd133b0d6d5b2e4583a953b2d9b61a630"
+    },
+    {
+      "path": "YukioPlayer/Sources/YukioPlayer/SpriteLibrary.swift",
+      "before": "833d62c7fa627c09dddbfc62c52b9dcd7c834bd05ab71b536294cb27f7c842a4",
+      "after": "91f0651b47fe4275837e37313aeb13589744623d7a93c1d2c5353cd712a1cebf"
+    },
+    {
+      "path": "YukioPlayer/Sources/YukioPlayer/ThrowPlayback.swift",
+      "before": null,
+      "after": "7fe4f4d3248bb10999642e7fc77735350d616a154d9fa5c01ffa71e5f095c8a3"
+    },
+    {
+      "path": "YukioPlayer/Sources/YukioPlayer/main.swift",
+      "before": "6dc1f9fda9ccb9d439c142ddbeb2863d241bae5cf6738979cb9f1246381b6dff",
+      "after": "6318f1472fb80abe5caca20680eae5520e34df783bf7067c171dd5abd51838f1"
+    },
+    {
+      "path": "YukioPlayer/Tests/YukioCoreTests/BlinkOverlayCatalogTests.swift",
+      "before": "89562e61b7fe737eb231f56dee5afd459959134abf8e2028eecca37992cbd7bc",
+      "after": "a5868ecf3578c2d9007f0da88279a87a7b172079b920caba20134431c6bfbdb6"
+    },
+    {
+      "path": "YukioPlayer/Tests/YukioCoreTests/ThrowPhysicsTests.swift",
+      "before": null,
+      "after": "db536aba8add4d2658112864cdd940e331965db141b094895b92bf73478c9d5b"
+    },
+    {
+      "path": "YukioPlayer/tools/interaction/check_interaction.py",
+      "before": null,
+      "after": "0f790d26b7a180b1f730485fa19cdebc23d50d46b332789b3163cbccd6be4604"
+    },
+    {
+      "path": "YukioPlayer/tools/interaction/make_interaction.py",
+      "before": null,
+      "after": "27280a73ff1d31491187766d868ccbf0231f528034ccc8415944e873ee9ddd46"
+    },
+    {
+      "path": "YukioPlayer/tools/interaction/replay.py",
+      "before": null,
+      "after": "9114894c367ba58804651335089c1e308ef9d9849068572269fc43a2d4d7a582"
+    },
+    {
+      "path": "YukioPlayer/tools/interaction/segment_held.py",
+      "before": null,
+      "after": "82448105f6925c78e6c0151ed5fe39bb9cbf2f81d9b8d5f07b3d380ed0fcf6d1"
+    },
+    {
+      "path": "YukioWin/scripts/prepare-windows-assets.py",
+      "before": "4e0b1d2af2c6e9dfc002bceca55ce45f7a992d4ca69068a2e114e9c61c8f6c2a",
+      "after": "1ac48dc313e2f3c8667510728c1afc60e80de9db4d9365051fccb4a5420e2388"
+    },
+    {
+      "path": "YukioWin/scripts/smoke-interaction.ps1",
+      "before": null,
+      "after": "7e221667aee8eed51b8f34c2c031567bb56a49e3ae6850cacb179a431df2b6d7"
+    },
+    {
+      "path": "YukioWin/tests/fake_win32.py",
+      "before": "1bc78aafd4bb057c95a58656c937027be8a06de9018093d38209503c630facdb",
+      "after": "b4e66b7ee1f0149a928dc44d21f0dc59e977356290e826041b67f79078120895"
+    },
+    {
+      "path": "YukioWin/tests/test_app_logic.py",
+      "before": "35f471b5094ce4aab730dc37e862b209a99389ecffe02c5cbb12eea95b96f98d",
+      "after": "4c7c92a10477bb359171d1f38e218e42d66bb2dc5881703c12a8a4928603f855"
+    },
+    {
+      "path": "YukioWin/tests/test_throw_physics.py",
+      "before": null,
+      "after": "d73546f234b0146b71da4ead5e389d4273a39216344b30e1b24abc447c2e5725"
+    },
+    {
+      "path": "YukioWin/yukio/app.py",
+      "before": "44e0cbad109eafb64948f27e115d7c9326dd53eb718c400899094548f567f5a7",
+      "after": "8c28bd8de2a837b9402032b2c851e86e3d0fbd6d6082ce6302a56f7dea2ebd50"
+    },
+    {
+      "path": "YukioWin/yukio/catalog.py",
+      "before": "96bb0af94004ba883d619dd1588a831622eed8c58ed526925d3e525317726836",
+      "after": "e3b075e0664ba17dc0c5f1dd3b4bf03eb277a9759ed73700171c8cdbefc32632"
+    },
+    {
+      "path": "YukioWin/yukio/cli.py",
+      "before": "f72410cee8d05a8d7fbec1a26c68172106de12ef2d821d102b0b5ff83a058ecd",
+      "after": "bad6556417453c754675498d792ddd8a8522647a40ba3bc16de5ecd695b66eb8"
+    },
+    {
+      "path": "YukioWin/yukio/drag_velocity.py",
+      "before": null,
+      "after": "3b3e03cdeee482c4aca01fe7e82b982290b5993d22e3470a1ee73fca0a8a1e85"
+    },
+    {
+      "path": "YukioWin/yukio/hang.py",
+      "before": "687aeb4b97507548d18f0d25157423fca552ab286e0f1a1a83d82fe695aa182c",
+      "after": "8bbca9594cc4286a3bb14ee9717ea8d213b70c2ad3b2473004920df6188bc4ac"
+    },
+    {
+      "path": "YukioWin/yukio/interaction_smoke.py",
+      "before": null,
+      "after": "b6c53acd8abac119b32c7cb89076b72a00deb1c59fb8f2acb3e55dc3770ca87f"
+    },
+    {
+      "path": "YukioWin/yukio/pet_settings.py",
+      "before": "c8c835ce7b3501bb72cc3d1f6aedac1d174b98c45c5cd114ba1fcd8e1cf4f06e",
+      "after": "c5502f39fcb62253b17795e0ba293405b525bdd01950614134c0013c1c553365"
+    },
+    {
+      "path": "YukioWin/yukio/settings.py",
+      "before": "d9c6654b3acc925199c58e37ce4d5d4484fa0f33e4e8337c6fc56b0694f61a6c",
+      "after": "cff0d4d5dcbfd6aa2df0e7df479b90ff8a6e616aa55ce76a089bb9c5a1c836cf"
+    },
+    {
+      "path": "YukioWin/yukio/sprites.py",
+      "before": "7d2465c333b059b64fef33a87d6a76a1d5f3346b957fd5afe0a22293e5020f96",
+      "after": "8135a86f8cf3f81d341ef9a17f83fbf8a09e83c2b72fa0977e249c505d17785b"
+    },
+    {
+      "path": "YukioWin/yukio/throw_interaction.py",
+      "before": null,
+      "after": "47aba8ab8290bd7d048c17a49a104bc454e438d6dc3cead62c2626448dbb9d88"
+    },
+    {
+      "path": "YukioWin/yukio/throw_physics.py",
+      "before": null,
+      "after": "a517ab98f436ee38e7f330bc6c496fe0abf0a4a5e756369c0d157108043370b5"
+    },
+    {
+      "path": "YukioWin/yukio/win32.py",
+      "before": "58f84af00c4992032a09a2cd083f8087f67716023b975f24c6e5ffc65680db23",
+      "after": "a688ea7e822a6e22aec6e382a815879034414c35b8e82fcffafa94ec6b57ddb6"
+    },
+    {
+      "path": "docs/animation-format.md",
+      "before": "249ed95408db24c7d5ef851a5284602481860a6db98b74fe1f24fa842c00cc2a",
+      "after": "d7695d4185efc76a6335f49bccdd0630170cc290f6ed2e7b599e3176b9f9eba7"
+    },
+    {
+      "path": "sources/interaction-rig/README.md",
+      "before": null,
+      "after": "04beb7a8186226c7474e56ee05c8af14adda6264599214db870c6bfbb388c822"
+    },
+    {
+      "path": "sources/interaction-rig/allowed-mask.png",
+      "before": null,
+      "after": "2dd7be076d968c2c016034c047466ce247f6296204f28fd7061d8413f9251128"
+    },
+    {
+      "path": "sources/interaction-rig/allowed-output-mask.png",
+      "before": null,
+      "after": "29a239648f2fb07282234ffd91f8dc166948c7823ed9d9d23ee5bd429b4b104b"
+    },
+    {
+      "path": "sources/interaction-rig/coat-detail.png",
+      "before": null,
+      "after": "4f7f34802065795526bae83883485dcefbf2c62f9a6b4012ab93b1a6ccb40492"
+    },
+    {
+      "path": "sources/interaction-rig/coat-left-mask.png",
+      "before": null,
+      "after": "58d56e30eb67f3be9065483fdbe6879d893037bc6b4ee1c7994b0ba0f989dae0"
+    },
+    {
+      "path": "sources/interaction-rig/coat-right-mask.png",
+      "before": null,
+      "after": "32e4211c1fe5c08ba72f3c60617dee2f1fc1188e1912227d2b152e94ce06f3d2"
+    },
+    {
+      "path": "sources/interaction-rig/composition.npz",
+      "before": null,
+      "after": "c701a133609fb56fcff11d30032c96f0211df30308f24abaf8947f64b199cce4"
+    },
+    {
+      "path": "sources/interaction-rig/curves.json",
+      "before": null,
+      "after": "617540bba451de99d11aa2bbfa359a7e5c08f62014e821ca0c93196315a78647"
+    },
+    {
+      "path": "sources/interaction-rig/eyes-detail.png",
+      "before": null,
+      "after": "b742ae18bd103083c27ebae6074c3c29129d83d76fcd03651fe66973fe4c94bd"
+    },
+    {
+      "path": "sources/interaction-rig/left-leg-mask.png",
+      "before": null,
+      "after": "265f3be647ea9f0be5b1de182e9d1141b2677066a08829750eaafdb33cda34b0"
+    },
+    {
+      "path": "sources/interaction-rig/leg-detail.png",
+      "before": null,
+      "after": "dc50d5ad6c48e034f298b8625c97ac96e523db3dfafa23db362e175ba79e76c6"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-01/01-left-leg-mask/contours.png",
+      "before": null,
+      "after": "e58c8579217e691f52da40cbde30648a5ad32590504f5379bb36aeb1f4f8a298"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-01/01-left-leg-mask/cutouts-four-backgrounds.png",
+      "before": null,
+      "after": "5c7eea446553ee4102589734d3940058e7764277b2aaa53e6aa3eebd9b069997"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-01/01-left-leg-mask/mask-overlay.png",
+      "before": null,
+      "after": "4f3bd3f8360962bc7a58cc2401dca89fd2557f10af9d3c9220f52193f5b757e3"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-01/02-right-leg-mask/contours.png",
+      "before": null,
+      "after": "0e93d099dab5118ae31d3c772a0b73aaf877417342c838ec843c2541f357cc02"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-01/02-right-leg-mask/cutouts-four-backgrounds.png",
+      "before": null,
+      "after": "d058fc866f00173df9ef096e92c5899f98b35c8c72fee06f91be2f2ff1576166"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-01/02-right-leg-mask/mask-overlay.png",
+      "before": null,
+      "after": "cbcf3d974c2aa2503812c250abf7ad507fcb6ae7c594de7fdf6b5742b731a6e5"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-01/03-coat-left-mask/contours.png",
+      "before": null,
+      "after": "d9c8e47533dbb7e9ff81786ddad786579aa8ef6005cdfae30ecb3fff828581c3"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-01/03-coat-left-mask/cutouts-four-backgrounds.png",
+      "before": null,
+      "after": "561a4a47cb5149ab7b09164bfcea09d3863c24249d4347b9b7089b6e38fca3aa"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-01/03-coat-left-mask/mask-overlay.png",
+      "before": null,
+      "after": "a9ad9b2a1525e6665a24d7c4da0f444bbec853643e00ebf60e73c7b1a5f980d6"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-01/04-coat-right-mask/contours.png",
+      "before": null,
+      "after": "1fa54268d2c075cb21022404db52f512462eb359136d5bf3e9df7dbdad65b046"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-01/04-coat-right-mask/cutouts-four-backgrounds.png",
+      "before": null,
+      "after": "9273733bf7d21bb19d5ce330451c7211322623ca68d4cbbcc5d459a43ef7d08d"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-01/04-coat-right-mask/mask-overlay.png",
+      "before": null,
+      "after": "938f5210f9144856a66b55ba4a1b080a03bdb4498862906372ba2826d1afabcd"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-01/report.json",
+      "before": null,
+      "after": "0e3283a665c20a291bebfe7d54527422478023711d5f8656a323c24de79d7161"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-02/01-left-leg-mask/contours.png",
+      "before": null,
+      "after": "54007de9858a1819a68b62e7f1392aec37f7b676d9b326d4cc4fc61ed56095f6"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-02/01-left-leg-mask/cutouts-four-backgrounds.png",
+      "before": null,
+      "after": "f5d94df751389bcb615d75c06a507f02cefd55cd90f041bb8f2e003b401cb1cc"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-02/01-left-leg-mask/mask-overlay.png",
+      "before": null,
+      "after": "b7568e028e8f4c1a5f0e1ce5626e0d15f812198f6bd8d3aebc765dd1ca3906bb"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-02/02-right-leg-mask/contours.png",
+      "before": null,
+      "after": "0e93d099dab5118ae31d3c772a0b73aaf877417342c838ec843c2541f357cc02"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-02/02-right-leg-mask/cutouts-four-backgrounds.png",
+      "before": null,
+      "after": "d058fc866f00173df9ef096e92c5899f98b35c8c72fee06f91be2f2ff1576166"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-02/02-right-leg-mask/mask-overlay.png",
+      "before": null,
+      "after": "cbcf3d974c2aa2503812c250abf7ad507fcb6ae7c594de7fdf6b5742b731a6e5"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-02/03-coat-left-mask/contours.png",
+      "before": null,
+      "after": "d9c8e47533dbb7e9ff81786ddad786579aa8ef6005cdfae30ecb3fff828581c3"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-02/03-coat-left-mask/cutouts-four-backgrounds.png",
+      "before": null,
+      "after": "561a4a47cb5149ab7b09164bfcea09d3863c24249d4347b9b7089b6e38fca3aa"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-02/03-coat-left-mask/mask-overlay.png",
+      "before": null,
+      "after": "a9ad9b2a1525e6665a24d7c4da0f444bbec853643e00ebf60e73c7b1a5f980d6"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-02/04-coat-right-mask/contours.png",
+      "before": null,
+      "after": "05470bb0cb08a74d22656c591498c9e75ced5914fb5463e0481c171a6dfccd62"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-02/04-coat-right-mask/cutouts-four-backgrounds.png",
+      "before": null,
+      "after": "b6424043378b17a9c092142018c73430686b48486e23a157db39b5947112afdb"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-02/04-coat-right-mask/mask-overlay.png",
+      "before": null,
+      "after": "f6fb6cac17c4b3888425d14db15ccc18eca645ce657d8f95f69426ef5d0ac944"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-02/report.json",
+      "before": null,
+      "after": "753697075ec4c7b43e4ebd6f95835cb8a49ce396cfedc863afca58c7e3f85a70"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-03/01-left-leg-mask/contours.png",
+      "before": null,
+      "after": "54007de9858a1819a68b62e7f1392aec37f7b676d9b326d4cc4fc61ed56095f6"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-03/01-left-leg-mask/cutouts-four-backgrounds.png",
+      "before": null,
+      "after": "f5d94df751389bcb615d75c06a507f02cefd55cd90f041bb8f2e003b401cb1cc"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-03/01-left-leg-mask/mask-overlay.png",
+      "before": null,
+      "after": "b7568e028e8f4c1a5f0e1ce5626e0d15f812198f6bd8d3aebc765dd1ca3906bb"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-03/02-right-leg-mask/contours.png",
+      "before": null,
+      "after": "0e93d099dab5118ae31d3c772a0b73aaf877417342c838ec843c2541f357cc02"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-03/02-right-leg-mask/cutouts-four-backgrounds.png",
+      "before": null,
+      "after": "d058fc866f00173df9ef096e92c5899f98b35c8c72fee06f91be2f2ff1576166"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-03/02-right-leg-mask/mask-overlay.png",
+      "before": null,
+      "after": "cbcf3d974c2aa2503812c250abf7ad507fcb6ae7c594de7fdf6b5742b731a6e5"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-03/03-coat-left-mask/contours.png",
+      "before": null,
+      "after": "d9c8e47533dbb7e9ff81786ddad786579aa8ef6005cdfae30ecb3fff828581c3"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-03/03-coat-left-mask/cutouts-four-backgrounds.png",
+      "before": null,
+      "after": "561a4a47cb5149ab7b09164bfcea09d3863c24249d4347b9b7089b6e38fca3aa"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-03/03-coat-left-mask/mask-overlay.png",
+      "before": null,
+      "after": "a9ad9b2a1525e6665a24d7c4da0f444bbec853643e00ebf60e73c7b1a5f980d6"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-03/04-coat-right-mask/contours.png",
+      "before": null,
+      "after": "8971d4ed315280e3975a02f1a773cb3fff3d2ef323b4251f5b168c8beaf8421f"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-03/04-coat-right-mask/cutouts-four-backgrounds.png",
+      "before": null,
+      "after": "da1a899ce671dc54a50cd7c268d712803ea158b23ecd93dd4485a110ad15f76d"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-03/04-coat-right-mask/mask-overlay.png",
+      "before": null,
+      "after": "0581c7d88da6dae42d5701c87d578f1c1c12ddeebc4969773b3ce45c805bc7a8"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-03/report.json",
+      "before": null,
+      "after": "ebaa6523e372d35c4a6cdee21555809a820f1f4ee7bfd49e03fba66d56b4f91c"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-04/01-left-leg-mask/contours.png",
+      "before": null,
+      "after": "54007de9858a1819a68b62e7f1392aec37f7b676d9b326d4cc4fc61ed56095f6"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-04/01-left-leg-mask/cutouts-four-backgrounds.png",
+      "before": null,
+      "after": "f5d94df751389bcb615d75c06a507f02cefd55cd90f041bb8f2e003b401cb1cc"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-04/01-left-leg-mask/mask-overlay.png",
+      "before": null,
+      "after": "b7568e028e8f4c1a5f0e1ce5626e0d15f812198f6bd8d3aebc765dd1ca3906bb"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-04/02-right-leg-mask/contours.png",
+      "before": null,
+      "after": "0e93d099dab5118ae31d3c772a0b73aaf877417342c838ec843c2541f357cc02"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-04/02-right-leg-mask/cutouts-four-backgrounds.png",
+      "before": null,
+      "after": "d058fc866f00173df9ef096e92c5899f98b35c8c72fee06f91be2f2ff1576166"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-04/02-right-leg-mask/mask-overlay.png",
+      "before": null,
+      "after": "cbcf3d974c2aa2503812c250abf7ad507fcb6ae7c594de7fdf6b5742b731a6e5"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-04/03-coat-left-mask/contours.png",
+      "before": null,
+      "after": "d9c8e47533dbb7e9ff81786ddad786579aa8ef6005cdfae30ecb3fff828581c3"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-04/03-coat-left-mask/cutouts-four-backgrounds.png",
+      "before": null,
+      "after": "561a4a47cb5149ab7b09164bfcea09d3863c24249d4347b9b7089b6e38fca3aa"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-04/03-coat-left-mask/mask-overlay.png",
+      "before": null,
+      "after": "a9ad9b2a1525e6665a24d7c4da0f444bbec853643e00ebf60e73c7b1a5f980d6"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-04/04-coat-right-mask/contours.png",
+      "before": null,
+      "after": "8971d4ed315280e3975a02f1a773cb3fff3d2ef323b4251f5b168c8beaf8421f"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-04/04-coat-right-mask/cutouts-four-backgrounds.png",
+      "before": null,
+      "after": "8f8fab55ddea03b40c410765805912aa476fdab4ba98b72719f726faffe00650"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-04/04-coat-right-mask/mask-overlay.png",
+      "before": null,
+      "after": "c5cb1aa28a7bea7b60fdf6a7c80a74de1dff7120bd9e27c2edff6d7ca13acf0d"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-04/detail-200.png",
+      "before": null,
+      "after": "57fce61c24c94fdc12e4852a8ffb7e38ce0b02b8ca905bd134d1d38aca134a26"
+    },
+    {
+      "path": "sources/interaction-rig/mask-review-04/report.json",
+      "before": null,
+      "after": "35c56138492a643777fa45386247f06ce423f653941cbd19f910a6cfa1eaa42a"
+    },
+    {
+      "path": "sources/interaction-rig/provenance.json",
+      "before": null,
+      "after": "1798223b8819c72870e3917c178221fb30879cd45f8880beabc22760d3d9f8da"
+    },
+    {
+      "path": "sources/interaction-rig/refinement.json",
+      "before": null,
+      "after": "9052f836520665bc27c785a4a29412014f99bd59c6fdb5e2aa44b1ce9802e68b"
+    },
+    {
+      "path": "sources/interaction-rig/right-leg-mask.png",
+      "before": null,
+      "after": "9ca6e2fe47207841151596462d04d72c6499f67e0c51cc5e74431914e68ea0e2"
+    },
+    {
+      "path": "sources/interaction-rig/sam-round-01/coat-left-raw.png",
+      "before": null,
+      "after": "58d56e30eb67f3be9065483fdbe6879d893037bc6b4ee1c7994b0ba0f989dae0"
+    },
+    {
+      "path": "sources/interaction-rig/sam-round-01/coat-left-sam-0.png",
+      "before": null,
+      "after": "ea2f13b272110512090d2089070e967812950d3d92fe4fd941ccf7eaa81164c4"
+    },
+    {
+      "path": "sources/interaction-rig/sam-round-01/coat-left-sam-1.png",
+      "before": null,
+      "after": "f1730eff64c56b4f2ea05d97112a33e1db41b909847a94db789baa44bc0e9c23"
+    },
+    {
+      "path": "sources/interaction-rig/sam-round-01/coat-left-sam-2.png",
+      "before": null,
+      "after": "58d56e30eb67f3be9065483fdbe6879d893037bc6b4ee1c7994b0ba0f989dae0"
+    },
+    {
+      "path": "sources/interaction-rig/sam-round-01/coat-right-raw.png",
+      "before": null,
+      "after": "d76ffe7858dc3685e917292e8d90558841f274d0233a4b0cfd00466bc7e539cc"
+    },
+    {
+      "path": "sources/interaction-rig/sam-round-01/coat-right-refinement-01.png",
+      "before": null,
+      "after": "5981a89218e65a082142728e60be12659d27bec34fff0d3e8750922ee584ebd6"
+    },
+    {
+      "path": "sources/interaction-rig/sam-round-01/coat-right-refinement-02.png",
+      "before": null,
+      "after": "3d4a906819f0085876762598e8e9a830d62792b243db9bf4bf33abb1b030b35a"
+    },
+    {
+      "path": "sources/interaction-rig/sam-round-01/coat-right-sam-0.png",
+      "before": null,
+      "after": "ed803b48b7c7c2813fa66450f424e3d787a361933556a5628c541507a1317965"
+    },
+    {
+      "path": "sources/interaction-rig/sam-round-01/coat-right-sam-1.png",
+      "before": null,
+      "after": "fe1d847d6aa457a7aa13dd3846d25ae743cd88ac3159d52528517caccde98354"
+    },
+    {
+      "path": "sources/interaction-rig/sam-round-01/coat-right-sam-2.png",
+      "before": null,
+      "after": "d76ffe7858dc3685e917292e8d90558841f274d0233a4b0cfd00466bc7e539cc"
+    },
+    {
+      "path": "sources/interaction-rig/sam-round-01/left-leg-raw.png",
+      "before": null,
+      "after": "260a08d738d7fd5e1bbf988e84523b8b788533213be60483083fe81dfdf16783"
+    },
+    {
+      "path": "sources/interaction-rig/sam-round-01/left-leg-refinement-01.png",
+      "before": null,
+      "after": "368cadc082d53a4ab5d1d88260f3dff9b050c24b39a37fb5e6c40e337b2ce54e"
+    },
+    {
+      "path": "sources/interaction-rig/sam-round-01/left-leg-sam-0.png",
+      "before": null,
+      "after": "123dbdb21ca0204410de07b99632601176a0ecf1527c6936d97194ad97520412"
+    },
+    {
+      "path": "sources/interaction-rig/sam-round-01/left-leg-sam-1.png",
+      "before": null,
+      "after": "c0ad36aacee38bbd4d11f4f0391ec9f86b1b8c9c5cd9c1c32ad879ccd32e2051"
+    },
+    {
+      "path": "sources/interaction-rig/sam-round-01/left-leg-sam-2.png",
+      "before": null,
+      "after": "260a08d738d7fd5e1bbf988e84523b8b788533213be60483083fe81dfdf16783"
+    },
+    {
+      "path": "sources/interaction-rig/sam-round-01/prompts.json",
+      "before": null,
+      "after": "a52400bd4ffdc76153913689b78f7788c6d18dfe3cd4b135dafb99c6bd99c908"
+    },
+    {
+      "path": "sources/interaction-rig/sam-round-01/right-leg-raw.png",
+      "before": null,
+      "after": "38e8a379ffab919c136de6a05cbd353e40f1abe1ab705a2366cac9c7660ec3e8"
+    },
+    {
+      "path": "sources/interaction-rig/sam-round-01/right-leg-sam-0.png",
+      "before": null,
+      "after": "fcfdd76fe64840b8a98c7bdc1f1700e0d1bb28fb322957eb5567f8a424923446"
+    },
+    {
+      "path": "sources/interaction-rig/sam-round-01/right-leg-sam-1.png",
+      "before": null,
+      "after": "ca55f2509f7bd24227ad9ca25ac525e1e402942b2c641e0f45451bf22ee0fabd"
+    },
+    {
+      "path": "sources/interaction-rig/sam-round-01/right-leg-sam-2.png",
+      "before": null,
+      "after": "38e8a379ffab919c136de6a05cbd353e40f1abe1ab705a2366cac9c7660ec3e8"
+    },
+    {
+      "path": "sources/interaction-rig/sam-round-01/selections.png",
+      "before": null,
+      "after": "e72d7b7ae396eeb74ad0dd5f5a3309eb8734f81d1d6d4d8b80f9731b1d31524c"
+    },
+    {
+      "path": "sources/interaction-rig/source.png",
+      "before": null,
+      "after": "c8a7648ce5f9d0a3e76d0cc96f61343310003c004a6b07f8638f0e5db16051fc"
+    },
+    {
+      "path": "tests/interaction/python-traces.json",
+      "before": null,
+      "after": "608797d94ee7c26f061b6b8d14b509d54747e134c344ec0655f1b8041b5738a4"
+    },
+    {
+      "path": "tests/interaction/scenarios.json",
+      "before": null,
+      "after": "890e9a66a2c348d01b66e666f7338d163daa89f6a0681a33bea04a5e1744d7c9"
+    },
+    {
+      "path": "YukioPlayer/tools/interaction/verify_packages.py",
+      "before": null,
+      "after": "944abfc887340b409f6c7db56ba4b05db54e0bc38676108a52434dbedd353ba1"
+    }
+  ]
+}

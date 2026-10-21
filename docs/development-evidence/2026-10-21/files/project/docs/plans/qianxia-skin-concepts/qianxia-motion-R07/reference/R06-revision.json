@@ -1,0 +1,85 @@
+{
+  "parent": "R05",
+  "user_feedback": "现在的动画很不自然；用文件夹里现有结果优化动画的幅度、频率、自然性",
+  "date": "2026-10-12",
+  "inputs": "R08 approved sources, masks, generated clean plates and eye rig unchanged (input-hashes.json verified)",
+  "changed_animation_states": [
+    "idle",
+    "thinking",
+    "read_file",
+    "view_image",
+    "write_file",
+    "verify",
+    "read_web",
+    "default_work",
+    "respond",
+    "question_for_user",
+    "failed"
+  ],
+  "unchanged": [
+    "task_complete"
+  ],
+  "changes": {
+    "curves": "Per-segment easing (saccade, ease-in contact, ease-out arrival, cubic in-out moves, small overshoot/settle, arcs) replaces one symmetric smoothstep for everything. Key times snapped to the 30 fps grid so repeated poses deduplicate.",
+    "units": "Timelines written in 192x208 display points (D=2/scale converts to source px); per-state GAINS removed.",
+    "transform": "Part transform gains a scale term about the pivot. respond/failed/verify move mostly by rigid wrist rotation + scale; translation reduced to cut the wrist stretch caused by the distance-weighted translation.",
+    "pivots": {
+      "read_web.pointing-hand": {
+        "R05": [
+          411,
+          682
+        ],
+        "R06": [
+          338,
+          668
+        ],
+        "reason": "R05 pinned the fingertip; R06 pivots at the wrist/sleeve junction so the fingertip lifts and taps"
+      }
+    },
+    "durations_seconds": {
+      "read_file": [
+        6,
+        6.6
+      ],
+      "view_image": [
+        6,
+        6.4
+      ],
+      "write_file": [
+        3.4,
+        4.4
+      ],
+      "verify": [
+        4.8,
+        5.0
+      ],
+      "read_web": [
+        6,
+        6.4
+      ],
+      "default_work": [
+        5.4,
+        5.6
+      ],
+      "respond_entry": [
+        1.2,
+        1.5
+      ],
+      "question_for_user_entry": [
+        1.1,
+        1.4
+      ],
+      "failed_entry": [
+        0.9,
+        1.3
+      ]
+    },
+    "write_file": "Rest pose is the approved contact drawing. Three irregular alternating bursts (TAP 5 frames, ENTER 7 frames), lift 3.4 deg left / 3.8 deg right, Enter 5.5 deg; eyes read the line after Enter.",
+    "clean_plate": "opaque_plate(): generated plates were 0-98% alpha inside the body; wherever the source is opaque the plate is made opaque, alpha<0.5 colour inpainted (Telea r=5). view_image: erase extended 3 px along the stylus shaft (x>440,y>700) to remove the residual outline line."
+  },
+  "machine_checks": "review/encoded-validation.json all 12 passed",
+  "candidate_only": true,
+  "production_resources_replaced": false,
+  "continuous_visual_review": "not done by a human viewer; maker used stills and frame strips only",
+  "independent_review": "not done"
+}

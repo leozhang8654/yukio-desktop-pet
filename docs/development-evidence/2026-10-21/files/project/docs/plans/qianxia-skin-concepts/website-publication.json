@@ -1,0 +1,27 @@
+{
+  "id": "appgdep_6acab80fa6308191b2ef2b282b061fd1",
+  "project_id": "appgprj_6acaa0ecf9308191b9dd0767b91732da",
+  "title": "千夏 · 桌宠设计集",
+  "version_id": "appgprj_6acaa0ecf9308191b9dd0767b91732da~appgver_fa85446236f88191b3f362089f2e0c74",
+  "type": "publish",
+  "status": "succeeded",
+  "url": "https://qianxia-desktop-pet-gallery.abuzzokapi64.chatgpt.site",
+  "has_mcp": false,
+  "screenshot_asset_pointer": null,
+  "provider_deployment_id": "site---6acaa0ecf9308191b9dd0767b91732da",
+  "failure_message": null,
+  "env_set_revision": 0,
+  "updated_at": "2026-10-10T22:11:41.244923+00:00",
+  "commit_sha": "3a58549f741e829943cdb684a5f4c6ac1f0dee7a",
+  "source_checkout": "/Users/developer/.codex/visualizations/2026/10/10/b97703e1-6ec1-3183-a433-41d8c3d792c6/sites/qianxia-gallery",
+  "audience": "owner-private",
+  "art_revision": "round09",
+  "checks": [
+    "All 12 generated images visually reviewed for continuous apron and legs below it",
+    "RGBA transparency and image dimensions verified",
+    "All 12 gallery and ZIP image SHA-256 hashes matched",
+    "JavaScript syntax checked",
+    "Browser detail preview verified; screenshot saved"
+  ],
+  "static_art_only": true
+}

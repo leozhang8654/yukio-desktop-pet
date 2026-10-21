@@ -1,0 +1,159 @@
+{
+  "startup_ms" : 1027.0262916455977,
+  "states" : [
+    {
+      "cold_ms" : 13.770708290394396,
+      "state" : "default_work",
+      "steps" : 242,
+      "warm_max_ms" : 17.741708375979215,
+      "warm_p95_ms" : 11.764583294279873
+    },
+    {
+      "cold_ms" : 2.4251666618511081,
+      "state" : "failed",
+      "steps" : 692,
+      "warm_max_ms" : 1.7964167054742575,
+      "warm_p95_ms" : 0.00029167858883738518
+    },
+    {
+      "cold_ms" : 9.0840833145193756,
+      "state" : "idle",
+      "steps" : 1202,
+      "warm_max_ms" : 10.477166681084782,
+      "warm_p95_ms" : 0.38941664388403296
+    },
+    {
+      "cold_ms" : 2.7887916658073664,
+      "state" : "interaction_airborne",
+      "steps" : 2,
+      "warm_max_ms" : 0.0012499513104557991,
+      "warm_p95_ms" : 0.0012499513104557991
+    },
+    {
+      "cold_ms" : 9.9238749826326966,
+      "state" : "interaction_dizzy-intro",
+      "steps" : 14,
+      "warm_max_ms" : 0.35133329220116138,
+      "warm_p95_ms" : 0.31058333115652204
+    },
+    {
+      "cold_ms" : 19.516708329319954,
+      "state" : "interaction_dizzy-loop",
+      "steps" : 90,
+      "warm_max_ms" : 19.701083307154477,
+      "warm_p95_ms" : 0.49429165665060282
+    },
+    {
+      "cold_ms" : 16.151249990798533,
+      "state" : "interaction_landing-impact",
+      "steps" : 24,
+      "warm_max_ms" : 0.26970834005624056,
+      "warm_p95_ms" : 0.24849997134879231
+    },
+    {
+      "cold_ms" : 16.991125012282282,
+      "state" : "interaction_landing-impact_light",
+      "steps" : 24,
+      "warm_max_ms" : 0.28508336981758475,
+      "warm_p95_ms" : 0.23287499789148569
+    },
+    {
+      "cold_ms" : 14.998083293903619,
+      "state" : "interaction_landing-impact_medium",
+      "steps" : 24,
+      "warm_max_ms" : 0.25558331981301308,
+      "warm_p95_ms" : 0.22641662508249283
+    },
+    {
+      "cold_ms" : 17.055958334822208,
+      "state" : "interaction_recover",
+      "steps" : 42,
+      "warm_max_ms" : 11.123458330985159,
+      "warm_p95_ms" : 0.49491669051349163
+    },
+    {
+      "cold_ms" : 7.8709166264161468,
+      "state" : "interaction_wall-impact",
+      "steps" : 14,
+      "warm_max_ms" : 0.48124999739229679,
+      "warm_p95_ms" : 0.47795835416764021
+    },
+    {
+      "cold_ms" : 8.1219166750088334,
+      "state" : "interaction_wall-impact_light",
+      "steps" : 14,
+      "warm_max_ms" : 0.36575004924088717,
+      "warm_p95_ms" : 0.34337502438575029
+    },
+    {
+      "cold_ms" : 8.8403333211317658,
+      "state" : "interaction_wall-impact_medium",
+      "steps" : 14,
+      "warm_max_ms" : 0.21624995861202478,
+      "warm_p95_ms" : 0.21199998445808887
+    },
+    {
+      "cold_ms" : 9.9447499960660934,
+      "state" : "question_for_user",
+      "steps" : 842,
+      "warm_max_ms" : 10.13291667914018,
+      "warm_p95_ms" : 0.37441664608195424
+    },
+    {
+      "cold_ms" : 10.307666670996696,
+      "state" : "read_file",
+      "steps" : 222,
+      "warm_max_ms" : 13.151958293747157,
+      "warm_p95_ms" : 10.309458302799612
+    },
+    {
+      "cold_ms" : 10.11575001757592,
+      "state" : "read_web",
+      "steps" : 242,
+      "warm_max_ms" : 12.674041674472392,
+      "warm_p95_ms" : 0.60433335602283478
+    },
+    {
+      "cold_ms" : 10.535458335652947,
+      "state" : "respond",
+      "steps" : 542,
+      "warm_max_ms" : 10.490166663657874,
+      "warm_p95_ms" : 0.38670835783705115
+    },
+    {
+      "cold_ms" : 11.169833305757493,
+      "state" : "task_complete",
+      "steps" : 1002,
+      "warm_max_ms" : 10.613416670821607,
+      "warm_p95_ms" : 0.35470828879624605
+    },
+    {
+      "cold_ms" : 10.376583319157362,
+      "state" : "thinking",
+      "steps" : 702,
+      "warm_max_ms" : 3.9941666182130575,
+      "warm_p95_ms" : 0.00066665234044194221
+    },
+    {
+      "cold_ms" : 9.9657083046622574,
+      "state" : "verify",
+      "steps" : 362,
+      "warm_max_ms" : 10.280416696332395,
+      "warm_p95_ms" : 0.62200002139434218
+    },
+    {
+      "cold_ms" : 10.501875018235296,
+      "state" : "view_image",
+      "steps" : 282,
+      "warm_max_ms" : 23.617499973624945,
+      "warm_p95_ms" : 10.229875042568892
+    },
+    {
+      "cold_ms" : 10.783708305098116,
+      "state" : "write_file",
+      "steps" : 202,
+      "warm_max_ms" : 11.804208334069699,
+      "warm_p95_ms" : 10.219833347946405
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "previous_round": "round_12",
+  "changed_states": [
+    "verify",
+    "respond"
+  ],
+  "unchanged_states": [
+    "default_work",
+    "write_file",
+    "view_image",
+    "read_file",
+    "read_web",
+    "thinking",
+    "question_for_user",
+    "task_complete",
+    "idle",
+    "failed"
+  ],
+  "unchanged_state_images_and_timing_byte_exact": true
+}

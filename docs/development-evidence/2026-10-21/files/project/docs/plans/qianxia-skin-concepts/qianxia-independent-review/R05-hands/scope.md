@@ -1,0 +1,1 @@
+复审R04-H01/H02/H03，修改failed/hand-and-card、view_image/hand-and-stylus、write_file/left-hand三件；另外9手/道具及22虹膜字节保持R04。静态可见部件，不含补底、隐藏结构、眼皮及动画。

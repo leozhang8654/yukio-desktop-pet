@@ -1,0 +1,702 @@
+{
+  "duration_seconds": 1.1,
+  "samples": [
+    {
+      "time": 0.0,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          0.0,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.03333333333333333,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          0.0,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.06666666666666667,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          0.0,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.1,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          0.0,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.13333333333333333,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          0.0,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.16666666666666666,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          0.15288888888888882,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          0.15288888888888882,
+          0
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0.0282745361328125
+    },
+    {
+      "time": 0.2,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          1.2480000000000009,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          1.2480000000000009,
+          0
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0.23596954345703125
+    },
+    {
+      "time": 0.23333333333333334,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          3.1111111111111116,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          3.1111111111111116,
+          0
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0.6116180419921875
+    },
+    {
+      "time": 0.26666666666666666,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          5.400888888888888,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          5.400888888888888,
+          0
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 1.1162872314453125
+    },
+    {
+      "time": 0.3,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          7.776,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          7.776,
+          0
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 1.6975860595703125
+    },
+    {
+      "time": 0.3333333333333333,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          9.895111111111111,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          9.895111111111111,
+          0
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.27435302734375
+    },
+    {
+      "time": 0.36666666666666664,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          11.416888888888888,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          11.416888888888888,
+          0
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.727630615234375
+    },
+    {
+      "time": 0.4,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          12.0,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          12.0,
+          0
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.9109344482421875
+    },
+    {
+      "time": 0.43333333333333335,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          12.0,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          12.0,
+          0
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.9109344482421875
+    },
+    {
+      "time": 0.4666666666666667,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          12.0,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          12.0,
+          0
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.9109344482421875
+    },
+    {
+      "time": 0.5,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          12.0,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          12.0,
+          0
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.9109344482421875
+    },
+    {
+      "time": 0.5333333333333333,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          12.0,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          12.0,
+          0
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.9109344482421875
+    },
+    {
+      "time": 0.5666666666666667,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          12.0,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          12.0,
+          0
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.9109344482421875
+    },
+    {
+      "time": 0.6,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          12.0,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          12.0,
+          0
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.9109344482421875
+    },
+    {
+      "time": 0.6333333333333333,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          11.416888888888888,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          11.416888888888888,
+          0
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.727630615234375
+    },
+    {
+      "time": 0.6666666666666666,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          9.895111111111111,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          9.895111111111111,
+          0
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.27435302734375
+    },
+    {
+      "time": 0.7,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          7.776000000000002,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          7.776000000000002,
+          0
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 1.6975860595703125
+    },
+    {
+      "time": 0.7333333333333333,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          5.400888888888891,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          5.400888888888891,
+          0
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 1.1162872314453125
+    },
+    {
+      "time": 0.7666666666666666,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          3.111111111111113,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          3.111111111111113,
+          0
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0.6116180419921875
+    },
+    {
+      "time": 0.8,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          1.2479999999999958,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          1.2479999999999958,
+          0
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0.23596954345703125
+    },
+    {
+      "time": 0.8333333333333334,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          0.15288888888888863,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          0.15288888888888863,
+          0
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0.0282745361328125
+    },
+    {
+      "time": 0.8666666666666667,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          0.0,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        2.4681481481481478,
+        2.4681481481481478
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.9,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          0.0,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        2.2399999999999998,
+        2.2399999999999998
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.9333333333333333,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          0.0,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        1.8518518518518516,
+        1.8518518518518516
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.9666666666666667,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          0.0,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        1.3748148148148154,
+        1.3748148148148154
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.0,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          0.0,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.8800000000000006,
+        0.8800000000000006
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.0333333333333332,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          0.0,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.43851851851852086,
+        0.43851851851852086
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.0666666666666667,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          0.0,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.12148148148148186,
+        0.12148148148148186
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.1,
+      "transforms": {
+        "pressing-hand": [
+          0.0,
+          0.0,
+          0
+        ],
+        "button-cap": [
+          0.0,
+          0.0,
+          0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    }
+  ],
+  "display_size": [
+    192,
+    208
+  ],
+  "source_scale": 0.3194675540765391,
+  "pivots_source_px": {
+    "pressing-hand": [
+      750,
+      728
+    ],
+    "button-cap": [
+      800,
+      834
+    ]
+  },
+  "maximum_displacement_display_px": 2.9109344482421875,
+  "peak_sample": 12
+}

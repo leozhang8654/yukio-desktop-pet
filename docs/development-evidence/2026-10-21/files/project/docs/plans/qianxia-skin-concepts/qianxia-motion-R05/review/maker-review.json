@@ -1,0 +1,24 @@
+{
+  "round": "R05",
+  "maker": "root",
+  "status": "static_revision_ready_for_independent_recheck; no dynamic pass",
+  "actual_opened_evidence": [
+    "write_file-motion-detail.png",
+    "verify-motion-detail.png",
+    "failed-motion-detail.png",
+    "write_file-encoded-backgrounds.png",
+    "verify-encoded-backgrounds.png",
+    "failed-encoded-backgrounds.png"
+  ],
+  "observation": "Typing finger shapes remain rigid in sampled extreme; probe/card wrist anchored more consistently in sampled extremes. This is not a judgement about real-time appearance.",
+  "unverified": [
+    "continuous cycles",
+    "real-speed readability",
+    "same-event and new-event UI interactions",
+    "state switching",
+    "long viewing",
+    "real application bubbles"
+  ],
+  "requirements": "reference/independent-review-requirements.md",
+  "runtime": "System Time Limit obstructed R04 preview; R05 not launched. Current visual tools cannot receive continuous video."
+}

@@ -1,0 +1,12 @@
+{
+  "state": "write_file",
+  "unique_body_frames": 17,
+  "steps": 69,
+  "outside_allowed_changed": 0,
+  "maximum_displacement_display_px": 1.7613601284216316,
+  "loop_seam_equal": true,
+  "fully_static": null,
+  "decoded_exact": true,
+  "visual": "pending",
+  "independent": "pending"
+}

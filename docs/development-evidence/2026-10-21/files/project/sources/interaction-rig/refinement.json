@@ -1,0 +1,96 @@
+{
+  "left-leg": {
+    "filledEnclosedPixels": 56,
+    "excludedTransparentPixels": 1,
+    "reason": "Visible solid stocking/boot or continuous coat panel; retain source alpha edge, fill enclosed SAM omissions only. No component deletion or global dilation.",
+    "excludedCoordinates": [
+      [
+        164,
+        292
+      ],
+      [
+        163,
+        293
+      ],
+      [
+        164,
+        293
+      ]
+    ],
+    "exclusionReason": "Inspected at 400%: detached source fringe across leg/background gap or front skirt edge, not the selected continuous stocking/tail."
+  },
+  "right-leg": {
+    "filledEnclosedPixels": 12,
+    "excludedTransparentPixels": 0,
+    "reason": "Visible solid stocking/boot or continuous coat panel; retain source alpha edge, fill enclosed SAM omissions only. No component deletion or global dilation."
+  },
+  "coat-left": {
+    "filledEnclosedPixels": 0,
+    "excludedTransparentPixels": 0,
+    "reason": "Visible solid stocking/boot or continuous coat panel; retain source alpha edge, fill enclosed SAM omissions only. No component deletion or global dilation."
+  },
+  "coat-right": {
+    "filledEnclosedPixels": 38,
+    "excludedTransparentPixels": 0,
+    "reason": "Visible solid stocking/boot or continuous coat panel; retain source alpha edge, fill enclosed SAM omissions only. No component deletion or global dilation.",
+    "excludedCoordinates": [
+      [
+        232,
+        248
+      ],
+      [
+        233,
+        248
+      ],
+      [
+        238,
+        248
+      ],
+      [
+        239,
+        248
+      ],
+      [
+        239,
+        249
+      ]
+    ],
+    "exclusionReason": "Inspected at 400%: detached source fringe across leg/background gap or front skirt edge, not the selected continuous stocking/tail.",
+    "liningPolygon": [
+      [
+        246,
+        251
+      ],
+      [
+        250,
+        262
+      ],
+      [
+        256,
+        279
+      ],
+      [
+        262,
+        301
+      ],
+      [
+        258,
+        297
+      ],
+      [
+        245,
+        281
+      ],
+      [
+        236,
+        269
+      ],
+      [
+        234,
+        260
+      ]
+    ],
+    "liningReason": "Four-background review found omitted grey coat lining; trace visible lining under front skirt without moving the skirt.",
+    "liningEnclosedOmissionsFilled": 35
+  }
+}

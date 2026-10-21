@@ -1,0 +1,12 @@
+{
+  "state": "failed",
+  "unique_body_frames": 21,
+  "steps": 22,
+  "outside_allowed_changed": 0,
+  "maximum_displacement_display_px": 0.8793433390581531,
+  "loop_seam_equal": true,
+  "fully_static": null,
+  "decoded_exact": true,
+  "visual": "pending",
+  "independent": "pending"
+}

@@ -1,0 +1,12 @@
+{
+  "revision": 5,
+  "changedNativeState": "running / Thinking",
+  "changedRow": 7,
+  "newPose": "托腮思考",
+  "allSixWorkingFramesVerified": true,
+  "allOtherCellsUnchanged": true,
+  "onlyOneYukioInstalled": true,
+  "installedAssetMatches": true,
+  "sha256": "952fba2f18e5929e5d0b6e9261d9c06628bba09a62c8ac0368939ad816a3fe22",
+  "limitation": "Thinking and other native work activities share the running slot."
+}

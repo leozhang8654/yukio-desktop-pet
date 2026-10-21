@@ -1,0 +1,38 @@
+{
+  "round": "R04",
+  "status": "maker_returned_for_visible_seams_and_incomplete_playback",
+  "viewed": [
+    "source-first-0.png",
+    "source-first-6.png",
+    "eyelid-contact-0.png",
+    "eyelid-contact-4.png",
+    "eyelid-contact-8.png",
+    "idle-motion-detail.png",
+    "view_image-motion-detail.png",
+    "write_file-motion-detail.png",
+    "verify-motion-detail.png",
+    "read_web-motion-detail.png",
+    "default_work-motion-detail.png",
+    "respond-motion-detail.png",
+    "question_for_user-motion-detail.png",
+    "failed-motion-detail.png"
+  ],
+  "suspected_defects": [
+    {
+      "state": "verify",
+      "where": "wrist lower right at raised probe maximum",
+      "observation": "angular dark cuff line exposed below hand",
+      "evidence": "verify-motion-detail.png"
+    },
+    {
+      "state": "failed",
+      "where": "lower right wrist at hold pose",
+      "observation": "multiple cuff outlines revealed",
+      "evidence": "failed-motion-detail.png"
+    }
+  ],
+  "runtime": "Launch attempted through CUA; native window displayed Time Limit: You have reached your limit on QianxiaMotionPreview. No animation observed in R04. No limit override attempted.",
+  "continuous_observation": "Unavailable: tools provide discrete images only. Counters and screenshots cannot prove continuous viewing.",
+  "actual_app_bubble": "unverified; candidate standalone preview only",
+  "installation": "out of scope, not performed"
+}

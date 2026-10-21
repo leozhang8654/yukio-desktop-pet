@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-12",
+  "candidate": "R05 unchanged",
+  "scope": "Maker native runtime operations, discrete CUA screenshots and telemetry; NOT continuous visual review",
+  "system_time_limit": "not present on current launch; no system settings or limits changed",
+  "native_app_verified_path": "qianxia-motion-R05/review/QianxiaMotionPreview.app",
+  "initial_normal_speed_grid_seconds": 86.39293100000032,
+  "full_frame_draw_cycles_before_first_new_event": {
+    "idle": 6,
+    "thinking": 10,
+    "read_file": 13,
+    "view_image": 10,
+    "write_file": 25,
+    "verify": 18,
+    "read_web": 13,
+    "default_work": 13
+  },
+  "all_states_body_frame_draw_coverage": true,
+  "same_event_refreshes": 36,
+  "new_event_dispatches": 12,
+  "same_event_preserves_body_offset": true,
+  "new_event_resets_body_offset": true,
+  "actual_ui_operations": [
+    "same-event refresh twice during long hold",
+    "new event then same-event refresh during entry",
+    "2x view",
+    "0.25x speed",
+    "pause and next frame",
+    "white/checkerboard/black/magenta/grey backgrounds",
+    "state switch from typing through verification/respond/complete/question/failed",
+    "return to 1x grid and pause for independent handoff"
+  ],
+  "sample_observations": [
+    "At native clock 3.4s and 75.3s, respond/question/failed showed last body frames 24/16/20, complete frame0.",
+    "At 86.8s after new event, question/failed were sampled at intermediate frames 8/12.",
+    "Enlarged typing pause sampled frame2; probe at slow checkerboard; respond, complete, question, failed sampled after switching. No obvious old-state overlay in these discrete samples."
+  ],
+  "known_preview_counter_limitation": "After N or state switches, the cycle counter can count a reset as a cycle boundary. Only pre-N 02 snapshot counts are used. This is a diagnostic counter limitation, not proof of an animation defect.",
+  "unverified": [
+    "continuous visual observation of >=3 cycles",
+    "normal-size motion legibility judgement",
+    "natural rhythm and blink timing",
+    "long-term comfort / five minute mixed viewing",
+    "absence of sub-sample transient flashes",
+    "real desktop app task bubbles or production event routing"
+  ],
+  "decision": "Runtime capability and event controls tested; overall acceptance remains incomplete",
+  "candidate_files_modified": false
+}

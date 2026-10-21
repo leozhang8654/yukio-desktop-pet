@@ -1,0 +1,12 @@
+{
+  "state": "read_web",
+  "unique_body_frames": 27,
+  "steps": 37,
+  "outside_allowed_changed": 0,
+  "maximum_displacement_display_px": 2.2256373478134606,
+  "loop_seam_equal": true,
+  "fully_static": null,
+  "decoded_exact": true,
+  "visual": "pending",
+  "independent": "pending"
+}

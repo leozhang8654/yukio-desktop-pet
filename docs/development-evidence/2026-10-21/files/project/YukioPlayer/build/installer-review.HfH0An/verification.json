@@ -1,0 +1,7 @@
+{
+  "app_files_identical": true,
+  "file_count": 169,
+  "applications_shortcut": "/Applications",
+  "signature_verification": "passed codesign --verify --deep --strict",
+  "zip": "/Users/developer/Desktop/yukio-cloud-handoff/YukioPlayer/build/installer-review.HfH0An/Yukio-0.3.8-macOS.zip"
+}

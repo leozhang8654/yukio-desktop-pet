@@ -1,0 +1,164 @@
+{
+  "application_active" : true,
+  "automatic_new_event_test" : false,
+  "background" : 0,
+  "draw_calls" : 23160,
+  "elapsed_visible_playback_seconds" : 0.38406470833433559,
+  "explicit_events" : [
+
+  ],
+  "grid" : true,
+  "last_delta" : 0.017306291667409823,
+  "last_gate" : true,
+  "note" : "Real AppKit draw timestamps; maker\/reviewer visual judgement is separate. One-shot repeats here are explicit QA new events.",
+  "session_start" : "2026-10-12T19:41:19Z",
+  "speed" : 1,
+  "states" : [
+    {
+      "complete_cycles_or_new_events" : 0,
+      "displayed_unique_body_frames" : [
+        0
+      ],
+      "expected_unique_frames" : 51,
+      "mode" : "loop",
+      "state" : "idle"
+    },
+    {
+      "complete_cycles_or_new_events" : 0,
+      "displayed_unique_body_frames" : [
+        0
+      ],
+      "expected_unique_frames" : 25,
+      "mode" : "loop",
+      "state" : "thinking"
+    },
+    {
+      "complete_cycles_or_new_events" : 0,
+      "displayed_unique_body_frames" : [
+        0
+      ],
+      "expected_unique_frames" : 25,
+      "mode" : "loop",
+      "state" : "read_file"
+    },
+    {
+      "complete_cycles_or_new_events" : 0,
+      "displayed_unique_body_frames" : [
+        0
+      ],
+      "expected_unique_frames" : 66,
+      "mode" : "loop",
+      "state" : "view_image"
+    },
+    {
+      "complete_cycles_or_new_events" : 0,
+      "displayed_unique_body_frames" : [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "expected_unique_frames" : 31,
+      "mode" : "loop",
+      "state" : "write_file"
+    },
+    {
+      "complete_cycles_or_new_events" : 0,
+      "displayed_unique_body_frames" : [
+        0
+      ],
+      "expected_unique_frames" : 37,
+      "mode" : "loop",
+      "state" : "verify"
+    },
+    {
+      "complete_cycles_or_new_events" : 0,
+      "displayed_unique_body_frames" : [
+        0
+      ],
+      "expected_unique_frames" : 27,
+      "mode" : "loop",
+      "state" : "read_web"
+    },
+    {
+      "complete_cycles_or_new_events" : 0,
+      "displayed_unique_body_frames" : [
+        0
+      ],
+      "expected_unique_frames" : 48,
+      "mode" : "loop",
+      "state" : "default_work"
+    },
+    {
+      "complete_cycles_or_new_events" : 0,
+      "displayed_unique_body_frames" : [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "expected_unique_frames" : 25,
+      "mode" : "enter_then_hold",
+      "state" : "respond"
+    },
+    {
+      "complete_cycles_or_new_events" : 0,
+      "displayed_unique_body_frames" : [
+        0
+      ],
+      "expected_unique_frames" : 1,
+      "mode" : "static",
+      "state" : "task_complete"
+    },
+    {
+      "complete_cycles_or_new_events" : 0,
+      "displayed_unique_body_frames" : [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "expected_unique_frames" : 17,
+      "mode" : "enter_then_hold",
+      "state" : "question_for_user"
+    },
+    {
+      "complete_cycles_or_new_events" : 0,
+      "displayed_unique_body_frames" : [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "expected_unique_frames" : 21,
+      "mode" : "enter_then_hold",
+      "state" : "failed"
+    }
+  ],
+  "visible_flag" : 2,
+  "window_occlusion" : 8194,
+  "window_visible" : true
+}

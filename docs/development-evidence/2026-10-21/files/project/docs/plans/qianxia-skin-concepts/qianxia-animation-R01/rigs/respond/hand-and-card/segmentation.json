@@ -1,0 +1,56 @@
+{
+  "state": "respond",
+  "part": "hand-and-card",
+  "input_file": "source/09-respond.png",
+  "input_sha256": "7b6a19de9a355e3dabac281edf2ce8654ea29c9477453625b8f02441a32536fd",
+  "box": [
+    295,
+    582,
+    543,
+    782
+  ],
+  "positive_points": [
+    [
+      403,
+      669
+    ],
+    [
+      351,
+      728
+    ]
+  ],
+  "negative_points": [
+    [
+      303,
+      809
+    ],
+    [
+      562,
+      672
+    ],
+    [
+      420,
+      756
+    ]
+  ],
+  "sam_scores": [
+    0.6922836899757385,
+    0.7922278046607971,
+    0.8406226634979248
+  ],
+  "chosen_option": 2,
+  "selected_pixels": 27254,
+  "removed_fully_transparent_pixels": 0,
+  "components": 7,
+  "component_areas": [
+    27110,
+    105,
+    2,
+    8,
+    5,
+    1,
+    23
+  ],
+  "visual_review": "pending",
+  "status": "initial_candidate"
+}

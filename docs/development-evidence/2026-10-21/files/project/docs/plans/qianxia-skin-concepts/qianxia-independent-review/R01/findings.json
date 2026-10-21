@@ -1,0 +1,2211 @@
+{
+  "reviewer": "Independent Codex subagent /root/cutout_independent_review; did not create candidates",
+  "round": "R01",
+  "decision": "退回",
+  "scope": "静态可见部件；未做动画/补底/眼皮评审",
+  "coordinate_system": "原始1205×1306图像；0-based x向右、y向下；ROI为[x0,y0,x1,y1)；left/right沿用文件名",
+  "review_order": "先逐件目视34件100%原图/候选与200%叠加轮廓四背景，再读mask-report.json及独立机器核验；其后补看100%四背景与400/600%细节。",
+  "coverage": {
+    "total": 34,
+    "checked": 34,
+    "unchecked": 0,
+    "pass_static_visible_only": 3,
+    "rework_required": 31
+  },
+  "frozen_hash_binding": {
+    "source/01-idle.png": "9c7769ab20bf96f77e8de0d6b6e78ee8e061ed5eb311b87575774df4f12be0b0",
+    "source/02-thinking.png": "7309dd9974173c4976588387feef61241470e058cb2c3580c4976bff41377536",
+    "source/03-read_file.png": "61fbd3f92f9beae25e14fde406d4b1cf5e5a34f61c0a59c6bc366b405e95671e",
+    "source/04-view_image.png": "2b5b3c8e23c672f9286e0c77e62c4f53f96ae522b9efc92b3b2b48c9d7d7dfd5",
+    "source/05-write_file.png": "01ce56bb94e11e39844e803c2062cc2e273c7135d3349134e9a3b1cc1647e17e",
+    "source/06-verify.png": "cbe31ee0637734af510385b69c876e9cf4969023c9e84fbecc65e8fd115274fc",
+    "source/07-read_web.png": "ce8655468092eafa020efd186e56d5e02849d54bd4eed10781cc40e78d7cb233",
+    "source/08-default_work.png": "bb3e21215e279b1e41403c384c4f5f586237ecdf4f6eaea81f283f0a10118d21",
+    "source/09-respond.png": "7b6a19de9a355e3dabac281edf2ce8654ea29c9477453625b8f02441a32536fd",
+    "source/10-task_complete.png": "f9c76a01b402a43e0f6ca46a1f3ec621a93684acf9dcc8eb8b720e98be0b53c1",
+    "source/11-question_for_user.png": "7dd9ffbf1600e954ed5718c970cf8648d4fe3695d82634355ac3054f8b9f6172",
+    "source/12-failed.png": "970cda2adf757e5320f202b93f1bf86f7c88d6bde303e8e7ccdb3dd553e37ace",
+    "masks/default_work/iris-left.png": "e333a8194e18adc6cd45adf17a31567801e60b2004b383eaa8a5036fa79e5cc5",
+    "masks/default_work/iris-right.png": "c6186d4f1bb3d81f1303272d1b110c24d4cabff9a817c8ac3db4bfe2b37c87aa",
+    "masks/default_work/trackball-hand.png": "64da2799b8189c9676f28d9f07e8471a7a0b1c34257344fd7c8abf1835c35a86",
+    "masks/failed/hand-and-card.png": "38072fe7ce4f6995f1be9a30a2042e7ebb91a8d6bf0665b628384abec548b877",
+    "masks/failed/iris-left.png": "de7ead4741824462828555bd1aac81fd703040f39230563b0dca4ea5c816a04b",
+    "masks/failed/iris-right.png": "026158030b6b02fe0e53ce4a7b9eaafe543b7f65b36b6310890c6ac4ddf7fbf9",
+    "masks/idle/iris-left.png": "b92499c79a30fbcbacb6e897ba471ab08b9b289cd6c8e89922dfb78e3478d47a",
+    "masks/idle/iris-right.png": "6211430d19f54c7e0a715fd60e3c5c53736e8f83457c45486532a98a97c80b6b",
+    "masks/idle/orb.png": "672edf22eb071eaf178f949fe422be7c28524c817744e2d869f8855106986122",
+    "masks/idle/touching-hand.png": "af53f9646626c5f062a069b90517afdde9056887498934931a96cff6eec052c1",
+    "masks/question_for_user/button-cap.png": "86ccc238fc8cbb38644a70be0d4a6c6ac2e233431b273cb2c2d5f37c262a3684",
+    "masks/question_for_user/iris-left.png": "c4b99a7bf3ef3c601cc755fd05e62b5f08cbaf76c1f4ac33e5f6c5d6b8507e92",
+    "masks/question_for_user/iris-right.png": "6508054a19c481468cfa8f9fff4b583f74dba323220e01a9e33b794b6306ed59",
+    "masks/question_for_user/pressing-hand.png": "588a430a3f79348aa51ff75f229db59af560fe6a3c3ed4c7c1d4677f1a482c7c",
+    "masks/read_file/iris-left.png": "bdeaad1644624768caf2b70558cb3e866e3f2b6e227132deff242fa9a1784740",
+    "masks/read_file/iris-right.png": "d5bb5ff675010e505048fd39609ca17f0eabcb3cf9cbcffe21e7c6cc81e277e0",
+    "masks/read_web/iris-left.png": "55514dbd787583c72d92f066ba94da1944ab750a14a942aea0a64f2c4f907db3",
+    "masks/read_web/iris-right.png": "cfed9314a1fcde0c102932166e36e8b55250aacb5f160784e5b9e5ecca2f3c01",
+    "masks/read_web/pointing-hand.png": "02255e92610a18fb1f145638922b3d1feec82fd919de7e1f427a92113acf8f94",
+    "masks/respond/hand-and-card.png": "b0c6141bc07b4b7a2a261205f15b154655112cf06883c5153f49fef3ba876f95",
+    "masks/respond/iris-left.png": "3d53e53428ed42b2ff63de9f24d37d0a4f7edcf11ef2c6e3e89cdcd2c36c9b0b",
+    "masks/respond/iris-right.png": "6196e75aab2f876eb1ae53a3752abbc34321716ef7b22037855cec13e26e088e",
+    "masks/thinking/iris-left.png": "d36dc02c572deea9b31288714b26a8cefb1e3122e56fc01f12d2eb19878379a7",
+    "masks/thinking/iris-right.png": "70dd967d01ccda618ffea2786fb60bc121db02fd41e3e590de414f7bb4f325ad",
+    "masks/verify/hand-and-probe.png": "c521789d52d81d9cd73d2ab528136afdd200b167faa4b8b02a8b8b478de02fd4",
+    "masks/verify/iris-left.png": "8a74217fdf57d70b020a86c6ece947332af910dbbfc5fcca9677d7d3106b1956",
+    "masks/verify/iris-right.png": "4baf6ce544f711768696b8e58c4dd1627d23e647d0852e651970a525ae2c0782",
+    "masks/view_image/hand-and-stylus.png": "d9c8cc526d91c49b53e8e459c3584573cd6846073c06a4d697eed53dcd6ad73d",
+    "masks/view_image/iris-left.png": "5087a7ba342165d36ff9a76499d3b122ad038a7afc64476e0422783a15d2cebb",
+    "masks/view_image/iris-right.png": "eb0ece7678c4b2e03e7dfb2381f3cf5b903163d4b547cb58d1aee9a343e84052",
+    "masks/write_file/iris-left.png": "e9ee33db45e24dd90b74a96485052f66b822e3142959ea0b4a6dc9027a8e0dba",
+    "masks/write_file/iris-right.png": "bb142faaef0cc7a56ddcd5c3ce0e9213a724b8e9a94060137ebd2fd3eba33f87",
+    "masks/write_file/left-hand.png": "a26f499fff317495c14d05bf9ef1c9856769cd00a9cc05a6e1e1ce536cc5858e",
+    "masks/write_file/right-hand.png": "932c8d4c0b9261e130b6dc028b3dbe39419c6f15e31de9b6766fa608585cdd25",
+    "parts/default_work/iris-left.png": "1339a6e2be9857d64d779be27c235e7b573cd663210455c1c657c406f6a5d689",
+    "parts/default_work/iris-right.png": "abada98cece1b78a02b35bddc8a1e3135b5f8c999025ec3adb15dbc8b40e4716",
+    "parts/default_work/trackball-hand.png": "67c2c5d61bc4155ad8fa234775e21dbe07f900b03d2fa7df4e6f3828142371ab",
+    "parts/failed/hand-and-card.png": "51ab5482a6eadb932357a8ac37eb05ca7fd3424931577aa8d6549b354e6c73b2",
+    "parts/failed/iris-left.png": "1ed896380ca648ebbfbab9b60cddc0a8d305df876fd510755e49741f00bb01f6",
+    "parts/failed/iris-right.png": "4f29e114b0bcab78ce2ac1c7ab3f95b5bb1cbcb0dc53bb516c88cfe381aff066",
+    "parts/idle/iris-left.png": "3b683fa03ffba9a6ea68f28a3cec3322a3a1a2dfe59c00934c87f1204eea9d25",
+    "parts/idle/iris-right.png": "2109f95ccb22476ac44038c932e303204957f14aeb86c33bdd754d2313199891",
+    "parts/idle/orb.png": "ca35b565d60b44cca1feb8b0616b296e466a91a6d095329ed12581d5cef45e3f",
+    "parts/idle/touching-hand.png": "5275230fb00e09c32de6431c7874af6fdd30759597047639a61091df71d7c040",
+    "parts/question_for_user/button-cap.png": "959e1e7346157efa004ec92a3079ec2826538cca405feda6bdf040a2aa1f9e97",
+    "parts/question_for_user/iris-left.png": "630274eb04e5fb091f8f66b89448340c5d8fc08e91c584d439ce4abef6de6273",
+    "parts/question_for_user/iris-right.png": "12651b2862de69363bc4f8c1a49482a55ac04a0af85e4a161b5ad97cea483f19",
+    "parts/question_for_user/pressing-hand.png": "524103a17d8ea7bc5e8514d6c713c5516633b9f909ebff7f9328a31fcbe82734",
+    "parts/read_file/iris-left.png": "2310c10bdd389deb1199732e442c2d957daea60980babb1947a84af2cd2a5978",
+    "parts/read_file/iris-right.png": "3113b5cdd460b67430e81ace21bfe7ece86f69a5bb759399a4d5b2a17aaeb4e5",
+    "parts/read_web/iris-left.png": "74d435a1b908164f632aab205f53d89235b738d0792290b48d890b68a8f45618",
+    "parts/read_web/iris-right.png": "029a71cfe4fcebd775b51042b16cd19c1a7cb78924598bfecb4a99cf405b8bcb",
+    "parts/read_web/pointing-hand.png": "fa9e8cc9031772b564d76cd06ddbc6b97714b222a307080148d952663d7ec02c",
+    "parts/respond/hand-and-card.png": "7eee97d246be5db764890f5598260f4b82987b5d14c74395e7238742d1566769",
+    "parts/respond/iris-left.png": "8ee8d69d5d9afce2968dd7df7863219c952da63933e5661397486340c1d0bd10",
+    "parts/respond/iris-right.png": "2dff94516509b114fa49af1a2fa786df089d4134b9aed3aa171ebb6297492332",
+    "parts/thinking/iris-left.png": "49762abca8dd7eb70a07b28b196aa3944cca8695f66408c79513ef8316daead4",
+    "parts/thinking/iris-right.png": "b5fcb54991ffd6d11feb620416c7bcd4a0cde32309348b2af11a2f175f01cedc",
+    "parts/verify/hand-and-probe.png": "685817602c03a9161f2e3085fa4d49f4df2895158e6321dccead2690cfbdf510",
+    "parts/verify/iris-left.png": "13d3bdf1852642e67c2a7a034f813f06b32a1fad26f483d404a4b8327d53965c",
+    "parts/verify/iris-right.png": "dad03aba2405ee0e9e04e32b8f9eb6027643bd90e16ae2f7a1de31e04e46d4ed",
+    "parts/view_image/hand-and-stylus.png": "edae32d5fa91d58f59fe903c6d63cf069bfea7fbd6e7d859d1e3dd05a3b5cf63",
+    "parts/view_image/iris-left.png": "b8e5aaa0daa6d9356b4a68b05b264acb9540fd272340e3e32ddd2280308212c5",
+    "parts/view_image/iris-right.png": "7ef7334b412da407e872c55ed8a04bda5f0ff99a7a0e4a1b5210966e63d043fc",
+    "parts/write_file/iris-left.png": "980c9d804ff7e68040f5267066dd47a3c86217e6f620a5cdd8fc1074b98fe175",
+    "parts/write_file/iris-right.png": "33a65f56547e02c6cb3d1aca4a5d71e3527b5ba426a70d0b242aa856d784a71b",
+    "parts/write_file/left-hand.png": "7932e1255b660116b79c9b00884d982f2f2b955b0a666125cf629f42c84a8076",
+    "parts/write_file/right-hand.png": "00f66478cba657d0c505398218d0356c0d2071181068c6ff9282a47a77ba3cb1"
+  },
+  "hash_verification": {
+    "files": 80,
+    "mismatches": 0
+  },
+  "findings": [
+    {
+      "id": "F01",
+      "targets": [
+        "default_work/iris-left",
+        "default_work/iris-right",
+        "failed/iris-left",
+        "failed/iris-right",
+        "idle/iris-left",
+        "idle/iris-right",
+        "question_for_user/iris-left",
+        "question_for_user/iris-right",
+        "read_file/iris-left",
+        "read_file/iris-right",
+        "read_web/iris-left",
+        "read_web/iris-right",
+        "respond/iris-left",
+        "respond/iris-right",
+        "thinking/iris-left",
+        "thinking/iris-right",
+        "verify/iris-left",
+        "verify/iris-right",
+        "view_image/iris-left",
+        "view_image/iris-right",
+        "write_file/iris-left",
+        "write_file/iris-right"
+      ],
+      "severity": "medium",
+      "kind": "抗锯齿/轮廓",
+      "region": "各虹膜完整外周；每件全图包围框见逐件记录，重点是裸露左右边与底边。",
+      "description": "22件均可见阶梯、短横台阶或突出的深色边缘像素；原图柔和过渡被硬选区截断。200%白/洋红背景最清楚，100%也能见到不规则边缘。后读机器数据确认这22个mask只有0/255，导出非零alpha只有253/254，没有选区边缘覆盖率过渡。源图自身253/254透明度不是本问题，也不要求改为255。",
+      "recommendation": "逐件沿真实虹膜/高光轮廓精修选区，保留属于虹膜的描边厚度，为暴露边缘提供局部亚像素覆盖率；修掉突刺，不用全局腐蚀、膨胀或模糊替代轮廓判断。固定睫毛、眼白仍留在固定层。",
+      "evidence": [
+        "每件 evidence/{state}-{part}-reference.png",
+        "每件 review/{state}/{part}/four-backgrounds-200.png",
+        "evidence/backgrounds100-1.png 至 backgrounds100-6.png"
+      ],
+      "requires_rework": true
+    },
+    {
+      "id": "F02",
+      "targets": [
+        "read_file/iris-left"
+      ],
+      "severity": "high",
+      "kind": "漏选高光",
+      "region": [
+        441,
+        526,
+        463,
+        547
+      ],
+      "description": "白色高光左侧被切出明显向内的黑/透明凹槽。原图该位置为连续的圆润白高光，候选在黑和洋红底上都呈咬缺。",
+      "recommendation": "恢复高光可见轮廓和抗锯齿，重新区分高光与旁边眼白；不能让颜色阈值产生凹洞。",
+      "evidence": [
+        "evidence/issue-detail-12.png"
+      ],
+      "requires_rework": true
+    },
+    {
+      "id": "F03",
+      "targets": [
+        "write_file/iris-right"
+      ],
+      "severity": "medium",
+      "kind": "轮廓突起/凹陷",
+      "region": [
+        614,
+        512,
+        638,
+        549
+      ],
+      "description": "左上侧边出现凸出的深色块，靠近白色高光上方又向内缩成凹口，无法连续跟随原图虹膜边缘。",
+      "recommendation": "对照源图修正这段侧边，清除额外暗色凸块，恢复高光上方连续边线，再进行局部抗锯齿。",
+      "evidence": [
+        "evidence/issue-detail-13.png"
+      ],
+      "requires_rework": true
+    },
+    {
+      "id": "F04",
+      "targets": [
+        "idle/touching-hand"
+      ],
+      "severity": "medium",
+      "kind": "误选袖口/颜色污染",
+      "region": [
+        420,
+        810,
+        437,
+        829
+      ],
+      "description": "下侧指缝与袖口接触位置残留粉色点及细边，黑底能看到粉色碎片；它们来自固定袖口。",
+      "recommendation": "沿手部黑色描边外侧清理粉色袖口残留，保留完整手指线，不扩大缺口。",
+      "evidence": [
+        "evidence/issue-detail-01.png"
+      ],
+      "requires_rework": true
+    },
+    {
+      "id": "F05",
+      "targets": [
+        "failed/hand-and-card"
+      ],
+      "severity": "medium",
+      "kind": "误选头发/颜色污染",
+      "region": [
+        346,
+        591,
+        415,
+        643
+      ],
+      "description": "卡片左上圆角和斜上边保留浅绿色外缘，与原图邻接头发颜色一致，黑/洋红底成为浅绿描边。",
+      "recommendation": "剔除头发混入的像素，按卡片本身黑边保留抗锯齿；不要把整条黑色卡框向内削薄。",
+      "evidence": [
+        "evidence/issue-detail-02.png"
+      ],
+      "requires_rework": true
+    },
+    {
+      "id": "F06",
+      "targets": [
+        "failed/hand-and-card"
+      ],
+      "severity": "medium",
+      "kind": "误选袖口",
+      "region": [
+        326,
+        680,
+        376,
+        760
+      ],
+      "description": "手的左外沿有长条粉色袖口残留，局部还有粉色点，已脱离原图语义成为部件外圈。",
+      "recommendation": "沿手部与袖口分界清理残留，保留属于手的黑色轮廓。",
+      "evidence": [
+        "evidence/issue-detail-03.png"
+      ],
+      "requires_rework": true
+    },
+    {
+      "id": "F07",
+      "targets": [
+        "failed/hand-and-card"
+      ],
+      "severity": "high",
+      "kind": "漏选可见描边",
+      "region": [
+        387,
+        727,
+        414,
+        760
+      ],
+      "description": "手腕右下侧原图明确可见的一段黑色轮廓，在候选中被切掉；皮肤直接接透明背景，边缘形成斜截口。该线在原图中可见，不是隐藏结构。",
+      "recommendation": "恢复该段可见黑色描边及过渡，按原手腕曲线连接上下段，避免切进皮肤。",
+      "evidence": [
+        "evidence/failed-wrist.png"
+      ],
+      "requires_rework": true
+    },
+    {
+      "id": "F08",
+      "targets": [
+        "respond/hand-and-card"
+      ],
+      "severity": "medium",
+      "kind": "误选袖口",
+      "region": [
+        300,
+        723,
+        403,
+        780
+      ],
+      "description": "手左下外缘带粉色细条；小指上方与卡片下沿之间带粉色袖口三角残片，黑底可明确分辨。",
+      "recommendation": "两处分开精修，以真实手部/卡片描边为边界排除固定袖口，不把整个手腕一起侵蚀。",
+      "evidence": [
+        "evidence/issue-detail-04.png"
+      ],
+      "requires_rework": true
+    },
+    {
+      "id": "F09",
+      "targets": [
+        "read_web/pointing-hand"
+      ],
+      "severity": "medium",
+      "kind": "误选袖口/轮廓尖刺",
+      "region": [
+        406,
+        630,
+        436,
+        667
+      ],
+      "description": "手右上与袖口/头发交界带粉色片和突出的暗色尖刺，候选右缘不再是单纯手指轮廓。",
+      "recommendation": "去除粉袖口及相邻固定线条，保留手指真实外线。手下边被投影遮挡的截面可以保留，不需要补画。",
+      "evidence": [
+        "evidence/issue-detail-05.png"
+      ],
+      "requires_rework": true
+    },
+    {
+      "id": "F10",
+      "targets": [
+        "verify/hand-and-probe"
+      ],
+      "severity": "medium",
+      "kind": "误选头发/颜色污染",
+      "region": [
+        381,
+        602,
+        423,
+        647
+      ],
+      "description": "探针装置左上斜边及左侧小凸台外缘带浅绿色头发细条。",
+      "recommendation": "排除邻接头发色，保留装置暗色边框的真实厚度与软边。",
+      "evidence": [
+        "evidence/issue-detail-06.png"
+      ],
+      "requires_rework": true
+    },
+    {
+      "id": "F11",
+      "targets": [
+        "verify/hand-and-probe"
+      ],
+      "severity": "high",
+      "kind": "误选固定底座/针尖轮廓截切",
+      "region": [
+        457,
+        713,
+        514,
+        784
+      ],
+      "description": "针尖左下带入底座浅青色横弧的一小截；右侧和末端被几何直边截切，形成三角化边缘。源图针尖实际发光边缘与固定底座弧线应分开。",
+      "recommendation": "以原图可见探针和其实际发光边缘重新确定局部蒙版，排除固定底座横弧。逐像素核对针尖，不用一个直边多边形同时截取发光探针与底座。",
+      "evidence": [
+        "evidence/issue-detail-07.png",
+        "evidence/probe-base-junction.png"
+      ],
+      "requires_rework": true
+    },
+    {
+      "id": "F12",
+      "targets": [
+        "view_image/hand-and-stylus"
+      ],
+      "severity": "medium",
+      "kind": "误选袖口",
+      "region": [
+        437,
+        746,
+        464,
+        777
+      ],
+      "description": "手指下端靠笔杆的凹槽中带入粉色袖口细片，黑底可见两小条粉色。",
+      "recommendation": "沿手指/笔杆外框精修凹槽，去除袖口残片，保持手和笔完整联动组。",
+      "evidence": [
+        "evidence/issue-detail-08.png"
+      ],
+      "requires_rework": true
+    },
+    {
+      "id": "F13",
+      "targets": [
+        "write_file/left-hand"
+      ],
+      "severity": "medium",
+      "kind": "误选键盘",
+      "region": [
+        367,
+        792,
+        415,
+        819
+      ],
+      "description": "两处指尖之间及下沿带入粉色键帽/键盘边，黑底形成粉色尖片，属于固定键盘。",
+      "recommendation": "分别清理指缝和指尖下方键盘选区，保留指尖黑色轮廓与真实接触端。",
+      "evidence": [
+        "evidence/issue-detail-09.png"
+      ],
+      "requires_rework": true
+    },
+    {
+      "id": "F14",
+      "targets": [
+        "write_file/right-hand"
+      ],
+      "severity": "medium",
+      "kind": "误选相邻粉色区域",
+      "region": [
+        735,
+        771,
+        758,
+        806
+      ],
+      "description": "最左侧手指外沿有粉色条状污染，与原图相邻粉色袖口/键盘区域连续。",
+      "recommendation": "对照原图外侧深色轮廓精修此段，排除粉色邻物，不削去手指描边。",
+      "evidence": [
+        "evidence/issue-detail-10.png"
+      ],
+      "requires_rework": true
+    },
+    {
+      "id": "F15",
+      "targets": [
+        "question_for_user/pressing-hand"
+      ],
+      "severity": "medium",
+      "kind": "边缘颜色污染",
+      "region": [
+        788,
+        733,
+        808,
+        776
+      ],
+      "description": "手右侧外边带较亮的灰青色边条，源图该处紧邻青色投影/反光区域；候选在黑底产生灰白边。",
+      "recommendation": "局部重新判断手部黑边与邻接投影的分界及覆盖率，清理外缘灰青污染，保留皮肤内部原有光照。",
+      "evidence": [
+        "evidence/issue-detail-11.png"
+      ],
+      "requires_rework": true
+    }
+  ],
+  "parts": [
+    {
+      "state": "default_work",
+      "part": "iris-left",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        439,
+        507,
+        500,
+        574
+      ],
+      "finding_ids": [
+        "F01"
+      ],
+      "conclusion": "F01",
+      "source": "source/08-default_work.png",
+      "source_sha256": "bb3e21215e279b1e41403c384c4f5f586237ecdf4f6eaea81f283f0a10118d21",
+      "mask": "masks/default_work/iris-left.png",
+      "mask_sha256": "e333a8194e18adc6cd45adf17a31567801e60b2004b383eaa8a5036fa79e5cc5",
+      "candidate": "parts/default_work/iris-left.png",
+      "candidate_sha256": "1339a6e2be9857d64d779be27c235e7b573cd663210455c1c657c406f6a5d689",
+      "reference_evidence": "evidence/default_work-iris-left-reference.png",
+      "backgrounds_200": "review/default_work/iris-left/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-1.png"
+    },
+    {
+      "state": "default_work",
+      "part": "iris-right",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        627,
+        516,
+        695,
+        580
+      ],
+      "finding_ids": [
+        "F01"
+      ],
+      "conclusion": "F01",
+      "source": "source/08-default_work.png",
+      "source_sha256": "bb3e21215e279b1e41403c384c4f5f586237ecdf4f6eaea81f283f0a10118d21",
+      "mask": "masks/default_work/iris-right.png",
+      "mask_sha256": "c6186d4f1bb3d81f1303272d1b110c24d4cabff9a817c8ac3db4bfe2b37c87aa",
+      "candidate": "parts/default_work/iris-right.png",
+      "candidate_sha256": "abada98cece1b78a02b35bddc8a1e3135b5f8c999025ec3adb15dbc8b40e4716",
+      "reference_evidence": "evidence/default_work-iris-right-reference.png",
+      "backgrounds_200": "review/default_work/iris-right/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-1.png"
+    },
+    {
+      "state": "default_work",
+      "part": "trackball-hand",
+      "result": "pass_static_visible_only",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        345,
+        737,
+        453,
+        818
+      ],
+      "finding_ids": [],
+      "conclusion": "可见手指和接触端保留；左下斜截是原图设备遮挡边，本阶段允许。四背景未见必须退回的固定邻物误选。",
+      "source": "source/08-default_work.png",
+      "source_sha256": "bb3e21215e279b1e41403c384c4f5f586237ecdf4f6eaea81f283f0a10118d21",
+      "mask": "masks/default_work/trackball-hand.png",
+      "mask_sha256": "64da2799b8189c9676f28d9f07e8471a7a0b1c34257344fd7c8abf1835c35a86",
+      "candidate": "parts/default_work/trackball-hand.png",
+      "candidate_sha256": "67c2c5d61bc4155ad8fa234775e21dbe07f900b03d2fa7df4e6f3828142371ab",
+      "reference_evidence": "evidence/default_work-trackball-hand-reference.png",
+      "backgrounds_200": "review/default_work/trackball-hand/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-1.png"
+    },
+    {
+      "state": "failed",
+      "part": "hand-and-card",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [
+        4,
+        6
+      ],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        330,
+        581,
+        516,
+        758
+      ],
+      "finding_ids": [
+        "F05",
+        "F06",
+        "F07"
+      ],
+      "conclusion": "F05; F06; F07",
+      "source": "source/12-failed.png",
+      "source_sha256": "970cda2adf757e5320f202b93f1bf86f7c88d6bde303e8e7ccdb3dd553e37ace",
+      "mask": "masks/failed/hand-and-card.png",
+      "mask_sha256": "38072fe7ce4f6995f1be9a30a2042e7ebb91a8d6bf0665b628384abec548b877",
+      "candidate": "parts/failed/hand-and-card.png",
+      "candidate_sha256": "51ab5482a6eadb932357a8ac37eb05ca7fd3424931577aa8d6549b354e6c73b2",
+      "reference_evidence": "evidence/failed-hand-and-card-reference.png",
+      "backgrounds_200": "review/failed/hand-and-card/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-1.png"
+    },
+    {
+      "state": "failed",
+      "part": "iris-left",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        435,
+        501,
+        497,
+        559
+      ],
+      "finding_ids": [
+        "F01"
+      ],
+      "conclusion": "F01",
+      "source": "source/12-failed.png",
+      "source_sha256": "970cda2adf757e5320f202b93f1bf86f7c88d6bde303e8e7ccdb3dd553e37ace",
+      "mask": "masks/failed/iris-left.png",
+      "mask_sha256": "de7ead4741824462828555bd1aac81fd703040f39230563b0dca4ea5c816a04b",
+      "candidate": "parts/failed/iris-left.png",
+      "candidate_sha256": "1ed896380ca648ebbfbab9b60cddc0a8d305df876fd510755e49741f00bb01f6",
+      "reference_evidence": "evidence/failed-iris-left-reference.png",
+      "backgrounds_200": "review/failed/iris-left/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-1.png"
+    },
+    {
+      "state": "failed",
+      "part": "iris-right",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        620,
+        511,
+        688,
+        566
+      ],
+      "finding_ids": [
+        "F01"
+      ],
+      "conclusion": "F01",
+      "source": "source/12-failed.png",
+      "source_sha256": "970cda2adf757e5320f202b93f1bf86f7c88d6bde303e8e7ccdb3dd553e37ace",
+      "mask": "masks/failed/iris-right.png",
+      "mask_sha256": "026158030b6b02fe0e53ce4a7b9eaafe543b7f65b36b6310890c6ac4ddf7fbf9",
+      "candidate": "parts/failed/iris-right.png",
+      "candidate_sha256": "4f29e114b0bcab78ce2ac1c7ab3f95b5bb1cbcb0dc53bb516c88cfe381aff066",
+      "reference_evidence": "evidence/failed-iris-right-reference.png",
+      "backgrounds_200": "review/failed/iris-right/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-1.png"
+    },
+    {
+      "state": "idle",
+      "part": "iris-left",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        441,
+        507,
+        506,
+        573
+      ],
+      "finding_ids": [
+        "F01"
+      ],
+      "conclusion": "F01",
+      "source": "source/01-idle.png",
+      "source_sha256": "9c7769ab20bf96f77e8de0d6b6e78ee8e061ed5eb311b87575774df4f12be0b0",
+      "mask": "masks/idle/iris-left.png",
+      "mask_sha256": "b92499c79a30fbcbacb6e897ba471ab08b9b289cd6c8e89922dfb78e3478d47a",
+      "candidate": "parts/idle/iris-left.png",
+      "candidate_sha256": "3b683fa03ffba9a6ea68f28a3cec3322a3a1a2dfe59c00934c87f1204eea9d25",
+      "reference_evidence": "evidence/idle-iris-left-reference.png",
+      "backgrounds_200": "review/idle/iris-left/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-2.png"
+    },
+    {
+      "state": "idle",
+      "part": "iris-right",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        629,
+        517,
+        698,
+        577
+      ],
+      "finding_ids": [
+        "F01"
+      ],
+      "conclusion": "F01",
+      "source": "source/01-idle.png",
+      "source_sha256": "9c7769ab20bf96f77e8de0d6b6e78ee8e061ed5eb311b87575774df4f12be0b0",
+      "mask": "masks/idle/iris-right.png",
+      "mask_sha256": "6211430d19f54c7e0a715fd60e3c5c53736e8f83457c45486532a98a97c80b6b",
+      "candidate": "parts/idle/iris-right.png",
+      "candidate_sha256": "2109f95ccb22476ac44038c932e303204957f14aeb86c33bdd754d2313199891",
+      "reference_evidence": "evidence/idle-iris-right-reference.png",
+      "backgrounds_200": "review/idle/iris-right/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-2.png"
+    },
+    {
+      "state": "idle",
+      "part": "orb",
+      "result": "pass_static_visible_only",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        519,
+        717,
+        614,
+        811
+      ],
+      "finding_ids": [],
+      "conclusion": "球体的可见黑边、内部星形标记和色带保留；左侧手指遮挡缺口与原图对应，不要求补画完整球体。",
+      "source": "source/01-idle.png",
+      "source_sha256": "9c7769ab20bf96f77e8de0d6b6e78ee8e061ed5eb311b87575774df4f12be0b0",
+      "mask": "masks/idle/orb.png",
+      "mask_sha256": "672edf22eb071eaf178f949fe422be7c28524c817744e2d869f8855106986122",
+      "candidate": "parts/idle/orb.png",
+      "candidate_sha256": "ca35b565d60b44cca1feb8b0616b296e466a91a6d095329ed12581d5cef45e3f",
+      "reference_evidence": "evidence/idle-orb-reference.png",
+      "backgrounds_200": "review/idle/orb/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-2.png"
+    },
+    {
+      "state": "idle",
+      "part": "touching-hand",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [
+        4,
+        6
+      ],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        384,
+        734,
+        528,
+        828
+      ],
+      "finding_ids": [
+        "F04"
+      ],
+      "conclusion": "F04",
+      "source": "source/01-idle.png",
+      "source_sha256": "9c7769ab20bf96f77e8de0d6b6e78ee8e061ed5eb311b87575774df4f12be0b0",
+      "mask": "masks/idle/touching-hand.png",
+      "mask_sha256": "af53f9646626c5f062a069b90517afdde9056887498934931a96cff6eec052c1",
+      "candidate": "parts/idle/touching-hand.png",
+      "candidate_sha256": "5275230fb00e09c32de6431c7874af6fdd30759597047639a61091df71d7c040",
+      "reference_evidence": "evidence/idle-touching-hand-reference.png",
+      "backgrounds_200": "review/idle/touching-hand/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-2.png"
+    },
+    {
+      "state": "question_for_user",
+      "part": "button-cap",
+      "result": "pass_static_visible_only",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        759,
+        784,
+        843,
+        834
+      ],
+      "finding_ids": [],
+      "conclusion": "按钮可见上盖与底座分离；上缘手指遮挡缺口对应原图，不按完整椭圆补画。",
+      "source": "source/11-question_for_user.png",
+      "source_sha256": "7dd9ffbf1600e954ed5718c970cf8648d4fe3695d82634355ac3054f8b9f6172",
+      "mask": "masks/question_for_user/button-cap.png",
+      "mask_sha256": "86ccc238fc8cbb38644a70be0d4a6c6ac2e233431b273cb2c2d5f37c262a3684",
+      "candidate": "parts/question_for_user/button-cap.png",
+      "candidate_sha256": "959e1e7346157efa004ec92a3079ec2826538cca405feda6bdf040a2aa1f9e97",
+      "reference_evidence": "evidence/question_for_user-button-cap-reference.png",
+      "backgrounds_200": "review/question_for_user/button-cap/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-2.png"
+    },
+    {
+      "state": "question_for_user",
+      "part": "iris-left",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        439,
+        496,
+        505,
+        568
+      ],
+      "finding_ids": [
+        "F01"
+      ],
+      "conclusion": "F01",
+      "source": "source/11-question_for_user.png",
+      "source_sha256": "7dd9ffbf1600e954ed5718c970cf8648d4fe3695d82634355ac3054f8b9f6172",
+      "mask": "masks/question_for_user/iris-left.png",
+      "mask_sha256": "c4b99a7bf3ef3c601cc755fd05e62b5f08cbaf76c1f4ac33e5f6c5d6b8507e92",
+      "candidate": "parts/question_for_user/iris-left.png",
+      "candidate_sha256": "630274eb04e5fb091f8f66b89448340c5d8fc08e91c584d439ce4abef6de6273",
+      "reference_evidence": "evidence/question_for_user-iris-left-reference.png",
+      "backgrounds_200": "review/question_for_user/iris-left/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-2.png"
+    },
+    {
+      "state": "question_for_user",
+      "part": "iris-right",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        626,
+        505,
+        696,
+        575
+      ],
+      "finding_ids": [
+        "F01"
+      ],
+      "conclusion": "F01",
+      "source": "source/11-question_for_user.png",
+      "source_sha256": "7dd9ffbf1600e954ed5718c970cf8648d4fe3695d82634355ac3054f8b9f6172",
+      "mask": "masks/question_for_user/iris-right.png",
+      "mask_sha256": "6508054a19c481468cfa8f9fff4b583f74dba323220e01a9e33b794b6306ed59",
+      "candidate": "parts/question_for_user/iris-right.png",
+      "candidate_sha256": "12651b2862de69363bc4f8c1a49482a55ac04a0af85e4a161b5ad97cea483f19",
+      "reference_evidence": "evidence/question_for_user-iris-right-reference.png",
+      "backgrounds_200": "review/question_for_user/iris-right/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-3.png"
+    },
+    {
+      "state": "question_for_user",
+      "part": "pressing-hand",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [
+        4,
+        6
+      ],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        712,
+        718,
+        804,
+        791
+      ],
+      "finding_ids": [
+        "F15"
+      ],
+      "conclusion": "F15",
+      "source": "source/11-question_for_user.png",
+      "source_sha256": "7dd9ffbf1600e954ed5718c970cf8648d4fe3695d82634355ac3054f8b9f6172",
+      "mask": "masks/question_for_user/pressing-hand.png",
+      "mask_sha256": "588a430a3f79348aa51ff75f229db59af560fe6a3c3ed4c7c1d4677f1a482c7c",
+      "candidate": "parts/question_for_user/pressing-hand.png",
+      "candidate_sha256": "524103a17d8ea7bc5e8514d6c713c5516633b9f909ebff7f9328a31fcbe82734",
+      "reference_evidence": "evidence/question_for_user-pressing-hand-reference.png",
+      "backgrounds_200": "review/question_for_user/pressing-hand/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-3.png"
+    },
+    {
+      "state": "read_file",
+      "part": "iris-left",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [
+        4,
+        6
+      ],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        447,
+        506,
+        509,
+        573
+      ],
+      "finding_ids": [
+        "F01",
+        "F02"
+      ],
+      "conclusion": "F01; F02",
+      "source": "source/03-read_file.png",
+      "source_sha256": "61fbd3f92f9beae25e14fde406d4b1cf5e5a34f61c0a59c6bc366b405e95671e",
+      "mask": "masks/read_file/iris-left.png",
+      "mask_sha256": "bdeaad1644624768caf2b70558cb3e866e3f2b6e227132deff242fa9a1784740",
+      "candidate": "parts/read_file/iris-left.png",
+      "candidate_sha256": "2310c10bdd389deb1199732e442c2d957daea60980babb1947a84af2cd2a5978",
+      "reference_evidence": "evidence/read_file-iris-left-reference.png",
+      "backgrounds_200": "review/read_file/iris-left/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-3.png"
+    },
+    {
+      "state": "read_file",
+      "part": "iris-right",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        637,
+        516,
+        705,
+        577
+      ],
+      "finding_ids": [
+        "F01"
+      ],
+      "conclusion": "F01",
+      "source": "source/03-read_file.png",
+      "source_sha256": "61fbd3f92f9beae25e14fde406d4b1cf5e5a34f61c0a59c6bc366b405e95671e",
+      "mask": "masks/read_file/iris-right.png",
+      "mask_sha256": "d5bb5ff675010e505048fd39609ca17f0eabcb3cf9cbcffe21e7c6cc81e277e0",
+      "candidate": "parts/read_file/iris-right.png",
+      "candidate_sha256": "3113b5cdd460b67430e81ace21bfe7ece86f69a5bb759399a4d5b2a17aaeb4e5",
+      "reference_evidence": "evidence/read_file-iris-right-reference.png",
+      "backgrounds_200": "review/read_file/iris-right/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-3.png"
+    },
+    {
+      "state": "read_web",
+      "part": "iris-left",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        434,
+        499,
+        494,
+        563
+      ],
+      "finding_ids": [
+        "F01"
+      ],
+      "conclusion": "F01",
+      "source": "source/07-read_web.png",
+      "source_sha256": "ce8655468092eafa020efd186e56d5e02849d54bd4eed10781cc40e78d7cb233",
+      "mask": "masks/read_web/iris-left.png",
+      "mask_sha256": "55514dbd787583c72d92f066ba94da1944ab750a14a942aea0a64f2c4f907db3",
+      "candidate": "parts/read_web/iris-left.png",
+      "candidate_sha256": "74d435a1b908164f632aab205f53d89235b738d0792290b48d890b68a8f45618",
+      "reference_evidence": "evidence/read_web-iris-left-reference.png",
+      "backgrounds_200": "review/read_web/iris-left/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-3.png"
+    },
+    {
+      "state": "read_web",
+      "part": "iris-right",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        621,
+        509,
+        687,
+        572
+      ],
+      "finding_ids": [
+        "F01"
+      ],
+      "conclusion": "F01",
+      "source": "source/07-read_web.png",
+      "source_sha256": "ce8655468092eafa020efd186e56d5e02849d54bd4eed10781cc40e78d7cb233",
+      "mask": "masks/read_web/iris-right.png",
+      "mask_sha256": "cfed9314a1fcde0c102932166e36e8b55250aacb5f160784e5b9e5ecca2f3c01",
+      "candidate": "parts/read_web/iris-right.png",
+      "candidate_sha256": "029a71cfe4fcebd775b51042b16cd19c1a7cb78924598bfecb4a99cf405b8bcb",
+      "reference_evidence": "evidence/read_web-iris-right-reference.png",
+      "backgrounds_200": "review/read_web/iris-right/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-3.png"
+    },
+    {
+      "state": "read_web",
+      "part": "pointing-hand",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [
+        4,
+        6
+      ],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        325,
+        621,
+        432,
+        691
+      ],
+      "finding_ids": [
+        "F09"
+      ],
+      "conclusion": "F09",
+      "source": "source/07-read_web.png",
+      "source_sha256": "ce8655468092eafa020efd186e56d5e02849d54bd4eed10781cc40e78d7cb233",
+      "mask": "masks/read_web/pointing-hand.png",
+      "mask_sha256": "02255e92610a18fb1f145638922b3d1feec82fd919de7e1f427a92113acf8f94",
+      "candidate": "parts/read_web/pointing-hand.png",
+      "candidate_sha256": "fa9e8cc9031772b564d76cd06ddbc6b97714b222a307080148d952663d7ec02c",
+      "reference_evidence": "evidence/read_web-pointing-hand-reference.png",
+      "backgrounds_200": "review/read_web/pointing-hand/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-4.png"
+    },
+    {
+      "state": "respond",
+      "part": "hand-and-card",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [
+        4,
+        6
+      ],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        302,
+        588,
+        532,
+        778
+      ],
+      "finding_ids": [
+        "F08"
+      ],
+      "conclusion": "F08",
+      "source": "source/09-respond.png",
+      "source_sha256": "7b6a19de9a355e3dabac281edf2ce8654ea29c9477453625b8f02441a32536fd",
+      "mask": "masks/respond/hand-and-card.png",
+      "mask_sha256": "b0c6141bc07b4b7a2a261205f15b154655112cf06883c5153f49fef3ba876f95",
+      "candidate": "parts/respond/hand-and-card.png",
+      "candidate_sha256": "7eee97d246be5db764890f5598260f4b82987b5d14c74395e7238742d1566769",
+      "reference_evidence": "evidence/respond-hand-and-card-reference.png",
+      "backgrounds_200": "review/respond/hand-and-card/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-4.png"
+    },
+    {
+      "state": "respond",
+      "part": "iris-left",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        440,
+        499,
+        504,
+        558
+      ],
+      "finding_ids": [
+        "F01"
+      ],
+      "conclusion": "F01",
+      "source": "source/09-respond.png",
+      "source_sha256": "7b6a19de9a355e3dabac281edf2ce8654ea29c9477453625b8f02441a32536fd",
+      "mask": "masks/respond/iris-left.png",
+      "mask_sha256": "3d53e53428ed42b2ff63de9f24d37d0a4f7edcf11ef2c6e3e89cdcd2c36c9b0b",
+      "candidate": "parts/respond/iris-left.png",
+      "candidate_sha256": "8ee8d69d5d9afce2968dd7df7863219c952da63933e5661397486340c1d0bd10",
+      "reference_evidence": "evidence/respond-iris-left-reference.png",
+      "backgrounds_200": "review/respond/iris-left/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-4.png"
+    },
+    {
+      "state": "respond",
+      "part": "iris-right",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        628,
+        508,
+        699,
+        565
+      ],
+      "finding_ids": [
+        "F01"
+      ],
+      "conclusion": "F01",
+      "source": "source/09-respond.png",
+      "source_sha256": "7b6a19de9a355e3dabac281edf2ce8654ea29c9477453625b8f02441a32536fd",
+      "mask": "masks/respond/iris-right.png",
+      "mask_sha256": "6196e75aab2f876eb1ae53a3752abbc34321716ef7b22037855cec13e26e088e",
+      "candidate": "parts/respond/iris-right.png",
+      "candidate_sha256": "2dff94516509b114fa49af1a2fa786df089d4134b9aed3aa171ebb6297492332",
+      "reference_evidence": "evidence/respond-iris-right-reference.png",
+      "backgrounds_200": "review/respond/iris-right/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-4.png"
+    },
+    {
+      "state": "thinking",
+      "part": "iris-left",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        416,
+        502,
+        475,
+        567
+      ],
+      "finding_ids": [
+        "F01"
+      ],
+      "conclusion": "F01",
+      "source": "source/02-thinking.png",
+      "source_sha256": "7309dd9974173c4976588387feef61241470e058cb2c3580c4976bff41377536",
+      "mask": "masks/thinking/iris-left.png",
+      "mask_sha256": "d36dc02c572deea9b31288714b26a8cefb1e3122e56fc01f12d2eb19878379a7",
+      "candidate": "parts/thinking/iris-left.png",
+      "candidate_sha256": "49762abca8dd7eb70a07b28b196aa3944cca8695f66408c79513ef8316daead4",
+      "reference_evidence": "evidence/thinking-iris-left-reference.png",
+      "backgrounds_200": "review/thinking/iris-left/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-4.png"
+    },
+    {
+      "state": "thinking",
+      "part": "iris-right",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        594,
+        523,
+        660,
+        583
+      ],
+      "finding_ids": [
+        "F01"
+      ],
+      "conclusion": "F01",
+      "source": "source/02-thinking.png",
+      "source_sha256": "7309dd9974173c4976588387feef61241470e058cb2c3580c4976bff41377536",
+      "mask": "masks/thinking/iris-right.png",
+      "mask_sha256": "70dd967d01ccda618ffea2786fb60bc121db02fd41e3e590de414f7bb4f325ad",
+      "candidate": "parts/thinking/iris-right.png",
+      "candidate_sha256": "b5fcb54991ffd6d11feb620416c7bcd4a0cde32309348b2af11a2f175f01cedc",
+      "reference_evidence": "evidence/thinking-iris-right-reference.png",
+      "backgrounds_200": "review/thinking/iris-right/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-4.png"
+    },
+    {
+      "state": "verify",
+      "part": "hand-and-probe",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [
+        4,
+        6
+      ],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        370,
+        589,
+        504,
+        779
+      ],
+      "finding_ids": [
+        "F10",
+        "F11"
+      ],
+      "conclusion": "F10; F11",
+      "source": "source/06-verify.png",
+      "source_sha256": "cbe31ee0637734af510385b69c876e9cf4969023c9e84fbecc65e8fd115274fc",
+      "mask": "masks/verify/hand-and-probe.png",
+      "mask_sha256": "c521789d52d81d9cd73d2ab528136afdd200b167faa4b8b02a8b8b478de02fd4",
+      "candidate": "parts/verify/hand-and-probe.png",
+      "candidate_sha256": "685817602c03a9161f2e3085fa4d49f4df2895158e6321dccead2690cfbdf510",
+      "reference_evidence": "evidence/verify-hand-and-probe-reference.png",
+      "backgrounds_200": "review/verify/hand-and-probe/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-5.png"
+    },
+    {
+      "state": "verify",
+      "part": "iris-left",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        437,
+        511,
+        501,
+        574
+      ],
+      "finding_ids": [
+        "F01"
+      ],
+      "conclusion": "F01",
+      "source": "source/06-verify.png",
+      "source_sha256": "cbe31ee0637734af510385b69c876e9cf4969023c9e84fbecc65e8fd115274fc",
+      "mask": "masks/verify/iris-left.png",
+      "mask_sha256": "8a74217fdf57d70b020a86c6ece947332af910dbbfc5fcca9677d7d3106b1956",
+      "candidate": "parts/verify/iris-left.png",
+      "candidate_sha256": "13d3bdf1852642e67c2a7a034f813f06b32a1fad26f483d404a4b8327d53965c",
+      "reference_evidence": "evidence/verify-iris-left-reference.png",
+      "backgrounds_200": "review/verify/iris-left/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-5.png"
+    },
+    {
+      "state": "verify",
+      "part": "iris-right",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        623,
+        520,
+        695,
+        578
+      ],
+      "finding_ids": [
+        "F01"
+      ],
+      "conclusion": "F01",
+      "source": "source/06-verify.png",
+      "source_sha256": "cbe31ee0637734af510385b69c876e9cf4969023c9e84fbecc65e8fd115274fc",
+      "mask": "masks/verify/iris-right.png",
+      "mask_sha256": "4baf6ce544f711768696b8e58c4dd1627d23e647d0852e651970a525ae2c0782",
+      "candidate": "parts/verify/iris-right.png",
+      "candidate_sha256": "dad03aba2405ee0e9e04e32b8f9eb6027643bd90e16ae2f7a1de31e04e46d4ed",
+      "reference_evidence": "evidence/verify-iris-right-reference.png",
+      "backgrounds_200": "review/verify/iris-right/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-5.png"
+    },
+    {
+      "state": "view_image",
+      "part": "hand-and-stylus",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [
+        4,
+        6
+      ],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        372,
+        657,
+        520,
+        811
+      ],
+      "finding_ids": [
+        "F12"
+      ],
+      "conclusion": "F12",
+      "source": "source/04-view_image.png",
+      "source_sha256": "2b5b3c8e23c672f9286e0c77e62c4f53f96ae522b9efc92b3b2b48c9d7d7dfd5",
+      "mask": "masks/view_image/hand-and-stylus.png",
+      "mask_sha256": "d9c8cc526d91c49b53e8e459c3584573cd6846073c06a4d697eed53dcd6ad73d",
+      "candidate": "parts/view_image/hand-and-stylus.png",
+      "candidate_sha256": "edae32d5fa91d58f59fe903c6d63cf069bfea7fbd6e7d859d1e3dd05a3b5cf63",
+      "reference_evidence": "evidence/view_image-hand-and-stylus-reference.png",
+      "backgrounds_200": "review/view_image/hand-and-stylus/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-5.png"
+    },
+    {
+      "state": "view_image",
+      "part": "iris-left",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        440,
+        504,
+        504,
+        570
+      ],
+      "finding_ids": [
+        "F01"
+      ],
+      "conclusion": "F01",
+      "source": "source/04-view_image.png",
+      "source_sha256": "2b5b3c8e23c672f9286e0c77e62c4f53f96ae522b9efc92b3b2b48c9d7d7dfd5",
+      "mask": "masks/view_image/iris-left.png",
+      "mask_sha256": "5087a7ba342165d36ff9a76499d3b122ad038a7afc64476e0422783a15d2cebb",
+      "candidate": "parts/view_image/iris-left.png",
+      "candidate_sha256": "b8e5aaa0daa6d9356b4a68b05b264acb9540fd272340e3e32ddd2280308212c5",
+      "reference_evidence": "evidence/view_image-iris-left-reference.png",
+      "backgrounds_200": "review/view_image/iris-left/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-5.png"
+    },
+    {
+      "state": "view_image",
+      "part": "iris-right",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        630,
+        514,
+        698,
+        576
+      ],
+      "finding_ids": [
+        "F01"
+      ],
+      "conclusion": "F01",
+      "source": "source/04-view_image.png",
+      "source_sha256": "2b5b3c8e23c672f9286e0c77e62c4f53f96ae522b9efc92b3b2b48c9d7d7dfd5",
+      "mask": "masks/view_image/iris-right.png",
+      "mask_sha256": "eb0ece7678c4b2e03e7dfb2381f3cf5b903163d4b547cb58d1aee9a343e84052",
+      "candidate": "parts/view_image/iris-right.png",
+      "candidate_sha256": "7ef7334b412da407e872c55ed8a04bda5f0ff99a7a0e4a1b5210966e63d043fc",
+      "reference_evidence": "evidence/view_image-iris-right-reference.png",
+      "backgrounds_200": "review/view_image/iris-right/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-5.png"
+    },
+    {
+      "state": "write_file",
+      "part": "iris-left",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        440,
+        507,
+        499,
+        570
+      ],
+      "finding_ids": [
+        "F01"
+      ],
+      "conclusion": "F01",
+      "source": "source/05-write_file.png",
+      "source_sha256": "01ce56bb94e11e39844e803c2062cc2e273c7135d3349134e9a3b1cc1647e17e",
+      "mask": "masks/write_file/iris-left.png",
+      "mask_sha256": "e9ee33db45e24dd90b74a96485052f66b822e3142959ea0b4a6dc9027a8e0dba",
+      "candidate": "parts/write_file/iris-left.png",
+      "candidate_sha256": "980c9d804ff7e68040f5267066dd47a3c86217e6f620a5cdd8fc1074b98fe175",
+      "reference_evidence": "evidence/write_file-iris-left-reference.png",
+      "backgrounds_200": "review/write_file/iris-left/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-6.png"
+    },
+    {
+      "state": "write_file",
+      "part": "iris-right",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [
+        4,
+        6
+      ],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        619,
+        516,
+        687,
+        574
+      ],
+      "finding_ids": [
+        "F01",
+        "F03"
+      ],
+      "conclusion": "F01; F03",
+      "source": "source/05-write_file.png",
+      "source_sha256": "01ce56bb94e11e39844e803c2062cc2e273c7135d3349134e9a3b1cc1647e17e",
+      "mask": "masks/write_file/iris-right.png",
+      "mask_sha256": "bb142faaef0cc7a56ddcd5c3ce0e9213a724b8e9a94060137ebd2fd3eba33f87",
+      "candidate": "parts/write_file/iris-right.png",
+      "candidate_sha256": "33a65f56547e02c6cb3d1aca4a5d71e3527b5ba426a70d0b242aa856d784a71b",
+      "reference_evidence": "evidence/write_file-iris-right-reference.png",
+      "backgrounds_200": "review/write_file/iris-right/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-6.png"
+    },
+    {
+      "state": "write_file",
+      "part": "left-hand",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [
+        4,
+        6
+      ],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        354,
+        739,
+        469,
+        813
+      ],
+      "finding_ids": [
+        "F13"
+      ],
+      "conclusion": "F13",
+      "source": "source/05-write_file.png",
+      "source_sha256": "01ce56bb94e11e39844e803c2062cc2e273c7135d3349134e9a3b1cc1647e17e",
+      "mask": "masks/write_file/left-hand.png",
+      "mask_sha256": "a26f499fff317495c14d05bf9ef1c9856769cd00a9cc05a6e1e1ce536cc5858e",
+      "candidate": "parts/write_file/left-hand.png",
+      "candidate_sha256": "7932e1255b660116b79c9b00884d982f2f2b955b0a666125cf629f42c84a8076",
+      "reference_evidence": "evidence/write_file-left-hand-reference.png",
+      "backgrounds_200": "review/write_file/left-hand/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-6.png"
+    },
+    {
+      "state": "write_file",
+      "part": "right-hand",
+      "result": "rework_required",
+      "checked": true,
+      "inspection_scales": [
+        1,
+        2
+      ],
+      "additional_details_scales": [
+        4,
+        6
+      ],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "bbox_xyxy": [
+        741,
+        747,
+        849,
+        812
+      ],
+      "finding_ids": [
+        "F14"
+      ],
+      "conclusion": "F14",
+      "source": "source/05-write_file.png",
+      "source_sha256": "01ce56bb94e11e39844e803c2062cc2e273c7135d3349134e9a3b1cc1647e17e",
+      "mask": "masks/write_file/right-hand.png",
+      "mask_sha256": "932c8d4c0b9261e130b6dc028b3dbe39419c6f15e31de9b6766fa608585cdd25",
+      "candidate": "parts/write_file/right-hand.png",
+      "candidate_sha256": "00f66478cba657d0c505398218d0356c0d2071181068c6ff9282a47a77ba3cb1",
+      "reference_evidence": "evidence/write_file-right-hand-reference.png",
+      "backgrounds_200": "review/write_file/right-hand/four-backgrounds-200.png",
+      "backgrounds_100": "evidence/backgrounds100-6.png"
+    }
+  ],
+  "opened_files": {
+    "raw_files": [
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/01-idle.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/02-thinking.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/03-read_file.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/04-view_image.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/05-write_file.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/06-verify.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/07-read_web.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/08-default_work.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/09-respond.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/10-task_complete.png",
+        "use": "full original displayed; fixed state, no candidate required"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/11-question_for_user.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/12-failed.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/default_work/iris-left.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/default_work/iris-right.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/default_work/trackball-hand.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/failed/hand-and-card.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/failed/iris-left.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/failed/iris-right.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/idle/iris-left.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/idle/iris-right.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/idle/orb.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/idle/touching-hand.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/question_for_user/button-cap.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/question_for_user/iris-left.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/question_for_user/iris-right.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/question_for_user/pressing-hand.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/read_file/iris-left.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/read_file/iris-right.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/read_web/iris-left.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/read_web/iris-right.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/read_web/pointing-hand.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/respond/hand-and-card.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/respond/iris-left.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/respond/iris-right.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/thinking/iris-left.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/thinking/iris-right.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/verify/hand-and-probe.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/verify/iris-left.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/verify/iris-right.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/view_image/hand-and-stylus.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/view_image/iris-left.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/view_image/iris-right.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/write_file/iris-left.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/write_file/iris-right.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/write_file/left-hand.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/masks/write_file/right-hand.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/default_work/iris-left.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/default_work/iris-right.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/default_work/trackball-hand.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/failed/hand-and-card.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/failed/iris-left.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/failed/iris-right.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/idle/iris-left.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/idle/iris-right.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/idle/orb.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/idle/touching-hand.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/question_for_user/button-cap.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/question_for_user/iris-left.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/question_for_user/iris-right.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/question_for_user/pressing-hand.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/read_file/iris-left.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/read_file/iris-right.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/read_web/iris-left.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/read_web/iris-right.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/read_web/pointing-hand.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/respond/hand-and-card.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/respond/iris-left.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/respond/iris-right.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/thinking/iris-left.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/thinking/iris-right.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/verify/hand-and-probe.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/verify/iris-left.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/verify/iris-right.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/view_image/hand-and-stylus.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/view_image/iris-left.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/view_image/iris-right.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/write_file/iris-left.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/write_file/iris-right.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/write_file/left-hand.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      },
+      {
+        "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/parts/write_file/right-hand.png",
+        "use": "decoded and visually displayed in full nonzero-mask bounding crop at 100% and 200%"
+      }
+    ],
+    "candidate_review_pngs": [
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/default_work/iris-left/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/default_work/iris-left/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/default_work/iris-left/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/default_work/iris-right/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/default_work/iris-right/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/default_work/iris-right/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/default_work/trackball-hand/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/default_work/trackball-hand/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/default_work/trackball-hand/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/failed/hand-and-card/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/failed/hand-and-card/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/failed/hand-and-card/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/failed/iris-left/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/failed/iris-left/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/failed/iris-left/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/failed/iris-right/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/failed/iris-right/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/failed/iris-right/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/idle/iris-left/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/idle/iris-left/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/idle/iris-left/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/idle/iris-right/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/idle/iris-right/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/idle/iris-right/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/idle/orb/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/idle/orb/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/idle/orb/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/idle/touching-hand/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/idle/touching-hand/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/idle/touching-hand/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/question_for_user/button-cap/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/question_for_user/button-cap/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/question_for_user/button-cap/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/question_for_user/iris-left/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/question_for_user/iris-left/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/question_for_user/iris-left/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/question_for_user/iris-right/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/question_for_user/iris-right/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/question_for_user/iris-right/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/question_for_user/pressing-hand/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/question_for_user/pressing-hand/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/question_for_user/pressing-hand/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/read_file/iris-left/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/read_file/iris-left/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/read_file/iris-left/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/read_file/iris-right/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/read_file/iris-right/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/read_file/iris-right/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/read_web/iris-left/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/read_web/iris-left/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/read_web/iris-left/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/read_web/iris-right/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/read_web/iris-right/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/read_web/iris-right/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/read_web/pointing-hand/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/read_web/pointing-hand/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/read_web/pointing-hand/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/respond/hand-and-card/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/respond/hand-and-card/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/respond/hand-and-card/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/respond/iris-left/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/respond/iris-left/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/respond/iris-left/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/respond/iris-right/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/respond/iris-right/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/respond/iris-right/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/thinking/iris-left/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/thinking/iris-left/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/thinking/iris-left/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/thinking/iris-right/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/thinking/iris-right/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/thinking/iris-right/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/verify/hand-and-probe/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/verify/hand-and-probe/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/verify/hand-and-probe/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/verify/iris-left/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/verify/iris-left/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/verify/iris-left/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/verify/iris-right/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/verify/iris-right/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/verify/iris-right/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/view_image/hand-and-stylus/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/view_image/hand-and-stylus/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/view_image/hand-and-stylus/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/view_image/iris-left/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/view_image/iris-left/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/view_image/iris-left/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/view_image/iris-right/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/view_image/iris-right/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/view_image/iris-right/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/write_file/iris-left/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/write_file/iris-left/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/write_file/iris-left/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/write_file/iris-right/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/write_file/iris-right/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/write_file/iris-right/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/write_file/left-hand/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/write_file/left-hand/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/write_file/left-hand/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/write_file/right-hand/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/write_file/right-hand/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/write_file/right-hand/four-backgrounds-200.png"
+    ],
+    "visually_displayed_images": [
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/backgrounds100-1.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/backgrounds100-2.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/backgrounds100-3.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/backgrounds100-4.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/backgrounds100-5.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/backgrounds100-6.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/default_work-iris-left-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/default_work-iris-right-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/default_work-trackball-hand-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/failed-hand-and-card-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/failed-iris-left-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/failed-iris-right-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/failed-wrist.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/idle-iris-left-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/idle-iris-right-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/idle-orb-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/idle-touching-hand-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/issue-detail-01.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/issue-detail-02.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/issue-detail-03.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/issue-detail-04.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/issue-detail-05.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/issue-detail-06.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/issue-detail-07.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/issue-detail-08.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/issue-detail-09.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/issue-detail-10.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/issue-detail-11.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/issue-detail-12.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/issue-detail-13.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/probe-base-junction.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/question_for_user-button-cap-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/question_for_user-iris-left-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/question_for_user-iris-right-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/question_for_user-pressing-hand-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/read_file-iris-left-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/read_file-iris-right-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/read_web-iris-left-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/read_web-iris-right-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/read_web-pointing-hand-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/respond-hand-and-card-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/respond-iris-left-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/respond-iris-right-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/thinking-iris-left-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/thinking-iris-right-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/verify-hand-and-probe-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/verify-iris-left-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/verify-iris-right-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/view_image-hand-and-stylus-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/view_image-iris-left-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/view_image-iris-right-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/write_file-iris-left-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/write_file-iris-right-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/write_file-left-hand-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R01/evidence/write_file-right-hand-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/default_work/iris-left/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/default_work/iris-right/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/default_work/trackball-hand/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/failed/hand-and-card/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/failed/iris-left/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/failed/iris-right/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/idle/iris-left/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/idle/iris-right/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/idle/orb/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/idle/touching-hand/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/question_for_user/button-cap/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/question_for_user/iris-left/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/question_for_user/iris-right/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/question_for_user/pressing-hand/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/read_file/iris-left/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/read_file/iris-right/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/read_web/iris-left/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/read_web/iris-right/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/read_web/pointing-hand/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/respond/hand-and-card/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/respond/iris-left/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/respond/iris-right/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/thinking/iris-left/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/thinking/iris-right/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/verify/hand-and-probe/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/verify/iris-left/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/verify/iris-right/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/view_image/hand-and-stylus/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/view_image/iris-left/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/view_image/iris-right/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/write_file/iris-left/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/write_file/iris-right/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/write_file/left-hand/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/write_file/right-hand/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/01-idle.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/06-verify.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/07-read_web.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/10-task_complete.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/source/11-question_for_user.png"
+    ],
+    "machine_report_read_after_visual": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/review/mask-report.json"
+  },
+  "machine_summary": "制作方报告34件components=1、opaque_hole_pixels=0、background_pixels=0；独立重算34件连通块均1、选入源图alpha=0像素均0、被选像素RGB均未改。22虹膜mask纯二值。拓扑通过不能替代语义与边缘通过。",
+  "limitations": [
+    "仅认可已露出的部件边界；没有隐藏结构完整性结论。",
+    "没有补底、眼皮、动画或原生播放，不作动态通过结论。",
+    "3件局部静态通过不等于整套通过。"
+  ]
+}

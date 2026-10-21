@@ -1,0 +1,185 @@
+{
+  "version": 4,
+  "states": [
+    {
+      "id": "idle",
+      "asset": "idle.png",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "pixelScale": 4,
+      "sequence": [
+        0
+      ],
+      "durationsMs": [
+        1000
+      ],
+      "loop": true,
+      "loopStart": 0
+    },
+    {
+      "id": "thinking",
+      "asset": "thinking.png",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "pixelScale": 4,
+      "sequence": [
+        0
+      ],
+      "durationsMs": [
+        1000
+      ],
+      "loop": true,
+      "loopStart": 0
+    },
+    {
+      "id": "read_file",
+      "asset": "read_file.png",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "pixelScale": 4,
+      "sequence": [
+        0
+      ],
+      "durationsMs": [
+        1000
+      ],
+      "loop": true,
+      "loopStart": 0
+    },
+    {
+      "id": "view_image",
+      "asset": "view_image.png",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "pixelScale": 4,
+      "sequence": [
+        0
+      ],
+      "durationsMs": [
+        1000
+      ],
+      "loop": true,
+      "loopStart": 0
+    },
+    {
+      "id": "write_file",
+      "asset": "write_file.png",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "pixelScale": 4,
+      "sequence": [
+        0
+      ],
+      "durationsMs": [
+        1000
+      ],
+      "loop": true,
+      "loopStart": 0
+    },
+    {
+      "id": "verify",
+      "asset": "verify.png",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "pixelScale": 4,
+      "sequence": [
+        0
+      ],
+      "durationsMs": [
+        1000
+      ],
+      "loop": true,
+      "loopStart": 0
+    },
+    {
+      "id": "read_web",
+      "asset": "read_web.png",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "pixelScale": 4,
+      "sequence": [
+        0
+      ],
+      "durationsMs": [
+        1000
+      ],
+      "loop": true,
+      "loopStart": 0
+    },
+    {
+      "id": "default_work",
+      "asset": "default_work.png",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "pixelScale": 4,
+      "sequence": [
+        0
+      ],
+      "durationsMs": [
+        1000
+      ],
+      "loop": true,
+      "loopStart": 0
+    },
+    {
+      "id": "respond",
+      "asset": "respond.png",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "pixelScale": 4,
+      "sequence": [
+        0
+      ],
+      "durationsMs": [
+        1000
+      ],
+      "loop": true,
+      "loopStart": 0
+    },
+    {
+      "id": "task_complete",
+      "asset": "task_complete.png",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "pixelScale": 4,
+      "sequence": [
+        0
+      ],
+      "durationsMs": [
+        1000
+      ],
+      "loop": true,
+      "loopStart": 0
+    },
+    {
+      "id": "question_for_user",
+      "asset": "question_for_user.png",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "pixelScale": 4,
+      "sequence": [
+        0
+      ],
+      "durationsMs": [
+        1000
+      ],
+      "loop": true,
+      "loopStart": 0
+    },
+    {
+      "id": "failed",
+      "asset": "failed.png",
+      "frameWidth": 192,
+      "frameHeight": 208,
+      "pixelScale": 4,
+      "sequence": [
+        0
+      ],
+      "durationsMs": [
+        1000
+      ],
+      "loop": true,
+      "loopStart": 0
+    }
+  ]
+}

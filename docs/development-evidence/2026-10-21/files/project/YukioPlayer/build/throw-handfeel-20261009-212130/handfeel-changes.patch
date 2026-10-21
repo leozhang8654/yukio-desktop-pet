@@ -1,0 +1,572 @@
+--- before/YukioWin/tests/test_app_logic.py
++++ after/YukioWin/tests/test_app_logic.py
+@@ -838,11 +838,17 @@
+ 
+ class ThrowInteractionTests(unittest.TestCase):
+     def gesture(self,a):
+-        fake_win32.CURSOR[:]=[a.pet.x+90,a.pet.y+70]
+-        a._pet_proc(a.pet.hwnd,fake_win32.WM_LBUTTONDOWN,0,0)
+-        fake_win32.CURSOR[:]=[fake_win32.CURSOR[0]-160,fake_win32.CURSOR[1]-300]
+-        a._pet_proc(a.pet.hwnd,fake_win32.WM_MOUSEMOVE,0,0)
+-        a._pet_proc(a.pet.hwnd,fake_win32.WM_LBUTTONUP,0,0)
++        from unittest.mock import patch
++        clock=[10.]
++        with patch('time.monotonic',side_effect=lambda:clock[0]):
++            fake_win32.CURSOR[:]=[a.pet.x+90,a.pet.y+70]
++            a._pet_proc(a.pet.hwnd,fake_win32.WM_LBUTTONDOWN,0,0)
++            clock[0]+=.04
++            fake_win32.CURSOR[:]=[fake_win32.CURSOR[0]-80,fake_win32.CURSOR[1]-120]
++            a._pet_proc(a.pet.hwnd,fake_win32.WM_MOUSEMOVE,0,0)
++            clock[0]+=.01
++            fake_win32.CURSOR[:]=[fake_win32.CURSOR[0]-20,fake_win32.CURSOR[1]-30]
++            a._pet_proc(a.pet.hwnd,fake_win32.WM_LBUTTONUP,0,0)
+ 
+     def test_release_falls_without_saving_midflight_and_restores_latest_task(self):
+         a=make_app(throwInteraction=True)
+@@ -862,19 +868,60 @@
+         self.assertEqual(a.timeline.spec.id,'read_file')
+         self.assertEqual(a.pet.x,a.settings.get('originX'))
+ 
+-    def test_click_catch_keeps_frame_and_releases_without_chat(self):
++    def test_click_catch_returns_to_held_and_places_without_chat(self):
+         from unittest.mock import Mock
+         a=make_app();self.gesture(a)
+         a.flight.advance(.08);a._render_throw()
+-        image=a._throw_canvas.tobytes();a._pet_clicked=Mock()
++        a._pet_clicked=Mock()
+         fake_win32.CURSOR[:]=[a.pet.x+180,a.pet.y+180]
+         a._pet_proc(a.pet.hwnd,fake_win32.WM_LBUTTONDOWN,0,0)
+-        self.assertTrue(a._throw_caught)
+-        a._render_throw();self.assertEqual(a._throw_canvas.tobytes(),image)
++        self.assertIsNone(a.flight)
++        self.assertIsNotNone(a.swing)
++        self.assertEqual(a.held_timeline.spec.id,'held')
++        a._advance_hang(now()+33)
++        a.pet.x+=100;a._advance_hang(now()+66)
++        self.assertNotEqual(a.swing.rate,0)
+         a._pet_proc(a.pet.hwnd,fake_win32.WM_LBUTTONUP,0,0)
+-        self.assertEqual(a.flight.phase,'airborne');a._pet_clicked.assert_not_called()
+-        self.assertEqual(a.flight.vx,0);self.assertEqual(a.flight.vy,0)
++        self.assertIsNone(a.flight);a._pet_clicked.assert_not_called()
++        placed=a._normal_frame()
++        a._finish_hang()
++        self.assertEqual((a.pet.x,a.pet.y),placed)
+         a._cancel_throw()
++
++    def test_slow_or_stopped_release_preserves_floating_position(self):
++        for pointer in ((0.,0.),(120.,40.)):
++            a=make_app(throwInteraction=True)
++            a.pet.x,a.pet.y=500,400
++            a._drag_began();a.pet.move(a.pet.x+30,a.pet.y-40)
++            expected=a._normal_frame()
++            a._drag_ended(pointer)
++            self.assertIsNone(a.flight)
++            a._finish_hang()
++            self.assertEqual((a.pet.x,a.pet.y),expected)
++            self.assertEqual(a.settings.get('originY'),expected[1])
++
++    def test_report_returns_after_immediate_catch_and_completed_throw(self):
++        from yukio.events import PetEvent,Kind
++        a=make_app()
++        t=now();a.router.ingest(PetEvent(t,'test','A',Kind.task_start),t)
++        a.router.ingest(PetEvent(t,'test','A',Kind.activity_start,event_id='report',activity=PetState.write_file,detail='Current task report'),t)
++        a.router.settle(t)
++        advance(a,30)
++        self.assertIsNotNone(a.bubble_hold.value)
++        for catch in (True,False):
++            self.gesture(a)
++            self.assertIsNone(a.bubble_hold.value)
++            from unittest.mock import patch
++            with patch('time.time',return_value=now()/1000):
++                if catch:
++                    a._catch_throw();a._drag_ended((0.,0.));a._finish_hang()
++                else:
++                    for _ in range(1200):
++                        a.flight.advance(1/120)
++                        if a.flight.phase=='normal':break
++                    a._finish_throw()
++            self.assertIsNotNone(a.bubble_hold.value)
++            self.assertTrue(a.bubble.visible)
+ 
+     def test_cancellation_clears_every_phase_and_preserves_pending_answer(self):
+         for phase in ('airborne','dizzy','recover'):
+--- before/YukioWin/yukio/throw_interaction.py
++++ after/YukioWin/yukio/throw_interaction.py
+@@ -29,7 +29,26 @@
+ 
+     def _catch_throw(self):
+         if self.flight is None:return False
++        p=self.flight; dpi=self._throw_dpi; side=360*p.scale*dpi
++        cx=self.pet.x+side/2
++        cy=self.pet.y+side/2-getattr(self,'_throw_draw_shift',0)*dpi
++        angle=getattr(self,'_throw_draw_angle',p.angle)
++        drag_dpi=self._drag_dpi
+         self._throw_caught=True
++        self._finish_throw(save=False)
++        self._drag_dpi=drag_dpi
++        self._drag_began()
++        geo=self.hang_geo; sw=self.swing
++        limit=math.radians(sw.tuning.max_angle_deg)
++        sw.angle=max(-limit,min(limit,angle))
++        s=self.scale; co,si=math.cos(sw.angle),math.sin(sw.angle)
++        sx,sy,_,_=geo.sprite_rect;px,py=geo.pivot
++        dx=sx+self.throw_config['center'][0]*s-px
++        dy=-(sy+self.throw_config['center'][1]*s-py)
++        self.pet.x=round(cx-px-dx*co+dy*si)
++        self.pet.y=round(cy-py+dx*si+dy*co)
++        self._painted=None;self._render(time.time()*1000)
++        self._position_bubble();self._paint_bubble();self._position_cards();self._position_question()
+         return True
+ 
+     def _start_throw(self,pointer):
+@@ -66,6 +85,8 @@
+         self._throw_last=time.monotonic(); self._painted=None
+         self.win32.user32.SetTimer(self.control.hwnd,2,16,None)
+         self.bubble.hide()
++        self.bubble_hold.update(None,time.time()*1000,immediate=True)
++        self._bubble_alpha=0.;self._bubble_target=0.
+         self._render_throw()
+ 
+     def _throw_tick(self):
+@@ -150,7 +171,7 @@
+         if self._throw_canvas is not None:self._throw_canvas.close()
+         self._throw_canvas=image
+ 
+-    def _finish_throw(self):
++    def _finish_throw(self,save=True):
+         if getattr(self,'flight',None) is None:return
+         p=self.flight;dpi=self._throw_dpi
+         self.win32.user32.KillTimer(self.control.hwnd,2)
+@@ -165,8 +186,12 @@
+             im=getattr(self,name,None)
+             if im is not None:im.close();setattr(self,name,None)
+         if self._throw_source is not None:self._throw_source[1].close();self._throw_source=None
+-        self._painted=None;self._save_position();self._render(time.time()*1000)
++        self._painted=None
++        if save:self._save_position()
++        self._render(time.time()*1000)
+         self._position_bubble();self._position_cards();self._position_question()
++        self._update_bubble(time.time()*1000)
++        self._paint_bubble()
+ 
+     def _cancel_throw(self):
+         captured=getattr(self,"_drag_pending",False)
+--- before/YukioWin/yukio/drag_velocity.py
++++ after/YukioWin/yukio/drag_velocity.py
+@@ -35,6 +35,11 @@
+         return tuple(sum(w*(s[0]-means[0])*(s[i]-means[i]) for w,s in zip(weights,rows))/denom*decay for i in (1,2))
+ 
+ 
++def should_throw(pointer, config):
++    """Only a deliberate pointer flick launches; body sway cannot trigger it."""
++    return all(math.isfinite(v) for v in pointer) and math.hypot(*pointer) >= config.get('throwMinSpeed', 650.0)
++
++
+ def release_velocity(pointer, tangent, config):
+     speed = math.hypot(*pointer)
+     gain = config['pointerGain'] * min(1.0, speed/config['lowSpeed'])
+--- before/YukioWin/yukio/app.py
++++ after/YukioWin/yukio/app.py
+@@ -42,6 +42,7 @@
+ 
+ 
+ from .throw_interaction import ThrowInteraction
++from .drag_velocity import should_throw
+ 
+ 
+ class PetApp(ThrowInteraction):
+@@ -1177,8 +1178,11 @@
+         self.tray.set_tip(self._tray_tip())
+ 
+     def _drag_ended(self, pointer=(0.,0.)) -> None:
+-        if self.settings.get("throwInteraction", True):
++        if self.settings.get("throwInteraction", True) and should_throw(pointer,self.throw_config):
+             self._start_throw(pointer)
++            return
++        if getattr(self,"flight",None) is not None:
++            self._finish_throw()
+             return
+         self._drag_dpi = None
+         if self.swing is None:
+--- before/YukioPlayer/Resources/Assets/interaction/physics.json
++++ after/YukioPlayer/Resources/Assets/interaction/physics.json
+@@ -6,6 +6,7 @@
+   "pauseGap": 0.25,
+   "gravity": 2400.0,
+   "pointerGain": 1.0,
++  "throwMinSpeed": 650.0,
+   "lowSpeed": 80.0,
+   "maxSpeed": 2600.0,
+   "wallRestitution": 0.4,
+--- before/YukioPlayer/Sources/YukioCore/ThrowPhysics.swift
++++ after/YukioPlayer/Sources/YukioCore/ThrowPhysics.swift
+@@ -13,6 +13,8 @@
+     public let units: String
+     public let step: Double, maxSteps: Int, pauseGap: Double, gravity: Double
+     public let pointerGain: Double, lowSpeed: Double, maxSpeed: Double
++    public let throwMinSpeed: Double?
++    public var minimumThrowSpeed: Double { throwMinSpeed ?? 650 }
+     public let wallRestitution: Double, ceilingRestitution: Double, floorRestitution: Double
+     public let bounceThreshold: Double, friction: Double, settleSpeed: Double, settleSeconds: Double
+     public let maxAngle: Double, recoverSeconds: Double
+@@ -28,6 +30,7 @@
+         guard c.version == 1, c.units == "logical-y-up-seconds", c.hull.count >= 3,
+               c.hull.allSatisfy({ $0.count == 2 && $0.allSatisfy(\.isFinite) }), c.step > 0,
+               c.gravity > 0, c.friction > 0, c.maxSteps > 0, c.center.count == 2, c.center.allSatisfy(\.isFinite),
++              c.minimumThrowSpeed.isFinite, c.minimumThrowSpeed > 0,
+               c.strengthMaxSpeed > c.strengthMinSpeed, c.dizzyMinSeconds > 0, c.dizzyMaxSeconds >= c.dizzyMinSeconds,
+               [c.wallRestitution,c.ceilingRestitution,c.floorRestitution].allSatisfy({ $0 >= 0 && $0 < 1 }) else {
+             throw CatalogError.invalid("interaction physics")
+--- before/YukioPlayer/Sources/YukioCore/HangSwing.swift
++++ after/YukioPlayer/Sources/YukioCore/HangSwing.swift
+@@ -64,10 +64,12 @@
+     private var lastMs: Double
+     private var released = false
+ 
+-    public init(now: Double, length: Double = 96, tuning: Tuning = Tuning()) {
++    public init(now: Double, length: Double = 96, tuning: Tuning = Tuning(), initialAngle: Double = 0) {
+         self.tuning = tuning
+         self.length = max(length, 1)
+         self.lastMs = now
++        let limit = tuning.maxAngleDeg * .pi / 180
++        self.angle = max(-limit, min(limit, initialAngle))
+     }
+ 
+     public var angleDegrees: Double { angle * 180 / .pi }
+--- before/YukioPlayer/Sources/YukioCore/DragVelocityTracker.swift
++++ after/YukioPlayer/Sources/YukioCore/DragVelocityTracker.swift
+@@ -25,6 +25,11 @@
+         return ThrowVector(zip(rows,ws).reduce(0) { $0 + $1.1 * ($1.0.0-mt) * ($1.0.1-mx) } / den * decay,
+                            zip(rows,ws).reduce(0) { $0 + $1.1 * ($1.0.0-mt) * ($1.0.2-my) } / den * decay)
+     }
++    /// Intent comes from the hand at release, never from residual body sway.
++    public static func shouldThrow(pointer: ThrowVector, config: ThrowConfig) -> Bool {
++        pointer.x.isFinite && pointer.y.isFinite && hypot(pointer.x, pointer.y) >= config.minimumThrowSpeed
++    }
++
+     public static func release(pointer: ThrowVector, tangent: ThrowVector, config c: ThrowConfig) -> ThrowVector {
+         let gain = c.pointerGain * min(1, hypot(pointer.x,pointer.y) / c.lowSpeed)
+         var v = ThrowVector(pointer.x * gain + tangent.x, pointer.y * gain + tangent.y)
+--- before/YukioPlayer/Sources/YukioPlayer/main.swift
++++ after/YukioPlayer/Sources/YukioPlayer/main.swift
+@@ -692,7 +692,7 @@
+ struct HangGeometry {
+     let panelSize: NSSize
+     /// 放大后的窗口左下角相对平时窗口左下角的位移（通常是负数）。
+-    let offset: NSPoint
++    var offset: NSPoint
+     /// 图在视图里占的矩形，以及绕着转的那一点（都是视图坐标）。
+     let spriteRect: NSRect
+     let pivot: NSPoint
+@@ -751,7 +751,7 @@
+     private var deepSeekInstaller: Process?
+     private var openChatProcessID: pid_t?
+     private var openChatObservedAt: Double = -.infinity
+-    private let defaults = interactionDemo ? (UserDefaults(suiteName:"local.yukio.throw.preview.settings") ?? UserDefaults.standard) : UserDefaults.standard
++    private let defaults: UserDefaults
+ 
+     private var panel: PetPanel!
+     private var view: PetView!
+@@ -852,7 +852,8 @@
+         set { defaults.set(newValue.rawValue, forKey: "language"); L10n.language = newValue }
+     }
+ 
+-    init(catalog: AnimationCatalog, library: SpriteLibrary) {
++    init(catalog: AnimationCatalog, library: SpriteLibrary, defaults: UserDefaults? = nil) {
++        self.defaults = defaults ?? (interactionDemo ? (UserDefaults(suiteName:"local.yukio.throw.preview.settings") ?? .standard) : .standard)
+         // 先定语言，再回放会话记录：回放时生成的说明文字才是对的语言。
+         L10n.language = UILanguage(code: UserDefaults.standard.string(forKey: "language"))
+         self.catalog = catalog
+@@ -919,12 +920,7 @@
+         view.onDragBegan = { [weak self] in self?.dragBegan() }
+         view.onDragOriginChanged = { [weak self] in self?.panel.frame.origin ?? .zero }
+         view.onDragEnded = { [weak self] velocity in self?.dragEnded(velocity) }
+-        view.onCatch = { [weak self] in
+-            guard let self, let flight = self.throwPlayback else { return false }
+-            flight.frozen = self.throwPresentation(flight)
+-            flight.caught = true
+-            return true
+-        }
++        view.onCatch = { [weak self] in self?.catchThrow() ?? false }
+         view.onDragCancelled = { [weak self] in self?.finishHang() }
+         // 右键保留轻量设置入口，再通过设置里的大按钮切换到完整助手窗口。
+         let openSettings: (NSEvent) -> Void = { [weak self] _ in
+@@ -996,6 +992,7 @@
+             panel.orderFrontRegardless()
+             render()
+             positionBubble()
++            updateBubble(now: nowMs(), force: true)
+             positionCards()
+             updateQuestion(now: nowMs(), immediate: true)
+         }
+@@ -1118,12 +1115,15 @@
+             swing?.grab()
+             return
+         }
+-        let geo = HangGeometry.make(petSize: petSize, held: heldSpec, scale: scale,
++        var geo = HangGeometry.make(petSize: petSize, held: heldSpec, scale: scale,
+                                     sagRoom: library.hangLength * scale * CGFloat(HangSwing.Tuning().maxSagRatio))
+-        hangGeo = geo
+         let f = panel.frame
+         panel.setFrame(NSRect(origin: NSPoint(x: f.minX + geo.offset.x, y: f.minY + geo.offset.y),
+                               size: geo.panelSize), display: false)
++        // AppKit rounds native window origins. Undo the actual displacement,
++        // otherwise each lift/place cycle can creep by one point.
++        geo.offset = NSPoint(x: panel.frame.minX - f.minX, y: panel.frame.minY - f.minY)
++        hangGeo = geo
+         view.frame = NSRect(origin: .zero, size: geo.panelSize)
+         swing = HangSwing(now: now, length: Double(library.hangLength * scale))
+         heldTimeline = SpriteTimeline(spec: heldSpec, now: now)
+@@ -1136,7 +1136,12 @@
+     }
+ 
+     private func dragEnded(_ pointer: ThrowVector) {
+-        if throwEnabled, let config = throwConfig { startThrow(pointer, config: config); return }
++        if throwEnabled, let config = throwConfig,
++           DragVelocityTracker.shouldThrow(pointer: pointer, config: config) {
++            startThrow(pointer, config: config)
++            return
++        }
++        if throwPlayback != nil { finishThrow(); return }
+         guard swing != nil else { return }
+         // 贴边和保存位置都按平时那块算；放大的窗口跟着挪同样的距离。
+         let normal = clamped(normalFrame())
+@@ -1149,6 +1154,31 @@
+         positionBubble()
+         positionCards()
+         positionQuestion()
++    }
++
++    /// A catch transfers ownership to the ordinary held animation immediately.
++    /// Keeping a frozen flight alive here used to leave the pet suspended.
++    private func catchThrow() -> Bool {
++        guard let flight = throwPlayback else { return false }
++        let frozen = throwPresentation(flight), p = frozen.1
++        let c = flight.physics.config, s = flight.physics.scale
++        let dx = p.rect.minX + (c.center[0] + 12) * s - p.pivot.x
++        let dy = p.rect.maxY - (c.center[1] + 12) * s - p.pivot.y
++        let center = NSPoint(x: panel.frame.minX + p.pivot.x + dx*cos(p.angle) - dy*sin(p.angle),
++                             y: panel.frame.minY + p.pivot.y + dx*sin(p.angle) + dy*cos(p.angle))
++        flight.frozen = frozen
++        flight.caught = true
++        finishThrow(save: false)
++        dragBegan()
++        guard let geo = hangGeo else { return true }
++        swing = HangSwing(now: nowMs(), length: Double(library.hangLength * scale), initialAngle: p.angle)
++        let angle = CGFloat(swing!.angle)
++        let hx = geo.spriteRect.minX + c.center[0] * scale - geo.pivot.x
++        let hy = geo.spriteRect.maxY - c.center[1] * scale - geo.pivot.y
++        panel.setFrameOrigin(NSPoint(x: center.x - geo.pivot.x - hx*cos(angle) + hy*sin(angle),
++                                     y: center.y - geo.pivot.y - hx*sin(angle) - hy*cos(angle)))
++        render(); positionBubble(); positionCards(); positionQuestion()
++        return true
+     }
+ 
+     /// 晃停了（或超时、要改大小了）：窗口还原成平时那块，切回当前活动的动作。
+@@ -1217,6 +1247,9 @@
+             if let child, child.parent != nil { panel.removeChildWindow(child) }
+         }
+         bubble.orderOut(nil)
++        // Synchronize the held value even if the catch happens before a tick.
++        bubbleHold.update(nil, now: nowMs(), immediate: true)
++        bubble.alphaValue = 0
+         let size = flight.canvasSize, p = flight.worldCenter
+         panel.setFrame(NSRect(x: p.x-size.width/2, y: p.y-size.height/2, width: size.width, height: size.height), display: false)
+         view.frame = NSRect(origin: .zero, size: size)
+@@ -1244,7 +1277,7 @@
+         render(); updateMousePassThrough()
+     }
+ 
+-    private func finishThrow() {
++    private func finishThrow(save: Bool = true) {
+         guard let flight = throwPlayback else { return }
+         throwTimer?.invalidate(); throwTimer = nil
+         if interactionDemo, let path = Bundle.main.object(forInfoDictionaryKey:"YukioInteractionDemoOutput") as? String {
+@@ -1272,7 +1305,8 @@
+         for child in [cardStack as NSWindow?, questionPanel as NSWindow?] {
+             if let child, child.parent == nil { panel.addChildWindow(child, ordered:.above) }
+         }
+-        savePosition(); render(); positionBubble(); positionCards(); positionQuestion()
++        if save { savePosition() }
++        render(); positionBubble(); positionCards(); positionQuestion()
+         if interactionDemo, let path=Bundle.main.object(forInfoDictionaryKey:"YukioInteractionDemoOutput") as? String {
+             let info="frame=\(view.frame) bounds=\(view.bounds) window=\(panel.frame) spec=\(stateTimeline.spec.id) image=\(frame.width)x\(frame.height)"
+             try? info.write(toFile:path+".geometry.txt",atomically:true,encoding:.utf8)
+@@ -1281,7 +1315,7 @@
+                 try? bitmap.representation(using:.png,properties:[:])?.write(to:URL(fileURLWithPath:path+".normal.png"))
+             }
+         }
+-        updateBubble(now:nowMs()); updateStatusTitle()
++        updateBubble(now:nowMs(), force: true); updateStatusTitle()
+         if interactionDemo && interactionDemoRuns<3 { DispatchQueue.main.asyncAfter(deadline:.now()+0.8) { self.startInteractionDemo() } }
+     }
+ 
+@@ -1471,12 +1505,13 @@
+     /// 上次摆放气泡时是否被拎着。拎起和放下时各重新摆一次。
+     private var bubblePlacedForHang = false
+ 
+-    private func updateBubble(now: Double) {
++    private func updateBubble(now: Double, force: Bool = false) {
+         if (swing != nil) != bubblePlacedForHang { positionBubble(); positionCards() }
+         let source: ActivityRouter? = simulation?.router ?? (following ? router : nil)
+         let line = showBubble && throwPlayback == nil ? source?.statusLine(now: now) : nil
+         let visibilityChanged = (line == nil) != (bubbleHold.value == nil)
+-        guard bubbleHold.update(line, now: now, immediate: visibilityChanged) else { return }
++        let changed = bubbleHold.update(line, now: now, immediate: visibilityChanged || force)
++        guard changed || force else { return }
+         if let line = bubbleHold.value {
+             bubble.bubbleView.layout = BubbleLayout(line)
+             positionBubble()
+@@ -1511,6 +1546,10 @@
+     }
+ 
+     private func fadeBubble(to alpha: CGFloat) {
++        if alpha > 0, !petHidden {
++            if bubble.parent == nil { panel.addChildWindow(bubble, ordered: .above) }
++            bubble.orderFrontRegardless()
++        }
+         NSAnimationContext.runAnimationGroup { ctx in
+             ctx.duration = 0.18
+             self.bubble.animator().alphaValue = alpha
+@@ -2262,6 +2301,99 @@
+     @objc private func menuQuit() { NSApp.terminate(nil) }
+ }
+ 
++#if DEBUG
++extension AppController {
++    /// Real AppKit windows and production callbacks, with injected test defaults.
++    /// Does not poll transcripts, send answers, or start the application timer.
++    func interactionLifecycleForCheck() -> [String: Bool] {
++        var checks: [String: Bool] = [:]
++        following = true; showBubble = true; throwEnabled = true
++        setUpWindow(); setUpBubble(); setUpCards(); setUpQuestion()
++        panel.orderFrontRegardless()
++        defer {
++            throwTimer?.invalidate(); throwTimer = nil
++            for window in [bubble as NSWindow?, cardStack as NSWindow?, questionPanel as NSWindow?] {
++                if let window { panel.removeChildWindow(window); window.close() }
++            }
++            panel.close()
++        }
++        let room = (NSScreen.main ?? NSScreen.screens[0]).visibleFrame
++        func moveToMiddle() {
++            panel.setFrameOrigin(NSPoint(x: room.midX - 96, y: room.midY - 104))
++        }
++        func task(_ detail: String) {
++            let now = nowMs()
++            router.ingest(PetEvent(ts: now, source: "test", session: "handfeel", kind: .taskStart), now: now)
++            router.ingest(PetEvent(ts: now, source: "test", session: "handfeel", kind: .activityStart,
++                                   eventID: detail, activity: .write_file, detail: detail), now: now)
++            router.settle(now: now)
++            shownState = router.displayed
++            stateTimeline = SpriteTimeline(spec: catalog.spec(for: shownState), now: now)
++        }
++        task("Before throwing")
++        updateBubble(now: nowMs(), force: true)
++        checks["initialTaskVisible"] = bubble.isVisible && bubbleHold.value != nil
++        moveToMiddle(); dragBegan()
++        panel.setFrameOrigin(NSPoint(x: panel.frame.minX + 45, y: panel.frame.minY + 35))
++        let placed = clamped(normalFrame())
++        dragEnded(ThrowVector(100, 30))
++        checks["slowReleasePlacesWithoutFlight"] = throwPlayback == nil && releasedAt != nil
++        finishHang()
++        checks["placementPreservesPosition"] = panel.frame == placed
++            && abs(defaults.double(forKey: "originY") - placed.minY) < 0.01
++
++        moveToMiddle(); dragBegan(); dragEnded(ThrowVector(900, 300))
++        checks["flickLaunches"] = throwPlayback != nil && swing == nil
++        checks["taskHiddenOnlyDuringFlight"] = !bubble.isVisible
++        questionPanel.cardView.answerText = "unsent draft"
++        task("Latest task after throwing")
++        for _ in 0..<2000 {
++            guard let flight = throwPlayback, flight.physics.phase != .normal else { break }
++            flight.physics.advance(1.0 / 120)
++        }
++        checks["flightCompletes"] = throwPlayback?.physics.phase == .normal
++        finishThrow()
++        checks["latestTaskWindowReturns"] = bubble.isVisible && bubble.parent === panel
++            && bubbleHold.value == router.statusLine(now: nowMs()) && bubbleHold.value != nil
++        checks["answerDraftSurvives"] = questionPanel.cardView.answerText == "unsent draft"
++
++        for phase in [ThrowPhysics.Phase.airborne, .dizzy, .recover] {
++            moveToMiddle(); dragBegan(); dragEnded(ThrowVector(950, 0))
++            for _ in 0..<2000 {
++                guard let flight = throwPlayback, flight.physics.phase != phase else { break }
++                flight.physics.advance(1.0 / 120)
++            }
++            checks["reached_" + phase.rawValue] = throwPlayback?.physics.phase == phase
++            render()
++            let session = throwSessionID
++            let caught = view.onCatch?() ?? false
++            checks["catchTransfersToHeld_" + phase.rawValue] = caught && throwPlayback == nil
++                && throwTimer == nil && swing != nil && heldTimeline != nil && releasedAt == nil
++            let time = nowMs()
++            swing?.advance(to: time + 33, handX: 100, handY: 100)
++            swing?.advance(to: time + 66, handX: 200, handY: 140)
++            checks["heldContinuesAnimating_" + phase.rawValue] = abs(swing?.rate ?? 0) > 0
++            dragEnded(.zero)
++            let resting = normalFrame()
++            finishHang()
++            checks["caughtPetCanBePlaced_" + phase.rawValue] = throwPlayback == nil && swing == nil
++                && throwTimer == nil && panel.frame == resting && bubble.isVisible
++            dragBegan(); dragEnded(ThrowVector(-1000, 0))
++            checks["caughtPetCanBeThrownAgain_" + phase.rawValue] = throwPlayback != nil
++                && throwSessionID == session + 1 && throwPlayback?.caught == false
++            _ = view.onCatch?()
++            view.onDragCancelled?()
++            checks["cancelClearsInteraction_" + phase.rawValue] = throwPlayback == nil && swing == nil && throwTimer == nil
++        }
++        dragBegan(); dragEnded(ThrowVector(900, 0))
++        setHidden(true); setHidden(false)
++        checks["taskReturnsAfterHidingDuringFlight"] = bubble.isVisible && bubbleHold.value != nil
++            && throwPlayback == nil && throwTimer == nil
++        return checks
++    }
++}
++#endif
++
+ // MARK: - 入口
+ 
+ // 输出重定向到文件时也逐行写出，便于实时查看 --watch。
+--- before/YukioPlayer/Sources/YukioPlayer/PetWindow.swift
++++ after/YukioPlayer/Sources/YukioPlayer/PetWindow.swift
+@@ -68,7 +68,7 @@
+     var onClick: (() -> Void)?
+     var onDragBegan: (() -> Void)?
+     var onDragEnded: ((ThrowVector) -> Void)?
+-    /// Catch immediately on press; a release without dragging safely drops it.
++    /// Catch immediately on press; a release without dragging places it there.
+     var onCatch: (() -> Bool)?
+     var onDragCancelled: (() -> Void)?
+     var onContextMenu: ((NSEvent) -> Void)?
+@@ -163,7 +163,7 @@
+         suppressClick = false
+         pressed = true
+         velocityTracker = DragVelocityTracker()
+-        mouseStart = NSEvent.mouseLocation
++        mouseStart = window?.convertPoint(toScreen: event.locationInWindow) ?? NSEvent.mouseLocation
+         velocityTracker.add(time: event.timestamp, x: mouseStart.x, y: mouseStart.y)
+         caught = onCatch?() ?? false
+         lastMouse = mouseStart
+@@ -172,7 +172,8 @@
+     }
+ 
+     override func mouseDragged(with event: NSEvent) {
+-        let m = NSEvent.mouseLocation
++        guard pressed, !suppressClick else { return }
++        let m = window?.convertPoint(toScreen: event.locationInWindow) ?? NSEvent.mouseLocation
+         velocityTracker.add(time: event.timestamp, x: m.x, y: m.y)
+         let dx = m.x - mouseStart.x, dy = m.y - mouseStart.y
+         if !dragging && hypot(dx, dy) > 3 {
+@@ -192,8 +193,10 @@
+     }
+ 
+     override func mouseUp(with event: NSEvent) {
++        if suppressClick { suppressClick = false; return }
++        guard pressed else { return }
+         pressed = false
+-        let m = NSEvent.mouseLocation
++        let m = window?.convertPoint(toScreen: event.locationInWindow) ?? NSEvent.mouseLocation
+         velocityTracker.add(time: event.timestamp, x: m.x, y: m.y)
+         if dragging || caught {
+             let v = dragging ? velocityTracker.velocity(at: event.timestamp) : .zero

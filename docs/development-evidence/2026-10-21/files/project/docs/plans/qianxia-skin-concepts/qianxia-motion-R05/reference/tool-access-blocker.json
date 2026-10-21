@@ -1,0 +1,8 @@
+{
+  "tool": "mcp__cua_repl.js cua.getApp",
+  "target": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/review/QianxiaMotionPreview.app",
+  "result": "The Mac is locked and automatic unlock could not unlock it. Ask the user to unlock the Mac manually before continuing.",
+  "user_question_sent": true,
+  "bypass_attempted": false,
+  "consequence": "actual three-cycle playback, slow-motion UI and state switching cannot be certified until user unlocks"
+}

@@ -1,0 +1,21 @@
+Building for debugging...
+[0/5] Write sources
+[1/5] Write swift-version--1AB21518FC5DEDBE.txt
+[3/7] Emitting module YukioPlayer
+[4/7] Compiling YukioPlayer main.swift
+[4/8] Write Objects.LinkFileList
+[5/8] Linking YukioPlayer
+[6/8] Applying YukioPlayer
+[7/9] Write Objects.LinkFileList
+[8/9] Linking YukioPlayerPackageTests
+Build complete! (3.00s)
+◇ Test run started.
+↳ Testing Library Version: 124.4
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite IdleVisibilityTests started.
+◇ Test autoHideLifecycleUsesRealWindows() started.
+◇ Test settingsSwitchReflectsPreferenceAndEmitsChange() started.
+✔ Test settingsSwitchReflectsPreferenceAndEmitsChange() passed after 1.949 seconds.
+✔ Test autoHideLifecycleUsesRealWindows() passed after 1.949 seconds.
+✔ Suite IdleVisibilityTests passed after 1.950 seconds.
+✔ Test run with 2 tests passed after 1.950 seconds.

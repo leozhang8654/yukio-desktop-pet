@@ -1,0 +1,978 @@
+{
+  "reviewer": "Independent Codex subagent /root/cutout_independent_review, same reviewer as R01; not maker",
+  "round": "R03-hands",
+  "decision": "退回（仅12件手/道具静态可见层）",
+  "scope": "12件手/道具，含3件未改R01通过项；不包括虹膜、补底、隐藏结构、眼皮或动画。",
+  "coverage": {
+    "total": 12,
+    "visually_checked": 12,
+    "unchecked": 0,
+    "pass_static_visible_only": 4,
+    "rework_required": 8
+  },
+  "coordinate_system": "原始1205×1306图，0-based，x向右/y向下，[x0,y0,x1,y1)。",
+  "review_order": "先逐件12件原图/mask/part与100%四背景及200%原图/叠加/轮廓/四背景；完成后读机器报告，再用500/600%细节定位旧问题及新增轮廓缺陷。",
+  "frozen_hash_binding": {
+    "masks/default_work/trackball-hand.png": "64da2799b8189c9676f28d9f07e8471a7a0b1c34257344fd7c8abf1835c35a86",
+    "masks/failed/hand-and-card.png": "7a7038919f58598cde0354f4176c7a3cf3186a1f009e808326805af87a6c64bf",
+    "masks/idle/orb.png": "672edf22eb071eaf178f949fe422be7c28524c817744e2d869f8855106986122",
+    "masks/idle/touching-hand.png": "3c030f66a989ed21bb60b50437f09bd8985204f165ea7b427e0f92ef0ab92416",
+    "masks/question_for_user/button-cap.png": "86ccc238fc8cbb38644a70be0d4a6c6ac2e233431b273cb2c2d5f37c262a3684",
+    "masks/question_for_user/pressing-hand.png": "138c21e3e6ea9adc6b64495804740f06ef502587a7c0f7b95f18644380a40eff",
+    "masks/read_web/pointing-hand.png": "316d9df2ec4158f1c7114329233a0150c03665c27ec3c25c0c357d3b12bd32f1",
+    "masks/respond/hand-and-card.png": "e04f20e4ef654070e1f7f526c72d3ed0163b01f860136f2c47192ad525ef4df5",
+    "masks/verify/hand-and-probe.png": "90bb2bb4496bdc7b8edf84a42d99ac547198f5f8b09d3c98bdbadfdb0e369aff",
+    "masks/view_image/hand-and-stylus.png": "414f74cc15c8ae0f205a7fcfd1466e5393922297206ef9e8eb4a9bf459e3a84a",
+    "masks/write_file/left-hand.png": "9381a371d8553e6125ade1b3c5aa1a793f9f5895b194af0a967bc66f71ae8e35",
+    "masks/write_file/right-hand.png": "ff74bc62ca756f89052c31c8a9480686f0b75467289a397df511179b6978dbb6",
+    "parts/default_work/trackball-hand.png": "67c2c5d61bc4155ad8fa234775e21dbe07f900b03d2fa7df4e6f3828142371ab",
+    "parts/failed/hand-and-card.png": "9e74472ed5603939c0f547bb7898ce898a8e51d231ffa7bc4e4f528f4133b188",
+    "parts/idle/orb.png": "ca35b565d60b44cca1feb8b0616b296e466a91a6d095329ed12581d5cef45e3f",
+    "parts/idle/touching-hand.png": "b380f293d834269fc7fa6fd27cb86959d7b8aeb61d5da1b00ba2a6a945a97310",
+    "parts/question_for_user/button-cap.png": "959e1e7346157efa004ec92a3079ec2826538cca405feda6bdf040a2aa1f9e97",
+    "parts/question_for_user/pressing-hand.png": "6c628fa3d86fafdcdcf555462ae2fe4ad5f90f5cef79395615a202ac2c022090",
+    "parts/read_web/pointing-hand.png": "25a90f14308fc8aaa60b123d7395bf1c820bbae2cefb3e3bb58588f9864cd7a4",
+    "parts/respond/hand-and-card.png": "210d8b8dda79479030584d965bfa295f59e42e44b93a08be1cf565bac186c7a8",
+    "parts/verify/hand-and-probe.png": "5953c2b26462f77fbb071e234fc0f5755af5ef40a5bd370d8500e5e03a0bb90c",
+    "parts/view_image/hand-and-stylus.png": "7fd13fb4d914b9a774d0133d37e29ff9d8b92834b7400df6c55e2fb8f1d20966",
+    "parts/write_file/left-hand.png": "f7f1bc2fc1c87ec5af382788cfbf1a0dc6378246017bad6bede98690348c7774",
+    "parts/write_file/right-hand.png": "843d19fc40d4bbf9ec4ce99827e0e16365fe2ac0261cce5bf51ae6c1cc25e866",
+    "source/01-idle.png": "9c7769ab20bf96f77e8de0d6b6e78ee8e061ed5eb311b87575774df4f12be0b0",
+    "source/04-view_image.png": "2b5b3c8e23c672f9286e0c77e62c4f53f96ae522b9efc92b3b2b48c9d7d7dfd5",
+    "source/05-write_file.png": "01ce56bb94e11e39844e803c2062cc2e273c7135d3349134e9a3b1cc1647e17e",
+    "source/06-verify.png": "cbe31ee0637734af510385b69c876e9cf4969023c9e84fbecc65e8fd115274fc",
+    "source/07-read_web.png": "ce8655468092eafa020efd186e56d5e02849d54bd4eed10781cc40e78d7cb233",
+    "source/08-default_work.png": "bb3e21215e279b1e41403c384c4f5f586237ecdf4f6eaea81f283f0a10118d21",
+    "source/09-respond.png": "7b6a19de9a355e3dabac281edf2ce8654ea29c9477453625b8f02441a32536fd",
+    "source/11-question_for_user.png": "7dd9ffbf1600e954ed5718c970cf8648d4fe3695d82634355ac3054f8b9f6172",
+    "source/12-failed.png": "970cda2adf757e5320f202b93f1bf86f7c88d6bde303e8e7ccdb3dd553e37ace"
+  },
+  "hash_verification": {
+    "count": 33,
+    "mismatches": 0
+  },
+  "unchanged_R01_pass_items": [
+    {
+      "part": "default_work/trackball-hand",
+      "source": true,
+      "mask": true,
+      "candidate": true
+    },
+    {
+      "part": "idle/orb",
+      "source": true,
+      "mask": true,
+      "candidate": true
+    },
+    {
+      "part": "question_for_user/button-cap",
+      "source": true,
+      "mask": true,
+      "candidate": true
+    }
+  ],
+  "findings": [
+    {
+      "id": "H01",
+      "part": "idle/touching-hand",
+      "severity": "medium",
+      "regions_xyxy": [
+        [
+          420,
+          810,
+          437,
+          829
+        ]
+      ],
+      "prior_ids": [
+        "F04"
+      ],
+      "description": "下侧指缝的粉色边片虽缩小，黑底仍可见一小条粉/紫袖口色伸在深色手部轮廓之外，旧F04未完全消除。",
+      "recommendation": "沿该凹口局部确认手指描边外侧，清掉剩余袖口色与细小外伸片，保留皮肤内部原有粉色阴影。",
+      "evidence": [
+        "evidence/F04.png"
+      ],
+      "requires_rework": true
+    },
+    {
+      "id": "H02",
+      "part": "failed/hand-and-card",
+      "severity": "medium",
+      "regions_xyxy": [
+        [
+          398,
+          582,
+          435,
+          612
+        ]
+      ],
+      "prior_ids": [
+        "F05",
+        "F06",
+        "F07"
+      ],
+      "description": "卡片左上绿色污染和手外缘粉色明显改善，原F07手腕可见描边已恢复。但斜上沿在x约415处出现突兀台阶，局部边框厚度突然变化；原图该段是连续斜边。",
+      "recommendation": "把修正区与相邻未改黑框平顺衔接，恢复原斜边的连续轮廓及厚度；保留已恢复的手腕描边。",
+      "evidence": [
+        "evidence/card-top-step.png",
+        "evidence/F05.png",
+        "evidence/F06.png",
+        "evidence/F07.png"
+      ],
+      "requires_rework": true
+    },
+    {
+      "id": "H03",
+      "part": "verify/hand-and-probe",
+      "severity": "medium",
+      "regions_xyxy": [
+        [
+          409,
+          591,
+          440,
+          618
+        ],
+        [
+          376,
+          632,
+          390,
+          651
+        ]
+      ],
+      "prior_ids": [
+        "F10",
+        "F11"
+      ],
+      "description": "探针上沿在x约423处存在台阶/边框厚度突变；左侧小凸台靠手的下方仍有浅绿色头发残点。针尖的底座横弧误选已去除，圆润针尖与可见发光主体已恢复，此处旧F11可关闭。",
+      "recommendation": "修平装置斜上边修补接缝，逐像素去除小凸台下方浅绿残点且保留装置暗边，保持当前针尖与固定底座的分离。",
+      "evidence": [
+        "evidence/probe-top-step.png",
+        "evidence/probe-green-remnant.png",
+        "evidence/F10.png",
+        "evidence/F11.png"
+      ],
+      "requires_rework": true
+    },
+    {
+      "id": "H04",
+      "part": "respond/hand-and-card",
+      "severity": "medium",
+      "regions_xyxy": [
+        [
+          296,
+          710,
+          323,
+          746
+        ],
+        [
+          382,
+          713,
+          425,
+          738
+        ]
+      ],
+      "prior_ids": [
+        "F08"
+      ],
+      "description": "手左侧在y约723的修补交界出现横向硬台阶；卡片下沿仍留粉紫袖口色及小暗色矩形突片。原图对应卡片边应为连续斜线，残片来自下方固定袖口。",
+      "recommendation": "分别修顺手侧边交界与卡片下沿，清理卡框外侧固定袖口残片，不削薄整段手部黑线。",
+      "evidence": [
+        "evidence/respond-side-step.png",
+        "evidence/respond-card-under-edge.png",
+        "evidence/F08.png"
+      ],
+      "requires_rework": true
+    },
+    {
+      "id": "H05",
+      "part": "view_image/hand-and-stylus",
+      "severity": "high",
+      "regions_xyxy": [
+        [
+          426,
+          756,
+          455,
+          785
+        ],
+        [
+          437,
+          746,
+          464,
+          777
+        ]
+      ],
+      "prior_ids": [
+        "F12"
+      ],
+      "description": "末端手指靠右的可见黑色轮廓被切掉，皮肤直接接透明，形成直截缺口；同时靠笔杆的指缝仍留粉色袖口小片。该手指黑线在原图可见，不是隐藏结构。",
+      "recommendation": "先恢复末端手指真实可见黑色描边及圆弧，再单独清除笔杆凹槽粉袖口；不能用矩形边界或整体切除同时处理两者。",
+      "evidence": [
+        "evidence/stylus-finger-cut.png",
+        "evidence/F12.png"
+      ],
+      "requires_rework": true
+    },
+    {
+      "id": "H06",
+      "part": "write_file/left-hand",
+      "severity": "medium",
+      "regions_xyxy": [
+        [
+          367,
+          792,
+          415,
+          819
+        ]
+      ],
+      "prior_ids": [
+        "F13"
+      ],
+      "description": "指缝清理后仍有粉点，并留下朝下/侧边突出的黑色尖片；这些与固定键盘轮廓连接，候选指尖边缘出现锯齿状突刺而非原手指圆弧。",
+      "recommendation": "分别沿各指尖真实黑线整理局部边界，排除键盘残片，修复尖刺和凹口；保留各手指可见黑线的厚度。",
+      "evidence": [
+        "evidence/F13.png"
+      ],
+      "requires_rework": true
+    },
+    {
+      "id": "H07",
+      "part": "write_file/right-hand",
+      "severity": "medium",
+      "regions_xyxy": [
+        [
+          737,
+          762,
+          759,
+          791
+        ],
+        [
+          735,
+          771,
+          758,
+          806
+        ]
+      ],
+      "prior_ids": [
+        "F14"
+      ],
+      "description": "左侧外缘在y约771出现修补交界突点/台阶，沿线还可见少量粉色残边。原图该段手指外线是连续斜线。",
+      "recommendation": "连接局部修正上下段的外轮廓，去掉突点与邻接粉色残边，保留手指黑线连续。",
+      "evidence": [
+        "evidence/right-hand-step.png",
+        "evidence/F14.png"
+      ],
+      "requires_rework": true
+    },
+    {
+      "id": "H08",
+      "part": "question_for_user/pressing-hand",
+      "severity": "medium",
+      "regions_xyxy": [
+        [
+          781,
+          725,
+          810,
+          766
+        ],
+        [
+          788,
+          733,
+          808,
+          776
+        ]
+      ],
+      "prior_ids": [
+        "F15"
+      ],
+      "description": "原灰青外边已去除，但右上角留下向外伸的黑色尖尾，右缘随后出现细小内凹/台阶；局部轮廓未连续跟随原图手指弧线。",
+      "recommendation": "沿手指真实圆弧重修尖尾和凹口，使被清理区与上下描边衔接；保留皮肤内部反光。",
+      "evidence": [
+        "evidence/pressing-top-spike.png",
+        "evidence/F15.png"
+      ],
+      "requires_rework": true
+    }
+  ],
+  "parts": [
+    {
+      "state": "default_work",
+      "part": "trackball-hand",
+      "result": "pass_static_visible_only",
+      "visually_checked": true,
+      "scales": [
+        1,
+        2
+      ],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "finding_ids": [],
+      "conclusion": "通过：R01通过字节一致，本轮100/200%四背景重看无回退。",
+      "bbox_xyxy": [
+        345,
+        737,
+        453,
+        818
+      ],
+      "source": "source/08-default_work.png",
+      "source_sha256": "bb3e21215e279b1e41403c384c4f5f586237ecdf4f6eaea81f283f0a10118d21",
+      "mask": "masks/default_work/trackball-hand.png",
+      "mask_sha256": "64da2799b8189c9676f28d9f07e8471a7a0b1c34257344fd7c8abf1835c35a86",
+      "candidate": "parts/default_work/trackball-hand.png",
+      "candidate_sha256": "67c2c5d61bc4155ad8fa234775e21dbe07f900b03d2fa7df4e6f3828142371ab",
+      "same_vs_R01": {
+        "source": true,
+        "mask": true,
+        "candidate": true
+      },
+      "reference_evidence": "evidence/default_work-trackball-hand-reference.png",
+      "backgrounds_200": "review/default_work/trackball-hand/four-backgrounds-200.png"
+    },
+    {
+      "state": "failed",
+      "part": "hand-and-card",
+      "result": "rework_required",
+      "visually_checked": true,
+      "scales": [
+        1,
+        2
+      ],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "finding_ids": [
+        "H02"
+      ],
+      "conclusion": "退回：H02",
+      "bbox_xyxy": [
+        331,
+        581,
+        516,
+        759
+      ],
+      "source": "source/12-failed.png",
+      "source_sha256": "970cda2adf757e5320f202b93f1bf86f7c88d6bde303e8e7ccdb3dd553e37ace",
+      "mask": "masks/failed/hand-and-card.png",
+      "mask_sha256": "7a7038919f58598cde0354f4176c7a3cf3186a1f009e808326805af87a6c64bf",
+      "candidate": "parts/failed/hand-and-card.png",
+      "candidate_sha256": "9e74472ed5603939c0f547bb7898ce898a8e51d231ffa7bc4e4f528f4133b188",
+      "same_vs_R01": {
+        "source": true,
+        "mask": false,
+        "candidate": false
+      },
+      "reference_evidence": "evidence/failed-hand-and-card-reference.png",
+      "backgrounds_200": "review/failed/hand-and-card/four-backgrounds-200.png"
+    },
+    {
+      "state": "idle",
+      "part": "orb",
+      "result": "pass_static_visible_only",
+      "visually_checked": true,
+      "scales": [
+        1,
+        2
+      ],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "finding_ids": [],
+      "conclusion": "通过：R01通过字节一致，本轮100/200%四背景重看无回退。",
+      "bbox_xyxy": [
+        519,
+        717,
+        614,
+        811
+      ],
+      "source": "source/01-idle.png",
+      "source_sha256": "9c7769ab20bf96f77e8de0d6b6e78ee8e061ed5eb311b87575774df4f12be0b0",
+      "mask": "masks/idle/orb.png",
+      "mask_sha256": "672edf22eb071eaf178f949fe422be7c28524c817744e2d869f8855106986122",
+      "candidate": "parts/idle/orb.png",
+      "candidate_sha256": "ca35b565d60b44cca1feb8b0616b296e466a91a6d095329ed12581d5cef45e3f",
+      "same_vs_R01": {
+        "source": true,
+        "mask": true,
+        "candidate": true
+      },
+      "reference_evidence": "evidence/idle-orb-reference.png",
+      "backgrounds_200": "review/idle/orb/four-backgrounds-200.png"
+    },
+    {
+      "state": "idle",
+      "part": "touching-hand",
+      "result": "rework_required",
+      "visually_checked": true,
+      "scales": [
+        1,
+        2
+      ],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "finding_ids": [
+        "H01"
+      ],
+      "conclusion": "退回：H01",
+      "bbox_xyxy": [
+        384,
+        734,
+        528,
+        828
+      ],
+      "source": "source/01-idle.png",
+      "source_sha256": "9c7769ab20bf96f77e8de0d6b6e78ee8e061ed5eb311b87575774df4f12be0b0",
+      "mask": "masks/idle/touching-hand.png",
+      "mask_sha256": "3c030f66a989ed21bb60b50437f09bd8985204f165ea7b427e0f92ef0ab92416",
+      "candidate": "parts/idle/touching-hand.png",
+      "candidate_sha256": "b380f293d834269fc7fa6fd27cb86959d7b8aeb61d5da1b00ba2a6a945a97310",
+      "same_vs_R01": {
+        "source": true,
+        "mask": false,
+        "candidate": false
+      },
+      "reference_evidence": "evidence/idle-touching-hand-reference.png",
+      "backgrounds_200": "review/idle/touching-hand/four-backgrounds-200.png"
+    },
+    {
+      "state": "question_for_user",
+      "part": "button-cap",
+      "result": "pass_static_visible_only",
+      "visually_checked": true,
+      "scales": [
+        1,
+        2
+      ],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "finding_ids": [],
+      "conclusion": "通过：R01通过字节一致，本轮100/200%四背景重看无回退。",
+      "bbox_xyxy": [
+        759,
+        784,
+        843,
+        834
+      ],
+      "source": "source/11-question_for_user.png",
+      "source_sha256": "7dd9ffbf1600e954ed5718c970cf8648d4fe3695d82634355ac3054f8b9f6172",
+      "mask": "masks/question_for_user/button-cap.png",
+      "mask_sha256": "86ccc238fc8cbb38644a70be0d4a6c6ac2e233431b273cb2c2d5f37c262a3684",
+      "candidate": "parts/question_for_user/button-cap.png",
+      "candidate_sha256": "959e1e7346157efa004ec92a3079ec2826538cca405feda6bdf040a2aa1f9e97",
+      "same_vs_R01": {
+        "source": true,
+        "mask": true,
+        "candidate": true
+      },
+      "reference_evidence": "evidence/question_for_user-button-cap-reference.png",
+      "backgrounds_200": "review/question_for_user/button-cap/four-backgrounds-200.png"
+    },
+    {
+      "state": "question_for_user",
+      "part": "pressing-hand",
+      "result": "rework_required",
+      "visually_checked": true,
+      "scales": [
+        1,
+        2
+      ],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "finding_ids": [
+        "H08"
+      ],
+      "conclusion": "退回：H08",
+      "bbox_xyxy": [
+        712,
+        718,
+        802,
+        791
+      ],
+      "source": "source/11-question_for_user.png",
+      "source_sha256": "7dd9ffbf1600e954ed5718c970cf8648d4fe3695d82634355ac3054f8b9f6172",
+      "mask": "masks/question_for_user/pressing-hand.png",
+      "mask_sha256": "138c21e3e6ea9adc6b64495804740f06ef502587a7c0f7b95f18644380a40eff",
+      "candidate": "parts/question_for_user/pressing-hand.png",
+      "candidate_sha256": "6c628fa3d86fafdcdcf555462ae2fe4ad5f90f5cef79395615a202ac2c022090",
+      "same_vs_R01": {
+        "source": true,
+        "mask": false,
+        "candidate": false
+      },
+      "reference_evidence": "evidence/question_for_user-pressing-hand-reference.png",
+      "backgrounds_200": "review/question_for_user/pressing-hand/four-backgrounds-200.png"
+    },
+    {
+      "state": "read_web",
+      "part": "pointing-hand",
+      "result": "pass_static_visible_only",
+      "visually_checked": true,
+      "scales": [
+        1,
+        2
+      ],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "finding_ids": [],
+      "conclusion": "通过：旧F09粉袖与暗色尖刺消除，可见手指边界连续；下方真实投影遮挡截面保持。",
+      "bbox_xyxy": [
+        325,
+        621,
+        432,
+        691
+      ],
+      "source": "source/07-read_web.png",
+      "source_sha256": "ce8655468092eafa020efd186e56d5e02849d54bd4eed10781cc40e78d7cb233",
+      "mask": "masks/read_web/pointing-hand.png",
+      "mask_sha256": "316d9df2ec4158f1c7114329233a0150c03665c27ec3c25c0c357d3b12bd32f1",
+      "candidate": "parts/read_web/pointing-hand.png",
+      "candidate_sha256": "25a90f14308fc8aaa60b123d7395bf1c820bbae2cefb3e3bb58588f9864cd7a4",
+      "same_vs_R01": {
+        "source": true,
+        "mask": false,
+        "candidate": false
+      },
+      "reference_evidence": "evidence/read_web-pointing-hand-reference.png",
+      "backgrounds_200": "review/read_web/pointing-hand/four-backgrounds-200.png"
+    },
+    {
+      "state": "respond",
+      "part": "hand-and-card",
+      "result": "rework_required",
+      "visually_checked": true,
+      "scales": [
+        1,
+        2
+      ],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "finding_ids": [
+        "H04"
+      ],
+      "conclusion": "退回：H04",
+      "bbox_xyxy": [
+        302,
+        588,
+        532,
+        777
+      ],
+      "source": "source/09-respond.png",
+      "source_sha256": "7b6a19de9a355e3dabac281edf2ce8654ea29c9477453625b8f02441a32536fd",
+      "mask": "masks/respond/hand-and-card.png",
+      "mask_sha256": "e04f20e4ef654070e1f7f526c72d3ed0163b01f860136f2c47192ad525ef4df5",
+      "candidate": "parts/respond/hand-and-card.png",
+      "candidate_sha256": "210d8b8dda79479030584d965bfa295f59e42e44b93a08be1cf565bac186c7a8",
+      "same_vs_R01": {
+        "source": true,
+        "mask": false,
+        "candidate": false
+      },
+      "reference_evidence": "evidence/respond-hand-and-card-reference.png",
+      "backgrounds_200": "review/respond/hand-and-card/four-backgrounds-200.png"
+    },
+    {
+      "state": "verify",
+      "part": "hand-and-probe",
+      "result": "rework_required",
+      "visually_checked": true,
+      "scales": [
+        1,
+        2
+      ],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "finding_ids": [
+        "H03"
+      ],
+      "conclusion": "退回：H03",
+      "bbox_xyxy": [
+        370,
+        589,
+        509,
+        780
+      ],
+      "source": "source/06-verify.png",
+      "source_sha256": "cbe31ee0637734af510385b69c876e9cf4969023c9e84fbecc65e8fd115274fc",
+      "mask": "masks/verify/hand-and-probe.png",
+      "mask_sha256": "90bb2bb4496bdc7b8edf84a42d99ac547198f5f8b09d3c98bdbadfdb0e369aff",
+      "candidate": "parts/verify/hand-and-probe.png",
+      "candidate_sha256": "5953c2b26462f77fbb071e234fc0f5755af5ef40a5bd370d8500e5e03a0bb90c",
+      "same_vs_R01": {
+        "source": true,
+        "mask": false,
+        "candidate": false
+      },
+      "reference_evidence": "evidence/verify-hand-and-probe-reference.png",
+      "backgrounds_200": "review/verify/hand-and-probe/four-backgrounds-200.png"
+    },
+    {
+      "state": "view_image",
+      "part": "hand-and-stylus",
+      "result": "rework_required",
+      "visually_checked": true,
+      "scales": [
+        1,
+        2
+      ],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "finding_ids": [
+        "H05"
+      ],
+      "conclusion": "退回：H05",
+      "bbox_xyxy": [
+        372,
+        657,
+        520,
+        811
+      ],
+      "source": "source/04-view_image.png",
+      "source_sha256": "2b5b3c8e23c672f9286e0c77e62c4f53f96ae522b9efc92b3b2b48c9d7d7dfd5",
+      "mask": "masks/view_image/hand-and-stylus.png",
+      "mask_sha256": "414f74cc15c8ae0f205a7fcfd1466e5393922297206ef9e8eb4a9bf459e3a84a",
+      "candidate": "parts/view_image/hand-and-stylus.png",
+      "candidate_sha256": "7fd13fb4d914b9a774d0133d37e29ff9d8b92834b7400df6c55e2fb8f1d20966",
+      "same_vs_R01": {
+        "source": true,
+        "mask": false,
+        "candidate": false
+      },
+      "reference_evidence": "evidence/view_image-hand-and-stylus-reference.png",
+      "backgrounds_200": "review/view_image/hand-and-stylus/four-backgrounds-200.png"
+    },
+    {
+      "state": "write_file",
+      "part": "left-hand",
+      "result": "rework_required",
+      "visually_checked": true,
+      "scales": [
+        1,
+        2
+      ],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "finding_ids": [
+        "H06"
+      ],
+      "conclusion": "退回：H06",
+      "bbox_xyxy": [
+        354,
+        739,
+        469,
+        815
+      ],
+      "source": "source/05-write_file.png",
+      "source_sha256": "01ce56bb94e11e39844e803c2062cc2e273c7135d3349134e9a3b1cc1647e17e",
+      "mask": "masks/write_file/left-hand.png",
+      "mask_sha256": "9381a371d8553e6125ade1b3c5aa1a793f9f5895b194af0a967bc66f71ae8e35",
+      "candidate": "parts/write_file/left-hand.png",
+      "candidate_sha256": "f7f1bc2fc1c87ec5af382788cfbf1a0dc6378246017bad6bede98690348c7774",
+      "same_vs_R01": {
+        "source": true,
+        "mask": false,
+        "candidate": false
+      },
+      "reference_evidence": "evidence/write_file-left-hand-reference.png",
+      "backgrounds_200": "review/write_file/left-hand/four-backgrounds-200.png"
+    },
+    {
+      "state": "write_file",
+      "part": "right-hand",
+      "result": "rework_required",
+      "visually_checked": true,
+      "scales": [
+        1,
+        2
+      ],
+      "backgrounds": [
+        "checker",
+        "black",
+        "white",
+        "magenta"
+      ],
+      "finding_ids": [
+        "H07"
+      ],
+      "conclusion": "退回：H07",
+      "bbox_xyxy": [
+        742,
+        747,
+        849,
+        812
+      ],
+      "source": "source/05-write_file.png",
+      "source_sha256": "01ce56bb94e11e39844e803c2062cc2e273c7135d3349134e9a3b1cc1647e17e",
+      "mask": "masks/write_file/right-hand.png",
+      "mask_sha256": "ff74bc62ca756f89052c31c8a9480686f0b75467289a397df511179b6978dbb6",
+      "candidate": "parts/write_file/right-hand.png",
+      "candidate_sha256": "843d19fc40d4bbf9ec4ce99827e0e16365fe2ac0261cce5bf51ae6c1cc25e866",
+      "same_vs_R01": {
+        "source": true,
+        "mask": false,
+        "candidate": false
+      },
+      "reference_evidence": "evidence/write_file-right-hand-reference.png",
+      "backgrounds_200": "review/write_file/right-hand/four-backgrounds-200.png"
+    }
+  ],
+  "independent_machine_checks": [
+    {
+      "part": "default_work/trackball-hand",
+      "components": 1,
+      "soft_mask_pixels": 432,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "failed/hand-and-card",
+      "components": 1,
+      "soft_mask_pixels": 636,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "idle/orb",
+      "components": 1,
+      "soft_mask_pixels": 317,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "idle/touching-hand",
+      "components": 1,
+      "soft_mask_pixels": 436,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "question_for_user/button-cap",
+      "components": 1,
+      "soft_mask_pixels": 210,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "question_for_user/pressing-hand",
+      "components": 1,
+      "soft_mask_pixels": 292,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "read_web/pointing-hand",
+      "components": 1,
+      "soft_mask_pixels": 300,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "respond/hand-and-card",
+      "components": 1,
+      "soft_mask_pixels": 752,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "verify/hand-and-probe",
+      "components": 1,
+      "soft_mask_pixels": 614,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "view_image/hand-and-stylus",
+      "components": 1,
+      "soft_mask_pixels": 577,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "write_file/left-hand",
+      "components": 1,
+      "soft_mask_pixels": 447,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "write_file/right-hand",
+      "components": 1,
+      "soft_mask_pixels": 403,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    }
+  ],
+  "prior_resolution": {
+    "F07": "closed: failed手腕可见黑色描边恢复",
+    "F09": "closed: read_web指向手通过",
+    "F11": "closed locally: 探针针尖/底座分离通过；装置其他位置仍由H03退回",
+    "other_F04_to_F15": "按H01-H08逐件区分残留和局部修正后的轮廓回归，不能据局部颜色改善宣称整件通过"
+  },
+  "opened_files": {
+    "raw_pngs_decoded_and_visually_displayed_in_candidate_bbox": [
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/masks/default_work/trackball-hand.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/masks/failed/hand-and-card.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/masks/idle/orb.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/masks/idle/touching-hand.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/masks/question_for_user/button-cap.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/masks/question_for_user/pressing-hand.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/masks/read_web/pointing-hand.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/masks/respond/hand-and-card.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/masks/verify/hand-and-probe.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/masks/view_image/hand-and-stylus.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/masks/write_file/left-hand.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/masks/write_file/right-hand.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/parts/default_work/trackball-hand.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/parts/failed/hand-and-card.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/parts/idle/orb.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/parts/idle/touching-hand.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/parts/question_for_user/button-cap.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/parts/question_for_user/pressing-hand.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/parts/read_web/pointing-hand.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/parts/respond/hand-and-card.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/parts/verify/hand-and-probe.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/parts/view_image/hand-and-stylus.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/parts/write_file/left-hand.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/parts/write_file/right-hand.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/source/01-idle.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/source/04-view_image.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/source/05-write_file.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/source/06-verify.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/source/07-read_web.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/source/08-default_work.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/source/09-respond.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/source/11-question_for_user.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/source/12-failed.png"
+    ],
+    "candidate_review_pngs": [
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/default_work/trackball-hand/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/default_work/trackball-hand/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/default_work/trackball-hand/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/failed/hand-and-card/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/failed/hand-and-card/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/failed/hand-and-card/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/idle/orb/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/idle/orb/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/idle/orb/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/idle/touching-hand/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/idle/touching-hand/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/idle/touching-hand/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/question_for_user/button-cap/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/question_for_user/button-cap/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/question_for_user/button-cap/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/question_for_user/pressing-hand/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/question_for_user/pressing-hand/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/question_for_user/pressing-hand/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/read_web/pointing-hand/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/read_web/pointing-hand/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/read_web/pointing-hand/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/respond/hand-and-card/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/respond/hand-and-card/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/respond/hand-and-card/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/verify/hand-and-probe/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/verify/hand-and-probe/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/verify/hand-and-probe/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/view_image/hand-and-stylus/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/view_image/hand-and-stylus/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/view_image/hand-and-stylus/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/write_file/left-hand/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/write_file/left-hand/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/write_file/left-hand/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/write_file/right-hand/overlay-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/write_file/right-hand/contour-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/write_file/right-hand/four-backgrounds-200.png"
+    ],
+    "visually_displayed_images": [
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/F04.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/F05.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/F06.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/F07.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/F08.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/F09.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/F10.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/F11.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/F12.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/F13.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/F14.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/F15.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/card-top-step.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/default_work-trackball-hand-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/failed-hand-and-card-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/idle-orb-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/idle-touching-hand-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/pressing-top-spike.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/probe-green-remnant.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/probe-top-step.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/question_for_user-button-cap-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/question_for_user-pressing-hand-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/read_web-pointing-hand-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/respond-card-under-edge.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/respond-hand-and-card-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/respond-side-step.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/right-hand-step.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/stylus-finger-cut.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/verify-hand-and-probe-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/view_image-hand-and-stylus-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/write_file-left-hand-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/evidence/write_file-right-hand-reference.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/default_work/trackball-hand/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/failed/hand-and-card/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/idle/orb/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/idle/touching-hand/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/question_for_user/button-cap/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/question_for_user/pressing-hand/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/read_web/pointing-hand/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/respond/hand-and-card/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/verify/hand-and-probe/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/view_image/hand-and-stylus/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/write_file/left-hand/four-backgrounds-200.png",
+      "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/review/write_file/right-hand/four-backgrounds-200.png"
+    ],
+    "machine_report_read_after_visual": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R03-hands/machine-report.json"
+  },
+  "limits": [
+    "真实球/按钮/设备/投影遮挡允许，不要求补画不可见结构。",
+    "机器报告含额外虹膜行，当前结论仅使用12件手/道具数据。",
+    "没有动画、补底或原生播放通过结论。",
+    "不得将4件局部通过当作整套素材通过。"
+  ]
+}

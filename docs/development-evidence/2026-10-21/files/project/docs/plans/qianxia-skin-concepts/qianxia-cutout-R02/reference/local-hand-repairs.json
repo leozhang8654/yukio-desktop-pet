@@ -1,0 +1,167 @@
+{
+  "method": "bounded adjacent-color exclusion on independently identified regions; two individually traced missing contours; source RGB unchanged",
+  "parts": [
+    {
+      "part": "idle/touching-hand",
+      "regions": [
+        [
+          "pink",
+          [
+            419,
+            809,
+            439,
+            830
+          ]
+        ]
+      ],
+      "wrist_retrace": false,
+      "tip_retrace": false
+    },
+    {
+      "part": "failed/hand-and-card",
+      "regions": [
+        [
+          "green",
+          [
+            346,
+            591,
+            415,
+            644
+          ]
+        ],
+        [
+          "pink",
+          [
+            326,
+            677,
+            376,
+            761
+          ]
+        ],
+        [
+          "pink",
+          [
+            398,
+            730,
+            414,
+            761
+          ]
+        ]
+      ],
+      "wrist_retrace": true,
+      "tip_retrace": false
+    },
+    {
+      "part": "respond/hand-and-card",
+      "regions": [
+        [
+          "pink",
+          [
+            300,
+            720,
+            403,
+            781
+          ]
+        ]
+      ],
+      "wrist_retrace": false,
+      "tip_retrace": false
+    },
+    {
+      "part": "read_web/pointing-hand",
+      "regions": [
+        [
+          "pink",
+          [
+            406,
+            630,
+            437,
+            667
+          ]
+        ]
+      ],
+      "wrist_retrace": false,
+      "tip_retrace": false
+    },
+    {
+      "part": "verify/hand-and-probe",
+      "regions": [
+        [
+          "green",
+          [
+            379,
+            602,
+            424,
+            648
+          ]
+        ]
+      ],
+      "wrist_retrace": false,
+      "tip_retrace": true
+    },
+    {
+      "part": "view_image/hand-and-stylus",
+      "regions": [
+        [
+          "pink",
+          [
+            437,
+            746,
+            465,
+            778
+          ]
+        ]
+      ],
+      "wrist_retrace": false,
+      "tip_retrace": false
+    },
+    {
+      "part": "write_file/left-hand",
+      "regions": [
+        [
+          "pink",
+          [
+            367,
+            792,
+            416,
+            820
+          ]
+        ]
+      ],
+      "wrist_retrace": false,
+      "tip_retrace": false
+    },
+    {
+      "part": "write_file/right-hand",
+      "regions": [
+        [
+          "pink",
+          [
+            735,
+            771,
+            759,
+            807
+          ]
+        ]
+      ],
+      "wrist_retrace": false,
+      "tip_retrace": false
+    },
+    {
+      "part": "question_for_user/pressing-hand",
+      "regions": [
+        [
+          "cyan",
+          [
+            788,
+            733,
+            809,
+            777
+          ]
+        ]
+      ],
+      "wrist_retrace": false,
+      "tip_retrace": false
+    }
+  ]
+}

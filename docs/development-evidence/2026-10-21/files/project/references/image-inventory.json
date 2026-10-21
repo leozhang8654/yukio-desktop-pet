@@ -1,0 +1,182 @@
+[
+  {
+    "path": "assets/activities/computer-desk.png",
+    "width": 192,
+    "height": 208,
+    "hasAlpha": true
+  },
+  {
+    "path": "assets/activities/read_file.webp",
+    "width": 768,
+    "height": 208,
+    "hasAlpha": true
+  },
+  {
+    "path": "assets/activities/read_web.webp",
+    "width": 768,
+    "height": 208,
+    "hasAlpha": true
+  },
+  {
+    "path": "assets/activities/respond.webp",
+    "width": 768,
+    "height": 208,
+    "hasAlpha": true
+  },
+  {
+    "path": "assets/activities/thinking.webp",
+    "width": 768,
+    "height": 208,
+    "hasAlpha": true
+  },
+  {
+    "path": "assets/activities/verify.webp",
+    "width": 768,
+    "height": 208,
+    "hasAlpha": true
+  },
+  {
+    "path": "assets/activities/view_image.webp",
+    "width": 768,
+    "height": 208,
+    "hasAlpha": true
+  },
+  {
+    "path": "assets/activities/write_file.webp",
+    "width": 768,
+    "height": 208,
+    "hasAlpha": true
+  },
+  {
+    "path": "assets/base/calm-blink.webp",
+    "width": 960,
+    "height": 208,
+    "hasAlpha": true
+  },
+  {
+    "path": "assets/base/failed.webp",
+    "width": 1536,
+    "height": 208,
+    "hasAlpha": true
+  },
+  {
+    "path": "assets/base/idle.webp",
+    "width": 1152,
+    "height": 208,
+    "hasAlpha": true
+  },
+  {
+    "path": "assets/base/look-directions-a.webp",
+    "width": 1536,
+    "height": 208,
+    "hasAlpha": true
+  },
+  {
+    "path": "assets/base/look-directions-b.webp",
+    "width": 1536,
+    "height": 208,
+    "hasAlpha": true
+  },
+  {
+    "path": "assets/base/native-review-desk.webp",
+    "width": 1152,
+    "height": 208,
+    "hasAlpha": true
+  },
+  {
+    "path": "assets/base/native-working-thinking.webp",
+    "width": 1152,
+    "height": 208,
+    "hasAlpha": true
+  },
+  {
+    "path": "assets/base/neutral.png",
+    "width": 192,
+    "height": 208,
+    "hasAlpha": true
+  },
+  {
+    "path": "assets/base/quiet-response.webp",
+    "width": 768,
+    "height": 208,
+    "hasAlpha": true
+  },
+  {
+    "path": "assets/base/running-left.webp",
+    "width": 1536,
+    "height": 208,
+    "hasAlpha": true
+  },
+  {
+    "path": "assets/base/running-right.webp",
+    "width": 1536,
+    "height": 208,
+    "hasAlpha": true
+  },
+  {
+    "path": "assets/base/waiting.webp",
+    "width": 1152,
+    "height": 208,
+    "hasAlpha": true
+  },
+  {
+    "path": "native-current/spritesheet-thinking-v5.webp",
+    "width": 1536,
+    "height": 2288,
+    "hasAlpha": true
+  },
+  {
+    "path": "references/activity-contact-sheet.png",
+    "width": 768,
+    "height": 1456,
+    "hasAlpha": true
+  },
+  {
+    "path": "references/tablet-corrected.png",
+    "width": 384,
+    "height": 416,
+    "hasAlpha": true
+  },
+  {
+    "path": "sources/read_file-source.png",
+    "width": 1254,
+    "height": 313,
+    "hasAlpha": false
+  },
+  {
+    "path": "sources/read_web-corrected-source-2x2.png",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": false
+  },
+  {
+    "path": "sources/respond-source.png",
+    "width": 1448,
+    "height": 362,
+    "hasAlpha": false
+  },
+  {
+    "path": "sources/thinking-source.png",
+    "width": 1254,
+    "height": 314,
+    "hasAlpha": false
+  },
+  {
+    "path": "sources/verify-source.png",
+    "width": 1448,
+    "height": 362,
+    "hasAlpha": false
+  },
+  {
+    "path": "sources/view_image-source.png",
+    "width": 1254,
+    "height": 314,
+    "hasAlpha": false
+  },
+  {
+    "path": "sources/write_file-source.png",
+    "width": 1254,
+    "height": 313,
+    "hasAlpha": false
+  }
+]

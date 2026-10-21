@@ -1,0 +1,36 @@
+{
+  "passed": true,
+  "visual_review": "pending",
+  "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-interaction-R04/held.png",
+  "source_sha256": "58f13d8e3576e72d182c732f65816d47345355e917698367a6f2e7a524307ae8",
+  "source_size": [
+    1024,
+    1536
+  ],
+  "expectations": {
+    "components": 1,
+    "max_opaque_hole_pixels": 0,
+    "background_pixels": 0
+  },
+  "masks": [
+    {
+      "passed": true,
+      "components": 1,
+      "component_areas": [
+        770571
+      ],
+      "opaque_hole_pixels": 0,
+      "background_pixels": 0,
+      "soft_mask_pixels": 0,
+      "bbox": [
+        55,
+        0,
+        1015,
+        1505
+      ],
+      "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-interaction-R04/body-support-mask.png",
+      "sha256": "b144c977b376a78355fe61917996e2a255a3a2c4067a33d562983ada7e6579b2",
+      "previews": "01-body-support-mask"
+    }
+  ]
+}

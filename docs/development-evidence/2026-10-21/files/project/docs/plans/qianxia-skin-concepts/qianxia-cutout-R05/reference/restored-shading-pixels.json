@@ -1,0 +1,58 @@
+[
+  {
+    "state": "write_file",
+    "part": "left-hand",
+    "pixel": [
+      402,
+      798
+    ],
+    "rgb": [
+      199,
+      133,
+      144
+    ],
+    "reason": "source-confirmed enclosed glove shading/reflection mistakenly excluded by color classification, restored exact prior coverage"
+  },
+  {
+    "state": "write_file",
+    "part": "left-hand",
+    "pixel": [
+      402,
+      799
+    ],
+    "rgb": [
+      209,
+      142,
+      153
+    ],
+    "reason": "source-confirmed enclosed glove shading/reflection mistakenly excluded by color classification, restored exact prior coverage"
+  },
+  {
+    "state": "write_file",
+    "part": "left-hand",
+    "pixel": [
+      402,
+      800
+    ],
+    "rgb": [
+      220,
+      152,
+      161
+    ],
+    "reason": "source-confirmed enclosed glove shading/reflection mistakenly excluded by color classification, restored exact prior coverage"
+  },
+  {
+    "state": "question_for_user",
+    "part": "pressing-hand",
+    "pixel": [
+      797,
+      738
+    ],
+    "rgb": [
+      119,
+      112,
+      140
+    ],
+    "reason": "source-confirmed enclosed glove shading/reflection mistakenly excluded by color classification, restored exact prior coverage"
+  }
+]

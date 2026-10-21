@@ -1,0 +1,11 @@
+把 Yukio.app 拖到旁边的「应用程序 Applications」，然后从「应用程序」打开 Yukio。
+如果已安装旧版，请先退出 Yukio，再拖入并选择替换。
+
+首次打开若提示 Apple 无法验证，确认信任下载来源后：
+打开「系统设置 → 隐私与安全性」，找到 Yukio，点击「仍要打开」。
+
+Drag Yukio.app onto “应用程序 Applications” next to it, then open Yukio from Applications.
+If upgrading, quit Yukio first, then drag it over and choose Replace.
+
+If macOS cannot verify the app and you trust the download:
+Go to System Settings → Privacy & Security, find Yukio, and click Open Anyway.

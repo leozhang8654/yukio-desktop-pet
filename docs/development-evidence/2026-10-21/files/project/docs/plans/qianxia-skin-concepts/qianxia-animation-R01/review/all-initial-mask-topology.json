@@ -1,0 +1,297 @@
+[
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      4590
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      347,
+      741,
+      451,
+      818
+    ],
+    "state": "default_work",
+    "part": "trackball-hand",
+    "status": "initial candidate only; not approved",
+    "source_sha256": "bb3e21215e279b1e41403c384c4f5f586237ecdf4f6eaea81f283f0a10118d21"
+  },
+  {
+    "passed": false,
+    "components": 1,
+    "component_areas": [
+      19194
+    ],
+    "opaque_hole_pixels": 55,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      335,
+      582,
+      515,
+      756
+    ],
+    "state": "failed",
+    "part": "hand-and-card",
+    "status": "initial candidate only; not approved",
+    "source_sha256": "970cda2adf757e5320f202b93f1bf86f7c88d6bde303e8e7ccdb3dd553e37ace"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      6347
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      521,
+      719,
+      612,
+      808
+    ],
+    "state": "idle",
+    "part": "orb",
+    "status": "initial candidate only; not approved",
+    "source_sha256": "9c7769ab20bf96f77e8de0d6b6e78ee8e061ed5eb311b87575774df4f12be0b0"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      6563
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      390,
+      737,
+      526,
+      819
+    ],
+    "state": "idle",
+    "part": "touching-hand",
+    "status": "initial candidate only; not approved",
+    "source_sha256": "9c7769ab20bf96f77e8de0d6b6e78ee8e061ed5eb311b87575774df4f12be0b0"
+  },
+  {
+    "passed": false,
+    "components": 2,
+    "component_areas": [
+      4625,
+      41
+    ],
+    "opaque_hole_pixels": 4,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      717,
+      721,
+      817,
+      790
+    ],
+    "state": "question_for_user",
+    "part": "pressing-hand",
+    "status": "initial candidate only; not approved",
+    "source_sha256": "7dd9ffbf1600e954ed5718c970cf8648d4fe3695d82634355ac3054f8b9f6172"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      4409
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      533,
+      784,
+      655,
+      827
+    ],
+    "state": "read_file",
+    "part": "crossed-hands-visible",
+    "status": "initial candidate only; not approved",
+    "source_sha256": "61fbd3f92f9beae25e14fde406d4b1cf5e5a34f61c0a59c6bc366b405e95671e"
+  },
+  {
+    "passed": false,
+    "components": 2,
+    "component_areas": [
+      4562,
+      5
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      327,
+      622,
+      437,
+      693
+    ],
+    "state": "read_web",
+    "part": "pointing-hand",
+    "status": "initial candidate only; not approved",
+    "source_sha256": "ce8655468092eafa020efd186e56d5e02849d54bd4eed10781cc40e78d7cb233"
+  },
+  {
+    "passed": false,
+    "components": 7,
+    "component_areas": [
+      27110,
+      105,
+      2,
+      8,
+      5,
+      1,
+      23
+    ],
+    "opaque_hole_pixels": 98,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      289,
+      589,
+      535,
+      775
+    ],
+    "state": "respond",
+    "part": "hand-and-card",
+    "status": "initial candidate only; not approved",
+    "source_sha256": "7b6a19de9a355e3dabac281edf2ce8654ea29c9477453625b8f02441a32536fd"
+  },
+  {
+    "passed": false,
+    "components": 1,
+    "component_areas": [
+      59606
+    ],
+    "opaque_hole_pixels": 506,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      312,
+      702,
+      886,
+      842
+    ],
+    "state": "task_complete",
+    "part": "resting-sleeves",
+    "status": "initial candidate only; not approved",
+    "source_sha256": "f9c76a01b402a43e0f6ca46a1f3ec621a93684acf9dcc8eb8b720e98be0b53c1"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      5617
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      524,
+      796,
+      627,
+      870
+    ],
+    "state": "thinking",
+    "part": "resting-hand",
+    "status": "initial candidate only; not approved",
+    "source_sha256": "7309dd9974173c4976588387feef61241470e058cb2c3580c4976bff41377536"
+  },
+  {
+    "passed": false,
+    "components": 1,
+    "component_areas": [
+      15168
+    ],
+    "opaque_hole_pixels": 562,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      374,
+      591,
+      515,
+      786
+    ],
+    "state": "verify",
+    "part": "hand-and-probe",
+    "status": "initial candidate only; not approved",
+    "source_sha256": "cbe31ee0637734af510385b69c876e9cf4969023c9e84fbecc65e8fd115274fc"
+  },
+  {
+    "passed": false,
+    "components": 4,
+    "component_areas": [
+      10458,
+      1,
+      16,
+      98
+    ],
+    "opaque_hole_pixels": 41,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      374,
+      658,
+      521,
+      812
+    ],
+    "state": "view_image",
+    "part": "hand-and-stylus",
+    "status": "initial candidate only; not approved",
+    "source_sha256": "2b5b3c8e23c672f9286e0c77e62c4f53f96ae522b9efc92b3b2b48c9d7d7dfd5"
+  },
+  {
+    "passed": false,
+    "components": 4,
+    "component_areas": [
+      5647,
+      27,
+      2,
+      112
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      358,
+      740,
+      485,
+      812
+    ],
+    "state": "write_file",
+    "part": "left-hand",
+    "status": "initial candidate only; not approved",
+    "source_sha256": "01ce56bb94e11e39844e803c2062cc2e273c7135d3349134e9a3b1cc1647e17e"
+  },
+  {
+    "passed": false,
+    "components": 2,
+    "component_areas": [
+      4215,
+      2
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      736,
+      750,
+      844,
+      810
+    ],
+    "state": "write_file",
+    "part": "right-hand",
+    "status": "initial candidate only; not approved",
+    "source_sha256": "01ce56bb94e11e39844e803c2062cc2e273c7135d3349134e9a3b1cc1647e17e"
+  }
+]

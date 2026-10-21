@@ -1,0 +1,448 @@
+{
+  "round": "motion-R05",
+  "reviewer": "独立 Agent /root/cutout_independent_review，未参与制作",
+  "overall": "退回（验证未完成）",
+  "scope": "完整送审流程中的局部诊断复审，非完整动态通过",
+  "new_confirmed_static_defects": [],
+  "findings": [
+    {
+      "id": "R04-F01",
+      "status": "通过",
+      "closure": "closed_static",
+      "state": "write_file",
+      "description": "左右手以抬起姿态到原接触姿态转动，原 R04-F01 纵向指长变化未复现；袖口、指缝、键帽相邻区域在已看极值无新明确缺陷。",
+      "left_bbox_384x416": [
+        107,
+        231,
+        156,
+        263
+      ],
+      "right_bbox_384x416": [
+        230,
+        232,
+        270,
+        264
+      ],
+      "evidence": [
+        "evidence/write_file-targeted500.png",
+        "evidence/write_file-right-targeted500.png"
+      ],
+      "limits": "只关闭本轮已看姿态中的指形问题；实际键击节奏/可见性未测。"
+    },
+    {
+      "id": "V01",
+      "status": "未测",
+      "description": "系统 Time Limit 仍生效；未启动 R05、未操作 UI、未绕过限制。当前工具没有连续视频输入，无法满足亲自观看连续三轮及长期观感要求。"
+    },
+    {
+      "id": "V02",
+      "status": "未测",
+      "description": "正式 App 真实任务气泡及真实事件刷新/切换未接入验证。"
+    },
+    {
+      "id": "R03-U01",
+      "status": "未测",
+      "description": "用户动作看不见的反馈仍未通过真实尺寸正常速度连续观看闭环，不凭静态变化/参数关闭。"
+    }
+  ],
+  "state_coverage": [
+    {
+      "state": "idle",
+      "result": "未测",
+      "static_scope_result": "通过",
+      "runtime_result": "未测",
+      "body_webp_sha256": "5b0edffdb49d07c5cb60a23529de2bf652dd249e6ec29b30b97c473eb126948e",
+      "review_mode": "R04 独立静态覆盖按编码字节沿用",
+      "notes": "身体及眼皮编码与 R04 字节相同，引用 R04 本评审者静态记录；本轮不冒充重看。",
+      "checks": {
+        "实际大小正常速度可辨": "未测",
+        "连续播放及循环交界": "未测",
+        "一次进入保持同事件刷新新事件": "不适用",
+        "完成持续静止及进出": "不适用",
+        "连续切换真实气泡": "未测"
+      },
+      "actual_evidence": []
+    },
+    {
+      "state": "thinking",
+      "result": "未测",
+      "static_scope_result": "通过",
+      "runtime_result": "未测",
+      "body_webp_sha256": "42a91e40da2b6302688f7a68fc7b894cc5704025721d5da71a692126730e8dc3",
+      "review_mode": "R04 独立静态覆盖按编码字节沿用",
+      "notes": "身体及眼皮编码与 R04 字节相同，引用 R04 本评审者静态记录；本轮不冒充重看。",
+      "checks": {
+        "实际大小正常速度可辨": "未测",
+        "连续播放及循环交界": "未测",
+        "一次进入保持同事件刷新新事件": "不适用",
+        "完成持续静止及进出": "不适用",
+        "连续切换真实气泡": "未测"
+      },
+      "actual_evidence": []
+    },
+    {
+      "state": "read_file",
+      "result": "未测",
+      "static_scope_result": "通过",
+      "runtime_result": "未测",
+      "body_webp_sha256": "d6edc2acc37cefce2600b59af5a697ac34346f78da50061e5b557356f56fe0d5",
+      "review_mode": "R04 独立静态覆盖按编码字节沿用",
+      "notes": "身体及眼皮编码与 R04 字节相同，引用 R04 本评审者静态记录；本轮不冒充重看。",
+      "checks": {
+        "实际大小正常速度可辨": "未测",
+        "连续播放及循环交界": "未测",
+        "一次进入保持同事件刷新新事件": "不适用",
+        "完成持续静止及进出": "不适用",
+        "连续切换真实气泡": "未测"
+      },
+      "actual_evidence": []
+    },
+    {
+      "state": "view_image",
+      "result": "未测",
+      "static_scope_result": "通过",
+      "runtime_result": "未测",
+      "body_webp_sha256": "b7d6fbd0e5e821206a484b00c6f0538cc294599db8dec460ad00161e94698496",
+      "review_mode": "R04 独立静态覆盖按编码字节沿用",
+      "notes": "身体及眼皮编码与 R04 字节相同，引用 R04 本评审者静态记录；本轮不冒充重看。",
+      "checks": {
+        "实际大小正常速度可辨": "未测",
+        "连续播放及循环交界": "未测",
+        "一次进入保持同事件刷新新事件": "不适用",
+        "完成持续静止及进出": "不适用",
+        "连续切换真实气泡": "未测"
+      },
+      "actual_evidence": []
+    },
+    {
+      "state": "write_file",
+      "result": "未测",
+      "static_scope_result": "通过",
+      "runtime_result": "未测",
+      "body_webp_sha256": "6b13374fac97bbc7690973ddae5ffeed5fabc25901ffcd71bedcb86a73d8d6f8",
+      "review_mode": "本轮重新解码目视",
+      "notes": "左右手以抬起姿态到原接触姿态转动，原 R04-F01 纵向指长变化未复现；袖口、指缝、键帽相邻区域在已看极值无新明确缺陷。",
+      "checks": {
+        "实际大小正常速度可辨": "未测",
+        "连续播放及循环交界": "未测",
+        "一次进入保持同事件刷新新事件": "不适用",
+        "完成持续静止及进出": "不适用",
+        "连续切换真实气泡": "未测"
+      },
+      "actual_evidence": [
+        "evidence/write_file-source-encoded.png",
+        "evidence/write_file-decoded-detail200.png",
+        "evidence/write_file-targeted500.png",
+        "evidence/write_file-encoded-four-bg200.png",
+        "evidence/write_file-right-targeted500.png",
+        "evidence/write_file-all-frames-00-200.png",
+        "evidence/write_file-all-frames-09-200.png",
+        "evidence/write_file-all-frames-18-200.png",
+        "evidence/write_file-all-frames-27-200.png"
+      ],
+      "body_frames_viewed": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30
+      ],
+      "body_roi": [
+        96,
+        219,
+        287,
+        276
+      ],
+      "all_unique_body_frames_ROI_visually_examined": true
+    },
+    {
+      "state": "verify",
+      "result": "未测",
+      "static_scope_result": "通过",
+      "runtime_result": "未测",
+      "body_webp_sha256": "d7e25decb0093d4f1cafa8259d0d321ff4a0b1a7416d4c6337a6708b74915e69",
+      "review_mode": "本轮重新解码目视",
+      "notes": "接触帧与最高抬起帧的握持、探针尖端、接头、腕端及固定底座重新查看，无明确脱握、露洞或旧针残片。",
+      "checks": {
+        "实际大小正常速度可辨": "未测",
+        "连续播放及循环交界": "未测",
+        "一次进入保持同事件刷新新事件": "不适用",
+        "完成持续静止及进出": "不适用",
+        "连续切换真实气泡": "未测"
+      },
+      "actual_evidence": [
+        "evidence/verify-source-encoded.png",
+        "evidence/verify-decoded-detail200.png",
+        "evidence/verify-targeted500.png",
+        "evidence/verify-encoded-four-bg200.png",
+        "evidence/verify-all-frames-00-200.png",
+        "evidence/verify-all-frames-09-200.png",
+        "evidence/verify-all-frames-18-200.png",
+        "evidence/verify-all-frames-27-200.png",
+        "evidence/verify-all-frames-36-200.png"
+      ],
+      "body_frames_viewed": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36
+      ],
+      "body_roi": [
+        101,
+        171,
+        179,
+        265
+      ],
+      "all_unique_body_frames_ROI_visually_examined": true
+    },
+    {
+      "state": "read_web",
+      "result": "未测",
+      "static_scope_result": "通过",
+      "runtime_result": "未测",
+      "body_webp_sha256": "7b85afb4d1a3e634a6d8361189620f749adeb5d3583cdad1701f86e2113055b9",
+      "review_mode": "R04 独立静态覆盖按编码字节沿用",
+      "notes": "身体及眼皮编码与 R04 字节相同，引用 R04 本评审者静态记录；本轮不冒充重看。",
+      "checks": {
+        "实际大小正常速度可辨": "未测",
+        "连续播放及循环交界": "未测",
+        "一次进入保持同事件刷新新事件": "不适用",
+        "完成持续静止及进出": "不适用",
+        "连续切换真实气泡": "未测"
+      },
+      "actual_evidence": []
+    },
+    {
+      "state": "default_work",
+      "result": "未测",
+      "static_scope_result": "通过",
+      "runtime_result": "未测",
+      "body_webp_sha256": "49e295fe1463263c33ff92ec4929dc6cc42cf1ef2222f2917ee751c034dbd77b",
+      "review_mode": "R04 独立静态覆盖按编码字节沿用",
+      "notes": "身体及眼皮编码与 R04 字节相同，引用 R04 本评审者静态记录；本轮不冒充重看。",
+      "checks": {
+        "实际大小正常速度可辨": "未测",
+        "连续播放及循环交界": "未测",
+        "一次进入保持同事件刷新新事件": "不适用",
+        "完成持续静止及进出": "不适用",
+        "连续切换真实气泡": "未测"
+      },
+      "actual_evidence": []
+    },
+    {
+      "state": "respond",
+      "result": "未测",
+      "static_scope_result": "通过",
+      "runtime_result": "未测",
+      "body_webp_sha256": "14f9b34be991dc9d60e83e61b9db45235d43916c968e897671e1a396e3813047",
+      "review_mode": "R04 独立静态覆盖按编码字节沿用",
+      "notes": "身体及眼皮编码与 R04 字节相同，引用 R04 本评审者静态记录；本轮不冒充重看。",
+      "checks": {
+        "实际大小正常速度可辨": "未测",
+        "连续播放及循环交界": "不适用",
+        "一次进入保持同事件刷新新事件": "未测",
+        "完成持续静止及进出": "不适用",
+        "连续切换真实气泡": "未测"
+      },
+      "actual_evidence": []
+    },
+    {
+      "state": "task_complete",
+      "result": "未测",
+      "static_scope_result": "通过",
+      "runtime_result": "未测",
+      "body_webp_sha256": "a63e8abf3f1dc4841d22722e533da1f689ab5474989502ce4f3d7faa54ca6976",
+      "review_mode": "R04 独立静态覆盖按编码字节沿用",
+      "notes": "身体及眼皮编码与 R04 字节相同，引用 R04 本评审者静态记录；本轮不冒充重看。",
+      "checks": {
+        "实际大小正常速度可辨": "不适用",
+        "连续播放及循环交界": "不适用",
+        "一次进入保持同事件刷新新事件": "不适用",
+        "完成持续静止及进出": "未测",
+        "连续切换真实气泡": "未测"
+      },
+      "actual_evidence": []
+    },
+    {
+      "state": "question_for_user",
+      "result": "未测",
+      "static_scope_result": "通过",
+      "runtime_result": "未测",
+      "body_webp_sha256": "b6634013482da2dfce4623759df77b854ff765c386bc370eead24776e96e4d5d",
+      "review_mode": "R04 独立静态覆盖按编码字节沿用",
+      "notes": "身体及眼皮编码与 R04 字节相同，引用 R04 本评审者静态记录；本轮不冒充重看。",
+      "checks": {
+        "实际大小正常速度可辨": "未测",
+        "连续播放及循环交界": "不适用",
+        "一次进入保持同事件刷新新事件": "未测",
+        "完成持续静止及进出": "不适用",
+        "连续切换真实气泡": "未测"
+      },
+      "actual_evidence": []
+    },
+    {
+      "state": "failed",
+      "result": "未测",
+      "static_scope_result": "通过",
+      "runtime_result": "未测",
+      "body_webp_sha256": "b24d1c4cd7c1f44ada4dddfc660dc6655900bac0850d31c223c7361e9b6da960",
+      "review_mode": "本轮重新解码目视",
+      "notes": "卡手共同上提，固定袖口边缘重新检查，无明确悬空碎片；帧0/20两组六级眼皮无虹膜残留或旧睫毛线形问题回归。",
+      "checks": {
+        "实际大小正常速度可辨": "未测",
+        "连续播放及循环交界": "不适用",
+        "一次进入保持同事件刷新新事件": "未测",
+        "完成持续静止及进出": "不适用",
+        "连续切换真实气泡": "未测"
+      },
+      "actual_evidence": [
+        "evidence/failed-source-encoded.png",
+        "evidence/failed-decoded-detail200.png",
+        "evidence/failed-targeted500.png",
+        "evidence/failed-encoded-four-bg200.png",
+        "evidence/failed-decoded-lids300.png",
+        "evidence/failed-max-gaze-and-backgrounds200.png",
+        "evidence/failed-all-frames-00-200.png",
+        "evidence/failed-all-frames-09-200.png",
+        "evidence/failed-all-frames-18-200.png"
+      ],
+      "body_frames_viewed": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "body_roi": [
+        89,
+        169,
+        181,
+        258
+      ],
+      "eyes_frames_viewed": [
+        0,
+        20
+      ],
+      "eyes_levels_viewed": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "all_unique_body_frames_ROI_visually_examined": true
+    }
+  ],
+  "actual_visually_opened_files": [
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R05/evidence/write_file-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R05/evidence/write_file-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R05/evidence/write_file-targeted500.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R05/evidence/write_file-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R05/evidence/verify-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R05/evidence/verify-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R05/evidence/verify-targeted500.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R05/evidence/verify-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R05/evidence/failed-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R05/evidence/failed-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R05/evidence/failed-targeted500.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R05/evidence/failed-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R05/evidence/write_file-right-targeted500.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R05/evidence/failed-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R05/evidence/failed-max-gaze-and-backgrounds200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R05/evidence/write_file-all-frames-00-200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R05/evidence/write_file-all-frames-09-200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R05/evidence/write_file-all-frames-18-200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R05/evidence/write_file-all-frames-27-200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R05/evidence/verify-all-frames-00-200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R05/evidence/verify-all-frames-09-200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R05/evidence/verify-all-frames-18-200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R05/evidence/verify-all-frames-27-200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R05/evidence/verify-all-frames-36-200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R05/evidence/failed-all-frames-00-200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R05/evidence/failed-all-frames-09-200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R05/evidence/failed-all-frames-18-200.png"
+  ],
+  "programmatically_read_images": "decode_review.py 记录及 focused-resource-check.json；生成但未打开的 verify/write_file 眼皮图不算本轮目视",
+  "input_differences_vs_R04": [],
+  "hash_binding": "candidate-sha256.json",
+  "UI_actions": [],
+  "continuous_playback_seen": false,
+  "candidate_modified": false,
+  "all_frames_supplement": "31 write_file + 37 verify + 21 failed unique body frames examined statically at 200% in defined ROIs; not continuous playback"
+}

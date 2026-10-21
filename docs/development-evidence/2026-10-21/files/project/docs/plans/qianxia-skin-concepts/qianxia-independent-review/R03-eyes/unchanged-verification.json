@@ -1,0 +1,74 @@
+[
+  {
+    "part": "failed/iris-right",
+    "mask_same": true,
+    "candidate_same": true,
+    "source_same": true
+  },
+  {
+    "part": "idle/iris-left",
+    "mask_same": true,
+    "candidate_same": true,
+    "source_same": true
+  },
+  {
+    "part": "question_for_user/iris-left",
+    "mask_same": true,
+    "candidate_same": true,
+    "source_same": true
+  },
+  {
+    "part": "question_for_user/iris-right",
+    "mask_same": true,
+    "candidate_same": true,
+    "source_same": true
+  },
+  {
+    "part": "read_file/iris-left",
+    "mask_same": true,
+    "candidate_same": true,
+    "source_same": true
+  },
+  {
+    "part": "read_file/iris-right",
+    "mask_same": true,
+    "candidate_same": true,
+    "source_same": true
+  },
+  {
+    "part": "thinking/iris-left",
+    "mask_same": true,
+    "candidate_same": true,
+    "source_same": true
+  },
+  {
+    "part": "thinking/iris-right",
+    "mask_same": true,
+    "candidate_same": true,
+    "source_same": true
+  },
+  {
+    "part": "verify/iris-left",
+    "mask_same": true,
+    "candidate_same": true,
+    "source_same": true
+  },
+  {
+    "part": "verify/iris-right",
+    "mask_same": true,
+    "candidate_same": true,
+    "source_same": true
+  },
+  {
+    "part": "view_image/iris-right",
+    "mask_same": true,
+    "candidate_same": true,
+    "source_same": true
+  },
+  {
+    "part": "write_file/iris-right",
+    "mask_same": true,
+    "candidate_same": true,
+    "source_same": true
+  }
+]

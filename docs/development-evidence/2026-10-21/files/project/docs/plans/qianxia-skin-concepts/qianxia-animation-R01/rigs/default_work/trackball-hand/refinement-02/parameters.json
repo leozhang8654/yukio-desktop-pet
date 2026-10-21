@@ -1,0 +1,50 @@
+{
+  "state": "default_work",
+  "part": "trackball-hand",
+  "crop": [
+    279,
+    670,
+    527,
+    885
+  ],
+  "positive_points": [
+    [
+      391,
+      777
+    ],
+    [
+      420,
+      763
+    ]
+  ],
+  "negative_points": [
+    [
+      328,
+      771
+    ],
+    [
+      438,
+      805
+    ],
+    [
+      443,
+      837
+    ]
+  ],
+  "scores": [
+    0.5807263255119324,
+    0.9080216288566589,
+    0.9411464929580688
+  ],
+  "chosen": 2,
+  "components_xywh_area": [
+    [
+      348,
+      741,
+      102,
+      76,
+      4116
+    ]
+  ],
+  "status": "candidate_requires_visual_review"
+}

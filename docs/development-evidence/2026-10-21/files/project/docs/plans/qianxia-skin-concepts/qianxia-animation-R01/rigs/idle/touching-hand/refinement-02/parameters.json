@@ -1,0 +1,50 @@
+{
+  "state": "idle",
+  "part": "touching-hand",
+  "crop": [
+    321,
+    662,
+    600,
+    900
+  ],
+  "positive_points": [
+    [
+      447,
+      774
+    ],
+    [
+      496,
+      751
+    ]
+  ],
+  "negative_points": [
+    [
+      350,
+      780
+    ],
+    [
+      564,
+      764
+    ],
+    [
+      563,
+      841
+    ]
+  ],
+  "scores": [
+    0.8752203583717346,
+    0.9369580745697021,
+    0.9396312832832336
+  ],
+  "chosen": 2,
+  "components_xywh_area": [
+    [
+      390,
+      737,
+      135,
+      83,
+      6353
+    ]
+  ],
+  "status": "candidate_requires_visual_review"
+}

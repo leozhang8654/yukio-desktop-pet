@@ -1,0 +1,28 @@
+{
+  "status": "rejected_requires_rework",
+  "operation_parts": 12,
+  "iris_parts": 22,
+  "structure": "34/34 single-component, zero opaque holes, zero transparent-background selections",
+  "source_images_unchanged": 12,
+  "part_rgb_is_exact_source_rgb": true,
+  "user_approval": false,
+  "eyelids_made": false,
+  "background_repair_made": false,
+  "animation_encoded": false,
+  "playback_review": false,
+  "app_installed": false,
+  "scope_notes": {
+    "idle": "球的缺口是手指遮住的位置，确认选区后补齐隐藏球面。底座固定。",
+    "thinking": "托腮手和节点投影固定，只准备眼部。",
+    "read_file": "三张投影与交叠双手固定，只准备眼部。",
+    "read_web": "手的下沿被投影遮住；保留可见截口，后续用固定投影遮挡。",
+    "default_work": "掌根与球的接触边界保留，球体和控制台暂不移动。",
+    "task_complete": "按设计整张静止，不拆袖子，不补眼睛。",
+    "question_for_user": "手和按钮顶面已分别提取，底座保留原位；遮挡处和移动露底在确认选区后补。"
+  },
+  "visual_acceptance": false,
+  "independent_review": "not_performed",
+  "rejection_record": "REWORK_REQUIRED.md",
+  "archive_status": "existing ZIP retained as rejected historical candidate",
+  "archive_sha256": "72292a07972521e7a8611a585d3b70e9ff8cf9cc32aaecbd6fd5697de9773ae1"
+}

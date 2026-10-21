@@ -1,0 +1,766 @@
+{
+  "reviewer": "独立 Agent /root/cutout_independent_review；未参与 R02 制作",
+  "round": "motion-R02",
+  "verdict": "退回／待补动态验证；本轮已检查静态修正通过",
+  "M01": "closed_static",
+  "M02": "closed_static",
+  "V01": "open",
+  "candidate_root": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02",
+  "hash_binding": "candidate-sha256.json",
+  "frozen_hash_match": true,
+  "new_definite_static_defects": [],
+  "findings": [
+    {
+      "id": "M01",
+      "inherited_from": "motion-R01",
+      "status": "closed_static",
+      "states": [
+        "idle",
+        "thinking",
+        "read_file",
+        "view_image",
+        "write_file",
+        "verify",
+        "read_web",
+        "default_work",
+        "respond",
+        "question_for_user",
+        "failed"
+      ],
+      "location": [
+        {
+          "state": "idle",
+          "bbox_384x416": [
+            120,
+            151,
+            242,
+            190
+          ]
+        },
+        {
+          "state": "thinking",
+          "bbox_384x416": [
+            111,
+            149,
+            230,
+            191
+          ]
+        },
+        {
+          "state": "read_file",
+          "bbox_384x416": [
+            121,
+            150,
+            244,
+            190
+          ]
+        },
+        {
+          "state": "view_image",
+          "bbox_384x416": [
+            119,
+            150,
+            242,
+            189
+          ]
+        },
+        {
+          "state": "write_file",
+          "bbox_384x416": [
+            118,
+            151,
+            239,
+            188
+          ]
+        },
+        {
+          "state": "verify",
+          "bbox_384x416": [
+            118,
+            152,
+            241,
+            190
+          ]
+        },
+        {
+          "state": "read_web",
+          "bbox_384x416": [
+            117,
+            148,
+            239,
+            188
+          ]
+        },
+        {
+          "state": "default_work",
+          "bbox_384x416": [
+            119,
+            151,
+            242,
+            190
+          ]
+        },
+        {
+          "state": "respond",
+          "bbox_384x416": [
+            119,
+            148,
+            242,
+            185
+          ]
+        },
+        {
+          "state": "question_for_user",
+          "bbox_384x416": [
+            119,
+            147,
+            242,
+            188
+          ]
+        },
+        {
+          "state": "failed",
+          "bbox_384x416": [
+            118,
+            149,
+            240,
+            186
+          ]
+        }
+      ],
+      "evidence_description": "All eleven states: raw encoded level1 no longer swaps thick upper lash to a short thin glyph; original wings/outer corners and recognisable thickness are maintained through six poses. White fragments from R01 not reproduced. Full closure has no visible coloured iris, skin transition and lash tips show no new definite defect in examined poses.",
+      "limits": "Discrete pose/static closure only. Continuity at real speed and all gaze combinations not fully visually validated."
+    },
+    {
+      "id": "M02",
+      "inherited_from": "motion-R01",
+      "status": "closed_static",
+      "states": [
+        "respond"
+      ],
+      "bbox_384x416": [
+        124,
+        229,
+        133,
+        240
+      ],
+      "adjacent_bbox_384x416": [
+        120,
+        223,
+        142,
+        243
+      ],
+      "body_frames_viewed": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24
+      ],
+      "evidence": [
+        "evidence/respond-all-25-frames200.png",
+        "evidence/respond-encoded-four-bg200.png"
+      ],
+      "description": "原悬空深紫/黑色弧片消失。手腕与固定袖口在全部 25 个唯一帧的 ROI 中连续，卡与手保持接触，极值未见重复手边或露底孔洞。",
+      "limits": "All unique frames seen statically; temporal flow still pending."
+    },
+    {
+      "id": "V01",
+      "inherited_from": "motion-R01",
+      "status": "open_blocking_validation_gap",
+      "states": [
+        "idle",
+        "thinking",
+        "read_file",
+        "view_image",
+        "write_file",
+        "verify",
+        "read_web",
+        "default_work",
+        "respond",
+        "task_complete",
+        "question_for_user",
+        "failed"
+      ],
+      "description": "Mac remains locked per parent task. No UI retry or bypass attempted. No true playback, three cycles, slow playback, state switching, one-event long hold or retrigger observed.",
+      "required": "Unlock and actually observe repaired frozen candidate before whole-set dynamic approval."
+    }
+  ],
+  "state_coverage": [
+    {
+      "state": "idle",
+      "static_verdict": "pass_for_reviewed_scope",
+      "dynamic_verdict": "pending_V01",
+      "body_webp_sha256": "8016ea669d89e9b0c3aba83839752ec468060816f7af4e03c6891abf3a43b727",
+      "body_same_as_R01": true,
+      "body_review": "byte-identical inheritance from R01; not re-viewed this round",
+      "eyes_review": {
+        "body_indices": [
+          0
+        ],
+        "levels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "scale": [
+          "100%",
+          "200%",
+          "300%"
+        ],
+        "four_backgrounds_at": "level3 at selected maximum eye delta frame",
+        "all_gaze_combinations_visually_examined": false,
+        "result": "M01 closed; no new definite contour/coverage/skin/tip defect in inspected poses"
+      },
+      "actually_viewed_evidence": [
+        "evidence/idle-decoded-lids300.png",
+        "evidence/idle-max-gaze-and-backgrounds200.png"
+      ],
+      "live_playback_completed": false
+    },
+    {
+      "state": "thinking",
+      "static_verdict": "pass_for_reviewed_scope",
+      "dynamic_verdict": "pending_V01",
+      "body_webp_sha256": "4d87c3bd42cd5843c7a01c5348f430b726c56eca4a5fe0e36cee674785c0daec",
+      "body_same_as_R01": true,
+      "body_review": "byte-identical inheritance from R01; not re-viewed this round",
+      "eyes_review": {
+        "body_indices": [
+          0,
+          8
+        ],
+        "levels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "scale": [
+          "100%",
+          "200%",
+          "300%"
+        ],
+        "four_backgrounds_at": "level3 at selected maximum eye delta frame",
+        "all_gaze_combinations_visually_examined": false,
+        "result": "M01 closed; no new definite contour/coverage/skin/tip defect in inspected poses"
+      },
+      "actually_viewed_evidence": [
+        "evidence/thinking-decoded-lids300.png",
+        "evidence/thinking-max-gaze-and-backgrounds200.png"
+      ],
+      "live_playback_completed": false
+    },
+    {
+      "state": "read_file",
+      "static_verdict": "pass_for_reviewed_scope",
+      "dynamic_verdict": "pending_V01",
+      "body_webp_sha256": "1547397e8ed6d582f90c52e01ecadd131b8b0782b4c658c0db1c419062f67d0c",
+      "body_same_as_R01": true,
+      "body_review": "byte-identical inheritance from R01; not re-viewed this round",
+      "eyes_review": {
+        "body_indices": [
+          0,
+          16
+        ],
+        "levels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "scale": [
+          "100%",
+          "200%",
+          "300%"
+        ],
+        "four_backgrounds_at": "level3 at selected maximum eye delta frame",
+        "all_gaze_combinations_visually_examined": false,
+        "result": "M01 closed; no new definite contour/coverage/skin/tip defect in inspected poses"
+      },
+      "actually_viewed_evidence": [
+        "evidence/read_file-decoded-lids300.png",
+        "evidence/read_file-max-gaze-and-backgrounds200.png"
+      ],
+      "live_playback_completed": false
+    },
+    {
+      "state": "view_image",
+      "static_verdict": "pass_for_reviewed_scope",
+      "dynamic_verdict": "pending_V01",
+      "body_webp_sha256": "087d916acb393985699c6bd80970529bea22ba9a5828a6f051eb0578416e0f6c",
+      "body_same_as_R01": true,
+      "body_review": "byte-identical inheritance from R01; not re-viewed this round",
+      "eyes_review": {
+        "body_indices": [
+          0,
+          39
+        ],
+        "levels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "scale": [
+          "100%",
+          "200%",
+          "300%"
+        ],
+        "four_backgrounds_at": "level3 at selected maximum eye delta frame",
+        "all_gaze_combinations_visually_examined": false,
+        "result": "M01 closed; no new definite contour/coverage/skin/tip defect in inspected poses"
+      },
+      "actually_viewed_evidence": [
+        "evidence/view_image-decoded-lids300.png",
+        "evidence/view_image-max-gaze-and-backgrounds200.png"
+      ],
+      "live_playback_completed": false
+    },
+    {
+      "state": "write_file",
+      "static_verdict": "pass_for_reviewed_scope",
+      "dynamic_verdict": "pending_V01",
+      "body_webp_sha256": "a9d9a1913fb7f0c06e23095a01ba75c72841ce8a2c35f3268df012261b16e93e",
+      "body_same_as_R01": true,
+      "body_review": "byte-identical inheritance from R01 plus full-frame source/extreme spot-check",
+      "eyes_review": {
+        "body_indices": [
+          0
+        ],
+        "levels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "scale": [
+          "100%",
+          "200%",
+          "300%"
+        ],
+        "four_backgrounds_at": "level3 at selected maximum eye delta frame",
+        "all_gaze_combinations_visually_examined": false,
+        "result": "M01 closed; no new definite contour/coverage/skin/tip defect in inspected poses"
+      },
+      "actually_viewed_evidence": [
+        "evidence/write_file-decoded-lids300.png",
+        "evidence/write_file-max-gaze-and-backgrounds200.png",
+        "evidence/write_file-source-encoded.png"
+      ],
+      "live_playback_completed": false
+    },
+    {
+      "state": "verify",
+      "static_verdict": "pass_for_reviewed_scope",
+      "dynamic_verdict": "pending_V01",
+      "body_webp_sha256": "602147dbd94cf6e5a48242e56506743d91c51710f07bf063ce4af2c363a40bb5",
+      "body_same_as_R01": true,
+      "body_review": "byte-identical inheritance from R01 plus full-frame source/extreme spot-check",
+      "eyes_review": {
+        "body_indices": [
+          0,
+          25
+        ],
+        "levels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "scale": [
+          "100%",
+          "200%",
+          "300%"
+        ],
+        "four_backgrounds_at": "level3 at selected maximum eye delta frame",
+        "all_gaze_combinations_visually_examined": false,
+        "result": "M01 closed; no new definite contour/coverage/skin/tip defect in inspected poses"
+      },
+      "actually_viewed_evidence": [
+        "evidence/verify-decoded-lids300.png",
+        "evidence/verify-max-gaze-and-backgrounds200.png",
+        "evidence/verify-source-encoded.png"
+      ],
+      "live_playback_completed": false
+    },
+    {
+      "state": "read_web",
+      "static_verdict": "pass_for_reviewed_scope",
+      "dynamic_verdict": "pending_V01",
+      "body_webp_sha256": "778d45aac354e574f114b933ceaac181cd9a86fa61d6c92f304e21885db5ec66",
+      "body_same_as_R01": true,
+      "body_review": "byte-identical inheritance from R01; not re-viewed this round",
+      "eyes_review": {
+        "body_indices": [
+          0,
+          26
+        ],
+        "levels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "scale": [
+          "100%",
+          "200%",
+          "300%"
+        ],
+        "four_backgrounds_at": "level3 at selected maximum eye delta frame",
+        "all_gaze_combinations_visually_examined": false,
+        "result": "M01 closed; no new definite contour/coverage/skin/tip defect in inspected poses"
+      },
+      "actually_viewed_evidence": [
+        "evidence/read_web-decoded-lids300.png",
+        "evidence/read_web-max-gaze-and-backgrounds200.png"
+      ],
+      "live_playback_completed": false
+    },
+    {
+      "state": "default_work",
+      "static_verdict": "pass_for_reviewed_scope",
+      "dynamic_verdict": "pending_V01",
+      "body_webp_sha256": "876a8e789d1ee9b1294e1a942008339e0d4fcedd103210182bc12b49ccf05915",
+      "body_same_as_R01": true,
+      "body_review": "byte-identical inheritance from R01; not re-viewed this round",
+      "eyes_review": {
+        "body_indices": [
+          0
+        ],
+        "levels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "scale": [
+          "100%",
+          "200%",
+          "300%"
+        ],
+        "four_backgrounds_at": "level3 at selected maximum eye delta frame",
+        "all_gaze_combinations_visually_examined": false,
+        "result": "M01 closed; no new definite contour/coverage/skin/tip defect in inspected poses"
+      },
+      "actually_viewed_evidence": [
+        "evidence/default_work-decoded-lids300.png",
+        "evidence/default_work-max-gaze-and-backgrounds200.png"
+      ],
+      "live_playback_completed": false
+    },
+    {
+      "state": "respond",
+      "static_verdict": "pass_for_reviewed_scope",
+      "dynamic_verdict": "pending_V01",
+      "body_webp_sha256": "9ebbe99b9f616d1a9afbf721ea94ae148c79d88bfc2a148e75b24cb7e0b2d942",
+      "body_same_as_R01": false,
+      "body_review": "all 25 unique frames ROI plus full source/frame0/frame24 at 100% and logical192x208, extreme four backgrounds at200%",
+      "eyes_review": {
+        "body_indices": [
+          0,
+          24
+        ],
+        "levels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "scale": [
+          "100%",
+          "200%",
+          "300%"
+        ],
+        "four_backgrounds_at": "level3 at selected maximum eye delta frame",
+        "all_gaze_combinations_visually_examined": false,
+        "result": "M01 closed; no new definite contour/coverage/skin/tip defect in inspected poses"
+      },
+      "actually_viewed_evidence": [
+        "evidence/respond-decoded-lids300.png",
+        "evidence/respond-max-gaze-and-backgrounds200.png",
+        "evidence/respond-source-encoded.png",
+        "evidence/respond-decoded-detail200.png",
+        "evidence/respond-all-25-frames200.png",
+        "evidence/respond-encoded-four-bg200.png"
+      ],
+      "live_playback_completed": false
+    },
+    {
+      "state": "task_complete",
+      "static_verdict": "pass_for_reviewed_scope",
+      "dynamic_verdict": "pending_V01",
+      "body_webp_sha256": "a63e8abf3f1dc4841d22722e533da1f689ab5474989502ce4f3d7faa54ca6976",
+      "body_same_as_R01": true,
+      "body_review": "byte-identical inheritance from R01; not re-viewed this round",
+      "eyes_review": "not_applicable",
+      "actually_viewed_evidence": [],
+      "live_playback_completed": false
+    },
+    {
+      "state": "question_for_user",
+      "static_verdict": "pass_for_reviewed_scope",
+      "dynamic_verdict": "pending_V01",
+      "body_webp_sha256": "a82ca91f95aae6511dbbf20a65b745aad5d2120277d54a9ed6e375897ca67423",
+      "body_same_as_R01": true,
+      "body_review": "byte-identical inheritance from R01 plus full-frame source/extreme spot-check",
+      "eyes_review": {
+        "body_indices": [
+          0,
+          16
+        ],
+        "levels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "scale": [
+          "100%",
+          "200%",
+          "300%"
+        ],
+        "four_backgrounds_at": "level3 at selected maximum eye delta frame",
+        "all_gaze_combinations_visually_examined": false,
+        "result": "M01 closed; no new definite contour/coverage/skin/tip defect in inspected poses"
+      },
+      "actually_viewed_evidence": [
+        "evidence/question_for_user-decoded-lids300.png",
+        "evidence/question_for_user-max-gaze-and-backgrounds200.png",
+        "evidence/question_for_user-source-encoded.png"
+      ],
+      "live_playback_completed": false
+    },
+    {
+      "state": "failed",
+      "static_verdict": "pass_for_reviewed_scope",
+      "dynamic_verdict": "pending_V01",
+      "body_webp_sha256": "61bb45ce1275faf9e3a6cbda8e5f7d8f8ee1633ba9d7f146b696c09f4e724fb6",
+      "body_same_as_R01": true,
+      "body_review": "byte-identical inheritance from R01; not re-viewed this round",
+      "eyes_review": {
+        "body_indices": [
+          0,
+          20
+        ],
+        "levels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "scale": [
+          "100%",
+          "200%",
+          "300%"
+        ],
+        "four_backgrounds_at": "level3 at selected maximum eye delta frame",
+        "all_gaze_combinations_visually_examined": false,
+        "result": "M01 closed; no new definite contour/coverage/skin/tip defect in inspected poses"
+      },
+      "actually_viewed_evidence": [
+        "evidence/failed-decoded-lids300.png",
+        "evidence/failed-max-gaze-and-backgrounds200.png"
+      ],
+      "live_playback_completed": false
+    }
+  ],
+  "actually_visually_opened_files": [
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/eyes-all-states-100.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/idle-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/idle-max-gaze-and-backgrounds200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/thinking-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/thinking-max-gaze-and-backgrounds200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/read_file-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/read_file-max-gaze-and-backgrounds200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/view_image-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/view_image-max-gaze-and-backgrounds200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/write_file-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/write_file-max-gaze-and-backgrounds200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/write_file-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/verify-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/verify-max-gaze-and-backgrounds200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/verify-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/read_web-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/read_web-max-gaze-and-backgrounds200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/default_work-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/default_work-max-gaze-and-backgrounds200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/respond-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/respond-max-gaze-and-backgrounds200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/respond-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/respond-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/respond-all-25-frames200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/respond-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/question_for_user-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/question_for_user-max-gaze-and-backgrounds200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/question_for_user-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/failed-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R02/evidence/failed-max-gaze-and-backgrounds200.png"
+  ],
+  "programmatically_read_and_decoded_images": [
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/inputs/source/01-idle.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/idle/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/idle.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/idle.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/idle/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/idle-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/idle-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/idle/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/inputs/source/02-thinking.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/thinking/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/thinking.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/thinking.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/thinking/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/thinking-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/thinking-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/thinking/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/inputs/source/03-read_file.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/read_file/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/read_file.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/read_file.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/read_file/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/read_file-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/read_file-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/read_file/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/inputs/source/04-view_image.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/view_image/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/view_image.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/view_image.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/view_image/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/view_image-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/view_image-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/view_image/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/inputs/source/05-write_file.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/write_file/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/write_file.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/write_file.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/write_file/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/write_file-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/write_file-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/write_file/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/inputs/source/06-verify.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/verify/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/verify.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/verify.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/verify/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/verify-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/verify-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/verify/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/inputs/source/07-read_web.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/read_web/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/read_web.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/read_web.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/read_web/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/read_web-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/read_web-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/read_web/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/inputs/source/08-default_work.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/default_work/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/default_work.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/default_work.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/default_work/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/default_work-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/default_work-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/default_work/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/inputs/source/09-respond.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/respond/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/respond.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/respond.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/respond/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/respond-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/respond-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/respond/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/inputs/source/10-task_complete.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/task_complete/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/task_complete.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/task_complete.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/task_complete/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/inputs/source/11-question_for_user.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/question_for_user/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/question_for_user.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/question_for_user.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/question_for_user/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/question_for_user-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/question_for_user-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/question_for_user/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/inputs/source/12-failed.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/failed/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/failed.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/failed.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/failed/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/failed-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/motion/failed-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R02/rigs/failed/eyes-allowed-2x.png"
+  ],
+  "source_code_read": [
+    "tools/eyes.py full",
+    "tools/Preview.swift full",
+    "index.html playback JS tail",
+    "tools/build_motion.py diff against R01 (respond pivot and motion-matte changes)"
+  ],
+  "machine_reports_after_visual": [
+    "failed-machine.json",
+    "question_for_user-machine.json",
+    "task_complete-machine.json",
+    "view_image-machine.json",
+    "read_web-machine.json",
+    "verify-machine.json",
+    "thinking-machine.json",
+    "write_file-machine.json",
+    "respond-machine.json",
+    "idle-machine.json",
+    "default_work-machine.json",
+    "read_file-machine.json",
+    "encoded-validation.json"
+  ],
+  "scope_exclusions": [
+    "live playback",
+    "all gaze x six lid visual permutations",
+    "production integration",
+    "Windows native execution"
+  ],
+  "candidate_modified": false
+}

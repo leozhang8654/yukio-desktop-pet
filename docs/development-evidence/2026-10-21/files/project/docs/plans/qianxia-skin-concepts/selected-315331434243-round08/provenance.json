@@ -1,0 +1,108 @@
+{
+  "status": "static_concepts_pending_user_review",
+  "generator": "built-in image_gen",
+  "changed": [
+    "10-task_complete.png"
+  ],
+  "files": {
+    "01-idle.png": {
+      "sha256": "1b922c4d0a5881cc689fc5884effd9510f6c639d72c93eba2f4066866f0d7485",
+      "size": [
+        1205,
+        1305
+      ],
+      "source_round": "round04"
+    },
+    "02-thinking.png": {
+      "sha256": "46cd73c0db6a12d969f6a7fab4df79018d92f3b02d726ed6e13f2b3917a71035",
+      "size": [
+        1205,
+        1305
+      ],
+      "source_round": "round02"
+    },
+    "03-read_file.png": {
+      "sha256": "7391d2501ffe01f7f8a5ae38285d41bddd2e67ff6d072ba9b1d35db64bab5f7e",
+      "size": [
+        1205,
+        1306
+      ],
+      "source_round": "round04"
+    },
+    "04-view_image.png": {
+      "sha256": "5d4c0f1b4e66269253bae000ae329c0bbf01a24d0e9a378d6802f73a007ea489",
+      "size": [
+        1205,
+        1305
+      ],
+      "source_round": "round02"
+    },
+    "05-write_file.png": {
+      "sha256": "fd08f111c090bc590befb6d8c29f4fa255088afc0b7db7328ff7df628dc82b02",
+      "size": [
+        1205,
+        1305
+      ],
+      "source_round": "round02"
+    },
+    "06-verify.png": {
+      "sha256": "23e194e6d53ec6a98d902cda188ff384a22ce59bb9c323c296422e27e81ba916",
+      "size": [
+        1205,
+        1305
+      ],
+      "source_round": "round02"
+    },
+    "07-read_web.png": {
+      "sha256": "304691e9ca15aff4076d488f97653e7484e81e96fb95fca61d65a6ef21cad984",
+      "size": [
+        1205,
+        1305
+      ],
+      "source_round": "round02"
+    },
+    "08-default_work.png": {
+      "sha256": "685aad6499b83f3f8a2bfa1681fd69d3a1c6d3a211335e53e4a4b4c65cbd6c41",
+      "size": [
+        1202,
+        1309
+      ],
+      "source_round": "round02"
+    },
+    "09-respond.png": {
+      "sha256": "34283d47edb91d1e7ccfc4c037d61a98cf20900f33ebd8fbf458a68e3f705a63",
+      "size": [
+        1205,
+        1305
+      ],
+      "source_round": "round02"
+    },
+    "10-task_complete.png": {
+      "sha256": "df1d8262cb15039bff35b818236707efa0b0e456977f69c971ec43ce00264b0a",
+      "size": [
+        1205,
+        1306
+      ],
+      "source_round": "round08"
+    },
+    "11-question_for_user.png": {
+      "sha256": "e1777c2f9ec5d9cc2147f24599a183a88577105b9308d2c3e1aa23636d0fdb5f",
+      "size": [
+        1202,
+        1308
+      ],
+      "source_round": "round07"
+    },
+    "12-failed.png": {
+      "sha256": "b53ba09235dd7f27bccd87f7ac6dfb70bce11fbe561c15078b4cc937ad8f4045",
+      "size": [
+        1205,
+        1305
+      ],
+      "source_round": "round02"
+    }
+  },
+  "revision": "Completed task rests face-down buried in hands and sleeves, with right-side checkmark visible.",
+  "prompt_sha256": "420303e35a2297a9d1b4453684fe4ad4375fe0377ad96e1cbc5ea473056a661f",
+  "edit_target_sha256": "9750eb6a7ec2d3d6524715ae714b4b3e042bfbde8e1a40cbedf0c6afca807c49"
+}

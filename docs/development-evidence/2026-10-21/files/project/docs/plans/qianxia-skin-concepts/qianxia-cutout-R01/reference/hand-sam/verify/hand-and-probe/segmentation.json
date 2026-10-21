@@ -1,0 +1,54 @@
+{
+  "state": "verify",
+  "part": "hand-and-probe",
+  "input_file": "source/06-verify.png",
+  "input_sha256": "cbe31ee0637734af510385b69c876e9cf4969023c9e84fbecc65e8fd115274fc",
+  "box": [
+    363,
+    590,
+    517,
+    785
+  ],
+  "positive_points": [
+    [
+      412,
+      683
+    ],
+    [
+      474,
+      680
+    ],
+    [
+      492,
+      751
+    ]
+  ],
+  "negative_points": [
+    [
+      345,
+      725
+    ],
+    [
+      534,
+      640
+    ],
+    [
+      524,
+      794
+    ]
+  ],
+  "sam_scores": [
+    0.70469069480896,
+    0.8337897658348083,
+    0.8399340510368347
+  ],
+  "chosen_option": 2,
+  "selected_pixels": 15168,
+  "removed_fully_transparent_pixels": 0,
+  "components": 1,
+  "component_areas": [
+    15168
+  ],
+  "visual_review": "pending",
+  "status": "initial_candidate"
+}

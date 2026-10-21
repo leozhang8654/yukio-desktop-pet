@@ -1,0 +1,44 @@
+[
+  {
+    "name": "01-qianxia-design-and-cutouts.zip",
+    "bytes": 1136181582,
+    "sha256": "0c0e39d3736d8f0587faa0f160ea46b40dc0888d21670a6b6ea2d01d76925e95",
+    "files": 2680,
+    "all_member_hashes_verified": true
+  },
+  {
+    "name": "02-qianxia-motion-candidates.zip",
+    "bytes": 1311165316,
+    "sha256": "0769bddcd3af4fe5e5c1abc2d12eb3c3dd46e2113af1840897f957855ff96d30",
+    "files": 2799,
+    "all_member_hashes_verified": true
+  },
+  {
+    "name": "03-qianxia-reviews-and-interactions.zip",
+    "bytes": 92354226,
+    "sha256": "f30baf941de99da496c09438cf987e40b6c0d73fbdde085cebcc022258b3d1a8",
+    "files": 711,
+    "all_member_hashes_verified": true
+  },
+  {
+    "name": "04-yukio-animation-experiments.zip",
+    "bytes": 755726606,
+    "sha256": "13fef7037f79176b6376833873c05197de84e35db7b8a89e49c2789512d4e596",
+    "files": 2295,
+    "all_member_hashes_verified": true
+  },
+  {
+    "name": "05-local-source-docs-and-validation.zip",
+    "bytes": 66577389,
+    "sha256": "af4700ca09b1078b97c78bd5dcc15a4d6e27ce5e7cfac5fe046971489e2c2449",
+    "files": 701,
+    "all_member_hashes_verified": true
+  },
+  {
+    "name": "06-research-and-requirements.zip",
+    "bytes": 2731443,
+    "sha256": "b27d2f9c5d848953c24f3fff243a166f31d9bfab6ca843bb36e249baa1ddabb0",
+    "files": 6,
+    "all_member_hashes_verified": true
+  }
+]

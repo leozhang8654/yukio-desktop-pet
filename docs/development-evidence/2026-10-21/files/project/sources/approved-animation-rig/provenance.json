@@ -1,0 +1,122 @@
+{
+  "default_work": {
+    "original_atlas_sha256": "0d4a891f441b0aff48cc2663d5ab605d3f6569c6351a26bf106b13e0c890c803",
+    "source_sha256": "1ee54ef17cd27a6e2579fb986eb8e31e9dfd8219c051b8c0442080ae1252d9fc",
+    "published_renderer_samples_exact": true,
+    "masks": {
+      "left-mask.png": "84ac1db1bf6a8fb69710a2e986a473abfa05b62d09aedf5a94c5a158c39c134d",
+      "right-mask.png": "22f38c3fc4370a824a93daec3269ab930de7671dd6452fd2771e50a6b73e7267",
+      "head-mask.png": "6f59e7a40189b0a5e94145f072fd5b9a71a932a4542c5324158d067e8109d694",
+      "allowed-mask.png": "ab06833dbe383719da706452f4ab380325da8be2f362b7924ac8e52fc7698e8b"
+    }
+  },
+  "write_file": {
+    "original_atlas_sha256": "d54ca94dd052de8b62d5d652023d160de353d62b951752745bac531fed20160c",
+    "source_sha256": "8b3f35f41af5871be965711c3e018d1a6ae86470aca6dd3d9f437c668c969954",
+    "published_renderer_samples_exact": true,
+    "masks": {
+      "head-mask.png": "c21cce9b7dd7c6dfef493678660fed4a6ded4158d1c85bf2cd9dda9acc4456fe",
+      "pen_hand-mask.png": "e67907649ee7271f0690c1efbd6cf6dce2a8318a2b2bf58b9b7b8bab2cc0bd35",
+      "allowed-mask.png": "43f37f8e9344e83f07a807907ec3a14b64e85c8e99d59aa39dfb48b8abc46620"
+    }
+  },
+  "verify": {
+    "original_atlas_sha256": "a0d748a3910b35510b03898635a4f36524729f2994f7179a72ca085062648a61",
+    "source_sha256": "bfc49fc5d48d47af646e6f019966f5d5513605cb9088427009541cb00e022dd5",
+    "published_renderer_samples_exact": true,
+    "masks": {
+      "head-mask.png": "c32bf64682241708bcbaceee47581dc464cf03e19795ff6188416d7b7bd1eec0",
+      "allowed-mask.png": "f837dccf52a6a2e2a1a89b0d6c7ca021753aca6f4c1610a1b0746e929d407517",
+      "right_hand-mask.png": "d27ede34471eb899c5cedf4c09e65b2d614d47e3b6bf644557875d56ec9a34dc",
+      "left_hand-mask.png": "14ffc4f7e970508616ac99d2d20cb23c2d9c24ab5f1bea84cc6b89ab3d347abf"
+    }
+  },
+  "view_image": {
+    "original_atlas_sha256": "72ae347396932f85fe3fcfdca2565e86c9ad2b89c63fdd8745fc89de8053e9df",
+    "source_sha256": "476af45269af80f781cd22395ace6579bd423c667264a72fc1fe28760b129568",
+    "published_renderer_samples_exact": true,
+    "masks": {
+      "glass_hand-mask.png": "2dcaa0d5a4d2614e52c749bae2da47782274891033294e1199938b2e0c835ed6",
+      "head-mask.png": "42c9077b60e0bea8ffea984ab02beff260ed22b8b223589323312f78251b3539",
+      "allowed-mask.png": "2d1946d247cae728d4b3d33222a920c8e21a9df36275f5e27e586a34491b6dd6"
+    }
+  },
+  "read_file": {
+    "original_atlas_sha256": "dce85f87aeb4eb573e707052799583b940e4bef6b669d5352218f3ec65cbd532",
+    "source_sha256": "810efaa0330c5e0f3101b1d5b5bd0d044d5790c73ea4976768237a8066e57d40",
+    "published_renderer_samples_exact": true,
+    "masks": {
+      "head-mask.png": "566629bfdbc91537db9def0dc03effb5c4570849e4391b738c2255f5158ab913",
+      "allowed-mask.png": "d112256f58e2963bf254ca88751d97ce7e0ca2361324fe203627d2e5fb6aaf1f",
+      "tracing_hand-mask.png": "0ff135e080873c5c84a9843bdd50aa046e1502b7117851fc9085ddc54cdb24b2"
+    }
+  },
+  "read_web": {
+    "original_atlas_sha256": "371a61bb5819f0614ff4ccc5e6b668776f751dbcb14d804c2c4f542cb45e3057",
+    "source_sha256": "4e2fc7f2a7f6d97dda6a604e976d8ef1641db59c6e5ac002008763e6a24911cf",
+    "published_renderer_samples_exact": true,
+    "masks": {
+      "head-mask.png": "820a195053e8745e4604bc0d1eb9240657c28b00b286194aa6e693e1e9954cf3",
+      "allowed-mask.png": "883f562837193cfbdea9e96779917578de9b6916f89f02a01b70d21d1245e3ea",
+      "tap_hand-mask.png": "6bb87ef2101bbcd820bc121e83222a814e1a2bc74da54add9e53329b08654b85"
+    }
+  },
+  "thinking": {
+    "original_atlas_sha256": "4af6ddecabfd09ed7ed341ce40ad1c5c292ad6b497fec916f5296179ee27b525",
+    "source_sha256": "0cd261b881fd6c46c3c3a07da2aa73e81c1874d079578950a4ea156c479ec1e6",
+    "published_renderer_samples_exact": true,
+    "masks": {
+      "head-mask.png": "3da4bd74679a5132fd70d333b47d04621979bc8e7bd6f6fcac596787aa3779c4",
+      "allowed-mask.png": "9eb0b4b77dce0b97ff07b4900028517df4c349918dce0aef0833cde94c6e1df8",
+      "cheek_hand-mask.png": "843d20bb5ab40241f4f0eaa18653cded61d6264e70bf73abc8a12bc5d3f093d1"
+    }
+  },
+  "respond": {
+    "original_atlas_sha256": "02abaa93282a17eaa51fab96f4096509be9b14c5c14c0623d4d54535b6af4f49",
+    "source_sha256": "eec5b59c0caa7bc8547111355f7fbb437eee8b55ff3f3e40e39b50d47773e2a4",
+    "published_renderer_samples_exact": true,
+    "masks": {
+      "head-mask.png": "ac04516dbeb9e86f3d700037b525fafd763915db65c3700dc1fe198410d01c45",
+      "allowed-mask.png": "27bad258d51eb5f5c3f54da125ac55071942c1e1670a5166885dd5d67387eb19",
+      "report_hands-mask.png": "ee54f87936d9a363ff2ea4a48e551ec1cba3c49c916c656a5aadf2fa6220d647"
+    }
+  },
+  "question_for_user": {
+    "original_atlas_sha256": "070a1ea249da43d7cbeb5a4bd2a4014bec7af72711e3a69e2f00c19884e1e4d6",
+    "source_sha256": "2163fdfcfa07d9563a18f603ebf065fcb755c1c437277af785f7935ae155071a",
+    "published_renderer_samples_exact": true,
+    "masks": {
+      "head-mask.png": "e236d68ff2a8611d5fa9f828e568c011398496b65d0b24771c6f5e715b37a244",
+      "allowed-mask.png": "2fbfbc9850a08ff1d70cb9081e135ef1f758febd87afdd47a247ee516e4e18e6",
+      "point_hand-mask.png": "3bdba6731414e07c8c8e8be5c956b1e9a87b19fad686a97d2a6b7a4365d236da"
+    }
+  },
+  "task_complete": {
+    "original_atlas_sha256": "39d46c925bd21567e400c6a6813bf5a5587f9582e6b56f8bef892dc2c010f540",
+    "source_sha256": "3e286ab9569452949875dfb3bd67cefba9c3e35a3d0fa8aacd075055aee8abbe",
+    "published_renderer_samples_exact": true,
+    "masks": {
+      "head-mask.png": "1cb13a5d6e58b41999175f3c91a35a5ee12f7490d34103005b1ab60c9c64a3e9",
+      "allowed-mask.png": "5db6f1147ce5d0f1fa2c6cf10fb0bc0b17d28b395b8335cc89709b048f465bdc",
+      "card_hands-mask.png": "b377480b198642de4a4fb17528da0d4ceb269b45e6c5987ff18346b25b02808c"
+    }
+  },
+  "idle": {
+    "original_atlas_sha256": "57ef0d1ff356a0db3b3602c8c6bfc4adf32fd45f0ab114f88af0efc8dfaaf61b",
+    "source_sha256": "5b64f79ff813db81972d5d523d1b65c424bd4180174c65f20765c21d3d571b64",
+    "published_renderer_samples_exact": true,
+    "masks": {
+      "head-mask.png": "2048099ac6fad3857090fb0b63d9b6b4d46f7d7a4fa3a9d2a160cf55c1066692",
+      "allowed-mask.png": "e238d384327746d35ffd7293e040e1fd6530aa14dfac9ede3f301f02959c8c7d"
+    }
+  },
+  "failed": {
+    "original_atlas_sha256": "48b4ea31719d0704ac790deb0d8921329fc5343c4071d2dca8f465f8a2909dda",
+    "source_sha256": "15ec01f356ea5d723def2831ba571948f14591c5f80258f83b1a553f9020d83b",
+    "published_renderer_samples_exact": true,
+    "masks": {
+      "head-mask.png": "e3d76c6afb9a1c872e53e4ae1fad0d2e3d4df3508f9991022c6ac1a04d11feda",
+      "allowed-mask.png": "a8afca8406579525a816da0113b7b1dce86731e317193b35e364c863d45e3836"
+    }
+  }
+}

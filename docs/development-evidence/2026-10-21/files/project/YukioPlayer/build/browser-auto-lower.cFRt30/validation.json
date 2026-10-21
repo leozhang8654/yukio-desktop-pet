@@ -1,0 +1,16 @@
+{
+  "swift_tests": 183,
+  "windows_logic_tests": 245,
+  "windows_skipped_tests": 1,
+  "native_asset_check": "passed (13 animations)",
+  "asset_files_checked": 51,
+  "asset_mismatches": [],
+  "extra_assets": [],
+  "binary_sha256": "fa6d4d056c60ac73d7deddcf5ca877dcaad17e139200f4ea1ed11bd347f67378",
+  "mac_browser_live_validation": "not completed: Accessibility permission not granted",
+  "windows_native_validation": "not run: no Windows host",
+  "installed": false,
+  "packaging_note": "App codesigning changes Mach-O signature and link-edit metadata; every file-backed section and UUID is compared.",
+  "binary_sections_match_release": true,
+  "binary_section_count": 32
+}

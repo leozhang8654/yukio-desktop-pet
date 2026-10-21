@@ -1,0 +1,5 @@
+{
+  "parent": "../qianxia-motion-R06",
+  "reason": "User review of R06 preview: blink choppy, card scaling odd; drop respond/failed hand motion; question_for_user loops every 5 s",
+  "formal_before": "before/"
+}

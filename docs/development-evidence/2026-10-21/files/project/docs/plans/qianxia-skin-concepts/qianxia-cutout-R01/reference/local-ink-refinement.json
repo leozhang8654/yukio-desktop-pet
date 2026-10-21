@@ -1,0 +1,59 @@
+[
+  {
+    "state": "failed",
+    "part": "hand-and-card",
+    "axis": "right",
+    "range": [
+      693,
+      750
+    ],
+    "added_pixels": 132,
+    "reason": "include omitted original dark ink along visually checked fingertip edges; max 4 source pixels"
+  },
+  {
+    "state": "write_file",
+    "part": "left-hand",
+    "axis": "bottom",
+    "range": [
+      355,
+      474
+    ],
+    "added_pixels": 234,
+    "reason": "include omitted original dark ink along visually checked fingertip edges; max 4 source pixels"
+  },
+  {
+    "state": "write_file",
+    "part": "right-hand",
+    "axis": "bottom",
+    "range": [
+      744,
+      846
+    ],
+    "added_pixels": 290,
+    "reason": "include omitted original dark ink along visually checked fingertip edges; max 4 source pixels"
+  },
+  {
+    "state": "idle",
+    "part": "touching-hand",
+    "box": [
+      417,
+      816,
+      426,
+      826
+    ],
+    "removed_pixels": 12,
+    "reason": "visually identified external pink sleeve wedge"
+  },
+  {
+    "state": "read_web",
+    "part": "pointing-hand",
+    "box": [
+      419,
+      652,
+      429,
+      661
+    ],
+    "removed_pixels": 30,
+    "reason": "visually identified external pink sleeve wedge"
+  }
+]

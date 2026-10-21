@@ -1,0 +1,30 @@
+{
+  "baseline": "formal held@2x.png; source image copied byte for byte",
+  "sourceSha256": "c8a7648ce5f9d0a3e76d0cc96f61343310003c004a6b07f8638f0e5db16051fc",
+  "heldSourceRelationship": "sources/held-source.png is a large nontransparent tracing reference, not pixel-identical; no new background removal was performed.",
+  "alphaConvention": "float32 premultiplied RGBA transforms; straight RGBA lossless WebP output",
+  "coordinateSystems": {
+    "masks": "384x480 source, top-left",
+    "allowed-output-mask": "432x528 output, top-left",
+    "physics": "logical room-local units, y-up, seconds"
+  },
+  "sam": "sam-round-01/prompts.json",
+  "finalMaskReview": "mask-review-04/report.json",
+  "inputs": {
+    "coat-left-mask.png": "58d56e30eb67f3be9065483fdbe6879d893037bc6b4ee1c7994b0ba0f989dae0",
+    "curves.json": "617540bba451de99d11aa2bbfa359a7e5c08f62014e821ca0c93196315a78647",
+    "leg-detail.png": "dc50d5ad6c48e034f298b8625c97ac96e523db3dfafa23db362e175ba79e76c6",
+    "allowed-mask.png": "2dd7be076d968c2c016034c047466ce247f6296204f28fd7061d8413f9251128",
+    "allowed-output-mask.png": "29a239648f2fb07282234ffd91f8dc166948c7823ed9d9d23ee5bd429b4b104b",
+    "eyes-detail.png": "b742ae18bd103083c27ebae6074c3c29129d83d76fcd03651fe66973fe4c94bd",
+    "coat-right-mask.png": "32e4211c1fe5c08ba72f3c60617dee2f1fc1188e1912227d2b152e94ce06f3d2",
+    "left-leg-mask.png": "265f3be647ea9f0be5b1de182e9d1141b2677066a08829750eaafdb33cda34b0",
+    "composition.npz": "c701a133609fb56fcff11d30032c96f0211df30308f24abaf8947f64b199cce4",
+    "source.png": "c8a7648ce5f9d0a3e76d0cc96f61343310003c004a6b07f8638f0e5db16051fc",
+    "coat-detail.png": "4f7f34802065795526bae83883485dcefbf2c62f9a6b4012ab93b1a6ccb40492",
+    "right-leg-mask.png": "9ca6e2fe47207841151596462d04d72c6499f67e0c51cc5e74431914e68ea0e2",
+    "refinement.json": "9052f836520665bc27c785a4a29412014f99bd59c6fdb5e2aa44b1ce9802e68b"
+  },
+  "generatorSha256": "27280a73ff1d31491187766d868ccbf0231f528034ccc8415944e873ee9ddd46",
+  "candidate": "candidate-05"
+}

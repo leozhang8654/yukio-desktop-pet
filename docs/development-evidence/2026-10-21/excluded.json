@@ -1,0 +1,3138 @@
+[
+  {
+    "path": "YukioPlayer/build/YukioPlayer-universal",
+    "original_sha256": "f55a31daa1b3a7689bbca1a80eef3453dbdda58a28328a95c2631a6fe185e28d",
+    "bytes": 3455784,
+    "reason": "compiled_executable",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "YukioPlayer/build/backups/Yukio-before-background-answers-20260926.zip",
+    "original_sha256": "47b4089dc15b72881e8fc6f6f5eeca3397562923be93809d9918fbc17c29da09",
+    "bytes": 38656918,
+    "reason": "installed_app_backup_not_development_source",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "YukioPlayer/build/dmg-before-background-fix.dmg",
+    "original_sha256": "b05660e6919ffa069a5e189e0f7e41a3e497468adb821587404724551332a223",
+    "bytes": 39695579,
+    "reason": "installed_app_backup_not_development_source",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "YukioPlayer/build/dmg-before-footer-fix.dmg",
+    "original_sha256": "bd2676bed4f3bafc352f3fc19f4b23275fd3dd3d0644876e75c7535aea976c7d",
+    "bytes": 39695892,
+    "reason": "installed_app_backup_not_development_source",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "YukioPlayer/build/dmg-upload.w25wgxpq/downloaded/Yukio-0.3.8-macOS.dmg",
+    "original_sha256": "3b8208b52a9ae4277ec708b4b3bc80157b5c26fc3b491899c3fd81794bce8905",
+    "bytes": 39695673,
+    "reason": "installed_app_backup_not_development_source",
+    "prior_remote_status": "Release附件存在相同内容"
+  },
+  {
+    "path": "YukioPlayer/build/installer-review.HfH0An/Yukio-0.3.8-macOS.zip",
+    "original_sha256": "387353f9fdf2bcbc6aa5d5747738892ebc535ebac26523a842d8dd84948a1b2d",
+    "bytes": 39376930,
+    "reason": "installed_app_backup_not_development_source",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "YukioPlayer/build/right-click-fix/20260926-103929/YukioPlayer-before",
+    "original_sha256": "03e4054ec0a1bbd1135dda0229b1c128c3b997e734cd41943a91744ee0e20a45",
+    "bytes": 2631648,
+    "reason": "compiled_executable",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "YukioPlayer/build/settings-app-entry/20260926-103251/YukioPlayer-before",
+    "original_sha256": "0ec1ba5c84e1414d621fe097e97981603fe23ac3a79ce5548b292fe62707395f",
+    "bytes": 1693168,
+    "reason": "compiled_executable",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "YukioPlayer/build/settings-overlay-fix/20260926-105004/YukioPlayer-before",
+    "original_sha256": "bfdf12c47178774a2693342d462edc24005123f301f99bd57d8632b9203a19da",
+    "bytes": 2633088,
+    "reason": "compiled_executable",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "YukioPlayer/build/throw-dizzy-20261009-194744/unsigned-build",
+    "original_sha256": "38a4137eff98919361646e10ecb04df90edc300e50c067079bee4c962661f692",
+    "bytes": 2342912,
+    "reason": "compiled_executable",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "YukioPlayer/build/throw-dizzy-20261009-194744/unsigned-bundle",
+    "original_sha256": "8293c66cbc8006a801ddcd19e6e9c37121d2423e9b6eeabb65208a17d1e912f2",
+    "bytes": 2342912,
+    "reason": "compiled_executable",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "YukioPlayer/dist/Yukio-0.3.8-macOS.dmg",
+    "original_sha256": "3b8208b52a9ae4277ec708b4b3bc80157b5c26fc3b491899c3fd81794bce8905",
+    "bytes": 39695673,
+    "reason": "installed_app_backup_not_development_source",
+    "prior_remote_status": "Release附件存在相同内容"
+  },
+  {
+    "path": "artifacts/app-backups/20261004-before-chat-titles/YukioPlayer",
+    "original_sha256": "7bb1dcae92ed2c2846f74c176f4d1e9bf7b1d9e7076d529785e41b93c65a56b8",
+    "bytes": 4432816,
+    "reason": "installed_app_backup_not_development_source",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "artifacts/app-backups/downloads-before-0.3.3/Yukio-0.1.0-macOS.zip",
+    "original_sha256": "741d7030969f31a2de7b52d515e862d45c9adc9f568470c71379aad6c09e0c5f",
+    "bytes": 6159355,
+    "reason": "installed_app_backup_not_development_source",
+    "prior_remote_status": "Release附件存在相同内容"
+  },
+  {
+    "path": "artifacts/releases/0.2.1/SHA256SUMS-v0.2.1.txt",
+    "original_sha256": "1a66eaa8194b7d76d897f3c394f5d1bf46655b548f896851f22d26a31bca1ff3",
+    "bytes": 178,
+    "reason": "historical_release_package_already_published_or_superseded",
+    "prior_remote_status": "Release附件存在相同内容"
+  },
+  {
+    "path": "artifacts/releases/0.2.1/Yukio-0.2.1-Windows.exe",
+    "original_sha256": "4bf84ecac8cdace2f28bdff11e8a0e2f6b12b3220fc44fe3c184fbf849cb8a85",
+    "bytes": 78447426,
+    "reason": "historical_release_package_already_published_or_superseded",
+    "prior_remote_status": "Release附件存在相同内容"
+  },
+  {
+    "path": "artifacts/releases/0.2.1/Yukio-0.2.1-macOS.zip",
+    "original_sha256": "7ec31f2fc901e82f73b74a5b76f57b7a9ac1d4d99cbdf5195f69006fe4774968",
+    "bytes": 119152336,
+    "reason": "historical_release_package_already_published_or_superseded",
+    "prior_remote_status": "Release附件存在相同内容"
+  },
+  {
+    "path": "artifacts/releases/0.2.1/notes.md",
+    "original_sha256": "a55f433560ea01d0f5a03155fc71a07d7c8a7da8715b3d8c7f1d5637024c755c",
+    "bytes": 1359,
+    "reason": "historical_release_package_already_published_or_superseded",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "artifacts/releases/0.3.3/SHA256SUMS.txt",
+    "original_sha256": "b7a591c9c7aa8d7704fe2c87b332a93e4611c61a0814923fa245bd0158164608",
+    "bytes": 178,
+    "reason": "historical_release_package_already_published_or_superseded",
+    "prior_remote_status": "Release附件存在相同内容"
+  },
+  {
+    "path": "artifacts/releases/0.3.3/Yukio-0.3.3-Windows.exe",
+    "original_sha256": "f922b378a12462eb77d341ec4ae6ac4548995117e80752d3f863671f8c059f53",
+    "bytes": 42267900,
+    "reason": "historical_release_package_already_published_or_superseded",
+    "prior_remote_status": "Release附件存在相同内容"
+  },
+  {
+    "path": "artifacts/releases/0.3.3/Yukio-0.3.3-macOS.zip",
+    "original_sha256": "cd73848e5e7fb35b0c09946f86ee42ef2085cdd73f28e1a8f114e78b1c4e9add",
+    "bytes": 39233657,
+    "reason": "historical_release_package_already_published_or_superseded",
+    "prior_remote_status": "Release附件存在相同内容"
+  },
+  {
+    "path": "artifacts/releases/0.3.4/SHA256SUMS.txt",
+    "original_sha256": "4989f67067134249a9b2fb7756054462aba1a8bff5be673895cdfc881cbc085c",
+    "bytes": 178,
+    "reason": "historical_release_package_already_published_or_superseded",
+    "prior_remote_status": "Release附件存在相同内容"
+  },
+  {
+    "path": "artifacts/releases/0.3.4/Yukio-0.3.4-Windows.exe",
+    "original_sha256": "fb3381eeca6a32d0aa47ad89abcd787ab9e8807d64708ae934090499718f0519",
+    "bytes": 42278896,
+    "reason": "historical_release_package_already_published_or_superseded",
+    "prior_remote_status": "Release附件存在相同内容"
+  },
+  {
+    "path": "artifacts/releases/0.3.4/Yukio-0.3.4-macOS.zip",
+    "original_sha256": "7de3c315cbfb25ba11d54363a5d63fc6882a05a97c61d630ed67f5df537db879",
+    "bytes": 39349377,
+    "reason": "historical_release_package_already_published_or_superseded",
+    "prior_remote_status": "Release附件存在相同内容"
+  },
+  {
+    "path": "artifacts/releases/0.3.4/release-manifest.json",
+    "original_sha256": "8ce972f4a3b67ae94b6f903677c8c3e2fe3ba41f29fe2806e3e7ecae982f1e01",
+    "bytes": 531,
+    "reason": "historical_release_package_already_published_or_superseded",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "artifacts/releases/0.3.4/release-notes.md",
+    "original_sha256": "23dde37e680fbbdee671a7a967d680b98dc031bfee209bfa43a113460f13b0fa",
+    "bytes": 2172,
+    "reason": "historical_release_package_already_published_or_superseded",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "artifacts/releases/0.3.4/windows-build-verification.log",
+    "original_sha256": "a03cd278a529d092db75a38d211545c64da3f1b48a66f7e466f6398d41bf4e98",
+    "bytes": 115797,
+    "reason": "historical_release_package_already_published_or_superseded",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "artifacts/releases/0.3.5/SHA256SUMS.txt",
+    "original_sha256": "2ba61e98a3298ab3f38be3da578440089195b786d8e2d3534b4e8ae11b2760a6",
+    "bytes": 178,
+    "reason": "historical_release_package_already_published_or_superseded",
+    "prior_remote_status": "Release附件存在相同内容"
+  },
+  {
+    "path": "artifacts/releases/0.3.5/Yukio-0.3.5-Windows.exe",
+    "original_sha256": "75c7daad3c46102eabf9dbc19b68e8a3a9cfcb21a5bb1a01b6c85569def3927c",
+    "bytes": 42279680,
+    "reason": "historical_release_package_already_published_or_superseded",
+    "prior_remote_status": "Release附件存在相同内容"
+  },
+  {
+    "path": "artifacts/releases/0.3.5/Yukio-0.3.5-macOS.zip",
+    "original_sha256": "b3f189d1048e2e7641dfb7e53494551bfca07a78f955311fd1907d7ca9ec4472",
+    "bytes": 39358114,
+    "reason": "historical_release_package_already_published_or_superseded",
+    "prior_remote_status": "Release附件存在相同内容"
+  },
+  {
+    "path": "artifacts/releases/0.3.6/SHA256SUMS.txt",
+    "original_sha256": "697631f3b0e3d98d1eb5053d1416d8bdf1512e4e71ccdb5fdbda5dac0ac438da",
+    "bytes": 178,
+    "reason": "historical_release_package_already_published_or_superseded",
+    "prior_remote_status": "Release附件存在相同内容"
+  },
+  {
+    "path": "artifacts/releases/0.3.6/Yukio-0.3.6-Windows.exe",
+    "original_sha256": "5fd54ac122bc811b556482d002bf53cf3eac36578c440d81346749adfeaccf2c",
+    "bytes": 42280581,
+    "reason": "historical_release_package_already_published_or_superseded",
+    "prior_remote_status": "Release附件存在相同内容"
+  },
+  {
+    "path": "artifacts/releases/0.3.6/Yukio-0.3.6-macOS.zip",
+    "original_sha256": "e7c6247cf0abafb612ac0c01960f8ef35135d20808b3117ebd9430a622d62f7a",
+    "bytes": 39360094,
+    "reason": "historical_release_package_already_published_or_superseded",
+    "prior_remote_status": "Release附件存在相同内容"
+  },
+  {
+    "path": "artifacts/releases/0.3.7/SHA256SUMS.txt",
+    "original_sha256": "e043c5d91d0db3454e61e5ae1b261fa1e8f3687ac5de5a9196f6c9cc11331617",
+    "bytes": 178,
+    "reason": "historical_release_package_already_published_or_superseded",
+    "prior_remote_status": "Release附件存在相同内容"
+  },
+  {
+    "path": "artifacts/releases/0.3.7/Yukio-0.3.7-Windows.exe",
+    "original_sha256": "8aaaaa9f9e4ee37b39565e249d4ccc39d4e69f4e3bf3b6b7f17df05a7120e2d6",
+    "bytes": 42279529,
+    "reason": "historical_release_package_already_published_or_superseded",
+    "prior_remote_status": "Release附件存在相同内容"
+  },
+  {
+    "path": "artifacts/releases/0.3.7/Yukio-0.3.7-macOS.zip",
+    "original_sha256": "3e43e4a8e0f5556254bdbdb6df57ce5da13c9ce20d3e0618a4258d7a2e28c2a9",
+    "bytes": 39360731,
+    "reason": "historical_release_package_already_published_or_superseded",
+    "prior_remote_status": "Release附件存在相同内容"
+  },
+  {
+    "path": "artifacts/releases/0.3.8/SHA256SUMS.txt",
+    "original_sha256": "e08e7fdecd3d3f557ef9d573e8fd9c1cb67d62c9d8407a50dd4332c00bbdadf0",
+    "bytes": 178,
+    "reason": "historical_release_package_already_published_or_superseded",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "artifacts/releases/0.3.8/Yukio-0.3.8-Windows.exe",
+    "original_sha256": "26be94764bd59489e5b95bcebaede3745a7a02f98445f09a6d7c52dd08ad697e",
+    "bytes": 42281020,
+    "reason": "historical_release_package_already_published_or_superseded",
+    "prior_remote_status": "Release附件存在相同内容"
+  },
+  {
+    "path": "artifacts/releases/0.3.8/Yukio-0.3.8-macOS.zip",
+    "original_sha256": "196d73ac59230528bd380017683ed978a7fa6c1c6887271bfe6d55d6725608c6",
+    "bytes": 39361308,
+    "reason": "historical_release_package_already_published_or_superseded",
+    "prior_remote_status": "Release附件存在相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/AvailabilityMacros-1Q581SB3T2HYB.pcm",
+    "original_sha256": "352e218da2a842ecd5a139b2eae5909bd517424ef113c39c25dab74eedd75e5f",
+    "bytes": 133224,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/CFNetwork-2PPHJ4XZUHAKR.pcm",
+    "original_sha256": "56bc22bebde3b6ba3f44d073d21fe9c209dcc291f1799046f6c00fa2d4d5d819",
+    "bytes": 331976,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/CoreFoundation-2FRT5V8BI9EPK.pcm",
+    "original_sha256": "81040dc1d1a98802f208f287f8d38cb0d06a7e2805d8057fe0755cec5f271f33",
+    "bytes": 1374432,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/CoreServices-3PWOMBELK838J.pcm",
+    "original_sha256": "e911c1aa331c76fe54094d66c0a2fe2748c5e0d48d0eabf4c9f572bb407c67e5",
+    "bytes": 4494416,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/Darwin-T165SFD55Z29.pcm",
+    "original_sha256": "91b95a3fd2b43b2007d0550636a37b9c3c7d1ad138def36a6f5dae765ccd65ad",
+    "bytes": 5839920,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/DarwinFoundation-2CMV7FB5F9CQ1.pcm",
+    "original_sha256": "b2e88bdb1fa22aab7fc2cec630c3dcc34a78da2b36a299c1b23cb234a37f46d2",
+    "bytes": 162928,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/DiskArbitration-X00SWIXYJSD5.pcm",
+    "original_sha256": "12751e2e7a2649c0c7e225b736853410d15cf0b46b7b1c6e070baff1c2552ffa",
+    "bytes": 147048,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/Dispatch-A1QNEGPWN2TI.pcm",
+    "original_sha256": "3ed59c2951494006b4d16d352c44b425c9bb7afb757ff37cad29e3c2c82667a9",
+    "bytes": 307920,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/Foundation-3RO5Q9Q48GFWQ.pcm",
+    "original_sha256": "11d1d75981c5c143a2d8dd5ba5e31b7c8b3b575d2dfe39622a21aeae884e5214",
+    "bytes": 6368464,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/IOKit-3P87A3R23MOYB.pcm",
+    "original_sha256": "a472c52597413ad96d013eb462590e1c4ba6db9f132730c290a40b744da4b0fc",
+    "bytes": 4305760,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/LocalAuthentication-2TS5LV13C2RZS.pcm",
+    "original_sha256": "ad3885d04073708986c3fb4be56411aad4d860297bc138fc0c1d63e04eeda6ae",
+    "bytes": 241872,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/MachO-2YB8183071310.pcm",
+    "original_sha256": "0c0b22450a04f5e2d2d873d5ae8dfd02c7fa20bb91c8efc294630f9b32457923",
+    "bytes": 484480,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/ObjectiveC-FACGRYV32UDF.pcm",
+    "original_sha256": "869bf23695d2932eb1306117bb9ee06043647b06a171b3d4f1f6ae5e65c862ad",
+    "bytes": 344424,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/Security-3IX6Y1GINEPMB.pcm",
+    "original_sha256": "d81750547b54fd709e6a38f178607912d6d7d99e3dbd706d888616404bd9ebfe",
+    "bytes": 3113064,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/SwiftShims-3NQPJMR94IEXI.pcm",
+    "original_sha256": "fc0317aa93e42fd4203f753410320dd3195df404a79b0e0db7f535c04a82f454",
+    "bytes": 151936,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/TargetConditionals-18Z06ASF9UB3E.pcm",
+    "original_sha256": "807731dfac5889f07bc19bdba1f32bc391b26dcee64c233ef58b6682504d3d4a",
+    "bytes": 34992,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/XPC-1VC33UDFAKETS.pcm",
+    "original_sha256": "24a83a8d76816639a46bc3b99265f59fa15add64120ec3d9c1ebf6b49694290c",
+    "bytes": 265792,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_Builtin_float-3PGQF5YETHUX5.pcm",
+    "original_sha256": "52c99c1674fc2ba5fa478151e2c78f25fb258da12c8a8c590930735df402669b",
+    "bytes": 41872,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_Builtin_inttypes-3PGQF5YETHUX5.pcm",
+    "original_sha256": "519513d331741238d3d869912ef7334eb17c46fc36b9c82c536cb3965a0ab4ee",
+    "bytes": 37360,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_Builtin_iso646-3PGQF5YETHUX5.pcm",
+    "original_sha256": "33228a6ec8dacb75cb19f31a2c01c4358b23de4f2e6cd655603e948772bb94f4",
+    "bytes": 32424,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_Builtin_limits-3PGQF5YETHUX5.pcm",
+    "original_sha256": "a515362ca9aa31562f37fc92b27370555078fc6bf94bbe9c1230ab93fcfbea1d",
+    "bytes": 40072,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_Builtin_stdarg-3PGQF5YETHUX5.pcm",
+    "original_sha256": "53aecd8dcb430569b389ad9871cb15d0d35aaf20e96210e5cee93e0eeea2eb2f",
+    "bytes": 36096,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_Builtin_stdatomic-3PGQF5YETHUX5.pcm",
+    "original_sha256": "43282a23e8541907958aedcb349553a23b254f6355828cc096296bdc635bb4d3",
+    "bytes": 66736,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_Builtin_stdbool-3PGQF5YETHUX5.pcm",
+    "original_sha256": "ae55009a911cfdb1eccea1c4698831f6074eed81f97adae6e3e95e8cb47ec235",
+    "bytes": 32928,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_Builtin_stddef-3PGQF5YETHUX5.pcm",
+    "original_sha256": "15f27c4eea2e2baed3e893ef960050b5c38b9a9d2a110aa5777035b71aaf57ef",
+    "bytes": 37928,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_Builtin_stdint-3PGQF5YETHUX5.pcm",
+    "original_sha256": "052e85bcf49cdf5674ef14efc0763267495cc9ddc65fcc17fd949af215a17ceb",
+    "bytes": 36944,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_Builtin_tgmath-3PGQF5YETHUX5.pcm",
+    "original_sha256": "add088e509085096ae005422b9254ed3f362b843ba5f48a337ddc92f66b5ebc9",
+    "bytes": 38368,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_SwiftConcurrencyShims-3NQPJMR94IEXI.pcm",
+    "original_sha256": "eeab1611aaabe88976badb3a78fc369aaedf751a7c0e3385f2e56ba63d168166",
+    "bytes": 33264,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/__wctype-37T94S4FRH7L0.pcm",
+    "original_sha256": "4efdee36612f71f0e0c4a98a425eed75a4e576a3840ae0e41586362b0f291635",
+    "bytes": 56344,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_assert-37T94S4FRH7L0.pcm",
+    "original_sha256": "57ef014c67fc2838c9a49d4a2ad14f3387c36419114d1d265ecfc751d54703cb",
+    "bytes": 38136,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_complex-37T94S4FRH7L0.pcm",
+    "original_sha256": "8229fb8a0a1084499fc8cca1aea27c1037da085d19903131babf72efbfc92ca8",
+    "bytes": 68200,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_ctype-37T94S4FRH7L0.pcm",
+    "original_sha256": "418b4c0289f2deb1539beb3d8c9602e52eb52cc1327e0e0067f09082b04e1bb2",
+    "bytes": 70480,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_errno-37T94S4FRH7L0.pcm",
+    "original_sha256": "4940a43ceee9700870dc8822541810e6a2a57535d901d74fb3a9939cb0aa9037",
+    "bytes": 51016,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_fenv-37T94S4FRH7L0.pcm",
+    "original_sha256": "53aed447bebc4100f8d0f0865723eecc2723bce76cb7a2db0148df5a4d2c53ba",
+    "bytes": 41312,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_float-37T94S4FRH7L0.pcm",
+    "original_sha256": "7a53054bd8fd914517c441124c146ad99ab5929a761defe6f1627c00c63bfa8d",
+    "bytes": 32488,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_inttypes-37T94S4FRH7L0.pcm",
+    "original_sha256": "ddb7ce9e5aed68fc7af352e1a6dd42d026d14559105ed5ef0c2d80cf10bd0e50",
+    "bytes": 68208,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_limits-37T94S4FRH7L0.pcm",
+    "original_sha256": "b8122f38aa483abe3a750ec5e588ec379ff70a236bd480d2d9224e4c44745ed9",
+    "bytes": 52440,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_locale-37T94S4FRH7L0.pcm",
+    "original_sha256": "d6c00f975d974840d4200431ea609077b2efd853a552a7e07646310df3d64808",
+    "bytes": 47632,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_math-37T94S4FRH7L0.pcm",
+    "original_sha256": "6dd16ad8fac1d3b021aae84b276fc673841f251d756906c98b2f6daee8285cb0",
+    "bytes": 172048,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_setjmp-37T94S4FRH7L0.pcm",
+    "original_sha256": "87cec1397d5a3fee248a7e529cfa36eb16e35c994eeb1c342f0ce757d7865f65",
+    "bytes": 41328,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_signal-37T94S4FRH7L0.pcm",
+    "original_sha256": "d0015d650ec4db07472d4c519d85639b2623fad420fcf1323e6a92ba93e00b19",
+    "bytes": 93400,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_stdint-37T94S4FRH7L0.pcm",
+    "original_sha256": "ca89cf85def97d95727859272fc611597dac1c0d88d5f9cf28791fdb3617b1d7",
+    "bytes": 51680,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_stdio-37T94S4FRH7L0.pcm",
+    "original_sha256": "761ee043b6baf0af5871dac6f5b35ec1885259345e09f0a77130de7580966091",
+    "bytes": 113112,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_stdlib-37T94S4FRH7L0.pcm",
+    "original_sha256": "9da526b546903417a89d6c17d9d686910413fe6a367771fb8bed581718ab9c70",
+    "bytes": 131696,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_string-37T94S4FRH7L0.pcm",
+    "original_sha256": "56b9b1a97d166f95adfb3d93df35d2de747f56402d2a51f5c0a3127ddfa623c5",
+    "bytes": 74304,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_strings-2YB8183071310.pcm",
+    "original_sha256": "1c669e56d3402414ede237b885c4be64d419fe3c1094a774a457ec2f86733687",
+    "bytes": 44808,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_sys_select-2CMV7FB5F9CQ1.pcm",
+    "original_sha256": "0a6cd36f3fa0c9c2e43b1dd20a0e08aef018bd19bb7c08ab651afb857a096a76",
+    "bytes": 49288,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_tgmath-37T94S4FRH7L0.pcm",
+    "original_sha256": "12fbf6efa8a55d6a5050a99da125679e01a46a2496625eb3406d35afea59966d",
+    "bytes": 156520,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_time-37T94S4FRH7L0.pcm",
+    "original_sha256": "c3b219fb958e46efe4fd16805f0888efc9186980c5c85a315c68ccf393db0a4f",
+    "bytes": 69656,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_useconds_t-2CMV7FB5F9CQ1.pcm",
+    "original_sha256": "14770f023e1523fd1f43fd320c3c77dc58d6ae04cea1e5b8e8c7653633dae114",
+    "bytes": 37240,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_wchar-37T94S4FRH7L0.pcm",
+    "original_sha256": "ddc2bba9de7b904948a20d401776fa20244f3377b459abadfa45b03fe88d4160",
+    "bytes": 98288,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/_wctype-37T94S4FRH7L0.pcm",
+    "original_sha256": "ad1bf5ec275852ad9760ab718c4086cdeb911d5cfca838be9a790a844b011ddc",
+    "bytes": 49232,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/alloca-2YB8183071310.pcm",
+    "original_sha256": "6dbf72bd7e63d089c49c2552afa6608b1fa29d696f77627d7f5f2259cd4c2430",
+    "bytes": 37848,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/gethostuuid-2YB8183071310.pcm",
+    "original_sha256": "016097452189f4bd18b1d1f2db522b323f7780d14665a8a2cd2de62bb9683218",
+    "bytes": 43800,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/launch-23R1PRGLFOUFJ.pcm",
+    "original_sha256": "496bb9864ad1c35f67bc9767e084a0e977c43042261360c4c87a09472f253463",
+    "bytes": 107408,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/libDER-36K0JV9UI3PGX.pcm",
+    "original_sha256": "250048091a92f61393a5d3b8ffc00ef578d7d694bd5d26acd3d7fca75cc99dfb",
+    "bytes": 52528,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/libkern-V9QZG70LM76T.pcm",
+    "original_sha256": "8f6c4efe8520bb16f6ad7228542817396e1fe0efadc6b0afc037ca950db140f3",
+    "bytes": 83856,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/mach-2CMV7FB5F9CQ1.pcm",
+    "original_sha256": "8f721c28e90113162a3187d7cfda0ab25fa9db29c377e1fa5ebce8f747f72ba2",
+    "bytes": 62528,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/netinet_in-2CMV7FB5F9CQ1.pcm",
+    "original_sha256": "792eb8461c5215226dcfad9c9c5d98b8608ba92392f9c4927ecbab4531dc3e9c",
+    "bytes": 37856,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/nl_types-2YB8183071310.pcm",
+    "original_sha256": "385c35f52de62bfe23479ad8707c35d758e8ce33792c9fa9438fc2e5aee8d7c1",
+    "bytes": 42976,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/os_availability-1Q581SB3T2HYB.pcm",
+    "original_sha256": "9519eaac7bdd5715576855ce69f96b32647491f02f5c9608bbc37b36d1bb954b",
+    "bytes": 62240,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/os_availability_internal-1Q581SB3T2HYB.pcm",
+    "original_sha256": "2dada729f5b08766361ba0c474448067f72b2630c02b4ad1112a198c68e41616",
+    "bytes": 418232,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/os_object-3TB68MU1PC2Y4.pcm",
+    "original_sha256": "28491b3613d3395233ac3bc6c961e66d89af724608825425f0bdccc0d7e63d50",
+    "bytes": 70328,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/os_workgroup-3TB68MU1PC2Y4.pcm",
+    "original_sha256": "88a66b1ed4f02ad2ba88c0214912cd9631532c9e89b1c52db416f08bd7cfa87a",
+    "bytes": 101584,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/pthread-2YB8183071310.pcm",
+    "original_sha256": "9677c6a3c6fd63ec01093f49e812996ed935b70eff67c8af5d37026ade944f0d",
+    "bytes": 148440,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/ptrauth-3PGQF5YETHUX5.pcm",
+    "original_sha256": "c7e5c04f84d4d5c2bc4367af000a0d68e44ee0b7f51d4f4fab23581da5af1f19",
+    "bytes": 45480,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/ptrcheck-3PGQF5YETHUX5.pcm",
+    "original_sha256": "2d2e038f3bb8e8a90b8dfa15e93066df6a31c8861f9b4e505468d34e4b4b1361",
+    "bytes": 36656,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/runetype-2YB8183071310.pcm",
+    "original_sha256": "42a1ba0d4f9f18e5a219f705b4722982d0bc4c52027fc86d96efda73b4f37d22",
+    "bytes": 48136,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/sys_resource-2YB8183071310.pcm",
+    "original_sha256": "e69f2e2a58024a7cbb2bcc7b1deb5a1963e24ee825e0da7d48cb13ce48d601a4",
+    "bytes": 101128,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/sys_select-2YB8183071310.pcm",
+    "original_sha256": "0ad603734c064a973ce7ac86bbd37ae294f44b716cd9cd9c8fc7ec7e30abb6af",
+    "bytes": 47944,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/sys_time-2CMV7FB5F9CQ1.pcm",
+    "original_sha256": "17792092c9374035d8f0bf743f694cf26c3b574378e4a9e2ccc243104e23fb58",
+    "bytes": 37952,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/sys_types-2YB8183071310.pcm",
+    "original_sha256": "80a4105a74d8f4a3274e030c973e3a356e58b09c584e254fb115b3c54f833582",
+    "bytes": 74792,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/sys_wait-2YB8183071310.pcm",
+    "original_sha256": "eed532ad1c546807b5a0a5ca1862f4c10a29b178ff066daf4df891b803a2dcfb",
+    "bytes": 55456,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/unistd-2YB8183071310.pcm",
+    "original_sha256": "e8679f2dd76e7932d3e5e080f19b0f6214d1ac4c6fd7bf025f3f34e12f68c335",
+    "bytes": 166600,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/uuid-2CMV7FB5F9CQ1.pcm",
+    "original_sha256": "afd83c0c8cc39a0ebbab2ff3b5f402432336616114823b7b04f8b0645a7cbc8f",
+    "bytes": 37096,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/2O49K9JVF5GSA/xlocale-2YB8183071310.pcm",
+    "original_sha256": "8605d63d2ddb741c90af53ce910e60604a8d0676e163e4254998f70c300d148e",
+    "bytes": 38848,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/Accessibility-3JRVR3U28LZGU.pcm",
+    "original_sha256": "7b37e4db732e193964f29497c531ee462413efe78a1f6d89aa57314255adad49",
+    "bytes": 231296,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/AppKit-14B9LVUIRDLAU.pcm",
+    "original_sha256": "19bca360d3060ff8270db7b42cb625588ea9c0fa1a1f82ebde9184472f4a73dc",
+    "bytes": 10391680,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/ApplicationServices-3SEJ713XLH44N.pcm",
+    "original_sha256": "d6ce8d4f6fa42a727fed02832dd0e1a12b64cef9d5d2fc8e755ba23a0e3955c6",
+    "bytes": 1203936,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/AvailabilityMacros-1Q581SB3T2HYB.pcm",
+    "original_sha256": "23883763238631ae6ee5ad331a4ed21e0085f3f56cf3ba5ba23757954105e9f1",
+    "bytes": 133240,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/CFNetwork-2PPHJ4XZUHAKR.pcm",
+    "original_sha256": "e6ea43c3e565250aae3be63ed42f16df5475241a2ff03b7344aa13ab6f668bfb",
+    "bytes": 331992,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/CUPS-2ZOQ59EMJ0QD4.pcm",
+    "original_sha256": "4e1499c77deff103d833b81d02af015d72827656a5b3f9e47f64aa2daa3854ae",
+    "bytes": 768544,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/ColorSync-C53VQP81QPBH.pcm",
+    "original_sha256": "d8d10625d525cab8f8ac40b0f5363939856eccccea6323c80ade88d9d403f986",
+    "bytes": 142744,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/CoreData-2W5IRUVYZ08TM.pcm",
+    "original_sha256": "6e839c75b5b063bae866e971fb55f92989adb64b6f78b29cad235042ec2129c1",
+    "bytes": 818392,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/CoreFoundation-2FRT5V8BI9EPK.pcm",
+    "original_sha256": "9d86e9b7a2f7d601fc33501f66c92f621410f4b54c996bbbbdf50a169f12913f",
+    "bytes": 1374448,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/CoreGraphics-2CJXFQ7FX9DYB.pcm",
+    "original_sha256": "af9e7240a7a52aa29ae397e1406c31bac6e0f764acab1259856275b087209ea2",
+    "bytes": 1172328,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/CoreImage-W9ULHYABOZKW.pcm",
+    "original_sha256": "e7efa2052f8e8fb9ee2b627477175e69b460744e5e211478fad1d0b8bcbd0d70",
+    "bytes": 1190328,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/CoreServices-3PWOMBELK838J.pcm",
+    "original_sha256": "44af5cb4081fe1f13cf9fd4127e3ad21b2ed0d74c7bf38a23e54b9160d0cd54c",
+    "bytes": 4494432,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/CoreText-TNS7EXTPS5MC.pcm",
+    "original_sha256": "70805b1c6a397fb0001b61f511592c4a59aa1f0f5581e3c4fdeb621c0a378e84",
+    "bytes": 1000208,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/CoreTransferable-210L7UY9WSK.pcm",
+    "original_sha256": "926de74eef8bd41ebaa81487ff159ce0e2837043d18dc5bc9df493db711404cc",
+    "bytes": 56952,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/CoreVideo-2266XGTKBTC6U.pcm",
+    "original_sha256": "00d0a0f3c58c12ec6aac7dc3da0fa2427295ebc7e4134d166fd818f0a811ffc4",
+    "bytes": 433696,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/Darwin-T165SFD55Z29.pcm",
+    "original_sha256": "459d7e92bad9d77152d4be26da5443cb9e66605d78015d9262c082533efbfa53",
+    "bytes": 5839928,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/DarwinFoundation-2CMV7FB5F9CQ1.pcm",
+    "original_sha256": "801e5834893039572102d276378cfcf7147237f9935b79b444c50924fe027035",
+    "bytes": 162936,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/DataDetection-2CPZC8ZZGTL6Y.pcm",
+    "original_sha256": "7bb2c286bfa02f8067af9a105059cad140ab47b4747df302c1febb86abad6952",
+    "bytes": 83328,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/DeveloperToolsSupport-W71NKY7QBCQL.pcm",
+    "original_sha256": "71ac6c5fb33071ae70718fae4e237c27628ad7bb26252b583eef389b62b1a667",
+    "bytes": 31584,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/DiskArbitration-X00SWIXYJSD5.pcm",
+    "original_sha256": "c1b56daa8cb01dbad2a8652b58f125f9567741ff9850e6d639958a79efc8ac5a",
+    "bytes": 147056,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/Dispatch-A1QNEGPWN2TI.pcm",
+    "original_sha256": "94567bb5491026d093fda4762dc1cafb222c0608034b74c0fa4546c10043b26a",
+    "bytes": 307928,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/Foundation-3RO5Q9Q48GFWQ.pcm",
+    "original_sha256": "978df54be0434aa60e61aa4e5177a46dae7621f986ed23f905fa2ab5adb426c9",
+    "bytes": 6368472,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/IOKit-3P87A3R23MOYB.pcm",
+    "original_sha256": "d8c700a601c63195d32386c4a883b6f5a88ad9465c97037db9ddb57e2fdddb40",
+    "bytes": 4305768,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/IOSurface-9PKZ37W129BK.pcm",
+    "original_sha256": "e408d05ce86a5231ba5aebe57ecf056e841ae37a54bc78ad72715527ead58d42",
+    "bytes": 220672,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/ImageIO-2KUR9VQSGEIP4.pcm",
+    "original_sha256": "d111a1189ca7443e1410d56e4b308f91ddd72069a874e2d5579b9e775e269be6",
+    "bytes": 906400,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/LocalAuthentication-2TS5LV13C2RZS.pcm",
+    "original_sha256": "ab4db8cae6f8d5f0fef8677e061324c5d925167b77de44c227771c2cbeb9d824",
+    "bytes": 241880,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/MachO-2YB8183071310.pcm",
+    "original_sha256": "e409f43c2535d54c5cf791445e2e5ed9a4eb9153087d2bb0a6ea502696f713dc",
+    "bytes": 484488,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/Metal-3JLCVIDN97HZ1.pcm",
+    "original_sha256": "64e3546dbfd487dbd397b7c389d322d7f9f786cac7ae13a65ac8342438fa93b4",
+    "bytes": 2066432,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/OSLog-YUJHSJRCUBP5.pcm",
+    "original_sha256": "c22ea158fead629c1c222262e0c3bfb668544c27bcac1a6d953ccad8e5709bfc",
+    "bytes": 154624,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/ObjectiveC-FACGRYV32UDF.pcm",
+    "original_sha256": "a7895ca6cc2af8556c29709fce658f3f2d15b27f1ff61bbe572fa3bf1f37c3a6",
+    "bytes": 344440,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/OpenGL-MNX1PC12AE1A.pcm",
+    "original_sha256": "981568557ba135cb808573a5feb4871a6edd40f53ca9ed89fc15b6158833181c",
+    "bytes": 2718920,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/QuartzCore-2OSVE290HGDQA.pcm",
+    "original_sha256": "8957cb58fbf55630cf9db332db2f479d0f57787ab6389e56b9bf9ef1af9a616b",
+    "bytes": 668912,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/Security-3IX6Y1GINEPMB.pcm",
+    "original_sha256": "3c64d8b9a445fe2f60c2bf3e3dda9a5dd6ca3812ba9796cdf150221d144e938f",
+    "bytes": 3113064,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/Spatial-3B8WH8WGCCP44.pcm",
+    "original_sha256": "8bd8152fc16c9f5d1aceab3bf37c39371da12e932b86783a8f4f9ff4b4a6a09a",
+    "bytes": 978472,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/SwiftShims-3NQPJMR94IEXI.pcm",
+    "original_sha256": "b478fde1ad988443b30fe3bacd0789ce3cc6beee9c4ca733e261f9745df734b5",
+    "bytes": 151952,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/SwiftUI-3DDWYFHAN4JZY.pcm",
+    "original_sha256": "1c62fa2d1945b3f4c20622129aa8e5d5765843fb1aef435ce921c3a5f18173c3",
+    "bytes": 58040,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/SwiftUICore-2B7Q55TUTY6S5.pcm",
+    "original_sha256": "7145bef42d91faafe7567f89abe9af7de10b441a0f55748fa4f9f95f310ff348",
+    "bytes": 60824,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/Symbols-1TCOO2OER1KE3.pcm",
+    "original_sha256": "318911392283049bdae38f87251b339a81f02425de9f1b9819a8cd6459ea6336",
+    "bytes": 131352,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/TargetConditionals-18Z06ASF9UB3E.pcm",
+    "original_sha256": "07974429597a3e98d4986947a16bc29140565c5011624fe05a226a58a5697e43",
+    "bytes": 35000,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/UniformTypeIdentifiers-3SAPP50UJBI3L.pcm",
+    "original_sha256": "2d546eb911f195946905cd89e8f10f539916923264ec16c4058f5b639afaea19",
+    "bytes": 223240,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/XPC-1VC33UDFAKETS.pcm",
+    "original_sha256": "d1c2b3443f54319f6bc44e9b6cb5ed713e9f24787cf0427fb2dd0417b641dda9",
+    "bytes": 265800,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_Builtin_float-3PGQF5YETHUX5.pcm",
+    "original_sha256": "0862105b2f9abc8b993d5af42baf17c3d138a96c96aaddace3c185de14d16eb6",
+    "bytes": 41888,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_Builtin_intrinsics-3PGQF5YETHUX5.pcm",
+    "original_sha256": "9611efa0bcabb16b99abb789b70332edfb7179c07b0b349733985f3947f1ca53",
+    "bytes": 3013528,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_Builtin_inttypes-3PGQF5YETHUX5.pcm",
+    "original_sha256": "8c1ee0a6d50f4337994cd30c228a0463207c1a350cd355ed555799f0d3bf1d59",
+    "bytes": 37368,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_Builtin_iso646-3PGQF5YETHUX5.pcm",
+    "original_sha256": "748f13c16ce9c539f638210c4e8d6c88a3975fd6ee9bbfc1c33e423cd4141325",
+    "bytes": 32440,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_Builtin_limits-3PGQF5YETHUX5.pcm",
+    "original_sha256": "f2c61e5c5a9646831e6c8e4fcea057253ac5fe6d90f93008d6a209ea95854ded",
+    "bytes": 40088,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_Builtin_stdarg-3PGQF5YETHUX5.pcm",
+    "original_sha256": "b85477978cf20581d099d898dd40cdfc3c07561785213c6de2fb7bfc5446a2ef",
+    "bytes": 36112,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_Builtin_stdatomic-3PGQF5YETHUX5.pcm",
+    "original_sha256": "f277ab44acffb1edf01f28fb5fb2ab314da0c49e165b9cad2949544329372b3e",
+    "bytes": 66752,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_Builtin_stdbool-3PGQF5YETHUX5.pcm",
+    "original_sha256": "a17599f50129ada319c155910db7d4281bf6ec7c503bd1e4363f869dfa44c320",
+    "bytes": 32944,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_Builtin_stddef-3PGQF5YETHUX5.pcm",
+    "original_sha256": "b010302598d41561483b4c78922eec3aa520d6597e6f11716ce17c1068067b59",
+    "bytes": 37944,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_Builtin_stdint-3PGQF5YETHUX5.pcm",
+    "original_sha256": "b90697c568539c3d44b7cfd2a98ad2ed67b75fd5a4c21393b94184212e22927f",
+    "bytes": 36960,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_Builtin_tgmath-3PGQF5YETHUX5.pcm",
+    "original_sha256": "f8f095de6cc66d0a7c273b1522e8110fee5e9632f917c93a53d3567d86012ec3",
+    "bytes": 38384,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_SwiftConcurrencyShims-3NQPJMR94IEXI.pcm",
+    "original_sha256": "2da27befa45baa67ea554c14b138178627ffab1ff92f6544aacc4662c2d372c7",
+    "bytes": 33280,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/__wctype-37T94S4FRH7L0.pcm",
+    "original_sha256": "6c57a81ec3e8d12d21de301119f824abc78b9b754718b63aba0e53ebbc542558",
+    "bytes": 56360,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_assert-37T94S4FRH7L0.pcm",
+    "original_sha256": "f8358059ee503335c5713261031409ae2861b8cb6ec84fde484e518a8adaa065",
+    "bytes": 38144,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_complex-37T94S4FRH7L0.pcm",
+    "original_sha256": "b6eeb0f57c4fcdbaf80daf5bf2ce7f0b6efc02cbf8e493eeccb0ce7cdbbe34eb",
+    "bytes": 68216,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_ctype-37T94S4FRH7L0.pcm",
+    "original_sha256": "6ce2fd7e71af85f29d9c5989b64b661efd70354c72c7410d0365d51c139d98f8",
+    "bytes": 70496,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_errno-37T94S4FRH7L0.pcm",
+    "original_sha256": "62856ce2e4cbb215cc3823418d615b4074fc279e7a982150855525c117764245",
+    "bytes": 51024,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_fenv-37T94S4FRH7L0.pcm",
+    "original_sha256": "e10a8104e7cadc52b8676cb00e76b563d1ee8e8ca3e8bee98a29f857f447480d",
+    "bytes": 41320,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_float-37T94S4FRH7L0.pcm",
+    "original_sha256": "af4d3698011f53afe101ce97519be38470238d6b58de207ac13017bec3580c4b",
+    "bytes": 32504,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_inttypes-37T94S4FRH7L0.pcm",
+    "original_sha256": "a425bcd2318f5c90f0e67ee127dd940b4e8dc9cb98ad5665b4432255ac3769dc",
+    "bytes": 68224,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_limits-37T94S4FRH7L0.pcm",
+    "original_sha256": "1738d1b63253ce972c47a5f4541f219087c7a618f96ffcd63942151fd5cb42ac",
+    "bytes": 52456,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_locale-37T94S4FRH7L0.pcm",
+    "original_sha256": "151b0bacef8885baa9d02bc0d38bbe506db8d0de6fcf8e387c0de92feb29220b",
+    "bytes": 47640,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_math-37T94S4FRH7L0.pcm",
+    "original_sha256": "c0702f0bc8fce66c3592e76a10fd4a1632098cac35c42ae2a502d633831fff82",
+    "bytes": 172056,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_setjmp-37T94S4FRH7L0.pcm",
+    "original_sha256": "e0fbc037bab3b28a14674fab7399721b6ec73564fe9ab7d5af5d60cb7cd5f941",
+    "bytes": 41344,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_signal-37T94S4FRH7L0.pcm",
+    "original_sha256": "4b57cdaf42e3e20d7010d6d932da8d6073624ce8adc616bfb412383684a873ba",
+    "bytes": 93408,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_stdint-37T94S4FRH7L0.pcm",
+    "original_sha256": "8316556b33cd3f4bfcf391b6aa8f88187da159b5758b3cbdfac1589fc98fd548",
+    "bytes": 51688,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_stdio-37T94S4FRH7L0.pcm",
+    "original_sha256": "c56237d332561ffb254006afc6dce30e7c865cdbc1ccb020e8eb174ca9e17669",
+    "bytes": 113128,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_stdlib-37T94S4FRH7L0.pcm",
+    "original_sha256": "6c4e08c989e7ff0160b0f1a771f1879fa7a8f733c8b2fb38890af47854fecee9",
+    "bytes": 131704,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_string-37T94S4FRH7L0.pcm",
+    "original_sha256": "03c26ed9ee7024413038fd6ff55944565b95fbd08d7f88730cf9378bdadcdb56",
+    "bytes": 74320,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_strings-2YB8183071310.pcm",
+    "original_sha256": "53f801a4fa00bfcade4380cd603a03f136e8fb1196a0665b5a10633958df89ec",
+    "bytes": 44816,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_sys_select-2CMV7FB5F9CQ1.pcm",
+    "original_sha256": "4ead16071fea2018318e4952bfb84c1bcd69c6cd2b567dc8b0ffa936950eaa28",
+    "bytes": 49296,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_tgmath-37T94S4FRH7L0.pcm",
+    "original_sha256": "6b3f28fb8ae9b20ecb64cd7796dd705fdd496d36a7d3de000c932f02016989f5",
+    "bytes": 156536,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_time-37T94S4FRH7L0.pcm",
+    "original_sha256": "11742c53451907607c41a73e9f0dada5705b984617410fc7f21a2cd868a9e2ca",
+    "bytes": 69664,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_useconds_t-2CMV7FB5F9CQ1.pcm",
+    "original_sha256": "535bfd99926987beb1cc04ff677f7117ec592407e996b9ac1acbceb7717919d6",
+    "bytes": 37256,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_wchar-37T94S4FRH7L0.pcm",
+    "original_sha256": "7007445db01ad19f39b5c4cbc80b7dff52aa329286bef1d1ac0516e48e8a6d23",
+    "bytes": 98296,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/_wctype-37T94S4FRH7L0.pcm",
+    "original_sha256": "8ac1a8ce3666283b3ebe95cb83404f2632b566b520d3e3583a24edad2dae50c6",
+    "bytes": 49240,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/alloca-2YB8183071310.pcm",
+    "original_sha256": "1c7f6c02d11d770dc30f7388a6f7610a24c40bae235b3f71d0cab06fa63d317e",
+    "bytes": 37864,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/gethostuuid-2YB8183071310.pcm",
+    "original_sha256": "994e0bdac6a058dc951666d0e853c489b49885f3fd69dbca607c07069fb575f8",
+    "bytes": 43808,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/launch-23R1PRGLFOUFJ.pcm",
+    "original_sha256": "de602909dbb6406c30a4635e206771adacf18d624496200ef0eb13934cb87b20",
+    "bytes": 107416,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/libDER-36K0JV9UI3PGX.pcm",
+    "original_sha256": "41ddcfa06f0b596e4940a6befbe3a74b9abd7da127c8c2cdccd931bd3bf98fa1",
+    "bytes": 52536,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/libkern-V9QZG70LM76T.pcm",
+    "original_sha256": "a775e0c1cda7f1ff34169b09e698e23b86470cbfad86e5b5f9092c87dab3e662",
+    "bytes": 83872,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/mach-2CMV7FB5F9CQ1.pcm",
+    "original_sha256": "9ce2332b22fb99217e3967c9ea183d90f7f043f73e94733705af4bf0d9117793",
+    "bytes": 62536,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/netinet_in-2CMV7FB5F9CQ1.pcm",
+    "original_sha256": "e2b4565d207d0f87fd6a3d3245aa5a73fb2f09bca8be174428fcf2c44a77c21a",
+    "bytes": 37864,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/nl_types-2YB8183071310.pcm",
+    "original_sha256": "96f2a878375176364a999a0f89131b31c52f69854ffa9ddb82a7c7a81b21aa8d",
+    "bytes": 42992,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/os-3TB68MU1PC2Y4.pcm",
+    "original_sha256": "641e975b00e65602451531bbdd1d0fc2cb288aa41ab5e6926b65e02103f46cfc",
+    "bytes": 176712,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/os_availability-1Q581SB3T2HYB.pcm",
+    "original_sha256": "4f1c798f3960e771ba12f7a3ec2b3e8777fe64dc44775210633b915455ce9453",
+    "bytes": 62256,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/os_availability_internal-1Q581SB3T2HYB.pcm",
+    "original_sha256": "7e5408854f09a77a4606a6df1753709b53a894c32f5f217908aaa325efbf5bb1",
+    "bytes": 418240,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/os_object-3TB68MU1PC2Y4.pcm",
+    "original_sha256": "27efbb06ae8baa00337658555840acd33dc136a20815a95f5af0fe2b99642ae4",
+    "bytes": 70344,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/os_workgroup-3TB68MU1PC2Y4.pcm",
+    "original_sha256": "398c9ec6a0ef56ce86adf157b2b64300c5ff7e076929f98b404138204dcf331b",
+    "bytes": 101600,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/pthread-2YB8183071310.pcm",
+    "original_sha256": "b69651ef3d5fa9771cee2ef25119cff61510ad49e5b0adfac23a2989bc6c7571",
+    "bytes": 148448,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/ptrauth-3PGQF5YETHUX5.pcm",
+    "original_sha256": "539ee0556bb4a361d7c152da359bb6505bf47e95fe822bd53fc56c56f46e6271",
+    "bytes": 45496,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/ptrcheck-3PGQF5YETHUX5.pcm",
+    "original_sha256": "1eb937e368f58dbd490a276e484ae6297e3bb35968c6e7e32461b274d7a61a23",
+    "bytes": 36672,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/runetype-2YB8183071310.pcm",
+    "original_sha256": "6a5c1557401a83723a68bbf2db6564374b3eef8dcae54ba790eca81a3148de6f",
+    "bytes": 48144,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/simd-3AMDRIPXTSEBA.pcm",
+    "original_sha256": "6bca0b4a7c6b35d444c8757f3d30bcd26ba12bc5fc50457728f5b6daa62aa1b0",
+    "bytes": 4024248,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/sys_resource-2YB8183071310.pcm",
+    "original_sha256": "ca4c0dd49ec516a86548b5d6c276d14349e359deaac426e8048c30e8cc983a9a",
+    "bytes": 101136,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/sys_select-2YB8183071310.pcm",
+    "original_sha256": "cb05b80a5665782b3174b371942f6ab6f67a76b5e6d7256b807d2270c06799a6",
+    "bytes": 47960,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/sys_time-2CMV7FB5F9CQ1.pcm",
+    "original_sha256": "e46bce3f88b92c2e95bc11f037ecff3199c73f3bd25f6bac03f854a94f9702d4",
+    "bytes": 37968,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/sys_types-2YB8183071310.pcm",
+    "original_sha256": "fc85368ddbacfc89b6a2696c745a9961ef1f52ea611eb7b12033debda13aac48",
+    "bytes": 74808,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/sys_wait-2YB8183071310.pcm",
+    "original_sha256": "43bd3f0b48afe4d5a41c638cb669d92d1b2140fa3a872084627ed0e920e079f1",
+    "bytes": 55464,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/unistd-2YB8183071310.pcm",
+    "original_sha256": "ecc9272625b33534adbd1fc97a6c60daf3469dbadbbdf14230f98ff359f27e6d",
+    "bytes": 166616,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/uuid-2CMV7FB5F9CQ1.pcm",
+    "original_sha256": "818426153747aee7697e0e4bb0f4efde6d2922992676788cc5f35f00958f5838",
+    "bytes": 37104,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/3H3G7ZME8UHBB/xlocale-2YB8183071310.pcm",
+    "original_sha256": "79f46f1c20e933ed0d9d31ff13ce5e98b722711cf5d992aa91656019139aed7d",
+    "bytes": 38864,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/Accessibility-41LHKR17DU8O.swiftmodule",
+    "original_sha256": "365d1f13ca0df492ee8fe66559cc679d2452c1546b9e0fedb98917598f952602",
+    "bytes": 140396,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/AppKit-9ZN3S1SHLPLS.swiftmodule",
+    "original_sha256": "cc75233db4a213aa3b80fde21e86b62f1a9b71f79e9be4eee43073d5d5f3f2b2",
+    "bytes": 532820,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/Accessibility-3JRVR3U28LZGU.pcm",
+    "original_sha256": "174c4565ecb5afe2a61bbc90016359107682984cdaf38ded7ecab4f95ed2153a",
+    "bytes": 231376,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/AppKit-14B9LVUIRDLAU.pcm",
+    "original_sha256": "a8a39c870673e01fef558f7ce929ac8d206a722c31a63b284686c733190b9917",
+    "bytes": 10391720,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/ApplicationServices-3SEJ713XLH44N.pcm",
+    "original_sha256": "5e2bd1feab584cf90435745b802b0c25c16a58460fa79dddc50ce66e5c4d6cc6",
+    "bytes": 1203992,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/AvailabilityMacros-1Q581SB3T2HYB.pcm",
+    "original_sha256": "2e963b66f94cf4015165930e8f1ecca5813616c70c5b401d23c2091b0091a34d",
+    "bytes": 133320,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/CFNetwork-2PPHJ4XZUHAKR.pcm",
+    "original_sha256": "a6137d656699a075d4411c1b5b6980a0d3d779100c4903f2ebdfb5b02064f216",
+    "bytes": 332064,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/CUPS-2ZOQ59EMJ0QD4.pcm",
+    "original_sha256": "1ab098a43541977c7e0501d78fe57edf779b72f61a1c014ed440ec86a404f386",
+    "bytes": 768584,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/ColorSync-C53VQP81QPBH.pcm",
+    "original_sha256": "ce6caafff13ced523d738b523441b200a571cffd01dfa45b357280fe363f4152",
+    "bytes": 142816,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/CoreData-2W5IRUVYZ08TM.pcm",
+    "original_sha256": "234bbbee81431224c91aa97a1afd7d38a6b0b8aa7ca0ac11e740c282d6060062",
+    "bytes": 818464,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/CoreFoundation-2FRT5V8BI9EPK.pcm",
+    "original_sha256": "df6818e777398801402f0d88b063c68e69aa0774337c84348009ac4143715a8b",
+    "bytes": 1374448,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/CoreGraphics-2CJXFQ7FX9DYB.pcm",
+    "original_sha256": "32a439c9814a99690382a58f628d3e869e609b3ac9177ede1dfca933c04b7329",
+    "bytes": 1172376,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/CoreImage-W9ULHYABOZKW.pcm",
+    "original_sha256": "d7dd25f069cf7707f420628dc0b84b4c4626acbae3acfd2ef494dc6a8984f5d7",
+    "bytes": 1190384,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/CoreServices-3PWOMBELK838J.pcm",
+    "original_sha256": "8c0341821348ef7b321fc5f97ebb1216389e595deec90e3a44e104cc622d6554",
+    "bytes": 4494472,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/CoreText-TNS7EXTPS5MC.pcm",
+    "original_sha256": "18f11c89bd6e5e95c26e7080c362b5c70536dc29e5e8ffe2300d2e079d99b7d0",
+    "bytes": 1000272,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/CoreTransferable-210L7UY9WSK.pcm",
+    "original_sha256": "f98c275fd1590b934d78fb1b1a0fec0bb4d6d08b0b0d91d53e9c3785c1ea43f3",
+    "bytes": 57032,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/CoreVideo-2266XGTKBTC6U.pcm",
+    "original_sha256": "4d6bacf8da42c70506676efa2391b9b7c8d3b857b26a14a6524564ba54a85c38",
+    "bytes": 433752,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/Darwin-T165SFD55Z29.pcm",
+    "original_sha256": "cc8dcfc65c2f35d90a88f43e1825b3618ddc64af9ebb303f8befc8e3f84a371b",
+    "bytes": 5686544,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/DarwinFoundation-2CMV7FB5F9CQ1.pcm",
+    "original_sha256": "62130e3ecc1e424455d830c150c40e4834d9cb04bacb2bee5f36fd7ecfa86751",
+    "bytes": 159184,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/DataDetection-2CPZC8ZZGTL6Y.pcm",
+    "original_sha256": "a095735f92c8c946a93ebd5d0fd9b4c2e01fc57425f8656f6f2d9520213f9aba",
+    "bytes": 83400,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/DeveloperToolsSupport-W71NKY7QBCQL.pcm",
+    "original_sha256": "e9b2943c393dc99d90ce42af4437b2ee4f1d280a3ef9576f974fa6449affa285",
+    "bytes": 31672,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/DiskArbitration-X00SWIXYJSD5.pcm",
+    "original_sha256": "cc02c72250df6715568b83e2f2f2e2eabef7b1a7ad066615e936989ac099d7f6",
+    "bytes": 147120,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/Dispatch-A1QNEGPWN2TI.pcm",
+    "original_sha256": "c37e7fcc9535c8e605d9fa76d2ec3239b6d5525fccc6e75490224de9f34b1c76",
+    "bytes": 307928,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/Foundation-3RO5Q9Q48GFWQ.pcm",
+    "original_sha256": "93f6962545cf483a72ff77be562ad5275834c991776c400ffa0f1a0ada4fec6c",
+    "bytes": 6368448,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/IOKit-3P87A3R23MOYB.pcm",
+    "original_sha256": "4c5f82ef04bb2e3a85ab79346498b65c8d5aa7f30b2541981e414d461256e1cd",
+    "bytes": 4305824,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/IOSurface-9PKZ37W129BK.pcm",
+    "original_sha256": "6f1730f13c6cbe5c680a19f7e7d50fe6116cb855c0d48222abb30e5e90db8206",
+    "bytes": 220728,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/ImageIO-2KUR9VQSGEIP4.pcm",
+    "original_sha256": "5fed4cb173b2e6e4aebdee413b60a171db6506d7657b888db2745975bb89a6d0",
+    "bytes": 906464,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/LocalAuthentication-2TS5LV13C2RZS.pcm",
+    "original_sha256": "c06256af7d0f0051046d0d0b11be95236780620b5fe669774822c451fd563a2a",
+    "bytes": 241960,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/MachO-2YB8183071310.pcm",
+    "original_sha256": "a074910a0778c7d447da1b09ad7938ad21b683a07bf924537f2576ce9c6f376a",
+    "bytes": 484544,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/Metal-3JLCVIDN97HZ1.pcm",
+    "original_sha256": "58816d6a8b871c07cb69704981f0da745521004f03e7622a9f8c3ff35d8ee600",
+    "bytes": 2066496,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/OSLog-YUJHSJRCUBP5.pcm",
+    "original_sha256": "fe49f157eadb851451191df453e6f11b7e8fcc701e791a4608e0d77c9d8389c9",
+    "bytes": 154704,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/ObjectiveC-FACGRYV32UDF.pcm",
+    "original_sha256": "e8a8c6e665a1eda264439fac047e0b0561a615cde9fe68cc529356094f086c07",
+    "bytes": 344480,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/OpenGL-MNX1PC12AE1A.pcm",
+    "original_sha256": "8070e5e52b385bc87768af522a34e8d2667247b7c4f5baf27c3ab66cdfca0514",
+    "bytes": 2719000,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/QuartzCore-2OSVE290HGDQA.pcm",
+    "original_sha256": "344784bcd482c93324b7ddb49b475fc652729069cdac620524cf676ab9b9565e",
+    "bytes": 668968,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/Security-3IX6Y1GINEPMB.pcm",
+    "original_sha256": "8679db6925d44689fdf3aa52259007a79a56a270206ce80821b0c2a9c687a9d7",
+    "bytes": 3113104,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/ServiceManagement-7ES8CRYSNFSO.pcm",
+    "original_sha256": "e9e6a0784daf57086465b70916f087e86a41348a2aeeaebc0a25aa41411fecdd",
+    "bytes": 90824,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/Spatial-3B8WH8WGCCP44.pcm",
+    "original_sha256": "2d5442d71b0dadf6a1a348201a51ddf37b75a1b0331d2386beb474cbcae49d55",
+    "bytes": 978544,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/SwiftShims-3NQPJMR94IEXI.pcm",
+    "original_sha256": "1c613f79246faf23e26d6b12e4c18cbf300368b9b7493d2f08af8157acdc716d",
+    "bytes": 152032,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/SwiftUI-3DDWYFHAN4JZY.pcm",
+    "original_sha256": "51aaa2928c51318364e7a3fada28481b0fd115cb4fc552d8a10341a878bcc130",
+    "bytes": 58120,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/SwiftUICore-2B7Q55TUTY6S5.pcm",
+    "original_sha256": "52d2c555bfa641d88c52dd2b419282705d1e1e4917a916cd54894bbe01f97856",
+    "bytes": 60896,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/Symbols-1TCOO2OER1KE3.pcm",
+    "original_sha256": "997569a2cb2afa580b32dc5a16ce7b90746de278f9dac1d466ac76fa4e6723ec",
+    "bytes": 131432,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/TargetConditionals-18Z06ASF9UB3E.pcm",
+    "original_sha256": "63485c60333189da74676196dec9a6264c7c4e866a829437fe7241c8c2e4c578",
+    "bytes": 35088,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/UniformTypeIdentifiers-3SAPP50UJBI3L.pcm",
+    "original_sha256": "e43e7406a9777b9b7e1fd81cb588b332806afeb7118f62278ab613ab4c79efce",
+    "bytes": 223320,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/XPC-1VC33UDFAKETS.pcm",
+    "original_sha256": "f8de4388938227161a8a84503f41239fc1745e70421b9e7f16069df398ce5522",
+    "bytes": 265840,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_Builtin_float-3PGQF5YETHUX5.pcm",
+    "original_sha256": "a724432c78ffee36055db8764033e42af681843fe5b422c6ef89b450b6e18003",
+    "bytes": 41968,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_Builtin_intrinsics-3PGQF5YETHUX5.pcm",
+    "original_sha256": "d82a9fefc1110633a6937c4a905a3c01505e0dd6510172963c84510ac3d3f3ed",
+    "bytes": 3013608,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_Builtin_inttypes-3PGQF5YETHUX5.pcm",
+    "original_sha256": "2a6dcf1f7b0aae8373ec612862b73ab2be3e597b18306a4ead877580afb7811c",
+    "bytes": 37448,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_Builtin_iso646-3PGQF5YETHUX5.pcm",
+    "original_sha256": "efa9b854af84c49bd577b9eebe36922e96de346c94e7e91b558fcee15e6e723e",
+    "bytes": 32520,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_Builtin_limits-3PGQF5YETHUX5.pcm",
+    "original_sha256": "90a4b48536170897111df8c4d9bcbd8705d7b419d096969734cd6e03affd4e82",
+    "bytes": 40168,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_Builtin_stdarg-3PGQF5YETHUX5.pcm",
+    "original_sha256": "8c0947f90fc7a975bee12dc514cdf8ec1f3fb7d7b3cf0863c225b47227c3b60e",
+    "bytes": 36192,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_Builtin_stdatomic-3PGQF5YETHUX5.pcm",
+    "original_sha256": "1150f087e561a6267d0355a6426a7db8cf97dfeadebeb7847d35237ac49c2d71",
+    "bytes": 66824,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_Builtin_stdbool-3PGQF5YETHUX5.pcm",
+    "original_sha256": "ebe5af93df01fce9686f3b201bde16ad20e0ec0d6d310c760bc62267291a05ef",
+    "bytes": 33024,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_Builtin_stddef-3PGQF5YETHUX5.pcm",
+    "original_sha256": "351edcf97526ababf7cbe284a923af5bcf785f3fb481c3f538a36d8607491ab9",
+    "bytes": 38024,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_Builtin_stdint-3PGQF5YETHUX5.pcm",
+    "original_sha256": "33cf562c94574e863352b0916ffbbf286346ed08cb616e2e0146b5402daef6e4",
+    "bytes": 37032,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_Builtin_tgmath-3PGQF5YETHUX5.pcm",
+    "original_sha256": "eb9407384caa261142ace526e191791b6512a1309413a0b60f03c89933c56871",
+    "bytes": 38464,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_SwiftConcurrencyShims-3NQPJMR94IEXI.pcm",
+    "original_sha256": "2de693610779e3b37c02d10a47b4727551328d6c01588ede0c9ac8dc60c5c72a",
+    "bytes": 33360,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/__wctype-37T94S4FRH7L0.pcm",
+    "original_sha256": "60d987aaf2562c5e4a21a62f9c56d489cc641178e3b303a7d05d8315fb904ecb",
+    "bytes": 56440,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_assert-37T94S4FRH7L0.pcm",
+    "original_sha256": "aadea1900e518c70c831dab4876cf5a876a1b796123c916823a9ab3b9374a212",
+    "bytes": 38224,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_complex-37T94S4FRH7L0.pcm",
+    "original_sha256": "63ea0166a1048691886a27be7f08e684efefee2d7664c059752c8f7ea321bedd",
+    "bytes": 68296,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_ctype-37T94S4FRH7L0.pcm",
+    "original_sha256": "a613bcc2e1965639d5bf4782e8d2ec52bf542b579bbd4bd93813cdea8a2814d6",
+    "bytes": 70576,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_errno-37T94S4FRH7L0.pcm",
+    "original_sha256": "9f3c6944fb85ba0ef5cc8e6313717f6bb40f8478840a72c736bef1d186cf3227",
+    "bytes": 51112,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_fenv-37T94S4FRH7L0.pcm",
+    "original_sha256": "f627b158146470be5994294046a82c2597465bf4c6fcbf1082c4d877f35589d9",
+    "bytes": 41408,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_float-37T94S4FRH7L0.pcm",
+    "original_sha256": "f6c3027f5f53123f95525248bb3d6a61b0f91f487d77511815125d09fe4518ef",
+    "bytes": 32584,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_inttypes-37T94S4FRH7L0.pcm",
+    "original_sha256": "ada6ea9cb7271ace0c55a54af1007d32980c6a94aaf8cfb08522a2a33a3f3ede",
+    "bytes": 68296,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_limits-37T94S4FRH7L0.pcm",
+    "original_sha256": "2256e631b4e228d9d4c1388ae3b380adcdd36cb3ad4b9cd08f15f69872e69bdb",
+    "bytes": 52536,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_locale-37T94S4FRH7L0.pcm",
+    "original_sha256": "44221fe2f360893846708ed6a76dbd02129872406b197ac2636579322e3bbe71",
+    "bytes": 47720,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_math-37T94S4FRH7L0.pcm",
+    "original_sha256": "783979841db49908b7673e9e25a2575ebcde13f288054df5236926174d703eb9",
+    "bytes": 172136,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_setjmp-37T94S4FRH7L0.pcm",
+    "original_sha256": "451fc6f5f5f95fd79f2943d9650a349a9022ab90730087138539baf0185645ce",
+    "bytes": 41416,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_signal-37T94S4FRH7L0.pcm",
+    "original_sha256": "d01654a68dfb0e7f17b71aee759c49198c6e86a2ca91594c2a6872cd89e98b7c",
+    "bytes": 93480,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_stdint-37T94S4FRH7L0.pcm",
+    "original_sha256": "02bb5b874a961fbac4bb7f9e3fbe85583c356538d4d7d3bcffe5346309798ce5",
+    "bytes": 51768,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_stdio-37T94S4FRH7L0.pcm",
+    "original_sha256": "18128abacb85d6df8532c18418ad92da15adb9a656331b4d71da5463fe905c1c",
+    "bytes": 113200,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_stdlib-37T94S4FRH7L0.pcm",
+    "original_sha256": "f840a745d23f8c1054a8c2797dfe015a6267e4b35bb4da26e92b6f8dab0d8a28",
+    "bytes": 131768,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_string-37T94S4FRH7L0.pcm",
+    "original_sha256": "9050cbaa152e996d74e9935cc49bf06897978a1473129f6565a7620a481b9f26",
+    "bytes": 74384,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_strings-2YB8183071310.pcm",
+    "original_sha256": "5282f3bb010b61c75e991f0ce17feeab815d5aa89728e0311da01efc062520d3",
+    "bytes": 44896,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_sys_select-2CMV7FB5F9CQ1.pcm",
+    "original_sha256": "5be8bf4dc33fda111cc97cc306d8b1c75a2bf51f63c9ed4942c1a1f014d8cea5",
+    "bytes": 49384,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_tgmath-37T94S4FRH7L0.pcm",
+    "original_sha256": "51440b57e3071b55872f12f9ddd4d9e1812011de21a98482781522052cf6ffd7",
+    "bytes": 156608,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_time-37T94S4FRH7L0.pcm",
+    "original_sha256": "b66f8bd6e3d714db7871ed566c21d09ab46d71c1714123f13e645ad43c6cebd5",
+    "bytes": 69736,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_useconds_t-2CMV7FB5F9CQ1.pcm",
+    "original_sha256": "4203ceb6369d9fe3467a79e9e0736258e0a8031ec046c5b6584db520870dc7ce",
+    "bytes": 37336,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_wchar-37T94S4FRH7L0.pcm",
+    "original_sha256": "48c691f93479edc6d4bcdb28696d71d1208c6dc5b00ff852dd3b8adf7c7e9059",
+    "bytes": 98360,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/_wctype-37T94S4FRH7L0.pcm",
+    "original_sha256": "437bfdefaa27d72ea5c2c5dba40b81c0379f2214f3b0980942b20441f78176e4",
+    "bytes": 49312,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/alloca-2YB8183071310.pcm",
+    "original_sha256": "9ddc527d34cf2fd415a6bcf9c2df5c766eaef1e263064d89f1143131a37c7ea0",
+    "bytes": 37944,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/gethostuuid-2YB8183071310.pcm",
+    "original_sha256": "841901fc385603e9261ffd7e97b4dbfc491789e1f880fbf2a749763a249378fc",
+    "bytes": 43888,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/launch-23R1PRGLFOUFJ.pcm",
+    "original_sha256": "1a7125173015b6d0b439f7059c50085af4918983f7917a533224a8779939ffc2",
+    "bytes": 107488,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/libDER-36K0JV9UI3PGX.pcm",
+    "original_sha256": "6932c886228f7c23e971e0442cf778f2262b340d92df5eb8f6a30c5f8ea4f1b8",
+    "bytes": 52608,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/libkern-V9QZG70LM76T.pcm",
+    "original_sha256": "5eaab49dbce089c9ac8fb1ce9efcb4adead29e463f9d83e62ae50d9fd5393e2f",
+    "bytes": 83936,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/mach-2CMV7FB5F9CQ1.pcm",
+    "original_sha256": "806aa4b9eebaf38a97188073638ae31d6a6b244e16d25845e7b1639710b64bb1",
+    "bytes": 62616,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/netinet_in-2CMV7FB5F9CQ1.pcm",
+    "original_sha256": "b606f5693e6cb5c4195d7e663b022f6be8fc06f7cad4bebea371aef4b18a1d93",
+    "bytes": 37952,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/nl_types-2YB8183071310.pcm",
+    "original_sha256": "fc1bd39f6cf721293212ee958dbd4501c33b0888524a78105fa77e346b506d28",
+    "bytes": 43064,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/os-3TB68MU1PC2Y4.pcm",
+    "original_sha256": "17fb2a8eb64a89a13da8637886392ec308df82e00faf1e6c00c1247050ab265a",
+    "bytes": 176752,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/os_availability-1Q581SB3T2HYB.pcm",
+    "original_sha256": "d37fe769a68e28073ebb68e7553a5827c4e6ea37463a35261b0308592ccd52c8",
+    "bytes": 62328,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/os_availability_internal-1Q581SB3T2HYB.pcm",
+    "original_sha256": "e5739a56262f4614a79a2693b0ad0f55e616e067acf6369c82a78f7108c046ce",
+    "bytes": 418328,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/os_object-3TB68MU1PC2Y4.pcm",
+    "original_sha256": "cf8c3b5124bdc13b510ce64fb79b444fbdf0e3a58f335ddb196d2119b307c948",
+    "bytes": 70408,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/os_workgroup-3TB68MU1PC2Y4.pcm",
+    "original_sha256": "890354f298c3b7f8ff57269637e6a43cfecdd35a4db295ae1ab06ab0cf025ec0",
+    "bytes": 101648,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/pthread-2YB8183071310.pcm",
+    "original_sha256": "44700732cd9f5210889e7972bec8e52b15523f949ca80ac2d904c0d90b852fb5",
+    "bytes": 148512,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/ptrauth-3PGQF5YETHUX5.pcm",
+    "original_sha256": "9d9f7c6157cb450644debb5eb53060a83982ad23cd4a2e4536fb5ae4fc2683b4",
+    "bytes": 45576,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/ptrcheck-3PGQF5YETHUX5.pcm",
+    "original_sha256": "c6050047426c70958a3f5605db12da7edbe09c6bbcf1baebed0f5252a0333f69",
+    "bytes": 36752,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/runetype-2YB8183071310.pcm",
+    "original_sha256": "70297764978f2ee59c5a55df4713b263745ec570ac57e84a32dcd85bc80df0a7",
+    "bytes": 48224,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/simd-3AMDRIPXTSEBA.pcm",
+    "original_sha256": "413dc064bc42cd4fa2d02616ed17047c9bef5fb9a42bce469913d0ed607ab3c4",
+    "bytes": 4024304,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/sys_resource-2YB8183071310.pcm",
+    "original_sha256": "bcf9e1a4066799de3c682c9b0e43e32fabf10e447f08fafd8a458c0d60de676e",
+    "bytes": 101200,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/sys_select-2YB8183071310.pcm",
+    "original_sha256": "f2e051a616dae87bf897c720fac16009ecfb7b920b68a6d1c7c6626a752ea06d",
+    "bytes": 48024,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/sys_time-2CMV7FB5F9CQ1.pcm",
+    "original_sha256": "c08734aaa848e74144a3265f26f53652a3301b4a86f4eae872bf814138b6fce3",
+    "bytes": 38048,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/sys_types-2YB8183071310.pcm",
+    "original_sha256": "ed454a9a35187b41ea2e323a71c60b1446022b045c4e10c6da9ec1a8997bb321",
+    "bytes": 74872,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/sys_wait-2YB8183071310.pcm",
+    "original_sha256": "da0a0f8b38f5d33cbc5d8173d7a8659f618ef7059cc3ae3a91fee3ecb724e070",
+    "bytes": 55536,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/unistd-2YB8183071310.pcm",
+    "original_sha256": "71b5f68c5af699f676ae661046c351b7aade77c6f996590b82e371b623476e76",
+    "bytes": 166672,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/uuid-2CMV7FB5F9CQ1.pcm",
+    "original_sha256": "c2b887f987751bfcf3b04587498986e05546a7bee8b91f78519560069bf11a8d",
+    "bytes": 37184,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CFF3PGXFAH9S/xlocale-2YB8183071310.pcm",
+    "original_sha256": "d883d22596da084719f8dc089332a1f21df561cd3d91a4af0c632b28c19d8f18",
+    "bytes": 38936,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/Combine-1G09NYQMELR8D.swiftmodule",
+    "original_sha256": "c6a36fd41dfd5ddf21ce0002143bf7baeac8b9b6c13b135e81358718083f9d60",
+    "bytes": 487660,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CoreData-CY29QFBJCGV6.swiftmodule",
+    "original_sha256": "7b3048578dd3d463a8bbfd3e8050b88643ea3a4e343221cbb00353042a137a34",
+    "bytes": 118504,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CoreFoundation-3OTYAO7M3AGCW.swiftmodule",
+    "original_sha256": "a25ef63dd1e9933900ab6e84612890652fa493c3f18c9e7d32f67b6e314c404a",
+    "bytes": 158420,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CoreGraphics-3P3TUM2J43TG1.swiftmodule",
+    "original_sha256": "9f4afb0ae957952c070879903165666536e64427e9846d7c17e3b4345d903699",
+    "bytes": 200404,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CoreImage-39A2ZYVZB2H6N.swiftmodule",
+    "original_sha256": "297891adddbddf40b91ea16b54cb002cdb3992eb0ce919eed32dc19e7f3c7a8a",
+    "bytes": 20648,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CoreText-25BUZK8BXIIMG.swiftmodule",
+    "original_sha256": "38989c63e7bdda4bfa246627336f766eefc9c1971cd41900124e6aa4ad46f641",
+    "bytes": 24540,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CoreTransferable-2AFAS19Z9DE09.swiftmodule",
+    "original_sha256": "b2c2fd9dc4816a7ecb1181a319c1aaa7ccc10da6f4c4362cd55cde022f8f5112",
+    "bytes": 75768,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/CryptoKit-11K0M4895FI9M.swiftmodule",
+    "original_sha256": "fafab8c792139e2f42848e5f81c3907b6a9a1da664c1f86c087aa2d4f6a2edc5",
+    "bytes": 196928,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/Darwin-CCVJF1JIKBN7.swiftmodule",
+    "original_sha256": "71908390bbf39ff64d7870a77a13dc6c36a46a7d7a5c0db949217b12faeccb9e",
+    "bytes": 72160,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/DataDetection-YJ92CZD8BLNL.swiftmodule",
+    "original_sha256": "7494f5e7feef63fc6cad4e5229a4a2240411444425409ed442f8414b76853351",
+    "bytes": 19564,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/DeveloperToolsSupport-GOI0F6B32NAE.swiftmodule",
+    "original_sha256": "0ee22bdc52a054411ad365010e5dc996b87869c32528a2e3587d42bbcc4562d4",
+    "bytes": 41352,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/Dispatch-2XU5YK2KJOOE1.swiftmodule",
+    "original_sha256": "4dca5cd4d3381f991654461fd5952ec9c574adf74e544bcd6fe8936616c0c1b2",
+    "bytes": 206028,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/Foundation-7BXE3NT7NK3W.swiftmodule",
+    "original_sha256": "44d422ed8cfa590cb3f9b8f8a0b02c6d5ea6da7d0edff3cb846e353ad8aeafbf",
+    "bytes": 3535408,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/IOKit-73HTU3DH1KI1.swiftmodule",
+    "original_sha256": "6554b096e5e0b1c668cdafaa380b84554f85352ccb34de46bb55daaf9a60748a",
+    "bytes": 29136,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/LocalAuthentication-2NQNS9E245P9Q.swiftmodule",
+    "original_sha256": "58906eb4fa74648ba276457bbe5c1ed26f7f85bb301cea3b92db03a67fc152dd",
+    "bytes": 22724,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/Metal-GWOHAD0F618C.swiftmodule",
+    "original_sha256": "3accd06fdf38b00ca1248f1f6b283127aaa8e3c97188e9e72239b89894407a1f",
+    "bytes": 106400,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/OSLog-3VYY822ZICJBK.swiftmodule",
+    "original_sha256": "0fe7569ab498f78d623832b759e13d3c9374da5d8529c29ff41c4420c3e3f0c6",
+    "bytes": 50076,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/ObjectiveC-8R5066OVLQUL.swiftmodule",
+    "original_sha256": "ee6579d15a7a9e6bdd9848f43418ea18862b651fde44906620e1098a35f989e9",
+    "bytes": 49584,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/Observation-7UBH86GFAZ9Y.swiftmodule",
+    "original_sha256": "e0db420482d16e6c39f37a09920f4a7bfd57bc127e579d8c807395e49b23db4a",
+    "bytes": 23876,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/QuartzCore-38Z992H5I77NT.swiftmodule",
+    "original_sha256": "ab275dc881e7df8f39a3046d72fb5012c119b0a8ab8dafba446062e203090595",
+    "bytes": 28536,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/Spatial-1GYJWGN2HHYCN.swiftmodule",
+    "original_sha256": "1f45c2a6b493dd20edd392adedb4f70eb39cb5c5a91db90ff56ab65a3604675d",
+    "bytes": 543264,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/Swift-354A4ODUDY9MI.swiftmodule",
+    "original_sha256": "763d34e5316de5c6d3e2c83dfbcf40e4a5ba91e644a053b4bbad8e35cd23baa6",
+    "bytes": 13976316,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/Swift-363ETFRWARY44.swiftmodule",
+    "original_sha256": "763d34e5316de5c6d3e2c83dfbcf40e4a5ba91e644a053b4bbad8e35cd23baa6",
+    "bytes": 13976316,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/SwiftUI-QPKS3FB5H8KC.swiftmodule",
+    "original_sha256": "6825405f2878bd9f8fb0027d4a55020df636e6d1ec62b6063e1d8766360604fc",
+    "bytes": 3431072,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/SwiftUICore-19T5PKC2DAF77.swiftmodule",
+    "original_sha256": "1232180bc8e111e21fc4afc6fe9b88c6ea057010bff2d6167a99feb4928bc6d4",
+    "bytes": 3707524,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/Symbols-3113Y3O6LSRID.swiftmodule",
+    "original_sha256": "f73d8e91e35aa37029987b36b0aceae5cf3fc63baec0ace83a0eace5e0fb589e",
+    "bytes": 64924,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/System-2XHFSRC6WAWSW.swiftmodule",
+    "original_sha256": "c548df882275bc202c730f1eb6f9c0d76f8808dbdb628e4201e99d2c2ac58d81",
+    "bytes": 412356,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/UniformTypeIdentifiers-1D4SJNY6YS5LX.swiftmodule",
+    "original_sha256": "c34587700e61dd57a3acbac00a1afd93f9ce882375b03b0703ac14949034d19a",
+    "bytes": 72948,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/XPC-3DLYL5YSXK2Z8.swiftmodule",
+    "original_sha256": "69e19a1572e9ddc1baaaa666c619073aa0a543e0731746cbcd0330cc75ada5c4",
+    "bytes": 96980,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/_Builtin_float-3OA5X1QDK086H.swiftmodule",
+    "original_sha256": "b01c688da1939458d1a68c064cc0c0495cb93b27294e37f58769b7648e83cac4",
+    "bytes": 22412,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/_Concurrency-2AAQK0JM6L51O.swiftmodule",
+    "original_sha256": "53861e8dac922d0ad8ba271ceeccc1afa4c2f61b9e744c5e1818804bc73f5d9f",
+    "bytes": 527996,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/_StringProcessing-3J9EBQ71UTTPA.swiftmodule",
+    "original_sha256": "df986488a20664606b3f4842aa758f691e85e0f4e1da66055a02ca316643c418",
+    "bytes": 82712,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/_errno-1MYTTXBU7NPDI.swiftmodule",
+    "original_sha256": "fd6105189b6181c76c4c4b2edfaa63a56ccf7097473ef3078cb0b5cf0b0074c8",
+    "bytes": 38212,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/_math-3PSM58OXEBR2R.swiftmodule",
+    "original_sha256": "2473bb3e713a37c6a3561069a8e1e26dc6321cec08e7a8d307311c523dcc5472",
+    "bytes": 68552,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/_signal-1NH031DVJX3W7.swiftmodule",
+    "original_sha256": "ea2364c3a256a04dfd93c27f72d82b48df7b28c00af517087ca74a26a07b0688",
+    "bytes": 18628,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/_stdio-2BLGTURR6L0S2.swiftmodule",
+    "original_sha256": "0f076a712ec08053d090ea04b6c349e1ea3fe5bd7b644ce93e6cac287968b530",
+    "bytes": 19956,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/_time-2CFV243SEX2OS.swiftmodule",
+    "original_sha256": "4fdb9012701fda413c6c766865c178b9a70e8a6d5f1181b7e665e12bc4f188da",
+    "bytes": 18276,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/modules.timestamp",
+    "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/os-192G5MYFA5ECW.swiftmodule",
+    "original_sha256": "a80f548b37b80d5bdbce1f8ee26ec6839c5ba76ffee257b78ad493135df9956c",
+    "bytes": 553268,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/simd-1SMNQO6YG2GZD.swiftmodule",
+    "original_sha256": "c152985f4431aaa2aa69ba773263ae90325e66465f72c431cfaed571f78360a5",
+    "bytes": 993564,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/sys_time-3VKSJNGC3D7SD.swiftmodule",
+    "original_sha256": "11375d65571a80f5d9ac64075b5af6d1323470097bcb889b5f54c8991b0910ce",
+    "bytes": 18172,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/ModuleCache/unistd-2G1PVR7FPMC94.swiftmodule",
+    "original_sha256": "2a385226467ff291a4858e3565bb301af85252c9c2a8db8b54bd0d361bbcccb0",
+    "bytes": 18032,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/Modules/YukioCore.abi.json",
+    "original_sha256": "4277ac6b49f8511196028a5ac20f5b1b1dfa754c24615d34068089f0b1739728",
+    "bytes": 149,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/Modules/YukioCore.swiftdoc",
+    "original_sha256": "dae6555e2992bf25c454d5575d190b57ca2a0b0f3af9ae622cf3911713740219",
+    "bytes": 74492,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/Modules/YukioCore.swiftmodule",
+    "original_sha256": "59d4e14fad94ac7d9e905429eef03313f1322ead88820e0e991babd64b421a19",
+    "bytes": 684032,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/Modules/YukioCore.swiftsourceinfo",
+    "original_sha256": "87dbf6023131b730d5f975351c1308793567a75e3e25284fe2d9d654d7a86d2a",
+    "bytes": 113072,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/Modules/YukioPlayer.abi.json",
+    "original_sha256": "4277ac6b49f8511196028a5ac20f5b1b1dfa754c24615d34068089f0b1739728",
+    "bytes": 149,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/Modules/YukioPlayer.swiftdoc",
+    "original_sha256": "7e80576d3c7e809f3f6e773a368d11404df0c051707bc85f003cbd9ff88cd59c",
+    "bytes": 412,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/Modules/YukioPlayer.swiftmodule",
+    "original_sha256": "31ca1a346f4fa4e587f85b7e56b8b9fbe4e62cdb1d350cf08c3650d7258c2f74",
+    "bytes": 604520,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/Modules/YukioPlayer.swiftsourceinfo",
+    "original_sha256": "19df753793aa1af590d30444a115d1ba28667855d2a99cfd728336a04390c038",
+    "bytes": 4836,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/ActivityCards.swift.o",
+    "original_sha256": "8d1ae53e9bf0ee8d0aaa0b8bb9c2d74b89cd358b480eaf7f7ed3c46197f94583",
+    "bytes": 373400,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/ActivityRouter.swift.o",
+    "original_sha256": "b9a5dd220b093b4086fd9d8fa8443a939ff3cf159efa90dbae758c1fa850c5c6",
+    "bytes": 430992,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/AgentProvider.swift.o",
+    "original_sha256": "2d2aed4768ffb5b6eed9bafb2803d1ec2428c42640a864739268074b5f058a8c",
+    "bytes": 46952,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/AgentSources.swift.o",
+    "original_sha256": "5e1bf222a8ab2778871cf719b4b6addc1cace0dfa503b164ef62bcfe25e7e7c1",
+    "bytes": 398280,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/BlinkClock.swift.o",
+    "original_sha256": "4857fdf343349d265bf2ccf2f026fbf65c24648944ebec9af1355fa919a88420",
+    "bytes": 16272,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/Catalog.swift.o",
+    "original_sha256": "f7a05f0a9b9bd5cffba05e7dbcb70e4505c22326a06ee7fb784bc8f2a22888ad",
+    "bytes": 411672,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/ClaudeParsers.swift.o",
+    "original_sha256": "2beed929a055c9b52dd15578d31fefe4d3701185caaa15687d3052309ffffef3",
+    "bytes": 194120,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/ClaudeSessionLinks.swift.o",
+    "original_sha256": "a9de1d246e517981df607d15c9020f74673ccc36aef264e39f5aab9b6ed38f72",
+    "bytes": 146968,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/ClaudeToolClassifier.swift.o",
+    "original_sha256": "c1ebd5da0c99beb3b75846a011e16cd11eecaee760a3b6a1e2eca06d94e07f21",
+    "bytes": 282208,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/CodexOpenChat.swift.o",
+    "original_sha256": "c5e44ae203f80fed9a0ce8cb061a38014c818b77652abb0b1cf0309c6038e70f",
+    "bytes": 205080,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/CodexParsers.swift.o",
+    "original_sha256": "5a22022865c2cb3e97497cae347b2f59665abd705587b753bebe733fb4c44bed",
+    "bytes": 201200,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/CodexToolClassifier.swift.o",
+    "original_sha256": "9ab4d5b1406f370b40ee53380ee8df5799b5b6fd271bc54f5048911fb133f48d",
+    "bytes": 128080,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/DeepCodeParsers.swift.o",
+    "original_sha256": "49e90f28c1a33aa624782f7aaa83a13bc1e4e66d0c6c796c71c322e4c8bbb872",
+    "bytes": 158784,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/DemoScript.swift.o",
+    "original_sha256": "05b0cc4a0a430b53c59f250af0b88d91f9d3fe15843e8aa0c04c3c35ace57137",
+    "bytes": 77632,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/DragVelocityTracker.swift.o",
+    "original_sha256": "77eb58f3023fa6229b3454824660ef29243b7c8d09d098aff89ae2f699db96d8",
+    "bytes": 58608,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/Events.swift.o",
+    "original_sha256": "793f269d701d62aed74a59b0fc9cdc6a6548ea503ff1a47b857ab98816bc1200",
+    "bytes": 143672,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/HangSwing.swift.o",
+    "original_sha256": "1fa450fd09656f0e6b6653c3ab76ab1d30283f4ab9935b1be07d40141975f282",
+    "bytes": 40240,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/HeldValue.swift.o",
+    "original_sha256": "a63e562a436f20ce19e1b648dc6c6532994397484cc249211cbef463b76cafe2",
+    "bytes": 13776,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/L10n.swift.o",
+    "original_sha256": "ba3fdef7a1e82ca13f713ac34f4dfe600800a67978fdcbf265196945a5f0d2fc",
+    "bytes": 60616,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/LiveSources.swift.o",
+    "original_sha256": "56d12ae52e9aaa71b9a5929be883fa882c4dd104dac92cc13dfc191a10acd090",
+    "bytes": 152056,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/PetQuestion.swift.o",
+    "original_sha256": "3cd80b15007cdf1695e79b5723d42e4606b1022805bc17b15d7507ba82383477",
+    "bytes": 122888,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/QuestionPresentationState.swift.o",
+    "original_sha256": "938332c4833738b57acbf102a836d5d0e800cc23bee795647964e51fe776e525",
+    "bytes": 52880,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/Reminders.swift.o",
+    "original_sha256": "16294909b6340e945fe0364570eec6e5d364b9f34e177eb8045a7cf376206982",
+    "bytes": 177664,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/SpriteTimeline.swift.o",
+    "original_sha256": "128c16c245d6e3c66230dd3a59b4c555ad3a93867756b39b62055136a2efb777",
+    "bytes": 20448,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/ThrowPhysics.swift.o",
+    "original_sha256": "6e54c0bce36431f63ed16ca390eacbeae2c07880316917a4bbd50a23508e818c",
+    "bytes": 179808,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/VisibleChat.swift.o",
+    "original_sha256": "cb7b3da12eb0372c52dd03c0d48cf734533527596b65999b46c5ed55b20c45b1",
+    "bytes": 62560,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/YukioCore-Swift.h",
+    "original_sha256": "3ce4321517e0dc824401f2e0001fdd0e6fb9bf5cb8fa5d932f42b9c9e771ec60",
+    "bytes": 10185,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/YukioCore.d",
+    "original_sha256": "711a07509c1038106c9f405b03bf3a7c4a637b7db53431b74c8123a00c282a95",
+    "bytes": 179454,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/master.swiftdeps",
+    "original_sha256": "04c7a4599b2c49a139a607a284807cb341ca8e6c2c5378631c3a3b8e2c2f8094",
+    "bytes": 3421,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/module.modulemap",
+    "original_sha256": "2646714f89882ad17865315e495ffe32d666790361e96e8fa1613be13a9413fe",
+    "bytes": 225,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/output-file-map.json",
+    "original_sha256": "037e9953d30843561f4dae9c5431059f45fe628312f76e5d40d53826a9f0f7f6",
+    "bytes": 19222,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCore.build/sources",
+    "original_sha256": "6341626c7afcd6be72752e566c8f378b59516f3aa235a7ab3f8b900079aea1c0",
+    "bytes": 2435,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioCoreTests.build/output-file-map.json",
+    "original_sha256": "0531648dd9f5fbc9bb1b76dfe4649cde4d917ee6170e0cc8db021fb148ceb322",
+    "bytes": 17775,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer",
+    "original_sha256": "025227018c1793aac530703f6c38617d8ed4749560c6ae6a04c0c82a45eaa187",
+    "bytes": 2381240,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.build/AnswerCardCheck.swift.o",
+    "original_sha256": "b4986a3db0787484228319ad702e35313a66918d49220b4bd438b0cd53873f39",
+    "bytes": 1476640,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.build/AssistantWindow.swift.o",
+    "original_sha256": "897a2b3406d73d3c8fe3eeab5da35307131b9b0ac11fd94e75ec45e16ea97e86",
+    "bytes": 6832,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.build/BackgroundAnswerSetup.swift.o",
+    "original_sha256": "ba4968ec412535dea0f8b3d4a0aba4e89b04b7eea7f375e581f4401755d51d39",
+    "bytes": 217424,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.build/BrowserOpenChat.swift.o",
+    "original_sha256": "297b13818a726a7e626600fe048b35bd6d3a2dc26878c7d71159600a27314cc0",
+    "bytes": 183776,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.build/CardStack.swift.o",
+    "original_sha256": "778025935ef22fb1314903ba3e181f02547177cdf71d9578848343edfffb2ae1",
+    "bytes": 53592,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.build/ClaudeQuestionBridge.swift.o",
+    "original_sha256": "8d0d4296787fb8160da60d2c7fa38ab001b3623238a7bfac659d9283d832e5c0",
+    "bytes": 182368,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.build/CodexAnswerClient.swift.o",
+    "original_sha256": "ef2e68eb542708ccd10b6401129f3c25f36af909be44340b635cebc147e8be8f",
+    "bytes": 274800,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.build/DockMode.swift.o",
+    "original_sha256": "8566b7040ac44a7aa43229f69bcbd25005ea416bc99b29aa6c5af342dc2ae756",
+    "bytes": 267056,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.build/InteractionCheck.swift.o",
+    "original_sha256": "6cbac0145c8ad678010bf245f08cd02682effae96a49780755b1266cb5a7220e",
+    "bytes": 27728,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.build/LaunchAtLogin.swift.o",
+    "original_sha256": "cd7d496b1df8455bcd52e8979b936b506ea40fd7cd67e14c1651b16959190e62",
+    "bytes": 151360,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.build/PagedSpriteLibrary.swift.o",
+    "original_sha256": "17f97c5945f76f17614abb133898f874e49fc52b897e9406322f85d63879d79c",
+    "bytes": 26544,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.build/PetWindow.swift.o",
+    "original_sha256": "311a6ab97ca58f601aaf2d3b12e1a14f3ee28f71816e4f974af23bc0ef7c3fe3",
+    "bytes": 216688,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.build/QuestionCard.swift.o",
+    "original_sha256": "398b0414cbf0adbd9e5801dc666477175be2b6f7f6cfd1f9ecf9722d1dcc9beb",
+    "bytes": 69680,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.build/QuestionPanel.swift.o",
+    "original_sha256": "a6ff3669101680cd3827ec48b6196dab91e12a55ebf47e02d05021ae50ceeb14",
+    "bytes": 203856,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.build/ReminderStore.swift.o",
+    "original_sha256": "d19859bec9fd96043ff91bcee2de983e4c1f7d57f587bc6edc3c734bb1a991ff",
+    "bytes": 77264,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.build/ScaleSlider.swift.o",
+    "original_sha256": "c6d326ab259d44080d7a4d1cacd0f22b93f8a824b211d2d673e23ce160241c9e",
+    "bytes": 81128,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.build/SettingsOutsideClickMonitor.swift.o",
+    "original_sha256": "c3ababad52cacfaa5dc337dde1e941043b12e479208a2aa7bf9e862c7f106c0d",
+    "bytes": 24400,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.build/SettingsPanel.swift.o",
+    "original_sha256": "6eb70232521a93103e7c6e867c806a57b4f924989c2d9655761c1c601e9fcf7f",
+    "bytes": 29504,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.build/SpriteLibrary.swift.o",
+    "original_sha256": "fe58502ac901c29568fb1945838c64ae676695cbddfd603be1bfc79afd5a7730",
+    "bytes": 337176,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.build/StatusBubble.swift.o",
+    "original_sha256": "30398eaa9ea8994d54b25824a00559e94b78d033ece7b41458b60185cc2f8ecd",
+    "bytes": 252216,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.build/ThrowPlayback.swift.o",
+    "original_sha256": "5d1d04596dd635453abed6af3fef441224cafdb2318f594ea1640c4c3a8de6e2",
+    "bytes": 167000,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.build/YukioPlayer.d",
+    "original_sha256": "c1ae4c695a687424a320bdaba0e9b78284db22a76e3a744b3b149f444a348a9f",
+    "bytes": 253898,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.build/main.swift.o",
+    "original_sha256": "22c9eb3db0a7289bb3fe4fec02191f6be0dfd1b8ac6af3bc888fc508177cec43",
+    "bytes": 88144,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.build/master.swiftdeps",
+    "original_sha256": "924bf47ef9b35f8caf1c4aae8007e2005084342d7966c6af91551b9edfeabeaa",
+    "bytes": 3009,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.build/output-file-map.json",
+    "original_sha256": "8f316d222338663bac7c505f1fa69bb2da110f0537330b9678a668e1a62a4b7e",
+    "bytes": 16656,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.build/sources",
+    "original_sha256": "3ac593313f8c0e26321b362f6394434b12a5d4e04b36bc9d55f7c1a7d38900ae",
+    "bytes": 2133,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.dSYM/Contents/Info.plist",
+    "original_sha256": "b6ff1320a2b341bf9045443d125281902eb79b60c3919c4e5bc1bb3a5272626f",
+    "bytes": 640,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.dSYM/Contents/Resources/DWARF/YukioPlayer",
+    "original_sha256": "edda9b9daa72b41ed983fe8d0477f6454640690ce0fc45bdd3122af8670be3c5",
+    "bytes": 6351084,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.dSYM/Contents/Resources/Relocations/aarch64/YukioPlayer.yml",
+    "original_sha256": "77fb90dec4361cba2a2f92434104aadc8a1f7c4663b17c5776d043b442e2625f",
+    "bytes": 734122,
+    "reason": "compiled_app_or_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayer.product/Objects.LinkFileList",
+    "original_sha256": "12bb10e8a7254cf43b77eb028a100b31ddf641a21e8533019b3a896cf1f70348",
+    "bytes": 8552,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayerPackageTests.build/module.modulemap",
+    "original_sha256": "18ce952c770cd6b638a2be10e7a6e7dc0d766451005539c4d54f2fdbe888eb54",
+    "bytes": 267,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayerPackageTests.build/output-file-map.json",
+    "original_sha256": "3214d83102007620869cdf1efd575dc4ea2417a4e30963d82ab4070dddf6e7cd",
+    "bytes": 1489,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/YukioPlayerTests.build/output-file-map.json",
+    "original_sha256": "0e74af336a437047a72f14c0b9e1b0d11511b373448db7bc899c9ac325fa084a",
+    "bytes": 6845,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/description.json",
+    "original_sha256": "5569f879f9d3047d141eafbd36d67da2b78e691b7266e3d0afb5ad499bb10f22",
+    "bytes": 142401,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/plugin-tools-description.json",
+    "original_sha256": "5569f879f9d3047d141eafbd36d67da2b78e691b7266e3d0afb5ad499bb10f22",
+    "bytes": 142401,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/arm64-apple-macosx/release/swift-version--1AB21518FC5DEDBE.txt",
+    "original_sha256": "6ebde353b632d893458e9068a71acbcb3c7c880873eb1e5ad4e6e5a324a4117c",
+    "bytes": 97,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/build.db",
+    "original_sha256": "8718f7d5850c5c1770a45d0b0079593836e594a085e6e0272369dc994e602e5f",
+    "bytes": 86016,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/plugin-tools.yaml",
+    "original_sha256": "ae3360571bbdc82078d1e06c81e8e2388c8675f7e7b93fb228b65b6bc103d1f2",
+    "bytes": 119463,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/release.yaml",
+    "original_sha256": "ae3360571bbdc82078d1e06c81e8e2388c8675f7e7b93fb228b65b6bc103d1f2",
+    "bytes": 119463,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  },
+  {
+    "path": "docs/plans/qianxia-skin-concepts/qianxia-animation-R01/native/build/workspace-state.json",
+    "original_sha256": "ec16aca52867cd83a5331c6d05a2cc3d930ab25179f77469715c144773e9d5c6",
+    "bytes": 125,
+    "reason": "native_compiler_cache",
+    "prior_remote_status": "已核查远端未见相同内容"
+  }
+]
