@@ -1,11 +1,11 @@
 {
   "project": {
-    "updated_at": "2026-10-21T23:15:14.990802+00:00",
+    "updated_at": "2026-10-21T23:23:33.319863+00:00",
     "focus_id": "coverage",
     "boundary": "已支持 Codex 和 Claude 的基础活动记录；Deep Code 持久历史、完整交接、活动工作台和千问解释仍待完成。Windows 实机未验证，桌面 App 尚未替换。",
     "schema_version": 1,
-    "current_note": "Claude 的第一版可回查记录已完成检查：操作和结果能正确对应，关闭后能接着记，也能自动找近期聊天。本机记录器已启动，目前等待新的 Claude 活动。接下来继续 Deep Code 和更完整的助手关系。",
-    "work_state": "Claude 这一小步已完成 · 第 5 阶段继续",
+    "current_note": "前面已完成 Codex 和 Claude 的基础记录。现在继续 Deep Code：核对它留下的操作和结果，接入保存与重启恢复；检查结束后再公布通过情况。",
+    "work_state": "正在补齐 Deep Code 的记录",
     "stages": [
       {
         "id": "audit",
@@ -468,6 +468,6 @@
   "collector": null,
   "publication": {
     "mode": "published",
-    "exported_at": "2026-10-21T23:15:15.046766+00:00"
+    "exported_at": "2026-10-21T23:23:33.367935+00:00"
   }
 }
