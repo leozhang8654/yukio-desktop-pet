@@ -1,0 +1,9 @@
+[0/1] Planning build
+Building for production...
+[0/5] Write sources
+[2/5] Write swift-version--1AB21518FC5DEDBE.txt
+[4/6] Compiling YukioCore ActivityCards.swift
+[5/7] Compiling YukioPlayer AnswerCardCheck.swift
+[5/7] Write Objects.LinkFileList
+[6/7] Linking YukioPlayer
+Build complete! (18.10s)

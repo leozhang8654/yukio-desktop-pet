@@ -1,0 +1,36 @@
+{
+  "passed": false,
+  "visual_review": "pending",
+  "source": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-animation-R01/source/11-question_for_user.png",
+  "source_sha256": "7dd9ffbf1600e954ed5718c970cf8648d4fe3695d82634355ac3054f8b9f6172",
+  "source_size": [
+    1202,
+    1309
+  ],
+  "expectations": {
+    "components": 1,
+    "max_opaque_hole_pixels": 0,
+    "background_pixels": 0
+  },
+  "masks": [
+    {
+      "passed": false,
+      "components": 1,
+      "component_areas": [
+        4625
+      ],
+      "opaque_hole_pixels": 4,
+      "background_pixels": 0,
+      "soft_mask_pixels": 0,
+      "bbox": [
+        717,
+        721,
+        801,
+        790
+      ],
+      "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-animation-R01/rigs/question_for_user/pressing-hand/refinement-03/candidate-mask.png",
+      "sha256": "6bed57030edda0be5d79fa1ec863ad5e595816d658d4246578e1c0a3a42394f9",
+      "previews": "01-candidate-mask"
+    }
+  ]
+}

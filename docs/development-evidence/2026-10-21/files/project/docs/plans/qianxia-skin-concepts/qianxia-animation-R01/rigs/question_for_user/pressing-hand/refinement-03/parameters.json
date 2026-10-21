@@ -1,0 +1,7 @@
+{
+  "source_mask_sha256": "1b297b4739eedd7af4afed8b42280f0eeaf15dd91870d6719265000ff3e91e94",
+  "edit": "remove visually identified extraneous pink fragment at x805..816,y777..781",
+  "removed_pixels": 41,
+  "added_pixels": 0,
+  "status": "candidate, boundary and motion checks still required"
+}

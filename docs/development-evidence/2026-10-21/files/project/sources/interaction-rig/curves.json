@@ -1,0 +1,1500 @@
+{
+  "eyes": [
+    [
+      147,
+      98,
+      175,
+      119
+    ],
+    [
+      189,
+      90,
+      217,
+      114
+    ]
+  ],
+  "closedCurves": [
+    [
+      149,
+      108,
+      173,
+      108,
+      2.5
+    ],
+    [
+      190,
+      99,
+      215,
+      100,
+      3
+    ]
+  ],
+  "poses": {
+    "airborne": [
+      {
+        "timeMs": 0,
+        "bendPixels": 0.0,
+        "eyeClosure": 0.0,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      }
+    ],
+    "wall-impact": [
+      {
+        "timeMs": 0,
+        "bendPixels": 0.0,
+        "eyeClosure": 0.0,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 20,
+        "bendPixels": 0.9999999999999999,
+        "eyeClosure": 0.6597539553864471,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 40,
+        "bendPixels": 1.7320508075688772,
+        "eyeClosure": 0.9173147546424016,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 60,
+        "bendPixels": 2.0,
+        "eyeClosure": 1.0,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 80,
+        "bendPixels": 1.7320508075688774,
+        "eyeClosure": 0.9173147546424018,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 100,
+        "bendPixels": 0.9999999999999999,
+        "eyeClosure": 0.6597539553864471,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 120,
+        "bendPixels": 2.4492935982947064e-16,
+        "eyeClosure": 2.8366549467129156e-10,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      }
+    ],
+    "landing-impact": [
+      {
+        "timeMs": 0,
+        "bendPixels": 0.0,
+        "eyeClosure": 0.0,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 20,
+        "bendPixels": 1.357881396499722,
+        "eyeClosure": 0.49820762512611483,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 40,
+        "bendPixels": 3.3819123721615267,
+        "eyeClosure": 0.7130169548898168,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 60,
+        "bendPixels": 5.405290789488706,
+        "eyeClosure": 0.8572507054709749,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 80,
+        "bendPixels": 7.006514190209369,
+        "eyeClosure": 0.9492402614904065,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 100,
+        "bendPixels": 7.886232694251077,
+        "eyeClosure": 0.9943889086875844,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 120,
+        "bendPixels": 7.886232694251078,
+        "eyeClosure": 0.9943889086875846,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 140,
+        "bendPixels": 7.00651419020937,
+        "eyeClosure": 0.9492402614904066,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 160,
+        "bendPixels": 5.405290789488706,
+        "eyeClosure": 0.8572507054709749,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 180,
+        "bendPixels": 3.381912372161526,
+        "eyeClosure": 0.7130169548898168,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 200,
+        "bendPixels": 1.3578813964997245,
+        "eyeClosure": 0.4982076251261152,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 220,
+        "bendPixels": 4.2296572853170426e-22,
+        "eyeClosure": 1.7717643888800035e-09,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      }
+    ],
+    "dizzy-intro": [
+      {
+        "timeMs": 0,
+        "bendPixels": 0.0,
+        "eyeClosure": 0.0,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 20,
+        "bendPixels": 0.14814814814814814,
+        "eyeClosure": 0.040740740740740744,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.07407407407407407
+      },
+      {
+        "timeMs": 40,
+        "bendPixels": 0.5185185185185185,
+        "eyeClosure": 0.1425925925925926,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.25925925925925924
+      },
+      {
+        "timeMs": 60,
+        "bendPixels": 1.0,
+        "eyeClosure": 0.275,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.5
+      },
+      {
+        "timeMs": 80,
+        "bendPixels": 1.4814814814814814,
+        "eyeClosure": 0.40740740740740744,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.7407407407407407
+      },
+      {
+        "timeMs": 100,
+        "bendPixels": 1.851851851851852,
+        "eyeClosure": 0.5092592592592594,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.925925925925926
+      },
+      {
+        "timeMs": 120,
+        "bendPixels": 2.0,
+        "eyeClosure": 0.55,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 1.0
+      }
+    ],
+    "dizzy-loop": [
+      {
+        "timeMs": 0,
+        "bendPixels": 2.0,
+        "eyeClosure": 0.55,
+        "gaze": [
+          0.7904994627530495,
+          0.4
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 20,
+        "bendPixels": 2.0974211706720456,
+        "eyeClosure": 0.55,
+        "gaze": [
+          0.9436166999253784,
+          0.3961072274966282
+        ],
+        "balanceDegrees": 0.41751930288019634,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 40,
+        "bendPixels": 2.1929461490718993,
+        "eyeClosure": 0.55,
+        "gaze": [
+          1.0783675113817472,
+          0.3845046783753276
+        ],
+        "balanceDegrees": 0.8269120674509975,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 60,
+        "bendPixels": 2.28471565015306,
+        "eyeClosure": 0.55,
+        "gaze": [
+          1.1921291258539342,
+          0.3654181830570404
+        ],
+        "balanceDegrees": 1.2202099292274005,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 80,
+        "bendPixels": 2.3709434849632434,
+        "eyeClosure": 0.55,
+        "gaze": [
+          1.2826873029181562,
+          0.3392192384625704
+        ],
+        "balanceDegrees": 1.5897577926996147,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 100,
+        "bendPixels": 2.4499513267805773,
+        "eyeClosure": 0.55,
+        "gaze": [
+          1.348279430666258,
+          0.3064177772475912
+        ],
+        "balanceDegrees": 1.9283628290596178,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 120,
+        "bendPixels": 2.520201377834176,
+        "eyeClosure": 0.55,
+        "gaze": [
+          1.3876288329415627,
+          0.2676522425435433
+        ],
+        "balanceDegrees": 2.229434476432183,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 140,
+        "bendPixels": 2.580326300788529,
+        "eyeClosure": 0.55,
+        "gaze": [
+          1.3999696183880626,
+          0.22367716138829874
+        ],
+        "balanceDegrees": 2.4871127176651253,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 160,
+        "bendPixels": 2.629155832409417,
+        "eyeClosure": 0.55,
+        "gaze": [
+          1.385061587654477,
+          0.17534845871563098
+        ],
+        "balanceDegrees": 2.696382138897501,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 180,
+        "bendPixels": 2.6657395614066073,
+        "eyeClosure": 0.55,
+        "gaze": [
+          1.343194908601402,
+          0.12360679774997899
+        ],
+        "balanceDegrees": 2.8531695488854605,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 200,
+        "bendPixels": 2.6893654271085454,
+        "eyeClosure": 0.55,
+        "gaze": [
+          1.2751844685139635,
+          0.06945927106677217
+        ],
+        "balanceDegrees": 2.954423259036624,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 220,
+        "bendPixels": 2.699573578913367,
+        "eyeClosure": 0.55,
+        "gaze": [
+          1.182354013247735,
+          0.013959798681000432
+        ],
+        "balanceDegrees": 2.998172481057287,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 240,
+        "bendPixels": 2.696165326757791,
+        "eyeClosure": 0.55,
+        "gaze": [
+          1.066510382021396,
+          -0.041811385307061334
+        ],
+        "balanceDegrees": 2.98356568610482,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 260,
+        "bendPixels": 2.6792070083931976,
+        "eyeClosure": 0.55,
+        "gaze": [
+          0.9299083393465889,
+          -0.09676875823986712
+        ],
+        "balanceDegrees": 2.9108871788279895,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 280,
+        "bendPixels": 2.649028698196751,
+        "eyeClosure": 0.55,
+        "gaze": [
+          0.7752066886014586,
+          -0.14984263736636483
+        ],
+        "balanceDegrees": 2.7815515637003623,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 300,
+        "bendPixels": 2.6062177826491073,
+        "eyeClosure": 0.55,
+        "gaze": [
+          0.6054165214472403,
+          -0.19999999999999996
+        ],
+        "balanceDegrees": 2.598076211353316,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 320,
+        "bendPixels": 2.5516075275247054,
+        "eyeClosure": 0.55,
+        "gaze": [
+          0.42384261035413723,
+          -0.24626459013026333
+        ],
+        "balanceDegrees": 2.3640322608201663,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 340,
+        "bendPixels": 2.486260859321298,
+        "eyeClosure": 0.55,
+        "gaze": [
+          0.2340190849643143,
+          -0.2877359201354605
+        ],
+        "balanceDegrees": 2.0839751113769913,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 360,
+        "bendPixels": 2.411449676604731,
+        "eyeClosure": 0.55,
+        "gaze": [
+          0.03964064427842539,
+          -0.32360679774997897
+        ],
+        "balanceDegrees": 1.7633557568774196,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 380,
+        "bendPixels": 2.3286300939501237,
+        "eyeClosure": 0.55,
+        "gaze": [
+          -0.15550935645777852,
+          -0.35317903714357074
+        ],
+        "balanceDegrees": 1.4084146883576731,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 400,
+        "bendPixels": 2.239414100327968,
+        "eyeClosure": 0.55,
+        "gaze": [
+          -0.34763254445980357,
+          -0.37587704831436336
+        ],
+        "balanceDegrees": 1.0260604299770066,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 420,
+        "bendPixels": 2.1455381835724316,
+        "eyeClosure": 0.55,
+        "gaze": [
+          -0.532989460410077,
+          -0.3912590402935223
+        ],
+        "balanceDegrees": 0.623735072453278,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 440,
+        "bendPixels": 2.0488295316208878,
+        "eyeClosure": 0.55,
+        "gaze": [
+          -0.7079723427799931,
+          -0.3990256201039297
+        ],
+        "balanceDegrees": 0.20926942123237657,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 460,
+        "bendPixels": 1.9511704683791127,
+        "eyeClosure": 0.55,
+        "gaze": [
+          -0.8691753488043006,
+          -0.3990256201039297
+        ],
+        "balanceDegrees": -0.2092694212323745,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 480,
+        "bendPixels": 1.8544618164275686,
+        "eyeClosure": 0.55,
+        "gaze": [
+          -1.0134608453364384,
+          -0.3912590402935223
+        ],
+        "balanceDegrees": -0.6237350724532772,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 500,
+        "bendPixels": 1.760585899672032,
+        "eyeClosure": 0.55,
+        "gaze": [
+          -1.1380204793087276,
+          -0.3758770483143634
+        ],
+        "balanceDegrees": -1.026060429977006,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 520,
+        "bendPixels": 1.6713699060498763,
+        "eyeClosure": 0.55,
+        "gaze": [
+          -1.2404298391303812,
+          -0.3531790371435708
+        ],
+        "balanceDegrees": -1.4084146883576727,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 540,
+        "bendPixels": 1.588550323395269,
+        "eyeClosure": 0.55,
+        "gaze": [
+          -1.3186956431013905,
+          -0.323606797749979
+        ],
+        "balanceDegrees": -1.7633557568774192,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 560,
+        "bendPixels": 1.5137391406787017,
+        "eyeClosure": 0.55,
+        "gaze": [
+          -1.3712945363734936,
+          -0.28773592013546045
+        ],
+        "balanceDegrees": -2.083975111376992,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 580,
+        "bendPixels": 1.4483924724752946,
+        "eyeClosure": 0.55,
+        "gaze": [
+          -1.3972027413195027,
+          -0.24626459013026325
+        ],
+        "balanceDegrees": -2.3640322608201663,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 600,
+        "bendPixels": 1.3937822173508931,
+        "eyeClosure": 0.55,
+        "gaze": [
+          -1.3959159842002897,
+          -0.20000000000000018
+        ],
+        "balanceDegrees": -2.598076211353315,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 620,
+        "bendPixels": 1.350971301803249,
+        "eyeClosure": 0.55,
+        "gaze": [
+          -1.3674593102795158,
+          -0.1498426373663649
+        ],
+        "balanceDegrees": -2.781551563700362,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 640,
+        "bendPixels": 1.3207929916068024,
+        "eyeClosure": 0.55,
+        "gaze": [
+          -1.3123865963460624,
+          -0.09676875823986712
+        ],
+        "balanceDegrees": -2.9108871788279895,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 660,
+        "bendPixels": 1.3038346732422088,
+        "eyeClosure": 0.55,
+        "gaze": [
+          -1.2317697701323598,
+          -0.04181138530706135
+        ],
+        "balanceDegrees": -2.98356568610482,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 680,
+        "bendPixels": 1.300426421086633,
+        "eyeClosure": 0.55,
+        "gaze": [
+          -1.1271779464603773,
+          0.013959798681000514
+        ],
+        "balanceDegrees": -2.998172481057287,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 700,
+        "bendPixels": 1.3106345728914544,
+        "eyeClosure": 0.55,
+        "gaze": [
+          -1.0006468862064553,
+          0.069459271066772
+        ],
+        "balanceDegrees": -2.9544232590366244,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 720,
+        "bendPixels": 1.3342604385933925,
+        "eyeClosure": 0.55,
+        "gaze": [
+          -0.8546393725314864,
+          0.1236067977499789
+        ],
+        "balanceDegrees": -2.853169548885461,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 740,
+        "bendPixels": 1.3708441675905831,
+        "eyeClosure": 0.55,
+        "gaze": [
+          -0.6919972756080698,
+          0.17534845871563098
+        ],
+        "balanceDegrees": -2.6963821388975013,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 760,
+        "bendPixels": 1.4196736992114705,
+        "eyeClosure": 0.55,
+        "gaze": [
+          -0.5158862388501775,
+          0.22367716138829852
+        ],
+        "balanceDegrees": -2.487112717665126,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 780,
+        "bendPixels": 1.479798622165824,
+        "eyeClosure": 0.55,
+        "gaze": [
+          -0.3297340632649645,
+          0.26765224254354314
+        ],
+        "balanceDegrees": -2.229434476432184,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 800,
+        "bendPixels": 1.5500486732194223,
+        "eyeClosure": 0.55,
+        "gaze": [
+          -0.13716398920523692,
+          0.3064177772475911
+        ],
+        "balanceDegrees": -1.9283628290596186,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 820,
+        "bendPixels": 1.629056515036756,
+        "eyeClosure": 0.55,
+        "gaze": [
+          0.05807582588264417,
+          0.3392192384625702
+        ],
+        "balanceDegrees": -1.5897577926996174,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 840,
+        "bendPixels": 1.71528434984694,
+        "eyeClosure": 0.55,
+        "gaze": [
+          0.25218526107999484,
+          0.3654181830570404
+        ],
+        "balanceDegrees": -1.2202099292274005,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 860,
+        "bendPixels": 1.8070538509281002,
+        "eyeClosure": 0.55,
+        "gaze": [
+          0.4413861970269038,
+          0.3845046783753275
+        ],
+        "balanceDegrees": -0.8269120674509993,
+        "starOpacity": 1
+      },
+      {
+        "timeMs": 880,
+        "bendPixels": 1.902578829327954,
+        "eyeClosure": 0.55,
+        "gaze": [
+          0.6219960527180429,
+          0.39610722749662813
+        ],
+        "balanceDegrees": -0.4175193028801977,
+        "starOpacity": 1
+      }
+    ],
+    "recover": [
+      {
+        "timeMs": 0,
+        "bendPixels": 2.0,
+        "eyeClosure": 0.55,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 1.0
+      },
+      {
+        "timeMs": 20,
+        "bendPixels": 1.9855,
+        "eyeClosure": 0.5460125,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.99275
+      },
+      {
+        "timeMs": 40,
+        "bendPixels": 1.944,
+        "eyeClosure": 0.5346000000000001,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.972
+      },
+      {
+        "timeMs": 60,
+        "bendPixels": 1.8785,
+        "eyeClosure": 0.5165875000000001,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.93925
+      },
+      {
+        "timeMs": 80,
+        "bendPixels": 1.792,
+        "eyeClosure": 0.49280000000000007,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.896
+      },
+      {
+        "timeMs": 100,
+        "bendPixels": 1.6875,
+        "eyeClosure": 0.46406250000000004,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.84375
+      },
+      {
+        "timeMs": 120,
+        "bendPixels": 1.568,
+        "eyeClosure": 0.4312,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.784
+      },
+      {
+        "timeMs": 140,
+        "bendPixels": 1.4365,
+        "eyeClosure": 0.39503750000000004,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.71825
+      },
+      {
+        "timeMs": 160,
+        "bendPixels": 1.2959999999999998,
+        "eyeClosure": 0.3564,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.6479999999999999
+      },
+      {
+        "timeMs": 180,
+        "bendPixels": 1.1494999999999997,
+        "eyeClosure": 0.31611249999999996,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.5747499999999999
+      },
+      {
+        "timeMs": 200,
+        "bendPixels": 1.0,
+        "eyeClosure": 0.275,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.5
+      },
+      {
+        "timeMs": 220,
+        "bendPixels": 0.8504999999999998,
+        "eyeClosure": 0.23388749999999997,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.4252499999999999
+      },
+      {
+        "timeMs": 240,
+        "bendPixels": 0.704,
+        "eyeClosure": 0.1936,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.352
+      },
+      {
+        "timeMs": 260,
+        "bendPixels": 0.5634999999999999,
+        "eyeClosure": 0.15496249999999998,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.28174999999999994
+      },
+      {
+        "timeMs": 280,
+        "bendPixels": 0.43200000000000016,
+        "eyeClosure": 0.11880000000000006,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.21600000000000008
+      },
+      {
+        "timeMs": 300,
+        "bendPixels": 0.3125,
+        "eyeClosure": 0.0859375,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.15625
+      },
+      {
+        "timeMs": 320,
+        "bendPixels": 0.20799999999999974,
+        "eyeClosure": 0.05719999999999993,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.10399999999999987
+      },
+      {
+        "timeMs": 340,
+        "bendPixels": 0.12150000000000016,
+        "eyeClosure": 0.033412500000000046,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.06075000000000008
+      },
+      {
+        "timeMs": 360,
+        "bendPixels": 0.05600000000000005,
+        "eyeClosure": 0.015400000000000014,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.028000000000000025
+      },
+      {
+        "timeMs": 380,
+        "bendPixels": 0.014499999999999957,
+        "eyeClosure": 0.0039874999999999884,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.007249999999999979
+      },
+      {
+        "timeMs": 400,
+        "bendPixels": 0.0,
+        "eyeClosure": 0.0,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      }
+    ],
+    "wall-impact_light": [
+      {
+        "timeMs": 0,
+        "bendPixels": 0.0,
+        "eyeClosure": 0.0,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 20,
+        "bendPixels": 0.37499999999999994,
+        "eyeClosure": 0.6597539553864471,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 40,
+        "bendPixels": 0.649519052838329,
+        "eyeClosure": 0.9173147546424016,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 60,
+        "bendPixels": 0.75,
+        "eyeClosure": 1.0,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 80,
+        "bendPixels": 0.649519052838329,
+        "eyeClosure": 0.9173147546424018,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 100,
+        "bendPixels": 0.37499999999999994,
+        "eyeClosure": 0.6597539553864471,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 120,
+        "bendPixels": 9.184850993605148e-17,
+        "eyeClosure": 2.8366549467129156e-10,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      }
+    ],
+    "wall-impact_medium": [
+      {
+        "timeMs": 0,
+        "bendPixels": 0.0,
+        "eyeClosure": 0.0,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 20,
+        "bendPixels": 0.6874999999999999,
+        "eyeClosure": 0.6597539553864471,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 40,
+        "bendPixels": 1.190784930203603,
+        "eyeClosure": 0.9173147546424016,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 60,
+        "bendPixels": 1.375,
+        "eyeClosure": 1.0,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 80,
+        "bendPixels": 1.1907849302036033,
+        "eyeClosure": 0.9173147546424018,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 100,
+        "bendPixels": 0.6874999999999999,
+        "eyeClosure": 0.6597539553864471,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 120,
+        "bendPixels": 1.6838893488276108e-16,
+        "eyeClosure": 2.8366549467129156e-10,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      }
+    ],
+    "landing-impact_light": [
+      {
+        "timeMs": 0,
+        "bendPixels": 0.0,
+        "eyeClosure": 0.0,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 20,
+        "bendPixels": 0.5092055236873958,
+        "eyeClosure": 0.49820762512611483,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 40,
+        "bendPixels": 1.2682171395605726,
+        "eyeClosure": 0.7130169548898168,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 60,
+        "bendPixels": 2.026984046058265,
+        "eyeClosure": 0.8572507054709749,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 80,
+        "bendPixels": 2.6274428213285135,
+        "eyeClosure": 0.9492402614904065,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 100,
+        "bendPixels": 2.9573372603441537,
+        "eyeClosure": 0.9943889086875844,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 120,
+        "bendPixels": 2.957337260344154,
+        "eyeClosure": 0.9943889086875846,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 140,
+        "bendPixels": 2.627442821328514,
+        "eyeClosure": 0.9492402614904066,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 160,
+        "bendPixels": 2.026984046058265,
+        "eyeClosure": 0.8572507054709749,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 180,
+        "bendPixels": 1.2682171395605721,
+        "eyeClosure": 0.7130169548898168,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 200,
+        "bendPixels": 0.5092055236873967,
+        "eyeClosure": 0.4982076251261152,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 220,
+        "bendPixels": 1.586121481993891e-22,
+        "eyeClosure": 1.7717643888800035e-09,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      }
+    ],
+    "landing-impact_medium": [
+      {
+        "timeMs": 0,
+        "bendPixels": 0.0,
+        "eyeClosure": 0.0,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 20,
+        "bendPixels": 0.9335434600935589,
+        "eyeClosure": 0.49820762512611483,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 40,
+        "bendPixels": 2.3250647558610495,
+        "eyeClosure": 0.7130169548898168,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 60,
+        "bendPixels": 3.716137417773486,
+        "eyeClosure": 0.8572507054709749,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 80,
+        "bendPixels": 4.816978505768941,
+        "eyeClosure": 0.9492402614904065,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 100,
+        "bendPixels": 5.421784977297615,
+        "eyeClosure": 0.9943889086875844,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 120,
+        "bendPixels": 5.421784977297616,
+        "eyeClosure": 0.9943889086875846,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 140,
+        "bendPixels": 4.816978505768942,
+        "eyeClosure": 0.9492402614904066,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 160,
+        "bendPixels": 3.716137417773486,
+        "eyeClosure": 0.8572507054709749,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 180,
+        "bendPixels": 2.325064755861049,
+        "eyeClosure": 0.7130169548898168,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 200,
+        "bendPixels": 0.9335434600935606,
+        "eyeClosure": 0.4982076251261152,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      },
+      {
+        "timeMs": 220,
+        "bendPixels": 2.907889383655467e-22,
+        "eyeClosure": 1.7717643888800035e-09,
+        "gaze": [
+          0.0,
+          0.0
+        ],
+        "balanceDegrees": 0.0,
+        "starOpacity": 0.0
+      }
+    ]
+  },
+  "pivotPixels": [
+    249,
+    484
+  ],
+  "deformation": "connected inverse map; rigid face/neck; no exposed hidden regions"
+}

@@ -1,0 +1,50 @@
+{
+  "state": "failed",
+  "part": "hand-and-card",
+  "input_file": "source/12-failed.png",
+  "input_sha256": "970cda2adf757e5320f202b93f1bf86f7c88d6bde303e8e7ccdb3dd553e37ace",
+  "box": [
+    329,
+    582,
+    527,
+    763
+  ],
+  "positive_points": [
+    [
+      435,
+      651
+    ],
+    [
+      374,
+      701
+    ]
+  ],
+  "negative_points": [
+    [
+      294,
+      765
+    ],
+    [
+      548,
+      695
+    ],
+    [
+      414,
+      780
+    ]
+  ],
+  "sam_scores": [
+    0.7650519609451294,
+    0.767559289932251,
+    0.8417274951934814
+  ],
+  "chosen_option": 2,
+  "selected_pixels": 19194,
+  "removed_fully_transparent_pixels": 0,
+  "components": 1,
+  "component_areas": [
+    19194
+  ],
+  "visual_review": "pending",
+  "status": "initial_candidate"
+}

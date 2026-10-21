@@ -1,0 +1,467 @@
+{
+  "version": 1,
+  "motionSha256": "2102b0ed2e0b789b4020b375b2ba8f868c13f375b0f19ec506ddab52ca9c5c60",
+  "states": {
+    "default_work": {
+      "body": {
+        "count": 107,
+        "perPage": 13,
+        "pages": [
+          "body/default_work-000.webp",
+          "body/default_work-001.webp",
+          "body/default_work-002.webp",
+          "body/default_work-003.webp",
+          "body/default_work-004.webp",
+          "body/default_work-005.webp",
+          "body/default_work-006.webp",
+          "body/default_work-007.webp",
+          "body/default_work-008.webp"
+        ],
+        "atlasWidth": 5376,
+        "atlasHeight": 3328
+      },
+      "eyes": {
+        "count": 66,
+        "perPage": 64,
+        "columns": 16,
+        "pages": [
+          "eyes/default_work-000.webp",
+          "eyes/default_work-001.webp"
+        ],
+        "atlasWidth": 1386,
+        "atlasHeight": 300
+      }
+    },
+    "failed": {
+      "body": {
+        "count": 1,
+        "perPage": 13,
+        "pages": [
+          "body/failed-000.webp"
+        ],
+        "atlasWidth": 384,
+        "atlasHeight": 416
+      },
+      "eyes": {
+        "count": 6,
+        "perPage": 64,
+        "columns": 16,
+        "pages": [
+          "eyes/failed-000.webp"
+        ],
+        "atlasWidth": 582,
+        "atlasHeight": 53
+      }
+    },
+    "idle": {
+      "body": {
+        "count": 39,
+        "perPage": 13,
+        "pages": [
+          "body/idle-000.webp",
+          "body/idle-001.webp",
+          "body/idle-002.webp"
+        ],
+        "atlasWidth": 5376,
+        "atlasHeight": 1248
+      },
+      "eyes": {
+        "count": 233,
+        "perPage": 64,
+        "columns": 16,
+        "pages": [
+          "eyes/idle-000.webp",
+          "eyes/idle-001.webp",
+          "eyes/idle-002.webp",
+          "eyes/idle-003.webp"
+        ],
+        "atlasWidth": 1372,
+        "atlasHeight": 1003
+      }
+    },
+    "interaction_airborne": {
+      "body": {
+        "count": 1,
+        "perPage": 13,
+        "pages": [
+          "body/interaction_airborne-000.webp"
+        ],
+        "atlasWidth": 432,
+        "atlasHeight": 528
+      },
+      "eyes": {
+        "count": 6,
+        "perPage": 64,
+        "columns": 16,
+        "pages": [
+          "eyes/interaction_airborne-000.webp"
+        ],
+        "atlasWidth": 456,
+        "atlasHeight": 38
+      }
+    },
+    "interaction_dizzy-intro": {
+      "body": {
+        "count": 7,
+        "perPage": 13,
+        "pages": [
+          "body/interaction_dizzy-intro-000.webp"
+        ],
+        "atlasWidth": 3024,
+        "atlasHeight": 528
+      }
+    },
+    "interaction_dizzy-loop": {
+      "body": {
+        "count": 45,
+        "perPage": 13,
+        "pages": [
+          "body/interaction_dizzy-loop-000.webp",
+          "body/interaction_dizzy-loop-001.webp",
+          "body/interaction_dizzy-loop-002.webp",
+          "body/interaction_dizzy-loop-003.webp"
+        ],
+        "atlasWidth": 3456,
+        "atlasHeight": 3168
+      }
+    },
+    "interaction_landing-impact": {
+      "body": {
+        "count": 12,
+        "perPage": 13,
+        "pages": [
+          "body/interaction_landing-impact-000.webp"
+        ],
+        "atlasWidth": 3456,
+        "atlasHeight": 1056
+      }
+    },
+    "interaction_landing-impact_light": {
+      "body": {
+        "count": 12,
+        "perPage": 13,
+        "pages": [
+          "body/interaction_landing-impact_light-000.webp"
+        ],
+        "atlasWidth": 3456,
+        "atlasHeight": 1056
+      }
+    },
+    "interaction_landing-impact_medium": {
+      "body": {
+        "count": 12,
+        "perPage": 13,
+        "pages": [
+          "body/interaction_landing-impact_medium-000.webp"
+        ],
+        "atlasWidth": 3456,
+        "atlasHeight": 1056
+      }
+    },
+    "interaction_recover": {
+      "body": {
+        "count": 21,
+        "perPage": 13,
+        "pages": [
+          "body/interaction_recover-000.webp",
+          "body/interaction_recover-001.webp"
+        ],
+        "atlasWidth": 3456,
+        "atlasHeight": 1584
+      }
+    },
+    "interaction_wall-impact": {
+      "body": {
+        "count": 7,
+        "perPage": 13,
+        "pages": [
+          "body/interaction_wall-impact-000.webp"
+        ],
+        "atlasWidth": 3024,
+        "atlasHeight": 528
+      }
+    },
+    "interaction_wall-impact_light": {
+      "body": {
+        "count": 7,
+        "perPage": 13,
+        "pages": [
+          "body/interaction_wall-impact_light-000.webp"
+        ],
+        "atlasWidth": 3024,
+        "atlasHeight": 528
+      }
+    },
+    "interaction_wall-impact_medium": {
+      "body": {
+        "count": 7,
+        "perPage": 13,
+        "pages": [
+          "body/interaction_wall-impact_medium-000.webp"
+        ],
+        "atlasWidth": 3024,
+        "atlasHeight": 528
+      }
+    },
+    "question_for_user": {
+      "body": {
+        "count": 45,
+        "perPage": 13,
+        "pages": [
+          "body/question_for_user-000.webp",
+          "body/question_for_user-001.webp",
+          "body/question_for_user-002.webp",
+          "body/question_for_user-003.webp"
+        ],
+        "atlasWidth": 5376,
+        "atlasHeight": 1664
+      },
+      "eyes": {
+        "count": 180,
+        "perPage": 64,
+        "columns": 16,
+        "pages": [
+          "eyes/question_for_user-000.webp",
+          "eyes/question_for_user-001.webp",
+          "eyes/question_for_user-002.webp"
+        ],
+        "atlasWidth": 1414,
+        "atlasHeight": 819
+      }
+    },
+    "read_file": {
+      "body": {
+        "count": 108,
+        "perPage": 13,
+        "pages": [
+          "body/read_file-000.webp",
+          "body/read_file-001.webp",
+          "body/read_file-002.webp",
+          "body/read_file-003.webp",
+          "body/read_file-004.webp",
+          "body/read_file-005.webp",
+          "body/read_file-006.webp",
+          "body/read_file-007.webp",
+          "body/read_file-008.webp"
+        ],
+        "atlasWidth": 5376,
+        "atlasHeight": 3328
+      },
+      "eyes": {
+        "count": 255,
+        "perPage": 64,
+        "columns": 16,
+        "pages": [
+          "eyes/read_file-000.webp",
+          "eyes/read_file-001.webp",
+          "eyes/read_file-002.webp",
+          "eyes/read_file-003.webp"
+        ],
+        "atlasWidth": 1344,
+        "atlasHeight": 1102
+      }
+    },
+    "read_web": {
+      "body": {
+        "count": 65,
+        "perPage": 13,
+        "pages": [
+          "body/read_web-000.webp",
+          "body/read_web-001.webp",
+          "body/read_web-002.webp",
+          "body/read_web-003.webp",
+          "body/read_web-004.webp"
+        ],
+        "atlasWidth": 5376,
+        "atlasHeight": 2080
+      },
+      "eyes": {
+        "count": 65,
+        "perPage": 64,
+        "columns": 16,
+        "pages": [
+          "eyes/read_web-000.webp",
+          "eyes/read_web-001.webp"
+        ],
+        "atlasWidth": 1414,
+        "atlasHeight": 280
+      }
+    },
+    "respond": {
+      "body": {
+        "count": 49,
+        "perPage": 13,
+        "pages": [
+          "body/respond-000.webp",
+          "body/respond-001.webp",
+          "body/respond-002.webp",
+          "body/respond-003.webp"
+        ],
+        "atlasWidth": 5376,
+        "atlasHeight": 1664
+      },
+      "eyes": {
+        "count": 174,
+        "perPage": 64,
+        "columns": 16,
+        "pages": [
+          "eyes/respond-000.webp",
+          "eyes/respond-001.webp",
+          "eyes/respond-002.webp"
+        ],
+        "atlasWidth": 1386,
+        "atlasHeight": 702
+      }
+    },
+    "task_complete": {
+      "body": {
+        "count": 26,
+        "perPage": 13,
+        "pages": [
+          "body/task_complete-000.webp",
+          "body/task_complete-001.webp"
+        ],
+        "atlasWidth": 5376,
+        "atlasHeight": 832
+      },
+      "eyes": {
+        "count": 119,
+        "perPage": 64,
+        "columns": 16,
+        "pages": [
+          "eyes/task_complete-000.webp",
+          "eyes/task_complete-001.webp"
+        ],
+        "atlasWidth": 1554,
+        "atlasHeight": 567
+      }
+    },
+    "thinking": {
+      "body": {
+        "count": 16,
+        "perPage": 13,
+        "pages": [
+          "body/thinking-000.webp",
+          "body/thinking-001.webp"
+        ],
+        "atlasWidth": 5376,
+        "atlasHeight": 832
+      },
+      "eyes": {
+        "count": 95,
+        "perPage": 64,
+        "columns": 16,
+        "pages": [
+          "eyes/thinking-000.webp",
+          "eyes/thinking-001.webp"
+        ],
+        "atlasWidth": 1400,
+        "atlasHeight": 378
+      }
+    },
+    "verify": {
+      "body": {
+        "count": 81,
+        "perPage": 13,
+        "pages": [
+          "body/verify-000.webp",
+          "body/verify-001.webp",
+          "body/verify-002.webp",
+          "body/verify-003.webp",
+          "body/verify-004.webp",
+          "body/verify-005.webp",
+          "body/verify-006.webp"
+        ],
+        "atlasWidth": 5376,
+        "atlasHeight": 2496
+      },
+      "eyes": {
+        "count": 151,
+        "perPage": 64,
+        "columns": 16,
+        "pages": [
+          "eyes/verify-000.webp",
+          "eyes/verify-001.webp",
+          "eyes/verify-002.webp"
+        ],
+        "atlasWidth": 1484,
+        "atlasHeight": 539
+      }
+    },
+    "view_image": {
+      "body": {
+        "count": 140,
+        "perPage": 13,
+        "pages": [
+          "body/view_image-000.webp",
+          "body/view_image-001.webp",
+          "body/view_image-002.webp",
+          "body/view_image-003.webp",
+          "body/view_image-004.webp",
+          "body/view_image-005.webp",
+          "body/view_image-006.webp",
+          "body/view_image-007.webp",
+          "body/view_image-008.webp",
+          "body/view_image-009.webp",
+          "body/view_image-010.webp"
+        ],
+        "atlasWidth": 5376,
+        "atlasHeight": 4160
+      },
+      "eyes": {
+        "count": 840,
+        "perPage": 64,
+        "columns": 16,
+        "pages": [
+          "eyes/view_image-000.webp",
+          "eyes/view_image-001.webp",
+          "eyes/view_image-002.webp",
+          "eyes/view_image-003.webp",
+          "eyes/view_image-004.webp",
+          "eyes/view_image-005.webp",
+          "eyes/view_image-006.webp",
+          "eyes/view_image-007.webp",
+          "eyes/view_image-008.webp",
+          "eyes/view_image-009.webp",
+          "eyes/view_image-010.webp",
+          "eyes/view_image-011.webp",
+          "eyes/view_image-012.webp",
+          "eyes/view_image-013.webp"
+        ],
+        "atlasWidth": 1358,
+        "atlasHeight": 3660
+      }
+    },
+    "write_file": {
+      "body": {
+        "count": 100,
+        "perPage": 13,
+        "pages": [
+          "body/write_file-000.webp",
+          "body/write_file-001.webp",
+          "body/write_file-002.webp",
+          "body/write_file-003.webp",
+          "body/write_file-004.webp",
+          "body/write_file-005.webp",
+          "body/write_file-006.webp",
+          "body/write_file-007.webp"
+        ],
+        "atlasWidth": 5376,
+        "atlasHeight": 3328
+      },
+      "eyes": {
+        "count": 147,
+        "perPage": 64,
+        "columns": 16,
+        "pages": [
+          "eyes/write_file-000.webp",
+          "eyes/write_file-001.webp",
+          "eyes/write_file-002.webp"
+        ],
+        "atlasWidth": 1414,
+        "atlasHeight": 660
+      }
+    }
+  },
+  "interactionSha256": "38be45ac2bf1d07850a0e8022c2bb73d5dfb5fdfd3d914629015067ff067d395"
+}

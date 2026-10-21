@@ -1,0 +1,57 @@
+{
+  "state": "view_image",
+  "part": "hand-and-stylus",
+  "input_file": "source/04-view_image.png",
+  "input_sha256": "2b5b3c8e23c672f9286e0c77e62c4f53f96ae522b9efc92b3b2b48c9d7d7dfd5",
+  "box": [
+    368,
+    655,
+    524,
+    819
+  ],
+  "positive_points": [
+    [
+      421,
+      741
+    ],
+    [
+      472,
+      756
+    ],
+    [
+      500,
+      790
+    ]
+  ],
+  "negative_points": [
+    [
+      338,
+      765
+    ],
+    [
+      531,
+      831
+    ],
+    [
+      529,
+      694
+    ]
+  ],
+  "sam_scores": [
+    0.6493355631828308,
+    0.8322685956954956,
+    0.8323460221290588
+  ],
+  "chosen_option": 2,
+  "selected_pixels": 10573,
+  "removed_fully_transparent_pixels": 0,
+  "components": 4,
+  "component_areas": [
+    10458,
+    1,
+    16,
+    98
+  ],
+  "visual_review": "pending",
+  "status": "initial_candidate"
+}

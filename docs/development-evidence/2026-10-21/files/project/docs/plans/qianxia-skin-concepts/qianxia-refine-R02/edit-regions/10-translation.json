@@ -1,0 +1,14 @@
+{
+  "operation": "integer translation of the complete composition",
+  "offset": [
+    0,
+    31
+  ],
+  "why": "desk cyan strip 908.5 vs eleven-state median940; apron bottom979 vs median1010; multiple furniture matching medians31–34",
+  "no_resampling": true,
+  "no_redraw": true,
+  "no_new_imagegen_call": true,
+  "allowed_mask": "union of input and translated nonzero-alpha support; prepared before comparison",
+  "canvas": "unchanged",
+  "task_complete_pose": "head, sleeves, device, table, chair, boxes and legs translate together to preserve contacts"
+}

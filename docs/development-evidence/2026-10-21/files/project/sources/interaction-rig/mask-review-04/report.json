@@ -1,0 +1,93 @@
+{
+  "passed": true,
+  "visual_review": "pending",
+  "source": "/Users/developer/Desktop/yukio-cloud-handoff/sources/interaction-rig/source.png",
+  "source_sha256": "c8a7648ce5f9d0a3e76d0cc96f61343310003c004a6b07f8638f0e5db16051fc",
+  "source_size": [
+    384,
+    480
+  ],
+  "expectations": {
+    "components": 1,
+    "max_opaque_hole_pixels": 0,
+    "background_pixels": 0
+  },
+  "masks": [
+    {
+      "passed": true,
+      "components": 1,
+      "component_areas": [
+        3791
+      ],
+      "opaque_hole_pixels": 0,
+      "background_pixels": 0,
+      "soft_mask_pixels": 0,
+      "bbox": [
+        152,
+        284,
+        200,
+        422
+      ],
+      "mask": "/Users/developer/Desktop/yukio-cloud-handoff/sources/interaction-rig/left-leg-mask.png",
+      "sha256": "265f3be647ea9f0be5b1de182e9d1141b2677066a08829750eaafdb33cda34b0",
+      "previews": "01-left-leg-mask"
+    },
+    {
+      "passed": true,
+      "components": 1,
+      "component_areas": [
+        4365
+      ],
+      "opaque_hole_pixels": 0,
+      "background_pixels": 0,
+      "soft_mask_pixels": 0,
+      "bbox": [
+        201,
+        293,
+        242,
+        461
+      ],
+      "mask": "/Users/developer/Desktop/yukio-cloud-handoff/sources/interaction-rig/right-leg-mask.png",
+      "sha256": "9ca6e2fe47207841151596462d04d72c6499f67e0c51cc5e74431914e68ea0e2",
+      "previews": "02-right-leg-mask"
+    },
+    {
+      "passed": true,
+      "components": 1,
+      "component_areas": [
+        1950
+      ],
+      "opaque_hole_pixels": 0,
+      "background_pixels": 0,
+      "soft_mask_pixels": 0,
+      "bbox": [
+        113,
+        226,
+        158,
+        321
+      ],
+      "mask": "/Users/developer/Desktop/yukio-cloud-handoff/sources/interaction-rig/coat-left-mask.png",
+      "sha256": "58d56e30eb67f3be9065483fdbe6879d893037bc6b4ee1c7994b0ba0f989dae0",
+      "previews": "03-coat-left-mask"
+    },
+    {
+      "passed": true,
+      "components": 1,
+      "component_areas": [
+        2515
+      ],
+      "opaque_hole_pixels": 0,
+      "background_pixels": 0,
+      "soft_mask_pixels": 0,
+      "bbox": [
+        234,
+        210,
+        284,
+        324
+      ],
+      "mask": "/Users/developer/Desktop/yukio-cloud-handoff/sources/interaction-rig/coat-right-mask.png",
+      "sha256": "32e4211c1fe5c08ba72f3c60617dee2f1fc1188e1912227d2b152e94ce06f3d2",
+      "previews": "04-coat-right-mask"
+    }
+  ]
+}

@@ -1,0 +1,517 @@
+Building for debugging...
+[0/5] Write sources
+[1/5] Write swift-version--1AB21518FC5DEDBE.txt
+[3/7] Emitting module YukioPlayer
+[4/7] Compiling YukioPlayer main.swift
+[4/9] Write Objects.LinkFileList
+[5/9] Linking YukioPlayer
+[6/9] Applying YukioPlayer
+[8/11] Emitting module YukioPlayerTests
+[9/11] Compiling YukioPlayerTests InteractionLifecycleTests.swift
+[9/11] Write Objects.LinkFileList
+[10/11] Linking YukioPlayerPackageTests
+Build complete! (4.18s)
+◇ Test run started.
+↳ Testing Library Version: 124.4
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite CodexOpenChatTests started.
+◇ Suite QuestionPresentationStateTests started.
+◇ Suite ReminderTests started.
+◇ Suite TimelineAndCatalogTests started.
+◇ Suite HookParserTests started.
+◇ Suite CodexQuestionLifecycleTests started.
+◇ Suite BlinkOverlayCatalogTests started.
+◇ Suite TaskBubbleScalingTests started.
+◇ Suite ShellClassifierTests started.
+◇ Suite LowerSignSettingsTests started.
+◇ Suite SessionLinkTests started.
+◇ Suite LaunchAtLoginTests started.
+◇ Suite L10nTests started.
+◇ Suite BackgroundAnswersTests started.
+◇ Suite BrowserChatPermissionTests started.
+◇ Suite ToolClassifierTests started.
+◇ Suite LiveSourceTests started.
+◇ Suite ChatPickTests started.
+◇ Suite StatusLineTests started.
+◇ Suite PetRenderingTests started.
+◇ Suite ThrowPhysicsTests started.
+◇ Suite DescribeTests started.
+◇ Suite DeepCodeParserTests started.
+◇ Suite PetContextMenuTests started.
+◇ Suite MotionTimelineTests started.
+◇ Suite OpenChatArmingTests started.
+◇ Suite JSONObjectStreamTests started.
+◇ Suite InteractionLifecycleTests started.
+◇ Suite HangSwingTests started.
+◇ Suite CardStackTests started.
+◇ Suite VisibleChatTests started.
+◇ Suite RouterTests started.
+◇ Suite BlinkClockTests started.
+◇ Suite TaskInfoParserTests started.
+◇ Suite QuestionTests started.
+◇ Suite CodexParserTests started.
+◇ Suite OpenChatTests started.
+◇ Suite TranscriptParserTests started.
+◇ Suite HeldValueTests started.
+◇ Test onlyViewedThreadIsSelectedNotBackgroundCompletion() started.
+◇ Test readerFollowsAppendsPartialLinesAndProcessRestarts() started.
+◇ Test secondaryWindowsDoNotDismissTheWrongThread() started.
+◇ Test codexViewSuppressesOnlyItsOwnCompletionAndLowersRaisedSign() started.
+◇ Test hookEvents() started.
+◇ Test loopingTimelineCycles() started.
+◇ Test itemCompletedReplyIsAlsoRecognized() started.
+◇ Test staleMissingAndUnrecognizedEvidenceKeepsReminders() started.
+◇ Test switchingChatsAndLeavingThreadClearsSelection() started.
+◇ Suite AgentSourceTests started.
+◇ Test closingSeveralCardsDoesNotReshowTheFirst() started.
+◇ Test realAssetsLoadAndFramesStayInBounds() started.
+◇ Test malformedOverlayOutsideFrameIsRejected() started.
+◇ Test acknowledgementKeepsQuestionVisibleWhileOtherToolsRun() started.
+◇ Test reportPlaysOnceAndHoldsLastFrame() started.
+◇ Test synchronousAnswerStillClosesImmediately() started.
+◇ Test failedAsyncCallDoesNotLeaveQuestionOpen() started.
+◇ Test editingReschedulesAndDeletingCancels() started.
+◇ Test taggedReplyTargetsItsCallAndFirstQuestionOnly() started.
+◇ Test interactionUsesDedicatedBlinkAndBodyHitRegions() started.
+◇ Test turnEndClearsAsyncQuestionTracking() started.
+◇ Test sendResultSurvivesFocusChangeWithoutClaimingDelivery() started.
+◇ Test releasedStatesHaveIndependentEyepatchesButHeldDoesNot() started.
+◇ Test taggedAnswerClosesQuestionWithoutStartingANewTask() started.
+◇ Test largeIconButtonEmitsOnlyLowerSign() started.
+◇ Test canEnableAndDisableWithoutDuplicateRegistration() started.
+◇ Test snoozeAndCompletionDoNotRefireOldAlarm() started.
+◇ Test pendingApprovalCanBeCancelled() started.
+◇ Test findsTheChatThatBelongsToATranscriptSession() started.
+◇ Test persistsRingingStateAndRejectsCorruptFiles() started.
+◇ Test bubbleFillsItsScaledWindowAtEverySize() started.
+◇ Test validatesInputWithoutChangingBook() started.
+◇ Test shell(_:_:) started.
+◇ Test firesOnceAndCatchesUpAfterSleep() started.
+◇ Test failuresNeverInventASuccessfulState() started.
+◇ Test unknownSessionGivesNoLinkInsteadOfAWrongOne() started.
+◇ Test onlyIDShapedValuesBecomeLinks() started.
+◇ Test cardHitRegionsFollowTheRenderedScale() started.
+◇ Test failureNoticeKeepsClickableOptions() started.
+◇ Test canonicalHistoryAnswersLiveQuestionWithEmptyLegacyTurns() started.
+◇ Test canonicalHistorySupportsBlockingReceiptLookup() started.
+◇ Test exactThreadAndQuestionRequired() started.
+◇ Test blockingQuestionsUseRequestResponseNotChat() started.
+◇ Test canonicalHistoryDoesNotUseStaleLegacyOrDetachedTurns() started.
+◇ Test claudeHookPreservesOtherSettingsAndIsIdempotent() started.
+◇ Test openingSettingsDoesNotRegisterAndExternalChangesAreReflected() started.
+◇ Test claudeTwoQuestionRoundTripAndNoListenerFallback() started.
+◇ Test codexOnlyFollowingDoesNotAdvertiseOtherProviders() started.
+◇ Test browserPermissionButtonRequiresAnExplicitClick() started.
+◇ Test mcpTools() started.
+◇ Test pinnedChatIsNotStolenByOtherChats() started.
+◇ Test theOlderCardComesBackAfterYouHandleTheNewerOne() started.
+◇ Test builtIns() started.
+◇ Test picksTextByLanguage() started.
+◇ Test readsTheValueEvenWithSpacesAroundTheColon() started.
+◇ Test recognisesLanguageCodes() started.
+◇ Test bootstrapsRecentSessionAndTailsNewLines() started.
+◇ Test aChatWithoutATitleIsListedByItsSessionID() started.
+◇ Test aChatPickedFromTheCardStackReturnsToAutoAfterItStops() started.
+◇ Test aQuestionTakesOverFromAnotherChatsWork() started.
+◇ Test acceptedAsyncReplyUsesStructuredQuestionID() started.
+◇ Test pinnedChatStaysEvenAfterItStops() started.
+◇ Test pickingAChatThePlayerHasNeverSeenChangesNothing() started.
+◇ Test chatListPutsTheOnesWaitingForYouFirst() started.
+◇ Test aFinishedChatTakesOverEvenWhileAnotherChatKeepsWorking() started.
+◇ Test matchesSharedWindowsSolverFixtures() started.
+◇ Test ordinaryPlacementIsNotAThrow() started.
+◇ Test aStuckChatIsListedAheadOfTheOnesStillWorking() started.
+◇ Test anIgnoredCardYieldsAfterAWhileAndComesBackWhenTheOtherChatStops() started.
+◇ Test aChatThatFinishesWhileSheFollowsAnotherOneKeepsItsCard() started.
+◇ Test analyticFreeFallAndStoppedPointer() started.
+◇ Test userMessagesStartAndStopTheTask() started.
+◇ Test toolResultsEndTheCallAndErrorsMakeHerSad() started.
+◇ Test mixedAgentChatsKeepTheirOwnBubbleAndCardProvider() started.
+◇ Test hiddenWhenIdleAndTextFollowsTheDisplayedPose() started.
+◇ Test failureAndWaitingForUserTexts() started.
+◇ Test shellSummary(_:_:) started.
+◇ Test backingStoreIncludesWholeSpriteAfterWindowResize() started.
+◇ Test todoListGivesCurrentItemAndProgress() started.
+◇ Test indexBringsTitlesAndWaitingStates() started.
+◇ Test swingPixelsMatchClickThroughGeometry() started.
+◇ Test updatePlanBecomesTheTaskList() started.
+◇ Test plainAnswerEndsTheTurn() started.
+◇ Test backgroundPanelRoutesSecondaryClickOnceWithoutBecomingKey() started.
+◇ Test builtInTools() started.
+◇ Test aChatOutOfSightIsStillArmed() started.
+◇ Test toolCallsAreClassifiedByTheSharedRules() started.
+◇ Test paintsBothEdgesAtEverySupportedSizeAndBackingScale() started.
+◇ Test keepsPartialLineUntilComplete() started.
+◇ Test pureSidewaysDragDoesNotSink() started.
+◇ Test splitsAcrossChunksAndHandlesBracesInStrings() started.
+◇ Test aChatInSightIsNotArmedEvenWhileSheFollowsAnother() started.
+◇ Test clearsOldSilhouetteWhenFrameMoves() started.
+◇ Test introPlaysOnceThenLoopsFromLoopStart() started.
+◇ Test dismissingTheCardOfTheChatSheIsShowingSwitchesHerToTheNextOne() started.
+◇ Test aQuestionOutranksANewerFinishedChatAndAStuckChatOutranksWork() started.
+◇ Test aFailedChatGetsACardAheadOfTheFinishedOne() started.
+◇ Test sinkingHasALimit() started.
+◇ Test grabbingAgainKeepsTheCurrentSwing() started.
+◇ Test mutedChatsGetNoCards() started.
+◇ Test swingDiesDown() started.
+◇ Test leansBackWhileCarriedAtConstantSpeed() started.
+◇ Test cancelledPressCannotLeaveADragOrOpenAChatOnLateRelease() started.
+◇ Test heredocScriptsPreferTheDescription() started.
+◇ Test dismissingACardPutsTheSignDownAndKeepsItAwayUntilTheNextTurn() started.
+◇ Test placementThrowCatchAndTaskReportUseRealWindows() started.
+◇ Test visiblePageAndSidePanelClearRaisedSignsWhilePinnedElsewhere() started.
+◇ Test cardsAreSortedByWhoNeedsYouFirstAndSkipTheOneSheIsShowing() started.
+◇ Test unrelatedPagesHistorySpoofedHostsAndBadIDsAreRejected() started.
+◇ Test bodySinksWhenLiftedQuickly() started.
+◇ Test survivesSleepAndFrameDrops() started.
+◇ Test rapidAlternationShorterThanDebounceNeverFlashes() started.
+◇ Test webAppAndExtensionDocumentRoutes() started.
+◇ Test neverFoldsOverEvenWhenFlungAround() started.
+◇ Test settlesSoonAfterRelease() started.
+◇ Test quietChatsDropOffTheStack() started.
+◇ Test duplicateEventsFromTwoAdaptersAreIdempotent() started.
+◇ Test identitiesAreProviderScopedAndAliasesMustBeExplicit() started.
+◇ Test switchingPreservesPendingSecondBlink() started.
+◇ Test bodyLagsBehindTheHand() started.
+◇ Test readingDuringResponseHoldAcknowledgesThatTurnOnly() started.
+◇ Test abortGoesToIdleWithoutReport() started.
+◇ Test respondThenTaskCompleteHoldsTheCardUntilTheUserClicks() started.
+◇ Test biggerPetSwingsLess() started.
+◇ Test askUserQuestionShowsTheQuestionCardWhileTheTaskStaysOpen() started.
+◇ Test swingsPastVerticalAfterStopping() started.
+◇ Test fixedSeedReproducesIrregularSchedule() started.
+◇ Test durationAndDoubleBlinkGapStayInRange() started.
+◇ Test sourceLostReturnsToIdle() started.
+◇ Test dejectedEndsInThinkingNotInTheFailedTool() started.
+◇ Test burstOfShortReadsMergesIntoOneReadingPose() started.
+◇ Test demoScriptShowsEveryStateAndRespectsHoldTimes() started.
+◇ Test matchesReviewSchedulerFixture() started.
+◇ Test toolFailureShowsDejectedUntilNextActivity() started.
+◇ Test clickingRightAfterTheCardGoesUpStillPutsItDown() started.
+◇ Test respondHoldLongerThanTheArmWindowNeverShowsTheCard() started.
+◇ Test eachDisplayedStateIsHeldForMinimumTime() started.
+◇ Test switchingStateDoesNotRestartPendingOrActiveBlink() started.
+◇ Test sessionTitlesAndPromptLine() started.
+◇ Test otherSessionDoesNotCrossTalkWhileFocusedSessionIsWorking() started.
+◇ Test lateToolEventAfterTaskEndCannotRevive() started.
+◇ Test continuePreviousReusesLastToolActivity() started.
+◇ Test interruptRightAfterFailureGoesStraightToIdle() started.
+◇ Test hangsStraightWhenNobodyMoves() started.
+◇ Test aNewRequestPutsTheCardDownByItself() started.
+◇ Test staleSessionFallsBackToIdle() started.
+◇ Test longRunningToolUsesLongerStaleLimit() started.
+◇ Test sameActivityDoesNotRestart() started.
+◇ Test firstSwitchOnlyWaitsForDebounce() started.
+◇ Test taskFailureShowsDejectedThenIdle() started.
+◇ Test settleAfterReplayShowsCurrentStateImmediately() started.
+◇ Test endBeforeStartIsIgnored() started.
+◇ Test toolUseCarriesDetailAndTaskEvents() started.
+◇ Test newPromptEndsDejectedEarly() started.
+◇ Test aCompletionOlderThanTheArmWindowNeverRaisesTheCard() started.
+◇ Test copiesCodexShapeWithPlainStringOptions() started.
+◇ Test transcriptCarriesTheQuestion() started.
+◇ Test webSearchItemsShowUpAsBrowsing() started.
+◇ Test shortLabelPrefersTheHeader() started.
+◇ Test userMessageStartsTheTaskAndBoilerplateDoesNot() started.
+◇ Test execScriptSaysWhatItIsDoing() started.
+◇ Test ignoresToolsThatAreNotAsking() started.
+◇ Test routerHandsOutTheQuestionWhileTheCardIsUp() started.
+◇ Test sessionIDComesFromTheFileNameThenFromSessionMeta() started.
+◇ Test planUpdatesBecomeTheTaskList() started.
+◇ Test copiesQuestionHeaderAndOptions() started.
+◇ Test classicCliToolsAreUnderstood() started.
+◇ Test turnEndsWithFinalAnswerThenTaskEnd() started.
+◇ Test anotherChatInSightDoesNotSuppressThisOne() started.
+◇ Test toolCallsPairUpAndFailuresMakeHerSad() started.
+◇ Test describeUsesTheQuestion() started.
+◇ Test copiesFlatShape() started.
+◇ Test cardStillGoesUpWhenNotInSight() started.
+◇ Test eachTextStaysThenJumpsToTheLatest() started.
+◇ Test raisedCardGoesDownWhenYouOpenThatChatYourself() started.
+◇ Test noCardWhenThatChatIsAlreadyInSight() started.
+◇ Test toolUseAndResultPair() started.
+◇ Test numberFieldIsReadFromRecordHead() started.
+◇ Test toolErrorsAndApiErrorsAreFailuresButRejectionIsNot() started.
+◇ Test finalTextEndsTaskButCommentaryDoesNot() started.
+◇ Passing 2 arguments command → "swift test", expected → .verify to shell(_:_:)
+◇ Passing 2 arguments command → "pytest -q", expected → .verify to shell(_:_:)
+◇ Passing 2 arguments command → "FOO=1 pytest tests/", expected → .verify to shell(_:_:)
+◇ Passing 2 arguments command → "python3 scripts/verify_package.py", expected → .verify to shell(_:_:)
+◇ Passing 2 arguments command → "npm run test:unit", expected → .verify to shell(_:_:)
+◇ Passing 2 arguments command → "npm test", expected → .verify to shell(_:_:)
+◇ Passing 2 arguments command → "./run_tests.sh", expected → .verify to shell(_:_:)
+◇ Passing 2 arguments command → "cargo clippy", expected → .verify to shell(_:_:)
+◇ Passing 2 arguments command → "bash -lc 'go test ./...'", expected → .verify to shell(_:_:)
+◇ Passing 2 arguments command → "cd YukioPlayer && swift build 2>&1 | tail -3", expected → .default_work to shell(_:_:)
+◇ Passing 2 arguments command → "npm install", expected → .default_work to shell(_:_:)
+◇ Test userPromptStartsTask() started.
+◇ Passing 2 arguments command → "make", expected → .default_work to shell(_:_:)
+◇ Passing 2 arguments command → "echo done", expected → .default_work to shell(_:_:)
+◇ Passing 2 arguments command → "sed -n '1,20p' a.swift", expected → .read_file to shell(_:_:)
+◇ Passing 2 arguments command → "ls -la 2>/dev/null", expected → .read_file to shell(_:_:)
+◇ Passing 2 arguments command → "cat README.md", expected → .read_file to shell(_:_:)
+◇ Passing 2 arguments command → "grep foo x >/dev/null 2>&1", expected → .read_file to shell(_:_:)
+◇ Passing 2 arguments command → "sed -i '' 's/a/b/' f.txt", expected → .write_file to shell(_:_:)
+◇ Passing 2 arguments command → "rg TODO | wc -l", expected → .read_file to shell(_:_:)
+◇ Passing 2 arguments command → "echo hi > out.txt", expected → .write_file to shell(_:_:)
+◇ Passing 2 arguments command → "git status && git diff", expected → .read_file to shell(_:_:)
+◇ Passing 2 arguments command → "mkdir -p a/b && cp x y", expected → .write_file to shell(_:_:)
+◇ Passing 2 arguments command → "cat > f.txt <<'EOF'
+hello
+EOF", expected → .write_file to shell(_:_:)
+◇ Passing 2 arguments command → "git commit -m 'test it'", expected → .write_file to shell(_:_:)
+◇ Passing 2 arguments command → "curl -s https://example.com", expected → .read_web to shell(_:_:)
+◇ Passing 2 arguments command → "open https://example.com", expected → .read_web to shell(_:_:)
+◇ Test interruptionsSidechainsAndLocalCommands() started.
+◇ Passing 2 arguments command → "swift test", expected → "swift test" to shellSummary(_:_:)
+◇ Passing 2 arguments command → "cd YukioPlayer && swift build 2>&1 | tail -3", expected → "swift build" to shellSummary(_:_:)
+◇ Passing 2 arguments command → "FOO=1 timeout 30 pytest -q tests/", expected → "pytest -q tests/" to shellSummary(_:_:)
+◇ Passing 2 arguments command → "git status && git diff", expected → "git status" to shellSummary(_:_:)
+◇ Passing 2 arguments command → "./scripts/build-app.sh", expected → "build-app.sh" to shellSummary(_:_:)
+◇ Passing 2 arguments command → "bash -lc 'npm test'", expected → "npm test" to shellSummary(_:_:)
+◇ Passing 2 arguments command → "python3 - <<'EOF'
+import os
+EOF", expected → "python3 -" to shellSummary(_:_:)
+◇ Passing 2 arguments command → "echo done", expected → "echo done" to shellSummary(_:_:)
+◇ Test codexChatTitleComesFromIndexAndTracksRenames() started.
+✔ Test loopingTimelineCycles() passed after 0.082 seconds.
+✔ Test hookEvents() passed after 0.082 seconds.
+✔ Test closingSeveralCardsDoesNotReshowTheFirst() passed after 0.082 seconds.
+✔ Test itemCompletedReplyIsAlsoRecognized() passed after 0.082 seconds.
+✔ Test reportPlaysOnceAndHoldsLastFrame() passed after 0.084 seconds.
+✔ Test synchronousAnswerStillClosesImmediately() passed after 0.087 seconds.
+✔ Test failedAsyncCallDoesNotLeaveQuestionOpen() passed after 0.087 seconds.
+✔ Test editingReschedulesAndDeletingCancels() passed after 0.087 seconds.
+✔ Test taggedReplyTargetsItsCallAndFirstQuestionOnly() passed after 0.088 seconds.
+✔ Test acknowledgementKeepsQuestionVisibleWhileOtherToolsRun() passed after 0.090 seconds.
+✔ Test turnEndClearsAsyncQuestionTracking() passed after 0.093 seconds.
+✔ Test sendResultSurvivesFocusChangeWithoutClaimingDelivery() passed after 0.096 seconds.
+✔ Test onlyViewedThreadIsSelectedNotBackgroundCompletion() passed after 0.096 seconds.
+✔ Test switchingChatsAndLeavingThreadClearsSelection() passed after 0.097 seconds.
+✔ Test secondaryWindowsDoNotDismissTheWrongThread() passed after 0.097 seconds.
+✔ Test canEnableAndDisableWithoutDuplicateRegistration() passed after 0.099 seconds.
+✔ Test pendingApprovalCanBeCancelled() passed after 0.099 seconds.
+✔ Test snoozeAndCompletionDoNotRefireOldAlarm() passed after 0.101 seconds.
+✔ Test staleMissingAndUnrecognizedEvidenceKeepsReminders() passed after 0.104 seconds.
+✔ Test taggedAnswerClosesQuestionWithoutStartingANewTask() passed after 0.104 seconds.
+✔ Test shell(_:_:) passed after 0.104 seconds.
+✔ Test validatesInputWithoutChangingBook() passed after 0.104 seconds.
+✔ Test codexViewSuppressesOnlyItsOwnCompletionAndLowersRaisedSign() passed after 0.105 seconds.
+✔ Test firesOnceAndCatchesUpAfterSleep() passed after 0.105 seconds.
+✔ Test onlyIDShapedValuesBecomeLinks() passed after 0.105 seconds.
+✔ Test failuresNeverInventASuccessfulState() passed after 0.105 seconds.
+✔ Test canonicalHistorySupportsBlockingReceiptLookup() passed after 0.105 seconds.
+✔ Test blockingQuestionsUseRequestResponseNotChat() passed after 0.105 seconds.
+✔ Test exactThreadAndQuestionRequired() passed after 0.105 seconds.
+✔ Test canonicalHistoryDoesNotUseStaleLegacyOrDetachedTurns() passed after 0.105 seconds.
+✔ Test findsTheChatThatBelongsToATranscriptSession() passed after 0.105 seconds.
+✔ Test openingSettingsDoesNotRegisterAndExternalChangesAreReflected() passed after 0.105 seconds.
+✔ Test unknownSessionGivesNoLinkInsteadOfAWrongOne() passed after 0.105 seconds.
+✔ Test codexOnlyFollowingDoesNotAdvertiseOtherProviders() passed after 0.105 seconds.
+✔ Test mcpTools() passed after 0.105 seconds.
+✔ Test pinnedChatIsNotStolenByOtherChats() passed after 0.105 seconds.
+✔ Test malformedOverlayOutsideFrameIsRejected() passed after 0.106 seconds.
+✔ Test theOlderCardComesBackAfterYouHandleTheNewerOne() passed after 0.105 seconds.
+✔ Test picksTextByLanguage() passed after 0.105 seconds.
+✔ Test builtIns() passed after 0.105 seconds.
+✔ Test readsTheValueEvenWithSpacesAroundTheColon() passed after 0.105 seconds.
+✔ Test recognisesLanguageCodes() passed after 0.105 seconds.
+✔ Test persistsRingingStateAndRejectsCorruptFiles() passed after 0.106 seconds.
+✔ Test aChatWithoutATitleIsListedByItsSessionID() passed after 0.106 seconds.
+✔ Test aChatPickedFromTheCardStackReturnsToAutoAfterItStops() passed after 0.106 seconds.
+✔ Test aQuestionTakesOverFromAnotherChatsWork() passed after 0.106 seconds.
+✔ Test pickingAChatThePlayerHasNeverSeenChangesNothing() passed after 0.106 seconds.
+✔ Test claudeHookPreservesOtherSettingsAndIsIdempotent() passed after 0.107 seconds.
+✔ Test canonicalHistoryAnswersLiveQuestionWithEmptyLegacyTurns() passed after 0.107 seconds.
+✔ Test pinnedChatStaysEvenAfterItStops() passed after 0.106 seconds.
+✔ Test acceptedAsyncReplyUsesStructuredQuestionID() passed after 0.107 seconds.
+✔ Test readerFollowsAppendsPartialLinesAndProcessRestarts() passed after 0.107 seconds.
+✔ Test ordinaryPlacementIsNotAThrow() passed after 0.106 seconds.
+✔ Test aFinishedChatTakesOverEvenWhileAnotherChatKeepsWorking() passed after 0.107 seconds.
+✔ Test aStuckChatIsListedAheadOfTheOnesStillWorking() passed after 0.106 seconds.
+✔ Test analyticFreeFallAndStoppedPointer() passed after 0.106 seconds.
+✔ Test toolResultsEndTheCallAndErrorsMakeHerSad() passed after 0.106 seconds.
+✔ Test mixedAgentChatsKeepTheirOwnBubbleAndCardProvider() passed after 0.106 seconds.
+✔ Test aChatThatFinishesWhileSheFollowsAnotherOneKeepsItsCard() passed after 0.106 seconds.
+✔ Test userMessagesStartAndStopTheTask() passed after 0.106 seconds.
+✔ Test hiddenWhenIdleAndTextFollowsTheDisplayedPose() passed after 0.106 seconds.
+✔ Test shellSummary(_:_:) passed after 0.106 seconds.
+✔ Test failureAndWaitingForUserTexts() passed after 0.106 seconds.
+✔ Test indexBringsTitlesAndWaitingStates() passed after 0.106 seconds.
+✔ Test plainAnswerEndsTheTurn() passed after 0.106 seconds.
+✔ Test todoListGivesCurrentItemAndProgress() passed after 0.106 seconds.
+✔ Test updatePlanBecomesTheTaskList() passed after 0.106 seconds.
+✔ Test builtInTools() passed after 0.106 seconds.
+✔ Test keepsPartialLineUntilComplete() passed after 0.106 seconds.
+✔ Test pureSidewaysDragDoesNotSink() passed after 0.106 seconds.
+✔ Test toolCallsAreClassifiedByTheSharedRules() passed after 0.106 seconds.
+✔ Test splitsAcrossChunksAndHandlesBracesInStrings() passed after 0.106 seconds.
+✔ Test introPlaysOnceThenLoopsFromLoopStart() passed after 0.106 seconds.
+✔ Test aChatOutOfSightIsStillArmed() passed after 0.106 seconds.
+✔ Test aChatInSightIsNotArmedEvenWhileSheFollowsAnother() passed after 0.106 seconds.
+✔ Test dismissingTheCardOfTheChatSheIsShowingSwitchesHerToTheNextOne() passed after 0.106 seconds.
+✔ Test sinkingHasALimit() passed after 0.106 seconds.
+✔ Test grabbingAgainKeepsTheCurrentSwing() passed after 0.106 seconds.
+✔ Test bootstrapsRecentSessionAndTailsNewLines() passed after 0.107 seconds.
+✔ Test swingDiesDown() passed after 0.106 seconds.
+✔ Test leansBackWhileCarriedAtConstantSpeed() passed after 0.106 seconds.
+✔ Test mutedChatsGetNoCards() passed after 0.106 seconds.
+✔ Test heredocScriptsPreferTheDescription() passed after 0.107 seconds.
+✔ Test aFailedChatGetsACardAheadOfTheFinishedOne() passed after 0.107 seconds.
+✔ Test visiblePageAndSidePanelClearRaisedSignsWhilePinnedElsewhere() passed after 0.106 seconds.
+✔ Test unrelatedPagesHistorySpoofedHostsAndBadIDsAreRejected() passed after 0.107 seconds.
+✔ Test bodySinksWhenLiftedQuickly() passed after 0.106 seconds.
+✔ Test survivesSleepAndFrameDrops() passed after 0.107 seconds.
+✔ Test dismissingACardPutsTheSignDownAndKeepsItAwayUntilTheNextTurn() passed after 0.107 seconds.
+✔ Test webAppAndExtensionDocumentRoutes() passed after 0.107 seconds.
+✔ Test neverFoldsOverEvenWhenFlungAround() passed after 0.107 seconds.
+✔ Test settlesSoonAfterRelease() passed after 0.107 seconds.
+✔ Test rapidAlternationShorterThanDebounceNeverFlashes() passed after 0.107 seconds.
+✔ Test cardsAreSortedByWhoNeedsYouFirstAndSkipTheOneSheIsShowing() passed after 0.107 seconds.
+✔ Test identitiesAreProviderScopedAndAliasesMustBeExplicit() passed after 0.107 seconds.
+✔ Test switchingPreservesPendingSecondBlink() passed after 0.107 seconds.
+✔ Test bodyLagsBehindTheHand() passed after 0.107 seconds.
+✔ Test duplicateEventsFromTwoAdaptersAreIdempotent() passed after 0.107 seconds.
+✔ Test aQuestionOutranksANewerFinishedChatAndAStuckChatOutranksWork() passed after 0.107 seconds.
+✔ Test abortGoesToIdleWithoutReport() passed after 0.107 seconds.
+✔ Test biggerPetSwingsLess() passed after 0.107 seconds.
+✔ Test askUserQuestionShowsTheQuestionCardWhileTheTaskStaysOpen() passed after 0.107 seconds.
+✔ Test swingsPastVerticalAfterStopping() passed after 0.107 seconds.
+✔ Test readingDuringResponseHoldAcknowledgesThatTurnOnly() passed after 0.107 seconds.
+✔ Test durationAndDoubleBlinkGapStayInRange() passed after 0.107 seconds.
+✔ Test sourceLostReturnsToIdle() passed after 0.107 seconds.
+✔ Test dejectedEndsInThinkingNotInTheFailedTool() passed after 0.107 seconds.
+✔ Test burstOfShortReadsMergesIntoOneReadingPose() passed after 0.107 seconds.
+✔ Test demoScriptShowsEveryStateAndRespectsHoldTimes() passed after 0.107 seconds.
+✔ Test matchesReviewSchedulerFixture() passed after 0.107 seconds.
+✔ Test toolFailureShowsDejectedUntilNextActivity() passed after 0.107 seconds.
+✔ Test respondHoldLongerThanTheArmWindowNeverShowsTheCard() passed after 0.107 seconds.
+✔ Test eachDisplayedStateIsHeldForMinimumTime() passed after 0.107 seconds.
+✔ Test clickingRightAfterTheCardGoesUpStillPutsItDown() passed after 0.107 seconds.
+✔ Test switchingStateDoesNotRestartPendingOrActiveBlink() passed after 0.107 seconds.
+✔ Test sessionTitlesAndPromptLine() passed after 0.107 seconds.
+✔ Test otherSessionDoesNotCrossTalkWhileFocusedSessionIsWorking() passed after 0.107 seconds.
+✔ Test lateToolEventAfterTaskEndCannotRevive() passed after 0.107 seconds.
+✔ Test continuePreviousReusesLastToolActivity() passed after 0.107 seconds.
+✔ Test interruptRightAfterFailureGoesStraightToIdle() passed after 0.107 seconds.
+✔ Test hangsStraightWhenNobodyMoves() passed after 0.107 seconds.
+✔ Test aNewRequestPutsTheCardDownByItself() passed after 0.107 seconds.
+✔ Test staleSessionFallsBackToIdle() passed after 0.107 seconds.
+✔ Test fixedSeedReproducesIrregularSchedule() passed after 0.107 seconds.
+✔ Test sameActivityDoesNotRestart() passed after 0.107 seconds.
+✔ Test firstSwitchOnlyWaitsForDebounce() passed after 0.107 seconds.
+✔ Test taskFailureShowsDejectedThenIdle() passed after 0.107 seconds.
+✔ Test settleAfterReplayShowsCurrentStateImmediately() passed after 0.107 seconds.
+✔ Test endBeforeStartIsIgnored() passed after 0.107 seconds.
+✔ Test toolUseCarriesDetailAndTaskEvents() passed after 0.107 seconds.
+✔ Test newPromptEndsDejectedEarly() passed after 0.107 seconds.
+✔ Test aCompletionOlderThanTheArmWindowNeverRaisesTheCard() passed after 0.107 seconds.
+✔ Test copiesCodexShapeWithPlainStringOptions() passed after 0.109 seconds.
+✔ Test transcriptCarriesTheQuestion() passed after 0.109 seconds.
+✔ Test webSearchItemsShowUpAsBrowsing() passed after 0.109 seconds.
+✔ Test shortLabelPrefersTheHeader() passed after 0.109 seconds.
+✔ Test userMessageStartsTheTaskAndBoilerplateDoesNot() passed after 0.109 seconds.
+✔ Test chatListPutsTheOnesWaitingForYouFirst() passed after 0.110 seconds.
+✔ Test ignoresToolsThatAreNotAsking() passed after 0.108 seconds.
+✔ Test routerHandsOutTheQuestionWhileTheCardIsUp() passed after 0.108 seconds.
+✔ Test sessionIDComesFromTheFileNameThenFromSessionMeta() passed after 0.108 seconds.
+✔ Test planUpdatesBecomeTheTaskList() passed after 0.108 seconds.
+✔ Test copiesQuestionHeaderAndOptions() passed after 0.108 seconds.
+✔ Test classicCliToolsAreUnderstood() passed after 0.108 seconds.
+✔ Test turnEndsWithFinalAnswerThenTaskEnd() passed after 0.107 seconds.
+✔ Test execScriptSaysWhatItIsDoing() passed after 0.108 seconds.
+✔ Test toolCallsPairUpAndFailuresMakeHerSad() passed after 0.107 seconds.
+✔ Test describeUsesTheQuestion() passed after 0.107 seconds.
+✔ Test copiesFlatShape() passed after 0.103 seconds.
+✔ Test anotherChatInSightDoesNotSuppressThisOne() passed after 0.107 seconds.
+✔ Test eachTextStaysThenJumpsToTheLatest() passed after 0.102 seconds.
+✔ Test cardStillGoesUpWhenNotInSight() passed after 0.103 seconds.
+✔ Test longRunningToolUsesLongerStaleLimit() passed after 0.110 seconds.
+✔ Test toolUseAndResultPair() passed after 0.102 seconds.
+✔ Test numberFieldIsReadFromRecordHead() passed after 0.102 seconds.
+✔ Test noCardWhenThatChatIsAlreadyInSight() passed after 0.102 seconds.
+✔ Test toolErrorsAndApiErrorsAreFailuresButRejectionIsNot() passed after 0.102 seconds.
+✔ Test userPromptStartsTask() passed after 0.100 seconds.
+✔ Test raisedCardGoesDownWhenYouOpenThatChatYourself() passed after 0.102 seconds.
+✔ Test finalTextEndsTaskButCommentaryDoesNot() passed after 0.101 seconds.
+✔ Test interruptionsSidechainsAndLocalCommands() passed after 0.103 seconds.
+✔ Suite HookParserTests passed after 0.115 seconds.
+✔ Suite QuestionPresentationStateTests passed after 0.115 seconds.
+✔ Suite CodexQuestionLifecycleTests passed after 0.115 seconds.
+✔ Suite ReminderTests passed after 0.115 seconds.
+✔ Suite CodexOpenChatTests passed after 0.115 seconds.
+✔ Suite LaunchAtLoginTests passed after 0.115 seconds.
+✔ Suite ShellClassifierTests passed after 0.115 seconds.
+✔ Suite SessionLinkTests passed after 0.116 seconds.
+✔ Suite ToolClassifierTests passed after 0.116 seconds.
+✔ Suite L10nTests passed after 0.116 seconds.
+✔ Suite DeepCodeParserTests passed after 0.116 seconds.
+✔ Suite StatusLineTests passed after 0.116 seconds.
+✔ Suite DescribeTests passed after 0.116 seconds.
+✔ Suite JSONObjectStreamTests passed after 0.116 seconds.
+✔ Suite HangSwingTests passed after 0.116 seconds.
+✔ Suite MotionTimelineTests passed after 0.116 seconds.
+✔ Suite OpenChatArmingTests passed after 0.116 seconds.
+✔ Suite VisibleChatTests passed after 0.116 seconds.
+✔ Suite BlinkClockTests passed after 0.116 seconds.
+✔ Test codexChatTitleComesFromIndexAndTracksRenames() passed after 0.034 seconds.
+✔ Suite TaskInfoParserTests passed after 0.116 seconds.
+✔ Suite QuestionTests passed after 0.116 seconds.
+✔ Suite CodexParserTests passed after 0.116 seconds.
+✔ Suite OpenChatTests passed after 0.116 seconds.
+✔ Suite HeldValueTests passed after 0.116 seconds.
+✔ Suite TranscriptParserTests passed after 0.116 seconds.
+◇ Test oldSessionsAreNotReplayedAsLive() started.
+✔ Test oldSessionsAreNotReplayedAsLive() passed after 0.005 seconds.
+◇ Test settingsValueMapsToAProvider() started.
+✔ Test settingsValueMapsToAProvider() passed after 0.001 seconds.
+◇ Test newSessionCreatedAfterStartupIsDiscovered() started.
+✔ Test newSessionCreatedAfterStartupIsDiscovered() passed after 0.003 seconds.
+◇ Test onlyTheChosenFamilyIsFollowed() started.
+✔ Test onlyTheChosenFamilyIsFollowed() passed after 0.001 seconds.
+◇ Test deletedSessionFileAbortsThatSession() started.
+✔ Test deletedSessionFileAbortsThatSession() passed after 0.001 seconds.
+◇ Test codexSessionsAreFoundUnderTheDateFolders() started.
+✔ Test failureNoticeKeepsClickableOptions() passed after 0.129 seconds.
+✔ Test codexSessionsAreFoundUnderTheDateFolders() passed after 0.003 seconds.
+◇ Test missingDirectoryIsReported() started.
+✔ Test missingDirectoryIsReported() passed after 0.001 seconds.
+◇ Test deepCodeReadsMessagesAndTheSessionIndex() started.
+✔ Test deepCodeReadsMessagesAndTheSessionIndex() passed after 0.013 seconds.
+◇ Test hookInboxReadsOnlyNewRecordsAndRotates() started.
+✔ Suite AgentSourceTests passed after 0.147 seconds.
+✔ Test hookInboxReadsOnlyNewRecordsAndRotates() passed after 0.004 seconds.
+✔ Suite LiveSourceTests passed after 0.151 seconds.
+✔ Test anIgnoredCardYieldsAfterAWhileAndComesBackWhenTheOtherChatStops() passed after 0.151 seconds.
+✔ Suite ChatPickTests passed after 0.152 seconds.
+✔ Test matchesSharedWindowsSolverFixtures() passed after 0.156 seconds.
+✔ Suite ThrowPhysicsTests passed after 0.157 seconds.
+✔ Test interactionUsesDedicatedBlinkAndBodyHitRegions() passed after 0.226 seconds.
+✔ Test releasedStatesHaveIndependentEyepatchesButHeldDoesNot() passed after 0.229 seconds.
+✔ Suite BlinkOverlayCatalogTests passed after 0.229 seconds.
+✔ Test realAssetsLoadAndFramesStayInBounds() passed after 0.233 seconds.
+✔ Suite TimelineAndCatalogTests passed after 0.234 seconds.
+✔ Test respondThenTaskCompleteHoldsTheCardUntilTheUserClicks() passed after 0.290 seconds.
+✔ Suite RouterTests passed after 0.291 seconds.
+✔ Test quietChatsDropOffTheStack() passed after 0.317 seconds.
+✔ Suite CardStackTests passed after 0.319 seconds.
+✔ Test claudeTwoQuestionRoundTripAndNoListenerFallback() passed after 0.325 seconds.
+✔ Suite BackgroundAnswersTests passed after 0.325 seconds.
+✔ Test cardHitRegionsFollowTheRenderedScale() passed after 3.995 seconds.
+✔ Test largeIconButtonEmitsOnlyLowerSign() passed after 3.995 seconds.
+✔ Suite LowerSignSettingsTests passed after 3.996 seconds.
+✔ Test bubbleFillsItsScaledWindowAtEverySize() passed after 3.995 seconds.
+✔ Suite TaskBubbleScalingTests passed after 3.996 seconds.
+✔ Test browserPermissionButtonRequiresAnExplicitClick() passed after 4.008 seconds.
+✔ Test swingPixelsMatchClickThroughGeometry() passed after 4.008 seconds.
+✔ Test backingStoreIncludesWholeSpriteAfterWindowResize() passed after 4.007 seconds.
+✔ Test backgroundPanelRoutesSecondaryClickOnceWithoutBecomingKey() passed after 4.008 seconds.
+✔ Test paintsBothEdgesAtEverySupportedSizeAndBackingScale() passed after 4.008 seconds.
+✔ Test clearsOldSilhouetteWhenFrameMoves() passed after 4.008 seconds.
+✔ Test placementThrowCatchAndTaskReportUseRealWindows() passed after 4.008 seconds.
+✔ Suite PetContextMenuTests passed after 4.009 seconds.
+✔ Suite BrowserChatPermissionTests passed after 4.009 seconds.
+✔ Test cancelledPressCannotLeaveADragOrOpenAChatOnLateRelease() passed after 4.008 seconds.
+✔ Suite PetRenderingTests passed after 4.009 seconds.
+✔ Suite InteractionLifecycleTests passed after 4.009 seconds.
+✔ Test run with 191 tests passed after 4.010 seconds.

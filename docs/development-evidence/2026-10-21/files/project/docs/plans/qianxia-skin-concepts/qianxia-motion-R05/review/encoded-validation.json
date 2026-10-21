@@ -1,0 +1,263 @@
+{
+  "scope": "encoded resources and numerical invariants only",
+  "all_machine_checks_passed": true,
+  "approved_R08_inputs_unchanged": true,
+  "states": [
+    {
+      "state": "idle",
+      "checks": {
+        "webp_equals_native_decoded_png": true,
+        "outside_allowed_zero": true,
+        "motion_within_design_limit": true,
+        "loop_tail_matches_start": true,
+        "eyelids_outside_eye_zero": true,
+        "eyelids_alpha_unchanged": true,
+        "closed_no_coloured_iris": true
+      },
+      "passed": true,
+      "outside_changed_pixels": 0,
+      "eyelid_outside_changed_pixels": 0,
+      "eyelid_alpha_changed_pixels": 0,
+      "closed_coloured_iris_pixels": 0,
+      "maximum_displacement_display_px": 2.816690912610318,
+      "unique_body_frames": 51,
+      "real_playback": "pending: new larger-amplitude round",
+      "independent_review": "pending"
+    },
+    {
+      "state": "thinking",
+      "checks": {
+        "webp_equals_native_decoded_png": true,
+        "outside_allowed_zero": true,
+        "motion_within_design_limit": true,
+        "loop_tail_matches_start": true,
+        "eyelids_outside_eye_zero": true,
+        "eyelids_alpha_unchanged": true,
+        "closed_no_coloured_iris": true
+      },
+      "passed": true,
+      "outside_changed_pixels": 0,
+      "eyelid_outside_changed_pixels": 0,
+      "eyelid_alpha_changed_pixels": 0,
+      "closed_coloured_iris_pixels": 0,
+      "maximum_displacement_display_px": 0,
+      "unique_body_frames": 25,
+      "real_playback": "pending: new larger-amplitude round",
+      "independent_review": "pending"
+    },
+    {
+      "state": "read_file",
+      "checks": {
+        "webp_equals_native_decoded_png": true,
+        "outside_allowed_zero": true,
+        "motion_within_design_limit": true,
+        "loop_tail_matches_start": true,
+        "eyelids_outside_eye_zero": true,
+        "eyelids_alpha_unchanged": true,
+        "closed_no_coloured_iris": true
+      },
+      "passed": true,
+      "outside_changed_pixels": 0,
+      "eyelid_outside_changed_pixels": 0,
+      "eyelid_alpha_changed_pixels": 0,
+      "closed_coloured_iris_pixels": 0,
+      "maximum_displacement_display_px": 0,
+      "unique_body_frames": 25,
+      "real_playback": "pending: new larger-amplitude round",
+      "independent_review": "pending"
+    },
+    {
+      "state": "view_image",
+      "checks": {
+        "webp_equals_native_decoded_png": true,
+        "outside_allowed_zero": true,
+        "motion_within_design_limit": true,
+        "loop_tail_matches_start": true,
+        "eyelids_outside_eye_zero": true,
+        "eyelids_alpha_unchanged": true,
+        "closed_no_coloured_iris": true
+      },
+      "passed": true,
+      "outside_changed_pixels": 0,
+      "eyelid_outside_changed_pixels": 0,
+      "eyelid_alpha_changed_pixels": 0,
+      "closed_coloured_iris_pixels": 0,
+      "maximum_displacement_display_px": 3.241235525964184,
+      "unique_body_frames": 66,
+      "real_playback": "pending: new larger-amplitude round",
+      "independent_review": "pending"
+    },
+    {
+      "state": "write_file",
+      "checks": {
+        "webp_equals_native_decoded_png": true,
+        "outside_allowed_zero": true,
+        "motion_within_design_limit": true,
+        "loop_tail_matches_start": true,
+        "eyelids_outside_eye_zero": true,
+        "eyelids_alpha_unchanged": true,
+        "closed_no_coloured_iris": true
+      },
+      "passed": true,
+      "outside_changed_pixels": 0,
+      "eyelid_outside_changed_pixels": 0,
+      "eyelid_alpha_changed_pixels": 0,
+      "closed_coloured_iris_pixels": 0,
+      "maximum_displacement_display_px": 2.3967077653078035,
+      "unique_body_frames": 31,
+      "real_playback": "pending: new larger-amplitude round",
+      "independent_review": "pending"
+    },
+    {
+      "state": "verify",
+      "checks": {
+        "webp_equals_native_decoded_png": true,
+        "outside_allowed_zero": true,
+        "motion_within_design_limit": true,
+        "loop_tail_matches_start": true,
+        "eyelids_outside_eye_zero": true,
+        "eyelids_alpha_unchanged": true,
+        "closed_no_coloured_iris": true
+      },
+      "passed": true,
+      "outside_changed_pixels": 0,
+      "eyelid_outside_changed_pixels": 0,
+      "eyelid_alpha_changed_pixels": 0,
+      "closed_coloured_iris_pixels": 0,
+      "maximum_displacement_display_px": 3.919149849360629,
+      "unique_body_frames": 37,
+      "real_playback": "pending: new larger-amplitude round",
+      "independent_review": "pending"
+    },
+    {
+      "state": "read_web",
+      "checks": {
+        "webp_equals_native_decoded_png": true,
+        "outside_allowed_zero": true,
+        "motion_within_design_limit": true,
+        "loop_tail_matches_start": true,
+        "eyelids_outside_eye_zero": true,
+        "eyelids_alpha_unchanged": true,
+        "closed_no_coloured_iris": true
+      },
+      "passed": true,
+      "outside_changed_pixels": 0,
+      "eyelid_outside_changed_pixels": 0,
+      "eyelid_alpha_changed_pixels": 0,
+      "closed_coloured_iris_pixels": 0,
+      "maximum_displacement_display_px": 2.2256373478134606,
+      "unique_body_frames": 27,
+      "real_playback": "pending: new larger-amplitude round",
+      "independent_review": "pending"
+    },
+    {
+      "state": "default_work",
+      "checks": {
+        "webp_equals_native_decoded_png": true,
+        "outside_allowed_zero": true,
+        "motion_within_design_limit": true,
+        "loop_tail_matches_start": true,
+        "eyelids_outside_eye_zero": true,
+        "eyelids_alpha_unchanged": true,
+        "closed_no_coloured_iris": true
+      },
+      "passed": true,
+      "outside_changed_pixels": 0,
+      "eyelid_outside_changed_pixels": 0,
+      "eyelid_alpha_changed_pixels": 0,
+      "closed_coloured_iris_pixels": 0,
+      "maximum_displacement_display_px": 2.2016860521578567,
+      "unique_body_frames": 48,
+      "real_playback": "pending: new larger-amplitude round",
+      "independent_review": "pending"
+    },
+    {
+      "state": "respond",
+      "checks": {
+        "webp_equals_native_decoded_png": true,
+        "outside_allowed_zero": true,
+        "motion_within_design_limit": true,
+        "loop_tail_matches_start": true,
+        "eyelids_outside_eye_zero": true,
+        "eyelids_alpha_unchanged": true,
+        "closed_no_coloured_iris": true,
+        "entry_not_in_hold_loop": true
+      },
+      "passed": true,
+      "outside_changed_pixels": 0,
+      "eyelid_outside_changed_pixels": 0,
+      "eyelid_alpha_changed_pixels": 0,
+      "closed_coloured_iris_pixels": 0,
+      "maximum_displacement_display_px": 4.017900595608821,
+      "unique_body_frames": 25,
+      "real_playback": "pending: new larger-amplitude round",
+      "independent_review": "pending"
+    },
+    {
+      "state": "task_complete",
+      "checks": {
+        "webp_equals_native_decoded_png": true,
+        "outside_allowed_zero": true,
+        "motion_within_design_limit": true,
+        "loop_tail_matches_start": true,
+        "complete_no_eye_asset": true,
+        "complete_fully_static": true
+      },
+      "passed": true,
+      "outside_changed_pixels": 0,
+      "eyelid_outside_changed_pixels": 0,
+      "eyelid_alpha_changed_pixels": 0,
+      "closed_coloured_iris_pixels": 0,
+      "maximum_displacement_display_px": 0,
+      "unique_body_frames": 1,
+      "real_playback": "pending: new larger-amplitude round",
+      "independent_review": "pending"
+    },
+    {
+      "state": "question_for_user",
+      "checks": {
+        "webp_equals_native_decoded_png": true,
+        "outside_allowed_zero": true,
+        "motion_within_design_limit": true,
+        "loop_tail_matches_start": true,
+        "eyelids_outside_eye_zero": true,
+        "eyelids_alpha_unchanged": true,
+        "closed_no_coloured_iris": true,
+        "entry_not_in_hold_loop": true
+      },
+      "passed": true,
+      "outside_changed_pixels": 0,
+      "eyelid_outside_changed_pixels": 0,
+      "eyelid_alpha_changed_pixels": 0,
+      "closed_coloured_iris_pixels": 0,
+      "maximum_displacement_display_px": 2.9109344482421875,
+      "unique_body_frames": 17,
+      "real_playback": "pending: new larger-amplitude round",
+      "independent_review": "pending"
+    },
+    {
+      "state": "failed",
+      "checks": {
+        "webp_equals_native_decoded_png": true,
+        "outside_allowed_zero": true,
+        "motion_within_design_limit": true,
+        "loop_tail_matches_start": true,
+        "eyelids_outside_eye_zero": true,
+        "eyelids_alpha_unchanged": true,
+        "closed_no_coloured_iris": true,
+        "entry_not_in_hold_loop": true
+      },
+      "passed": true,
+      "outside_changed_pixels": 0,
+      "eyelid_outside_changed_pixels": 0,
+      "eyelid_alpha_changed_pixels": 0,
+      "closed_coloured_iris_pixels": 0,
+      "maximum_displacement_display_px": 2.464209410227509,
+      "unique_body_frames": 21,
+      "real_playback": "pending: new larger-amplitude round",
+      "independent_review": "pending"
+    }
+  ],
+  "real_playback": "not yet completed",
+  "visual_quality_not_implied": true
+}

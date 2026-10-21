@@ -1,0 +1,57 @@
+[
+  {
+    "state": "idle",
+    "max_eye_delta_frame": 0,
+    "six_levels_viewed": true
+  },
+  {
+    "state": "thinking",
+    "max_eye_delta_frame": 8,
+    "six_levels_viewed": true
+  },
+  {
+    "state": "read_file",
+    "max_eye_delta_frame": 16,
+    "six_levels_viewed": true
+  },
+  {
+    "state": "view_image",
+    "max_eye_delta_frame": 39,
+    "six_levels_viewed": true
+  },
+  {
+    "state": "write_file",
+    "max_eye_delta_frame": 0,
+    "six_levels_viewed": true
+  },
+  {
+    "state": "verify",
+    "max_eye_delta_frame": 14,
+    "six_levels_viewed": true
+  },
+  {
+    "state": "read_web",
+    "max_eye_delta_frame": 26,
+    "six_levels_viewed": true
+  },
+  {
+    "state": "default_work",
+    "max_eye_delta_frame": 0,
+    "six_levels_viewed": true
+  },
+  {
+    "state": "respond",
+    "max_eye_delta_frame": 24,
+    "six_levels_viewed": true
+  },
+  {
+    "state": "question_for_user",
+    "max_eye_delta_frame": 16,
+    "six_levels_viewed": true
+  },
+  {
+    "state": "failed",
+    "max_eye_delta_frame": 20,
+    "six_levels_viewed": true
+  }
+]

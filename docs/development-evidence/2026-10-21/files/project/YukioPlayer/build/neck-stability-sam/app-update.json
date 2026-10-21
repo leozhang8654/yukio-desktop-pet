@@ -1,0 +1,11 @@
+{
+  "stage": "/Users/developer/Desktop/.Yukio-animation-update-20260925-191414.app",
+  "backup": "/Users/developer/Desktop/yukio-cloud-handoff/artifacts/app-backups/20260925-191414/Yukio.app",
+  "installed": "/Users/developer/Desktop/Yukio.app",
+  "priorPid": 91377,
+  "installedMotionSha256": "c05acc93ed30036c818e3033bd83c42f116007c30f111ea592e9af575f975747",
+  "executableCodePreserved": true,
+  "signatureOnlyBinaryDifference": true,
+  "backupCreated": true,
+  "runningProcess": "5477 /Users/developer/Desktop/Yukio.app/Contents/MacOS/YukioPlayer"
+}

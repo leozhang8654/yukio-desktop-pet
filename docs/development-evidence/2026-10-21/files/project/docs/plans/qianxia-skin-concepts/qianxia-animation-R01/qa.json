@@ -1,0 +1,126 @@
+{
+  "stage": "native static display and animation preparation; no animation delivered",
+  "source_checks": [
+    {
+      "file": "01-idle.png",
+      "sha256": "9c7769ab20bf96f77e8de0d6b6e78ee8e061ed5eb311b87575774df4f12be0b0",
+      "identical_to_R02": true
+    },
+    {
+      "file": "02-thinking.png",
+      "sha256": "7309dd9974173c4976588387feef61241470e058cb2c3580c4976bff41377536",
+      "identical_to_R02": true
+    },
+    {
+      "file": "03-read_file.png",
+      "sha256": "61fbd3f92f9beae25e14fde406d4b1cf5e5a34f61c0a59c6bc366b405e95671e",
+      "identical_to_R02": true
+    },
+    {
+      "file": "04-view_image.png",
+      "sha256": "2b5b3c8e23c672f9286e0c77e62c4f53f96ae522b9efc92b3b2b48c9d7d7dfd5",
+      "identical_to_R02": true
+    },
+    {
+      "file": "05-write_file.png",
+      "sha256": "01ce56bb94e11e39844e803c2062cc2e273c7135d3349134e9a3b1cc1647e17e",
+      "identical_to_R02": true
+    },
+    {
+      "file": "06-verify.png",
+      "sha256": "cbe31ee0637734af510385b69c876e9cf4969023c9e84fbecc65e8fd115274fc",
+      "identical_to_R02": true
+    },
+    {
+      "file": "07-read_web.png",
+      "sha256": "ce8655468092eafa020efd186e56d5e02849d54bd4eed10781cc40e78d7cb233",
+      "identical_to_R02": true
+    },
+    {
+      "file": "08-default_work.png",
+      "sha256": "bb3e21215e279b1e41403c384c4f5f586237ecdf4f6eaea81f283f0a10118d21",
+      "identical_to_R02": true
+    },
+    {
+      "file": "09-respond.png",
+      "sha256": "7b6a19de9a355e3dabac281edf2ce8654ea29c9477453625b8f02441a32536fd",
+      "identical_to_R02": true
+    },
+    {
+      "file": "10-task_complete.png",
+      "sha256": "f9c76a01b402a43e0f6ca46a1f3ec621a93684acf9dcc8eb8b720e98be0b53c1",
+      "identical_to_R02": true
+    },
+    {
+      "file": "11-question_for_user.png",
+      "sha256": "7dd9ffbf1600e954ed5718c970cf8648d4fe3695d82634355ac3054f8b9f6172",
+      "identical_to_R02": true
+    },
+    {
+      "file": "12-failed.png",
+      "sha256": "970cda2adf757e5320f202b93f1bf86f7c88d6bde303e8e7ccdb3dd553e37ace",
+      "identical_to_R02": true
+    }
+  ],
+  "native": {
+    "platform": "macOS",
+    "mode": "real player offscreen renderer",
+    "all_12_decoded_and_drawn": true,
+    "display_points": [
+      192,
+      208
+    ],
+    "bubble_states": [
+      "write_file",
+      "verify",
+      "thinking",
+      "failed",
+      "question_for_user",
+      "task_complete"
+    ],
+    "bubble_languages": [
+      "en",
+      "zh"
+    ],
+    "bubble_overlaps_seen": false,
+    "actual_desktop_install": false,
+    "system_scaling_tested": false,
+    "windows_tested": false,
+    "held": "idle duplicate to satisfy diagnostic catalog, not a held-animation candidate"
+  },
+  "button_mask": {
+    "round": "refinement-05",
+    "topology": {
+      "passed": true,
+      "components": 1,
+      "component_areas": [
+        5301
+      ],
+      "opaque_hole_pixels": 0,
+      "background_pixels": 0,
+      "soft_mask_pixels": 287,
+      "bbox": [
+        712,
+        718,
+        804,
+        791
+      ],
+      "mask": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-animation-R01/rigs/question_for_user/pressing-hand/refinement-05/candidate-mask.png",
+      "sha256": "588a430a3f79348aa51ff75f229db59af560fe6a3c3ed4c7c1d4677f1a482c7c",
+      "previews": "01-candidate-mask"
+    },
+    "visual_review": "Reviewed original grid, contour and checker/black/white/magenta cutout at 500%; exterior outline preserved and stray pink island removed. Static candidate only; wrist attachment and moved-frame review pending."
+  },
+  "other_masks": {
+    "count": 13,
+    "status": "initial candidates not approved; includes rejected crop-refinement experiment"
+  },
+  "animation": {
+    "background_plates": false,
+    "eyelid_layers": false,
+    "encoded_motion": false,
+    "three_cycle_review": false,
+    "independent_review": false
+  },
+  "production_resources_replaced": false
+}

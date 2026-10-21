@@ -1,0 +1,137 @@
+{
+  "verified_at": "2026-10-21T06:06:06.614181+00:00",
+  "user_local_date": "2026-10-20",
+  "status": "implemented_and_running_locally_not_released",
+  "environment": {
+    "host": "macOS arm64",
+    "swift": "6.1.2",
+    "python": "3.9.6",
+    "sqlite": "3.54.0",
+    "native_windows": false
+  },
+  "tests": {
+    "swift": {
+      "passed": 214,
+      "failed": 0,
+      "new_collector_tests": 7
+    },
+    "python": {
+      "run": 336,
+      "passed": 335,
+      "skipped": 1,
+      "skip_reason": "Windows named pipe test; no Windows host",
+      "new_collector_tests": 11
+    },
+    "collector_cli": {
+      "synthetic": true,
+      "native_windows": false,
+      "implementations": 2,
+      "matching_evidence_rows": 8,
+      "verified": [
+        "live discovery of new files",
+        "partial-line wait",
+        "results remain in their own session",
+        "graceful SIGTERM writes stopped",
+        "restart has no duplicate evidence",
+        "cross-implementation cursor resume",
+        "exclusive DB and status leases",
+        "unrelated status file preserved"
+      ]
+    },
+    "history_regression": {
+      "shared_scenarios": 33,
+      "evidence_rows": 141,
+      "result_rows": 57,
+      "exact_history_parity": true,
+      "metadata_edge_cases": 6,
+      "cross_implementation_resume": true,
+      "live_follow": true,
+      "storage_failure_rollback_and_retry": true,
+      "read_only_query": true,
+      "native_windows_test": false
+    }
+  },
+  "real_local_probe": {
+    "runtime": {
+      "backend": "swift",
+      "collector_schema": 1,
+      "database_bytes": 2437120,
+      "discovered_files": 2,
+      "error_files": 0,
+      "events_saved_this_run": 1887,
+      "issue": null,
+      "last_scan_at": "2026-10-21T06:06:05Z",
+      "max_database_bytes": 268435456,
+      "mode": "live",
+      "pending_files": 0,
+      "scan_complete": true,
+      "source_available": true,
+      "started_at": "2026-10-21T06:00:27Z",
+      "state": "waiting",
+      "tracked_files": 2,
+      "updated_at": "2026-10-21T06:06:05Z"
+    },
+    "database_check": {
+      "quick_check": "ok",
+      "events": 1887,
+      "sources": 2
+    },
+    "binary_sha256": "5e203dcb6cc171ceabcea436bd97837698f91bde12e782cfa89793817a2d1b66",
+    "permissions": {
+      "database": "0o600",
+      "status": "0o600"
+    },
+    "raw_source_content_in_report": false,
+    "note": "Aggregate snapshot only; not a completeness or task-success claim."
+  },
+  "browser_verified": [
+    "real collector counts and waiting state shown",
+    "4 of 9 stages complete",
+    "existing plain-language stage disclosure controls present",
+    "no console errors and no horizontal overflow in current viewport"
+  ],
+  "failures_and_repairs": [
+    {
+      "issue": "Initial new isolation fixture used an explicit call ID but expected unlinked",
+      "repair": "Use an inner item ID without a known request so the fixture actually tests unlinked cross-session evidence; no production correlation rule weakened."
+    },
+    {
+      "issue": "Existing hardlink test observed SQLITE_IOERR_VNODE after live DB link change",
+      "repair": "Require exact pre-read source identity rejection; close and remove synthetic alias before reopening to verify data intact. Preserve native safety protections."
+    },
+    {
+      "issue": "Swift history used a separate open/close on DB solely for identity comparison",
+      "repair": "Compare filesystem identity before source read/transaction without opening another DB descriptor; preserve SQLite POSIX locking."
+    }
+  ],
+  "limits": [
+    "recent 24 hours at discovery; older inactive backlog after restart needs renewed activity or manual import",
+    "512 tracked files, 50000 scan entries, depth 5; incomplete scan explicitly reported",
+    "256 MiB default DB growth cap; transaction sidecars are extra; no automatic deletion",
+    "full-prefix verification may be slow for large files",
+    "not installed into desktop app; no startup entry; no native Windows verification"
+  ],
+  "next_steps": [
+    "verify and integrate additional client evidence",
+    "activity workbench",
+    "authorized Qwen explanations"
+  ],
+  "candidate_sha256": {
+    "YukioPlayer/Sources/YukioCore/ActivityCollector.swift": "fa94e4882a82c46314e16db91562c02bc461077b4586dd2e141514e110157bd5",
+    "YukioPlayer/Sources/YukioCore/ActivityHistory.swift": "702a56e30d3e429985f291354133da1f4b4de6101f7da6ebf9d9d075babfb7e6",
+    "YukioPlayer/Sources/YukioPlayer/ActivityCollectorCLI.swift": "b0b0e7b3cbfc998554cbb3f12cf53bacc64f9d6cfc9e67d73096852f3b10dff8",
+    "YukioPlayer/Sources/YukioPlayer/main.swift": "e0de274fe57106295c28bee4f2f11d8fa5787a1b8c499f934a02251c4e0c99bf",
+    "YukioPlayer/Tests/YukioCoreTests/ActivityCollectorTests.swift": "f723d8a1c7b9c6ad8b449d8d1014f9ce11129fe56a30b00cd7356f6d64923870",
+    "YukioPlayer/Tests/YukioCoreTests/ActivityHistoryTests.swift": "eb3be828fac920fa26e966ea77fd6fbf16d2d0fad22a34a84bb4ec75a94b0185",
+    "YukioWin/yukio/activity_collector.py": "9e463cc662788ba35d345fe5979ea2a473aaa87cab0eba0284ed8b1f8e460c71",
+    "YukioWin/yukio/activity_collector_cli.py": "eca142191a7f6c4e825d126775e575fffb8903d0a0f83e5d616617118abd60e4",
+    "YukioWin/yukio/activity_history.py": "54d110034722ba866485d8ff69256050d319513376336417b4abd31fa717b950",
+    "YukioWin/yukio/cli.py": "e1b0526eaadff5826f71b36dea2d5c0b0ca61af1de3645d043c913ff04e26e80",
+    "YukioWin/tests/test_activity_collector.py": "d1dce4619c744b0f3b88cb4ea8e83bb74a7fa92f3e5aa318a083408cfaea27ec",
+    "tests/verify_activity_collector.py": "31db0ad21d1598a664e03e84c87093da8bf0c9f3ae2d416db0849e8d55274c66",
+    "tools/activity-progress/dist/app.js": "524b1c423906e4ff084d2d4d96a1df872bfb2418eb5489164e3848dbb5eb9cef",
+    "tools/activity-progress/dist/index.html": "974d27b8b899021f8a16591066499cb9a3760452f6635538329bd4210279d82d",
+    "tools/activity-progress/progress.json": "4413fcc47beec7da39d7aef61a9ab8d70d2dfaf6656bfd2092c63e3479454e28"
+  },
+  "website_screenshot": "artifacts/activity-progress/live-collector.png"
+}

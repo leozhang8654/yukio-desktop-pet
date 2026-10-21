@@ -1,0 +1,26 @@
+{
+  "round": "R06",
+  "maker": "Claude (this session)",
+  "status": "timing_rework_candidate; machine checks passed; no dynamic pass",
+  "actual_opened_evidence": [
+    "R06-default_work-extremes.png",
+    "R06-failed-extremes.png",
+    "R06-idle-extremes.png",
+    "R06-question_for_user-extremes.png",
+    "R06-read_web-extremes.png",
+    "R06-respond-extremes.png",
+    "R06-verify-extremes.png",
+    "R06-view_image-extremes.png",
+    "R06-write_file-extremes.png",
+    "respond-encoded-backgrounds.png",
+    "idle-encoded-backgrounds.png"
+  ],
+  "observation": "At maximum displacement the hands keep their shape (no wrist stretch in respond/failed), plate trails gone, contacts at button/keys/trackball hold. Stylus border on the tablet shows a tiny tick where the pen tip crossed it in the plate.",
+  "unverified": [
+    "continuous real-speed viewing by a person",
+    "long viewing comfort",
+    "state switching in the real app",
+    "real task bubbles",
+    "independent review"
+  ]
+}

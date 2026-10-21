@@ -1,0 +1,304 @@
+{
+  "status": "stopped_for_user_visible_amplitude_rework",
+  "frozen_count": 316,
+  "frozen_manifest_sha256": "9760e338b630f2aef930e48bd573b37540eaf7211da7060c2801f4ae185da2dd",
+  "hash_mismatches": [],
+  "R02_resource_count_identical": 226,
+  "R02_resource_differences": [],
+  "bundled_motion_count": 47,
+  "bundled_motion_mismatches": [],
+  "bundled_motion": [
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/default_work-eyes.webp",
+      "candidate_relative": "motion/default_work-eyes.webp",
+      "same": true,
+      "sha256": "0e26f0f7344481618dd3d8c869809451a77bb2a72cceac13de7aea6a3f79d435"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/idle-eyes.decoded.png",
+      "candidate_relative": "motion/idle-eyes.decoded.png",
+      "same": true,
+      "sha256": "321d55c92e5b086ece97b2e931e66ce9bb69631950ad5baeaba88cd7a6ea3575"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/idle-eyes.webp",
+      "candidate_relative": "motion/idle-eyes.webp",
+      "same": true,
+      "sha256": "8a0b8a89f9d40e69f62ddf6b47b97815701ad89477e9f3d27fd73d543889fab3"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/failed.decoded.png",
+      "candidate_relative": "motion/failed.decoded.png",
+      "same": true,
+      "sha256": "a9731445605a9d22da34e1bd618ce57017ee05e431eaab5bdb2dc59591a37893"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/motion.json",
+      "candidate_relative": "motion/motion.json",
+      "same": true,
+      "sha256": "a4bc215d1266fe3efdab28f454999c92d9e43f24691512ac9ded86e98b73c34f"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/respond-eyes.decoded.png",
+      "candidate_relative": "motion/respond-eyes.decoded.png",
+      "same": true,
+      "sha256": "d8794a2f1402bda757e9e43331feff1ae8f58795891b8145f53b040b7ae84cc8"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/question_for_user.decoded.png",
+      "candidate_relative": "motion/question_for_user.decoded.png",
+      "same": true,
+      "sha256": "f2b87b826c93dc91e7096cfcbe4fb99b8201fd691a4d537227c71b1412e9fe7f"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/default_work.webp",
+      "candidate_relative": "motion/default_work.webp",
+      "same": true,
+      "sha256": "876a8e789d1ee9b1294e1a942008339e0d4fcedd103210182bc12b49ccf05915"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/read_file-eyes.decoded.png",
+      "candidate_relative": "motion/read_file-eyes.decoded.png",
+      "same": true,
+      "sha256": "8a1a8c934bf7ea84e6c2a7c96bee0ed8b2a9ac39aff64439e23e7d121a488bbc"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/default_work.decoded.png",
+      "candidate_relative": "motion/default_work.decoded.png",
+      "same": true,
+      "sha256": "b4ac8c82ffc301c852b3811de175233c257d463265d487688dcb601ce54737b6"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/view_image-eyes.webp",
+      "candidate_relative": "motion/view_image-eyes.webp",
+      "same": true,
+      "sha256": "142de9f8610f5441f43fc59b879fce6896ddef0caa11c127fd673f5046c7ff2e"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/respond.decoded.png",
+      "candidate_relative": "motion/respond.decoded.png",
+      "same": true,
+      "sha256": "ef49ba6253feee308a3123db0fe1da6404ceee61a96a01fdaaced1ea01884fd7"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/verify-eyes.webp",
+      "candidate_relative": "motion/verify-eyes.webp",
+      "same": true,
+      "sha256": "ff42c6dddeb63ccc07e5011dae94be541e8f04df69980a7abe58e8a369ee633d"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/view_image-eyes.decoded.png",
+      "candidate_relative": "motion/view_image-eyes.decoded.png",
+      "same": true,
+      "sha256": "c977f45c7b44628039cdca6c919d223b3317f56ee1f31d4a2079802f31ad9325"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/read_web.webp",
+      "candidate_relative": "motion/read_web.webp",
+      "same": true,
+      "sha256": "778d45aac354e574f114b933ceaac181cd9a86fa61d6c92f304e21885db5ec66"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/question_for_user.webp",
+      "candidate_relative": "motion/question_for_user.webp",
+      "same": true,
+      "sha256": "a82ca91f95aae6511dbbf20a65b745aad5d2120277d54a9ed6e375897ca67423"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/thinking.decoded.png",
+      "candidate_relative": "motion/thinking.decoded.png",
+      "same": true,
+      "sha256": "dddd2c7cb21c8fb6f69481650e154360b0a26ac90a5c64a7c777dbb7c1c32a7b"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/thinking.webp",
+      "candidate_relative": "motion/thinking.webp",
+      "same": true,
+      "sha256": "4d87c3bd42cd5843c7a01c5348f430b726c56eca4a5fe0e36cee674785c0daec"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/read_file.webp",
+      "candidate_relative": "motion/read_file.webp",
+      "same": true,
+      "sha256": "1547397e8ed6d582f90c52e01ecadd131b8b0782b4c658c0db1c419062f67d0c"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/failed.webp",
+      "candidate_relative": "motion/failed.webp",
+      "same": true,
+      "sha256": "61bb45ce1275faf9e3a6cbda8e5f7d8f8ee1633ba9d7f146b696c09f4e724fb6"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/task_complete.webp",
+      "candidate_relative": "motion/task_complete.webp",
+      "same": true,
+      "sha256": "a63e8abf3f1dc4841d22722e533da1f689ab5474989502ce4f3d7faa54ca6976"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/view_image.webp",
+      "candidate_relative": "motion/view_image.webp",
+      "same": true,
+      "sha256": "087d916acb393985699c6bd80970529bea22ba9a5828a6f051eb0578416e0f6c"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/write_file-eyes.decoded.png",
+      "candidate_relative": "motion/write_file-eyes.decoded.png",
+      "same": true,
+      "sha256": "376f1cde45ee6677c190e77469d5a2963a8ec7a35e09ada1d6754154032ddd46"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/default_work-eyes.decoded.png",
+      "candidate_relative": "motion/default_work-eyes.decoded.png",
+      "same": true,
+      "sha256": "e7442d628dbc8342c3dbe4860e0812d44b0f219d73d9d01ece9f2db3845a86c2"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/failed-eyes.webp",
+      "candidate_relative": "motion/failed-eyes.webp",
+      "same": true,
+      "sha256": "1112f19b04e82fe085d081b021e1b2712fb3b252af703860e072e98e74c15940"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/read_file.decoded.png",
+      "candidate_relative": "motion/read_file.decoded.png",
+      "same": true,
+      "sha256": "626628e8e1bacab0b080421c0d821f23c60eb57e0ce17541d5ab56a340bc8e30"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/respond.webp",
+      "candidate_relative": "motion/respond.webp",
+      "same": true,
+      "sha256": "9ebbe99b9f616d1a9afbf721ea94ae148c79d88bfc2a148e75b24cb7e0b2d942"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/thinking-eyes.webp",
+      "candidate_relative": "motion/thinking-eyes.webp",
+      "same": true,
+      "sha256": "d4a3edec9b36798b4041f82b73481a12fb569cbd0c22e890446df9578fba0da1"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/task_complete.decoded.png",
+      "candidate_relative": "motion/task_complete.decoded.png",
+      "same": true,
+      "sha256": "0d7286114cb7160c545614ed03230bae0e26793956306244fabe6c7077107db7"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/idle.webp",
+      "candidate_relative": "motion/idle.webp",
+      "same": true,
+      "sha256": "8016ea669d89e9b0c3aba83839752ec468060816f7af4e03c6891abf3a43b727"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/read_file-eyes.webp",
+      "candidate_relative": "motion/read_file-eyes.webp",
+      "same": true,
+      "sha256": "af7237eec5e8b8a2a967ebb1f2dd2dfc2cf8e3dfe2c25590cd68a1f49a4e5c25"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/write_file.webp",
+      "candidate_relative": "motion/write_file.webp",
+      "same": true,
+      "sha256": "a9d9a1913fb7f0c06e23095a01ba75c72841ce8a2c35f3268df012261b16e93e"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/read_web-eyes.decoded.png",
+      "candidate_relative": "motion/read_web-eyes.decoded.png",
+      "same": true,
+      "sha256": "d82aa015a8e89bae9f68ba83593ce350991d71308b047590946b7731f5ad47f5"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/verify.decoded.png",
+      "candidate_relative": "motion/verify.decoded.png",
+      "same": true,
+      "sha256": "cb56fdd61012335f564cc042e814ca8a554b25a645d65b7d97590dd459094667"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/thinking-eyes.decoded.png",
+      "candidate_relative": "motion/thinking-eyes.decoded.png",
+      "same": true,
+      "sha256": "1bdc7cec6df990d66eb56cc5b729b39f5c6dbfae4df68025675c5465c8ddc42a"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/question_for_user-eyes.webp",
+      "candidate_relative": "motion/question_for_user-eyes.webp",
+      "same": true,
+      "sha256": "e730b3d0605a23938ff455e88bfb5a29d24bbece2a665217d596d546bc0a2d94"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/view_image.decoded.png",
+      "candidate_relative": "motion/view_image.decoded.png",
+      "same": true,
+      "sha256": "94324634b52dc135be88ab23f51309b7670cb7dee276c435e12f2c2a1f2f8424"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/question_for_user-eyes.decoded.png",
+      "candidate_relative": "motion/question_for_user-eyes.decoded.png",
+      "same": true,
+      "sha256": "61deaf4f8e539008e0823533e3f1c91af6a046929a2d54fb8c7fe0ee3225f8bd"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/respond-eyes.webp",
+      "candidate_relative": "motion/respond-eyes.webp",
+      "same": true,
+      "sha256": "4de2609facf422241723dccc71f68d0f33c2464c8752539b7bfa4499c3506271"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/verify-eyes.decoded.png",
+      "candidate_relative": "motion/verify-eyes.decoded.png",
+      "same": true,
+      "sha256": "ebbab5c4507dd4bb4d9f8fe432de892af3e59289ddad76b7845699bc9f3f66e6"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/verify.webp",
+      "candidate_relative": "motion/verify.webp",
+      "same": true,
+      "sha256": "602147dbd94cf6e5a48242e56506743d91c51710f07bf063ce4af2c363a40bb5"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/write_file.decoded.png",
+      "candidate_relative": "motion/write_file.decoded.png",
+      "same": true,
+      "sha256": "25582eb5a77ee97cce033511d1214a94cd9f0caaf5ae51e0b5422a171b423c37"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/read_web.decoded.png",
+      "candidate_relative": "motion/read_web.decoded.png",
+      "same": true,
+      "sha256": "a127728a0a84b661237e49a34bd69de44d4423c0804154d8e16e93d34cf761d9"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/failed-eyes.decoded.png",
+      "candidate_relative": "motion/failed-eyes.decoded.png",
+      "same": true,
+      "sha256": "ffc8525a454c9fcd1f056e04e50437db67d712db5cebab402b18974815c1db2d"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/write_file-eyes.webp",
+      "candidate_relative": "motion/write_file-eyes.webp",
+      "same": true,
+      "sha256": "122fe1c030670ec3318eb019ea2c6ed5f13e1264fd48421a7ba732c64c63d4c4"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/read_web-eyes.webp",
+      "candidate_relative": "motion/read_web-eyes.webp",
+      "same": true,
+      "sha256": "84ec4ad3ae00bacb727db6df68649afef20dfeb4877a31769eb54026cc854d25"
+    },
+    {
+      "bundle_relative": "review/QianxiaMotionPreview.app/Contents/Resources/candidate/motion/idle.decoded.png",
+      "candidate_relative": "motion/idle.decoded.png",
+      "same": true,
+      "sha256": "66e19d1f89f3dab4c366514d3ea6ab9ff5d2a34f1f96bdaf36902525c00d85d4"
+    }
+  ],
+  "code_read": {
+    "tools/Preview.swift": "55b949e792594dc17df4acb852900d7378cfc2ad53158d2c6f64f99d8411154d"
+  },
+  "static_M01_M02": "closed by byte-identical R02 resources",
+  "V01": "pending reviewer playback after explicit UI handoff",
+  "independent_UI_actions": [],
+  "no_dynamic_approval": true,
+  "user_feedback": "动作幅度过小，完全看不见",
+  "feedback_provenance": "parent relayed explicit user observation; not independent reviewer live observation",
+  "verdict": "退回；用户反馈动作不可辨认，动态复审未进行"
+}

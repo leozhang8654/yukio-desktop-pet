@@ -1,0 +1,24 @@
+{
+  "issue_id": "Q11-P1-contact",
+  "source_crop": [
+    580,
+    530,
+    1092,
+    1042
+  ],
+  "issue": "visible gap between pointing finger and pink button top",
+  "minimal_fix": "extend only fingertip to make gentle contact",
+  "allowed_bbox": [
+    747,
+    736,
+    798,
+    794
+  ],
+  "coordinate_system": "source PNG pixels, origin top left",
+  "mask_is_authoritative": true,
+  "registration_offset": [
+    -3,
+    -4
+  ],
+  "source_alpha_restored_everywhere": true
+}

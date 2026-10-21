@@ -1,0 +1,8 @@
+{
+  "installed": "/Users/developer/Desktop/Yukio.app",
+  "backup": "/Users/developer/Desktop/yukio-cloud-handoff/artifacts/app-backups/20261004-answer-permission-fix/Yukio.app",
+  "executableSHA256": "3377b3952da268f91b34384e7946e53372bcf5d64999bd7653a8c2616b3b98e2",
+  "animationFilesPreserved": 160,
+  "testsPassed": 172,
+  "oldAccessibilityCallsRemoved": true
+}

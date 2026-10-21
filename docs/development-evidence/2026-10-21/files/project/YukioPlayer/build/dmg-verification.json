@@ -1,0 +1,32 @@
+{
+  "mount": "/Volumes/Yukio 0.3.8",
+  "application_file_count": 169,
+  "application_hashes_identical": true,
+  "codesign": "passed",
+  "native_check": "13 animations passed on identical app in previous DMG iteration",
+  "dmg_integrity": "passed",
+  "shortcut": "/Applications",
+  "window": {
+    "ContainerShowSidebar": false,
+    "PreviewPaneVisibility": false,
+    "ShowPathbar": false,
+    "ShowSidebar": false,
+    "ShowStatusBar": false,
+    "ShowTabView": false,
+    "ShowToolbar": false,
+    "SidebarWidth": 180,
+    "WindowBounds": "{{200, 120}, {720, 460}}"
+  },
+  "icon_positions": {
+    "Yukio.app": [
+      188,
+      224
+    ],
+    "应用程序 Applications": [
+      532,
+      224
+    ]
+  },
+  "dmg_sha256": "3b8208b52a9ae4277ec708b4b3bc80157b5c26fc3b491899c3fd81794bce8905",
+  "visual_review": "Final mounted Finder window inspected: both icons, arrow, header and all three footer lines visible without clipping."
+}

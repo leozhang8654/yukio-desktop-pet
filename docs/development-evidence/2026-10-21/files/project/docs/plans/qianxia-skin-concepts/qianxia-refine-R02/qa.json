@@ -1,0 +1,452 @@
+{
+  "scope": "static art only",
+  "status": "本轮静态对齐自检通过；原生UI和动态项未测",
+  "files": [
+    {
+      "state_id": "idle",
+      "file": "01-idle.png",
+      "input_sha256": "9c7769ab20bf96f77e8de0d6b6e78ee8e061ed5eb311b87575774df4f12be0b0",
+      "output_sha256": "9c7769ab20bf96f77e8de0d6b6e78ee8e061ed5eb311b87575774df4f12be0b0",
+      "round09_sha256": "9c7769ab20bf96f77e8de0d6b6e78ee8e061ed5eb311b87575774df4f12be0b0",
+      "size": [
+        1205,
+        1306
+      ],
+      "mode": "RGBA",
+      "source_file": "source/01-idle.png",
+      "output_file": "candidates/01-idle.png",
+      "input_alpha_bbox": [
+        85,
+        0,
+        1175,
+        1272
+      ],
+      "output_alpha_bbox": [
+        85,
+        0,
+        1175,
+        1272
+      ],
+      "changed_vs_R01": false,
+      "decision": "byte-for-byte retained, including corrected question_for_user",
+      "changed_visible_or_alpha_pixels": 0,
+      "outside_allowed_visible_or_alpha_changes": 0,
+      "allowed_region": null,
+      "ui": "未测",
+      "native_playback": "未测",
+      "independent_review": "未测",
+      "layers_and_motion": "未制作"
+    },
+    {
+      "state_id": "thinking",
+      "file": "02-thinking.png",
+      "input_sha256": "7309dd9974173c4976588387feef61241470e058cb2c3580c4976bff41377536",
+      "output_sha256": "7309dd9974173c4976588387feef61241470e058cb2c3580c4976bff41377536",
+      "round09_sha256": "7309dd9974173c4976588387feef61241470e058cb2c3580c4976bff41377536",
+      "size": [
+        1205,
+        1306
+      ],
+      "mode": "RGBA",
+      "source_file": "source/02-thinking.png",
+      "output_file": "candidates/02-thinking.png",
+      "input_alpha_bbox": [
+        83,
+        0,
+        1125,
+        1272
+      ],
+      "output_alpha_bbox": [
+        83,
+        0,
+        1125,
+        1272
+      ],
+      "changed_vs_R01": false,
+      "decision": "byte-for-byte retained, including corrected question_for_user",
+      "changed_visible_or_alpha_pixels": 0,
+      "outside_allowed_visible_or_alpha_changes": 0,
+      "allowed_region": null,
+      "ui": "未测",
+      "native_playback": "未测",
+      "independent_review": "未测",
+      "layers_and_motion": "未制作"
+    },
+    {
+      "state_id": "read_file",
+      "file": "03-read_file.png",
+      "input_sha256": "61fbd3f92f9beae25e14fde406d4b1cf5e5a34f61c0a59c6bc366b405e95671e",
+      "output_sha256": "61fbd3f92f9beae25e14fde406d4b1cf5e5a34f61c0a59c6bc366b405e95671e",
+      "round09_sha256": "61fbd3f92f9beae25e14fde406d4b1cf5e5a34f61c0a59c6bc366b405e95671e",
+      "size": [
+        1205,
+        1306
+      ],
+      "mode": "RGBA",
+      "source_file": "source/03-read_file.png",
+      "output_file": "candidates/03-read_file.png",
+      "input_alpha_bbox": [
+        81,
+        0,
+        1173,
+        1306
+      ],
+      "output_alpha_bbox": [
+        81,
+        0,
+        1173,
+        1306
+      ],
+      "changed_vs_R01": false,
+      "decision": "byte-for-byte retained, including corrected question_for_user",
+      "changed_visible_or_alpha_pixels": 0,
+      "outside_allowed_visible_or_alpha_changes": 0,
+      "allowed_region": null,
+      "ui": "未测",
+      "native_playback": "未测",
+      "independent_review": "未测",
+      "layers_and_motion": "未制作"
+    },
+    {
+      "state_id": "view_image",
+      "file": "04-view_image.png",
+      "input_sha256": "2b5b3c8e23c672f9286e0c77e62c4f53f96ae522b9efc92b3b2b48c9d7d7dfd5",
+      "output_sha256": "2b5b3c8e23c672f9286e0c77e62c4f53f96ae522b9efc92b3b2b48c9d7d7dfd5",
+      "round09_sha256": "2b5b3c8e23c672f9286e0c77e62c4f53f96ae522b9efc92b3b2b48c9d7d7dfd5",
+      "size": [
+        1205,
+        1306
+      ],
+      "mode": "RGBA",
+      "source_file": "source/04-view_image.png",
+      "output_file": "candidates/04-view_image.png",
+      "input_alpha_bbox": [
+        59,
+        0,
+        1125,
+        1272
+      ],
+      "output_alpha_bbox": [
+        59,
+        0,
+        1125,
+        1272
+      ],
+      "changed_vs_R01": false,
+      "decision": "byte-for-byte retained, including corrected question_for_user",
+      "changed_visible_or_alpha_pixels": 0,
+      "outside_allowed_visible_or_alpha_changes": 0,
+      "allowed_region": null,
+      "ui": "未测",
+      "native_playback": "未测",
+      "independent_review": "未测",
+      "layers_and_motion": "未制作"
+    },
+    {
+      "state_id": "write_file",
+      "file": "05-write_file.png",
+      "input_sha256": "01ce56bb94e11e39844e803c2062cc2e273c7135d3349134e9a3b1cc1647e17e",
+      "output_sha256": "01ce56bb94e11e39844e803c2062cc2e273c7135d3349134e9a3b1cc1647e17e",
+      "round09_sha256": "01ce56bb94e11e39844e803c2062cc2e273c7135d3349134e9a3b1cc1647e17e",
+      "size": [
+        1205,
+        1306
+      ],
+      "mode": "RGBA",
+      "source_file": "source/05-write_file.png",
+      "output_file": "candidates/05-write_file.png",
+      "input_alpha_bbox": [
+        0,
+        0,
+        1187,
+        1306
+      ],
+      "output_alpha_bbox": [
+        0,
+        0,
+        1187,
+        1306
+      ],
+      "changed_vs_R01": false,
+      "decision": "byte-for-byte retained, including corrected question_for_user",
+      "changed_visible_or_alpha_pixels": 0,
+      "outside_allowed_visible_or_alpha_changes": 0,
+      "allowed_region": null,
+      "ui": "未测",
+      "native_playback": "未测",
+      "independent_review": "未测",
+      "layers_and_motion": "未制作"
+    },
+    {
+      "state_id": "verify",
+      "file": "06-verify.png",
+      "input_sha256": "cbe31ee0637734af510385b69c876e9cf4969023c9e84fbecc65e8fd115274fc",
+      "output_sha256": "cbe31ee0637734af510385b69c876e9cf4969023c9e84fbecc65e8fd115274fc",
+      "round09_sha256": "cbe31ee0637734af510385b69c876e9cf4969023c9e84fbecc65e8fd115274fc",
+      "size": [
+        1205,
+        1306
+      ],
+      "mode": "RGBA",
+      "source_file": "source/06-verify.png",
+      "output_file": "candidates/06-verify.png",
+      "input_alpha_bbox": [
+        83,
+        0,
+        1123,
+        1271
+      ],
+      "output_alpha_bbox": [
+        83,
+        0,
+        1123,
+        1271
+      ],
+      "changed_vs_R01": false,
+      "decision": "byte-for-byte retained, including corrected question_for_user",
+      "changed_visible_or_alpha_pixels": 0,
+      "outside_allowed_visible_or_alpha_changes": 0,
+      "allowed_region": null,
+      "ui": "未测",
+      "native_playback": "未测",
+      "independent_review": "未测",
+      "layers_and_motion": "未制作"
+    },
+    {
+      "state_id": "read_web",
+      "file": "07-read_web.png",
+      "input_sha256": "ce8655468092eafa020efd186e56d5e02849d54bd4eed10781cc40e78d7cb233",
+      "output_sha256": "ce8655468092eafa020efd186e56d5e02849d54bd4eed10781cc40e78d7cb233",
+      "round09_sha256": "ce8655468092eafa020efd186e56d5e02849d54bd4eed10781cc40e78d7cb233",
+      "size": [
+        1205,
+        1306
+      ],
+      "mode": "RGBA",
+      "source_file": "source/07-read_web.png",
+      "output_file": "candidates/07-read_web.png",
+      "input_alpha_bbox": [
+        0,
+        0,
+        1112,
+        1306
+      ],
+      "output_alpha_bbox": [
+        0,
+        0,
+        1112,
+        1306
+      ],
+      "changed_vs_R01": false,
+      "decision": "byte-for-byte retained, including corrected question_for_user",
+      "changed_visible_or_alpha_pixels": 0,
+      "outside_allowed_visible_or_alpha_changes": 0,
+      "allowed_region": null,
+      "ui": "未测",
+      "native_playback": "未测",
+      "independent_review": "未测",
+      "layers_and_motion": "未制作"
+    },
+    {
+      "state_id": "default_work",
+      "file": "08-default_work.png",
+      "input_sha256": "bb3e21215e279b1e41403c384c4f5f586237ecdf4f6eaea81f283f0a10118d21",
+      "output_sha256": "bb3e21215e279b1e41403c384c4f5f586237ecdf4f6eaea81f283f0a10118d21",
+      "round09_sha256": "bb3e21215e279b1e41403c384c4f5f586237ecdf4f6eaea81f283f0a10118d21",
+      "size": [
+        1201,
+        1309
+      ],
+      "mode": "RGBA",
+      "source_file": "source/08-default_work.png",
+      "output_file": "candidates/08-default_work.png",
+      "input_alpha_bbox": [
+        80,
+        0,
+        1122,
+        1271
+      ],
+      "output_alpha_bbox": [
+        80,
+        0,
+        1122,
+        1271
+      ],
+      "changed_vs_R01": false,
+      "decision": "byte-for-byte retained, including corrected question_for_user",
+      "changed_visible_or_alpha_pixels": 0,
+      "outside_allowed_visible_or_alpha_changes": 0,
+      "allowed_region": null,
+      "ui": "未测",
+      "native_playback": "未测",
+      "independent_review": "未测",
+      "layers_and_motion": "未制作"
+    },
+    {
+      "state_id": "respond",
+      "file": "09-respond.png",
+      "input_sha256": "7b6a19de9a355e3dabac281edf2ce8654ea29c9477453625b8f02441a32536fd",
+      "output_sha256": "7b6a19de9a355e3dabac281edf2ce8654ea29c9477453625b8f02441a32536fd",
+      "round09_sha256": "7b6a19de9a355e3dabac281edf2ce8654ea29c9477453625b8f02441a32536fd",
+      "size": [
+        1205,
+        1306
+      ],
+      "mode": "RGBA",
+      "source_file": "source/09-respond.png",
+      "output_file": "candidates/09-respond.png",
+      "input_alpha_bbox": [
+        82,
+        0,
+        1175,
+        1272
+      ],
+      "output_alpha_bbox": [
+        82,
+        0,
+        1175,
+        1272
+      ],
+      "changed_vs_R01": false,
+      "decision": "byte-for-byte retained, including corrected question_for_user",
+      "changed_visible_or_alpha_pixels": 0,
+      "outside_allowed_visible_or_alpha_changes": 0,
+      "allowed_region": null,
+      "ui": "未测",
+      "native_playback": "未测",
+      "independent_review": "未测",
+      "layers_and_motion": "未制作"
+    },
+    {
+      "state_id": "task_complete",
+      "file": "10-task_complete.png",
+      "input_sha256": "3d62ec933a91426131901201baccf18162cd457a8b5413f5c5f53d90e78293c1",
+      "output_sha256": "f9c76a01b402a43e0f6ca46a1f3ec621a93684acf9dcc8eb8b720e98be0b53c1",
+      "round09_sha256": "3d62ec933a91426131901201baccf18162cd457a8b5413f5c5f53d90e78293c1",
+      "size": [
+        1205,
+        1306
+      ],
+      "mode": "RGBA",
+      "source_file": "source/10-task_complete.png",
+      "output_file": "candidates/10-task_complete.png",
+      "input_alpha_bbox": [
+        41,
+        51,
+        1124,
+        1243
+      ],
+      "output_alpha_bbox": [
+        41,
+        82,
+        1124,
+        1274
+      ],
+      "changed_vs_R01": true,
+      "decision": "whole composition integer translation (0,+31), to align furniture consensus; preserve all internal relationships",
+      "changed_visible_or_alpha_pixels": 851364,
+      "outside_allowed_visible_or_alpha_changes": 0,
+      "allowed_region": "edit-regions/10-translation-mask.png",
+      "ui": "未测",
+      "native_playback": "未测",
+      "independent_review": "未测",
+      "layers_and_motion": "未制作",
+      "translation": [
+        0,
+        31
+      ],
+      "transported_rgba_mismatches": 0,
+      "clipped_visible_pixels": 0,
+      "input_alpha_sum": 201161356,
+      "output_alpha_sum": 201161356,
+      "input_visible_pixels": 811817,
+      "output_visible_pixels": 811817,
+      "post_cyan_y": 939.5,
+      "post_apron_bottom_y": 1010,
+      "remaining_variation": "Original drawing variations remain; desk foot bottom y=1268 versus other-state median1265. This is not a shared-layer asset or pixel-identical furniture."
+    },
+    {
+      "state_id": "question_for_user",
+      "file": "11-question_for_user.png",
+      "input_sha256": "7dd9ffbf1600e954ed5718c970cf8648d4fe3695d82634355ac3054f8b9f6172",
+      "output_sha256": "7dd9ffbf1600e954ed5718c970cf8648d4fe3695d82634355ac3054f8b9f6172",
+      "round09_sha256": "7e6e2adf2068d443564dc8abddf1c6601a7fc81c3c6fd9c3bb77d7b16619a777",
+      "size": [
+        1202,
+        1309
+      ],
+      "mode": "RGBA",
+      "source_file": "source/11-question_for_user.png",
+      "output_file": "candidates/11-question_for_user.png",
+      "input_alpha_bbox": [
+        29,
+        0,
+        1120,
+        1273
+      ],
+      "output_alpha_bbox": [
+        29,
+        0,
+        1120,
+        1273
+      ],
+      "changed_vs_R01": false,
+      "decision": "byte-for-byte retained, including corrected question_for_user",
+      "changed_visible_or_alpha_pixels": 0,
+      "outside_allowed_visible_or_alpha_changes": 0,
+      "allowed_region": null,
+      "ui": "未测",
+      "native_playback": "未测",
+      "independent_review": "未测",
+      "layers_and_motion": "未制作"
+    },
+    {
+      "state_id": "failed",
+      "file": "12-failed.png",
+      "input_sha256": "970cda2adf757e5320f202b93f1bf86f7c88d6bde303e8e7ccdb3dd553e37ace",
+      "output_sha256": "970cda2adf757e5320f202b93f1bf86f7c88d6bde303e8e7ccdb3dd553e37ace",
+      "round09_sha256": "970cda2adf757e5320f202b93f1bf86f7c88d6bde303e8e7ccdb3dd553e37ace",
+      "size": [
+        1205,
+        1306
+      ],
+      "mode": "RGBA",
+      "source_file": "source/12-failed.png",
+      "output_file": "candidates/12-failed.png",
+      "input_alpha_bbox": [
+        0,
+        0,
+        1179,
+        1272
+      ],
+      "output_alpha_bbox": [
+        0,
+        0,
+        1179,
+        1272
+      ],
+      "changed_vs_R01": false,
+      "decision": "byte-for-byte retained, including corrected question_for_user",
+      "changed_visible_or_alpha_pixels": 0,
+      "outside_allowed_visible_or_alpha_changes": 0,
+      "allowed_region": null,
+      "ui": "未测",
+      "native_playback": "未测",
+      "independent_review": "未测",
+      "layers_and_motion": "未制作"
+    }
+  ],
+  "visual_review": {
+    "opened": [
+      "candidates/10-task_complete.png",
+      "review/10-position-comparison.png",
+      "review/10-contact-aligned-200.png",
+      "review/10-five-backgrounds-192.png",
+      "review/12-state-pairs-192-dark.png"
+    ],
+    "conclusion": "趴桌遮脸、叠袖接触、对号牌、桌椅双腿完整；五背景目标画框无新增裁切或接缝",
+    "reviewer": "执行代理自检，非独立评审"
+  },
+  "series_limit": "消除完成状态约5预览像素的整体偏移；原绘制的家具边角仍有数个源图像素差异，不声称所有状态共用同一家具层。",
+  "source_limit": "线上最新版本未重新验证；沿用有哈希记录的本地第九轮及R01修正。"
+}

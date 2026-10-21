@@ -1,0 +1,10 @@
+{
+  "idle": "exec-78a1531a-c9af-6cab-18aa-6f89f529da07.png",
+  "view_image": "exec-d3a2be1b-bbdf-52e6-b7f1-d30280f2dfbb.png",
+  "verify": "exec-31c27347-384e-68c9-d1f4-fc24946f1016.png",
+  "write_file": "exec-a0120e71-9e71-ce28-3bc8-38b7cb62dbcd.png",
+  "read_web": "exec-b090643e-0419-3031-456f-47002d99dae8.png",
+  "respond": "exec-4695c9e8-00bd-a288-be5d-59ad1bc833a9.png",
+  "default_work": "exec-d0d6fff1-bcfa-e5cf-889a-dba887f7836e.png",
+  "failed": "exec-69f2889a-f20e-fbb8-04a1-29f24ff451a2.png"
+}

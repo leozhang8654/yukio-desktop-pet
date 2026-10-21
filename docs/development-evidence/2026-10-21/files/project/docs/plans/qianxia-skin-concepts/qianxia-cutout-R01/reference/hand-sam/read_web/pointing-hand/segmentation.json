@@ -1,0 +1,51 @@
+{
+  "state": "read_web",
+  "part": "pointing-hand",
+  "input_file": "source/07-read_web.png",
+  "input_sha256": "ce8655468092eafa020efd186e56d5e02849d54bd4eed10781cc40e78d7cb233",
+  "box": [
+    318,
+    620,
+    452,
+    700
+  ],
+  "positive_points": [
+    [
+      375,
+      656
+    ],
+    [
+      402,
+      677
+    ]
+  ],
+  "negative_points": [
+    [
+      307,
+      691
+    ],
+    [
+      466,
+      698
+    ],
+    [
+      381,
+      731
+    ]
+  ],
+  "sam_scores": [
+    0.7456584572792053,
+    0.8381818532943726,
+    0.8509198427200317
+  ],
+  "chosen_option": 2,
+  "selected_pixels": 4567,
+  "removed_fully_transparent_pixels": 0,
+  "components": 2,
+  "component_areas": [
+    4562,
+    5
+  ],
+  "visual_review": "pending",
+  "status": "initial_candidate"
+}

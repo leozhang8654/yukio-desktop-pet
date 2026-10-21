@@ -1,0 +1,12 @@
+{
+  "installedApp": "/Users/developer/Desktop/Yukio.app",
+  "backupApp": "/Users/developer/Desktop/yukio-cloud-handoff/YukioPlayer/build/display-clipping-fix/Yukio-before.app",
+  "installedBinarySHA256": "72afccf275b77809e10cbfb99a0265a2d2d035f8fa7ff7fd424c62f787c3801d",
+  "testsPassed": 139,
+  "newRenderingTests": 4,
+  "resourceFilesUnchanged": 159,
+  "assetCheck": "13 animation segments passed",
+  "signingVerification": "passed",
+  "liveProcess": 6045,
+  "visualVerification": "Sprite visible and complete in app screenshot; intermittent physical-screen clipping was not reproduced, so resolution is not yet confirmed."
+}

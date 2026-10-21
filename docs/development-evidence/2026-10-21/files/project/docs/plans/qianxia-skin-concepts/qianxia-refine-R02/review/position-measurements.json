@@ -1,0 +1,124 @@
+{
+  "measurements": [
+    {
+      "state": "01-idle",
+      "cyan_y": 940.0,
+      "apron_bottom_y": 1010,
+      "left_desk_foot_bottom_y": 1263,
+      "right_desk_foot_bottom_y": 1264,
+      "left_chair_foot_bottom_y": 1239
+    },
+    {
+      "state": "02-thinking",
+      "cyan_y": 939.0,
+      "apron_bottom_y": 1009,
+      "left_desk_foot_bottom_y": 1265,
+      "right_desk_foot_bottom_y": 1265,
+      "left_chair_foot_bottom_y": 1249
+    },
+    {
+      "state": "03-read_file",
+      "cyan_y": 940.0,
+      "apron_bottom_y": 1010,
+      "left_desk_foot_bottom_y": 1266,
+      "right_desk_foot_bottom_y": 1266,
+      "left_chair_foot_bottom_y": 1235
+    },
+    {
+      "state": "04-view_image",
+      "cyan_y": 940.0,
+      "apron_bottom_y": 1009,
+      "left_desk_foot_bottom_y": 1262,
+      "right_desk_foot_bottom_y": 1264,
+      "left_chair_foot_bottom_y": 1249
+    },
+    {
+      "state": "05-write_file",
+      "cyan_y": 939.0,
+      "apron_bottom_y": 1010,
+      "left_desk_foot_bottom_y": 1265,
+      "right_desk_foot_bottom_y": 1265,
+      "left_chair_foot_bottom_y": 1247
+    },
+    {
+      "state": "06-verify",
+      "cyan_y": 941.0,
+      "apron_bottom_y": 1012,
+      "left_desk_foot_bottom_y": 1265,
+      "right_desk_foot_bottom_y": 1265,
+      "left_chair_foot_bottom_y": 1249
+    },
+    {
+      "state": "07-read_web",
+      "cyan_y": 940.0,
+      "apron_bottom_y": 1010,
+      "left_desk_foot_bottom_y": 1262,
+      "right_desk_foot_bottom_y": 1262,
+      "left_chair_foot_bottom_y": 1247
+    },
+    {
+      "state": "08-default_work",
+      "cyan_y": 940.0,
+      "apron_bottom_y": 1010,
+      "left_desk_foot_bottom_y": 1266,
+      "right_desk_foot_bottom_y": 1266,
+      "left_chair_foot_bottom_y": 1249
+    },
+    {
+      "state": "09-respond",
+      "cyan_y": 939.0,
+      "apron_bottom_y": 1008,
+      "left_desk_foot_bottom_y": 1264,
+      "right_desk_foot_bottom_y": 1264,
+      "left_chair_foot_bottom_y": 1238
+    },
+    {
+      "state": "10-task_complete",
+      "cyan_y": 908.5,
+      "apron_bottom_y": 979,
+      "left_desk_foot_bottom_y": 1237,
+      "right_desk_foot_bottom_y": 1237,
+      "left_chair_foot_bottom_y": 1222
+    },
+    {
+      "state": "11-question_for_user",
+      "cyan_y": 942.0,
+      "apron_bottom_y": 1012,
+      "left_desk_foot_bottom_y": 1266,
+      "right_desk_foot_bottom_y": 1266,
+      "left_chair_foot_bottom_y": 1249
+    },
+    {
+      "state": "12-failed",
+      "cyan_y": 940.0,
+      "apron_bottom_y": 1010,
+      "left_desk_foot_bottom_y": 1260,
+      "right_desk_foot_bottom_y": 1261,
+      "left_chair_foot_bottom_y": 1249
+    }
+  ],
+  "summary": {
+    "cyan_y": {
+      "complete": 908.5,
+      "other_median": 940.0
+    },
+    "apron_bottom_y": {
+      "complete": 979,
+      "other_median": 1010.0
+    },
+    "left_desk_foot_bottom_y": {
+      "complete": 1237,
+      "other_median": 1265.0
+    },
+    "right_desk_foot_bottom_y": {
+      "complete": 1237,
+      "other_median": 1265.0
+    },
+    "left_chair_foot_bottom_y": {
+      "complete": 1222,
+      "other_median": 1249.0
+    }
+  },
+  "alpha_threshold": 128,
+  "note": "Unscaled source coordinates; furniture measurements independent of facial pose."
+}

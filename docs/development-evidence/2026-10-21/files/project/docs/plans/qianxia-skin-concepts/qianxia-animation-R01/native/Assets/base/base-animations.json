@@ -1,0 +1,1 @@
+{"animations": [{"id": "held", "asset": "held-diagnostic-only.png", "frameWidth": 192, "frameHeight": 208, "frameCount": 1, "pixelScale": 4, "nativeDurationsMs": [1000], "grip": {"x": 96, "y": 0, "headTop": 0}}]}

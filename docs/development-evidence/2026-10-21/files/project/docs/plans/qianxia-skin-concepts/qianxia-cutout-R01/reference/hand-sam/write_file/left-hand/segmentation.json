@@ -1,0 +1,45 @@
+{
+  "state": "write_file",
+  "part": "left-hand",
+  "input_file": "source/05-write_file.png",
+  "input_sha256": "01ce56bb94e11e39844e803c2062cc2e273c7135d3349134e9a3b1cc1647e17e",
+  "box": [
+    347,
+    735,
+    485,
+    814
+  ],
+  "positive_points": [
+    [
+      403,
+      775
+    ]
+  ],
+  "negative_points": [
+    [
+      330,
+      765
+    ],
+    [
+      398,
+      828
+    ]
+  ],
+  "sam_scores": [
+    0.7653570771217346,
+    0.9169238209724426,
+    0.9177802801132202
+  ],
+  "chosen_option": 2,
+  "selected_pixels": 5788,
+  "removed_fully_transparent_pixels": 0,
+  "components": 4,
+  "component_areas": [
+    5647,
+    27,
+    2,
+    112
+  ],
+  "visual_review": "pending",
+  "status": "initial_candidate"
+}

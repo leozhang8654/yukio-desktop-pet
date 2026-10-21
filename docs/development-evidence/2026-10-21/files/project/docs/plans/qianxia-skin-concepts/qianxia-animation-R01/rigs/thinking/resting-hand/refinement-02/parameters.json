@@ -1,0 +1,42 @@
+{
+  "state": "thinking",
+  "part": "resting-hand",
+  "crop": [
+    451,
+    725,
+    700,
+    941
+  ],
+  "positive_points": [
+    [
+      566,
+      831
+    ]
+  ],
+  "negative_points": [
+    [
+      493,
+      822
+    ],
+    [
+      642,
+      829
+    ]
+  ],
+  "scores": [
+    0.8900005221366882,
+    0.9239035248756409,
+    0.9317097663879395
+  ],
+  "chosen": 2,
+  "components_xywh_area": [
+    [
+      522,
+      798,
+      103,
+      71,
+      5150
+    ]
+  ],
+  "status": "candidate_requires_visual_review"
+}

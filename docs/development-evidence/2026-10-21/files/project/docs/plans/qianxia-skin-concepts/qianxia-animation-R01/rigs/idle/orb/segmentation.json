@@ -1,0 +1,42 @@
+{
+  "state": "idle",
+  "part": "orb",
+  "input_file": "source/01-idle.png",
+  "input_sha256": "9c7769ab20bf96f77e8de0d6b6e78ee8e061ed5eb311b87575774df4f12be0b0",
+  "box": [
+    516,
+    713,
+    620,
+    814
+  ],
+  "positive_points": [
+    [
+      565,
+      765
+    ]
+  ],
+  "negative_points": [
+    [
+      501,
+      752
+    ],
+    [
+      569,
+      843
+    ]
+  ],
+  "sam_scores": [
+    0.9274145364761353,
+    0.9425538778305054,
+    0.952265739440918
+  ],
+  "chosen_option": 2,
+  "selected_pixels": 6347,
+  "removed_fully_transparent_pixels": 0,
+  "components": 1,
+  "component_areas": [
+    6347
+  ],
+  "visual_review": "pending",
+  "status": "initial_candidate"
+}

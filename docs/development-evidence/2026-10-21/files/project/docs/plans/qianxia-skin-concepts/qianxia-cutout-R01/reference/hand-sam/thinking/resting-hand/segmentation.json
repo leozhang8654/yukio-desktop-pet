@@ -1,0 +1,42 @@
+{
+  "state": "thinking",
+  "part": "resting-hand",
+  "input_file": "source/02-thinking.png",
+  "input_sha256": "7309dd9974173c4976588387feef61241470e058cb2c3580c4976bff41377536",
+  "box": [
+    516,
+    790,
+    635,
+    876
+  ],
+  "positive_points": [
+    [
+      566,
+      831
+    ]
+  ],
+  "negative_points": [
+    [
+      493,
+      822
+    ],
+    [
+      642,
+      829
+    ]
+  ],
+  "sam_scores": [
+    0.8296617865562439,
+    0.9463961124420166,
+    0.9494404196739197
+  ],
+  "chosen_option": 2,
+  "selected_pixels": 5617,
+  "removed_fully_transparent_pixels": 0,
+  "components": 1,
+  "component_areas": [
+    5617
+  ],
+  "visual_review": "pending",
+  "status": "initial_candidate"
+}

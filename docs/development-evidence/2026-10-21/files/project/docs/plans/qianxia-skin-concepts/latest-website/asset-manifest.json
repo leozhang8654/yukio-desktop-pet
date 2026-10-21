@@ -1,0 +1,202 @@
+{
+  "status": "static_concepts_pending_user_review",
+  "generator": "built-in image_gen",
+  "revision": "Round09: continuous desk apron occludes skirt and upper thighs across all twelve states.",
+  "changed": [
+    "01-idle.png",
+    "02-thinking.png",
+    "03-read_file.png",
+    "04-view_image.png",
+    "05-write_file.png",
+    "06-verify.png",
+    "07-read_web.png",
+    "08-default_work.png",
+    "09-respond.png",
+    "10-task_complete.png",
+    "11-question_for_user.png",
+    "12-failed.png"
+  ],
+  "files": {
+    "01-idle.png": {
+      "sha256": "9c7769ab20bf96f77e8de0d6b6e78ee8e061ed5eb311b87575774df4f12be0b0",
+      "size": [
+        1205,
+        1306
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "source_round": "round09",
+      "edit_target_sha256": "1b922c4d0a5881cc689fc5884effd9510f6c639d72c93eba2f4066866f0d7485",
+      "edit_target_round": "round04"
+    },
+    "02-thinking.png": {
+      "sha256": "7309dd9974173c4976588387feef61241470e058cb2c3580c4976bff41377536",
+      "size": [
+        1205,
+        1306
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "source_round": "round09",
+      "edit_target_sha256": "46cd73c0db6a12d969f6a7fab4df79018d92f3b02d726ed6e13f2b3917a71035",
+      "edit_target_round": "round02"
+    },
+    "03-read_file.png": {
+      "sha256": "61fbd3f92f9beae25e14fde406d4b1cf5e5a34f61c0a59c6bc366b405e95671e",
+      "size": [
+        1205,
+        1306
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "source_round": "round09",
+      "edit_target_sha256": "7391d2501ffe01f7f8a5ae38285d41bddd2e67ff6d072ba9b1d35db64bab5f7e",
+      "edit_target_round": "round04"
+    },
+    "04-view_image.png": {
+      "sha256": "2b5b3c8e23c672f9286e0c77e62c4f53f96ae522b9efc92b3b2b48c9d7d7dfd5",
+      "size": [
+        1205,
+        1306
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "source_round": "round09",
+      "edit_target_sha256": "5d4c0f1b4e66269253bae000ae329c0bbf01a24d0e9a378d6802f73a007ea489",
+      "edit_target_round": "round02"
+    },
+    "05-write_file.png": {
+      "sha256": "01ce56bb94e11e39844e803c2062cc2e273c7135d3349134e9a3b1cc1647e17e",
+      "size": [
+        1205,
+        1306
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "source_round": "round09",
+      "edit_target_sha256": "fd08f111c090bc590befb6d8c29f4fa255088afc0b7db7328ff7df628dc82b02",
+      "edit_target_round": "round02"
+    },
+    "06-verify.png": {
+      "sha256": "cbe31ee0637734af510385b69c876e9cf4969023c9e84fbecc65e8fd115274fc",
+      "size": [
+        1205,
+        1306
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "source_round": "round09",
+      "edit_target_sha256": "23e194e6d53ec6a98d902cda188ff384a22ce59bb9c323c296422e27e81ba916",
+      "edit_target_round": "round02"
+    },
+    "07-read_web.png": {
+      "sha256": "ce8655468092eafa020efd186e56d5e02849d54bd4eed10781cc40e78d7cb233",
+      "size": [
+        1205,
+        1306
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "source_round": "round09",
+      "edit_target_sha256": "304691e9ca15aff4076d488f97653e7484e81e96fb95fca61d65a6ef21cad984",
+      "edit_target_round": "round02"
+    },
+    "08-default_work.png": {
+      "sha256": "bb3e21215e279b1e41403c384c4f5f586237ecdf4f6eaea81f283f0a10118d21",
+      "size": [
+        1201,
+        1309
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "source_round": "round09",
+      "edit_target_sha256": "685aad6499b83f3f8a2bfa1681fd69d3a1c6d3a211335e53e4a4b4c65cbd6c41",
+      "edit_target_round": "round02"
+    },
+    "09-respond.png": {
+      "sha256": "7b6a19de9a355e3dabac281edf2ce8654ea29c9477453625b8f02441a32536fd",
+      "size": [
+        1205,
+        1306
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "source_round": "round09",
+      "edit_target_sha256": "34283d47edb91d1e7ccfc4c037d61a98cf20900f33ebd8fbf458a68e3f705a63",
+      "edit_target_round": "round02"
+    },
+    "10-task_complete.png": {
+      "sha256": "3d62ec933a91426131901201baccf18162cd457a8b5413f5c5f53d90e78293c1",
+      "size": [
+        1205,
+        1306
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "source_round": "round09",
+      "edit_target_sha256": "df1d8262cb15039bff35b818236707efa0b0e456977f69c971ec43ce00264b0a",
+      "edit_target_round": "round08"
+    },
+    "11-question_for_user.png": {
+      "sha256": "7e6e2adf2068d443564dc8abddf1c6601a7fc81c3c6fd9c3bb77d7b16619a777",
+      "size": [
+        1202,
+        1309
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "source_round": "round09",
+      "edit_target_sha256": "e1777c2f9ec5d9cc2147f24599a183a88577105b9308d2c3e1aa23636d0fdb5f",
+      "edit_target_round": "round07"
+    },
+    "12-failed.png": {
+      "sha256": "970cda2adf757e5320f202b93f1bf86f7c88d6bde303e8e7ccdb3dd553e37ace",
+      "size": [
+        1205,
+        1306
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "source_round": "round09",
+      "edit_target_sha256": "b53ba09235dd7f27bccd87f7ac6dfb70bce11fbe561c15078b4cc937ad8f4045",
+      "edit_target_round": "round02"
+    }
+  },
+  "prompt_sha256": "e42521a00395e84f294a5cef831324a9b0fc644cf10c31afb90f113df9c35094"
+}

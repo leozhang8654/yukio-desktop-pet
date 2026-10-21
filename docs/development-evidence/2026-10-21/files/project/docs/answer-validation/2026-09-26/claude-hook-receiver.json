@@ -1,0 +1,28 @@
+{
+  "hookSpecificOutput": {
+    "permissionDecision": "allow",
+    "updatedInput": {
+      "answers": {
+        "Claude 钩子回传实测：点击接收测试答案": "YUKIO_TEST_OK"
+      },
+      "questions": [
+        {
+          "multiSelect": false,
+          "options": [
+            {
+              "label": "YUKIO_TEST_OK",
+              "description": "仅测试回传，不执行任务"
+            },
+            {
+              "label": "YUKIO_TEST_CANCEL",
+              "description": "另一测试值"
+            }
+          ],
+          "question": "Claude 钩子回传实测：点击接收测试答案",
+          "header": "后台回答实测"
+        }
+      ]
+    },
+    "hookEventName": "PreToolUse"
+  }
+}

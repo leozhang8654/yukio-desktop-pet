@@ -1,0 +1,43 @@
+{
+  "date": "2026-10-21",
+  "scope": "development evidence archive; not an application release",
+  "audited_files": 9640,
+  "archived_files": 9192,
+  "excluded_files": 448,
+  "featured_files": 43,
+  "sanitized_files": 247,
+  "online_files": 1662,
+  "changed_since_initial_audit": [
+    "YukioPlayer/Sources/YukioCore/ActivityCollector.swift",
+    "YukioPlayer/Sources/YukioCore/ActivityHistory.swift",
+    "YukioPlayer/Sources/YukioPlayer/ActivityCollectorCLI.swift",
+    "YukioPlayer/Sources/YukioPlayer/ActivityHistoryCLI.swift",
+    "YukioWin/yukio/activity_collector.py",
+    "YukioWin/yukio/activity_collector_cli.py",
+    "YukioWin/yukio/activity_history.py",
+    "YukioWin/yukio/activity_history_cli.py",
+    "tools/activity-progress/README.md",
+    "tools/activity-progress/dist/app.js",
+    "tools/activity-progress/dist/index.html",
+    "tools/activity-progress/dist/style.css",
+    "tools/activity-progress/progress.json"
+  ],
+  "archives": {
+    "05-local-source-docs-and-validation.zip": 701,
+    "04-yukio-animation-experiments.zip": 2295,
+    "01-qianxia-design-and-cutouts.zip": 2680,
+    "03-qianxia-reviews-and-interactions.zip": 711,
+    "02-qianxia-motion-candidates.zip": 2799,
+    "06-research-and-requirements.zip": 6
+  },
+  "exclusion_reasons": {
+    "compiled_executable": 6,
+    "installed_app_backup_not_development_source": 8,
+    "historical_release_package_already_published_or_superseded": 25,
+    "compiled_app_or_cache": 330,
+    "native_compiler_cache": 79
+  },
+  "original_hashes_are_preserved": true,
+  "prior_test_results_not_rerun": true,
+  "windows_native_validation_not_added": true
+}

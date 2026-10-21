@@ -1,0 +1,105 @@
+{
+  "stage": "1.2a",
+  "date": "2026-10-20",
+  "scope": "Standalone local Codex single-file metadata collector, persistence, resume and query; not desktop deployment",
+  "environment": {
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.9.6",
+    "swift": "Apple Swift version 6.1.2 (swiftlang-6.1.2.1.2 clang-1700.0.13.5)\nTarget: arm64-apple-macosx18.0",
+    "native_windows": false
+  },
+  "git": {
+    "branch": "release/v0.2.1",
+    "head": "b176e1e38eb65cee94d4045cf7e94ffa045bb9a4",
+    "dirty_workspace": true,
+    "baseline_snapshot": "/tmp/yukio-history-before-20261020-213137"
+  },
+  "tests": {
+    "swift": {
+      "passed": 207,
+      "failed": 0
+    },
+    "python": {
+      "run": 325,
+      "passed": 324,
+      "skipped": 1,
+      "failed": 0,
+      "skip_reason": "Windows named-pipe integration requires Windows"
+    },
+    "history_cli": {
+      "shared_scenarios": 33,
+      "evidence_rows": 141,
+      "result_rows": 57,
+      "exact_history_parity": true,
+      "metadata_edge_cases": 6,
+      "cross_implementation_resume": true,
+      "live_follow": true,
+      "storage_failure_rollback_and_retry": true,
+      "read_only_query": true,
+      "native_windows_test": false
+    },
+    "previous_results_cli": {
+      "shared_scenarios": 33,
+      "result_records": 57,
+      "exact_metadata_parity": true,
+      "malformed_json_rejected": true,
+      "oversized_record_rejected": true,
+      "native_windows_test": false
+    }
+  },
+  "storage_tests": [
+    "complete-line cursor and evidence transaction",
+    "restart correlation including conflict and reused IDs",
+    "duplicate re-read",
+    "partial final line",
+    "in-place equal-size rewrite",
+    "atomic replacement",
+    "truncation",
+    "multiple files and session isolation",
+    "foreign session grouping",
+    "malformed-line diagnostic and correlation reset",
+    "metadata-only retention",
+    "SQLite trigger-injected cursor write failure and retry",
+    "SQLite FULL via page limit (Python)",
+    "locked writer (Python)",
+    "abrupt child-process exit after event insert before cursor/commit (Python)",
+    "source changed during batch (Python)",
+    "missing source retains queryable history",
+    "unknown and future DB refusal",
+    "oversized line refuses unacknowledged batch",
+    "nonregular source refusal",
+    "hardlinked database source refusal (Swift)",
+    "read-only query and pagination"
+  ],
+  "fixtures": "Synthetic only; no real transcript bodies or paid API calls used in this stage",
+  "not_delivered": [
+    "automatic multi-session discovery",
+    "background service in installed pet",
+    "Claude/Deep Code persistence",
+    "readable activity workbench",
+    "Qwen explanations",
+    "native Windows validation",
+    "package/release/deployment"
+  ],
+  "hashes": {
+    "YukioPlayer/Sources/YukioCore/ActivityHistory.swift": "971f8e2e6d1168d891e786a3f7a12dbb3f40a8a2c4334fa68b0e9eed86eae089",
+    "YukioPlayer/Sources/YukioCore/CodexParsers.swift": "26c3c1ef3dbcada7aeb11a39a9136ad4c355afc30b7d1b0487ac03508cf3e793",
+    "YukioPlayer/Sources/YukioCore/CodexToolResults.swift": "f50ad3d2387cdf910882205229df5d28d314d270fcf7f19e4582d82164a86720",
+    "YukioPlayer/Sources/YukioPlayer/ActivityHistoryCLI.swift": "ba7fc22816c9e7d4f8cf623ced95d9eaeea7202a1da1d54cac7e0dcb28a11db4",
+    "YukioPlayer/Sources/YukioPlayer/main.swift": "06170afaf05df21fc7cee9bdf2bc8eee5c472433936a7f9c59c123beacb4e9f1",
+    "YukioPlayer/Tests/YukioCoreTests/ActivityHistoryTests.swift": "30c4a914ffaae22e02be4de40cf4d905abe062992251836e605d671d137cb03d",
+    "YukioWin/yukio/activity_history.py": "f7188f1ceae74560e6987ef0788985aa91263867f4e42aa191ae2456ccc5db6f",
+    "YukioWin/yukio/activity_history_cli.py": "2885c6bad128083110a7586e4a0f1dd8800287369feb133b51eb322ee90bc187",
+    "YukioWin/yukio/parsers_codex.py": "928213ea4088c0d55dcc676128400ee33e66488df4a57c2710b6321ffd734489",
+    "YukioWin/yukio/cli.py": "2aa9e004be20befe39d3390592bb0f45181a23c27484dbd1884cab565c382d73",
+    "YukioWin/tests/test_activity_history.py": "f39325e3e2518be9e4036365880b9e07daf258a048de2a956ab58bdc29b6ff6e",
+    "tests/verify_activity_history.py": "6b294977ba5f91578d3adcb9fcdedf384299ad43847968d55b29358e201e7b52"
+  },
+  "local_logs": {
+    "/tmp/yukio-history-swift-final.log": "cdfc888d8b1539878618ee204382eedacf51e74d9d56bce4a9d91614bbcc5b0d",
+    "/tmp/yukio-history-python-final.log": "585516fe9ebbfac0045dca6631d34d42b5bae4f0bbf34e61cbe47345f43f6d9e",
+    "/tmp/yukio-history-integration-final.json": "c98fd3d11572bc44223aa7131a182f70be0d9e20a4283469bb3317460c3a38f9",
+    "/tmp/yukio-history-result-parity-final.json": "12ac43c3b75a435b076c74b8842a6d29a5b03e7cb20aa7d8dffe62c857f3364b"
+  }
+}

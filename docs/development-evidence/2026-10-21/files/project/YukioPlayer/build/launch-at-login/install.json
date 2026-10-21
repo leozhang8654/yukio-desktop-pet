@@ -1,0 +1,13 @@
+{
+  "stage": "/Users/developer/Desktop/.Yukio-startup-20260926-103654.app",
+  "backup": "/Users/developer/Desktop/yukio-cloud-handoff/artifacts/app-backups/20260926-103654/Yukio.app",
+  "installed": "/Users/developer/Desktop/Yukio.app",
+  "motionSha256": "2102b0ed2e0b789b4020b375b2ba8f868c13f375b0f19ec506ddab52ca9c5c60",
+  "backupCreated": true,
+  "unitTestsPassed": 4,
+  "installedToggleOnVerified": true,
+  "installedToggleOffVerified": true,
+  "initialStatus": "disabled",
+  "finalStatus": "disabled",
+  "actualRebootTested": false
+}

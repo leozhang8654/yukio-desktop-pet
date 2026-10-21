@@ -1,0 +1,70 @@
+{
+  "status": "design_concepts_only_not_animation_assets",
+  "generator": "built-in image_gen",
+  "source_of_state_inventory": "current local macOS and Windows PetState enums",
+  "agent_states": [
+    "idle",
+    "thinking",
+    "read_file",
+    "view_image",
+    "write_file",
+    "verify",
+    "read_web",
+    "respond",
+    "default_work",
+    "failed",
+    "question_for_user",
+    "task_complete"
+  ],
+  "files": {
+    "README.md": {
+      "sha256": "27bf1e1a985e2aebec44bfe1aaa95efb3df582cc1efa39e1933c11640876fece"
+    },
+    "character-reference.png": {
+      "sha256": "90172cc49c7f73c09fb7a2e12e6d065f319cbe8d8fe9c627473c57db26824721",
+      "size": [
+        1448,
+        1086
+      ],
+      "mode": "RGB"
+    },
+    "compact-image-prompt.txt": {
+      "sha256": "19ac380a415c8a812566a818e7ece5d90e0179848742d425d7622dcf4aba42e2"
+    },
+    "desktop-pet-concept.png": {
+      "sha256": "da356c744ec6750f790d7320ac5694650f2ddd31000b0847d77a24e77a2c6c15",
+      "size": [
+        1205,
+        1305
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_pixels": 668954,
+      "opaque_pixels": 2349
+    },
+    "image-prompt.txt": {
+      "sha256": "74c159fb725d0af91c1f9190a2b0cc693481552592c1f2a77aa96d52ee87f7df"
+    },
+    "room-mood-concept.png": {
+      "sha256": "efbf7036e6beb4f092d53dce0347df59c9f5eaf02d45daae7d961b8868da4af8",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGB"
+    },
+    "sci-fi-designs.md": {
+      "sha256": "c9092f3f6e9565d8c1d52d68e4ace804b5fc09cda7b077e4caa6b767dd3ad0b9"
+    },
+    "sci-fi-designs.zh-CN.md": {
+      "sha256": "44def7e6e34be945a509b37661c89a8a5191bbc9f3ae087ee7a1b850e43fac62"
+    }
+  },
+  "latest_design": "sci-fi-designs.zh-CN.md",
+  "latest_revision": "Round09: continuous desk apron occludes skirt and upper thighs across all twelve states.",
+  "latest_static_art": "latest-website/index.html",
+  "latest_website": "https://qianxia-desktop-pet-gallery.abuzzokapi64.chatgpt.site"
+}

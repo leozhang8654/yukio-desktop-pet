@@ -1,0 +1,284 @@
+{
+  "authoritative_outputs": "本轮 source、masks、parts，以 SHA256SUMS.json 为准。历史试验不等于最终参数，最终蒙版优先。",
+  "source": "12张原图逐字节复用 qianxia-refine-R02。",
+  "initial_selection": "SAM 2.1 初选记录在 R01/reference；自动选择经过人工语义轮廓精修。",
+  "rounds": [
+    "R01 初始抠图被独立退回",
+    "R02/R03 修虹膜曲线与局部边缘",
+    "R04 虹膜22件通过；手与道具9件通过3件退回",
+    "R05 11件手与道具通过，1件描边待修",
+    "R06 描边恢复，内部软alpha漏点被退回",
+    "R07 手与道具12件全部独立通过；22虹膜核验与R04通过版本字节一致"
+  ],
+  "files": [
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/reference/final-hand-contours.json",
+      "sha256": "a81513ce194dda02588a82d7fa1e7c63b7c18df943e45363bb29ced9126e184e"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/reference/eye-sam-parameters.json",
+      "sha256": "1e3bccd933f48419f52e0ad6655213834183db4a0f1527ec012fa882cae08b1c"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R01/reference/hand-sam-model-report.json",
+      "sha256": "fff763fb8c7470e739b07ed0eda2133ee785146dc5eb1025ce9aabcc35473461"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R02/reference/final-hand-contours.json",
+      "sha256": "a81513ce194dda02588a82d7fa1e7c63b7c18df943e45363bb29ced9126e184e"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R02/reference/retraced-contours.json",
+      "sha256": "33fe877bebc3c94c7ddbff86c903d8dfbcfc44e00fb6b025a3c904ba1db38e6f"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R02/reference/orb-contour.json",
+      "sha256": "c05e76d697227105eeeb86111b636d932586b3c931838dc78512815dbeddcbe2"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R02/reference/local-hand-repairs.json",
+      "sha256": "4966b852fc6a01126402bf5bb485ebacf984017d5d902ec3b6b48a717a9c40f1"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R02/reference/eye-contour-fit.json",
+      "sha256": "e1fb2c8d1fd6cd6fc2ec3142c98abdc91d64384b1febc0bea59071fc8ba98833"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R02/reference/eye-final-arcs.json",
+      "sha256": "d0c96a0dbe8058d931ada53f57841231a70467a9971ddbe43993bb6a10fd8e05"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R02/reference/eye-arc-refinement.json",
+      "sha256": "232e30ba66097e8794c25abea975487526f40fbc3bfa7a064fd37d7bc0afd3e7"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R02/reference/precise-local-contours.json",
+      "sha256": "53a3456bce4eb3cc7336adc5b988232d5559afb5325405dedac093b0cbccbd1f"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R02/reference/sam-local-retry.json",
+      "sha256": "876d2935051c93e9cfafdd1ff8fead3bae4688fd89c41da1a2c564e8aad47344"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R02/reference/retained-iris-ink.json",
+      "sha256": "d6eaf1d1bdf22417ed36e44d50c72a2d9b8f670b984fcef857a067c3770e9fc9"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R02/reference/final-local-repairs.json",
+      "sha256": "2d3db42c7a6339e7eff8f1de36a6162c2c818665cd79f7d62a4e49be77b92be5"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R02/tools/refine_eyes.py",
+      "sha256": "bfc4176c764f792b738cbb0edbd37c2b52c6e795625842656d28ea5aadb553c2"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R02/tools/fit_retained_iris_ink.py",
+      "sha256": "a526a4ab03844b90add32e67d3ec3caf7da943f3fd15f31923840983541061e7"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R02/tools/retain_iris_ink.py",
+      "sha256": "6a8ab3fcc233b8bc8afa5fa033e69285e8caafa44bb6fd2a4ad0dadfd332a2ad"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R02/tools/eye_review_pages.py",
+      "sha256": "fff1766a6230bb14b9748600d32419f5f326c53e0f53ed616d331800818931ba"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R02/tools/final_local_repairs.py",
+      "sha256": "fb8034febd5b4361815de16da9d94cc626f31bca44e886d9deac818cec6e37fd"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R02/tools/precise_local_contours.py",
+      "sha256": "8242bf1b0d4f6f2b815095f0d4bf74483f82466f3057489bde28c41849aa51a0"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R02/tools/test_boundary_refine.py",
+      "sha256": "fbd5668709d18753c20ef36a4c42cb4ebe534fc874b3c91b92904f3505e2422e"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R02/tools/local_hand_repairs.py",
+      "sha256": "62b245bd4cf67b554c9166ad0e8cc4ade65a9ddd1829235ba9a293c921d67021"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R02/tools/review_masks.py",
+      "sha256": "3d5bfaba71b3d99021aa62dcccfc2448f4c8433f6c85a653b5acc3b1e0e94512"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R02/tools/pack_eye_diagnostics.py",
+      "sha256": "587b7c5095e644ff8b9d8f25861be436efa5db03a4cf56deaf4872478f54ebae"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R02/tools/sam_local_retry.py",
+      "sha256": "608cf760457d44e6ff13788b48ac0756b141f6b92df40ab4b97b5a454fde4dc0"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R02/tools/eye_geometry.py",
+      "sha256": "c31b43cbd27d66f7b2eb317d4ba849593c188cc26e34f4876f1576e283d727d0"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R02/tools/refine_contours.py",
+      "sha256": "de9d8135717243e32942d2832d9074e837e9b741beee20162f0a509ec1cd3248"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/reference/corner-repairs.json",
+      "sha256": "a631f4db84bec75b2c76a31b889ab6f1cb255e5a78a2875d3319e260ec532e7c"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/reference/hand-edge-finish.json",
+      "sha256": "d72837614c5134aa86bec83e49b151468e1f34c74dbd17ee66eee6def46ce141"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/reference/restored-shading-pixels.json",
+      "sha256": "328f8b1dee88ea93c61a121d1608bc6f5280503311979048a6a55da1928de2d0"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/tools/eye_review_pages.py",
+      "sha256": "fff1766a6230bb14b9748600d32419f5f326c53e0f53ed616d331800818931ba"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/tools/fix_eye_corners.py",
+      "sha256": "c220cf30a2223a1936c1f3527518eea48c56a1beaf7bba3621d6c8892a071ebb"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/tools/finish_hand_edges.py",
+      "sha256": "2b1de40d55372c402e04bb9c4b7accd8583c0be6b3299f4ed15ced00768d5739"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/tools/review_masks.py",
+      "sha256": "3d5bfaba71b3d99021aa62dcccfc2448f4c8433f6c85a653b5acc3b1e0e94512"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R03/tools/pack_eye_diagnostics.py",
+      "sha256": "587b7c5095e644ff8b9d8f25861be436efa5db03a4cf56deaf4872478f54ebae"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R04/reference/corner-repairs.json",
+      "sha256": "a631f4db84bec75b2c76a31b889ab6f1cb255e5a78a2875d3319e260ec532e7c"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R04/reference/hand-edge-finish.json",
+      "sha256": "d72837614c5134aa86bec83e49b151468e1f34c74dbd17ee66eee6def46ce141"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R04/reference/three-corner-repairs.json",
+      "sha256": "c2f84531eabbb9ef66d267616718af441691746b59a72635644e0dc9db9cc668"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R04/reference/restored-shading-pixels.json",
+      "sha256": "328f8b1dee88ea93c61a121d1608bc6f5280503311979048a6a55da1928de2d0"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R04/reference/hand-boundary-repairs.json",
+      "sha256": "d48ce7a0a015af28f7f1865a5a51709b96b89b968d1cd740d3444774b4ef4182"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R04/reference/source-provenance.json",
+      "sha256": "08aac72ac17fd3d0cc85aabd11fb3fde321cebc911033b0def859e339429ffb2"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R04/tools/eye_review_pages.py",
+      "sha256": "fff1766a6230bb14b9748600d32419f5f326c53e0f53ed616d331800818931ba"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R04/tools/fix_eye_corners.py",
+      "sha256": "c220cf30a2223a1936c1f3527518eea48c56a1beaf7bba3621d6c8892a071ebb"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R04/tools/repair_hand_boundaries.py",
+      "sha256": "012ee1acd29e60f867418c0e1281eed6152b3b75e5eec127ffd4f26e4880bc09"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R04/tools/fix_three_corners.py",
+      "sha256": "19838e5c3a132cb8f9aa9b735385100674497dcfee37c8089fc63f928973802b"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R04/tools/finish_hand_edges.py",
+      "sha256": "2b1de40d55372c402e04bb9c4b7accd8583c0be6b3299f4ed15ced00768d5739"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R04/tools/review_masks.py",
+      "sha256": "3d5bfaba71b3d99021aa62dcccfc2448f4c8433f6c85a653b5acc3b1e0e94512"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R04/tools/pack_eye_diagnostics.py",
+      "sha256": "587b7c5095e644ff8b9d8f25861be436efa5db03a4cf56deaf4872478f54ebae"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R07/reference/additional-internal-alpha.json",
+      "sha256": "d3ced8151fcbe3e31c32fbcd1a716bc12a7281cfefcf7b1b17ff4a4c0ab6d4af"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R07/reference/corner-repairs.json",
+      "sha256": "a631f4db84bec75b2c76a31b889ab6f1cb255e5a78a2875d3319e260ec532e7c"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R07/reference/hand-boundary-repairs.json",
+      "sha256": "d48ce7a0a015af28f7f1865a5a51709b96b89b968d1cd740d3444774b4ef4182"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R07/reference/hand-edge-finish.json",
+      "sha256": "d72837614c5134aa86bec83e49b151468e1f34c74dbd17ee66eee6def46ce141"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R07/reference/internal-finger-opacity.json",
+      "sha256": "112795c970246532c5669994999ea57d6a83d8f4f1f09bc6a4dd6b092e1b549b"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R07/reference/last-finger-ink.json",
+      "sha256": "47062cd4289c87204acdafc3b85f9d139091ae515981a991bfc2e9eba0521a83"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R07/reference/restored-shading-pixels.json",
+      "sha256": "328f8b1dee88ea93c61a121d1608bc6f5280503311979048a6a55da1928de2d0"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R07/reference/source-provenance.json",
+      "sha256": "08d51fdac641a3a10e593ed4e8ffacab0797182939193859cbe73c4601b23a48"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R07/reference/three-corner-repairs.json",
+      "sha256": "c2f84531eabbb9ef66d267616718af441691746b59a72635644e0dc9db9cc668"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R07/reference/three-hand-repairs.json",
+      "sha256": "2e8b6e65be93a9c769ffb0ae2d01427d364c3bce0098f688aea12eb5ca57aa4d"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R07/tools/eye_review_pages.py",
+      "sha256": "fff1766a6230bb14b9748600d32419f5f326c53e0f53ed616d331800818931ba"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R07/tools/finish_hand_edges.py",
+      "sha256": "2b1de40d55372c402e04bb9c4b7accd8583c0be6b3299f4ed15ced00768d5739"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R07/tools/fix_eye_corners.py",
+      "sha256": "c220cf30a2223a1936c1f3527518eea48c56a1beaf7bba3621d6c8892a071ebb"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R07/tools/fix_three_corners.py",
+      "sha256": "19838e5c3a132cb8f9aa9b735385100674497dcfee37c8089fc63f928973802b"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R07/tools/pack_eye_diagnostics.py",
+      "sha256": "587b7c5095e644ff8b9d8f25861be436efa5db03a4cf56deaf4872478f54ebae"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R07/tools/repair_hand_boundaries.py",
+      "sha256": "012ee1acd29e60f867418c0e1281eed6152b3b75e5eec127ffd4f26e4880bc09"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R07/tools/repair_three_hands.py",
+      "sha256": "7b2baa423713ff8ab351af6661e652aee8d18f70c0dcfde7f499dabc7bd23683"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R07/tools/restore_last_finger_ink.py",
+      "sha256": "316d5e1c6254ae71afd6f48344f2b12963776831d183092f7e55fdf4428c3ead"
+    },
+    {
+      "path": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R07/tools/review_masks.py",
+      "sha256": "bc58fd9a0f0849fdc0ee445de424f21c1d2a4b8bcc8d2b3d221561a77f52d551"
+    }
+  ],
+  "final_masks": "qianxia-cutout-R07/masks，最终文件以本轮SHA256SUMS.json为准"
+}

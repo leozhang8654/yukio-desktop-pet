@@ -1,0 +1,9 @@
+{
+  "parent": "R02",
+  "scope": "preview only; artwork unchanged",
+  "startup": "Initialize NSApplication before reading manifest; package byte-identical encoded atlases and decoded PNGs in Resources/candidate",
+  "clock": "Timer in main common run-loop; require app active, window visible and not minimized. OS returned occlusion=8192 while SDK visible=2; original occlusion guard stalled playback. Actual CUA-visible window and draw coverage supplement this condition.",
+  "report_path": "NSTemporaryDirectory()/qianxia-motion-R03-playback/native-playback.json",
+  "switching": "Arrow selection restarts selected body entry; independent blink clock unchanged",
+  "counter": "UI uses observed complete-frame-set cycle counts; once default labeled hold, not global elapsed loops"
+}

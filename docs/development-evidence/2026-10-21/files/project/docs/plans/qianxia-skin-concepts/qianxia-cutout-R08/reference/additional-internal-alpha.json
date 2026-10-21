@@ -1,0 +1,24 @@
+[
+  {
+    "part": "write_file/left-hand",
+    "roi": [
+      430,
+      763,
+      434,
+      769
+    ],
+    "changed_pixels": 7,
+    "reason": "source-visible opaque interior ink/shading; old mask alpha was attenuating the source pixels"
+  },
+  {
+    "part": "respond/hand-and-card",
+    "roi": [
+      355,
+      719,
+      378,
+      724
+    ],
+    "changed_pixels": 14,
+    "reason": "source-visible opaque interior ink/shading; old mask alpha was attenuating the source pixels"
+  }
+]

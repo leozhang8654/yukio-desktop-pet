@@ -1,0 +1,2733 @@
+{
+  "duration_seconds": 6,
+  "samples": [
+    {
+      "time": 0.0,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.03333333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.06666666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.1,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.13333333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.16666666666666666,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.2,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.23333333333333334,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.26666666666666666,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.3,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.3333333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.36666666666666664,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.4,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.43333333333333335,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.4666666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.5,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.5333333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.5666666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.6,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.6333333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.031851851851851826,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.6666666666666666,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.12148148148148138,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.7,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.25999999999999973,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.7333333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.4385185185185182,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.7666666666666666,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.6481481481481477,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.8,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.8800000000000002,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.8333333333333334,
+      "transforms": {
+        "hand-and-stylus": [
+          0.08408888888888888,
+          -0.16817777777777776,
+          -0.0038222222222222208
+        ]
+      },
+      "gaze": [
+        1.125185185185185,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0.03135771500482642
+    },
+    {
+      "time": 0.8666666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          0.320711111111111,
+          -0.641422222222222,
+          -0.014577777777777773
+        ]
+      },
+      "gaze": [
+        1.374814814814815,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0.11959691660333299
+    },
+    {
+      "time": 0.9,
+      "transforms": {
+        "hand-and-stylus": [
+          0.6863999999999997,
+          -1.3727999999999994,
+          -0.031199999999999985
+        ]
+      },
+      "gaze": [
+        1.62,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0.25596673688091653
+    },
+    {
+      "time": 0.9333333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          1.1576888888888885,
+          -2.315377777777777,
+          -0.0526222222222222
+        ]
+      },
+      "gaze": [
+        1.8518518518518516,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0.43171633656028635
+    },
+    {
+      "time": 0.9666666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          1.7111111111111108,
+          -3.4222222222222216,
+          -0.07777777777777775
+        ]
+      },
+      "gaze": [
+        2.0614814814814815,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0.638094868359716
+    },
+    {
+      "time": 1.0,
+      "transforms": {
+        "hand-and-stylus": [
+          2.3231999999999995,
+          -4.646399999999999,
+          -0.10559999999999996
+        ]
+      },
+      "gaze": [
+        2.2399999999999993,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0.8663514480026386
+    },
+    {
+      "time": 1.0333333333333332,
+      "transforms": {
+        "hand-and-stylus": [
+          2.970488888888886,
+          -5.940977777777772,
+          -0.13502222222222207
+        ]
+      },
+      "gaze": [
+        2.378518518518518,
+        2.5
+      ],
+      "maximum_displacement_display_px": 1.1077351329258422
+    },
+    {
+      "time": 1.0666666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          3.629511111111111,
+          -7.259022222222222,
+          -0.16497777777777775
+        ]
+      },
+      "gaze": [
+        2.4681481481481478,
+        2.5
+      ],
+      "maximum_displacement_display_px": 1.3534949086038717
+    },
+    {
+      "time": 1.1,
+      "transforms": {
+        "hand-and-stylus": [
+          4.2768000000000015,
+          -8.553600000000003,
+          -0.19440000000000004
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 1.5948796823158242
+    },
+    {
+      "time": 1.1333333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          4.888888888888888,
+          -9.777777777777777,
+          -0.22222222222222218
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 1.823138284127001
+    },
+    {
+      "time": 1.1666666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          5.442311111111112,
+          -10.884622222222225,
+          -0.2473777777777778
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.0295194748377217
+    },
+    {
+      "time": 1.2,
+      "transforms": {
+        "hand-and-stylus": [
+          5.913599999999999,
+          -11.827199999999998,
+          -0.26879999999999993
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.205271960671545
+    },
+    {
+      "time": 1.2333333333333334,
+      "transforms": {
+        "hand-and-stylus": [
+          6.27928888888889,
+          -12.55857777777778,
+          -0.28542222222222224
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.3416444145290423
+    },
+    {
+      "time": 1.2666666666666666,
+      "transforms": {
+        "hand-and-stylus": [
+          6.5159111111111105,
+          -13.031822222222221,
+          -0.29617777777777776
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.429885503724767
+    },
+    {
+      "time": 1.3,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 1.3333333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 1.3666666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 1.4,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 1.4333333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 1.4666666666666666,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 1.5,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 1.5333333333333332,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 1.5666666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 1.6,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 1.6333333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 1.6666666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 1.7,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 1.7333333333333334,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 1.7666666666666666,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 1.8,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 1.8333333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.29999999999999993
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 1.8666666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 1.9,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 1.9333333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 1.9666666666666666,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 2.0,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 2.033333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 2.0666666666666664,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 2.1,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 2.1333333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 2.1666666666666665,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 2.2,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 2.2333333333333334,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 2.2666666666666666,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 2.3,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 2.3333333333333335,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.5334362139917705,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 2.3666666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.628600823045268,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 2.4,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.7777777777777777,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 2.433333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        2.973251028806584,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 2.466666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        3.207304526748973,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 2.5,
+      "transforms": {
+        "hand-and-stylus": [
+          6.6000000000000005,
+          -13.200000000000001,
+          -0.3
+        ]
+      },
+      "gaze": [
+        3.472222222222223,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4612439242542643
+    },
+    {
+      "time": 2.533333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          6.698079561042524,
+          -13.16076817558299,
+          -0.2928669410150892
+        ]
+      },
+      "gaze": [
+        3.760288065843622,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4600133498359993
+    },
+    {
+      "time": 2.5666666666666664,
+      "transforms": {
+        "hand-and-stylus": [
+          6.977229080932782,
+          -13.049108367626888,
+          -0.27256515775034307
+        ]
+      },
+      "gaze": [
+        4.063786008230451,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4571574260078846
+    },
+    {
+      "time": 2.6,
+      "transforms": {
+        "hand-and-stylus": [
+          7.414814814814817,
+          -12.874074074074075,
+          -0.24074074074074064
+        ]
+      },
+      "gaze": [
+        4.375000000000002,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4546122133814845
+    },
+    {
+      "time": 2.6333333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          7.988203017832648,
+          -12.644718792866945,
+          -0.1990397805212621
+        ]
+      },
+      "gaze": [
+        4.686213991769548,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4548574182274865
+    },
+    {
+      "time": 2.6666666666666665,
+      "transforms": {
+        "hand-and-stylus": [
+          8.674759945130312,
+          -12.370096021947875,
+          -0.1491083676268864
+        ]
+      },
+      "gaze": [
+        4.989711934156379,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.460491049712436
+    },
+    {
+      "time": 2.7,
+      "transforms": {
+        "hand-and-stylus": [
+          9.451851851851856,
+          -12.059259259259258,
+          -0.09259259259259228
+        ]
+      },
+      "gaze": [
+        5.27777777777778,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.4738406625807237
+    },
+    {
+      "time": 2.7333333333333334,
+      "transforms": {
+        "hand-and-stylus": [
+          10.296844993141292,
+          -11.721262002743483,
+          -0.03113854595336063
+        ]
+      },
+      "gaze": [
+        5.54269547325103,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.496626357553775
+    },
+    {
+      "time": 2.7666666666666666,
+      "transforms": {
+        "hand-and-stylus": [
+          11.187105624142658,
+          -11.365157750342938,
+          0.033607681755829705
+        ]
+      },
+      "gaze": [
+        5.776748971193417,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.545239394296268
+    },
+    {
+      "time": 2.8,
+      "transforms": {
+        "hand-and-stylus": [
+          12.099999999999994,
+          -11.000000000000005,
+          0.09999999999999956
+        ]
+      },
+      "gaze": [
+        5.972222222222221,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.6197951713571364
+    },
+    {
+      "time": 2.8333333333333335,
+      "transforms": {
+        "hand-and-stylus": [
+          13.012894375857341,
+          -10.634842249657066,
+          0.16639231824417022
+        ]
+      },
+      "gaze": [
+        6.121399176954734,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.7038451297659063
+    },
+    {
+      "time": 2.8666666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          13.903155006858713,
+          -10.278737997256517,
+          0.23113854595336072
+        ]
+      },
+      "gaze": [
+        6.21656378600823,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.794137384830103
+    },
+    {
+      "time": 2.9,
+      "transforms": {
+        "hand-and-stylus": [
+          14.748148148148145,
+          -9.940740740740743,
+          0.2925925925925923
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.8867373085473322
+    },
+    {
+      "time": 2.933333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          15.525240054869679,
+          -9.629903978052129,
+          0.3491083676268857
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.9772796656912113
+    },
+    {
+      "time": 2.966666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          16.211796982167357,
+          -9.355281207133057,
+          0.39903978052126216
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.0611890371610815
+    },
+    {
+      "time": 3.0,
+      "transforms": {
+        "hand-and-stylus": [
+          16.785185185185185,
+          -9.125925925925928,
+          0.44074074074074066
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.1338763996090506
+    },
+    {
+      "time": 3.033333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          17.222770919067212,
+          -8.950891632373116,
+          0.47256515775034275
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.1910027130531553
+    },
+    {
+      "time": 3.0666666666666664,
+      "transforms": {
+        "hand-and-stylus": [
+          17.501920438957477,
+          -8.839231824417013,
+          0.49286694101508893
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.2280897484505
+    },
+    {
+      "time": 3.1,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.249999999999999,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 3.1333333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 3.1666666666666665,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 3.2,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 3.2333333333333334,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 3.2666666666666666,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 3.3,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 3.3333333333333335,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 3.3666666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 3.4,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 3.433333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 3.466666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 3.5,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 3.533333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 3.5666666666666664,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 3.6,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 3.6333333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 3.6666666666666665,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 3.6999999999999997,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 3.7333333333333334,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 3.7666666666666666,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 3.8,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 3.8333333333333335,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 3.8666666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 3.9,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 3.933333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 3.966666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 4.0,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 4.033333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 4.066666666666666,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 4.1,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 4.133333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 4.166666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 4.2,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 4.233333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 4.266666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 4.3,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 4.333333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 4.366666666666666,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 4.4,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 4.433333333333334,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 4.466666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 4.5,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.25,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 4.533333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        6.170370370370372,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 4.566666666666666,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        5.946296296296298,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 4.6,
+      "transforms": {
+        "hand-and-stylus": [
+          17.6,
+          -8.8,
+          0.5
+        ]
+      },
+      "gaze": [
+        5.600000000000004,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.241235525964184
+    },
+    {
+      "time": 4.633333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          17.443072702331964,
+          -8.721536351165982,
+          0.49554183813443076
+        ]
+      },
+      "gaze": [
+        5.153703703703711,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.212331271072631
+    },
+    {
+      "time": 4.666666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          16.996433470507537,
+          -8.498216735253768,
+          0.48285322359396404
+        ]
+      },
+      "gaze": [
+        4.629629629629624,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.130065742083742
+    },
+    {
+      "time": 4.7,
+      "transforms": {
+        "hand-and-stylus": [
+          16.296296296296287,
+          -8.148148148148143,
+          0.46296296296296263
+        ]
+      },
+      "gaze": [
+        4.049999999999997,
+        2.5
+      ],
+      "maximum_displacement_display_px": 3.00111023965483
+    },
+    {
+      "time": 4.733333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          15.378875171467756,
+          -7.689437585733878,
+          0.4368998628257885
+        ]
+      },
+      "gaze": [
+        3.437037037037036,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.8321364171917502
+    },
+    {
+      "time": 4.766666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          14.280384087791491,
+          -7.140192043895746,
+          0.4056927297668037
+        ]
+      },
+      "gaze": [
+        2.8129629629629638,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.6298160111152766
+    },
+    {
+      "time": 4.8,
+      "transforms": {
+        "hand-and-stylus": [
+          13.037037037037038,
+          -6.518518518518519,
+          0.37037037037037035
+        ]
+      },
+      "gaze": [
+        2.2000000000000024,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.400820612405036
+    },
+    {
+      "time": 4.833333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          11.685048010973945,
+          -5.842524005486973,
+          0.33196159122085067
+        ]
+      },
+      "gaze": [
+        1.6203703703703753,
+        2.5
+      ],
+      "maximum_displacement_display_px": 2.151821479318091
+    },
+    {
+      "time": 4.866666666666666,
+      "transforms": {
+        "hand-and-stylus": [
+          10.260631001371756,
+          -5.130315500685878,
+          0.29149519890260667
+        ]
+      },
+      "gaze": [
+        1.096296296296302,
+        2.5
+      ],
+      "maximum_displacement_display_px": 1.8894893912767363
+    },
+    {
+      "time": 4.9,
+      "transforms": {
+        "hand-and-stylus": [
+          8.799999999999981,
+          -4.399999999999991,
+          0.24999999999999944
+        ]
+      },
+      "gaze": [
+        0.6499999999999957,
+        2.5
+      ],
+      "maximum_displacement_display_px": 1.6204945439990806
+    },
+    {
+      "time": 4.933333333333334,
+      "transforms": {
+        "hand-and-stylus": [
+          7.339368998628246,
+          -3.669684499314123,
+          0.20850480109739333
+        ]
+      },
+      "gaze": [
+        0.30370370370370114,
+        2.5
+      ],
+      "maximum_displacement_display_px": 1.3515064860046468
+    },
+    {
+      "time": 4.966666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          5.914951989026057,
+          -2.9574759945130284,
+          0.16803840877914933
+        ]
+      },
+      "gaze": [
+        0.0796296296296295,
+        2.5
+      ],
+      "maximum_displacement_display_px": 1.089194096665948
+    },
+    {
+      "time": 5.0,
+      "transforms": {
+        "hand-and-stylus": [
+          4.562962962962964,
+          -2.281481481481482,
+          0.12962962962962965
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0.8402256059960311
+    },
+    {
+      "time": 5.033333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          3.31961591220851,
+          -1.659807956104255,
+          0.0943072702331963
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0.6112686563619468
+    },
+    {
+      "time": 5.066666666666666,
+      "transforms": {
+        "hand-and-stylus": [
+          2.221124828532246,
+          -1.110562414266123,
+          0.06310013717421153
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0.40899040629305217
+    },
+    {
+      "time": 5.1,
+      "transforms": {
+        "hand-and-stylus": [
+          1.3037037037037154,
+          -0.6518518518518577,
+          0.03703703703703737
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0.2400576765149222
+    },
+    {
+      "time": 5.133333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          0.6035665294924657,
+          -0.30178326474623285,
+          0.017146776406035957
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0.11113713828014672
+    },
+    {
+      "time": 5.166666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          0.15692729766803737,
+          -0.07846364883401868,
+          0.004458161865569243
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0.02889554398938156
+    },
+    {
+      "time": 5.2,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.233333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.266666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.3,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.333333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.366666666666666,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.4,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.433333333333334,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.466666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.5,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.533333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.566666666666666,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.6,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.633333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.666666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.7,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.733333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.766666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.8,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.833333333333333,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.866666666666666,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.9,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.933333333333334,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.966666666666667,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.0,
+      "transforms": {
+        "hand-and-stylus": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    }
+  ],
+  "display_size": [
+    192,
+    208
+  ],
+  "source_scale": 0.31867219917012446,
+  "pivots_source_px": {
+    "hand-and-stylus": [
+      394,
+      760
+    ]
+  },
+  "maximum_displacement_display_px": 3.241235525964184,
+  "peak_sample": 93
+}

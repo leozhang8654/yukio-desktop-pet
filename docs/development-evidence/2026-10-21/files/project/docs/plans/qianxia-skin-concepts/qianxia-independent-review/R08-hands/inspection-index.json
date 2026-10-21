@@ -1,0 +1,50 @@
+[
+  {
+    "state": "respond",
+    "part": "hand-and-card",
+    "source": "source/09-respond.png",
+    "mask": "masks/respond/hand-and-card.png",
+    "candidate": "parts/respond/hand-and-card.png",
+    "crop": [
+      287,
+      573,
+      547,
+      792
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R08-hands/evidence/respond-hand-and-card-reference.png",
+    "background100": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R08-hands/evidence/respond-hand-and-card-background100.png",
+    "background200": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R08/review/respond/hand-and-card/four-backgrounds-200.png"
+  },
+  {
+    "state": "verify",
+    "part": "hand-and-probe",
+    "source": "source/06-verify.png",
+    "mask": "masks/verify/hand-and-probe.png",
+    "candidate": "parts/verify/hand-and-probe.png",
+    "crop": [
+      355,
+      574,
+      524,
+      795
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R08-hands/evidence/verify-hand-and-probe-reference.png",
+    "background100": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R08-hands/evidence/verify-hand-and-probe-background100.png",
+    "background200": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R08/review/verify/hand-and-probe/four-backgrounds-200.png"
+  },
+  {
+    "state": "write_file",
+    "part": "left-hand",
+    "source": "source/05-write_file.png",
+    "mask": "masks/write_file/left-hand.png",
+    "candidate": "parts/write_file/left-hand.png",
+    "crop": [
+      339,
+      724,
+      484,
+      829
+    ],
+    "reference": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R08-hands/evidence/write_file-left-hand-reference.png",
+    "background100": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/R08-hands/evidence/write_file-left-hand-background100.png",
+    "background200": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-cutout-R08/review/write_file/left-hand/four-backgrounds-200.png"
+  }
+]

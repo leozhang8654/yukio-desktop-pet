@@ -1,0 +1,218 @@
+[
+  {
+    "state": "default_work",
+    "timelineSteps": 121,
+    "distinctGazes": 11,
+    "sharedXYGain": [
+      1.0,
+      1.0
+    ],
+    "maxBinocularDriftSourcePixels": [
+      0.035332850485588096,
+      0.02072559965613152
+    ],
+    "maxAdjacentIrisStepSourcePixels": 0.13770593109580886,
+    "changedPixelsOutsideEyeBoxes": 0,
+    "changedCornerPixels": 0,
+    "independentBlinkLevels": 6,
+    "fullBlinkIrisLeaks": 0
+  },
+  {
+    "state": "write_file",
+    "timelineSteps": 101,
+    "distinctGazes": 25,
+    "sharedXYGain": [
+      1.0,
+      1.0
+    ],
+    "maxBinocularDriftSourcePixels": [
+      0.2365030699607189,
+      0.028104323934499575
+    ],
+    "maxAdjacentIrisStepSourcePixels": 0.2703174301263118,
+    "changedPixelsOutsideEyeBoxes": 0,
+    "changedCornerPixels": 0,
+    "independentBlinkLevels": 6,
+    "fullBlinkIrisLeaks": 0
+  },
+  {
+    "state": "verify",
+    "timelineSteps": 181,
+    "distinctGazes": 27,
+    "sharedXYGain": [
+      0.49999998597537815,
+      1.0
+    ],
+    "maxBinocularDriftSourcePixels": [
+      0.2523065710383605,
+      0.16406380060729475
+    ],
+    "maxAdjacentIrisStepSourcePixels": 0.20749314503211735,
+    "changedPixelsOutsideEyeBoxes": 0,
+    "changedCornerPixels": 0,
+    "independentBlinkLevels": 6,
+    "fullBlinkIrisLeaks": 0
+  },
+  {
+    "state": "view_image",
+    "timelineSteps": 141,
+    "distinctGazes": 29,
+    "sharedXYGain": [
+      1.0,
+      1.0
+    ],
+    "maxBinocularDriftSourcePixels": [
+      0.2736954342434217,
+      0.0605650108927307
+    ],
+    "maxAdjacentIrisStepSourcePixels": 0.14229464115007318,
+    "changedPixelsOutsideEyeBoxes": 0,
+    "changedCornerPixels": 0,
+    "independentBlinkLevels": 6,
+    "fullBlinkIrisLeaks": 0
+  },
+  {
+    "state": "read_file",
+    "timelineSteps": 111,
+    "distinctGazes": 45,
+    "sharedXYGain": [
+      0.7407407276587887,
+      1.0
+    ],
+    "maxBinocularDriftSourcePixels": [
+      0.48891095705357657,
+      0.06321604310574003
+    ],
+    "maxAdjacentIrisStepSourcePixels": 0.2947156126691368,
+    "changedPixelsOutsideEyeBoxes": 0,
+    "changedCornerPixels": 0,
+    "independentBlinkLevels": 6,
+    "fullBlinkIrisLeaks": 0
+  },
+  {
+    "state": "read_web",
+    "timelineSteps": 121,
+    "distinctGazes": 11,
+    "sharedXYGain": [
+      1.0,
+      1.0
+    ],
+    "maxBinocularDriftSourcePixels": [
+      0.01490790938063924,
+      0.056989871338274156
+    ],
+    "maxAdjacentIrisStepSourcePixels": 0.2434251048946976,
+    "changedPixelsOutsideEyeBoxes": 0,
+    "changedCornerPixels": 0,
+    "independentBlinkLevels": 6,
+    "fullBlinkIrisLeaks": 0
+  },
+  {
+    "state": "thinking",
+    "timelineSteps": 351,
+    "distinctGazes": 16,
+    "sharedXYGain": [
+      1.0,
+      1.0
+    ],
+    "maxBinocularDriftSourcePixels": [
+      0.18516189360374824,
+      0.2155520179607322
+    ],
+    "maxAdjacentIrisStepSourcePixels": 0.13795457121247523,
+    "changedPixelsOutsideEyeBoxes": 0,
+    "changedCornerPixels": 0,
+    "independentBlinkLevels": 6,
+    "fullBlinkIrisLeaks": 0
+  },
+  {
+    "state": "respond",
+    "timelineSteps": 271,
+    "distinctGazes": 14,
+    "sharedXYGain": [
+      1.0,
+      0.8499999873340133
+    ],
+    "maxBinocularDriftSourcePixels": [
+      0.056098896619175775,
+      0.022152580409098732
+    ],
+    "maxAdjacentIrisStepSourcePixels": 0.11709131343144463,
+    "changedPixelsOutsideEyeBoxes": 0,
+    "changedCornerPixels": 0,
+    "independentBlinkLevels": 6,
+    "fullBlinkIrisLeaks": 0
+  },
+  {
+    "state": "question_for_user",
+    "timelineSteps": 421,
+    "distinctGazes": 31,
+    "sharedXYGain": [
+      1.0,
+      0.5333333239143279
+    ],
+    "maxBinocularDriftSourcePixels": [
+      0.07011365967034067,
+      0.08522001751119035
+    ],
+    "maxAdjacentIrisStepSourcePixels": 0.1371548255513062,
+    "changedPixelsOutsideEyeBoxes": 0,
+    "changedCornerPixels": 0,
+    "independentBlinkLevels": 6,
+    "fullBlinkIrisLeaks": 0
+  },
+  {
+    "state": "task_complete",
+    "timelineSteps": 501,
+    "distinctGazes": 20,
+    "sharedXYGain": [
+      1.0,
+      0.6153846379567894
+    ],
+    "maxBinocularDriftSourcePixels": [
+      0.07528961680091584,
+      0.044850110464281556
+    ],
+    "maxAdjacentIrisStepSourcePixels": 0.1609646202627033,
+    "changedPixelsOutsideEyeBoxes": 0,
+    "changedCornerPixels": 0,
+    "independentBlinkLevels": 6,
+    "fullBlinkIrisLeaks": 0
+  },
+  {
+    "state": "idle",
+    "timelineSteps": 601,
+    "distinctGazes": 39,
+    "sharedXYGain": [
+      0.8333333002196431,
+      1.0
+    ],
+    "maxBinocularDriftSourcePixels": [
+      0.22812824151193922,
+      0.029227964318579325
+    ],
+    "maxAdjacentIrisStepSourcePixels": 0.1363309853732062,
+    "changedPixelsOutsideEyeBoxes": 0,
+    "changedCornerPixels": 0,
+    "independentBlinkLevels": 6,
+    "fullBlinkIrisLeaks": 0
+  },
+  {
+    "state": "failed",
+    "timelineSteps": 346,
+    "distinctGazes": 1,
+    "sharedXYGain": [
+      1.0,
+      1.0
+    ],
+    "maxBinocularDriftSourcePixels": [
+      0.0,
+      0.0
+    ],
+    "maxAdjacentIrisStepSourcePixels": 0.0,
+    "changedPixelsOutsideEyeBoxes": 0,
+    "changedCornerPixels": 0,
+    "independentBlinkLevels": 6,
+    "fullBlinkIrisLeaks": 0
+  }
+]

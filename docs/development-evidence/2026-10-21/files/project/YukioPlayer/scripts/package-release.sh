@@ -1,0 +1,44 @@
+#!/bin/sh
+# 打一个拖拽安装的 DMG：dist/Yukio-<版本>-macOS.dmg（Apple 芯片 + Intel 通用二进制）。
+# 构建需 Xcode Command Line Tools 和 scripts/dmg-requirements.txt 中的打包工具。
+# 完整 Xcode 才支持 swift build --arch，所以这里分两次编译再用 lipo 合并。
+set -eu
+cd "$(dirname "$0")/.."
+
+if [ -z "${YUKIO_PAGED_ASSETS:-}" ]; then
+  DEFAULT_PAGED="$PWD/../YukioWin/build/windows-assets/Assets"
+  if [ -f "$DEFAULT_PAGED/motion/windows-pages/manifest.json" ]; then
+    YUKIO_PAGED_ASSETS="$DEFAULT_PAGED"
+    export YUKIO_PAGED_ASSETS
+  else
+    echo "正式包需要低内存分页素材。先运行：" >&2
+    echo "  cd ../YukioWin && python3 scripts/prepare-windows-assets.py" >&2
+    exit 1
+  fi
+fi
+
+echo "编译 arm64…"
+swift build -c release
+ARM="$(swift build -c release --show-bin-path)/YukioPlayer"
+
+echo "编译 x86_64…"
+swift build -c release --triple x86_64-apple-macosx13.0
+X86="$(swift build -c release --triple x86_64-apple-macosx13.0 --show-bin-path)/YukioPlayer"
+
+mkdir -p build
+FAT="$PWD/build/YukioPlayer-universal"
+lipo -create "$ARM" "$X86" -output "$FAT"
+lipo -info "$FAT"
+
+./scripts/build-app.sh "$FAT" >/dev/null
+APP="build/Yukio.app"
+VERSION="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$APP/Contents/Info.plist")"
+
+test -f "$APP/Contents/Resources/Assets/motion/windows-pages/manifest.json"
+
+mkdir -p dist
+DMG="dist/Yukio-$VERSION-macOS.dmg"
+sh ./scripts/package-macos-dmg.sh "$APP" "$DMG"
+
+codesign -v "$APP" && echo "签名自检通过（临时签名，别人下载后第一次打开仍需右键→打开）"
+echo "$DMG"

@@ -1,0 +1,2603 @@
+--- before/README.md
++++ after/README.md
+@@ -1,3 +1,5 @@
++> In development: throwing, screen-edge rebounds and landing dizziness, with a Throw interaction setting. This is unreleased; native Windows acceptance is pending. See the [implementation and verification record](docs/animation-review/throw-and-dizzy/README.md).
++
+ > 0.3.8: White task bubbles with a thin provider-colored top edge. See [release notes](docs/releases/0.3.8.md).
+ 
+ **English** · [简体中文](README.zh-CN.md)
+--- before/README.zh-CN.md
++++ after/README.zh-CN.md
+@@ -1,3 +1,5 @@
++> 开发中：已接入抛掷、屏幕反弹和落地晕眩，默认开启「抛掷互动」；关闭后沿用拖动摆放。此功能尚未发布，Windows 原生验收待完成。见[实现与验证记录](docs/animation-review/throw-and-dizzy/README.md)。
++
+ > 0.3.8：任务气泡统一白底，以顶部细色线区分助手。详见[更新说明](docs/releases/0.3.8.md)。
+ 
+ [English](README.md) · **简体中文**
+--- before/YukioPlayer/Sources/YukioCore/Catalog.swift
++++ after/YukioPlayer/Sources/YukioCore/Catalog.swift
+@@ -49,6 +49,9 @@
+     /// 摆放时仍按 frameWidth×frameHeight 个点；缺省 1。太长的图条会折成几行。
+     public var pixelScale: Int = 1
+     public var blink: BlinkOverlay? = nil
++    public var hitRuns: [[[Int]]]? = nil
++
++    public var blinkAssetPath: String { (assetPath as NSString).deletingLastPathComponent + "/" + (blink?.asset ?? "") }
+ 
+     public var maxFrameIndex: Int { sequence.max() ?? 0 }
+ }
+@@ -120,6 +123,7 @@
+             let loopStart: Int?
+             let pixelScale: Int?
+             let blink: BlinkOverlay?
++            let hitRuns: [[[Int]]]?
+         }
+         let states: [State]
+     }
+@@ -193,7 +197,8 @@
+         }
+ 
+         // 小幅动作覆盖同名动画；没有这个文件时按原图条播放。
+-        let motionURL = assetsRoot.appendingPathComponent("motion/motion.json")
++        for folder in ["motion", "interaction"] {
++        let motionURL = assetsRoot.appendingPathComponent("\(folder)/\(folder).json")
+         if let motionData = try? Data(contentsOf: motionURL) {
+             let motion = try JSONDecoder().decode(MotionFile.self, from: motionData)
+             for m in motion.states {
+@@ -216,14 +221,15 @@
+                     }
+                 }
+                 specs[m.id] = AnimationSpec(
+-                    id: m.id, label: specs[m.id]?.label ?? m.id, assetPath: "motion/\(m.asset)",
++                    id: m.id, label: specs[m.id]?.label ?? m.id, assetPath: "\(folder)/\(m.asset)",
+                     frameWidth: m.frameWidth, frameHeight: m.frameHeight,
+                     sequence: m.sequence, durationsMs: m.durationsMs,
+                     loop: m.loop, holdLastFrame: !m.loop, loopStart: loopStart,
+-                    hang: specs[m.id]?.hang, pixelScale: m.pixelScale ?? 1, blink: m.blink)
+-            }
+-        }
+-
++                    hang: specs[m.id]?.hang, pixelScale: m.pixelScale ?? 1, blink: m.blink, hitRuns: m.hitRuns)
++            }
++        }
++
++        }
+         let catalog = AnimationCatalog(specs: specs)
+         for state in PetState.allCases where catalog.specs[state.rawValue] == nil {
+             throw CatalogError.missing("状态 \(state.rawValue) 没有对应动画")
+--- before/YukioPlayer/Sources/YukioCore/DragVelocityTracker.swift
++++ after/YukioPlayer/Sources/YukioCore/DragVelocityTracker.swift
+@@ -0,0 +1,35 @@
++import Foundation
++
++public struct DragVelocityTracker {
++    private var samples: [(Double, Double, Double)] = []
++    private var lastMove: Double?
++    public init() {}
++    public mutating func add(time: Double, x: Double, y: Double) {
++        guard time.isFinite, x.isFinite, y.isFinite else { return }
++        if let last = samples.last, time <= last.0 { return }
++        if samples.last.map({ hypot(x - $0.1, y - $0.2) > 0.01 }) ?? true { lastMove = time }
++        samples.append((time, x, y))
++        samples.removeAll { time - $0.0 > 0.120 }
++    }
++    public func velocity(at time: Double) -> ThrowVector {
++        guard let lastMove, time - lastMove < 0.120 else { return .zero }
++        let rows = samples.filter { time >= $0.0 && time - $0.0 <= 0.100 }
++        guard rows.count > 1, rows.last!.0 - rows.first!.0 >= 0.002 else { return .zero }
++        let ws = rows.map { exp(($0.0 - time) / 0.025) }, total = ws.reduce(0,+)
++        let mt = zip(rows,ws).reduce(0) { $0 + $1.0.0 * $1.1 } / total
++        let mx = zip(rows,ws).reduce(0) { $0 + $1.0.1 * $1.1 } / total
++        let my = zip(rows,ws).reduce(0) { $0 + $1.0.2 * $1.1 } / total
++        let den = zip(rows,ws).reduce(0) { $0 + $1.1 * pow($1.0.0 - mt, 2) }
++        guard den > 1e-12 else { return .zero }
++        let decay = max(0, 1 - max(0, time - lastMove - 0.025) / 0.095)
++        return ThrowVector(zip(rows,ws).reduce(0) { $0 + $1.1 * ($1.0.0-mt) * ($1.0.1-mx) } / den * decay,
++                           zip(rows,ws).reduce(0) { $0 + $1.1 * ($1.0.0-mt) * ($1.0.2-my) } / den * decay)
++    }
++    public static func release(pointer: ThrowVector, tangent: ThrowVector, config c: ThrowConfig) -> ThrowVector {
++        let gain = c.pointerGain * min(1, hypot(pointer.x,pointer.y) / c.lowSpeed)
++        var v = ThrowVector(pointer.x * gain + tangent.x, pointer.y * gain + tangent.y)
++        let factor = min(1, c.maxSpeed / max(hypot(v.x,v.y),1e-9))
++        v.x *= factor; v.y *= factor
++        return v
++    }
++}
+--- before/YukioPlayer/Sources/YukioCore/HangSwing.swift
++++ after/YukioPlayer/Sources/YukioCore/HangSwing.swift
+@@ -54,7 +54,7 @@
+     public private(set) var rate: Double = 0
+     /// 身体比抓手点低多少（点，正数＝坠下去）。渲染时整张图往下挪这么多。
+     public private(set) var sag: Double = 0
+-    private var sagRate: Double = 0
++    public private(set) var sagRate: Double = 0
+ 
+     /// 平滑后的手的横向、纵向速度（点／秒；纵向以屏幕坐标为准，向上为正）。
+     private var handVelocity: Double = 0
+--- before/YukioPlayer/Sources/YukioCore/ThrowPhysics.swift
++++ after/YukioPlayer/Sources/YukioCore/ThrowPhysics.swift
+@@ -0,0 +1,190 @@
++import Foundation
++
++public struct ThrowVector: Codable, Equatable, Sendable {
++    public var x: Double
++    public var y: Double
++    public init(_ x: Double, _ y: Double) { self.x=x; self.y=y }
++    public static let zero = ThrowVector(0,0)
++}
++
++/// The only tuning source is Assets/interaction/physics.json, shared with Windows.
++public struct ThrowConfig: Decodable, Sendable {
++    public let version: Int
++    public let units: String
++    public let step: Double, maxSteps: Int, pauseGap: Double, gravity: Double
++    public let pointerGain: Double, lowSpeed: Double, maxSpeed: Double
++    public let wallRestitution: Double, ceilingRestitution: Double, floorRestitution: Double
++    public let bounceThreshold: Double, friction: Double, settleSpeed: Double, settleSeconds: Double
++    public let maxAngle: Double, recoverSeconds: Double
++    public let strengthMinSpeed: Double, strengthMaxSpeed: Double, dizzyMinSeconds: Double, dizzyMaxSeconds: Double
++    public let landingMinSeconds: Double, landingMaxSeconds: Double, wallMinSeconds: Double, wallMaxSeconds: Double, dizzyIntroSeconds: Double
++    public func strength(_ speed: Double) -> Double { max(0,min(1,(speed-strengthMinSpeed)/(strengthMaxSpeed-strengthMinSpeed))) }
++    public func impactDuration(_ hit: ThrowImpact) -> Double {
++        hit.normal.y > 0 ? landingMinSeconds+(landingMaxSeconds-landingMinSeconds)*hit.strength : wallMinSeconds+(wallMaxSeconds-wallMinSeconds)*hit.strength
++    }
++    public let center: [Double], foot: [Double], frame: [Double], hull: [[Double]]
++    public static func load(from url: URL) throws -> Self {
++        let c = try JSONDecoder().decode(Self.self, from: Data(contentsOf: url))
++        guard c.version == 1, c.units == "logical-y-up-seconds", c.hull.count >= 3,
++              c.hull.allSatisfy({ $0.count == 2 && $0.allSatisfy(\.isFinite) }), c.step > 0,
++              c.gravity > 0, c.friction > 0, c.maxSteps > 0, c.center.count == 2, c.center.allSatisfy(\.isFinite),
++              c.strengthMaxSpeed > c.strengthMinSpeed, c.dizzyMinSeconds > 0, c.dizzyMaxSeconds >= c.dizzyMinSeconds,
++              [c.wallRestitution,c.ceilingRestitution,c.floorRestitution].allSatisfy({ $0 >= 0 && $0 < 1 }) else {
++            throw CatalogError.invalid("interaction physics")
++        }
++        return c
++    }
++}
++
++public struct ThrowImpact: Sendable {
++    public let eventID: Int, time: Double, normal: ThrowVector, point: ThrowVector, speed: Double, strength: Double
++}
++
++/// Convex silhouette against four planes. Conservative advancement bounds both
++/// translation and angular sweep; unverified remaining motion is never applied.
++public struct ThrowPhysics: Sendable {
++    public enum Phase: String, Sendable { case airborne, held, dizzy, recover, normal }
++    public let config: ThrowConfig
++    public let room: ThrowVector, screenID: String, sessionID: Int
++    public private(set) var position: ThrowVector, velocity: ThrowVector
++    public private(set) var angle: Double, rate: Double, scale: Double
++    public private(set) var phase: Phase = .airborne
++    public private(set) var time = 0.0, phaseTime = 0.0, accumulator = 0.0, droppedTime = 0.0
++    public private(set) var ground = false, degraded = false
++    public private(set) var events: [ThrowImpact] = [], lastImpact: ThrowImpact?
++    public private(set) var eventCount = 0, exhaustions = 0
++    private var stableTime = 0.0, peakLanding = 0.0
++    public private(set) var dizzyDuration = 0.75
++    private var lastLandingTime = -Double.infinity
++    private var lastLandingDuration = 0.0
++    private var previous: (ThrowVector,Double)
++
++    public init(config: ThrowConfig, room: ThrowVector, position: ThrowVector, velocity: ThrowVector = .zero,
++                angle: Double = 0, rate: Double = 0, scale: Double = 1, screenID: String = "", sessionID: Int = 1) {
++        self.config=config; self.room=room; self.position=position; self.velocity=velocity
++        self.angle=max(-config.maxAngle,min(config.maxAngle,angle)); self.rate=max(-2,min(2,rate))
++        self.scale=scale; self.screenID=screenID; self.sessionID=sessionID
++        previous=(position,self.angle)
++        let b=bounds()
++        let ratio=min(1,(room.x-2)/max(b.2-b.0,1),(room.y-2)/max(b.3-b.1,1))
++        if ratio<1 { self.scale *= max(0.001,ratio); degraded=true }
++        recoverInside()
++        previous=(self.position,self.angle)
++    }
++
++    public func bounds(angle a: Double? = nil) -> (Double,Double,Double,Double) {
++        let a=a ?? angle, co=cos(a), si=sin(a)
++        var l=Double.infinity,b=l,r = -l,t = -l
++        for p in config.hull {
++            let x=scale*(p[0]*co-p[1]*si), y=scale*(p[0]*si+p[1]*co)
++            l=min(l,x); b=min(b,y); r=max(r,x); t=max(t,y)
++        }
++        return (l,b,r,t)
++    }
++    private mutating func recoverInside() {
++        let (l,b,r,t)=bounds()
++        position.x=max(-l,min(room.x-r,position.x)); position.y=max(-b,min(room.y-t,position.y))
++        if position.x <= -l+1e-6 { velocity.x=max(0,velocity.x) }
++        if position.x >= room.x-r-1e-6 { velocity.x=min(0,velocity.x) }
++        if position.y >= room.y-t-1e-6 { velocity.y=min(0,velocity.y) }
++    }
++    private func angleAt(_ t: Double) -> Double {
++        max(-config.maxAngle,min(config.maxAngle,angle+rate*(1-exp(-4*t))/4))
++    }
++    private func gaps(_ t: Double) -> [Double] {
++        let (l,b,r,top)=bounds(angle:angleAt(t))
++        let x=position.x+velocity.x*t, y=position.y+velocity.y*t-0.5*config.gravity*t*t
++        return [x+l,room.x-x-r,y+b,room.y-y-top]
++    }
++    private func toi(_ h: Double) -> (Double,[Int])? {
++        let radius=(config.hull.map { hypot($0[0],$0[1]) }.max() ?? 0)*scale
++        let bound=max(abs(velocity.x),abs(velocity.y)+config.gravity*h)+radius*abs(rate)+1e-9
++        var t=0.0
++        for _ in 0..<96 {
++            let gaps=gaps(t), vy=velocity.y-config.gravity*t
++            let vn=[velocity.x,-velocity.x,vy,-vy]
++            let hits=(0..<4).filter { gaps[$0]<=1e-7 && (vn[$0] < -1e-7 || abs(rate)>1e-7 || ($0==2 && vn[$0]<=0)) }
++            if !hits.isEmpty { return (t,hits) }
++            let dt=max(1e-9,(gaps.filter { $0>1e-7 }.min() ?? bound*h)/bound*0.9)
++            if t+dt>h { return nil }
++            t+=dt
++        }
++        return (t,[-1])
++    }
++    private mutating func move(_ h: Double) {
++        position.x+=velocity.x*h; position.y+=velocity.y*h-0.5*config.gravity*h*h
++        velocity.y-=config.gravity*h
++        angle=angleAt(h); rate*=exp(-4*h)
++    }
++    private mutating func impact(_ i: Int, speed: Double, at: Double) {
++        let normals=[ThrowVector(1,0),ThrowVector(-1,0),ThrowVector(0,1),ThrowVector(0,-1)]
++        let (l,b,r,t)=bounds()
++        let points=[ThrowVector(position.x+l,position.y),ThrowVector(position.x+r,position.y),
++                    ThrowVector(position.x,position.y+b),ThrowVector(position.x,position.y+t)]
++        eventCount+=1
++        let e=ThrowImpact(eventID:eventCount,time:at,normal:normals[i],point:points[i],speed:speed,strength:config.strength(speed))
++        events.append(e); lastImpact=e
++        if i==2 { peakLanding=max(peakLanding,speed); lastLandingTime=at; lastLandingDuration=config.impactDuration(e) }
++    }
++    public mutating func step() {
++        let h=config.step; previous=(position,angle)
++        if phase == .held || phase == .normal { return }
++        phaseTime+=h
++        if phase != .airborne {
++            time+=h
++            if phase == .dizzy && phaseTime>=dizzyDuration { phase = .recover; phaseTime=0 }
++            else if phase == .recover && phaseTime>=config.recoverSeconds { phase = .normal; phaseTime=0 }
++            return
++        }
++        if ground {
++            let speed=abs(velocity.x), stop=min(h,speed/config.friction), sign=velocity.x>=0 ? 1.0 : -1.0
++            position.x+=velocity.x*stop-sign*0.5*config.friction*stop*stop
++            velocity.x=sign*max(0,speed-config.friction*h); velocity.y=0; rate=0
++            recoverInside()
++            stableTime=abs(velocity.x)<config.settleSpeed ? stableTime+h : 0
++            if stableTime+1e-9>=config.settleSeconds && time+h-lastLandingTime>=lastLandingDuration {
++                phase = .dizzy; phaseTime=0; dizzyDuration=config.dizzyMinSeconds+(config.dizzyMaxSeconds-config.dizzyMinSeconds)*config.strength(peakLanding)
++            }
++            time+=h; return
++        }
++        var left=h
++        for _ in 0..<8 {
++            guard let (t,indices)=toi(left) else { move(left); left=0; break }
++            move(t); left-=t
++            if indices == [-1] { exhaustions+=1; velocity = .zero; rate=0; left=0; break }
++            rate=0
++            for i in indices {
++                let vn=[velocity.x,-velocity.x,velocity.y,-velocity.y][i], speed=max(0,-vn)
++                if speed>1e-6 || (i==2 && peakLanding==0) { impact(i,speed:speed,at:time+h-left) }
++                var e=[config.wallRestitution,config.wallRestitution,config.floorRestitution,config.ceilingRestitution][i]
++                if speed<config.bounceThreshold { e=0 }
++                if i<2 { velocity.x=abs(velocity.x)*e*(i==0 ? 1 : -1) }
++                else { velocity.y=abs(velocity.y)*e*(i==2 ? 1 : -1) }
++                if i==2 && velocity.y<config.bounceThreshold { velocity.y=0; ground=true; left=0 }
++            }
++            recoverInside()
++            if left<=1e-10 { break }
++        }
++        if left>1e-10 { exhaustions+=1; velocity = .zero; rate=0 }
++        time+=h
++    }
++    public mutating func advance(_ dt: Double) {
++        events=[]
++        guard dt.isFinite, dt>0, phase != .held else { return }
++        if dt>config.pauseGap { droppedTime+=dt+accumulator; accumulator=0; return }
++        accumulator+=dt
++        let n=min(Int((accumulator+1e-10)/config.step),config.maxSteps)
++        for _ in 0..<n { step() }
++        accumulator-=Double(n)*config.step
++        if accumulator>=config.step {
++            let drop=floor(accumulator/config.step)*config.step
++            droppedTime+=drop; accumulator-=drop
++        }
++    }
++    public mutating func grab() { phase = .held; events=[]; velocity = .zero; rate=0; accumulator=0 }
++    public var displayPosition: (ThrowVector,Double) {
++        guard phase == .airborne else { return (position,angle) }
++        let f=max(0,min(1,accumulator/config.step))
++        return (ThrowVector(previous.0.x+(position.x-previous.0.x)*f,previous.0.y+(position.y-previous.0.y)*f),previous.1+(angle-previous.1)*f)
++    }
++}
+--- before/YukioPlayer/Sources/YukioPlayer/InteractionCheck.swift
++++ after/YukioPlayer/Sources/YukioPlayer/InteractionCheck.swift
+@@ -0,0 +1,63 @@
++import AppKit
++import YukioCore
++
++/// Deterministic replay through the actual native decoder and compositor.
++func runInteractionCheck(path: String) -> Never {
++    let (catalog,root)=loadCatalogOrExit()
++    do {
++        let library=try SpriteLibrary(catalog:catalog,assetsRoot:root)
++        let config=try ThrowConfig.load(from:root.appendingPathComponent("interaction/physics.json"))
++        let out=URL(fileURLWithPath:path)
++        try FileManager.default.createDirectory(at:out,withIntermediateDirectories:true)
++        let room=NSRect(x:20,y:20,width:920,height:660)
++        var timings:[Double]=[], rows:[[String:Any]]=[]
++        var escaped=0, viewportEscapes=0
++        for (name,velocity) in [("light",ThrowVector(0,0)),("medium",ThrowVector(500,250)),("heavy",ThrowVector(2400,1800))] {
++            let start=NSPoint(x:480,y:name=="light" ? 170 : 430)
++            let flight=ThrowPlayback(config:config,room:room,center:start,velocity:velocity,angle:0.18,rate:0.4,scale:1)
++            var seen=Set<String>(), phases:[String]=[]
++            var viewportCenter=flight.worldCenter
++            for i in 0..<420 {
++                let began=ProcessInfo.processInfo.systemUptime
++                flight.physics.advance(1.0/60)
++                if flight.physics.phase == .normal { break }
++                let (frame,p)=flight.frame(catalog:catalog,library:library,blinkLevel:(i%180)<6 ? i%6 : 0)
++                let center=flight.worldCenter, size=flight.canvasSize
++                if abs(center.x-viewportCenter.x)>24*flight.physics.scale || abs(center.y-viewportCenter.y)>24*flight.physics.scale { viewportCenter=center }
++                let visible=flight.bodyBounds.offsetBy(dx:center.x-viewportCenter.x,dy:center.y-viewportCenter.y)
++                if visible.minX < -0.5 || visible.minY < -0.5 || visible.maxX > size.width+0.5 || visible.maxY > size.height+0.5 { viewportEscapes+=1 }
++                guard let ctx=CGContext(data:nil,width:960,height:700,bitsPerComponent:8,bytesPerRow:960*4,
++                                        space:CGColorSpace(name:CGColorSpace.sRGB)!,bitmapInfo:CGImageAlphaInfo.premultipliedLast.rawValue) else { exit(1) }
++                let dx=center.x-size.width/2,dy=center.y-size.height/2
++                ctx.saveGState();ctx.translateBy(x:dx+p.pivot.x,y:dy+p.pivot.y);ctx.rotate(by:p.angle)
++                ctx.translateBy(x:-p.pivot.x,y:-p.pivot.y);ctx.draw(frame.image,in:p.rect);ctx.restoreGState()
++                timings.append((ProcessInfo.processInfo.systemUptime-began)*1000)
++                // Diagnose significant visible pixels outside the full room.
++                if let data=ctx.data {
++                    let bytes=data.assumingMemoryBound(to:UInt8.self)
++                    for y in 0..<700 {
++                        let columns = (y<18 || y>=682) ? Array(0..<960) : Array(0..<18)+Array(942..<960)
++                        for x in columns where bytes[y*960*4+x*4+3]>200 { escaped+=1 }
++                    }
++                }
++                let phase=flight.physics.phase.rawValue
++                if phases.last != phase { phases.append(phase) }
++                let pose=flight.pose(catalog:catalog).0
++                if !seen.contains(pose) || i%90==0 {
++                    seen.insert(pose)
++                    ctx.setStrokeColor(NSColor.systemCyan.cgColor);ctx.setLineWidth(1);ctx.stroke(room)
++                    NSGraphicsContext.saveGraphicsState();NSGraphicsContext.current=NSGraphicsContext(cgContext:ctx,flipped:false)
++                    let diagnostic="\(name) · \(pose) · \(phase) · t=\(String(format:"%.3f",flight.physics.time)) s · v=(\(Int(flight.physics.velocity.x)),\(Int(flight.physics.velocity.y))) · events=\(flight.physics.eventCount)"
++                    diagnostic.draw(at:NSPoint(x:30,y:680),withAttributes:[.font:NSFont.monospacedSystemFont(ofSize:11,weight:.regular),.foregroundColor:NSColor.black])
++                    NSGraphicsContext.restoreGraphicsState()
++                    _=savePNG(ctx,to:out.appendingPathComponent("\(name)-\(i)-\(pose).png").path)
++                }
++            }
++            rows.append(["case":name,"phases":phases,"events":flight.physics.eventCount,"solverExhaustions":flight.physics.exhaustions])
++        }
++        timings.sort()
++        let info:[String:Any]=["cases":rows,"nativeFrames":timings.count,"p95Ms":timings[Int(Double(timings.count-1)*0.95)],"maxMs":timings.last!,"escapedBeyond2PointsPixels":escaped,"bodyOutsideOverscanViewportFrames":viewportEscapes,"os":ProcessInfo.processInfo.operatingSystemVersionString,"date":ISO8601DateFormatter().string(from:Date()),"note":"Native decoder and offscreen CoreGraphics compositor; desktop input, Dock occlusion and Windows still need separate native checks."]
++        let data=try JSONSerialization.data(withJSONObject:info,options:[.prettyPrinted,.sortedKeys]);try data.write(to:out.appendingPathComponent("native-report.json"))
++        print(String(decoding:data,as:UTF8.self));exit(escaped==0 && viewportEscapes==0 ? 0 : 1)
++    } catch { print(error);exit(1) }
++}
+--- before/YukioPlayer/Sources/YukioPlayer/PagedSpriteLibrary.swift
++++ after/YukioPlayer/Sources/YukioPlayer/PagedSpriteLibrary.swift
+@@ -16,6 +16,7 @@
+     private struct Manifest: Decodable {
+         let version: Int
+         let motionSha256: String
++        let interactionSha256: String?
+         let states: [String: State]
+     }
+     private let root: URL
+@@ -23,7 +24,7 @@
+     private var cache: [String: CGImage] = [:]
+     private var recent: [String] = []
+     private var bytes = 0
+-    private let budget = 32 * 1024 * 1024
++    private let budget = 48 * 1024 * 1024
+ 
+     static func load(assetsRoot: URL, catalog: AnimationCatalog) throws -> PagedSpriteLibrary? {
+         let root = assetsRoot.appendingPathComponent("motion/windows-pages")
+@@ -34,6 +35,11 @@
+         let digest = SHA256.hash(data: motion).map { String(format: "%02x", $0) }.joined()
+         guard manifest.version == 1, manifest.motionSha256 == digest else {
+             throw SpriteLibrary.LoadError.outOfBounds("stale motion pages")
++        }
++        if manifest.states.keys.contains(where: { $0.hasPrefix("interaction_") }) {
++            let data = try Data(contentsOf: assetsRoot.appendingPathComponent("interaction/interaction.json"))
++            let sha = SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
++            guard manifest.interactionSha256 == sha else { throw SpriteLibrary.LoadError.outOfBounds("stale interaction pages") }
+         }
+         let result = PagedSpriteLibrary(root: root, states: manifest.states)
+         for (id, state) in manifest.states {
+--- before/YukioPlayer/Sources/YukioPlayer/PetWindow.swift
++++ after/YukioPlayer/Sources/YukioPlayer/PetWindow.swift
+@@ -1,4 +1,5 @@
+ import AppKit
++import YukioCore
+ 
+ /// 透明、置顶、不抢焦点的单实例窗口。
+ final class PetPanel: NSPanel {
+@@ -66,7 +67,10 @@
+     /// 按下又松开、中间没有拖动：点了雪绪一下。
+     var onClick: (() -> Void)?
+     var onDragBegan: (() -> Void)?
+-    var onDragEnded: (() -> Void)?
++    var onDragEnded: ((ThrowVector) -> Void)?
++    /// Catch immediately on press; a release without dragging safely drops it.
++    var onCatch: (() -> Bool)?
++    var onDragCancelled: (() -> Void)?
+     var onContextMenu: ((NSEvent) -> Void)?
+ 
+     private(set) var dragging = false
+@@ -79,6 +83,9 @@
+     private var mouseStart: NSPoint = .zero
+     private var originStart: NSPoint = .zero
+     private var lastMouse: NSPoint = .zero
++    private var velocityTracker = DragVelocityTracker()
++    private var caught = false
++    private(set) var pressed = false
+ 
+     override init(frame: NSRect) {
+         super.init(frame: frame)
+@@ -154,7 +161,11 @@
+             return
+         }
+         suppressClick = false
++        pressed = true
++        velocityTracker = DragVelocityTracker()
+         mouseStart = NSEvent.mouseLocation
++        velocityTracker.add(time: event.timestamp, x: mouseStart.x, y: mouseStart.y)
++        caught = onCatch?() ?? false
+         lastMouse = mouseStart
+         originStart = window?.frame.origin ?? .zero
+         dragging = false
+@@ -162,6 +173,7 @@
+ 
+     override func mouseDragged(with event: NSEvent) {
+         let m = NSEvent.mouseLocation
++        velocityTracker.add(time: event.timestamp, x: m.x, y: m.y)
+         let dx = m.x - mouseStart.x, dy = m.y - mouseStart.y
+         if !dragging && hypot(dx, dy) > 3 {
+             dragging = true
+@@ -180,9 +192,14 @@
+     }
+ 
+     override func mouseUp(with event: NSEvent) {
+-        if dragging {
++        pressed = false
++        let m = NSEvent.mouseLocation
++        velocityTracker.add(time: event.timestamp, x: m.x, y: m.y)
++        if dragging || caught {
++            let v = dragging ? velocityTracker.velocity(at: event.timestamp) : .zero
+             dragging = false
+-            onDragEnded?()
++            caught = false
++            onDragEnded?(v)
+             return
+         }
+         if suppressClick {
+@@ -195,4 +212,11 @@
+     override func rightMouseDown(with event: NSEvent) {
+         onContextMenu?(event)
+     }
++
++    func cancelDrag() {
++        let active = pressed || dragging || caught
++        pressed = false; dragging = false; caught = false
++        velocityTracker = DragVelocityTracker()
++        if active { onDragCancelled?() }
++    }
+ }
+--- before/YukioPlayer/Sources/YukioPlayer/SettingsPanel.swift
++++ after/YukioPlayer/Sources/YukioPlayer/SettingsPanel.swift
+@@ -14,10 +14,12 @@
+     let scale: CGFloat
+     let language: UILanguage
+     let demoPlaying: Bool
++    var throwInteraction: Bool = true
+     var launchAtLogin: LaunchAtLoginStatus = .disabled
+ }
+ 
+ enum SettingsChange {
++    case throwInteraction(Bool)
+     case following(Bool)
+     case launchAtLogin(Bool)
+     case openLoginItems
+@@ -50,6 +52,8 @@
+     private let chatTitle = NSTextField(labelWithString: "")
+     private let bubbleTitle = NSTextField(labelWithString: "")
+     private let cardsTitle = NSTextField(labelWithString: "")
++    private let throwTitle = NSTextField(labelWithString: "")
++    private let throwSwitch = NSSwitch()
+     private let questionTitle = NSTextField(labelWithString: "")
+     private let scaleTitle = NSTextField(labelWithString: "")
+     private let startupTitle = NSTextField(labelWithString: "")
+@@ -141,12 +145,13 @@
+         followSwitch.state = snapshot.following ? .on : .off
+         bubbleSwitch.state = snapshot.showBubble ? .on : .off
+         cardsSwitch.state = snapshot.showCards ? .on : .off
++        throwSwitch.state = snapshot.throwInteraction ? .on : .off
+         questionSwitch.state = snapshot.showQuestionCard ? .on : .off
+         startupSwitch.state = snapshot.launchAtLogin.isRegistered ? .on : .off
+         let needsApproval = snapshot.launchAtLogin == .requiresApproval
+         startupHint.isHidden = !needsApproval
+         loginItemsButton.isHidden = !needsApproval
+-        let contentSize = NSSize(width: 420, height: needsApproval ? 752 : 692)
++        let contentSize = NSSize(width: 420, height: needsApproval ? 788 : 728)
+         if window?.contentView?.frame.size != contentSize {
+             window?.setContentSize(contentSize)
+         }
+@@ -254,6 +259,10 @@
+         stack.addArrangedSubview(row(title: bubbleTitle, control: bubbleSwitch))
+         stack.addArrangedSubview(row(title: cardsTitle, control: cardsSwitch))
+         stack.addArrangedSubview(row(title: questionTitle, control: questionSwitch))
++        stack.addArrangedSubview(row(title: throwTitle, control: throwSwitch))
++        throwSwitch.target = self
++        throwSwitch.action = #selector(throwChanged)
++        throwSwitch.setAccessibilityIdentifier("throwInteractionSwitch")
+         let sliderGroup = NSStackView(views: [scaleSlider, scaleReadout])
+         sliderGroup.orientation = .horizontal
+         sliderGroup.alignment = .centerY
+@@ -380,6 +389,7 @@
+         chatTitle.stringValue = tr("Chat", "跟随的聊天")
+         bubbleTitle.stringValue = tr("Task bubble", "任务气泡")
+         cardsTitle.stringValue = tr("Other chats", "其他聊天提醒")
++        throwTitle.stringValue = tr("Throw interaction", "抛掷互动")
+         questionTitle.stringValue = tr("Answer here", "在这儿回答问题")
+         scaleTitle.stringValue = tr("Size", "大小")
+         languageTitle.stringValue = tr("Language", "语言")
+@@ -481,6 +491,8 @@
+         guard !updating else { return }
+         onChange?(.showCards(cardsSwitch.state == .on))
+     }
++
++    @objc private func throwChanged() { onChange?(.throwInteraction(throwSwitch.state == .on)) }
+ 
+     @objc private func questionChanged() {
+         guard !updating else { return }
+--- before/YukioPlayer/Sources/YukioPlayer/SpriteLibrary.swift
++++ after/YukioPlayer/Sources/YukioPlayer/SpriteLibrary.swift
+@@ -78,7 +78,7 @@
+             let cell = Self.cell(spec)
+             counts[spec.id] = Self.frameCount(sheet, spec)
+             if let b = spec.blink {
+-                let eyeURL = assetsRoot.appendingPathComponent("motion/" + b.asset)
++                let eyeURL = assetsRoot.appendingPathComponent(spec.blinkAssetPath)
+                 guard let src = CGImageSourceCreateWithURL(eyeURL as CFURL, nil),
+                       let image = CGImageSourceCreateImageAtIndex(src, 0, [kCGImageSourceShouldCache: false] as CFDictionary),
+                       image.width % b.width == 0, image.height % b.height == 0,
+@@ -149,7 +149,7 @@
+             base = decodeFrame(id, frameIndex) ?? Self.blankFrame(catalog.specs[id])
+             decoded[id]?[frameIndex] = base
+             frameOrder.append(frameIndex)
+-            if frameOrder.count > 16 { decoded[id]?.removeValue(forKey: frameOrder.removeFirst()) }
++            if frameOrder.count > (id.hasPrefix("interaction_") ? 48 : 16) { decoded[id]?.removeValue(forKey: frameOrder.removeFirst()) }
+         }
+         guard blinkLevel > 0, let b = catalog.specs[id]?.blink,
+               b.frames.indices.contains(frameIndex) else { return base }
+@@ -168,7 +168,7 @@
+     private func eyePatch(_ id: String, _ patch: Int, _ b: BlinkOverlay) -> CGImage? {
+         if let pages, pages.contains(id) { return pages.eyePatch(id, index: patch, blink: b) }
+         if eyeSheets[id] == nil {
+-            let url = assetsRoot.appendingPathComponent("motion/" + b.asset)
++            let url = assetsRoot.appendingPathComponent(catalog.specs[id]!.blinkAssetPath)
+             if let source = CGImageSourceCreateWithURL(url as CFURL, nil),
+                let image = CGImageSourceCreateImageAtIndex(source, 0, [kCGImageSourceShouldCache: false] as CFDictionary),
+                let ctx = CGContext(data: nil, width: image.width, height: image.height, bitsPerComponent: 8,
+@@ -227,7 +227,15 @@
+                                       bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else { return nil }
+             ctx.draw(cropped, in: CGRect(x: 0, y: 0, width: cell.width, height: cell.height))
+             guard let image = ctx.makeImage() else { return nil }
+-            return Frame(image: image, width: cell.width, height: cell.height, alpha: Self.alphaMask(image))
++            var alpha: [UInt8]
++            if let hits = spec.hitRuns, hits.indices.contains(index) {
++                alpha = [UInt8](repeating:0,count:cell.width*cell.height)
++                for r in hits[index] where r.count==3 && r[0]>=0 && r[0]<cell.height && r[1]>=0 && r[2]<=cell.width && r[1]<r[2] {
++                    for x in r[1]..<r[2] { alpha[r[0]*cell.width+x]=255 }
++                }
++            }
++            else { alpha = Self.alphaMask(image) }
++            return Frame(image: image, width: cell.width, height: cell.height, alpha: alpha)
+     }
+ 
+     /// 图条里一格的像素尺寸：帧的点尺寸 × pixelScale。
+--- before/YukioPlayer/Sources/YukioPlayer/ThrowPlayback.swift
++++ after/YukioPlayer/Sources/YukioPlayer/ThrowPlayback.swift
+@@ -0,0 +1,114 @@
++import AppKit
++import YukioCore
++
++/// Pure physics plus a bounded native presentation. No task/answer state lives here.
++final class ThrowPlayback {
++    var physics: ThrowPhysics
++    let room: NSRect
++    var caught = false
++    var frozen: (SpriteLibrary.Frame, SpritePlacement)?
++    var lastTime = ProcessInfo.processInfo.systemUptime
++    private(set) var bodyBounds = NSRect.zero
++    private var carry: SpriteLibrary.Frame?
++    private var hullImage: CGImage?
++    private var hullPoints: [NSPoint] = []
++
++    init(config: ThrowConfig, room: NSRect, center: NSPoint, velocity: ThrowVector,
++         angle: Double, rate: Double, scale: CGFloat, carry: SpriteLibrary.Frame? = nil, sessionID: Int = 1) {
++        self.room=room; self.carry=carry
++        physics=ThrowPhysics(config:config,room:ThrowVector(room.width,room.height),
++                             position:ThrowVector(center.x-room.minX,center.y-room.minY),velocity:velocity,
++                             angle:angle,rate:rate,scale:scale,screenID:NSStringFromRect(room),sessionID:sessionID)
++    }
++    func advance() {
++        let now=ProcessInfo.processInfo.systemUptime, dt=now-lastTime; lastTime=now
++        if !caught { physics.advance(dt) }
++    }
++    var worldCenter: NSPoint {
++        let p=physics.displayPosition.0
++        return NSPoint(x:room.minX+p.x,y:room.minY+p.y)
++    }
++    var canvasSize: NSSize { NSSize(width:360*physics.scale,height:360*physics.scale) }
++    func pose(catalog: AnimationCatalog) -> (String,Int) {
++        var name="airborne", seconds=physics.time
++        if physics.phase == .dizzy {
++            name=physics.phaseTime<physics.config.dizzyIntroSeconds ? "dizzy-intro" : "dizzy-loop"
++            seconds=physics.phaseTime
++            if name=="dizzy-loop" {
++                let span=max(0.1,physics.dizzyDuration-physics.config.dizzyIntroSeconds)
++                let loops=max(1,floor(span/0.9+0.5))
++                seconds=(physics.phaseTime-physics.config.dizzyIntroSeconds)*loops*0.9/span
++            }
++        } else if physics.phase == .recover {
++            name="recover"; seconds=physics.phaseTime
++        } else if let hit=physics.lastImpact {
++            let age=physics.time-hit.time
++            if age < physics.config.impactDuration(hit) {
++                name=hit.normal.y>0 ? "landing-impact" : "wall-impact"
++                if hit.strength < 1.0/3 { name += "_light" } else if hit.strength < 2.0/3 { name += "_medium" }
++                seconds=age*(hit.normal.y>0 ? 0.24 : 0.14)/physics.config.impactDuration(hit)
++            }
++        }
++        let id="interaction_"+name
++        guard let spec=catalog.specs[id] else { return (AnimationCatalog.heldID,0) }
++        var timeline=SpriteTimeline(spec:spec,now:0); timeline.advance(to:max(0,seconds)*1000)
++        return (id,timeline.frame)
++    }
++    func frame(catalog: AnimationCatalog, library: SpriteLibrary, blinkLevel: Int = 0) -> (SpriteLibrary.Frame,SpritePlacement) {
++        if caught, let frozen { return frozen }
++        let (id,index)=pose(catalog:catalog), c=physics.config, s=physics.scale
++        let spec=catalog.specs[id]!
++        let isInteraction=id.hasPrefix("interaction_")
++        let pad=isInteraction ? 12.0 : 0.0
++        let size=canvasSize, pivot=NSPoint(x:size.width/2,y:size.height/2)
++        let rect=NSRect(x:pivot.x-(c.center[0]+pad)*s,
++                        y:pivot.y-(Double(spec.frameHeight)-c.center[1]-pad)*s,
++                        width:Double(spec.frameWidth)*s,height:Double(spec.frameHeight)*s)
++        var a=physics.displayPosition.1
++        // Ease inherited tilt back around the planted foot; the collider remains
++        // authoritative for the ground baseline, including transparent padding.
++        if physics.phase == .dizzy { a *= max(0,1-physics.phaseTime/physics.config.dizzyIntroSeconds) }
++        if physics.phase == .recover { a=0 }
++        var shift=0.0
++        if physics.ground { shift=physics.bounds().1-physics.bounds(angle:a).1 }
++        var placement=SpritePlacement(rect:rect.offsetBy(dx:0,dy:shift),pivot:NSPoint(x:pivot.x,y:pivot.y+shift),angle:a)
++        if physics.phase == .airborne, let hit=physics.lastImpact, hit.normal.y<=0 {
++            let u=(physics.time-hit.time)/c.impactDuration(hit)
++            if u>=0 && u<1 {
++                let pulse=1.5*s*hit.strength*sin(.pi*u)
++                placement.rect=placement.rect.offsetBy(dx:hit.normal.x*pulse,dy:hit.normal.y*pulse)
++            }
++        }
++        let image=(id=="interaction_airborne" ? carry : nil) ?? library.frame(id,index,blinkLevel:blinkLevel)
++        if hullImage !== image.image {
++            hullImage=image.image; hullPoints=[]
++            if carry == nil, let runs=spec.hitRuns, runs.indices.contains(index) {
++                for r in runs[index] {
++                    hullPoints.append(NSPoint(x:Double(r[1])/Double(image.width),y:1-Double(r[0]+1)/Double(image.height)))
++                    hullPoints.append(NSPoint(x:Double(r[2])/Double(image.width),y:1-Double(r[0])/Double(image.height)))
++                }
++            } else { for y in 0..<image.height {
++                let xs=(0..<image.width).filter { image.alpha[y*image.width+$0]>24 }
++                if let l=xs.first, let r=xs.last {
++                    hullPoints.append(NSPoint(x:Double(l)/Double(image.width),y:1-Double(y+1)/Double(image.height)))
++                    hullPoints.append(NSPoint(x:Double(r+1)/Double(image.width),y:1-Double(y)/Double(image.height)))
++                }
++            }
++        }
++        }
++        var minX=Double.infinity,minY=minX,maxX = -minX,maxY = -minX
++        for p in hullPoints {
++            let dx=placement.rect.minX+p.x*placement.rect.width-placement.pivot.x
++            let dy=placement.rect.minY+p.y*placement.rect.height-placement.pivot.y
++            let x=placement.pivot.x+dx*cos(a)-dy*sin(a), y=placement.pivot.y+dx*sin(a)+dy*cos(a)
++            minX=min(minX,x);maxX=max(maxX,x);minY=min(minY,y);maxY=max(maxY,y)
++        }
++        let origin=NSPoint(x:worldCenter.x-size.width/2,y:worldCenter.y-size.height/2)
++        let correctionX=max(room.minX-origin.x-minX,min(0,room.maxX-origin.x-maxX))
++        let correctionY=physics.ground ? room.minY-origin.y-minY : max(room.minY-origin.y-minY,min(0,room.maxY-origin.y-maxY))
++        placement.rect=placement.rect.offsetBy(dx:correctionX,dy:correctionY)
++        placement.pivot.x+=correctionX;placement.pivot.y+=correctionY
++        bodyBounds=NSRect(x:minX+correctionX,y:minY+correctionY,width:maxX-minX,height:maxY-minY)
++        return (image,placement)
++    }
++}
+--- before/YukioPlayer/Sources/YukioPlayer/main.swift
++++ after/YukioPlayer/Sources/YukioPlayer/main.swift
+@@ -1,5 +1,7 @@
+ import AppKit
+ import YukioCore
++
++let interactionDemo = CommandLine.arguments.contains("--interaction-demo") || Bundle.main.object(forInfoDictionaryKey:"YukioInteractionDemo") as? Bool == true
+ 
+ func nowMs() -> Double { Date().timeIntervalSince1970 * 1000 }
+ 
+@@ -67,7 +69,7 @@
+     let (catalog, root) = loadCatalogOrExit()
+     let library: SpriteLibrary
+     do { library = try SpriteLibrary(catalog: catalog, assetsRoot: root) } catch { print("失败：\(error)"); exit(1) }
+-    let specs = PetState.allCases.map { catalog.spec(for: $0) } + [catalog.specs[AnimationCatalog.heldID]!]
++    let specs = PetState.allCases.map { catalog.spec(for: $0) } + [catalog.specs[AnimationCatalog.heldID]!] + catalog.specs.values.filter { $0.id.hasPrefix("interaction_") }.sorted { $0.id < $1.id }
+     // 「被拎起来」那一帧比常规帧高（领口的尖在头顶上方、腿垂下来），格子按最高的那段算。
+     let cellW = 192, cellH = specs.map(\.frameHeight).max() ?? 208, labelH = 26, maxCols = 10
+     let cols = min(maxCols, specs.map { library.frameCount($0.id) }.max() ?? 1)
+@@ -139,8 +141,8 @@
+         let library = try SpriteLibrary(catalog: catalog, assetsRoot: root)
+         let startupMs = (ProcessInfo.processInfo.systemUptime - started) * 1000
+         var rows: [[String: Any]] = []
+-        for spec in catalog.specs.values.sorted(by: { $0.id < $1.id }) where spec.blink != nil {
+-            var clock = BlinkClock(seed: spec.blink!.seed, now: 0)
++        for spec in catalog.specs.values.sorted(by: { $0.id < $1.id }) where spec.blink != nil || spec.id.hasPrefix("interaction_") {
++            var clock = BlinkClock(seed: spec.blink?.seed ?? 11003, now: 0)
+             var time = 0.0
+             var samples: [Double] = []
+             for _ in 0..<2 {
+@@ -749,7 +751,7 @@
+     private var deepSeekInstaller: Process?
+     private var openChatProcessID: pid_t?
+     private var openChatObservedAt: Double = -.infinity
+-    private let defaults = UserDefaults.standard
++    private let defaults = interactionDemo ? (UserDefaults(suiteName:"local.yukio.throw.preview.settings") ?? UserDefaults.standard) : UserDefaults.standard
+ 
+     private var panel: PetPanel!
+     private var view: PetView!
+@@ -776,6 +778,20 @@
+     private var hangGeo: HangGeometry?
+     /// 松手的时刻；晃停或超时后放回原来的动作。
+     private var releasedAt: Double?
++    private var throwPlayback: ThrowPlayback?
++    private var throwTimer: Timer?
++    private var interactionDemoRuns = 0
++    private var throwSessionID = 0
++    private var interactionDemoRecords: [[String:Any]] = []
++    private var interactionFrameTimes: [Double] = []
++    private var throwConfig: ThrowConfig? = {
++        guard let root = AssetLocator.assetsRoot() else { return nil }
++        return try? ThrowConfig.load(from: root.appendingPathComponent("interaction/physics.json"))
++    }()
++    private var throwEnabled: Bool {
++        get { defaults.object(forKey: "throwInteraction") as? Bool ?? true }
++        set { defaults.set(newValue, forKey: "throwInteraction") }
++    }
+     /// 气泡正在显示的内容。出现和消失立即生效；内容变化每段至少停留 1.2 秒，连续读几个文件时不逐个闪过。
+     private var bubbleHold = HeldValue<StatusLine?>(nil, minHoldMs: 1200)
+     /// 旁边那叠卡正在显示的内容。多一条少一条立刻生效，卡上的字跟气泡一样至少停留 1.2 秒。
+@@ -857,6 +873,7 @@
+         // retain its pending/active blink and merely select a future seed.
+         blinkClock = BlinkClock(seed: stateTimeline.spec.blink?.seed ?? 11003, now: now)
+ 
++        if interactionDemo { following = false }
+         setUpWindow()
+         setUpStatusItem()
+         render()
+@@ -878,8 +895,12 @@
+             forName: NSApplication.didChangeScreenParametersNotification, object: nil, queue: .main
+         ) { [weak self] _ in self?.screensChanged() }
+ 
++        NSWorkspace.shared.notificationCenter.addObserver(forName:NSWorkspace.willSleepNotification,object:nil,queue:.main) { [weak self] _ in
++            self?.view.cancelDrag(); self?.finishHang()
++        }
+         setUpAssistant()
+         if CommandLine.arguments.contains("--demo") { startDemo() }
++        if interactionDemo { DispatchQueue.main.asyncAfter(deadline:.now()+1) { self.startInteractionDemo() } }
+     }
+ 
+     // MARK: 窗口
+@@ -897,7 +918,14 @@
+         view.onClick = { [weak self] in self?.petClicked() }
+         view.onDragBegan = { [weak self] in self?.dragBegan() }
+         view.onDragOriginChanged = { [weak self] in self?.panel.frame.origin ?? .zero }
+-        view.onDragEnded = { [weak self] in self?.dragEnded() }
++        view.onDragEnded = { [weak self] velocity in self?.dragEnded(velocity) }
++        view.onCatch = { [weak self] in
++            guard let self, let flight = self.throwPlayback else { return false }
++            flight.frozen = self.throwPresentation(flight)
++            flight.caught = true
++            return true
++        }
++        view.onDragCancelled = { [weak self] in self?.finishHang() }
+         // 右键保留轻量设置入口，再通过设置里的大按钮切换到完整助手窗口。
+         let openSettings: (NSEvent) -> Void = { [weak self] _ in
+             // Finish routing the mouse event before activating another window.
+@@ -937,6 +965,7 @@
+     /// 接显示器、拔显示器、改分辨率：她可能整个落在屏幕外（拔掉外接屏最容易撞上），
+     /// 那样点应用也只会被“单实例”挡掉，看着就像打不开。屏幕一变就把她挪回来。
+     private func screensChanged() {
++        view.cancelDrag()
+         finishHang()
+         let f = panel.frame
+         if !NSScreen.screens.contains(where: { $0.visibleFrame.intersects(f) }) {
+@@ -955,6 +984,7 @@
+         guard value != petHidden else { return }
+         petHidden = value
+         if value {
++            view.cancelDrag()
+             finishHang()
+             collapseCards()
+             updateQuestion(now: nowMs(), immediate: true)   // 先把问题卡收掉（它是独立的子窗口）
+@@ -981,6 +1011,7 @@
+     }
+ 
+     private func applyScale(_ s: CGFloat) {
++        view.cancelDrag()
+         finishHang()
+         let old = panel.frame
+         scale = s
+@@ -1079,6 +1110,7 @@
+     }
+ 
+     private func dragBegan() {
++        if throwPlayback != nil { return }
+         let now = nowMs()
+         // 上一次还在晃就又被抓住：窗口已经是放大的，只要把手重新握上。
+         if swing != nil {
+@@ -1103,7 +1135,8 @@
+         updateStatusTitle()
+     }
+ 
+-    private func dragEnded() {
++    private func dragEnded(_ pointer: ThrowVector) {
++        if throwEnabled, let config = throwConfig { startThrow(pointer, config: config); return }
+         guard swing != nil else { return }
+         // 贴边和保存位置都按平时那块算；放大的窗口跟着挪同样的距离。
+         let normal = clamped(normalFrame())
+@@ -1120,6 +1153,7 @@
+ 
+     /// 晃停了（或超时、要改大小了）：窗口还原成平时那块，切回当前活动的动作。
+     private func finishHang() {
++        finishThrow()
+         guard swing != nil else { return }
+         let normal = normalFrame()
+         swing = nil
+@@ -1133,6 +1167,122 @@
+         positionCards()
+         positionQuestion()
+         updateStatusTitle()
++    }
++
++    private func startInteractionDemo() {
++        guard interactionDemoRuns<3, let c=throwConfig, throwPlayback==nil else { return }
++        let room=(NSScreen.main ?? NSScreen.screens[0]).frame
++        panel.setFrameOrigin(NSPoint(x:room.midX-96,y:room.midY-104))
++        dragBegan()
++        let velocities=[ThrowVector(0,0),ThrowVector(900,350),ThrowVector(-1900,1100)]
++        let velocity=velocities[interactionDemoRuns];interactionDemoRuns+=1
++        startThrow(velocity,config:c)
++    }
++
++    private func startThrow(_ pointer: ThrowVector, config c: ThrowConfig) {
++        let center: NSPoint, angle: Double, rate: Double, tangent: ThrowVector
++        var carry: SpriteLibrary.Frame?
++        if let flight = throwPlayback {
++            if let frozen = flight.frozen {
++                let p = frozen.1, s = flight.physics.scale
++                let dx = p.rect.minX + (c.center[0]+12)*s - p.pivot.x
++                let dy = p.rect.maxY - (c.center[1]+12)*s - p.pivot.y
++                center = NSPoint(x:panel.frame.minX+p.pivot.x+dx*cos(p.angle)-dy*sin(p.angle),
++                                 y:panel.frame.minY+p.pivot.y+dx*sin(p.angle)+dy*cos(p.angle))
++            } else { center = NSPoint(x:panel.frame.midX,y:panel.frame.midY) }
++            angle = Double(flight.frozen?.1.angle ?? CGFloat(flight.physics.angle))
++            rate = 0; tangent = .zero; carry = flight.frozen?.0
++        } else if let geo = hangGeo, let swing {
++            let dx = geo.spriteRect.minX + c.center[0] * scale - geo.pivot.x
++            let dy = geo.spriteRect.maxY - c.center[1] * scale - swing.sag - geo.pivot.y
++            let rx = dx * cos(swing.angle) - dy * sin(swing.angle)
++            let ry = dx * sin(swing.angle) + dy * cos(swing.angle)
++            center = NSPoint(x: panel.frame.minX + geo.pivot.x + rx,
++                             y: panel.frame.minY + geo.pivot.y + ry)
++            angle = swing.angle; rate = swing.rate
++            tangent = ThrowVector(-swing.rate * ry + swing.sagRate * sin(angle),
++                                  swing.rate * rx - swing.sagRate * cos(angle))
++        } else { return }
++        let mouse = NSEvent.mouseLocation
++        let screen = NSScreen.screens.first { $0.frame.contains(mouse) } ?? panel.screen ?? NSScreen.screens[0]
++        let velocity = DragVelocityTracker.release(pointer: pointer, tangent: tangent, config: c)
++        throwSessionID += 1
++        let flight = ThrowPlayback(config: c, room: screen.frame, center: center, velocity: velocity,
++                                   angle: angle, rate: rate, scale: scale, carry: carry, sessionID: throwSessionID)
++        swing = nil; heldTimeline = nil; hangGeo = nil; releasedAt = nil
++        throwPlayback = flight
++        interactionFrameTimes = []
++        // Existing answer editors stay at their visible screen position.
++        for child in [cardStack as NSWindow?, questionPanel as NSWindow?] {
++            if let child, child.parent != nil { panel.removeChildWindow(child) }
++        }
++        bubble.orderOut(nil)
++        let size = flight.canvasSize, p = flight.worldCenter
++        panel.setFrame(NSRect(x: p.x-size.width/2, y: p.y-size.height/2, width: size.width, height: size.height), display: false)
++        view.frame = NSRect(origin: .zero, size: size)
++        throwTimer?.invalidate()
++        let t = Timer(timeInterval: 1.0/60, repeats: true) { [weak self] _ in self?.animateThrow() }
++        t.tolerance = 0.001; RunLoop.main.add(t, forMode: .common); throwTimer = t
++        render()
++    }
++
++    private func animateThrow() {
++        let began = ProcessInfo.processInfo.systemUptime
++        defer { if interactionDemo { interactionFrameTimes.append((ProcessInfo.processInfo.systemUptime-began)*1000) } }
++        guard let flight = throwPlayback else { return }
++        flight.advance()
++        if flight.physics.phase == .normal { finishThrow(); return }
++        if !flight.caught {
++            let p = flight.worldCenter, size = flight.canvasSize
++            // Keep a small overscan around the moving body. Moving the native
++            // window every render can synchronously stall WindowServer; local
++            // drawing stays continuous while window relocation is less frequent.
++            if abs(p.x-panel.frame.midX)>24*flight.physics.scale || abs(p.y-panel.frame.midY)>24*flight.physics.scale {
++                panel.setFrameOrigin(NSPoint(x: p.x-size.width/2, y: p.y-size.height/2))
++            }
++        }
++        render(); updateMousePassThrough()
++    }
++
++    private func finishThrow() {
++        guard let flight = throwPlayback else { return }
++        throwTimer?.invalidate(); throwTimer = nil
++        if interactionDemo, let path = Bundle.main.object(forInfoDictionaryKey:"YukioInteractionDemoOutput") as? String {
++            let sorted=interactionFrameTimes.sorted()
++            interactionDemoRecords.append(["session":flight.physics.sessionID,"phase":flight.physics.phase.rawValue,"events":flight.physics.eventCount,"exhaustions":flight.physics.exhaustions,"frames":sorted.count,"p95UpdateMs":sorted.isEmpty ? 0 : sorted[Int(Double(sorted.count-1)*0.95)],"maxUpdateMs":sorted.last ?? 0,"room":NSStringFromRect(flight.room),"ground":flight.physics.ground])
++            let report:[String:Any] = ["os":ProcessInfo.processInfo.operatingSystemVersionString,"date":ISO8601DateFormatter().string(from:Date()),"cases":interactionDemoRecords,"screens":NSScreen.screens.map { ["frame":NSStringFromRect($0.frame),"visibleFrame":NSStringFromRect($0.visibleFrame),"backingScale":$0.backingScaleFactor] },"note":"Actual PetPanel and 60 Hz timer. Scripted demo releases; manual pointer, Dock occlusion and mixed DPI require separate observation."]
++            if let data=try? JSONSerialization.data(withJSONObject:report,options:[.prettyPrinted,.sortedKeys]) { try? data.write(to:URL(fileURLWithPath:path)) }
++        }
++        let frame = library.frame(stateTimeline.spec.id, stateTimeline.frame)
++        var bottom = frame.height-1
++        while bottom>0 && !(0..<frame.width).contains(where: { frame.alpha[bottom*frame.width+$0]>24 }) { bottom-=1 }
++        let inset = Double(frame.height-1-bottom)/Double(frame.height)*petSize.height
++        var caughtCenter=NSPoint(x:panel.frame.midX,y:panel.frame.midY)
++        if let frozen=flight.frozen {
++            let p=frozen.1, c=flight.physics.config, s=flight.physics.scale
++            let dx=p.rect.minX+(c.center[0]+12)*s-p.pivot.x
++            let dy=p.rect.maxY-(c.center[1]+12)*s-p.pivot.y
++            caughtCenter=NSPoint(x:panel.frame.minX+p.pivot.x+dx*cos(p.angle)-dy*sin(p.angle),y:panel.frame.minY+p.pivot.y+dx*sin(p.angle)+dy*cos(p.angle))
++        }
++        let ground = flight.caught ? caughtCenter.y + flight.physics.bounds().1 : flight.room.minY + flight.physics.position.y + flight.physics.bounds().1
++        let x = (flight.caught ? caughtCenter.x : flight.worldCenter.x) - petSize.width/2
++        throwPlayback = nil
++        panel.setFrame(NSRect(x:x,y:ground-inset,width:petSize.width,height:petSize.height),display:false)
++        view.frame = NSRect(origin:.zero,size:petSize)
++        for child in [cardStack as NSWindow?, questionPanel as NSWindow?] {
++            if let child, child.parent == nil { panel.addChildWindow(child, ordered:.above) }
++        }
++        savePosition(); render(); positionBubble(); positionCards(); positionQuestion()
++        if interactionDemo, let path=Bundle.main.object(forInfoDictionaryKey:"YukioInteractionDemoOutput") as? String {
++            let info="frame=\(view.frame) bounds=\(view.bounds) window=\(panel.frame) spec=\(stateTimeline.spec.id) image=\(frame.width)x\(frame.height)"
++            try? info.write(toFile:path+".geometry.txt",atomically:true,encoding:.utf8)
++            if let bitmap=view.bitmapImageRepForCachingDisplay(in:view.bounds) {
++                view.cacheDisplay(in:view.bounds,to:bitmap)
++                try? bitmap.representation(using:.png,properties:[:])?.write(to:URL(fileURLWithPath:path+".normal.png"))
++            }
++        }
++        updateBubble(now:nowMs()); updateStatusTitle()
++        if interactionDemo && interactionDemoRuns<3 { DispatchQueue.main.asyncAfter(deadline:.now()+0.8) { self.startInteractionDemo() } }
+     }
+ 
+     // MARK: 主循环
+@@ -1189,6 +1339,7 @@
+     }
+ 
+     private func tick() {
++        if view.pressed && NSEvent.pressedMouseButtons & 1 == 0 { view.cancelDrag() }
+         let now = nowMs()
+         tickCount += 1
+         // Clear immediately when the user leaves the app; refresh selected chat every 0.5 s.
+@@ -1248,7 +1399,7 @@
+         }
+         // 收起时不画、也不去抢鼠标；状态照样跟着走。
+         if !petHidden {
+-            render()
++            if throwPlayback == nil { render() }
+             updateMousePassThrough()
+         }
+         updateBubble(now: now)
+@@ -1259,7 +1410,22 @@
+         }
+     }
+ 
++    private func throwPresentation(_ flight: ThrowPlayback) -> (SpriteLibrary.Frame,SpritePlacement) {
++        let (frame,raw)=flight.frame(catalog:catalog,library:library,blinkLevel:blinkLevel)
++        if flight.caught { return (frame,raw) }
++        var placement=raw
++        let dx=flight.worldCenter.x-panel.frame.midX,dy=flight.worldCenter.y-panel.frame.midY
++        placement.rect=placement.rect.offsetBy(dx:dx,dy:dy)
++        placement.pivot.x+=dx;placement.pivot.y+=dy
++        return (frame,placement)
++    }
++
+     private func render() {
++        if let flight = throwPlayback {
++            let (frame, placement) = throwPresentation(flight)
++            view.show(frame, placement)
++            return
++        }
+         if let held = heldTimeline, let geo = hangGeo, let swing {
+             // 坠下去时整张图往下挪，旋转中心仍是抓手那一点（相当于那截布被拉长了）。
+             view.show(library.frame(held.spec.id, held.frame),
+@@ -1285,7 +1451,7 @@
+                 && cardStack.stackView.hit(at: NSPoint(x: m.x - c.minX, y: m.y - c.minY)) != nil
+             if cardStack.ignoresMouseEvents == overCard { cardStack.ignoresMouseEvents = !overCard }
+         }
+-        if view.dragging { panel.ignoresMouseEvents = false; return }
++        if view.dragging || view.pressed { panel.ignoresMouseEvents = false; return }
+         let f = panel.frame
+         let over = f.contains(m) && view.isOpaque(at: NSPoint(x: m.x - f.minX, y: m.y - f.minY))
+         if panel.ignoresMouseEvents == over { panel.ignoresMouseEvents = !over }
+@@ -1308,7 +1474,7 @@
+     private func updateBubble(now: Double) {
+         if (swing != nil) != bubblePlacedForHang { positionBubble(); positionCards() }
+         let source: ActivityRouter? = simulation?.router ?? (following ? router : nil)
+-        let line = showBubble ? source?.statusLine(now: now) : nil
++        let line = showBubble && throwPlayback == nil ? source?.statusLine(now: now) : nil
+         let visibilityChanged = (line == nil) != (bubbleHold.value == nil)
+         guard bubbleHold.update(line, now: now, immediate: visibilityChanged) else { return }
+         if let line = bubbleHold.value {
+@@ -1323,6 +1489,7 @@
+     }
+ 
+     private func positionBubble() {
++        guard throwPlayback == nil else { return }
+         bubblePlacedForHang = swing != nil
+         guard let bubble, let layoutSize = bubble.bubbleView.layout?.size else { return }
+         let size = NSSize(width: layoutSize.width * scale, height: layoutSize.height * scale)
+@@ -1439,6 +1606,7 @@
+ 
+     /// 雪绪挪了、变大小了、被拎起放下了：照当前这叠重摆一次。
+     private func positionCards() {
++        guard throwPlayback == nil else { return }
+         guard let layout = cardStack?.stackView.layout else { return }
+         positionCards(layout)
+     }
+@@ -1630,6 +1798,7 @@
+     }
+ 
+     private func positionQuestion() {
++        guard throwPlayback == nil else { return }
+         guard let layout = questionPanel?.cardView.card, questionPanel.alphaValue > 0.01 else { return }
+         positionQuestion(layout)
+     }
+@@ -1844,6 +2013,7 @@
+                                 scale: scale,
+                                 language: language,
+                                 demoPlaying: simulation != nil,
++                                throwInteraction: throwEnabled,
+                                 launchAtLogin: launchAtLogin.status)
+     }
+ 
+@@ -1904,6 +2074,9 @@
+             switchProvider(to: picked)
+         case .chat(let id):
+             _ = router.pinSession(id, now: nowMs())
++        case .throwInteraction(let value):
++            throwEnabled = value
++            if !value { view.cancelDrag(); finishHang() }
+         case .showBubble(let value):
+             showBubble = value
+             updateBubble(now: nowMs())
+@@ -2104,6 +2277,7 @@
+     catch { FileHandle.standardError.write(Data("\(error)\n".utf8)); exit(1) }
+ }
+ if args.contains("--check") { runCheck() }
++if let i = args.firstIndex(of: "--interaction-check"), i+1<args.count { runInteractionCheck(path:args[i+1]) }
+ if args.contains("--motion-benchmark") { runMotionBenchmark() }
+ if let i = args.firstIndex(of: "--snapshot"), i + 1 < args.count { runSnapshot(path: args[i + 1]) }
+ if let i = args.firstIndex(of: "--blink-snapshots"), i + 1 < args.count { runBlinkSnapshots(path: args[i + 1]) }
+--- before/YukioPlayer/Tests/YukioCoreTests/BlinkOverlayCatalogTests.swift
++++ after/YukioPlayer/Tests/YukioCoreTests/BlinkOverlayCatalogTests.swift
+@@ -13,7 +13,7 @@
+ 
+     @Test func releasedStatesHaveIndependentEyepatchesButHeldDoesNot() throws {
+         let catalog = try AnimationCatalog.load(assetsRoot: Self.assetsRoot)
+-        let animated = catalog.specs.values.filter { $0.id != AnimationCatalog.heldID }
++        let animated = catalog.specs.values.filter { $0.assetPath.hasPrefix("motion/") }
+         #expect(animated.count == 12)
+         #expect(Set(animated.compactMap { $0.blink?.seed }).count == 12)
+         for spec in animated {
+@@ -25,6 +25,18 @@
+             #expect(spec.durationsMs.allSatisfy { $0 == 20 })
+         }
+         #expect(catalog.specs[AnimationCatalog.heldID]?.blink == nil)
++    }
++
++    @Test func interactionUsesDedicatedBlinkAndBodyHitRegions() throws {
++        let catalog = try AnimationCatalog.load(assetsRoot: Self.assetsRoot)
++        let airborne = try #require(catalog.specs["interaction_airborne"])
++        #expect(airborne.blink?.levels == 6)
++        #expect(airborne.blinkAssetPath == "interaction/airborne-eyes.webp")
++        for spec in catalog.specs.values where spec.id.hasPrefix("interaction_") {
++            #expect(spec.hitRuns != nil)
++            #expect(spec.frameWidth == 216 && spec.frameHeight == 264)
++            if spec.id != "interaction_airborne" { #expect(spec.blink == nil) }
++        }
+     }
+ 
+     @Test func malformedOverlayOutsideFrameIsRejected() throws {
+--- before/YukioPlayer/Tests/YukioCoreTests/ThrowPhysicsTests.swift
++++ after/YukioPlayer/Tests/YukioCoreTests/ThrowPhysicsTests.swift
+@@ -0,0 +1,48 @@
++import Foundation
++import Testing
++@testable import YukioCore
++
++private let throwRoot = URL(fileURLWithPath:#filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
++private func config() throws -> ThrowConfig { try ThrowConfig.load(from:throwRoot.appendingPathComponent("YukioPlayer/Resources/Assets/interaction/physics.json")) }
++@Suite struct ThrowPhysicsTests {
++    @Test func matchesSharedWindowsSolverFixtures() throws {
++        let cases = try JSONSerialization.jsonObject(with:Data(contentsOf:throwRoot.appendingPathComponent("tests/interaction/scenarios.json"))) as! [String:Any]
++        let traces = try JSONSerialization.jsonObject(with:Data(contentsOf:throwRoot.appendingPathComponent("tests/interaction/python-traces.json"))) as! [String:Any]
++        let expected = traces["cases"] as! [[String:Any]]
++        for (j,c) in (cases["cases"] as! [[String:Any]]).enumerated() {
++            func v(_ name:String) -> ThrowVector { let a=c[name] as! [Double]; return ThrowVector(a[0],a[1]) }
++            var p=ThrowPhysics(config:try config(),room:v("room"),position:v("position"),velocity:v("velocity"),angle:c["angle"] as? Double ?? 0,rate:c["rate"] as? Double ?? 0,scale:c["scale"] as? Double ?? 1)
++            let rows=expected[j]["rows"] as! [[String:Any]], impacts=expected[j]["events"] as! [[String:Any]]
++            var eventIndex=0
++            for step in 1...960 {
++                p.advance(1.0/120)
++                let b=p.bounds()
++                #expect(min(p.position.x+b.0,p.position.y+b.1,p.room.x-p.position.x-b.2,p.room.y-p.position.y-b.3) >= -0.0001)
++                if (step-1)%4==0 {
++                    let r=rows[(step-1)/4]
++                    #expect(abs(p.position.x-(r["x"] as! Double))<0.00001)
++                    #expect(abs(p.position.y-(r["y"] as! Double))<0.00001)
++                    #expect(p.phase.rawValue==r["phase"] as! String)
++                }
++                for e in p.events {
++                    #expect(eventIndex<impacts.count)
++                    if eventIndex<impacts.count {
++                        #expect(abs(e.time-(impacts[eventIndex]["time"] as! Double))<1.0/120)
++                        #expect(abs(e.speed-(impacts[eventIndex]["speed"] as! Double))<0.001)
++                    }
++                    eventIndex+=1
++                }
++            }
++            #expect(eventIndex==impacts.count); #expect(p.exhaustions==0)
++        }
++    }
++    @Test func analyticFreeFallAndStoppedPointer() throws {
++        var p=ThrowPhysics(config:try config(),room:ThrowVector(1440,900),position:ThrowVector(600,650))
++        for _ in 0..<24 { p.advance(1.0/120) }
++        #expect(abs(p.position.y-602)<1e-8)
++        var t=DragVelocityTracker()
++        for i in 0...10 { t.add(time:Double(i)*0.01,x:Double(i)*10,y:0) }
++        #expect(abs(t.velocity(at:0.1).x-1000)<1e-6)
++        t.add(time:0.25,x:100,y:0); #expect(t.velocity(at:0.25) == .zero)
++    }
++}
+--- before/YukioPlayer/tools/interaction/check_interaction.py
++++ after/YukioPlayer/tools/interaction/check_interaction.py
+@@ -0,0 +1,56 @@
++"""Decode candidate atlases, validate interaction-only contracts, build live preview."""
++from pathlib import Path
++import argparse,json,hashlib
++import numpy as np
++from PIL import Image
++
++p=argparse.ArgumentParser();p.add_argument('--assets',type=Path,required=True);p.add_argument('--baseline',type=Path,required=True);p.add_argument('--out',type=Path,required=True);a=p.parse_args();a.out.mkdir(parents=True,exist_ok=True)
++allowed=np.array(Image.open(Path(__file__).resolve().parents[3]/'sources/interaction-rig/allowed-output-mask.png'))>0
++manifest=json.loads((a.assets/'interaction/interaction.json').read_text());rows=[]
++for s in manifest['states']:
++ im=Image.open(a.assets/'interaction'/s['asset']).convert('RGBA');w=s['frameWidth']*s['pixelScale'];h=s['frameHeight']*s['pixelScale'];cols=im.width//w;frames=[]
++ assert im.width%w==0 and im.height%h==0
++ assert len(s['sequence'])==len(s['durationsMs']) and all(d>0 for d in s['durationsMs'])
++ assert min(s['sequence'])>=0 and max(s['sequence'])<cols*(im.height//h)
++ assert 0<=s['loopStart']<len(s['sequence'])
++ for i in range(max(s['sequence'])+1):
++  f=np.array(im.crop((i%cols*w,i//cols*h,i%cols*w+w,i//cols*h+h)))
++  assert not np.any((f[:,:,3]>0)&~allowed),'pixels outside approved output envelope'
++  # Match the documented alpha > 24 body silhouette threshold.
++  # A single alpha=1 resampling fringe is reported, not treated as solid clipping.
++  assert not np.any(f[[0,-1],:,3]>24) and not np.any(f[:,[0,-1],3]>24),'clipped solid canvas edge'
++  hits=np.zeros((h,w),bool)
++  for y,l,r in s['hitRuns'][i]:
++   assert 0<=y<h and 0<=l<r<=w;hits[y,l:r]=True
++  assert np.all(f[:,:,3][hits]>0),'hit outside visible body'
++  frames.append(f)
++ first,last=frames[s['sequence'][s['loopStart']]],frames[s['sequence'][-1]]
++ delta=float(np.mean(np.abs(first.astype(float)-last.astype(float))))
++ adjacent=[float(np.mean(np.abs(frames[x].astype(float)-frames[y].astype(float)))) for x,y in zip(s['sequence'],s['sequence'][1:])]
++ if s['loop'] and adjacent: assert delta<=max(adjacent)*1.25+1e-6,'loop seam larger than adjacent movement'
++ rows.append({'id':s['id'],'uniqueFrames':len(frames),'steps':len(s['sequence']),'durationMs':sum(s['durationsMs']),'loopSeamMeanRGBA':delta,'decoded':True,'maxCanvasBorderAlpha':max(int(max(f[[0,-1],:,3].max(),f[:,[0,-1],3].max())) for f in frames),'sha256':hashlib.sha256((a.assets/'interaction'/s['asset']).read_bytes()).hexdigest()})
++ if s.get('blink'):
++  b=s['blink'];eye=Image.open(a.assets/'interaction'/b['asset']).convert('RGBA');base=frames[0]
++  for level in range(6):
++   patch=np.array(eye.crop((level*b['width'],0,(level+1)*b['width'],b['height'])))
++   assert np.array_equal(patch[:,:,3],base[b['y']:b['y']+b['height'],b['x']:b['x']+b['width'],3])
++# The original 12 motion atlases and eyes are not rewritten by this pipeline.
++regression=[]
++for f in (a.baseline/'motion').glob('*'):
++ if f.is_file():
++  target=a.assets/'motion'/f.name
++  assert hashlib.sha256(f.read_bytes()).digest()==hashlib.sha256(target.read_bytes()).digest(),f.name
++  regression.append(f.name)
++report={'encodedChecks':'passed','dailyResourcesUnchanged':regression,'states':rows,'visualReview':'pending','nativeWindows':'pending'}
++(a.out/'validation.json').write_text(json.dumps(report,indent=2)+'\n')
++# Embed metadata to keep the preview usable from file:// without fetch access.
++preview='''<!doctype html><meta charset="utf-8"><title>雪绪 · 抛掷与晕眩候选</title>
++<style>body{font:15px system-ui;background:#19222d;color:#edf3f8;margin:24px}header{position:sticky;top:0;background:#19222d;padding:12px;z-index:1}button,select,input{margin:5px;padding:6px}main{display:grid;grid-template-columns:repeat(3,minmax(230px,1fr));gap:14px}article{background:#293544;border-radius:12px;padding:12px}canvas{display:block;margin:auto;background:repeating-conic-gradient(#ddd 0 25%,#eee 0 50%) 0/20px 20px}small{display:block;color:#a8c1d1;margin:6px}</style>
++<header><b>雪绪 · 交互动画候选</b> <button id="play">暂停</button><button id="step">逐帧 +20 ms</button><select id="speed"><option value="1">原速</option><option value=".25">四分之一速度</option></select><select id="zoom"><option value="1">原尺寸</option><option value="2">200%</option></select><select id="bg"><option value="checker">棋盘格</option><option value="white">白</option><option value="black">黑</option><option value="magenta">洋红</option></select><span id="clock"></span></header><main></main>
++<script>const manifest=MANIFEST;const base=BASE;let playing=true,time=0,last=performance.now();const views=[];for(const s of manifest.states){const article=document.createElement('article');article.innerHTML=`<b>${s.id}</b><small></small><canvas width="${s.frameWidth*2}" height="${s.frameHeight*2}"></canvas>`;document.querySelector('main').append(article);const im=new Image;im.src=base+s.asset;views.push({s,im,canvas:article.querySelector('canvas'),label:article.querySelector('small')});}function draw(){document.querySelector("main").style.gridTemplateColumns=Number(zoom.value)===2?"repeat(auto-fit,minmax(464px,1fr))":"repeat(3,minmax(230px,1fr))";for(const v of views){const {s,im,canvas,label}=v;const duration=s.durationsMs.reduce((a,b)=>a+b,0);let t=time%duration,step=0;while(step<s.sequence.length-1&&t>=s.durationsMs[step])t-=s.durationsMs[step++];const index=s.sequence[step],w=canvas.width,h=canvas.height,cols=im.width/w;const ctx=canvas.getContext('2d');ctx.clearRect(0,0,w,h);if(im.complete&&im.width)ctx.drawImage(im,index%cols*w,Math.floor(index/cols)*h,w,h,0,0,w,h);canvas.style.width=s.frameWidth*Number(zoom.value)+'px';const bg=document.querySelector('#bg').value;canvas.style.background=bg==='checker'?'repeating-conic-gradient(#ddd 0 25%,#eee 0 50%) 0/20px 20px':bg;label.textContent=`帧 ${index} · 第 ${Math.floor(time/duration)+1} 遍 · ${duration} ms`;}clock.textContent=(time/1000).toFixed(2)+' s';}function tick(now){if(playing)time+=Math.min(now-last,100)*Number(speed.value);last=now;draw();requestAnimationFrame(tick);}play.onclick=()=>{playing=!playing;play.textContent=playing?'暂停':'播放'};document.querySelector('#step').onclick=()=>{playing=false;time+=20;draw()};requestAnimationFrame(tick);</script>'''
++# Preview sits next to the metadata; relative links are independent of machine path.
++import os
++preview_manifest={**manifest,'states':[{k:v for k,v in state.items() if k!='hitRuns'} for state in manifest['states']]}
++preview=preview.replace('MANIFEST',json.dumps(preview_manifest)).replace('BASE',json.dumps(os.path.relpath(a.assets/'interaction',a.out)+'/'))
++(a.out/'preview.html').write_text(preview)
++print(json.dumps({'passed':True,'states':len(rows),'unchangedDailyFiles':len(regression)}))
+--- before/YukioPlayer/tools/interaction/make_interaction.py
++++ after/YukioPlayer/tools/interaction/make_interaction.py
+@@ -0,0 +1,115 @@
++"""Bake local, premultiplied deformation; the trajectory stays in the solver."""
++from pathlib import Path
++import sys,json,hashlib,math,argparse
++import cv2,numpy as np
++from PIL import Image,ImageDraw
++sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'motion'))
++from motionlib import detect_eye
++from gaze_layers import GazeRig
++from blink_curves import paint_curve_blink
++ROOT=Path(__file__).resolve().parents[3]; INPUT=ROOT/'sources/interaction-rig'
++
++def rgba(p):
++ a=np.clip(p[:,:,3:4],0,1); q=np.concatenate([p[:,:,:3]/np.maximum(a,1e-8),a],axis=2)
++ return np.round(np.clip(q,0,1)*255).astype('uint8')
++def over(b,t): return t+b*(1-t[:,:,3:4])
++def smooth(t): return t*t*(3-2*t)
++
++def main(out):
++ out.mkdir(parents=True,exist_ok=True)
++ src=np.array(Image.open(INPUT/'source.png').convert('RGBA')); prem=src.astype('float32')/255; prem[:,:,:3]*=prem[:,:,3:4]
++ eyes=[detect_eye(prem,b) for b in [(147,98,175,119),(189,90,217,114)]]
++ gaze=GazeRig(prem,eyes,[{'gaze':[1.5,.5]},{'gaze':[-1.5,-.5]}])
++ curves=[(149,108,173,108,2.5),(190,99,215,100,3)]
++ yy,xx=np.mgrid[:480,:384].astype('float32')
++ masks={n:np.array(Image.open(INPUT/f'{n}-mask.png'))>0 for n in ['left-leg','right-leg','coat-left','coat-right']}
++ # Seam-free inverse warp of the connected original. There is no detached part
++ # revealing unseen anatomy: upper body translates rigidly, knees absorb motion.
++ # Store explicit base/foreground even though this deformation reveals no cavity.
++ np.savez_compressed(INPUT/'composition.npz',base=prem,foreground=np.zeros_like(prem))
++ allowed=np.zeros(src.shape[:2],'uint8'); allowed[src[:,:,3]>0]=255
++ Image.fromarray(allowed).save(INPUT/'allowed-mask.png')
++ descriptions={'airborne':(1,True),'wall-impact':(7,False),'landing-impact':(12,False),'dizzy-intro':(7,False),'dizzy-loop':(45,True),'recover':(21,False)}
++ descriptions.update({'wall-impact_light':(7,False),'wall-impact_medium':(7,False),'landing-impact_light':(12,False),'landing-impact_medium':(12,False)})
++ states=[]; allposes={}; contacts=[]; allowed_output=np.zeros((528,432),bool)
++ for name,(count,loop) in descriptions.items():
++  frames=[]; poses=[]; hits=[]
++  kind=name.split("_")[0]; intensity=.375 if name.endswith("_light") else .6875 if name.endswith("_medium") else 1.
++  for i in range(count):
++   t=i*.02; u=i/max(1,count-1)
++   bend=close=gx=gy=sway=stars=0.
++   if kind=='wall-impact': close=math.sin(math.pi*u)**.6; bend=2*intensity*math.sin(math.pi*u)
++   if kind=='landing-impact': bend=8*intensity*math.sin(math.pi*u)**1.4; close=math.sin(math.pi*u)**.55
++   if kind=='dizzy-intro': close=.55*smooth(u); stars=smooth(u); bend=2*smooth(u)
++   if kind=='dizzy-loop':
++    phase=2*math.pi*i/count; sway=3*math.sin(phase); gx=1.4*math.sin(phase+.6); gy=.4*math.cos(phase); close=.55; stars=1; bend=2+.7*math.sin(phase)
++   if kind=='recover': close=.55*(1-smooth(u)); stars=1-smooth(u); bend=2*(1-smooth(u))
++   face=paint_curve_blink(gaze.render(gx,gy),eyes,close,curves,cover_margin=1.3,warm_skin_only=True,eye_apertures=gaze.eyes)
++   # Vertical displacement is constant above knees, tapering smoothly to zero
++   # at each planted boot. Face/neck retain their shape and relationship.
++   weight=1-smooth(np.clip((yy-280)/180,0,1))
++   # Left boot is higher in the approved pose: its local ankle remains fixed.
++   weight=np.where(masks['left-leg'],1-smooth(np.clip((yy-285)/132,0,1)),weight)
++   dx=np.zeros_like(xx)
++   for n,sign in [('left-leg',-1),('right-leg',1)]:
++    dx+=masks[n]*sign*bend*.45*np.sin(np.pi*np.clip((yy-290)/160,0,1))
++   # Extend the coordinate field smoothly around the cutout; do not use alpha
++   # compositing of moved copies, which would leave residual legs behind.
++   for n,sign in [('coat-left',-1),('coat-right',1)]:
++    dx += masks[n]*sign*bend*.3*np.clip((yy-220)/100,0,1)*math.sin(math.pi*u+.4)
++   dx=cv2.GaussianBlur(dx,(15,15),3)
++   moved=cv2.remap(face,xx-dx,yy-bend*weight,cv2.INTER_LINEAR,borderMode=cv2.BORDER_CONSTANT)
++   canvas=np.zeros((528,432,4),'float32'); canvas[24:504,24:408]=moved
++   # Whole-body balance around the visible lower boot. No independent head turn.
++   if abs(sway)>.001:
++    matrix=cv2.getRotationMatrix2D((249,484),sway,1)
++    canvas=cv2.warpAffine(canvas,matrix,(432,528),flags=cv2.INTER_LINEAR)
++   hit=[]
++   for row in range(canvas.shape[0]):
++    line=np.pad(canvas[row,:,3]>.094,(1,1)); edges=np.flatnonzero(line[1:]!=line[:-1])
++    for start,end in zip(edges[::2],edges[1::2]): hit.append([row,int(start),int(end)])
++   hits.append(hit)
++   # Three stars orbit with rear half occluded by the actual head alpha.
++   if stars>0:
++    back=Image.new('RGBA',(432,528)); front=Image.new('RGBA',(432,528))
++    for k in range(3):
++     a=2*math.pi*((0 if kind=='dizzy-intro' else t/.9)+k/3); x=216+66*math.cos(a); y=53+14*math.sin(a)
++     target=front if math.sin(a)>0 else back; draw=ImageDraw.Draw(target)
++     points=[(x+(.0+7 if j%2==0 else 3)*math.sin(j*math.pi/5),y-(7 if j%2==0 else 3)*math.cos(j*math.pi/5)) for j in range(10)]
++     draw.polygon(points,fill=(255,218,104,int(255*stars)),outline=(115,83,42,int(255*stars)))
++    def pre(im):
++     a=np.array(im).astype('float32')/255; a[:,:,:3]*=a[:,:,3:4]; return a
++    canvas=over(pre(back),canvas); canvas=over(canvas,pre(front))
++   allowed_output |= canvas[:,:,3]>0
++   frame=Image.fromarray(rgba(canvas)); frames.append(frame)
++   poses.append({'timeMs':i*20,'bendPixels':bend,'eyeClosure':close,'gaze':[gx,gy],'balanceDegrees':sway,'starOpacity':stars})
++  # Keep small atlases bounded; 8 columns, deduplicate exact frames.
++  unique=[]; uniquehits=[]; seq=[]; hashes={}
++  for frame,hit in zip(frames,hits):
++   digest=hashlib.sha256(frame.tobytes()).hexdigest()
++   if digest not in hashes: hashes[digest]=len(unique);unique.append(frame);uniquehits.append(hit)
++   seq.append(hashes[digest])
++  cols=min(8,len(unique)); atlas=Image.new('RGBA',(cols*432,math.ceil(len(unique)/cols)*528))
++  for j,f in enumerate(unique):atlas.paste(f,(j%cols*432,j//cols*528))
++  atlas.save(out/f'{name}.webp','WEBP',lossless=True,quality=100,method=3,exact=True)
++  with Image.open(out/f'{name}.webp') as decoded: assert decoded.convert('RGBA').tobytes()==atlas.tobytes()
++  states.append({'id':'interaction_'+name,'asset':name+'.webp','frameWidth':216,'frameHeight':264,'pixelScale':2,'sequence':seq,'durationsMs':[1000 if count==1 else 20]*count,'loop':loop,'loopStart':0,'hitRuns':uniquehits})
++  if kind=='airborne':
++   patches=Image.new('RGBA',(76*6,38))
++   for level in range(1,7):
++    blink=paint_curve_blink(prem,eyes,level/6,curves,cover_margin=1.3,warm_skin_only=True,eye_apertures=gaze.eyes)
++    patches.paste(Image.fromarray(rgba(blink)).crop((142,85,218,123)),((level-1)*76,0))
++   patches.save(out/'airborne-eyes.webp','WEBP',lossless=True,quality=100,method=3,exact=True)
++   states[-1]['blink']={'asset':'airborne-eyes.webp','x':166,'y':109,'width':76,'height':38,'levels':6,'frames':[[0,1,2,3,4,5]],'seed':17071}
++  allposes[name]=poses
++  contacts.append(frames[count//2])
++ Image.fromarray(allowed_output.astype('uint8')*255).save(INPUT/'allowed-output-mask.png')
++ manifest={'version':1,'sourceSha256':hashlib.sha256((INPUT/'source.png').read_bytes()).hexdigest(),'contentOrigin':[12,12],'center':[108.52944371463218,116.131783043654],'foot':[124.5,242],'collider':'physics.json','states':states}
++ (out/'interaction.json').write_text(json.dumps(manifest,indent=2)+'\n')
++ (INPUT/'curves.json').write_text(json.dumps({'eyes':[(147,98,175,119),(189,90,217,114)],'closedCurves':curves,'poses':allposes,'pivotPixels':[249,484],'deformation':'connected inverse map; rigid face/neck; no exposed hidden regions'},indent=2))
++ sheet=Image.new('RGBA',(432*3,558*math.ceil(len(contacts)/3)),'#eeeeee'); draw=ImageDraw.Draw(sheet)
++ for j,f in enumerate(contacts): sheet.alpha_composite(f,(j%3*432,j//3*558+30));draw.text((j%3*432+8,j//3*558+8),list(descriptions)[j],fill='black')
++ sheet.convert('RGB').save(out/'contact-sheet.png')
++ print(out)
++if __name__=='__main__':
++ p=argparse.ArgumentParser();p.add_argument('--out',type=Path,required=True); main(p.parse_args().out)
+--- before/YukioPlayer/tools/interaction/replay.py
++++ after/YukioPlayer/tools/interaction/replay.py
+@@ -0,0 +1,18 @@
++"""Export deterministic Python solver traces for the shared cross-language suite."""
++import sys,json,argparse
++from pathlib import Path
++ROOT=Path(__file__).resolve().parents[3];sys.path.insert(0,str(ROOT/'YukioWin'))
++from yukio.throw_physics import ThrowPhysics,load_config
++
++def replay():
++ c=load_config(ROOT/'YukioPlayer/Resources/Assets');cases=json.loads((ROOT/'tests/interaction/scenarios.json').read_text())['cases'];out=[]
++ for case in cases:
++  p=ThrowPhysics(c,**{k:v for k,v in case.items() if k!='id'});rows=[];events=[]
++  for i in range(960):
++   p.advance(1/120)
++   if i%4==0:rows.append({'step':i+1,'x':p.x,'y':p.y,'angle':p.angle,'phase':p.phase,'vx':p.vx,'vy':p.vy})
++   events += [{'time':e.time,'normal':list(e.normal),'speed':e.speed} for e in p.events]
++  out.append({'id':case['id'],'rows':rows,'events':events,'exhaustions':p.exhaustions})
++ return {'version':1,'cases':out}
++if __name__=='__main__':
++ p=argparse.ArgumentParser();p.add_argument('--out',type=Path,required=True);args=p.parse_args();args.out.write_text(json.dumps(replay(),indent=2)+'\n')
+--- before/YukioPlayer/tools/interaction/segment_held.py
++++ after/YukioPlayer/tools/interaction/segment_held.py
+@@ -0,0 +1,30 @@
++"""Reproducible SAM 2.1 initial selections. Dependencies/model are external."""
++import argparse, hashlib, json, subprocess
++from pathlib import Path
++import numpy as np
++from PIL import Image
++import torch
++from sam2.build_sam import build_sam2
++from sam2.sam2_image_predictor import SAM2ImagePredictor
++
++p=argparse.ArgumentParser(); p.add_argument('--checkpoint',required=True); p.add_argument('--out',type=Path,required=True); args=p.parse_args()
++args.out.mkdir(parents=True,exist_ok=False)
++source=Path(__file__).resolve().parents[3]/'sources/interaction-rig/source.png'
++im=np.array(Image.open(source).convert('RGBA')); rgb=(im[:,:,:3]*(im[:,:,3:4]/255)+245*(1-im[:,:,3:4]/255)).astype('uint8')
++prompts={
++ 'left-leg':{'points':[[181,324],[177,366],[167,402],[185,291],[213,352],[143,280]],'labels':[1,1,1,1,0,0],'box':[149,277,204,425]},
++ 'right-leg':{'points':[[213,340],[224,397],[223,437],[214,306],[177,358],[238,270]],'labels':[1,1,1,1,0,0],'box':[197,284,246,463]},
++ 'coat-left':{'points':[[140,278],[127,305],[166,260],[177,333]],'labels':[1,1,0,0],'box':[111,218,163,328]},
++ 'coat-right':{'points':[[255,275],[266,301],[222,274],[223,330]],'labels':[1,1,0,0],'box':[232,213,285,328]}}
++model=build_sam2('configs/sam2.1/sam2.1_hiera_t.yaml',args.checkpoint,device='cpu')
++predictor=SAM2ImagePredictor(model)
++with torch.inference_mode():
++ predictor.set_image(rgb)
++ for name,pr in prompts.items():
++  masks,scores,_=predictor.predict(point_coords=np.array(pr['points']),point_labels=np.array(pr['labels']),box=np.array(pr['box']),multimask_output=True)
++  for i,m in enumerate(masks): Image.fromarray(m.astype('uint8')*255).save(args.out/f'{name}-sam-{i}.png')
++  pr['scores']=[float(s) for s in scores]; pr['candidate']=int(np.argmax(scores))
++  Image.fromarray(masks[pr['candidate']].astype('uint8')*255).save(args.out/f'{name}-raw.png')
++record={'model':'SAM 2.1 Hiera tiny','config':'configs/sam2.1/sam2.1_hiera_t.yaml','device':'cpu','torch':torch.__version__,'sourceSha256':hashlib.sha256(source.read_bytes()).hexdigest(),'checkpointSha256':hashlib.sha256(Path(args.checkpoint).read_bytes()).hexdigest(),'coordinateSystem':'384x480 source pixels, top-left','prompts':prompts}
++(args.out/'prompts.json').write_text(json.dumps(record,indent=2))
++print(args.out)
+--- before/YukioWin/scripts/prepare-windows-assets.py
++++ after/YukioWin/scripts/prepare-windows-assets.py
+@@ -89,7 +89,7 @@
+ 
+ def eye_pages(source: Path, output: Path, spec) -> dict:
+     blink = spec.blink
+-    path = source / "motion" / blink.asset
++    path = source / spec.blink_asset_path
+     with Image.open(path) as opened:
+         sheet = opened.convert("RGBA")
+     source_columns = sheet.width // blink.width
+@@ -131,7 +131,7 @@
+     catalog = AnimationCatalog.load(str(source))
+     states = {}
+     for spec in sorted(catalog.specs.values(), key=lambda item: item.id):
+-        if not spec.asset_path.startswith("motion/"):
++        if not spec.asset_path.startswith(("motion/", "interaction/")):
+             continue
+         entry = {"body": body_pages(source, output, spec)}
+         if spec.blink is not None:
+@@ -140,6 +140,9 @@
+         print("paged", spec.id, len(entry["body"]["pages"]), "body pages")
+     motion_bytes = (source / "motion" / "motion.json").read_bytes()
+     manifest = {"version": 1, "motionSha256": hashlib.sha256(motion_bytes).hexdigest(), "states": states}
++    interaction = source / "interaction" / "interaction.json"
++    if interaction.exists():
++        manifest["interactionSha256"] = hashlib.sha256(interaction.read_bytes()).hexdigest()
+     manifest_path = output / "motion" / "windows-pages" / "manifest.json"
+     manifest_path.parent.mkdir(parents=True, exist_ok=True)
+     manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+--- before/YukioWin/scripts/smoke-interaction.ps1
++++ after/YukioWin/scripts/smoke-interaction.ps1
+@@ -0,0 +1,10 @@
++param([string]$Python = "python", [string]$Out = "build\interaction-check")
++$ErrorActionPreference = "Stop"
++Push-Location (Split-Path $PSScriptRoot -Parent)
++try {
++    & $Python -m yukio --check
++    if ($LASTEXITCODE -ne 0) { throw "Resource check failed" }
++    & $Python -m yukio --interaction-check $Out
++    if ($LASTEXITCODE -ne 0) { throw "Native interaction check failed" }
++    Write-Host "Native report: $Out\windows-native.json. Complete the manual input/DPI/occlusion checklist separately."
++} finally { Pop-Location }
+--- before/YukioWin/tests/test_throw_physics.py
++++ after/YukioWin/tests/test_throw_physics.py
+@@ -0,0 +1,89 @@
++import json,math,unittest
++from pathlib import Path
++from yukio.throw_physics import ThrowPhysics,load_config
++from yukio.drag_velocity import DragVelocityTracker,release_velocity
++ROOT=Path(__file__).resolve().parents[2]
++C=load_config(ROOT/'YukioPlayer/Resources/Assets')
++CASES=json.loads((ROOT/'tests/interaction/scenarios.json').read_text())['cases']
++
++def make(case):
++ return ThrowPhysics(C,**{k:v for k,v in case.items() if k!='id'})
++
++class ThrowTests(unittest.TestCase):
++ def test_shared_scenarios_containment_and_single_dizzy(self):
++  for case in CASES:
++   p=make(case); phases=[]; ids=[]
++   for _ in range(1200):
++    p.advance(1/120); phases.append(p.phase); ids.extend(e.event_id for e in p.events)
++    l,b,r,t=p.bounds()
++    self.assertGreaterEqual(min(p.x+l,p.y+b,p.room[0]-p.x-r,p.room[1]-p.y-t),-0.0001,case['id'])
++    self.assertTrue(all(math.isfinite(v) for v in [p.x,p.y,p.vx,p.vy]))
++   self.assertEqual(p.phase,'normal',case['id']); self.assertEqual(p.exhaustions,0,case['id'])
++   self.assertEqual(len(ids),len(set(ids)))
++   self.assertEqual(sum(a!='dizzy' and b=='dizzy' for a,b in zip(phases,phases[1:])),1)
++ def test_analytic_freefall_and_impact_time(self):
++  p=make(CASES[0]); floor=-p.bounds()[1]
++  for _ in range(24): p.advance(1/120)
++  self.assertAlmostEqual(p.y,650-0.5*2400*0.2**2,places=8)
++  self.assertEqual(p.phase,'airborne')
++  events=[]
++  for _ in range(100): p.advance(1/120); events+=p.events
++  hit=next(e for e in events if e.normal==(0,1))
++  self.assertAlmostEqual(hit.time,math.sqrt(2*(650-floor)/2400),places=6)
++  self.assertAlmostEqual(hit.speed,math.sqrt(2*2400*(650-floor)),places=4)
++ def test_render_rate_independence(self):
++  results=[]
++  for hz in (30,60,120,144):
++   p=make(CASES[1])
++   for _ in range(hz): p.advance(1/hz)
++   results.append((p.x,p.y,p.time,p.phase,p.event_count))
++  for row in results[1:]:
++   for a,b in zip(row[:3],results[0][:3]): self.assertAlmostEqual(a,b,places=7)
++   self.assertEqual(row[3:],results[0][3:])
++ def test_floor_support_no_contact_storm(self):
++  p=make(CASES[0]); p.y=-p.bounds()[1]
++  for _ in range(60): p.advance(1/120)
++  self.assertTrue(p.ground); self.assertEqual(p.event_count,1); self.assertEqual(p.phase,'dizzy')
++ def test_wall_does_not_trigger_dizzy(self):
++  p=make(CASES[1])
++  for _ in range(45):
++   p.advance(1/120)
++   if any(e.normal[0] for e in p.events):
++    self.assertFalse(p.ground); self.assertEqual(p.phase,'airborne'); return
++  self.fail('wall missing')
++ def test_energy_and_sleep_and_grab(self):
++  p=make(CASES[5]); before=.5*(p.vx**2+p.vy**2)+C['gravity']*p.y
++  for _ in range(400):
++   p.advance(1/120)
++   energy=.5*(p.vx**2+p.vy**2)+C['gravity']*p.y
++   self.assertLessEqual(energy,before+0.001); before=energy
++  pos=(p.x,p.y); p.advance(10); self.assertEqual((p.x,p.y),pos); self.assertGreater(p.dropped_time,9)
++  p.grab(); p.advance(.1); self.assertEqual((p.x,p.y),pos); self.assertEqual(p.phase,'held')
++ def test_strength_changes_duration_and_finishes_landing_pose(self):
++  lengths=[]
++  for down in (0,-600,-1200):
++   p=make(CASES[0]);p.y=-p.bounds()[1];p.vy=down
++   entered=None
++   for _ in range(600):
++    p.advance(1/120)
++    if p.phase=='dizzy' and entered is None:
++     entered=p.time
++     self.assertGreaterEqual(entered-p.last_landing_time+1e-8,p.last_landing_duration)
++    if p.phase=='recover':
++     lengths.append(p.time-entered);break
++  self.assertLess(lengths[0],lengths[1]);self.assertLess(lengths[1],lengths[2])
++ def test_velocity_samples(self):
++  t=DragVelocityTracker()
++  for i in range(11): t.add(i*.01,i*10,0)
++  self.assertAlmostEqual(t.velocity(.1)[0],1000,places=6)
++  t.add(.25,100,0); self.assertEqual(t.velocity(.25),(0,0))
++  t=DragVelocityTracker()
++  for i in range(11): t.add(i*.01,i*10 if i<6 else 100-i*10,0)
++  self.assertLess(t.velocity(.1)[0],0)
++  t.add(.1,1e9,1e9); t.add(float('nan'),0,0)
++  self.assertLess(t.velocity(.1)[0],0)
++  self.assertEqual(DragVelocityTracker().velocity(0),(0,0))
++  v=release_velocity((9000,9000),(0,0),C)
++  self.assertAlmostEqual(math.hypot(*v),2600); self.assertEqual(v[0],v[1])
++
++if __name__=='__main__': unittest.main()
+--- before/YukioWin/yukio/app.py
++++ after/YukioWin/yukio/app.py
+@@ -41,7 +41,10 @@
+     return time.time() * 1000.0
+ 
+ 
+-class PetApp:
++from .throw_interaction import ThrowInteraction
++
++
++class PetApp(ThrowInteraction):
+     def __init__(self, argv: List[str]):
+         from . import win32
+         self.win32 = win32
+@@ -61,6 +64,7 @@
+             raise SystemExit("找不到素材目录 Assets（可用 YUKIO_ASSETS 指定）")
+         self.catalog = AnimationCatalog.load(root)
+         self.library = SpriteLibrary(self.catalog, root)
++        self._init_throw(root)
+         self.sources = default_sources(self.settings.get("source"))
+         self.links = ChatLinks()
+         from .codex_open_chat import CodexOpenChat
+@@ -195,7 +199,7 @@
+     @property
+     def scale(self) -> float:
+         """实际缩放 = 用户选的大小 × 屏幕缩放（125% 的屏幕上素材按 1.25 倍画，不糊）。"""
+-        return self.user_scale * self.win32.dpi_scale(getattr(getattr(self, "pet", None), "hwnd", None))
++        return self.user_scale * (getattr(self,"_drag_dpi",None) or self.win32.dpi_scale(getattr(getattr(self, "pet", None), "hwnd", None)))
+ 
+     @property
+     def pet_size(self) -> Tuple[int, int]:
+@@ -238,6 +242,9 @@
+     def _render(self, now: float) -> None:
+         if self.pet_hidden:
+             self.pet.hide()
++            return
++        if getattr(self, "flight", None) is not None:
++            self._render_throw()
+             return
+         if self.swing is not None and self.hang_geo is not None and self.held_timeline is not None:
+             self._render_hanging()
+@@ -301,6 +308,7 @@
+         self._painted = key
+ 
+     def _position_bubble(self) -> None:
++        if getattr(self, "flight", None) is not None:return
+         from .bubble import BubbleLayout
+         self._bubble_placed_for_drag = self.swing is not None
+         if self._bubble_image is None:
+@@ -342,7 +350,7 @@
+             self._position_cards()
+             self._position_question()
+         source = self.demo[3] if self.demo else (self.router if self.follow else None)
+-        line = source.status_line(now) if (self.show_bubble and source) else None
++        line = source.status_line(now) if (self.show_bubble and source and getattr(self,"flight",None) is None) else None
+         visibility_changed = (line is None) != (self.bubble_hold.value is None)
+         if self.bubble_hold.update(line, now, immediate=visibility_changed):
+             if self.bubble_hold.value is not None:
+@@ -443,6 +451,7 @@
+         self._fade_cards()
+ 
+     def _position_cards(self) -> None:
++        if getattr(self, "flight", None) is not None:return
+         """雪绪挪了、变大小了、被拎起放下了：照当前这叠重摆一次。
+ 
+         接着气泡往上叠；气泡关掉或没内容时，从头顶线开始。
+@@ -581,6 +590,7 @@
+         self._fade_question()
+ 
+     def _position_question(self) -> None:
++        if getattr(self, "flight", None) is not None:return
+         """立在她身旁：右边放不下就换到左边，始终留在这块屏幕里。"""
+         from .question import QuestionCardLayout
+         if self.question_layout is None or self._question_image is None:
+@@ -965,7 +975,7 @@
+             self.blink_level = 0
+         if self.swing is not None:
+             self._advance_hang(now)
+-        self._render(now)
++        if getattr(self, "flight", None) is None:self._render(now)
+         self._update_bubble(now)
+         self._update_cards(now)
+         self._update_question(now)
+@@ -1026,6 +1036,13 @@
+         if control is None:
+             # CreateWindowEx 建窗口的过程中就会发消息进来，这时 __init__ 还没走完。
+             return None
++        if msg == w.WM_DISPLAYCHANGE:
++            self._cancel_throw(); self._clamp_to_screen(); return 0
++        if msg == 0x0218:  # WM_POWERBROADCAST: suspend/resume invalidates flight.
++            self._cancel_throw(); return 1
++        if msg == w.WM_TIMER and wparam == 2:
++            self._throw_tick()
++            return 0
+         if msg == w.WM_TIMER:
+             try:
+                 self.tick()
+@@ -1056,7 +1073,16 @@
+         if getattr(self, "pet", None) is None:
+             return w.user32.DefWindowProcW(hwnd, msg, wparam, lparam)
+         try:
++            if msg in (w.WM_DISPLAYCHANGE, w.WM_DPICHANGED, getattr(w,"WM_CANCELMODE",0x001F)):
++                self._cancel_throw(); self._clamp_to_screen(); return 0
++            if msg == getattr(w,"WM_CAPTURECHANGED",0x0215) and self._drag_pending:
++                self._cancel_throw(); return 0
+             if msg == w.WM_LBUTTONDOWN:
++                if w.user32.GetKeyState(0x11) & 0x8000:
++                    self._control_click = True; self.show_settings(); return 0
++                self._control_click = False
++                self._sample_pointer(reset=True)
++                self._caught_press = self._catch_throw()
+                 w.user32.SetCapture(hwnd)
+                 self._drag_pending = True
+                 self._dragging = False
+@@ -1065,6 +1091,7 @@
+                 self._origin_start = (self.pet.x, self.pet.y)
+                 return 0
+             if msg == w.WM_MOUSEMOVE and self._drag_pending:
++                self._sample_pointer()
+                 mx, my = w.cursor_pos()
+                 dx, dy = mx - self._drag_start[0], my - self._drag_start[1]
+                 if not self._dragging and (dx * dx + dy * dy) > 9:
+@@ -1083,14 +1110,21 @@
+                     self._last_mouse_x = mx
+                 return 0
+             if msg == w.WM_LBUTTONUP:
+-                w.user32.ReleaseCapture()
++                if getattr(self, '_control_click', False):
++                    self._control_click = False; return 0
++                if not self._drag_pending: return 0
++                self._sample_pointer()
+                 was_dragging = self._dragging
+                 self._drag_pending = False
+                 self._dragging = False
+-                if was_dragging:
+-                    self._drag_ended()
++                w.user32.ReleaseCapture()
++                if was_dragging or getattr(self, '_caught_press', False):
++                    pointer = self._throw_tracker.velocity(time.monotonic()) if was_dragging else (0.,0.)
++                    self._drag_ended(pointer)
++                    self._caught_press = False
+                 else:
+                     # 没拖动，就是点了她一下：举着牌子时跳回那条聊天。
++                    self._drag_dpi = None
+                     self._pet_clicked()
+                 return 0
+             if msg in (w.WM_RBUTTONUP, w.WM_LBUTTONDBLCLK):
+@@ -1116,6 +1150,7 @@
+         return (self.pet.x - self.hang_geo.offset[0], self.pet.y - self.hang_geo.offset[1])
+ 
+     def _drag_began(self) -> None:
++        if getattr(self, "flight", None) is not None:return
+         now = now_ms()
+         # 上一次还在晃就又被抓住：窗口已经是放大的，只要把手重新握上。
+         if self.swing is not None:
+@@ -1141,7 +1176,11 @@
+         self._paint_bubble()
+         self.tray.set_tip(self._tray_tip())
+ 
+-    def _drag_ended(self) -> None:
++    def _drag_ended(self, pointer=(0.,0.)) -> None:
++        if self.settings.get("throwInteraction", True):
++            self._start_throw(pointer)
++            return
++        self._drag_dpi = None
+         if self.swing is None:
+             return
+         # 贴边和保存位置都按平时那块算；放大的窗口跟着挪同样的距离。
+@@ -1160,6 +1199,7 @@
+ 
+     def _finish_hang(self) -> None:
+         """晃停了（或超时、要改大小了）：窗口还原成平时那块，切回当前活动的动作。"""
++        self._finish_throw()
+         if self.swing is None:
+             return
+         nx, ny = self._normal_frame()
+@@ -1311,6 +1351,7 @@
+             else:
+                 title = tr("Chat to follow", "跟随的聊天")
+             items.append(Item(title, None, submenu=self._chat_picker(chats)))
++        items.append(Item(tr("Throw interaction", "抛掷互动"), lambda: self._set_throw_enabled(not self.settings.get("throwInteraction", True)), checked=self.settings.get("throwInteraction", True)))
+         items.append(Item(tr("Size", "大小"), None, submenu=self._scale_menu()))
+         items.append(Item(tr("Back to the bottom-right corner", "回到屏幕右下角"), self._reset_position))
+         items.append(SEP)
+@@ -1392,7 +1433,7 @@
+         scale = self.snap_scale(scale)
+         if abs(scale - self.user_scale) < 1e-9:
+             return
+-        self._finish_hang()          # 放大的窗口先还原，免得按错的尺寸算锚点
++        self._cancel_throw()          # 放大的窗口先还原，免得按错的尺寸算锚点
+         old_w, old_h = self.pet_size
+         self.settings.set("scale", scale)
+         new_w, new_h = self.pet_size
+@@ -1441,6 +1482,7 @@
+         return self._assistant_only or not self.settings.get("petVisible", True)
+ 
+     def set_hidden(self, hidden: bool) -> None:
++        if hidden: self._cancel_throw()
+         self._assistant_only = False
+         self.settings.set("petVisible", not hidden)
+         self._painted = None
+@@ -1463,6 +1505,7 @@
+         return
+ 
+     def quit(self) -> None:
++        self._cancel_throw()
+         if self.assistant is not None:
+             self.assistant.destroy()
+         self.win32.quit_loop()
+--- before/YukioWin/yukio/catalog.py
++++ after/YukioWin/yukio/catalog.py
+@@ -66,11 +66,12 @@
+ class AnimationSpec:
+     __slots__ = ("id", "label", "asset_path", "frame_width", "frame_height",
+                  "sequence", "durations_ms", "loop", "hold_last_frame", "loop_start", "hang",
+-                 "pixel_scale", "blink")
++                 "pixel_scale", "blink", "hit_runs")
+ 
+     def __init__(self, id, label, asset_path, frame_width, frame_height,
+                  sequence, durations_ms, loop, hold_last_frame, loop_start=0, hang=None, pixel_scale=1,
+-                 blink=None):
++                 blink=None, hit_runs=None):
++        self.hit_runs = hit_runs
+         self.id = id
+         self.label = label
+         #: 相对资源根目录的路径，例如 "activities/thinking.webp"。
+@@ -90,6 +91,10 @@
+         self.pixel_scale = pixel_scale
+         #: 可选的独立眨眼小图集（motion.json v4）。
+         self.blink = blink
++
++    @property
++    def blink_asset_path(self):
++        return self.asset_path.rsplit("/",1)[0]+"/"+(self.blink.asset if self.blink else "")
+ 
+     @property
+     def max_frame_index(self) -> int:
+@@ -161,44 +166,45 @@
+                                            True, False, hang=hang, pixel_scale=int(a.get("pixelScale") or 1))
+ 
+         # 小幅动作覆盖同名动画；没有这个文件时按原图条播放。
+-        motion_path = os.path.join(assets_root, "motion", "motion.json")
+-        if os.path.exists(motion_path):
+-            try:
+-                with open(motion_path, "r", encoding="utf-8-sig") as fh:
+-                    motion = json.load(fh)
+-            except (OSError, ValueError) as exc:
+-                raise CatalogError("动作文件读不出来：%s（%s）" % (motion_path, exc))
+-            for m in motion.get("states", []):
+-                if len(m["sequence"]) != len(m["durationsMs"]) or not m["sequence"]:
+-                    raise CatalogError("motion %s：sequence 与 durationsMs 长度不一致" % m["id"])
+-                loop_start = m.get("loopStart") or 0
+-                if not 0 <= loop_start < len(m["sequence"]):
+-                    raise CatalogError("motion %s：loopStart 越界" % m["id"])
+-                blink = None
+-                if m.get("blink") is not None:
+-                    b = m["blink"]
+-                    try:
+-                        blink = BlinkOverlay(b["asset"], b["x"], b["y"], b["width"], b["height"],
+-                                             b["levels"], b["frames"], b["seed"])
+-                    except (KeyError, TypeError, ValueError) as exc:
+-                        raise CatalogError("motion %s：眨眼元数据不完整（%s）" % (m["id"], exc))
+-                    scale = int(m.get("pixelScale") or 1)
+-                    max_frame = max(m["sequence"]) if m["sequence"] else 0
+-                    valid = (blink.width > 0 and blink.height > 0 and blink.x >= 0 and blink.y >= 0
+-                             and blink.x + blink.width <= m["frameWidth"] * scale
+-                             and blink.y + blink.height <= m["frameHeight"] * scale
+-                             and 1 <= blink.levels <= 16 and len(blink.frames) > max_frame
+-                             and all(len(row) == blink.levels and all(index >= 0 for index in row)
+-                                     for row in blink.frames))
+-                    if not valid:
+-                        raise CatalogError("motion %s：眨眼图层尺寸或索引无效" % m["id"])
+-                previous = specs.get(m["id"])
+-                specs[m["id"]] = AnimationSpec(
+-                    m["id"], previous.label if previous else m["id"], "motion/" + m["asset"],
+-                    m["frameWidth"], m["frameHeight"], list(m["sequence"]),
+-                    [float(d) for d in m["durationsMs"]], bool(m["loop"]), not bool(m["loop"]), loop_start,
+-                    hang=previous.hang if previous else None, pixel_scale=int(m.get("pixelScale") or 1),
+-                    blink=blink)
++        for folder in ("motion", "interaction"):
++            motion_path = os.path.join(assets_root, folder, folder + ".json")
++            if os.path.exists(motion_path):
++                try:
++                    with open(motion_path, "r", encoding="utf-8-sig") as fh:
++                        motion = json.load(fh)
++                except (OSError, ValueError) as exc:
++                    raise CatalogError("动作文件读不出来：%s（%s）" % (motion_path, exc))
++                for m in motion.get("states", []):
++                    if len(m["sequence"]) != len(m["durationsMs"]) or not m["sequence"]:
++                        raise CatalogError("motion %s：sequence 与 durationsMs 长度不一致" % m["id"])
++                    loop_start = m.get("loopStart") or 0
++                    if not 0 <= loop_start < len(m["sequence"]):
++                        raise CatalogError("motion %s：loopStart 越界" % m["id"])
++                    blink = None
++                    if m.get("blink") is not None:
++                        b = m["blink"]
++                        try:
++                            blink = BlinkOverlay(b["asset"], b["x"], b["y"], b["width"], b["height"],
++                                                 b["levels"], b["frames"], b["seed"])
++                        except (KeyError, TypeError, ValueError) as exc:
++                            raise CatalogError("motion %s：眨眼元数据不完整（%s）" % (m["id"], exc))
++                        scale = int(m.get("pixelScale") or 1)
++                        max_frame = max(m["sequence"]) if m["sequence"] else 0
++                        valid = (blink.width > 0 and blink.height > 0 and blink.x >= 0 and blink.y >= 0
++                                 and blink.x + blink.width <= m["frameWidth"] * scale
++                                 and blink.y + blink.height <= m["frameHeight"] * scale
++                                 and 1 <= blink.levels <= 16 and len(blink.frames) > max_frame
++                                 and all(len(row) == blink.levels and all(index >= 0 for index in row)
++                                         for row in blink.frames))
++                        if not valid:
++                            raise CatalogError("motion %s：眨眼图层尺寸或索引无效" % m["id"])
++                    previous = specs.get(m["id"])
++                    specs[m["id"]] = AnimationSpec(
++                        m["id"], previous.label if previous else m["id"], folder + "/" + m["asset"],
++                        m["frameWidth"], m["frameHeight"], list(m["sequence"]),
++                        [float(d) for d in m["durationsMs"]], bool(m["loop"]), not bool(m["loop"]), loop_start,
++                        hang=previous.hang if previous else None, pixel_scale=int(m.get("pixelScale") or 1),
++                        blink=blink, hit_runs=m.get("hitRuns"))
+ 
+         catalog = AnimationCatalog(specs)
+         for state in ALL_STATES:
+@@ -237,7 +243,7 @@
+                 problems.append("%s：帧索引 %d 越界（共 %d 帧）" % (spec.id, spec.max_frame_index, frames))
+             if spec.blink is not None:
+                 blink = spec.blink
+-                eye_size = image_size("motion/" + blink.asset)
++                eye_size = image_size(spec.blink_asset_path)
+                 if not eye_size:
+                     problems.append("%s：无法读取眨眼图集 motion/%s" % (spec.id, blink.asset))
+                     continue
+--- before/YukioWin/yukio/cli.py
++++ after/YukioWin/yukio/cli.py
+@@ -1,5 +1,6 @@
+ """无窗口的检查与调试模式，macOS／Linux 上也能跑（用来离线自查）。
+ 
++    python -m yukio --interaction-check DIR  Windows 原生抛掷/落地绘制检查
+     python -m yukio --check                 加载并裁切全部素材，确认帧不越界
+     python -m yukio --snapshot out.png      把实际使用的动画画在棋盘格上
+     python -m yukio --bubble out.png        画几种头顶气泡样例，检查排版与位置
+@@ -127,7 +128,7 @@
+     from PIL import ImageDraw
+     from .bubble import load_font
+     catalog, library, _ = load_library_or_exit()
+-    specs = [catalog.spec(s) for s in ALL_STATES] + [catalog.specs[HELD_ID]]
++    specs = [catalog.spec(s) for s in ALL_STATES] + [catalog.specs[HELD_ID]] + sorted((s for s in catalog.specs.values() if s.id.startswith("interaction_")), key=lambda s:s.id)
+     # 「被拎起来」那一帧比常规帧高（领口的尖在头顶上方、腿垂下来），格子按最高的那段算。
+     cell_w, cell_h, label_h, max_cols = 192, max(s.frame_height for s in specs), 26, 10
+     cols = min(max_cols, max(library.frame_count(s.id) for s in specs))
+@@ -594,6 +595,9 @@
+                 return argv[i + 1]
+         return None
+ 
++    if value_after("--interaction-check"):
++        from .interaction_smoke import run
++        return run(value_after("--interaction-check"))
+     if value_after("--codex-answer-smoke"):
+         from .answer_smoke import run
+         return run(value_after("--codex-answer-smoke"))
+--- before/YukioWin/yukio/drag_velocity.py
++++ after/YukioWin/yukio/drag_velocity.py
+@@ -0,0 +1,43 @@
++"""Event-time pointer velocity. Coordinates must already use one logical basis."""
++import math
++
++
++class DragVelocityTracker:
++    def __init__(self, window=0.100, stopped=0.120):
++        self.window, self.stopped = window, stopped
++        self.samples = []
++        self.last_move = None
++
++    def add(self, t, x, y):
++        if not all(math.isfinite(v) for v in (t, x, y)):
++            return
++        if self.samples and t <= self.samples[-1][0]:
++            return
++        if not self.samples or math.hypot(x-self.samples[-1][1], y-self.samples[-1][2]) > 0.01:
++            self.last_move = t
++        self.samples.append((t, x, y))
++        self.samples = [s for s in self.samples if t-s[0] <= self.stopped]
++
++    def velocity(self, t):
++        if self.last_move is None or t-self.last_move >= self.stopped:
++            return (0.0, 0.0)
++        rows = [s for s in self.samples if 0 <= t-s[0] <= self.window]
++        if len(rows) < 2 or rows[-1][0]-rows[0][0] < 0.002:
++            return (0.0, 0.0)
++        # Recent direction changes dominate, while every sample has nonzero weight.
++        weights = [math.exp((s[0]-t)/0.025) for s in rows]
++        total = sum(weights)
++        means = [sum(w*s[i] for w,s in zip(weights,rows))/total for i in range(3)]
++        denom = sum(w*(s[0]-means[0])**2 for w,s in zip(weights,rows))
++        if denom < 1e-12:
++            return (0.0, 0.0)
++        decay = max(0.0, 1-max(0.0,t-self.last_move-0.025)/(self.stopped-0.025))
++        return tuple(sum(w*(s[0]-means[0])*(s[i]-means[i]) for w,s in zip(weights,rows))/denom*decay for i in (1,2))
++
++
++def release_velocity(pointer, tangent, config):
++    speed = math.hypot(*pointer)
++    gain = config['pointerGain'] * min(1.0, speed/config['lowSpeed'])
++    v = [pointer[i]*gain+tangent[i] for i in range(2)]
++    factor = min(1.0, config['maxSpeed']/max(math.hypot(*v), 1e-9))
++    return tuple(n*factor for n in v)
+--- before/YukioWin/yukio/hang.py
++++ after/YukioWin/yukio/hang.py
+@@ -80,6 +80,10 @@
+         self._released = False
+ 
+     @property
++    def sag_rate(self):
++        return self._sag_rate
++
++    @property
+     def angle_degrees(self) -> float:
+         return self.angle * 180.0 / math.pi
+ 
+--- before/YukioWin/yukio/interaction_smoke.py
++++ after/YukioWin/yukio/interaction_smoke.py
+@@ -0,0 +1,54 @@
++"""Opt-in native Windows test; never reports native success from another OS."""
++import json,os,platform,tempfile,time,hashlib
++from pathlib import Path
++
++
++def run(destination):
++    if os.name != 'nt':
++        raise RuntimeError('This check requires a native Windows desktop session')
++    from . import app as app_module,win32
++    from .settings import Settings
++    win32.set_dpi_aware()
++    output=Path(destination);output.mkdir(parents=True,exist_ok=True)
++    temp=Path(tempfile.mkdtemp(prefix='yukio-interaction-'))
++    config=temp/'settings.json';config.write_text(json.dumps({'follow':False,'showBubble':False,'showCards':False,'showQuestionCard':False,'throwInteraction':True,'scale':1.0}))
++    original_settings=app_module.Settings;original_sources=app_module.default_sources
++    app_module.Settings=lambda:Settings(str(config))
++    app_module.default_sources=lambda provider:[]
++
++    class CheckApp(app_module.PetApp):
++        def __init__(self):
++            self.samples=[];self.cases=[];self.started=time.monotonic();self.next_case=0;self.check_done=False
++            super().__init__([])
++        def _render_throw(self):
++            began=time.perf_counter();super()._render_throw();self.samples.append((time.perf_counter()-began)*1000)
++        def tick(self):
++            super().tick()
++            if time.monotonic()-self.started>30:
++                self.finish_check('timeout');return
++            if self.flight is None:
++                if self.next_case>=3:self.finish_check('completed');return
++                rect,dpi=win32.monitor_geometry(*win32.cursor_pos())
++                self.pet.x=round((rect[0]+rect[2])/2-96*dpi);self.pet.y=round((rect[1]+rect[3])/2-104*dpi)
++                self._drag_dpi=dpi;self._drag_began()
++                velocity=[(0,0),(900,350),(-1900,1100)][self.next_case]
++                self.next_case+=1;self._start_throw(velocity)
++        def _finish_throw(self):
++            if self.flight is not None:
++                self.cases.append({'phase':self.flight.phase,'events':self.flight.event_count,'exhaustions':self.flight.exhaustions,'screen':self._throw_room,'dpi':self._throw_dpi})
++                if self._throw_canvas is not None:self._throw_canvas.save(output/f'case-{self.next_case}.png')
++            super()._finish_throw()
++        def finish_check(self,status):
++            if self.check_done:return
++            self.check_done=True
++            values=sorted(self.samples);assets=Path(self.library.assets_root)
++            report={'status':status,'platform':platform.platform(),'python':platform.python_version(),'frames':len(values),'p95Ms':values[int((len(values)-1)*.95)] if values else None,'maxMs':max(values,default=0),'cases':self.cases,'resourceHashes':{str(p.relative_to(assets)):hashlib.sha256(p.read_bytes()).hexdigest() for p in (assets/'interaction').glob('*') if p.is_file()},'manualInputAndOcclusion':'pending; perform checklist in docs/animation-review/throw-and-dizzy/README.md'}
++            (output/'windows-native.json').write_text(json.dumps(report,indent=2));win32.quit_loop()
++    instance=None
++    try:
++        instance=CheckApp();instance.control.start_timer(app_module.FRAME_MS)
++        win32.run_message_loop(pre_dispatch=instance._pre_dispatch)
++        return 0 if instance.check_done and len(instance.cases)==3 else 1
++    finally:
++        if instance is not None:instance.shutdown()
++        app_module.Settings=original_settings;app_module.default_sources=original_sources
+--- before/YukioWin/yukio/pet_settings.py
++++ after/YukioWin/yukio/pet_settings.py
+@@ -40,6 +40,7 @@
+         for key, en, zh, action in [
+             ('petVisible','Show Yukio','显示雪绪',lambda v:self.app.set_hidden(not v)),
+             ('follow','Follow AI activity','跟随 AI 活动',lambda v:self.app.settings.set('follow',v)),
++            ('throwInteraction','Throw interaction','抛掷互动',self.app._set_throw_enabled),
+             ('showBubble','Show task bubble','头顶显示任务',lambda v:self.app.settings.set('showBubble',v)),
+             ('showCards','Show other chats','显示别的聊天',lambda v:self.app.settings.set('showCards',v)),
+             ('showQuestionCard','Answer here','在这儿回答问题',lambda v:self.app.settings.set('showQuestionCard',v))]:
+--- before/YukioWin/yukio/settings.py
++++ after/YukioWin/yukio/settings.py
+@@ -10,6 +10,7 @@
+ 
+ DEFAULTS: Dict[str, Any] = {
+     "follow": True,
++    "throwInteraction": True,
+     "petVisible": True,
+     "showCards": True,
+     "showQuestionCard": True,
+--- before/YukioWin/yukio/sprites.py
++++ after/YukioWin/yukio/sprites.py
+@@ -77,7 +77,7 @@
+             self._counts[spec.id] = _frame_count_size((width, height), spec)
+             self._body_estimates[spec.id] = width * height * 4
+             if spec.blink is not None:
+-                eye_path = os.path.join(assets_root, "motion", spec.blink.asset)
++                eye_path = os.path.join(assets_root, spec.blink_asset_path)
+                 eye_width, eye_height = self._inspect_eye_sheet(eye_path, spec)
+                 self._eye_estimates[spec.id] = eye_width * eye_height * 4
+ 
+@@ -93,6 +93,10 @@
+                 digest = hashlib.sha256(fh.read()).hexdigest()
+             if manifest.get("version") != 1 or manifest.get("motionSha256") != digest:
+                 raise SpriteError("Windows 分页素材与 motion.json 版本不一致")
++            if any(k.startswith("interaction_") for k in manifest.get("states", {})):
++                with open(os.path.join(self.assets_root,"interaction","interaction.json"),"rb") as fh:
++                    if manifest.get("interactionSha256") != hashlib.sha256(fh.read()).hexdigest():
++                        raise SpriteError("stale interaction pages")
+             return manifest.get("states") or {}
+         except (OSError, ValueError, TypeError) as exc:
+             raise SpriteError("Windows 分页素材清单无效（%s）" % exc)
+@@ -127,7 +131,7 @@
+             if relative_path == spec.asset_path:
+                 body = paged["body"]
+                 return int(body["atlasWidth"]), int(body["atlasHeight"])
+-            if spec.blink is not None and relative_path == "motion/" + spec.blink.asset:
++            if spec.blink is not None and relative_path == spec.blink_asset_path:
+                 eyes = paged["eyes"]
+                 return int(eyes["atlasWidth"]), int(eyes["atlasHeight"])
+         return None
+@@ -345,7 +349,7 @@
+             sheet = self._eye_sheets.get(id)
+             if sheet is None:
+                 self._make_room(self._eye_estimates.get(id, 0), keep=id)
+-                eye_path = os.path.join(self.assets_root, "motion", blink.asset)
++                eye_path = os.path.join(self.assets_root, spec.blink_asset_path)
+                 try:
+                     sheet = self._decode_eye_sheet(eye_path, spec)
+                 except SpriteError:
+--- before/YukioWin/yukio/throw_interaction.py
++++ after/YukioWin/yukio/throw_interaction.py
+@@ -0,0 +1,180 @@
++"""Win32 integration. Desktop pixels are converted relative to ONE monitor."""
++import math,time
++from .throw_physics import ThrowPhysics,load_config,impact_duration
++from .drag_velocity import DragVelocityTracker,release_velocity
++from .catalog import SpriteTimeline
++
++
++class ThrowInteraction:
++    def _init_throw(self,assets):
++        self.throw_config=load_config(assets)
++        self.flight=None; self._throw_caught=False; self._throw_canvas=None
++        self._throw_hit=None; self._throw_source=None; self._throw_pose=('interaction_airborne',0)
++        self._throw_last=time.monotonic(); self._throw_tracker=DragVelocityTracker()
++        self._input_point=None; self._input_logical=(0.,0.)
++        self._drag_dpi=None; self._throw_session_id=0
++
++    def _sample_pointer(self,reset=False):
++        point=self.win32.cursor_pos(); dpi=self.win32.monitor_geometry(*point)[1]
++        if reset:
++            self._throw_tracker=DragVelocityTracker(); self._input_point=point; self._input_logical=(0.,0.)
++            self._drag_dpi=dpi
++        if self._input_point is not None:
++            # Integrate physical deltas in the monitor's own scale. Never divide
++            # the entire virtual desktop coordinate by a changing DPI factor.
++            dx,dy=point[0]-self._input_point[0],point[1]-self._input_point[1]
++            self._input_logical=(self._input_logical[0]+dx/dpi,self._input_logical[1]-dy/dpi)
++        self._input_point=point
++        self._throw_tracker.add(time.monotonic(),*self._input_logical)
++
++    def _catch_throw(self):
++        if self.flight is None:return False
++        self._throw_caught=True
++        return True
++
++    def _start_throw(self,pointer):
++        c=self.throw_config
++        room,dpi=self.win32.monitor_geometry(*self.win32.cursor_pos())
++        left,top,right,bottom=room
++        tangent=(0.,0.); carry=None
++        if self.flight is not None:
++            olddpi=self._throw_dpi; side=360*self.flight.scale*olddpi
++            cx=self.pet.x+side/2; cy=self.pet.y+side/2
++            cy-=getattr(self,"_throw_draw_shift",0)*olddpi
++            angle=getattr(self,"_throw_draw_angle",self.flight.angle); rate=0.
++            carry=self._throw_pose
++        elif self.swing is not None:
++            geo,sw=self.hang_geo,self.swing
++            sx,sy,_,_=geo.sprite_rect; px,py=geo.pivot
++            # The existing held geometry is frozen at gesture start DPI.
++            render_scale=self.user_scale*(self._drag_dpi or dpi)
++            dx=sx+c['center'][0]*render_scale-px
++            dy=-(sy+c['center'][1]*render_scale+sw.sag-py)
++            co,si=math.cos(sw.angle),math.sin(sw.angle)
++            rx,ry=dx*co-dy*si,dx*si+dy*co
++            cx=self.pet.x+px+rx; cy=self.pet.y+py-ry
++            angle,rate=sw.angle,sw.rate
++            tangent=((-sw.rate*ry+sw.sag_rate*si)/dpi,(sw.rate*rx-sw.sag_rate*co)/dpi)
++        else:return
++        velocity=release_velocity(pointer,tangent,c)
++        # Keep the currently visible physical size at release across mixed DPI.
++        s=self.user_scale*(self._drag_dpi or dpi)/dpi
++        self._throw_session_id+=1
++        self.flight=ThrowPhysics(c,((right-left)/dpi,(bottom-top)/dpi),((cx-left)/dpi,(bottom-cy)/dpi),velocity,angle,rate,s,str(room),self._throw_session_id)
++        self._throw_room=room; self._throw_dpi=dpi; self._throw_carry=carry
++        self._throw_caught=False; self.swing=None; self.hang_geo=None; self.held_timeline=None; self._released_at=None
++        self._throw_last=time.monotonic(); self._painted=None
++        self.win32.user32.SetTimer(self.control.hwnd,2,16,None)
++        self.bubble.hide()
++        self._render_throw()
++
++    def _throw_tick(self):
++        if self.flight is None:return
++        now=time.monotonic(); dt=now-self._throw_last; self._throw_last=now
++        if not self._throw_caught:self.flight.advance(dt)
++        if self.flight.phase=='normal':self._finish_throw();return
++        self._render_throw()
++
++    def _interaction_pose(self):
++        p=self.flight; name='airborne'; sec=p.time
++        if p.phase=='dizzy':
++            name='dizzy-intro' if p.phase_time<p.c['dizzyIntroSeconds'] else 'dizzy-loop'
++            sec=p.phase_time
++            if name=='dizzy-loop':
++                span=max(.1,p.dizzy_duration-p.c['dizzyIntroSeconds'])
++                loops=max(1,math.floor(span/.9+.5))
++                sec=(p.phase_time-p.c['dizzyIntroSeconds'])*loops*.9/span
++        elif p.phase=='recover':name='recover';sec=p.phase_time
++        elif p.last_impact:
++            hit=p.last_impact; age=p.time-hit.time
++            if age<impact_duration(p.c,hit):
++                name='landing-impact' if hit.normal[1]>0 else 'wall-impact'
++                name+=('_light' if hit.strength<1/3 else '_medium' if hit.strength<2/3 else '')
++                sec=age*(.24 if hit.normal[1]>0 else .14)/impact_duration(p.c,hit)
++        if name=='airborne' and self._throw_carry:return self._throw_carry
++        spec=self.catalog.specs['interaction_'+name]; tl=SpriteTimeline(spec,0);tl.advance(max(0,sec)*1000)
++        return spec.id,tl.frame
++
++    def _render_throw(self):
++        from PIL import Image,ImageDraw
++        p=self.flight
++        if p is None:return
++        if self._throw_caught:
++            if self._throw_canvas is not None:self.pet.show_image(self._throw_canvas,self.pet.x,self.pet.y)
++            return
++        dpi=self._throw_dpi;s=p.scale*dpi;side=max(1,round(360*s));co=side/2
++        x,y,a=p.display_position
++        if p.phase=='dizzy':a*=max(0,1-p.phase_time/p.c['dizzyIntroSeconds'])
++        if p.phase=='recover':a=0
++        shift=p.bounds()[1]-p.bounds(a)[1] if p.ground else 0
++        self._throw_draw_angle=a;self._throw_draw_shift=shift
++        pose=self._interaction_pose();self._throw_pose=pose
++        # Only decode when the selected frame changes. Pillow's RGBa mode keeps
++        # transparent edge colour premultiplied through resampling and rotation.
++        key=(*pose,self.blink_level if self.catalog.specs[pose[0]].blink else 0)
++        if self._throw_source is None or self._throw_source[0]!=key:
++            if self._throw_source is not None:self._throw_source[1].close()
++            self._throw_source=(key,self.library.frame(*key).image)
++        source=self._throw_source[1]
++        sprite=source.convert('RGBa').resize((round(216*s),round(264*s)),Image.Resampling.BICUBIC)
++        canvas=Image.new('RGBa',(side,side))
++        cx,cy=self.throw_config['center'];px=round(co-(cx+12)*s);py=round(co-(cy+12)*s-shift*dpi)
++        hit=p.last_impact
++        if p.phase=='airborne' and hit is not None and hit.normal[1]<=0:
++            u=(p.time-hit.time)/impact_duration(p.c,hit)
++            if 0<=u<1:
++                pulse=1.5*s*hit.strength*math.sin(math.pi*u)
++                px+=round(hit.normal[0]*pulse);py-=round(hit.normal[1]*pulse)
++        canvas.paste(sprite,(px,py));sprite.close()
++        rotated=canvas.rotate(math.degrees(a),Image.Resampling.BICUBIC,center=(co,co-shift*dpi));canvas.close()
++        image=rotated.convert('RGBA');rotated.close()
++        left,top,right,bottom=self._throw_room
++        ox=round(left+x*dpi-co);oy=round(bottom-y*dpi-co)
++        hits=self.catalog.specs[pose[0]].hit_runs
++        if hits is not None:
++            mask=Image.new('L',(432,528));draw=ImageDraw.Draw(mask)
++            for row,start,end in hits[pose[1]]:draw.line((start,row,end-1,row),fill=255)
++            mask=mask.resize((round(216*s),round(264*s)),Image.Resampling.NEAREST)
++            field=Image.new('L',(side,side));field.paste(mask,(px,py));mask.close()
++            field=field.rotate(math.degrees(a),Image.Resampling.NEAREST,center=(co,co-shift*dpi))
++            if self._throw_hit is not None:self._throw_hit.close()
++            self._throw_hit=field
++            box=field.getbbox()
++            if box:
++                ox=max(left-box[0],min(right-box[2],ox))
++                oy=bottom-box[3] if p.ground else max(top-box[1],min(bottom-box[3],oy))
++            mx,my=self.win32.cursor_pos();lx,ly=mx-ox,my-oy
++            body=0<=lx<side and 0<=ly<side and field.getpixel((lx,ly))>0
++            self.win32.set_click_through(self.pet.hwnd,not body and not self._drag_pending)
++        self.pet.show_image(image,ox,oy)
++        if self._throw_canvas is not None:self._throw_canvas.close()
++        self._throw_canvas=image
++
++    def _finish_throw(self):
++        if getattr(self,'flight',None) is None:return
++        p=self.flight;dpi=self._throw_dpi
++        self.win32.user32.KillTimer(self.control.hwnd,2)
++        side=360*p.scale*dpi;cx=self.pet.x+side/2
++        ground=(self.pet.y+side/2-p.bounds()[1]*dpi) if self._throw_caught else self._throw_room[3]-(p.y+p.bounds()[1])*dpi
++        image=self.library.frame(self.timeline.spec.id,self.timeline.frame).image
++        box=image.getbbox();inset=(image.height-box[3])/image.height*self.pet_size[1] if box else 0;image.close()
++        self.win32.set_click_through(self.pet.hwnd,False)
++        self.flight=None; self._throw_caught=False;self._drag_dpi=None
++        self.pet.x=round(cx-self.pet_size[0]/2);self.pet.y=round(ground+inset-self.pet_size[1])
++        for name in ['_throw_canvas','_throw_hit']:
++            im=getattr(self,name,None)
++            if im is not None:im.close();setattr(self,name,None)
++        if self._throw_source is not None:self._throw_source[1].close();self._throw_source=None
++        self._painted=None;self._save_position();self._render(time.time()*1000)
++        self._position_bubble();self._position_cards();self._position_question()
++
++    def _cancel_throw(self):
++        captured=getattr(self,"_drag_pending",False)
++        self._drag_pending=False;self._dragging=False
++        if captured:self.win32.user32.ReleaseCapture()
++        self._finish_throw();self._finish_hang()
++        self._throw_tracker=DragVelocityTracker();self._drag_dpi=None
++
++    def _set_throw_enabled(self,value):
++        self.settings.set('throwInteraction',bool(value))
++        if not value:self._cancel_throw()
+--- before/YukioWin/yukio/throw_physics.py
++++ after/YukioWin/yukio/throw_physics.py
+@@ -0,0 +1,200 @@
++"""One convex silhouette inside one monitor, in logical units, y up, seconds.
++
++Fixed stepping is independent of drawing. Conservative advancement uses a
++Lipschitz bound including angular sweep; it cannot skip an intermediate contact.
++Rotation is a bounded presentation channel and stops at contact, injecting no
++translation energy. This is deliberately not a general rigid body engine.
++"""
++import json
++import math
++from dataclasses import dataclass
++from pathlib import Path
++
++
++def load_config(assets):
++    data = json.loads((Path(assets)/'interaction/physics.json').read_text())
++    if data['version'] != 1 or data['units'] != 'logical-y-up-seconds':
++        raise ValueError('unsupported interaction physics')
++    if not (data["step"]>0 and data["gravity"]>0 and data["friction"]>0 and data["maxSteps"]>0 and data["strengthMaxSpeed"]>data["strengthMinSpeed"] and all(0<=data[k]<1 for k in ("wallRestitution","ceilingRestitution","floorRestitution"))):
++        raise ValueError("invalid interaction physics")
++    return data
++
++def strength(c,speed):
++    return max(0,min(1,(speed-c["strengthMinSpeed"])/(c["strengthMaxSpeed"]-c["strengthMinSpeed"])))
++
++def impact_duration(c,hit):
++    prefix="landing" if hit.normal[1]>0 else "wall"
++    return c[prefix+"MinSeconds"]+(c[prefix+"MaxSeconds"]-c[prefix+"MinSeconds"])*hit.strength
++
++
++@dataclass
++class Impact:
++    event_id: int
++    time: float
++    normal: tuple
++    point: tuple
++    speed: float
++    strength: float
++
++
++class ThrowPhysics:
++    def __init__(self, config, room, position, velocity=(0,0), angle=0, rate=0,
++                 scale=1, screen_id='', session_id=1):
++        self.c = config
++        self.room = tuple(room)
++        self.x,self.y = position
++        self.vx,self.vy = velocity
++        self.angle = max(-config['maxAngle'],min(config['maxAngle'],angle))
++        self.rate = max(-2.0,min(2.0,rate))
++        self.scale = scale
++        self.screen_id, self.session_id = screen_id,session_id
++        self.phase = 'airborne'
++        self.time = self.phase_time = self.accumulator = self.dropped_time = 0.0
++        self.ground = False
++        self.stable_time = self.peak_landing = 0.0
++        self.last_landing_time=-math.inf; self.last_landing_duration=0.
++        self.events = []
++        self.last_impact = None
++        self.event_count = self.exhaustions = 0
++        self.degraded = False
++        self.previous = (self.x,self.y,self.angle)
++        self._fit()
++        self._recover_inside()
++        self.previous = (self.x,self.y,self.angle)
++
++    def bounds(self, angle=None):
++        a = self.angle if angle is None else angle
++        co,si = math.cos(a),math.sin(a)
++        pts = [(self.scale*(x*co-y*si), self.scale*(x*si+y*co)) for x,y in self.c['hull']]
++        return min(p[0] for p in pts),min(p[1] for p in pts),max(p[0] for p in pts),max(p[1] for p in pts)
++
++    def _fit(self):
++        # Preserve aspect ratio if even the silhouette cannot fit this monitor.
++        b=self.bounds(); w,h=self.room
++        ratio=min(1,(w-2)/max(b[2]-b[0],1),(h-2)/max(b[3]-b[1],1))
++        if ratio < 1:
++            self.scale *= max(0.001,ratio); self.degraded=True
++
++    def _recover_inside(self):
++        l,b,r,t=self.bounds(); w,h=self.room
++        self.x=max(-l,min(w-r,self.x)); self.y=max(-b,min(h-t,self.y))
++        if self.x <= -l+1e-6: self.vx=max(0,self.vx)
++        if self.x >= w-r-1e-6: self.vx=min(0,self.vx)
++        if self.y >= h-t-1e-6: self.vy=min(0,self.vy)
++
++    def _angle_at(self,t):
++        return max(-self.c['maxAngle'],min(self.c['maxAngle'],self.angle+self.rate*(1-math.exp(-4*t))/4))
++
++    def _gaps(self,t):
++        l,b,r,top=self.bounds(self._angle_at(t))
++        x=self.x+self.vx*t; y=self.y+self.vy*t-0.5*self.c['gravity']*t*t
++        w,h=self.room
++        return (x+l,w-x-r,y+b,h-y-top)
++
++    def _toi(self,h):
++        radius=max(math.hypot(*p) for p in self.c['hull'])*self.scale
++        bound=max(abs(self.vx),abs(self.vy)+self.c['gravity']*h)+radius*abs(self.rate)+1e-9
++        t=0.0
++        for _ in range(96):
++            gaps=self._gaps(t)
++            # A supported/separating contact at t=0 must not keep firing.
++            eligible=[]
++            for i,gap in enumerate(gaps):
++                vn=(self.vx,-self.vx,self.vy-self.c['gravity']*t,-self.vy+self.c['gravity']*t)[i]
++                if gap <= 1e-7 and (vn < -1e-7 or abs(self.rate)>1e-7 or (i==2 and vn<=0)):
++                    eligible.append(i)
++            if eligible: return t,eligible
++            positive=[gap for gap in gaps if gap>1e-7]
++            dt=max(1e-9,min(positive,default=bound*h)/bound*0.9)
++            if t+dt > h: return None
++            t+=dt
++        # Never apply an unverified remaining sweep.
++        return t,[-1]
++
++    def _move(self,h):
++        self.x+=self.vx*h; self.y+=self.vy*h-0.5*self.c['gravity']*h*h
++        self.vy-=self.c['gravity']*h
++        self.angle=self._angle_at(h); self.rate*=math.exp(-4*h)
++
++    def _impact(self,i,speed,at):
++        normal=((1,0),(-1,0),(0,1),(0,-1))[i]
++        l,b,r,t=self.bounds()
++        point=((self.x+l,self.y),(self.x+r,self.y),(self.x,self.y+b),(self.x,self.y+t))[i]
++        self.event_count+=1
++        event=Impact(self.event_count,at,normal,point,speed,strength(self.c,speed))
++        self.events.append(event); self.last_impact=event
++        if i==2:
++            self.peak_landing=max(self.peak_landing,speed)
++            self.last_landing_time=at; self.last_landing_duration=impact_duration(self.c,event)
++
++    def step(self):
++        h=self.c['step']; self.previous=(self.x,self.y,self.angle)
++        if self.phase in ('held','normal'): return
++        self.phase_time+=h
++        if self.phase != 'airborne':
++            self.time+=h
++            if self.phase=='dizzy' and self.phase_time >= self.dizzy_duration:
++                self.phase='recover'; self.phase_time=0
++            elif self.phase=='recover' and self.phase_time >= self.c['recoverSeconds']:
++                self.phase='normal'; self.phase_time=0
++            return
++        if self.ground:
++            speed=abs(self.vx); stop=min(h,speed/self.c['friction'])
++            sign=1 if self.vx>=0 else -1
++            self.x+=self.vx*stop-sign*0.5*self.c['friction']*stop*stop
++            self.vx=sign*max(0,speed-self.c['friction']*h); self.vy=0
++            self.rate=0; self._recover_inside()
++            self.stable_time=self.stable_time+h if abs(self.vx)<self.c['settleSpeed'] else 0
++            if self.stable_time+1e-9 >= self.c['settleSeconds'] and self.time+h-self.last_landing_time>=self.last_landing_duration:
++                self.phase='dizzy'; self.phase_time=0
++                q=strength(self.c,self.peak_landing)
++                self.dizzy_duration=self.c['dizzyMinSeconds']+(self.c['dizzyMaxSeconds']-self.c['dizzyMinSeconds'])*q
++            self.time+=h
++            return
++        left=h
++        for _ in range(8):
++            contact=self._toi(left)
++            if contact is None:
++                self._move(left); left=0; break
++            t,indices=contact
++            self._move(t); left-=t
++            if indices==[-1]:
++                self.exhaustions+=1; self.vx=self.vy=self.rate=0; left=0; break
++            self.rate=0
++            for i in indices:
++                vn=(self.vx,-self.vx,self.vy,-self.vy)[i]
++                speed=max(0,-vn)
++                if speed>1e-6 or (i==2 and self.peak_landing==0): self._impact(i,speed,self.time+h-left)
++                e=(self.c['wallRestitution'],self.c['wallRestitution'],self.c['floorRestitution'],self.c['ceilingRestitution'])[i]
++                if speed<self.c['bounceThreshold']: e=0
++                if i<2: self.vx=abs(self.vx)*e*(1 if i==0 else -1)
++                else: self.vy=abs(self.vy)*e*(1 if i==2 else -1)
++                if i==2 and self.vy < self.c['bounceThreshold']:
++                    self.vy=0; self.ground=True; left=0
++            self._recover_inside()
++            if left<=1e-10: break
++        if left>1e-10:
++            self.exhaustions+=1; self.vx=self.vy=self.rate=0
++        self.time+=h
++
++    def advance(self,dt):
++        self.events=[]
++        if not math.isfinite(dt) or dt<=0 or self.phase=='held': return
++        if dt>self.c['pauseGap']:
++            self.dropped_time+=dt+self.accumulator; self.accumulator=0; return
++        self.accumulator+=dt
++        n=min(int((self.accumulator+1e-10)/self.c['step']),self.c['maxSteps'])
++        for _ in range(n): self.step()
++        self.accumulator-=n*self.c['step']
++        if self.accumulator>=self.c['step']:
++            drop=math.floor(self.accumulator/self.c['step'])*self.c['step']
++            self.dropped_time+=drop; self.accumulator-=drop
++
++    def grab(self):
++        self.phase='held'; self.events=[]; self.vx=self.vy=self.rate=0; self.accumulator=0
++
++    @property
++    def display_position(self):
++        f=max(0,min(1,self.accumulator/self.c['step']))
++        if self.phase!='airborne': return self.x,self.y,self.angle
++        return tuple(a+(b-a)*f for a,b in zip(self.previous,(self.x,self.y,self.angle)))
+--- before/YukioWin/yukio/win32.py
++++ after/YukioWin/yukio/win32.py
+@@ -91,6 +91,8 @@
+ WM_QUIT = 0x0012
+ WM_SETCURSOR = 0x0020
+ WM_TIMER = 0x0113
++WM_CAPTURECHANGED = 0x0215
++WM_CANCELMODE = 0x001F
+ WM_COMMAND = 0x0111
+ WM_MOUSEMOVE = 0x0200
+ WM_LBUTTONDOWN = 0x0201
+@@ -331,6 +333,35 @@
+     return 1.0
+ 
+ 
++def set_click_through(hwnd, enabled):
++    get = user32.GetWindowLongPtrW
++    set_ = user32.SetWindowLongPtrW
++    get.argtypes = [c_void_p, c_int]; get.restype = ctypes.c_ssize_t
++    set_.argtypes = [c_void_p, c_int, ctypes.c_ssize_t]; set_.restype = ctypes.c_ssize_t
++    style = get(hwnd, -20)
++    desired = style | WS_EX_TRANSPARENT if enabled else style & ~WS_EX_TRANSPARENT
++    if desired != style: set_(hwnd, -20, desired)
++
++
++def monitor_geometry(x, y):
++    """Full monitor rectangle and its DPI, without virtual-desktop scaling."""
++    monitor = user32.MonitorFromPoint(POINT(int(x), int(y)), MONITOR_DEFAULTTONEAREST)
++    info = MONITORINFO(); info.cbSize = sizeof(MONITORINFO)
++    if not monitor or not user32.GetMonitorInfoW(monitor, byref(info)):
++        raise OSError("Cannot determine throw monitor")
++    r = info.rcMonitor
++    dpi = 1.0
++    try:
++        shcore = ctypes.WinDLL("shcore", use_last_error=True)
++        dx, dy = c_uint(), c_uint()
++        shcore.GetDpiForMonitor.argtypes = [c_void_p, c_int, ctypes.POINTER(c_uint), ctypes.POINTER(c_uint)]
++        if shcore.GetDpiForMonitor(monitor, 0, byref(dx), byref(dy)) == 0 and dx.value:
++            dpi = dx.value / 96.0
++    except (AttributeError, OSError):
++        dpi = dpi_scale()
++    return (r.left, r.top, r.right, r.bottom), dpi
++
++
+ def work_area(x: int = None, y: int = None) -> Tuple[int, int, int, int]:
+     """包含该点的显示器的可用区域（不含任务栏），返回 (left, top, right, bottom)。"""
+     if x is not None and y is not None:
+--- before/YukioPlayer/tools/interaction/verify_packages.py
++++ after/YukioPlayer/tools/interaction/verify_packages.py
+@@ -0,0 +1,93 @@
++"""Verify preview/Windows source-kit assets; does not claim Windows execution."""
++import argparse
++import hashlib
++import json
++import shutil
++import subprocess
++import tempfile
++import struct
++from pathlib import Path
++
++
++def sha(path):
++    return hashlib.sha256(path.read_bytes()).hexdigest()
++
++
++def normalized_macho(path):
++    data = bytearray(path.read_bytes())
++    assert struct.unpack_from('<I', data)[0] == 0xFEEDFACF, 'expected thin 64-bit preview binary'
++    offset = 32
++    for _ in range(struct.unpack_from('<I', data, 16)[0]):
++        command, size = struct.unpack_from('<II', data, offset)
++        if command == 0x19 and data[offset+8:offset+24].rstrip(b'\0') == b'__LINKEDIT':
++            # codesign leaves different VM reservation sizes after stripping;
++            # normalize just that reservation, preserving every content byte.
++            unsigned_size = struct.unpack_from('<Q', data, offset+48)[0]
++            struct.pack_into('<Q', data, offset+32, unsigned_size)
++        offset += size
++    return hashlib.sha256(data).hexdigest()
++
++
++def main():
++    parser = argparse.ArgumentParser()
++    parser.add_argument('--assets', type=Path, required=True)
++    parser.add_argument('--pages', type=Path, required=True)
++    parser.add_argument('--mac-app', type=Path, required=True)
++    parser.add_argument('--binary', type=Path, required=True)
++    parser.add_argument('--windows-kit', type=Path, required=True)
++    parser.add_argument('--baseline', type=Path, required=True)
++    parser.add_argument('--out', type=Path, required=True)
++    args = parser.parse_args()
++    mac = args.mac_app/'Contents/Resources/Assets'
++    windows = args.windows_kit/'YukioWin/Assets'
++    records = {}
++    for folder in ['interaction', 'base', 'activities']:
++        for source in (args.assets/folder).iterdir():
++            if not source.is_file():
++                continue
++            relative = source.relative_to(args.assets)
++            digest = sha(source)
++            assert digest == sha(mac/relative) == sha(windows/relative), str(relative)
++            records[str(relative)] = digest
++    for source in (args.pages/'motion/windows-pages').rglob('*'):
++        if source.is_file():
++            relative = source.relative_to(args.pages)
++            digest = sha(source)
++            assert digest == sha(mac/relative) == sha(windows/relative), str(relative)
++            records[str(relative)] = digest
++    pages = json.loads((args.pages/'motion/windows-pages/manifest.json').read_text())
++    assert pages['motionSha256'] == sha(args.assets/'motion/motion.json')
++    assert pages['interactionSha256'] == sha(args.assets/'interaction/interaction.json')
++    daily = {}
++    for before in (args.baseline/'motion').iterdir():
++        if before.is_file():
++            relative = Path('motion')/before.name
++            assert sha(before) == sha(args.assets/relative) == sha(mac/relative), str(relative)
++            daily[str(relative)] = sha(before)
++    packaged_binary = args.mac_app/'Contents/MacOS/YukioPlayer'
++    # Bundle signing changes LC_CODE_SIGNATURE. Compare disposable unsigned
++    # copies, leaving both the built executable and signed bundle untouched.
++    with tempfile.TemporaryDirectory(prefix='yukio-signature-compare-') as temporary:
++        copies = [Path(temporary)/name for name in ['build', 'bundle']]
++        for original, copy in zip([args.binary, packaged_binary], copies):
++            shutil.copy2(original, copy)
++            subprocess.run(['codesign', '--remove-signature', str(copy)], check=True,
++                           stdout=subprocess.PIPE, stderr=subprocess.PIPE)
++        assert normalized_macho(copies[0]) == normalized_macho(copies[1]), 'Mach-O contents differ'
++        executable_digest = normalized_macho(copies[0])
++    python_sources = {}
++    project = Path(__file__).resolve().parents[3]
++    for source in (project/'YukioWin/yukio').glob('*.py'):
++        assert sha(source) == sha(args.windows_kit/'YukioWin/yukio'/source.name), source.name
++        python_sources[source.name] = sha(source)
++    report = {'windowsPythonSourceHashes': python_sources, 'passed': True, 'normalizedMachOSha256': executable_digest,
++              'normalization': 'remove signatures from temporary copies; normalize only __LINKEDIT VM reservation to unsigned file size',
++              'buildBinarySha256': sha(args.binary), 'signedBundleBinarySha256': sha(packaged_binary),
++              'sharedAssetHashes': records, 'unchangedDailyHashes': daily,
++              'windowsNativeExecution': 'pending; this verifies files only'}
++    args.out.write_text(json.dumps(report, indent=2)+'\n')
++    print(f'PASS: {len(records)} shared files, {len(daily)} unchanged daily files, matching macOS binary')
++
++
++if __name__ == '__main__':
++    main()

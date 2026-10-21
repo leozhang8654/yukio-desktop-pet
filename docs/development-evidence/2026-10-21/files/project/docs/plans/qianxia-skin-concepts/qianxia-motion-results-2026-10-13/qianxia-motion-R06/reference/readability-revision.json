@@ -1,0 +1,26 @@
+{
+  "user_feedback": "动作幅度过小，完全看不见",
+  "parent": "R03",
+  "intent": "Increase visible hand/tool travel and gaze at actual 192x208 display; preserve original timing and fixed head, neck, scene, complete state",
+  "translation_gains": {
+    "idle": 2.5,
+    "thinking": 1,
+    "read_file": 1,
+    "view_image": 2.2,
+    "write_file": 2.5,
+    "verify": 2.2,
+    "read_web": 2.8,
+    "default_work": 2.2,
+    "respond": 1.8,
+    "task_complete": 1,
+    "question_for_user": 2.4,
+    "failed": 3.0
+  },
+  "gaze_gain": 2.5,
+  "limits_display_px": {
+    "default": 5,
+    "write_file": 2.5,
+    "question_for_user": 3
+  },
+  "acceptance": "New displacement limits follow explicit user readability correction; seam and contact review still mandatory"
+}

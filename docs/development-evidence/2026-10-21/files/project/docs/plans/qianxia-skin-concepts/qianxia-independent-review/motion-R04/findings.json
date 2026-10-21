@@ -1,0 +1,959 @@
+{
+  "round": "motion-R04",
+  "reviewer": "独立 Agent /root/cutout_independent_review，未参与制作",
+  "overall": "退回（发现问题＋验证未完成）",
+  "scope": "完整送审流程中可完成部分的诊断评审；不是完整动态验收",
+  "findings": [
+    {
+      "id": "R04-F01",
+      "status": "失败",
+      "severity": "medium",
+      "state": "write_file",
+      "part": "左右手指形",
+      "coordinate_system": "384x416 encoded physical pixels",
+      "left_bbox": [
+        107,
+        231,
+        156,
+        263
+      ],
+      "left_focus": [
+        115,
+        237,
+        141,
+        263
+      ],
+      "left_frame": 3,
+      "left_first_time_ms": 231,
+      "right_bbox": [
+        230,
+        232,
+        270,
+        264
+      ],
+      "right_frames": [
+        9,
+        10
+      ],
+      "right_first_times_ms": [
+        462,
+        495
+      ],
+      "description": "按下极值中指端下移显著多于指根/掌背，原圆短指轮廓被纵向拉长；并非保持指形的整手短敲。左右手均复现。",
+      "why": "不符合最新要求第4.4项不能拉长手指。",
+      "evidence": [
+        "evidence/write_file-targeted500.png",
+        "evidence/write_file-right-targeted500.png",
+        "evidence/write_file-decoded-detail200.png"
+      ],
+      "recommendation": "保留指长和轮廓，改用腕/掌受约束抬落或关节转动；保留两手错拍，复查固定袖口、键帽接触、极值和相邻帧。",
+      "code_correspondence": "build_motion.py render 使用随 y 增大的位移权重，write_file gain 2.5；这解释目视形变，但不是仅靠参数判断缺陷。"
+    },
+    {
+      "id": "R04-V01",
+      "status": "未测",
+      "category": "validation_gap",
+      "description": "父任务报告预览启动遇系统 Time Limit，未观看动画；本评审不操作 UI、不绕过限制。工具本身无连续视频输入，离散截图/解码帧不能代替亲自连续观看。所有实播必查项未测。"
+    },
+    {
+      "id": "R04-V02",
+      "status": "未测",
+      "category": "validation_gap",
+      "description": "正式 App 真实任务气泡未接入；真实界面、任务事件与状态联动未验证。"
+    },
+    {
+      "id": "R03-U01",
+      "status": "未测",
+      "category": "prior_user_feedback_not_closed",
+      "description": "用户上一轮动作幅度过小/看不见的反馈未因参数放大或静态极值变化而关闭。R04 实际尺寸正常速度可辨认性仍未测。"
+    }
+  ],
+  "state_coverage": [
+    {
+      "state": "idle",
+      "result": "未测",
+      "static_pose_result": "通过",
+      "notes": "手拨球、球的另一极值和固定底座已看；响应先后及是否扰人未测。",
+      "body_detail_frames": [
+        0,
+        16,
+        28,
+        17,
+        34,
+        50
+      ],
+      "body_context_frames": [
+        0,
+        16,
+        0
+      ],
+      "body_roi": [
+        106,
+        212,
+        212,
+        280
+      ],
+      "body_all_unique_frames_visually_examined": false,
+      "body_webp_sha256": "5b0edffdb49d07c5cb60a23529de2bf652dd249e6ec29b30b97c473eb126948e",
+      "eyes": {
+        "result": "通过",
+        "frames": [
+          0
+        ],
+        "levels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "all_gaze_combinations_examined": false
+      },
+      "checks": {
+        "确认设计的静态身份设备": "通过",
+        "已看极值接触与形状": "通过",
+        "已看露底与透明边": "通过",
+        "实际大小正常速度可辨": "未测",
+        "连续三轮及循环交界": "未测",
+        "首次进入长时保持同事件刷新新事件": "不适用",
+        "完成持续静止及进出": "不适用",
+        "连续切换与真实气泡": "未测",
+        "五分钟混合观看": "未测"
+      },
+      "actually_viewed_evidence": [
+        "evidence/idle-decoded-detail200.png",
+        "evidence/idle-decoded-lids300.png",
+        "evidence/idle-encoded-four-bg200.png",
+        "evidence/idle-max-gaze-and-backgrounds200.png",
+        "evidence/idle-source-encoded.png"
+      ]
+    },
+    {
+      "state": "thinking",
+      "result": "未测",
+      "static_pose_result": "通过",
+      "notes": "托腮手固定，放大目光的两侧极值与六级眼皮已看。",
+      "body_detail_frames": [
+        0,
+        8,
+        16,
+        24
+      ],
+      "body_context_frames": [
+        0,
+        8,
+        0
+      ],
+      "body_roi": [
+        103,
+        141,
+        238,
+        199
+      ],
+      "body_all_unique_frames_visually_examined": false,
+      "body_webp_sha256": "42a91e40da2b6302688f7a68fc7b894cc5704025721d5da71a692126730e8dc3",
+      "eyes": {
+        "result": "通过",
+        "frames": [
+          0,
+          8
+        ],
+        "levels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "all_gaze_combinations_examined": false
+      },
+      "checks": {
+        "确认设计的静态身份设备": "通过",
+        "已看极值接触与形状": "通过",
+        "已看露底与透明边": "通过",
+        "实际大小正常速度可辨": "未测",
+        "连续三轮及循环交界": "未测",
+        "首次进入长时保持同事件刷新新事件": "不适用",
+        "完成持续静止及进出": "不适用",
+        "连续切换与真实气泡": "未测",
+        "五分钟混合观看": "未测"
+      },
+      "actually_viewed_evidence": [
+        "evidence/thinking-decoded-detail200.png",
+        "evidence/thinking-decoded-lids300.png",
+        "evidence/thinking-encoded-four-bg200.png",
+        "evidence/thinking-max-gaze-and-backgrounds200.png",
+        "evidence/thinking-source-encoded.png"
+      ]
+    },
+    {
+      "state": "read_file",
+      "result": "未测",
+      "static_pose_result": "通过",
+      "notes": "卡与手保持固定，三段目光极值及眼皮已看。",
+      "body_detail_frames": [
+        0,
+        16,
+        8,
+        24
+      ],
+      "body_context_frames": [
+        0,
+        16,
+        0
+      ],
+      "body_roi": [
+        113,
+        142,
+        252,
+        198
+      ],
+      "body_all_unique_frames_visually_examined": false,
+      "body_webp_sha256": "d6edc2acc37cefce2600b59af5a697ac34346f78da50061e5b557356f56fe0d5",
+      "eyes": {
+        "result": "通过",
+        "frames": [
+          0,
+          16
+        ],
+        "levels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "all_gaze_combinations_examined": false
+      },
+      "checks": {
+        "确认设计的静态身份设备": "通过",
+        "已看极值接触与形状": "通过",
+        "已看露底与透明边": "通过",
+        "实际大小正常速度可辨": "未测",
+        "连续三轮及循环交界": "未测",
+        "首次进入长时保持同事件刷新新事件": "不适用",
+        "完成持续静止及进出": "不适用",
+        "连续切换与真实气泡": "未测",
+        "五分钟混合观看": "未测"
+      },
+      "actually_viewed_evidence": [
+        "evidence/read_file-decoded-detail200.png",
+        "evidence/read_file-decoded-lids300.png",
+        "evidence/read_file-encoded-four-bg200.png",
+        "evidence/read_file-max-gaze-and-backgrounds200.png",
+        "evidence/read_file-source-encoded.png"
+      ]
+    },
+    {
+      "state": "view_image",
+      "result": "未测",
+      "static_pose_result": "通过",
+      "notes": "手笔握持、袖口、笔尖与图板接触范围已看，极值无明确脱握/残笔。",
+      "body_detail_frames": [
+        0,
+        45,
+        22,
+        44,
+        65
+      ],
+      "body_context_frames": [
+        0,
+        45,
+        0
+      ],
+      "body_roi": [
+        102,
+        193,
+        182,
+        275
+      ],
+      "body_all_unique_frames_visually_examined": false,
+      "body_webp_sha256": "b7d6fbd0e5e821206a484b00c6f0538cc294599db8dec460ad00161e94698496",
+      "eyes": {
+        "result": "通过",
+        "frames": [
+          0,
+          39
+        ],
+        "levels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "all_gaze_combinations_examined": false
+      },
+      "checks": {
+        "确认设计的静态身份设备": "通过",
+        "已看极值接触与形状": "通过",
+        "已看露底与透明边": "通过",
+        "实际大小正常速度可辨": "未测",
+        "连续三轮及循环交界": "未测",
+        "首次进入长时保持同事件刷新新事件": "不适用",
+        "完成持续静止及进出": "不适用",
+        "连续切换与真实气泡": "未测",
+        "五分钟混合观看": "未测"
+      },
+      "actually_viewed_evidence": [
+        "evidence/view_image-decoded-detail200.png",
+        "evidence/view_image-decoded-lids300.png",
+        "evidence/view_image-encoded-four-bg200.png",
+        "evidence/view_image-max-gaze-and-backgrounds200.png",
+        "evidence/view_image-source-encoded.png"
+      ]
+    },
+    {
+      "state": "write_file",
+      "result": "失败",
+      "static_pose_result": "失败",
+      "notes": "左右指端向下拉长，R04-F01 失败。",
+      "body_detail_frames": [
+        0,
+        3,
+        9,
+        10,
+        20,
+        30
+      ],
+      "body_context_frames": [
+        0,
+        3,
+        0
+      ],
+      "body_roi": [
+        96,
+        219,
+        287,
+        276
+      ],
+      "body_all_unique_frames_visually_examined": false,
+      "body_webp_sha256": "07678822dfecabf06a68bc951f7b02b28551d695553e3215a75b179849e866b5",
+      "eyes": {
+        "result": "通过",
+        "frames": [
+          0
+        ],
+        "levels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "all_gaze_combinations_examined": false
+      },
+      "checks": {
+        "确认设计的静态身份设备": "通过",
+        "已看极值接触与形状": "失败",
+        "已看露底与透明边": "通过",
+        "实际大小正常速度可辨": "未测",
+        "连续三轮及循环交界": "未测",
+        "首次进入长时保持同事件刷新新事件": "不适用",
+        "完成持续静止及进出": "不适用",
+        "连续切换与真实气泡": "未测",
+        "五分钟混合观看": "未测"
+      },
+      "actually_viewed_evidence": [
+        "evidence/write_file-decoded-detail200.png",
+        "evidence/write_file-decoded-lids300.png",
+        "evidence/write_file-encoded-four-bg200.png",
+        "evidence/write_file-max-gaze-and-backgrounds200.png",
+        "evidence/write_file-right-targeted500.png",
+        "evidence/write_file-source-encoded.png",
+        "evidence/write_file-targeted500.png"
+      ]
+    },
+    {
+      "state": "verify",
+      "result": "未测",
+      "static_pose_result": "通过",
+      "notes": "手探针共同接近/抬起，尖端、接头、袖口和固定底座已看；未见明确断握或旧针残片。",
+      "body_detail_frames": [
+        0,
+        14,
+        25,
+        12,
+        24,
+        36
+      ],
+      "body_context_frames": [
+        0,
+        14,
+        0
+      ],
+      "body_roi": [
+        101,
+        171,
+        179,
+        265
+      ],
+      "body_all_unique_frames_visually_examined": false,
+      "body_webp_sha256": "79a80c30a868e3bee3a70718f8d38fbbfe8d0b8be49bc4c89579ee8645e7c52d",
+      "eyes": {
+        "result": "通过",
+        "frames": [
+          0,
+          14
+        ],
+        "levels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "all_gaze_combinations_examined": false
+      },
+      "checks": {
+        "确认设计的静态身份设备": "通过",
+        "已看极值接触与形状": "通过",
+        "已看露底与透明边": "通过",
+        "实际大小正常速度可辨": "未测",
+        "连续三轮及循环交界": "未测",
+        "首次进入长时保持同事件刷新新事件": "不适用",
+        "完成持续静止及进出": "不适用",
+        "连续切换与真实气泡": "未测",
+        "五分钟混合观看": "未测"
+      },
+      "actually_viewed_evidence": [
+        "evidence/verify-decoded-detail200.png",
+        "evidence/verify-decoded-lids300.png",
+        "evidence/verify-encoded-four-bg200.png",
+        "evidence/verify-max-gaze-and-backgrounds200.png",
+        "evidence/verify-source-encoded.png",
+        "evidence/verify-targeted500.png"
+      ]
+    },
+    {
+      "state": "read_web",
+      "result": "未测",
+      "static_pose_result": "通过",
+      "notes": "手指、袖口和屏前接缝已看；指向/点按实际节奏未测。",
+      "body_detail_frames": [
+        0,
+        11,
+        26,
+        9,
+        18
+      ],
+      "body_context_frames": [
+        0,
+        11,
+        0
+      ],
+      "body_roi": [
+        87,
+        181,
+        154,
+        237
+      ],
+      "body_all_unique_frames_visually_examined": false,
+      "body_webp_sha256": "7b85afb4d1a3e634a6d8361189620f749adeb5d3583cdad1701f86e2113055b9",
+      "eyes": {
+        "result": "通过",
+        "frames": [
+          0,
+          26
+        ],
+        "levels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "all_gaze_combinations_examined": false
+      },
+      "checks": {
+        "确认设计的静态身份设备": "通过",
+        "已看极值接触与形状": "通过",
+        "已看露底与透明边": "通过",
+        "实际大小正常速度可辨": "未测",
+        "连续三轮及循环交界": "未测",
+        "首次进入长时保持同事件刷新新事件": "不适用",
+        "完成持续静止及进出": "不适用",
+        "连续切换与真实气泡": "未测",
+        "五分钟混合观看": "未测"
+      },
+      "actually_viewed_evidence": [
+        "evidence/read_web-decoded-detail200.png",
+        "evidence/read_web-decoded-lids300.png",
+        "evidence/read_web-encoded-four-bg200.png",
+        "evidence/read_web-max-gaze-and-backgrounds200.png",
+        "evidence/read_web-source-encoded.png",
+        "evidence/read_web-targeted500.png"
+      ]
+    },
+    {
+      "state": "default_work",
+      "result": "未测",
+      "static_pose_result": "通过",
+      "notes": "手贴轨迹球的两个极值、固定底座已看；未见明确分离。",
+      "body_detail_frames": [
+        0,
+        21,
+        16,
+        32,
+        47
+      ],
+      "body_context_frames": [
+        0,
+        21,
+        0
+      ],
+      "body_roi": [
+        94,
+        219,
+        161,
+        278
+      ],
+      "body_all_unique_frames_visually_examined": false,
+      "body_webp_sha256": "49e295fe1463263c33ff92ec4929dc6cc42cf1ef2222f2917ee751c034dbd77b",
+      "eyes": {
+        "result": "通过",
+        "frames": [
+          0
+        ],
+        "levels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "all_gaze_combinations_examined": false
+      },
+      "checks": {
+        "确认设计的静态身份设备": "通过",
+        "已看极值接触与形状": "通过",
+        "已看露底与透明边": "通过",
+        "实际大小正常速度可辨": "未测",
+        "连续三轮及循环交界": "未测",
+        "首次进入长时保持同事件刷新新事件": "不适用",
+        "完成持续静止及进出": "不适用",
+        "连续切换与真实气泡": "未测",
+        "五分钟混合观看": "未测"
+      },
+      "actually_viewed_evidence": [
+        "evidence/default_work-decoded-detail200.png",
+        "evidence/default_work-decoded-lids300.png",
+        "evidence/default_work-encoded-four-bg200.png",
+        "evidence/default_work-max-gaze-and-backgrounds200.png",
+        "evidence/default_work-source-encoded.png"
+      ]
+    },
+    {
+      "state": "respond",
+      "result": "未测",
+      "static_pose_result": "通过",
+      "notes": "实际编码全部 25 唯一帧的手卡/袖口局部已看，R01 M02 暗片未复现。",
+      "body_detail_frames": [
+        0,
+        24,
+        8,
+        16
+      ],
+      "body_context_frames": [
+        0,
+        24,
+        24
+      ],
+      "body_roi": [
+        80,
+        171,
+        186,
+        264
+      ],
+      "body_all_unique_frames_visually_examined": true,
+      "body_webp_sha256": "14f9b34be991dc9d60e83e61b9db45235d43916c968e897671e1a396e3813047",
+      "eyes": {
+        "result": "通过",
+        "frames": [
+          0,
+          24
+        ],
+        "levels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "all_gaze_combinations_examined": false
+      },
+      "checks": {
+        "确认设计的静态身份设备": "通过",
+        "已看极值接触与形状": "通过",
+        "已看露底与透明边": "通过",
+        "实际大小正常速度可辨": "未测",
+        "连续三轮及循环交界": "不适用",
+        "首次进入长时保持同事件刷新新事件": "未测",
+        "完成持续静止及进出": "不适用",
+        "连续切换与真实气泡": "未测",
+        "五分钟混合观看": "未测"
+      },
+      "actually_viewed_evidence": [
+        "evidence/respond-all-25-frames200.png",
+        "evidence/respond-decoded-detail200.png",
+        "evidence/respond-decoded-lids300.png",
+        "evidence/respond-encoded-four-bg200.png",
+        "evidence/respond-max-gaze-and-backgrounds200.png",
+        "evidence/respond-source-encoded.png",
+        "evidence/respond-targeted500.png"
+      ]
+    },
+    {
+      "state": "task_complete",
+      "result": "未测",
+      "static_pose_result": "通过",
+      "notes": "单张静止帧及对号保持，未增加眼睛；进出状态未测。",
+      "body_detail_frames": [
+        0
+      ],
+      "body_context_frames": [
+        0,
+        0,
+        0
+      ],
+      "body_roi": [
+        80,
+        90,
+        300,
+        270
+      ],
+      "body_all_unique_frames_visually_examined": false,
+      "body_webp_sha256": "a63e8abf3f1dc4841d22722e533da1f689ab5474989502ce4f3d7faa54ca6976",
+      "eyes": {
+        "result": "不适用"
+      },
+      "checks": {
+        "确认设计的静态身份设备": "通过",
+        "已看极值接触与形状": "通过",
+        "已看露底与透明边": "通过",
+        "实际大小正常速度可辨": "不适用",
+        "连续三轮及循环交界": "不适用",
+        "首次进入长时保持同事件刷新新事件": "不适用",
+        "完成持续静止及进出": "未测",
+        "连续切换与真实气泡": "未测",
+        "五分钟混合观看": "未测"
+      },
+      "actually_viewed_evidence": [
+        "evidence/task_complete-decoded-detail200.png",
+        "evidence/task_complete-encoded-four-bg200.png",
+        "evidence/task_complete-source-encoded.png"
+      ]
+    },
+    {
+      "state": "question_for_user",
+      "result": "未测",
+      "static_pose_result": "通过",
+      "notes": "按手、顶帽压缩、回位与固定底座已看；未见底座一起下沉。",
+      "body_detail_frames": [
+        0,
+        8,
+        16,
+        5,
+        11
+      ],
+      "body_context_frames": [
+        0,
+        8,
+        16
+      ],
+      "body_roi": [
+        211,
+        213,
+        286,
+        283
+      ],
+      "body_all_unique_frames_visually_examined": false,
+      "body_webp_sha256": "b6634013482da2dfce4623759df77b854ff765c386bc370eead24776e96e4d5d",
+      "eyes": {
+        "result": "通过",
+        "frames": [
+          0,
+          16
+        ],
+        "levels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "all_gaze_combinations_examined": false
+      },
+      "checks": {
+        "确认设计的静态身份设备": "通过",
+        "已看极值接触与形状": "通过",
+        "已看露底与透明边": "通过",
+        "实际大小正常速度可辨": "未测",
+        "连续三轮及循环交界": "不适用",
+        "首次进入长时保持同事件刷新新事件": "未测",
+        "完成持续静止及进出": "不适用",
+        "连续切换与真实气泡": "未测",
+        "五分钟混合观看": "未测"
+      },
+      "actually_viewed_evidence": [
+        "evidence/question_for_user-decoded-detail200.png",
+        "evidence/question_for_user-decoded-lids300.png",
+        "evidence/question_for_user-encoded-four-bg200.png",
+        "evidence/question_for_user-max-gaze-and-backgrounds200.png",
+        "evidence/question_for_user-source-encoded.png"
+      ]
+    },
+    {
+      "state": "failed",
+      "result": "未测",
+      "static_pose_result": "通过",
+      "notes": "卡手上提和袖口已看。先前暗分叉疑点与固定袖口内沿相连，证据不足以定性为悬空残片，未列确认缺陷。",
+      "body_detail_frames": [
+        0,
+        20,
+        7,
+        14
+      ],
+      "body_context_frames": [
+        0,
+        20,
+        20
+      ],
+      "body_roi": [
+        89,
+        169,
+        181,
+        258
+      ],
+      "body_all_unique_frames_visually_examined": false,
+      "body_webp_sha256": "4089823ea201cee30f8470f17fc260ff818ccf678f1975fb968dc226bbafd98b",
+      "eyes": {
+        "result": "通过",
+        "frames": [
+          0,
+          20
+        ],
+        "levels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "all_gaze_combinations_examined": false
+      },
+      "checks": {
+        "确认设计的静态身份设备": "通过",
+        "已看极值接触与形状": "通过",
+        "已看露底与透明边": "通过",
+        "实际大小正常速度可辨": "未测",
+        "连续三轮及循环交界": "不适用",
+        "首次进入长时保持同事件刷新新事件": "未测",
+        "完成持续静止及进出": "不适用",
+        "连续切换与真实气泡": "未测",
+        "五分钟混合观看": "未测"
+      },
+      "actually_viewed_evidence": [
+        "evidence/failed-decoded-detail200.png",
+        "evidence/failed-decoded-lids300.png",
+        "evidence/failed-encoded-four-bg200.png",
+        "evidence/failed-max-gaze-and-backgrounds200.png",
+        "evidence/failed-source-encoded.png",
+        "evidence/failed-targeted500.png"
+      ]
+    }
+  ],
+  "actually_visually_opened_files": [
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/default_work-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/default_work-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/default_work-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/default_work-max-gaze-and-backgrounds200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/default_work-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/failed-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/failed-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/failed-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/failed-max-gaze-and-backgrounds200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/failed-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/failed-targeted500.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/idle-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/idle-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/idle-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/idle-max-gaze-and-backgrounds200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/idle-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/question_for_user-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/question_for_user-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/question_for_user-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/question_for_user-max-gaze-and-backgrounds200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/question_for_user-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/read_file-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/read_file-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/read_file-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/read_file-max-gaze-and-backgrounds200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/read_file-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/read_web-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/read_web-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/read_web-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/read_web-max-gaze-and-backgrounds200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/read_web-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/read_web-targeted500.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/respond-all-25-frames200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/respond-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/respond-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/respond-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/respond-max-gaze-and-backgrounds200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/respond-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/respond-targeted500.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/task_complete-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/task_complete-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/task_complete-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/thinking-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/thinking-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/thinking-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/thinking-max-gaze-and-backgrounds200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/thinking-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/verify-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/verify-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/verify-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/verify-max-gaze-and-backgrounds200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/verify-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/verify-targeted500.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/view_image-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/view_image-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/view_image-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/view_image-max-gaze-and-backgrounds200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/view_image-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/write_file-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/write_file-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/write_file-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/write_file-max-gaze-and-backgrounds200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/write_file-right-targeted500.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/write_file-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R04/evidence/write_file-targeted500.png"
+  ],
+  "programmatically_decoded_images": [
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/inputs/source/01-idle.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/idle/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/idle.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/idle.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/idle/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/idle-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/idle-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/idle/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/inputs/source/02-thinking.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/thinking/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/thinking.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/thinking.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/thinking/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/thinking-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/thinking-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/thinking/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/inputs/source/03-read_file.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/read_file/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/read_file.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/read_file.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/read_file/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/read_file-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/read_file-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/read_file/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/inputs/source/04-view_image.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/view_image/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/view_image.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/view_image.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/view_image/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/view_image-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/view_image-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/view_image/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/inputs/source/05-write_file.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/write_file/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/write_file.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/write_file.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/write_file/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/write_file-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/write_file-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/write_file/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/inputs/source/06-verify.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/verify/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/verify.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/verify.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/verify/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/verify-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/verify-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/verify/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/inputs/source/07-read_web.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/read_web/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/read_web.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/read_web.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/read_web/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/read_web-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/read_web-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/read_web/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/inputs/source/08-default_work.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/default_work/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/default_work.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/default_work.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/default_work/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/default_work-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/default_work-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/default_work/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/inputs/source/09-respond.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/respond/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/respond.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/respond.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/respond/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/respond-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/respond-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/respond/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/inputs/source/10-task_complete.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/task_complete/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/task_complete.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/task_complete.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/task_complete/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/inputs/source/11-question_for_user.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/question_for_user/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/question_for_user.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/question_for_user.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/question_for_user/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/question_for_user-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/question_for_user-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/question_for_user/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/inputs/source/12-failed.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/failed/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/failed.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/failed.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/failed/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/failed-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/motion/failed-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R04/rigs/failed/eyes-allowed-2x.png"
+  ],
+  "machine_reports_after_visual": [
+    "failed-machine.json",
+    "question_for_user-machine.json",
+    "task_complete-machine.json",
+    "view_image-machine.json",
+    "read_web-machine.json",
+    "verify-machine.json",
+    "thinking-machine.json",
+    "write_file-machine.json",
+    "respond-machine.json",
+    "idle-machine.json",
+    "default_work-machine.json",
+    "read_file-machine.json",
+    "encoded-validation.json"
+  ],
+  "hash_binding": "candidate-sha256.json",
+  "UI_actions": [],
+  "continuous_playback_seen": false,
+  "candidate_modified": false,
+  "inherited_results": "不继承 R03 动态结论；R01/R02 仅作为问题定位，当前姿态重新解码观看。输入哈希仍与 R08 一致。"
+}

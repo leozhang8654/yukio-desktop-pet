@@ -1,0 +1,11 @@
+{
+  "part": "write_file/left-hand",
+  "roi": [
+    430,
+    769,
+    438,
+    786
+  ],
+  "operation": "restore opaque source-visible interior finger separator, remove obsolete internal alpha boundary; preserve outer outline AA",
+  "changed_pixels": 25
+}

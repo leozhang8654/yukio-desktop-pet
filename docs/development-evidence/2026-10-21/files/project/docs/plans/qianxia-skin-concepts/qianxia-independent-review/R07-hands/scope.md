@@ -1,0 +1,1 @@
+改动两件：write_file/left-hand针对R06-H01及相邻内部软边；respond/hand-and-card内部[355,719,378,724]原可见手指阴影的14像素额外mask半透明已调整。其他10手/道具保持R06通过字节，22虹膜保持R04通过字节。静态可见层复审，不包含动画。机器报告新增enclosed_nonopaque_mask_components辅助项目，不替代目视。

@@ -1,0 +1,10 @@
+{
+  "stage": "encoded_candidates_complete_static_review_pending",
+  "user_cutout_acceptance": "开始动画",
+  "input_round": "qianxia-cutout-R08",
+  "machine_checks": "12/12 passed",
+  "actual_playback": "blocked by locked macOS; zero real playback claimed",
+  "independent_review": "pending",
+  "user_animation_acceptance": "pending",
+  "integration_installation": "not performed"
+}

@@ -1,0 +1,51 @@
+{
+  "state": "question_for_user",
+  "part": "pressing-hand",
+  "input_file": "source/11-question_for_user.png",
+  "input_sha256": "7dd9ffbf1600e954ed5718c970cf8648d4fe3695d82634355ac3054f8b9f6172",
+  "box": [
+    710,
+    715,
+    811,
+    798
+  ],
+  "positive_points": [
+    [
+      751,
+      752
+    ],
+    [
+      784,
+      773
+    ]
+  ],
+  "negative_points": [
+    [
+      701,
+      781
+    ],
+    [
+      805,
+      811
+    ],
+    [
+      848,
+      744
+    ]
+  ],
+  "sam_scores": [
+    0.7683225870132446,
+    0.8777878880500793,
+    0.8878011703491211
+  ],
+  "chosen_option": 2,
+  "selected_pixels": 4666,
+  "removed_fully_transparent_pixels": 0,
+  "components": 2,
+  "component_areas": [
+    4625,
+    41
+  ],
+  "visual_review": "pending",
+  "status": "initial_candidate"
+}

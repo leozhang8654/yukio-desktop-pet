@@ -1,0 +1,22 @@
+[
+  {
+    "state": "failed",
+    "part": "hand-and-card",
+    "changed": 5
+  },
+  {
+    "state": "verify",
+    "part": "hand-and-probe",
+    "changed": 63
+  },
+  {
+    "state": "write_file",
+    "part": "left-hand",
+    "changed": 17
+  },
+  {
+    "state": "question_for_user",
+    "part": "pressing-hand",
+    "changed": 64
+  }
+]

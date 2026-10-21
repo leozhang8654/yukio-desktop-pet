@@ -47,6 +47,10 @@ Launch at login, question cards, activity following and the existing pet control
 
 [Full changelog](CHANGELOG.md)
 
+## Development process
+
+[Development evidence archive](docs/development-evidence/2026-10-21/README.en.md): design and animation iterations, failure reviews, diagnostic records, local source snapshots and research documents, with downloadable archives and checksums. Local experiments are labeled separately from released features.
+
 ## Download
 
 Grab the file for your system from the [latest release](https://github.com/leozhang8654/yukio-desktop-pet/releases/latest). Nothing to compile, nothing else to install.

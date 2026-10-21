@@ -1,0 +1,10 @@
+Use case: precise-object-edit.
+Edit target IMAGE 1: the latest Qianxia desktop-pet illustration with three opaque physical monitors.
+Supporting reference IMAGE 2: the older illustration showing cyan, pink, and lavender translucent holographic file cards. Use image 2 ONLY for the hologram material and large folder icons.
+
+Correct ONLY the workstation objects in IMAGE 1. Completely remove the three solid monitors, their backs, necks, stands and long mounting bar. Replace them with EXACTLY THREE floating translucent holographic file cards projected from ONE small low-profile projector dock like image 2.
+Cards: cyan left, pink center, lavender right; equal LARGE size, equal top and bottom heights, straight tidy side-by-side horizontal row with narrow equal gaps, no fanning or staggered heights. Each card has one very large luminous white outline FOLDER icon occupying its upper half and two small document lines below. These must unmistakably look like transparent light projections, NOT hardware screens: thin luminous edges, see-through colored interior through which clothing remains visible, no opaque fill, no thick bezel, no backs, no separate supports. They occupy the old three-monitor region, below the chin, leaving face unobstructed. The projection is for the character to read, but its light glyphs are visible from the reverse side too, so show the large folder symbols clearly through the transparent panels.
+
+CRITICAL invariants: preserve image 1's current taller rounded face EXACTLY, eyes, expression, head, hair, bow, clothing, proportions, small shoes, seated pose, desk, bunny on left and two storage boxes under right. Preserve both hands resting on the desk, no raised hand, no pointing/tapping. Eyes gently directed toward holograms. Do not copy the older wide flat face, large shoes, left-side boxes or raised hand from image 2. No other redesign.
+Style: same crisp dark-indigo outline chibi illustration, pink/cyan/mint palette.
+Output one static concept PNG with true transparent background, preserve existing alpha. No checkerboard, backdrop, caption, motion arrows, or multiple frames.

@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-10",
+  "reviewer": "implementing agent; no independent review",
+  "maskRound": "04",
+  "candidate": "05",
+  "observed": [
+    "source and four backgrounds at 100%",
+    "200% final mask overlay for all four parts",
+    "real-time HTML at native scale and 200%, .25 speed, pause and step; four backgrounds",
+    "native all-closed airborne eyes, no visible iris fragments",
+    "actual AppKit dizzy pose; final daily view bitmap at original geometry"
+  ],
+  "playback": "preview ran more than three cycles per segment; inspection through sampled screenshots and frame stepping",
+  "pending": [
+    "manual continuous native catches and fresh releases",
+    "Dock/menu bar/taskbar occlusion",
+    "Windows layered window/DPI/capture and native performance",
+    "full-body to latest desk-action subjective transition approval"
+  ]
+}

@@ -1,0 +1,109 @@
+[
+  {
+    "file": "docs/plans/qianxia-skin-concepts/qianxia-cutout-R04/source/01-idle.png",
+    "sha256": "9c7769ab20bf96f77e8de0d6b6e78ee8e061ed5eb311b87575774df4f12be0b0",
+    "unchanged_from_R03": true,
+    "matched_R02": [
+      "docs/plans/qianxia-skin-concepts/qianxia-refine-R02/candidates/01-idle.png",
+      "docs/plans/qianxia-skin-concepts/qianxia-refine-R02/source/01-idle.png"
+    ]
+  },
+  {
+    "file": "docs/plans/qianxia-skin-concepts/qianxia-cutout-R04/source/02-thinking.png",
+    "sha256": "7309dd9974173c4976588387feef61241470e058cb2c3580c4976bff41377536",
+    "unchanged_from_R03": true,
+    "matched_R02": [
+      "docs/plans/qianxia-skin-concepts/qianxia-refine-R02/candidates/02-thinking.png",
+      "docs/plans/qianxia-skin-concepts/qianxia-refine-R02/source/02-thinking.png"
+    ]
+  },
+  {
+    "file": "docs/plans/qianxia-skin-concepts/qianxia-cutout-R04/source/03-read_file.png",
+    "sha256": "61fbd3f92f9beae25e14fde406d4b1cf5e5a34f61c0a59c6bc366b405e95671e",
+    "unchanged_from_R03": true,
+    "matched_R02": [
+      "docs/plans/qianxia-skin-concepts/qianxia-refine-R02/candidates/03-read_file.png",
+      "docs/plans/qianxia-skin-concepts/qianxia-refine-R02/source/03-read_file.png"
+    ]
+  },
+  {
+    "file": "docs/plans/qianxia-skin-concepts/qianxia-cutout-R04/source/04-view_image.png",
+    "sha256": "2b5b3c8e23c672f9286e0c77e62c4f53f96ae522b9efc92b3b2b48c9d7d7dfd5",
+    "unchanged_from_R03": true,
+    "matched_R02": [
+      "docs/plans/qianxia-skin-concepts/qianxia-refine-R02/candidates/04-view_image.png",
+      "docs/plans/qianxia-skin-concepts/qianxia-refine-R02/source/04-view_image.png"
+    ]
+  },
+  {
+    "file": "docs/plans/qianxia-skin-concepts/qianxia-cutout-R04/source/05-write_file.png",
+    "sha256": "01ce56bb94e11e39844e803c2062cc2e273c7135d3349134e9a3b1cc1647e17e",
+    "unchanged_from_R03": true,
+    "matched_R02": [
+      "docs/plans/qianxia-skin-concepts/qianxia-refine-R02/candidates/05-write_file.png",
+      "docs/plans/qianxia-skin-concepts/qianxia-refine-R02/source/05-write_file.png"
+    ]
+  },
+  {
+    "file": "docs/plans/qianxia-skin-concepts/qianxia-cutout-R04/source/06-verify.png",
+    "sha256": "cbe31ee0637734af510385b69c876e9cf4969023c9e84fbecc65e8fd115274fc",
+    "unchanged_from_R03": true,
+    "matched_R02": [
+      "docs/plans/qianxia-skin-concepts/qianxia-refine-R02/candidates/06-verify.png",
+      "docs/plans/qianxia-skin-concepts/qianxia-refine-R02/source/06-verify.png"
+    ]
+  },
+  {
+    "file": "docs/plans/qianxia-skin-concepts/qianxia-cutout-R04/source/07-read_web.png",
+    "sha256": "ce8655468092eafa020efd186e56d5e02849d54bd4eed10781cc40e78d7cb233",
+    "unchanged_from_R03": true,
+    "matched_R02": [
+      "docs/plans/qianxia-skin-concepts/qianxia-refine-R02/candidates/07-read_web.png",
+      "docs/plans/qianxia-skin-concepts/qianxia-refine-R02/source/07-read_web.png"
+    ]
+  },
+  {
+    "file": "docs/plans/qianxia-skin-concepts/qianxia-cutout-R04/source/08-default_work.png",
+    "sha256": "bb3e21215e279b1e41403c384c4f5f586237ecdf4f6eaea81f283f0a10118d21",
+    "unchanged_from_R03": true,
+    "matched_R02": [
+      "docs/plans/qianxia-skin-concepts/qianxia-refine-R02/candidates/08-default_work.png",
+      "docs/plans/qianxia-skin-concepts/qianxia-refine-R02/source/08-default_work.png"
+    ]
+  },
+  {
+    "file": "docs/plans/qianxia-skin-concepts/qianxia-cutout-R04/source/09-respond.png",
+    "sha256": "7b6a19de9a355e3dabac281edf2ce8654ea29c9477453625b8f02441a32536fd",
+    "unchanged_from_R03": true,
+    "matched_R02": [
+      "docs/plans/qianxia-skin-concepts/qianxia-refine-R02/candidates/09-respond.png",
+      "docs/plans/qianxia-skin-concepts/qianxia-refine-R02/source/09-respond.png"
+    ]
+  },
+  {
+    "file": "docs/plans/qianxia-skin-concepts/qianxia-cutout-R04/source/10-task_complete.png",
+    "sha256": "f9c76a01b402a43e0f6ca46a1f3ec621a93684acf9dcc8eb8b720e98be0b53c1",
+    "unchanged_from_R03": true,
+    "matched_R02": [
+      "docs/plans/qianxia-skin-concepts/qianxia-refine-R02/candidates/10-task_complete.png"
+    ]
+  },
+  {
+    "file": "docs/plans/qianxia-skin-concepts/qianxia-cutout-R04/source/11-question_for_user.png",
+    "sha256": "7dd9ffbf1600e954ed5718c970cf8648d4fe3695d82634355ac3054f8b9f6172",
+    "unchanged_from_R03": true,
+    "matched_R02": [
+      "docs/plans/qianxia-skin-concepts/qianxia-refine-R02/candidates/11-question_for_user.png",
+      "docs/plans/qianxia-skin-concepts/qianxia-refine-R02/source/11-question_for_user.png"
+    ]
+  },
+  {
+    "file": "docs/plans/qianxia-skin-concepts/qianxia-cutout-R04/source/12-failed.png",
+    "sha256": "970cda2adf757e5320f202b93f1bf86f7c88d6bde303e8e7ccdb3dd553e37ace",
+    "unchanged_from_R03": true,
+    "matched_R02": [
+      "docs/plans/qianxia-skin-concepts/qianxia-refine-R02/candidates/12-failed.png",
+      "docs/plans/qianxia-skin-concepts/qianxia-refine-R02/source/12-failed.png"
+    ]
+  }
+]

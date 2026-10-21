@@ -1,0 +1,6 @@
+Use case: precise-object-edit
+Edit target: attached held Qianxia character transparent PNG. Preserve this exact character, pose, face, hair, proportions and all other drawing.
+Fix only two defects:
+1. Each arm has an accidentally duplicated sleeve/cuff section and duplicated cyan-pink square badge. Keep just ONE square badge per arm, located on the cuff immediately beside the hand. Remove the upper square badge at each elbow and the redundant outlined sleeve-fold that makes each arm look like stacked two forearms. Reconstruct a continuous natural oversized pink-and-white sleeve from shoulder to wrist matching the original costume. Keep hands joined in front unchanged, no hand/tool additions.
+2. Clean isolated background specks while preserving the entire smooth dark silhouette and every hair tip. True fully transparent empty background with no glow or fringe; solid character interior, antialias only at outer contour. Keep all original transparent margins, no cropping.
+Do not change skirt, shoes, hair clips, expression, hands, or overall pose. Output one transparent PNG, no desk, scenery or shadow.

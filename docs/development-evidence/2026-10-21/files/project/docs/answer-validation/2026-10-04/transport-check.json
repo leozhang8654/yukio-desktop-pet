@@ -1,0 +1,6 @@
+{
+  "fixtureAccepted": true,
+  "liveConnectionExpiredQuestionGuard": true,
+  "liveResult": "RESULT: expired",
+  "noLiveAnswerSent": true
+}

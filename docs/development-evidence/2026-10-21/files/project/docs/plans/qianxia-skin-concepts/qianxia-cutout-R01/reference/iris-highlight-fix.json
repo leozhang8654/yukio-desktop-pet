@@ -1,0 +1,27 @@
+{
+  "state": "question_for_user",
+  "part": "iris-left",
+  "pixels_xy": [
+    [
+      447,
+      528
+    ],
+    [
+      448,
+      528
+    ],
+    [
+      446,
+      529
+    ],
+    [
+      447,
+      529
+    ],
+    [
+      448,
+      529
+    ]
+  ],
+  "reason": "5 enclosed omitted white highlight pixels; highlight must move with iris"
+}

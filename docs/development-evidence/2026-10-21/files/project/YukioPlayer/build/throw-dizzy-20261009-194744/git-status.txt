@@ -1,0 +1,144 @@
+ M .github/workflows/build-windows.yml
+ M .gitignore
+ D CONTINUE_PROMPT.txt
+ D HANDOFF.md
+ D PLAYER_REQUIREMENTS.md
+ M README.md
+ M README.zh-CN.md
+ D SHA256SUMS.json
+ D START_HERE.md
+ M YukioPlayer/README.md
+ M YukioPlayer/README.zh-CN.md
+ M YukioPlayer/Resources/Assets/motion/default_work-eyes.webp
+ M YukioPlayer/Resources/Assets/motion/default_work.webp
+ M YukioPlayer/Resources/Assets/motion/failed-eyes.webp
+ M YukioPlayer/Resources/Assets/motion/failed.webp
+ M YukioPlayer/Resources/Assets/motion/idle-eyes.webp
+ M YukioPlayer/Resources/Assets/motion/idle.webp
+ M YukioPlayer/Resources/Assets/motion/motion.json
+ M YukioPlayer/Resources/Assets/motion/question_for_user-eyes.webp
+ M YukioPlayer/Resources/Assets/motion/question_for_user.webp
+ M YukioPlayer/Resources/Assets/motion/read_file-eyes.webp
+ M YukioPlayer/Resources/Assets/motion/read_file.webp
+ M YukioPlayer/Resources/Assets/motion/read_web-eyes.webp
+ M YukioPlayer/Resources/Assets/motion/read_web.webp
+ M YukioPlayer/Resources/Assets/motion/respond-eyes.webp
+ M YukioPlayer/Resources/Assets/motion/respond.webp
+ M YukioPlayer/Resources/Assets/motion/task_complete-eyes.webp
+ M YukioPlayer/Resources/Assets/motion/task_complete.webp
+ M YukioPlayer/Resources/Assets/motion/thinking-eyes.webp
+ M YukioPlayer/Resources/Assets/motion/thinking.webp
+ M YukioPlayer/Resources/Assets/motion/verify-eyes.webp
+ M YukioPlayer/Resources/Assets/motion/verify.webp
+ M YukioPlayer/Resources/Assets/motion/view_image-eyes.webp
+ M YukioPlayer/Resources/Assets/motion/view_image.webp
+ M YukioPlayer/Resources/Assets/motion/write_file-eyes.webp
+ M YukioPlayer/Resources/Assets/motion/write_file.webp
+ M YukioPlayer/Sources/YukioCore/ActivityCards.swift
+ M YukioPlayer/Sources/YukioCore/ActivityRouter.swift
+ M YukioPlayer/Sources/YukioCore/AgentSources.swift
+ M YukioPlayer/Sources/YukioCore/CodexParsers.swift
+ D YukioPlayer/Sources/YukioPlayer/AnswerSender.swift
+ M YukioPlayer/Sources/YukioPlayer/CardStack.swift
+ M YukioPlayer/Sources/YukioPlayer/PetWindow.swift
+ M YukioPlayer/Sources/YukioPlayer/QuestionCard.swift
+ M YukioPlayer/Sources/YukioPlayer/QuestionPanel.swift
+ M YukioPlayer/Sources/YukioPlayer/SettingsPanel.swift
+ M YukioPlayer/Sources/YukioPlayer/StatusBubble.swift
+ M YukioPlayer/Sources/YukioPlayer/main.swift
+ M YukioPlayer/Tests/YukioCoreTests/AgentSourceTests.swift
+ M YukioPlayer/Tests/YukioCoreTests/CardStackTests.swift
+ M YukioPlayer/Tests/YukioCoreTests/ChatPickTests.swift
+ M YukioPlayer/Tests/YukioCoreTests/StatusTests.swift
+ M YukioPlayer/scripts/build-app.sh
+ M YukioPlayer/tools/motion/make_motion.py
+ M YukioPlayer/tools/motion/upscale_motion.py
+ M YukioWin/README.md
+ M YukioWin/README.zh-CN.md
+ M YukioWin/scripts/smoke-test.ps1
+ M YukioWin/scripts/yukio.spec
+ M YukioWin/tests/test_app_logic.py
+ M YukioWin/tests/test_cards.py
+ M YukioWin/tests/test_chat_pick.py
+ M YukioWin/tests/test_parsers_codex.py
+ M YukioWin/tests/test_router.py
+ M YukioWin/yukio/__init__.py
+ M YukioWin/yukio/answer.py
+ M YukioWin/yukio/app.py
+ M YukioWin/yukio/bubble.py
+ M YukioWin/yukio/cards.py
+ M YukioWin/yukio/cardstack.py
+ M YukioWin/yukio/cli.py
+ M YukioWin/yukio/parsers_codex.py
+ M YukioWin/yukio/question.py
+ M YukioWin/yukio/router.py
+ M YukioWin/yukio/settings.py
+ M YukioWin/yukio/sources.py
+ M YukioWin/yukio/win32.py
+ D native-current/local-validation.json
+ D native-current/pet.json
+ D native-current/spritesheet-thinking-v5.webp
+ D preview.html
+ M scripts/verify_package.py
+?? .github/workflows/verify-windows-release.yml
+?? AGENTS.md
+?? CHANGELOG.md
+?? YukioPlayer/Resources/BACKGROUND-ANSWERS.md
+?? YukioPlayer/Sources/YukioCore/QuestionPresentationState.swift
+?? YukioPlayer/Sources/YukioCore/Reminders.swift
+?? YukioPlayer/Sources/YukioPlayer/AnswerCardCheck.swift
+?? YukioPlayer/Sources/YukioPlayer/AssistantWindow.swift
+?? YukioPlayer/Sources/YukioPlayer/BackgroundAnswerSetup.swift
+?? YukioPlayer/Sources/YukioPlayer/ClaudeQuestionBridge.swift
+?? YukioPlayer/Sources/YukioPlayer/CodexAnswerClient.swift
+?? YukioPlayer/Sources/YukioPlayer/LaunchAtLogin.swift
+?? YukioPlayer/Sources/YukioPlayer/ReminderStore.swift
+?? YukioPlayer/Sources/YukioPlayer/SettingsOutsideClickMonitor.swift
+?? YukioPlayer/Tests/Fixtures/
+?? YukioPlayer/Tests/YukioCoreTests/CodexQuestionLifecycleTests.swift
+?? YukioPlayer/Tests/YukioCoreTests/QuestionPresentationStateTests.swift
+?? YukioPlayer/Tests/YukioCoreTests/ReminderTests.swift
+?? YukioPlayer/Tests/YukioPlayerTests/BackgroundAnswersTests.swift
+?? YukioPlayer/Tests/YukioPlayerTests/LaunchAtLoginTests.swift
+?? YukioPlayer/Tests/YukioPlayerTests/LowerSignSettingsTests.swift
+?? YukioPlayer/Tests/YukioPlayerTests/PetContextMenuTests.swift
+?? YukioPlayer/Tests/YukioPlayerTests/PetRenderingTests.swift
+?? YukioPlayer/Tests/YukioPlayerTests/TaskBubbleScalingTests.swift
+?? YukioPlayer/integrations/deepseek/
+?? YukioPlayer/tools/motion/approved_motion.py
+?? YukioPlayer/tools/motion/blink_curves.py
+?? YukioPlayer/tools/motion/check_gaze.py
+?? YukioPlayer/tools/motion/check_motion.py
+?? YukioPlayer/tools/motion/compare_motion.html
+?? YukioPlayer/tools/motion/gaze_layers.py
+?? YukioWin/scripts/smoke-assistant.ps1
+?? YukioWin/tests/test_bubble_colors.py
+?? YukioWin/tests/test_codex_answer.py
+?? YukioWin/tests/test_codex_question_lifecycle.py
+?? YukioWin/tests/test_outside_click.py
+?? YukioWin/tests/test_reminders.py
+?? YukioWin/tests/test_startup.py
+?? YukioWin/yukio/answer_smoke.py
+?? YukioWin/yukio/assistant.py
+?? YukioWin/yukio/assistant_smoke.py
+?? YukioWin/yukio/codex_answer.py
+?? YukioWin/yukio/outside_click.py
+?? YukioWin/yukio/pet_settings.py
+?? YukioWin/yukio/question_presentation.py
+?? YukioWin/yukio/reminders.py
+?? YukioWin/yukio/startup.py
+?? artifacts/
+?? docs/ASSISTANT.md
+?? docs/HANDOFF.md
+?? docs/PERSONALIZATION.md
+?? docs/README.md
+?? docs/STARTUP.md
+?? docs/animation-review/gaze-fix/
+?? docs/animation-review/neck-stability-sam/
+?? docs/answer-validation/
+?? docs/history/
+?? docs/plans/
+?? docs/readme/settings-macos.png
+?? docs/readme/settings-windows.png
+?? docs/releases/
+?? sources/approved-animation-rig/

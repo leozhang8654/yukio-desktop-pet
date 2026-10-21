@@ -1,0 +1,51 @@
+{
+  "assets": [
+    {
+      "apiUrl": "https://api.github.com/repos/leozhang8654/yukio-desktop-pet/releases/assets/614074453",
+      "contentType": "text/plain; charset=utf-8",
+      "createdAt": "2026-10-06T01:10:59Z",
+      "digest": "sha256:e08e7fdecd3d3f557ef9d573e8fd9c1cb67d62c9d8407a50dd4332c00bbdadf0",
+      "downloadCount": 2,
+      "id": "RA_kwDOUbgsYs4kmghV",
+      "label": "",
+      "name": "SHA256SUMS.txt",
+      "size": 178,
+      "state": "uploaded",
+      "updatedAt": "2026-10-06T01:10:59Z",
+      "url": "https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.8/SHA256SUMS.txt"
+    },
+    {
+      "apiUrl": "https://api.github.com/repos/leozhang8654/yukio-desktop-pet/releases/assets/614074451",
+      "contentType": "application/zip",
+      "createdAt": "2026-10-06T01:10:59Z",
+      "digest": "sha256:196d73ac59230528bd380017683ed978a7fa6c1c6887271bfe6d55d6725608c6",
+      "downloadCount": 3,
+      "id": "RA_kwDOUbgsYs4kmghT",
+      "label": "",
+      "name": "Yukio-0.3.8-macOS.zip",
+      "size": 39361308,
+      "state": "uploaded",
+      "updatedAt": "2026-10-06T01:11:41Z",
+      "url": "https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.8/Yukio-0.3.8-macOS.zip"
+    },
+    {
+      "apiUrl": "https://api.github.com/repos/leozhang8654/yukio-desktop-pet/releases/assets/614074455",
+      "contentType": "application/x-msdownload",
+      "createdAt": "2026-10-06T01:10:59Z",
+      "digest": "sha256:26be94764bd59489e5b95bcebaede3745a7a02f98445f09a6d7c52dd08ad697e",
+      "downloadCount": 1,
+      "id": "RA_kwDOUbgsYs4kmghX",
+      "label": "",
+      "name": "Yukio-0.3.8-Windows.exe",
+      "size": 42281020,
+      "state": "uploaded",
+      "updatedAt": "2026-10-06T01:11:43Z",
+      "url": "https://github.com/leozhang8654/yukio-desktop-pet/releases/download/v0.3.8/Yukio-0.3.8-Windows.exe"
+    }
+  ],
+  "body": "# Yukio 0.3.8 · 加粗助手色线\n\n任务气泡和聊天通知卡顶部色线由 2 点加粗到 4 点，色线向气泡外侧延伸，不占用正文区域与原有内边距。保持白底和原有配色：GPT 深灰、Claude 橙色、DeepSeek 蓝色。macOS 与 Windows 同步更新。\n\n## 下载\n\n- `Yukio-0.3.8-macOS.zip`（Apple silicon / Intel 通用）\n- `Yukio-0.3.8-Windows.exe`\n- `SHA256SUMS.txt`\n",
+  "isDraft": false,
+  "name": "雪绪 0.3.8 · 外置加粗助手色条",
+  "tagName": "v0.3.8",
+  "url": "https://github.com/leozhang8654/yukio-desktop-pet/releases/tag/v0.3.8"
+}

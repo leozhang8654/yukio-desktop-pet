@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "cases": [
+    {"id":"drop", "room":[1440,900], "position":[600,650], "velocity":[0,0]},
+    {"id":"right", "room":[1440,900], "position":[600,600], "velocity":[2400,200]},
+    {"id":"left", "room":[1440,900], "position":[600,600], "velocity":[-2400,200]},
+    {"id":"up", "room":[1440,900], "position":[600,500], "velocity":[0,2600]},
+    {"id":"down", "room":[1440,900], "position":[600,500], "velocity":[0,-2600]},
+    {"id":"corner", "room":[800,600], "position":[400,300], "velocity":[50000,50000], "angle":0.32, "rate":2},
+    {"id":"outside", "room":[800,600], "position":[-300,1000], "velocity":[-900,800]},
+    {"id":"small", "room":[120,100], "position":[50,50], "velocity":[500,1000], "scale":2},
+    {"id":"large", "room":[2560,1440], "position":[1400,900], "velocity":[1000,800], "scale":1.5},
+    {"id":"rotating", "room":[800,600], "position":[600,340], "velocity":[0,0], "angle":-0.3, "rate":2}
+  ]
+}

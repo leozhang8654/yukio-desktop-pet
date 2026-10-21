@@ -1,0 +1,160 @@
+{
+  "hashes_match": true,
+  "file_count": 55,
+  "parts": [
+    {
+      "part": "default_work/iris-left",
+      "components": 1,
+      "soft_mask_pixels": 225,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "default_work/iris-right",
+      "components": 1,
+      "soft_mask_pixels": 235,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "failed/iris-left",
+      "components": 1,
+      "soft_mask_pixels": 209,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "failed/iris-right",
+      "components": 1,
+      "soft_mask_pixels": 231,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "idle/iris-left",
+      "components": 1,
+      "soft_mask_pixels": 237,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "idle/iris-right",
+      "components": 1,
+      "soft_mask_pixels": 230,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "question_for_user/iris-left",
+      "components": 1,
+      "soft_mask_pixels": 245,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "question_for_user/iris-right",
+      "components": 1,
+      "soft_mask_pixels": 257,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "read_file/iris-left",
+      "components": 1,
+      "soft_mask_pixels": 227,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "read_file/iris-right",
+      "components": 1,
+      "soft_mask_pixels": 238,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "read_web/iris-left",
+      "components": 1,
+      "soft_mask_pixels": 207,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "read_web/iris-right",
+      "components": 1,
+      "soft_mask_pixels": 241,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "respond/iris-left",
+      "components": 1,
+      "soft_mask_pixels": 219,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "respond/iris-right",
+      "components": 1,
+      "soft_mask_pixels": 215,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "thinking/iris-left",
+      "components": 1,
+      "soft_mask_pixels": 223,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "thinking/iris-right",
+      "components": 1,
+      "soft_mask_pixels": 222,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "verify/iris-left",
+      "components": 1,
+      "soft_mask_pixels": 234,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "verify/iris-right",
+      "components": 1,
+      "soft_mask_pixels": 234,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "view_image/iris-left",
+      "components": 1,
+      "soft_mask_pixels": 229,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "view_image/iris-right",
+      "components": 1,
+      "soft_mask_pixels": 232,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "write_file/iris-left",
+      "components": 1,
+      "soft_mask_pixels": 219,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "write_file/iris-right",
+      "components": 1,
+      "soft_mask_pixels": 219,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    }
+  ]
+}

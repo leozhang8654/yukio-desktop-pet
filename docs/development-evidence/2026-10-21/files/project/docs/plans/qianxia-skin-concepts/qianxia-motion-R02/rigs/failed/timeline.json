@@ -1,0 +1,438 @@
+{
+  "duration_seconds": 0.9,
+  "samples": [
+    {
+      "time": 0.0,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -0.0,
+          -0.0
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.03333333333333333,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -0.03809909135352922,
+          -0.0015239636541411689
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.006700082063273523
+    },
+    {
+      "time": 0.06666666666666667,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -0.14700180380653752,
+          -0.005880072152261501
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.02585167417452633
+    },
+    {
+      "time": 0.1,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -0.318616294947656,
+          -0.01274465179790624
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.056031827802484245
+    },
+    {
+      "time": 0.13333333333333333,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -0.5448507223655152,
+          -0.02179402889462061
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.09581762190285681
+    },
+    {
+      "time": 0.16666666666666666,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -0.8176132436487464,
+          -0.03270452974594986
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.14378614502338963
+    },
+    {
+      "time": 0.2,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -1.128812016385981,
+          -0.045152480655439246
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.19851447988979756
+    },
+    {
+      "time": 0.23333333333333334,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -1.470355198165849,
+          -0.05881420792663396
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.2585796904819492
+    },
+    {
+      "time": 0.26666666666666666,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -1.834150946576982,
+          -0.07336603786307928
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.322558811602712
+    },
+    {
+      "time": 0.3,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -2.212107419208011,
+          -0.08848429676832044
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.38902884093641277
+    },
+    {
+      "time": 0.3333333333333333,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -2.596132773647566,
+          -0.10384531094590264
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.45656673358993644
+    },
+    {
+      "time": 0.36666666666666664,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -2.9781351674842798,
+          -0.1191254066993712
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.5237493991066366
+    },
+    {
+      "time": 0.4,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -3.350022758306782,
+          -0.1340009103322713
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.5891537009403565
+    },
+    {
+      "time": 0.43333333333333335,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -3.7037037037037033,
+          -0.14814814814814814
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.6513564583774866
+    },
+    {
+      "time": 0.4666666666666667,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -4.031086161263676,
+          -0.16124344645054706
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.7089344508936709
+    },
+    {
+      "time": 0.5,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -4.32407828857533,
+          -0.1729631315430132
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.7604644249342415
+    },
+    {
+      "time": 0.5333333333333333,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -4.574588243227296,
+          -0.18298352972909185
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.804523103110016
+    },
+    {
+      "time": 0.5666666666666667,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -4.7745241828082055,
+          -0.19098096731232825
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.8396871958023333
+    },
+    {
+      "time": 0.6,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -4.915794264906691,
+          -0.19663177059626766
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.8645334151783806
+    },
+    {
+      "time": 0.6333333333333333,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -4.990306647111381,
+          -0.19961226588445524
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.8776384916208816
+    },
+    {
+      "time": 0.6666666666666666,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -5.0,
+          -0.2
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.8793433390581531
+    },
+    {
+      "time": 0.7,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -5.0,
+          -0.2
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.8793433390581531
+    },
+    {
+      "time": 0.7333333333333333,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -5.0,
+          -0.2
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.8793433390581531
+    },
+    {
+      "time": 0.7666666666666666,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -5.0,
+          -0.2
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.8793433390581531
+    },
+    {
+      "time": 0.8,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -5.0,
+          -0.2
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.8793433390581531
+    },
+    {
+      "time": 0.8333333333333334,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -5.0,
+          -0.2
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.8793433390581531
+    },
+    {
+      "time": 0.8666666666666667,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -5.0,
+          -0.2
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.8793433390581531
+    },
+    {
+      "time": 0.9,
+      "transforms": {
+        "hand-and-card": [
+          0,
+          -5.0,
+          -0.2
+        ]
+      },
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0.8793433390581531
+    }
+  ],
+  "display_size": [
+    192,
+    208
+  ],
+  "source_scale": 0.31867219917012446,
+  "pivots_source_px": {
+    "hand-and-card": [
+      367,
+      725
+    ]
+  },
+  "maximum_displacement_display_px": 0.8793433390581531,
+  "peak_sample": 20
+}

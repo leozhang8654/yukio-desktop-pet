@@ -1,0 +1,41 @@
+{
+  "cases" : [
+    {
+      "case" : "light",
+      "events" : 1,
+      "phases" : [
+        "airborne",
+        "dizzy",
+        "recover"
+      ],
+      "solverExhaustions" : 0
+    },
+    {
+      "case" : "medium",
+      "events" : 2,
+      "phases" : [
+        "airborne",
+        "dizzy",
+        "recover"
+      ],
+      "solverExhaustions" : 0
+    },
+    {
+      "case" : "heavy",
+      "events" : 4,
+      "phases" : [
+        "airborne",
+        "dizzy",
+        "recover"
+      ],
+      "solverExhaustions" : 0
+    }
+  ],
+  "date" : "2026-10-10T03:33:03Z",
+  "escapedBeyond2PointsPixels" : 0,
+  "maxMs" : 21.449916646815836,
+  "nativeFrames" : 581,
+  "note" : "Native decoder and offscreen CoreGraphics compositor; desktop input, Dock occlusion and Windows still need separate native checks.",
+  "os" : "Version 27.0.1 (Build 26A434)",
+  "p95Ms" : 11.067875020671636
+}

@@ -1,0 +1,23 @@
+{
+  "swiftFullSuite": {
+    "tests": 191,
+    "passed": true
+  },
+  "python": {
+    "tests": 260,
+    "skipped": 1,
+    "passed": true
+  },
+  "nativeCoverage": [
+    "slow release preserves placement",
+    "flick launches",
+    "latest task report window returns after landing",
+    "catch during airborne/dizzy/recover restores held animation",
+    "caught character can be placed or thrown again",
+    "late release after cancellation does not open chat",
+    "task report survives hiding during flight"
+  ],
+  "windowsNative": "deferred by user; Python tests use Win32 substitute",
+  "animationChanges": "none; 182 PNG/WebP resources byte-identical to previous installed app",
+  "runDirectory": "/Users/developer/Desktop/yukio-cloud-handoff/YukioPlayer/build/throw-handfeel-20261009-212130"
+}

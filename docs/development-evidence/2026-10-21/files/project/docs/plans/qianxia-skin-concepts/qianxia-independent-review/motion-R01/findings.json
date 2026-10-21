@@ -1,0 +1,951 @@
+{
+  "reviewer": "独立 Agent /root/cutout_independent_review；未参与本轮制作",
+  "round": "motion-R01",
+  "verdict": "退回；动态验证未完成",
+  "candidate": "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01",
+  "hash_binding": "candidate-sha256.json",
+  "frozen_hash_match": true,
+  "scope": "offline decoded-resource/extreme-frame/code/static visual review only",
+  "findings": [
+    {
+      "id": "M01",
+      "severity": "high",
+      "status": "rework_required",
+      "states": [
+        "idle",
+        "thinking",
+        "read_file",
+        "view_image",
+        "write_file",
+        "verify",
+        "read_web",
+        "default_work",
+        "respond",
+        "question_for_user",
+        "failed"
+      ],
+      "part": "六级眼皮/原上睫毛与眼白遮盖边",
+      "coordinate_system": "encoded asset 384x416 physical pixels; bounds half-open",
+      "locations": [
+        {
+          "state": "idle",
+          "bbox": [
+            120,
+            151,
+            242,
+            190
+          ]
+        },
+        {
+          "state": "thinking",
+          "bbox": [
+            111,
+            149,
+            230,
+            191
+          ]
+        },
+        {
+          "state": "read_file",
+          "bbox": [
+            121,
+            150,
+            244,
+            190
+          ]
+        },
+        {
+          "state": "view_image",
+          "bbox": [
+            119,
+            150,
+            242,
+            189
+          ]
+        },
+        {
+          "state": "write_file",
+          "bbox": [
+            118,
+            151,
+            239,
+            188
+          ]
+        },
+        {
+          "state": "verify",
+          "bbox": [
+            118,
+            152,
+            241,
+            190
+          ]
+        },
+        {
+          "state": "read_web",
+          "bbox": [
+            117,
+            148,
+            239,
+            188
+          ]
+        },
+        {
+          "state": "default_work",
+          "bbox": [
+            119,
+            151,
+            242,
+            190
+          ]
+        },
+        {
+          "state": "respond",
+          "bbox": [
+            119,
+            148,
+            242,
+            185
+          ]
+        },
+        {
+          "state": "question_for_user",
+          "bbox": [
+            119,
+            147,
+            242,
+            188
+          ]
+        },
+        {
+          "state": "failed",
+          "bbox": [
+            118,
+            149,
+            240,
+            186
+          ]
+        }
+      ],
+      "frames": "body unique frame 0; eyelid closing levels 1–6. Most obvious levels 1–2, first gaze mapping tiles 0–5.",
+      "description": "开始闭合时原有粗上睫毛和外侧翼形立即消失，被短细横线替代；并非原睫毛连续下降。眼白/虹膜周边出现碎白台阶和零碎断边，原形被破坏。11 个有眼皮状态均实际看见同类变化；全闭级未见彩色虹膜残留不能解除前级缺陷。",
+      "example_detail": "question_for_user eye box [119,147,242,188]; left eye approximately [124,151,164,184], right [195,154,237,187]. Exact enclosing eye bounds for every state above.",
+      "evidence": [
+        "evidence/idle-decoded-lids300.png",
+        "evidence/thinking-decoded-lids300.png",
+        "evidence/read_file-decoded-lids300.png",
+        "evidence/view_image-decoded-lids300.png",
+        "evidence/write_file-decoded-lids300.png",
+        "evidence/verify-decoded-lids300.png",
+        "evidence/read_web-decoded-lids300.png",
+        "evidence/default_work-decoded-lids300.png",
+        "evidence/respond-decoded-lids300.png",
+        "evidence/question_for_user-decoded-lids300.png",
+        "evidence/failed-decoded-lids300.png"
+      ],
+      "recommendation": "保留原上睫毛厚度及外眼角关系，沿连续轨迹形成六级闭合；逐级以完整遮盖边覆盖眼白和虹膜，清除白碎片。重新编码后复查所有 11 状态的张开→1级与相邻级跳变、全闭无虹膜及回睁回归。"
+    },
+    {
+      "id": "M02",
+      "severity": "medium",
+      "status": "rework_required",
+      "states": [
+        "respond"
+      ],
+      "part": "移动手/卡后露出的固定袖口补底",
+      "coordinate_system": "encoded asset 384x416 physical pixels; original source approximately scale x1205/384, y1306/416",
+      "bbox": [
+        124,
+        229,
+        133,
+        240
+      ],
+      "adjacent_seam_bbox": [
+        120,
+        223,
+        142,
+        243
+      ],
+      "source_bbox_approx": [
+        389,
+        719,
+        418,
+        754
+      ],
+      "frames": [
+        8,
+        24
+      ],
+      "first_frame24_ms": 792,
+      "description": "卡片移开后，粉色袖口内部露出悬空深紫/黑色弧片，卡片下沿附近补底接缝杂乱。cleanplate 本身可见这段孤立暗形，原图中对应轮廓与手/袖口连接，移开后变成不合理残片。不是透明背景颜色变化造成。",
+      "evidence": [
+        "evidence/respond-cleanplate-comparison500.png",
+        "evidence/respond-encoded-four-bg200.png",
+        "evidence/respond-decoded-detail200.png"
+      ],
+      "recommendation": "按固定袖口的真实内外轮廓重做这一小块露底与前景遮挡，移除悬空暗残片并接顺卡片下方/手腕旁边的补线；复查整段进入、最大位移和稳定持卡，保持手卡联动。"
+    },
+    {
+      "id": "V01",
+      "severity": "blocking_validation_gap",
+      "status": "not_completed",
+      "states": [
+        "idle",
+        "thinking",
+        "read_file",
+        "view_image",
+        "write_file",
+        "verify",
+        "read_web",
+        "default_work",
+        "respond",
+        "task_complete",
+        "question_for_user",
+        "failed"
+      ],
+      "description": "Mac 锁屏，父任务已报告 CUA 要求用户手动解锁且尚未完成。未做真实尺寸三轮、真实速度、慢速、连续眨眼、状态切换、一次事件进入/长时停留/新事件重触发。静态帧和数值循环检查不能替代实播。",
+      "recommendation": "解锁后对冻结且已修复候选完成实际播放并保留真实观察记录，再给整套动态结论。"
+    }
+  ],
+  "state_coverage": [
+    {
+      "state": "idle",
+      "body_unique_frames": 51,
+      "context_frames": [
+        0,
+        16,
+        0
+      ],
+      "detail_frames": [
+        0,
+        16,
+        17,
+        34,
+        50
+      ],
+      "detail_roi_2x": [
+        106,
+        212,
+        212,
+        280
+      ],
+      "max_body_delta_frame": 16,
+      "has_blink": true,
+      "duration_ms": 13893,
+      "loopStart": 0,
+      "mode": "loop",
+      "body_static": "no_specific_defect_found_in_reviewed_frames",
+      "eyes_static": "rework_required",
+      "overall": "rework_required",
+      "findings": [
+        "M01",
+        "V01"
+      ],
+      "notes": "手与球的极值、回位及固定底座已看；未见明确断接。球和手不同轨迹的实际节奏仍待实播。",
+      "actually_viewed_evidence": [
+        "evidence/idle-source-encoded.png",
+        "evidence/idle-decoded-detail200.png",
+        "evidence/idle-encoded-four-bg200.png",
+        "evidence/idle-decoded-lids300.png"
+      ],
+      "live_playback": "not_completed",
+      "static_full_source_and_encoded_100_percent": true,
+      "detail_200_percent": true,
+      "four_backgrounds_200_percent": true,
+      "eyelid_first_gaze_all_six_levels_300_percent": true,
+      "all_gaze_lid_combinations_visually_viewed": false
+    },
+    {
+      "state": "thinking",
+      "body_unique_frames": 25,
+      "context_frames": [
+        0,
+        8,
+        0
+      ],
+      "detail_frames": [
+        0,
+        8,
+        16,
+        24
+      ],
+      "detail_roi_2x": [
+        103,
+        141,
+        238,
+        199
+      ],
+      "max_body_delta_frame": 0,
+      "has_blink": true,
+      "duration_ms": 7953,
+      "loopStart": 0,
+      "mode": "loop",
+      "body_static": "no_specific_defect_found_in_reviewed_frames",
+      "eyes_static": "rework_required",
+      "overall": "rework_required",
+      "findings": [
+        "M01",
+        "V01"
+      ],
+      "notes": "托腮手和主体保持固定，眼位极值已看；视线停顿是否自然待实播。",
+      "actually_viewed_evidence": [
+        "evidence/thinking-source-encoded.png",
+        "evidence/thinking-decoded-detail200.png",
+        "evidence/thinking-encoded-four-bg200.png",
+        "evidence/thinking-decoded-lids300.png"
+      ],
+      "live_playback": "not_completed",
+      "static_full_source_and_encoded_100_percent": true,
+      "detail_200_percent": true,
+      "four_backgrounds_200_percent": true,
+      "eyelid_first_gaze_all_six_levels_300_percent": true,
+      "all_gaze_lid_combinations_visually_viewed": false
+    },
+    {
+      "state": "read_file",
+      "body_unique_frames": 25,
+      "context_frames": [
+        0,
+        16,
+        0
+      ],
+      "detail_frames": [
+        0,
+        16,
+        8,
+        24
+      ],
+      "detail_roi_2x": [
+        113,
+        142,
+        252,
+        198
+      ],
+      "max_body_delta_frame": 0,
+      "has_blink": true,
+      "duration_ms": 5973,
+      "loopStart": 0,
+      "mode": "loop",
+      "body_static": "no_specific_defect_found_in_reviewed_frames",
+      "eyes_static": "rework_required",
+      "overall": "rework_required",
+      "findings": [
+        "M01",
+        "V01"
+      ],
+      "notes": "三段目光极值与固定卡片已看，身体未见意外变化。",
+      "actually_viewed_evidence": [
+        "evidence/read_file-source-encoded.png",
+        "evidence/read_file-decoded-detail200.png",
+        "evidence/read_file-encoded-four-bg200.png",
+        "evidence/read_file-decoded-lids300.png"
+      ],
+      "live_playback": "not_completed",
+      "static_full_source_and_encoded_100_percent": true,
+      "detail_200_percent": true,
+      "four_backgrounds_200_percent": true,
+      "eyelid_first_gaze_all_six_levels_300_percent": true,
+      "all_gaze_lid_combinations_visually_viewed": false
+    },
+    {
+      "state": "view_image",
+      "body_unique_frames": 66,
+      "context_frames": [
+        0,
+        45,
+        0
+      ],
+      "detail_frames": [
+        0,
+        45,
+        22,
+        44,
+        65
+      ],
+      "detail_roi_2x": [
+        102,
+        193,
+        182,
+        275
+      ],
+      "max_body_delta_frame": 45,
+      "has_blink": true,
+      "duration_ms": 5973,
+      "loopStart": 0,
+      "mode": "loop",
+      "body_static": "no_specific_defect_found_in_reviewed_frames",
+      "eyes_static": "rework_required",
+      "overall": "rework_required",
+      "findings": [
+        "M01",
+        "V01"
+      ],
+      "notes": "手与笔共同换位，笔尖、袖口、图板边缘及补底极值已看；未见明确脱握或露底碎片。",
+      "actually_viewed_evidence": [
+        "evidence/view_image-source-encoded.png",
+        "evidence/view_image-decoded-detail200.png",
+        "evidence/view_image-encoded-four-bg200.png",
+        "evidence/view_image-decoded-lids300.png",
+        "evidence/view_image-cleanplate-comparison500.png"
+      ],
+      "live_playback": "not_completed",
+      "static_full_source_and_encoded_100_percent": true,
+      "detail_200_percent": true,
+      "four_backgrounds_200_percent": true,
+      "eyelid_first_gaze_all_six_levels_300_percent": true,
+      "all_gaze_lid_combinations_visually_viewed": false
+    },
+    {
+      "state": "write_file",
+      "body_unique_frames": 31,
+      "context_frames": [
+        0,
+        3,
+        0
+      ],
+      "detail_frames": [
+        0,
+        3,
+        9,
+        10,
+        20,
+        30
+      ],
+      "detail_roi_2x": [
+        96,
+        219,
+        287,
+        276
+      ],
+      "max_body_delta_frame": 3,
+      "has_blink": true,
+      "duration_ms": 3399,
+      "loopStart": 0,
+      "mode": "loop",
+      "body_static": "no_specific_defect_found_in_reviewed_frames",
+      "eyes_static": "rework_required",
+      "overall": "rework_required",
+      "findings": [
+        "M01",
+        "V01"
+      ],
+      "notes": "左右手极值、指缝、腕端和键盘已看；代码为左 .15/.72/1.89 秒、右 .39/1.56/2.16 秒的错拍短击。节奏可辨认性未实播。",
+      "actually_viewed_evidence": [
+        "evidence/write_file-source-encoded.png",
+        "evidence/write_file-decoded-detail200.png",
+        "evidence/write_file-encoded-four-bg200.png",
+        "evidence/write_file-decoded-lids300.png"
+      ],
+      "live_playback": "not_completed",
+      "static_full_source_and_encoded_100_percent": true,
+      "detail_200_percent": true,
+      "four_backgrounds_200_percent": true,
+      "eyelid_first_gaze_all_six_levels_300_percent": true,
+      "all_gaze_lid_combinations_visually_viewed": false
+    },
+    {
+      "state": "verify",
+      "body_unique_frames": 37,
+      "context_frames": [
+        0,
+        14,
+        0
+      ],
+      "detail_frames": [
+        0,
+        14,
+        25,
+        12,
+        24,
+        36
+      ],
+      "detail_roi_2x": [
+        101,
+        171,
+        179,
+        265
+      ],
+      "max_body_delta_frame": 14,
+      "has_blink": true,
+      "duration_ms": 4785,
+      "loopStart": 0,
+      "mode": "loop",
+      "body_static": "no_specific_defect_found_in_reviewed_frames",
+      "eyes_static": "rework_required",
+      "overall": "rework_required",
+      "findings": [
+        "M01",
+        "V01"
+      ],
+      "notes": "握持、探针尖端左缘、接头、落点、抬起及固定底座已看；未见 R07 尖端缺口回归。",
+      "actually_viewed_evidence": [
+        "evidence/verify-source-encoded.png",
+        "evidence/verify-decoded-detail200.png",
+        "evidence/verify-encoded-four-bg200.png",
+        "evidence/verify-decoded-lids300.png",
+        "evidence/verify-cleanplate-comparison500.png"
+      ],
+      "live_playback": "not_completed",
+      "static_full_source_and_encoded_100_percent": true,
+      "detail_200_percent": true,
+      "four_backgrounds_200_percent": true,
+      "eyelid_first_gaze_all_six_levels_300_percent": true,
+      "all_gaze_lid_combinations_visually_viewed": false
+    },
+    {
+      "state": "read_web",
+      "body_unique_frames": 27,
+      "context_frames": [
+        0,
+        11,
+        0
+      ],
+      "detail_frames": [
+        0,
+        11,
+        26,
+        9,
+        18
+      ],
+      "detail_roi_2x": [
+        87,
+        181,
+        154,
+        237
+      ],
+      "max_body_delta_frame": 11,
+      "has_blink": true,
+      "duration_ms": 5973,
+      "loopStart": 0,
+      "mode": "loop",
+      "body_static": "no_specific_defect_found_in_reviewed_frames",
+      "eyes_static": "rework_required",
+      "overall": "rework_required",
+      "findings": [
+        "M01",
+        "V01"
+      ],
+      "notes": "点按手极值、腕端与固定屏幕已看；未见明显悬浮或断缝。",
+      "actually_viewed_evidence": [
+        "evidence/read_web-source-encoded.png",
+        "evidence/read_web-decoded-detail200.png",
+        "evidence/read_web-encoded-four-bg200.png",
+        "evidence/read_web-decoded-lids300.png"
+      ],
+      "live_playback": "not_completed",
+      "static_full_source_and_encoded_100_percent": true,
+      "detail_200_percent": true,
+      "four_backgrounds_200_percent": true,
+      "eyelid_first_gaze_all_six_levels_300_percent": true,
+      "all_gaze_lid_combinations_visually_viewed": false
+    },
+    {
+      "state": "default_work",
+      "body_unique_frames": 48,
+      "context_frames": [
+        0,
+        21,
+        0
+      ],
+      "detail_frames": [
+        0,
+        21,
+        16,
+        32,
+        47
+      ],
+      "detail_roi_2x": [
+        94,
+        219,
+        161,
+        278
+      ],
+      "max_body_delta_frame": 21,
+      "has_blink": true,
+      "duration_ms": 5379,
+      "loopStart": 0,
+      "mode": "loop",
+      "body_static": "no_specific_defect_found_in_reviewed_frames",
+      "eyes_static": "rework_required",
+      "overall": "rework_required",
+      "findings": [
+        "M01",
+        "V01"
+      ],
+      "notes": "手与轨迹球接触、腕端和底座极值已看；静态接触尚连续，连续运动自然性未验证。",
+      "actually_viewed_evidence": [
+        "evidence/default_work-source-encoded.png",
+        "evidence/default_work-decoded-detail200.png",
+        "evidence/default_work-encoded-four-bg200.png",
+        "evidence/default_work-decoded-lids300.png"
+      ],
+      "live_playback": "not_completed",
+      "static_full_source_and_encoded_100_percent": true,
+      "detail_200_percent": true,
+      "four_backgrounds_200_percent": true,
+      "eyelid_first_gaze_all_six_levels_300_percent": true,
+      "all_gaze_lid_combinations_visually_viewed": false
+    },
+    {
+      "state": "respond",
+      "body_unique_frames": 25,
+      "context_frames": [
+        0,
+        24,
+        24
+      ],
+      "detail_frames": [
+        0,
+        24,
+        8,
+        16
+      ],
+      "detail_roi_2x": [
+        80,
+        171,
+        186,
+        264
+      ],
+      "max_body_delta_frame": 24,
+      "has_blink": true,
+      "duration_ms": 6188,
+      "loopStart": 25,
+      "mode": "enter_then_hold",
+      "body_static": "rework_required",
+      "eyes_static": "rework_required",
+      "overall": "rework_required",
+      "findings": [
+        "M01",
+        "M02",
+        "V01"
+      ],
+      "notes": "手与卡共同位移，但露出的袖口有暗残片与不顺接缝，M02 退回。",
+      "actually_viewed_evidence": [
+        "evidence/respond-source-encoded.png",
+        "evidence/respond-decoded-detail200.png",
+        "evidence/respond-encoded-four-bg200.png",
+        "evidence/respond-decoded-lids300.png",
+        "evidence/respond-cleanplate-comparison500.png"
+      ],
+      "live_playback": "not_completed",
+      "static_full_source_and_encoded_100_percent": true,
+      "detail_200_percent": true,
+      "four_backgrounds_200_percent": true,
+      "eyelid_first_gaze_all_six_levels_300_percent": true,
+      "all_gaze_lid_combinations_visually_viewed": false
+    },
+    {
+      "state": "task_complete",
+      "body_unique_frames": 1,
+      "context_frames": [
+        0,
+        0,
+        0
+      ],
+      "detail_frames": [
+        0
+      ],
+      "detail_roi_2x": [
+        80,
+        90,
+        300,
+        270
+      ],
+      "max_body_delta_frame": 0,
+      "has_blink": false,
+      "duration_ms": 3000,
+      "loopStart": 0,
+      "mode": "static",
+      "body_static": "no_specific_defect_found_in_reviewed_frames",
+      "eyes_static": "not_applicable",
+      "overall": "static_pass_dynamic_pending",
+      "findings": [
+        "V01"
+      ],
+      "notes": "一张静止帧，无眼皮资源；原图、透明边与固定主体静态通过。切换/长时停留仍未实测。",
+      "actually_viewed_evidence": [
+        "evidence/task_complete-source-encoded.png",
+        "evidence/task_complete-decoded-detail200.png",
+        "evidence/task_complete-encoded-four-bg200.png"
+      ],
+      "live_playback": "not_completed",
+      "static_full_source_and_encoded_100_percent": true,
+      "detail_200_percent": true,
+      "four_backgrounds_200_percent": true,
+      "eyelid_first_gaze_all_six_levels_300_percent": false,
+      "all_gaze_lid_combinations_visually_viewed": false
+    },
+    {
+      "state": "question_for_user",
+      "body_unique_frames": 17,
+      "context_frames": [
+        0,
+        8,
+        16
+      ],
+      "detail_frames": [
+        0,
+        8,
+        16,
+        5,
+        11
+      ],
+      "detail_roi_2x": [
+        211,
+        213,
+        286,
+        283
+      ],
+      "max_body_delta_frame": 8,
+      "has_blink": true,
+      "duration_ms": 6089,
+      "loopStart": 23,
+      "mode": "enter_then_hold",
+      "body_static": "no_specific_defect_found_in_reviewed_frames",
+      "eyes_static": "rework_required",
+      "overall": "rework_required",
+      "findings": [
+        "M01",
+        "V01"
+      ],
+      "notes": "按手与顶帽极值、固定环形底座、袖口与接触点已看；未见整底座跟随或明显指端脱离。",
+      "actually_viewed_evidence": [
+        "evidence/question_for_user-source-encoded.png",
+        "evidence/question_for_user-decoded-detail200.png",
+        "evidence/question_for_user-encoded-four-bg200.png",
+        "evidence/question_for_user-decoded-lids300.png",
+        "evidence/question_for_user-cleanplate-comparison500.png"
+      ],
+      "live_playback": "not_completed",
+      "static_full_source_and_encoded_100_percent": true,
+      "detail_200_percent": true,
+      "four_backgrounds_200_percent": true,
+      "eyelid_first_gaze_all_six_levels_300_percent": true,
+      "all_gaze_lid_combinations_visually_viewed": false
+    },
+    {
+      "state": "failed",
+      "body_unique_frames": 21,
+      "context_frames": [
+        0,
+        20,
+        20
+      ],
+      "detail_frames": [
+        0,
+        20,
+        7,
+        14
+      ],
+      "detail_roi_2x": [
+        89,
+        169,
+        181,
+        258
+      ],
+      "max_body_delta_frame": 20,
+      "has_blink": true,
+      "duration_ms": 5891,
+      "loopStart": 21,
+      "mode": "enter_then_hold",
+      "body_static": "no_specific_defect_found_in_reviewed_frames",
+      "eyes_static": "rework_required",
+      "overall": "rework_required",
+      "findings": [
+        "M01",
+        "V01"
+      ],
+      "notes": "卡与手共同上提，腕端、卡片边缘和故障符号已看；未见明确分离。",
+      "actually_viewed_evidence": [
+        "evidence/failed-source-encoded.png",
+        "evidence/failed-decoded-detail200.png",
+        "evidence/failed-encoded-four-bg200.png",
+        "evidence/failed-decoded-lids300.png"
+      ],
+      "live_playback": "not_completed",
+      "static_full_source_and_encoded_100_percent": true,
+      "detail_200_percent": true,
+      "four_backgrounds_200_percent": true,
+      "eyelid_first_gaze_all_six_levels_300_percent": true,
+      "all_gaze_lid_combinations_visually_viewed": false
+    }
+  ],
+  "actually_visually_opened_files": [
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/default_work-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/default_work-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/default_work-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/default_work-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/failed-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/failed-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/failed-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/failed-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/idle-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/idle-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/idle-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/idle-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/question_for_user-cleanplate-comparison500.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/question_for_user-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/question_for_user-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/question_for_user-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/question_for_user-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/read_file-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/read_file-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/read_file-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/read_file-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/read_web-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/read_web-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/read_web-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/read_web-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/respond-cleanplate-comparison500.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/respond-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/respond-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/respond-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/respond-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/task_complete-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/task_complete-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/task_complete-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/thinking-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/thinking-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/thinking-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/thinking-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/verify-cleanplate-comparison500.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/verify-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/verify-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/verify-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/verify-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/view_image-cleanplate-comparison500.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/view_image-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/view_image-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/view_image-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/view_image-source-encoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/write_file-decoded-detail200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/write_file-decoded-lids300.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/write_file-encoded-four-bg200.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-independent-review/motion-R01/evidence/write_file-source-encoded.png"
+  ],
+  "programmatically_read_and_decoded_images": [
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/inputs/source/01-idle.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/idle/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/idle.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/idle.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/idle/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/idle-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/idle-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/idle/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/inputs/source/02-thinking.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/thinking/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/thinking.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/thinking.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/thinking/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/thinking-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/thinking-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/thinking/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/inputs/source/03-read_file.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/read_file/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/read_file.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/read_file.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/read_file/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/read_file-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/read_file-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/read_file/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/inputs/source/04-view_image.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/view_image/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/view_image.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/view_image.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/view_image/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/view_image-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/view_image-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/view_image/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/inputs/source/05-write_file.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/write_file/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/write_file.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/write_file.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/write_file/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/write_file-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/write_file-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/write_file/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/inputs/source/06-verify.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/verify/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/verify.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/verify.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/verify/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/verify-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/verify-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/verify/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/inputs/source/07-read_web.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/read_web/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/read_web.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/read_web.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/read_web/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/read_web-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/read_web-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/read_web/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/inputs/source/08-default_work.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/default_work/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/default_work.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/default_work.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/default_work/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/default_work-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/default_work-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/default_work/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/inputs/source/09-respond.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/respond/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/respond.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/respond.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/respond/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/respond-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/respond-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/respond/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/inputs/source/10-task_complete.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/task_complete/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/task_complete.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/task_complete.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/task_complete/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/inputs/source/11-question_for_user.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/question_for_user/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/question_for_user.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/question_for_user.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/question_for_user/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/question_for_user-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/question_for_user-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/question_for_user/eyes-allowed-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/inputs/source/12-failed.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/failed/source-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/failed.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/failed.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/failed/allowed-mask-2x.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/failed-eyes.webp",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/motion/failed-eyes.decoded.png",
+    "/Users/developer/Desktop/yukio-cloud-handoff/docs/plans/qianxia-skin-concepts/qianxia-motion-R01/rigs/failed/eyes-allowed-2x.png"
+  ],
+  "code_read": [
+    "tools/eyes.py 全文",
+    "tools/build_motion.py 24–225 及文件开头",
+    "tools/Preview.swift 15–75",
+    "index.html 末尾播放 JS"
+  ],
+  "machine_reports_read_after_visual": [
+    "failed-machine.json",
+    "question_for_user-machine.json",
+    "task_complete-machine.json",
+    "view_image-machine.json",
+    "read_web-machine.json",
+    "verify-machine.json",
+    "thinking-machine.json",
+    "write_file-machine.json",
+    "respond-machine.json",
+    "idle-machine.json",
+    "default_work-machine.json",
+    "button-machine.json",
+    "read_file-machine.json",
+    "encoded-validation.json"
+  ],
+  "not_completed": [
+    "live playback all states",
+    "all body frames visually examined",
+    "all gaze x all six eyelid combinations visually examined",
+    "random blink clock and state switching runtime",
+    "Windows native runtime"
+  ],
+  "unmodified_candidate": true
+}

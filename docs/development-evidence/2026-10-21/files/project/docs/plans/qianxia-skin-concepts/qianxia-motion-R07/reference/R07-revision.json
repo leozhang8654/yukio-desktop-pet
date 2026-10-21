@@ -1,0 +1,28 @@
+{
+  "parent": "R06",
+  "date": "2026-10-12",
+  "user_feedback": [
+    "眨眼动作很卡，每一帧间隔很长",
+    "举牌的动作仅为手部放大，很怪",
+    "回答与遇到问题手部动作就直接不要了",
+    "等待回应按下按钮改为循环动作，5秒一次"
+  ],
+  "changes": {
+    "blink_levels": "6 -> 12 lid poses (manifest blink.levels=12; production BlinkClock reads levels from the manifest)",
+    "lash_colour": "eyes.py: moving lash keeps the source shading; iris-tinted (teal/yellow) edge pixels use the ink colour so a closed eye carries no iris colour",
+    "preview_players": "index.html/compare.html: production BlinkClock lid curve and double-blink odds; repaint only on change (eye box only for lid-only changes); atlases decoded once into ImageBitmap; eye atlases pre-warmed. Preview.swift: same curve, levels from manifest",
+    "respond_failed": "no hand transform (pivots removed); gaze-only entry kept",
+    "question_for_user": "loop, 5.0 s: look at button 0.30-0.38 s, press 0.55-0.70, hold to 0.86, release to 1.16, look back 1.35-1.43, wait",
+    "loop_length": "remainder of 33 ms rounding added to the longest hold so loop totals equal the design duration"
+  },
+  "unchanged": "inputs; body atlases of idle, thinking, read_file, view_image, write_file, verify, read_web, default_work, task_complete are byte-identical to R06",
+  "measurements": {
+    "compare_page_full_repaint_cold_ms": 39.4,
+    "lid_only_repaint_warm_ms_cpu": 0.04,
+    "blink_levels_at_60fps": "0 1 3 7 10 12 12 12 12 11 9 6 4 2 0"
+  },
+  "machine_checks": "review/encoded-validation.json all 12 passed",
+  "continuous_visual_review": "not done by a person",
+  "independent_review": "not done",
+  "production_resources_replaced": false
+}

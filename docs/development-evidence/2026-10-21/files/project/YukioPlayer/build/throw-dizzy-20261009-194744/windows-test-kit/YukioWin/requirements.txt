@@ -1,0 +1,3 @@
+# Pillow 用于图像；Windows UI Automation 用于只读识别当前聊天网页和扩展侧栏。
+pillow>=9.0
+uiautomation>=2.0,<3; sys_platform == "win32"

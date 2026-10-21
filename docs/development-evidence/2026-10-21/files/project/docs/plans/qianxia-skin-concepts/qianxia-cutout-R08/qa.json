@@ -1,0 +1,457 @@
+{
+  "status": "independent_static_cutouts_passed_awaiting_user_acceptance",
+  "round": "R08",
+  "user_request": "探针尖端左侧少一块",
+  "changed_parts": [
+    "verify/hand-and-probe"
+  ],
+  "source_images_unchanged": 12,
+  "static_parts": 34,
+  "independent_hands": "../qianxia-independent-review/R08-hands/independent-review.md",
+  "independent_eyes_unchanged_hash_reuse": "../qianxia-independent-review/R04-eyes/independent-review.md",
+  "bindings": [
+    {
+      "review": "R04-eyes",
+      "file": "masks/default_work/iris-left.png",
+      "sha256": "3580384d6d21bd6a76f918904722a2a8f425a5eacba3e4fcb217c9658bf00ed7"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "masks/default_work/iris-right.png",
+      "sha256": "ebeda7e21f79d7662a76628624d1be96a532df15a21fcdc15d13f18c035fdc92"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "masks/failed/iris-left.png",
+      "sha256": "97b7055895c0bf0ea7b6563e1df0faa92521bdbfbd4da3e7d642f9e5421ae70d"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "masks/failed/iris-right.png",
+      "sha256": "b65d48b723ce4a9c4c6a8bba766b57f2257181a4cbf27ca01d24902e00dd69cf"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "masks/idle/iris-left.png",
+      "sha256": "b3eb563cb70728bc0e513b1938f0ac9446b8a88ae0475aecf19e33cec9e96841"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "masks/idle/iris-right.png",
+      "sha256": "258578ffd1a0922dee08f1e8f4378ff5bc5a63a9f1965724aec511b27131ff9b"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "masks/question_for_user/iris-left.png",
+      "sha256": "07f25daca865cc53479412e7f0405d5d256fbca1d499dd7e0397ec9f71cb24c1"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "masks/question_for_user/iris-right.png",
+      "sha256": "fb0c1484976f62b55437eb2cb80407346a7b78188f794568ffd8161557c7712f"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "masks/read_file/iris-left.png",
+      "sha256": "c83d45064966b1001865dee7ecf40f0a9f01944e0afc58a98e730cf08c1d22db"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "masks/read_file/iris-right.png",
+      "sha256": "d83ea7b65c7ac117241c0f3974288ab57293ef2bcee9e05bac5aac97d6edd09e"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "masks/read_web/iris-left.png",
+      "sha256": "404d2111bcf59dfdc85df5f6d0f267684055f5c86fae072ce830a9beb989b088"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "masks/read_web/iris-right.png",
+      "sha256": "7935f071c61cb862296f98ec64c7024a5fc990cf57b783c8fc5708d55d3f4d3c"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "masks/respond/iris-left.png",
+      "sha256": "31a899a01b7f3dbf4fff4a82d61ed120517b7996358229e5fd4b1977c7a2c789"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "masks/respond/iris-right.png",
+      "sha256": "3e599ba55c344ecfc9985b38697d39e8c3749a26d774ae905b6dfd63fd741080"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "masks/thinking/iris-left.png",
+      "sha256": "9a32b65b80f29a33cc7b271c18319cd0de317960244c6dc8b55899e8b5d09ecc"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "masks/thinking/iris-right.png",
+      "sha256": "553c3bca4d3856ec926229e6168129e39582fb1b4c783fa4be3042bf53df1a08"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "masks/verify/iris-left.png",
+      "sha256": "45bbf57ff6628806feb418eec8ede53b1fa88ccecfe3518c665d3c451bd0a433"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "masks/verify/iris-right.png",
+      "sha256": "6eae388e5e9d9aa2e339d095fab8f5bed846f59ab67b7e17ffe6815594572ff0"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "masks/view_image/iris-left.png",
+      "sha256": "cc1af77b926a393fc998028cb3a814dd98d669fd24406405a91651ff5926f2a1"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "masks/view_image/iris-right.png",
+      "sha256": "955530718eeee7ff28c82161f5a4f4fa53c245b098dbc721f7c38f550e5d4c61"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "masks/write_file/iris-left.png",
+      "sha256": "e67f1ea23206f8aed3539af8172860d859df22798dbdf7c9091ecdcbf066597b"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "masks/write_file/iris-right.png",
+      "sha256": "ad85eef5beaecc15555eeac4c593723e825f466f15d7f1a5954536d4a2abd2e4"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "parts/default_work/iris-left.png",
+      "sha256": "b5db31b6df158671e286f545ec4eb9caa1905e859c2ff5881d9d484495ef0cec"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "parts/default_work/iris-right.png",
+      "sha256": "cf56a7b57832921636e1c97fdcfbeebef068d89d92c4db11e1dde2a673812b96"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "parts/failed/iris-left.png",
+      "sha256": "e8803dab50dd504bae8e0df2d07bd2d9601748f9d9c728ec4b85115897cc5925"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "parts/failed/iris-right.png",
+      "sha256": "8c64316926768e81e612fe6d1e6069ca623637b238392b3cfe8079e0580f3013"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "parts/idle/iris-left.png",
+      "sha256": "feec4e1c137db6cba5640e7d3752dd34b085d6ecaf6667e796fd7933a81953ea"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "parts/idle/iris-right.png",
+      "sha256": "ad890cf8832beeebbf9c55065a1b216c6cbb408cfe1cffc3eb499acbf009954d"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "parts/question_for_user/iris-left.png",
+      "sha256": "fbae1256be5d073f4e3f30a50cf70aa37452da34bfff34830e687f756ad59d9e"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "parts/question_for_user/iris-right.png",
+      "sha256": "be5451f4b47a79a25eae55d7c189c88f9f9588cd317ccec3c25b4ac4bea77aa9"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "parts/read_file/iris-left.png",
+      "sha256": "4cf271d7bedff31d67f0054f6b605f46a741ecf1922a3460b80eec762cad1edc"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "parts/read_file/iris-right.png",
+      "sha256": "9c9e3913826a57267428ba92c9a1f061d7dc3f469b98a8add19c138add670611"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "parts/read_web/iris-left.png",
+      "sha256": "288100101efd75a42e526d20ead952520f91fe267f50cb231629f2acc90464f0"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "parts/read_web/iris-right.png",
+      "sha256": "7c77382b02f1fa8be6d831aa3bb81e2abf44c6624c24b4d08bd76f4634416633"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "parts/respond/iris-left.png",
+      "sha256": "b63fb23bf74d1c4a2f9b8a5e957c4478801e9212f7434f5c30f2356f1b126dc1"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "parts/respond/iris-right.png",
+      "sha256": "4bbd026346bc02115b6df73725089d2c894d674e0c0861e73f36f22889ba7e32"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "parts/thinking/iris-left.png",
+      "sha256": "9e7ffe746a05f1986b249ff7ada31afb511aad7205a9d364f64784d984d10040"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "parts/thinking/iris-right.png",
+      "sha256": "f7ce652f64bb3163670238731e572f4875acb0db0477370d5f926018eff41b20"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "parts/verify/iris-left.png",
+      "sha256": "1afcdd2c0e311326929ff7e63dbd23bf94711078f7247c63c47b5f5857e15d0e"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "parts/verify/iris-right.png",
+      "sha256": "d70d08beefd24f68c3475182dedacd8cb9c25d17ca6f724ec032ac149b3f8552"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "parts/view_image/iris-left.png",
+      "sha256": "8e8648d42a7f59404ab7666652486e41476cf3e12b641f2142bb0cc3517c1cf1"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "parts/view_image/iris-right.png",
+      "sha256": "0c60e5c9b29c53fdbb65840d5d92d88259c8d6855ce088eb376bdc1635a1fca2"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "parts/write_file/iris-left.png",
+      "sha256": "4fd406ab90af2451c0fab8471f7aaea5c72b7ffef8c00fac235cede78182959f"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "parts/write_file/iris-right.png",
+      "sha256": "7c5b6701186497fe90865b29094989ade602c8d4d9604a09d5d376f8fa400d5e"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "source/01-idle.png",
+      "sha256": "9c7769ab20bf96f77e8de0d6b6e78ee8e061ed5eb311b87575774df4f12be0b0"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "source/02-thinking.png",
+      "sha256": "7309dd9974173c4976588387feef61241470e058cb2c3580c4976bff41377536"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "source/03-read_file.png",
+      "sha256": "61fbd3f92f9beae25e14fde406d4b1cf5e5a34f61c0a59c6bc366b405e95671e"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "source/04-view_image.png",
+      "sha256": "2b5b3c8e23c672f9286e0c77e62c4f53f96ae522b9efc92b3b2b48c9d7d7dfd5"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "source/05-write_file.png",
+      "sha256": "01ce56bb94e11e39844e803c2062cc2e273c7135d3349134e9a3b1cc1647e17e"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "source/06-verify.png",
+      "sha256": "cbe31ee0637734af510385b69c876e9cf4969023c9e84fbecc65e8fd115274fc"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "source/07-read_web.png",
+      "sha256": "ce8655468092eafa020efd186e56d5e02849d54bd4eed10781cc40e78d7cb233"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "source/08-default_work.png",
+      "sha256": "bb3e21215e279b1e41403c384c4f5f586237ecdf4f6eaea81f283f0a10118d21"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "source/09-respond.png",
+      "sha256": "7b6a19de9a355e3dabac281edf2ce8654ea29c9477453625b8f02441a32536fd"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "source/11-question_for_user.png",
+      "sha256": "7dd9ffbf1600e954ed5718c970cf8648d4fe3695d82634355ac3054f8b9f6172"
+    },
+    {
+      "review": "R04-eyes",
+      "file": "source/12-failed.png",
+      "sha256": "970cda2adf757e5320f202b93f1bf86f7c88d6bde303e8e7ccdb3dd553e37ace"
+    },
+    {
+      "review": "R08-hands",
+      "file": "masks/default_work/trackball-hand.png",
+      "sha256": "64da2799b8189c9676f28d9f07e8471a7a0b1c34257344fd7c8abf1835c35a86"
+    },
+    {
+      "review": "R08-hands",
+      "file": "masks/failed/hand-and-card.png",
+      "sha256": "c4ff9d4e62793c82bc202cbd0ea5492406371cb3b61bff2fa1310265a20d36f0"
+    },
+    {
+      "review": "R08-hands",
+      "file": "masks/idle/orb.png",
+      "sha256": "672edf22eb071eaf178f949fe422be7c28524c817744e2d869f8855106986122"
+    },
+    {
+      "review": "R08-hands",
+      "file": "masks/idle/touching-hand.png",
+      "sha256": "46eeb787f46cbe0280d15160aed02b981f67fbb3656c6869b19cc8a41de3d536"
+    },
+    {
+      "review": "R08-hands",
+      "file": "masks/question_for_user/button-cap.png",
+      "sha256": "86ccc238fc8cbb38644a70be0d4a6c6ac2e233431b273cb2c2d5f37c262a3684"
+    },
+    {
+      "review": "R08-hands",
+      "file": "masks/question_for_user/pressing-hand.png",
+      "sha256": "2c99f9396929dc5f7b753b91931e7ddcfe29b46ccb630daaed4bf509e90efbe2"
+    },
+    {
+      "review": "R08-hands",
+      "file": "masks/read_web/pointing-hand.png",
+      "sha256": "316d9df2ec4158f1c7114329233a0150c03665c27ec3c25c0c357d3b12bd32f1"
+    },
+    {
+      "review": "R08-hands",
+      "file": "masks/respond/hand-and-card.png",
+      "sha256": "70478eefa4068a011c72b89de1471537936936770cb6883337ce74e179dcd4f0"
+    },
+    {
+      "review": "R08-hands",
+      "file": "masks/verify/hand-and-probe.png",
+      "sha256": "f9e9691a00c981c4092a765fd4d6e89116da93e5fe19a9ac6b6b2f4cb062d11a"
+    },
+    {
+      "review": "R08-hands",
+      "file": "masks/view_image/hand-and-stylus.png",
+      "sha256": "81dd19e6cf8ff2c8e04705e23679fbe1898486db3cdc9704672199101fe062c5"
+    },
+    {
+      "review": "R08-hands",
+      "file": "masks/write_file/left-hand.png",
+      "sha256": "cd882f6e2530600c266519750bf303b0f3dd9c0260707be996a147cda10256de"
+    },
+    {
+      "review": "R08-hands",
+      "file": "masks/write_file/right-hand.png",
+      "sha256": "2d2537c8e137de77f48ff5fa934730458614336d05b9641989a6de3de64d3599"
+    },
+    {
+      "review": "R08-hands",
+      "file": "parts/default_work/trackball-hand.png",
+      "sha256": "67c2c5d61bc4155ad8fa234775e21dbe07f900b03d2fa7df4e6f3828142371ab"
+    },
+    {
+      "review": "R08-hands",
+      "file": "parts/failed/hand-and-card.png",
+      "sha256": "bc2f995c75fac032230f2f5906471e86e63a61d4dedd9dbfcd73a0f0aa73e076"
+    },
+    {
+      "review": "R08-hands",
+      "file": "parts/idle/orb.png",
+      "sha256": "ca35b565d60b44cca1feb8b0616b296e466a91a6d095329ed12581d5cef45e3f"
+    },
+    {
+      "review": "R08-hands",
+      "file": "parts/idle/touching-hand.png",
+      "sha256": "b2dc5f3feefaac7d22db5076bc064c390545d8b0a3233a9639a6faced1d18616"
+    },
+    {
+      "review": "R08-hands",
+      "file": "parts/question_for_user/button-cap.png",
+      "sha256": "959e1e7346157efa004ec92a3079ec2826538cca405feda6bdf040a2aa1f9e97"
+    },
+    {
+      "review": "R08-hands",
+      "file": "parts/question_for_user/pressing-hand.png",
+      "sha256": "74a02086db8d5d14e632df37ade1e255ceb2d42e11600f53bd3e5adfd6b3cd29"
+    },
+    {
+      "review": "R08-hands",
+      "file": "parts/read_web/pointing-hand.png",
+      "sha256": "25a90f14308fc8aaa60b123d7395bf1c820bbae2cefb3e3bb58588f9864cd7a4"
+    },
+    {
+      "review": "R08-hands",
+      "file": "parts/respond/hand-and-card.png",
+      "sha256": "f78de29ba0a28070595ec92a7e9eb319601430c92f777945b5b8e114bd3f24ef"
+    },
+    {
+      "review": "R08-hands",
+      "file": "parts/verify/hand-and-probe.png",
+      "sha256": "f5050626e024db4ce2372b783aba1bc4c0d588b0f5df9e6f80eb0b4d494a4caa"
+    },
+    {
+      "review": "R08-hands",
+      "file": "parts/view_image/hand-and-stylus.png",
+      "sha256": "29cfb89244b67df901f29f87fb8f20093f67df5e8d6852ea60b84e6595837cb7"
+    },
+    {
+      "review": "R08-hands",
+      "file": "parts/write_file/left-hand.png",
+      "sha256": "2fa396c3e05071e17586dcab88e698b5ecfcd239d53cbfe9d1e415a8c702a326"
+    },
+    {
+      "review": "R08-hands",
+      "file": "parts/write_file/right-hand.png",
+      "sha256": "ed812b8c13222111fb8bc2d03db4000f1d15075c91ed9a5912a23a80fa59fe51"
+    },
+    {
+      "review": "R08-hands",
+      "file": "source/01-idle.png",
+      "sha256": "9c7769ab20bf96f77e8de0d6b6e78ee8e061ed5eb311b87575774df4f12be0b0"
+    },
+    {
+      "review": "R08-hands",
+      "file": "source/04-view_image.png",
+      "sha256": "2b5b3c8e23c672f9286e0c77e62c4f53f96ae522b9efc92b3b2b48c9d7d7dfd5"
+    },
+    {
+      "review": "R08-hands",
+      "file": "source/05-write_file.png",
+      "sha256": "01ce56bb94e11e39844e803c2062cc2e273c7135d3349134e9a3b1cc1647e17e"
+    },
+    {
+      "review": "R08-hands",
+      "file": "source/06-verify.png",
+      "sha256": "cbe31ee0637734af510385b69c876e9cf4969023c9e84fbecc65e8fd115274fc"
+    },
+    {
+      "review": "R08-hands",
+      "file": "source/07-read_web.png",
+      "sha256": "ce8655468092eafa020efd186e56d5e02849d54bd4eed10781cc40e78d7cb233"
+    },
+    {
+      "review": "R08-hands",
+      "file": "source/08-default_work.png",
+      "sha256": "bb3e21215e279b1e41403c384c4f5f586237ecdf4f6eaea81f283f0a10118d21"
+    },
+    {
+      "review": "R08-hands",
+      "file": "source/09-respond.png",
+      "sha256": "7b6a19de9a355e3dabac281edf2ce8654ea29c9477453625b8f02441a32536fd"
+    },
+    {
+      "review": "R08-hands",
+      "file": "source/11-question_for_user.png",
+      "sha256": "7dd9ffbf1600e954ed5718c970cf8648d4fe3695d82634355ac3054f8b9f6172"
+    },
+    {
+      "review": "R08-hands",
+      "file": "source/12-failed.png",
+      "sha256": "970cda2adf757e5320f202b93f1bf86f7c88d6bde303e8e7ccdb3dd553e37ace"
+    }
+  ],
+  "user_approval": "pending",
+  "animation": "not_started_pending_user_cutout_approval",
+  "installation": "not_performed"
+}

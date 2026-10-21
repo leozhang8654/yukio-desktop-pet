@@ -1,0 +1,90 @@
+{
+  "hashes_match": true,
+  "file_count": 33,
+  "parts": [
+    {
+      "part": "default_work/trackball-hand",
+      "components": 1,
+      "soft_mask_pixels": 432,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "failed/hand-and-card",
+      "components": 1,
+      "soft_mask_pixels": 636,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "idle/orb",
+      "components": 1,
+      "soft_mask_pixels": 317,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "idle/touching-hand",
+      "components": 1,
+      "soft_mask_pixels": 436,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "question_for_user/button-cap",
+      "components": 1,
+      "soft_mask_pixels": 210,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "question_for_user/pressing-hand",
+      "components": 1,
+      "soft_mask_pixels": 292,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "read_web/pointing-hand",
+      "components": 1,
+      "soft_mask_pixels": 300,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "respond/hand-and-card",
+      "components": 1,
+      "soft_mask_pixels": 752,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "verify/hand-and-probe",
+      "components": 1,
+      "soft_mask_pixels": 614,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "view_image/hand-and-stylus",
+      "components": 1,
+      "soft_mask_pixels": 577,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "write_file/left-hand",
+      "components": 1,
+      "soft_mask_pixels": 447,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    },
+    {
+      "part": "write_file/right-hand",
+      "components": 1,
+      "soft_mask_pixels": 403,
+      "selected_source_alpha_zero_pixels": 0,
+      "changed_selected_rgb_pixels": 0
+    }
+  ]
+}

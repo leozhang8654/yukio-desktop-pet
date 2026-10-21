@@ -1,0 +1,13 @@
+Use case: precise-object-edit.
+Input image 1 is the exact artwork to edit. The user says the face STILL looks too FLAT and horizontally squashed after the previous correction. This edit MUST visibly improve facial proportions, while keeping a cute chibi character.
+CHANGE ONLY THE FACE PROPORTIONS AND THE MINIMAL ADJACENT HAIR/CHIN/NECK pixels needed for a natural connection.
+Current face is a very wide, shallow flattened oval, with eyes too close to the chin. Make it a softly rounded egg-like CHIBI face with distinctly more vertical room:
+- Increase the visible face height about 18-22%, especially the distance from eye line to chin.
+- Reduce cheek-to-cheek width about 8-10%, preserving soft rounded cheeks.
+- Move chin down enough to create a real rounded lower face; place tiny mouth naturally between eye line and chin, not pressed into the jaw.
+- Slightly bring eyes closer together (about 5-7%) if needed to fit narrower face; preserve original gold/cyan irises, eye shape, eyelash style and relaxed attentive expression. Do not shrink eyes substantially.
+- Adjust fringe tips or face-framing side hair only enough that they do not squash the improved face. Overall mint hairstyle, ponytail, cyan bow and all hairclip shapes/colors stay the same.
+- If neckline needs minor adjustment to connect the lower jaw, preserve white collar and pink tie identity. Do not elongate neck.
+The goal is OBVIOUSLY less pancake-flat than the input, but still the same youthful round chibi character, not a realistic adult, not a long narrow sharp face, no pointy chin.
+PRESERVE EVERYTHING ELSE: same desk, trackball and hand, monitor back facing viewer with screen toward character, rabbit on viewer-left desk, two storage boxes under viewer-right desk, already reduced shoe sizes, seated body, outfit, arms, hands, pose, camera, linework, colors, transparent background. Do not put the old storage boxes back on the left. Do not change the monitor orientation or cover the face with it. No new objects, text, arrows, labels or multiple panels.
+One edited PNG, true alpha transparent background.

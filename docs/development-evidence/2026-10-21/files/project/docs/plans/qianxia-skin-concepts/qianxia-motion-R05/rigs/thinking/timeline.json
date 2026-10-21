@@ -1,0 +1,2182 @@
+{
+  "duration_seconds": 8,
+  "samples": [
+    {
+      "time": 0.0,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.03333333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.06666666666666667,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.1,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.13333333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.16666666666666666,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.2,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.23333333333333334,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.26666666666666666,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.3,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.3333333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.36666666666666664,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.4,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.43333333333333335,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.4666666666666667,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.5,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.5333333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.5666666666666667,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.6,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.6333333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.6666666666666666,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.7,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.7333333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.7666666666666666,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.8,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.8333333333333334,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.8666666666666667,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.9,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.9333333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 0.9666666666666667,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.0,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.0333333333333332,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.0666666666666667,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.1,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.1333333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.1666666666666667,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.2,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.2333333333333334,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.2666666666666666,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.3,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.3333333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.3666666666666667,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.4,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.4333333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.4666666666666666,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.5,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.5333333333333332,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.5666666666666667,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.6,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.6333333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.6666666666666667,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.7,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.7333333333333334,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.7666666666666666,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.8,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.8333333333333333,
+      "transforms": {},
+      "gaze": [
+        0.3037037037037022,
+        -0.12148148148148087
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.8666666666666667,
+      "transforms": {},
+      "gaze": [
+        1.0962962962962974,
+        -0.438518518518519
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.9,
+      "transforms": {},
+      "gaze": [
+        2.199999999999998,
+        -0.8799999999999991
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.9333333333333333,
+      "transforms": {},
+      "gaze": [
+        3.4370370370370393,
+        -1.3748148148148158
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 1.9666666666666666,
+      "transforms": {},
+      "gaze": [
+        4.629629629629629,
+        -1.8518518518518516
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.0,
+      "transforms": {},
+      "gaze": [
+        5.600000000000003,
+        -2.240000000000001
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.033333333333333,
+      "transforms": {},
+      "gaze": [
+        6.170370370370372,
+        -2.4681481481481486
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.0666666666666664,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.1,
+      "transforms": {},
+      "gaze": [
+        6.249999999999999,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.1333333333333333,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.1666666666666665,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.2,
+      "transforms": {},
+      "gaze": [
+        6.250000000000001,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.2333333333333334,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.2666666666666666,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.3,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.3333333333333335,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.3666666666666667,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.4,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.433333333333333,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.466666666666667,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.5,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.533333333333333,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.5666666666666664,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.6,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.6333333333333333,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.6666666666666665,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.7,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.7333333333333334,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.7666666666666666,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.8,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.8333333333333335,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.8666666666666667,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.9,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.933333333333333,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 2.966666666666667,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.0,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.033333333333333,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.0666666666666664,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.1,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.1333333333333333,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.1666666666666665,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.2,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.2333333333333334,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.2666666666666666,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.3,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.3333333333333335,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.3666666666666667,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.4,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.433333333333333,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.466666666666667,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.5,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.533333333333333,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.5666666666666664,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.6,
+      "transforms": {},
+      "gaze": [
+        6.25,
+        -2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.6333333333333333,
+      "transforms": {},
+      "gaze": [
+        6.035665294924555,
+        -2.414266117969822
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.6666666666666665,
+      "transforms": {},
+      "gaze": [
+        5.461248285322363,
+        -2.1844993141289453
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.6999999999999997,
+      "transforms": {},
+      "gaze": [
+        4.629629629629638,
+        -1.8518518518518552
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.7333333333333334,
+      "transforms": {},
+      "gaze": [
+        3.6436899862825776,
+        -1.4574759945130311
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.7666666666666666,
+      "transforms": {},
+      "gaze": [
+        2.606310013717423,
+        -1.042524005486969
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.8,
+      "transforms": {},
+      "gaze": [
+        1.6203703703703742,
+        -0.6481481481481497
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.8333333333333335,
+      "transforms": {},
+      "gaze": [
+        0.7887517146776366,
+        -0.3155006858710546
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.8666666666666667,
+      "transforms": {},
+      "gaze": [
+        0.2143347050754446,
+        -0.08573388203017784
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.9,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.933333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 3.966666666666667,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.0,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.033333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.066666666666666,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.1,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.133333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.166666666666667,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.2,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.233333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.266666666666667,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.3,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.333333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.366666666666666,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.4,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.433333333333334,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.466666666666667,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.5,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.533333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.566666666666666,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.6,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.633333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.666666666666667,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.7,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.733333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.766666666666667,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.8,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.833333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.866666666666666,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.9,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.933333333333334,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 4.966666666666667,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.0,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.033333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.066666666666666,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.1,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.133333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.166666666666667,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.2,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.233333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.266666666666667,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.3,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.333333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.366666666666666,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.4,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.433333333333334,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.466666666666667,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.5,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.533333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.566666666666666,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.6,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.633333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.666666666666667,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.7,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.733333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.766666666666667,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.8,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.833333333333333,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.866666666666666,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.9,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.933333333333334,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 5.966666666666667,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.0,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.033333333333333,
+      "transforms": {},
+      "gaze": [
+        -0.12860082304526677,
+        0.08573388203017784
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.066666666666666,
+      "transforms": {},
+      "gaze": [
+        -0.47325102880658176,
+        0.31550068587105456
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.1,
+      "transforms": {},
+      "gaze": [
+        -0.9722222222222174,
+        0.6481481481481449
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.133333333333333,
+      "transforms": {},
+      "gaze": [
+        -1.5637860082304456,
+        1.0425240054869638
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.166666666666667,
+      "transforms": {},
+      "gaze": [
+        -2.1862139917695544,
+        1.4574759945130364
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.2,
+      "transforms": {},
+      "gaze": [
+        -2.777777777777782,
+        1.8518518518518552
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.233333333333333,
+      "transforms": {},
+      "gaze": [
+        -3.2767489711934186,
+        2.1844993141289453
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.266666666666667,
+      "transforms": {},
+      "gaze": [
+        -3.6213991769547333,
+        2.414266117969822
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.3,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.333333333333333,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.366666666666666,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.4,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.433333333333334,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.466666666666667,
+      "transforms": {},
+      "gaze": [
+        -3.7499999999999996,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.5,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.533333333333333,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.566666666666666,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.6,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.633333333333333,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.666666666666667,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.7,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.733333333333333,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.766666666666667,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.8,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.833333333333333,
+      "transforms": {},
+      "gaze": [
+        -3.7500000000000004,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.866666666666666,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.8999999999999995,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.933333333333334,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 6.966666666666667,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.0,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.033333333333333,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.066666666666666,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.1,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.133333333333333,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.166666666666667,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.2,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.233333333333333,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.266666666666667,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.3,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.333333333333333,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.366666666666666,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.3999999999999995,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.433333333333334,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.466666666666667,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.5,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.533333333333333,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.566666666666666,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.6,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.633333333333333,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.666666666666667,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.7,
+      "transforms": {},
+      "gaze": [
+        -3.75,
+        2.5
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.733333333333333,
+      "transforms": {},
+      "gaze": [
+        -3.6213991769547333,
+        2.414266117969822
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.766666666666667,
+      "transforms": {},
+      "gaze": [
+        -3.2767489711934186,
+        2.1844993141289453
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.8,
+      "transforms": {},
+      "gaze": [
+        -2.777777777777782,
+        1.8518518518518552
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.833333333333333,
+      "transforms": {},
+      "gaze": [
+        -2.186213991769554,
+        1.457475994513036
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.866666666666666,
+      "transforms": {},
+      "gaze": [
+        -1.5637860082304622,
+        1.0425240054869747
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.8999999999999995,
+      "transforms": {},
+      "gaze": [
+        -0.972222222222232,
+        0.6481481481481546
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.933333333333334,
+      "transforms": {},
+      "gaze": [
+        -0.47325102880658193,
+        0.3155006858710546
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 7.966666666666667,
+      "transforms": {},
+      "gaze": [
+        -0.12860082304526677,
+        0.08573388203017784
+      ],
+      "maximum_displacement_display_px": 0
+    },
+    {
+      "time": 8.0,
+      "transforms": {},
+      "gaze": [
+        0.0,
+        0.0
+      ],
+      "maximum_displacement_display_px": 0
+    }
+  ],
+  "display_size": [
+    192,
+    208
+  ],
+  "source_scale": 0.31867219917012446,
+  "pivots_source_px": {},
+  "maximum_displacement_display_px": 0,
+  "peak_sample": 0
+}

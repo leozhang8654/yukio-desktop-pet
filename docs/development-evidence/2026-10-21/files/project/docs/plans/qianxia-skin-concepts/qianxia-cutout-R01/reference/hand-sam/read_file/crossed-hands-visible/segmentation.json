@@ -1,0 +1,42 @@
+{
+  "state": "read_file",
+  "part": "crossed-hands-visible",
+  "input_file": "source/03-read_file.png",
+  "input_sha256": "61fbd3f92f9beae25e14fde406d4b1cf5e5a34f61c0a59c6bc366b405e95671e",
+  "box": [
+    523,
+    788,
+    654,
+    834
+  ],
+  "positive_points": [
+    [
+      577,
+      814
+    ]
+  ],
+  "negative_points": [
+    [
+      571,
+      765
+    ],
+    [
+      580,
+      854
+    ]
+  ],
+  "sam_scores": [
+    0.7467923760414124,
+    0.883580207824707,
+    0.909410297870636
+  ],
+  "chosen_option": 2,
+  "selected_pixels": 4409,
+  "removed_fully_transparent_pixels": 0,
+  "components": 1,
+  "component_areas": [
+    4409
+  ],
+  "visual_review": "pending",
+  "status": "initial_candidate"
+}

@@ -1,0 +1,53 @@
+{
+  "part": "verify/hand-and-probe",
+  "source_coordinate_roi": [
+    470,
+    738,
+    500,
+    770
+  ],
+  "left_boundary_y_x": [
+    [
+      738,
+      474
+    ],
+    [
+      740,
+      475
+    ],
+    [
+      742,
+      476
+    ],
+    [
+      745,
+      477.8
+    ],
+    [
+      750,
+      481
+    ],
+    [
+      755,
+      484.6
+    ],
+    [
+      760,
+      488.3
+    ],
+    [
+      764,
+      491.8
+    ],
+    [
+      768,
+      495.3
+    ],
+    [
+      770,
+      496.7
+    ]
+  ],
+  "operation": "restore cropped source-visible bevel below collar; mask alpha union only, source RGBA unchanged",
+  "changed_pixels": 129
+}

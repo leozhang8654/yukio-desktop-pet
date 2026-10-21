@@ -1,0 +1,36 @@
+{
+  "raw_size": [
+    1254,
+    1254
+  ],
+  "patch_registration_offset": [
+    -3,
+    -4
+  ],
+  "patch_size": [
+    512,
+    512
+  ],
+  "changed_pixels": 1552,
+  "changed_bbox": [
+    749,
+    736,
+    797,
+    793
+  ],
+  "outside_mask_rgba_changes": 0,
+  "protected_button_rim_roi": [
+    793,
+    775,
+    855,
+    833
+  ],
+  "protected_button_rim_changed_pixels": 0,
+  "mask_nonzero_bbox": [
+    747,
+    736,
+    798,
+    794
+  ],
+  "method": "image_gen crop candidate; patch resized to input crop dimensions; local mask composite; source outside mask copied exactly"
+}

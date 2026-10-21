@@ -1,0 +1,16 @@
+{
+  "round": "R07",
+  "maker": "Claude (this session)",
+  "status": "user-correction candidate; machine checks passed; no dynamic pass",
+  "actual_opened_evidence": [
+    "read_file-encoded-lids.png",
+    "idle-encoded-lids.png"
+  ],
+  "observation": "12 lid steps keep the lash shading from first step to closed; no iris colour when closed. Respond/failed bodies equal the source outside the eye box. Question press frame recurs every 5 s.",
+  "unverified": [
+    "continuous real-speed viewing by a person",
+    "native preview playback (app launched but not frontmost)",
+    "independent review",
+    "real app bubbles"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "round": "R02",
+  "machine": "12/12 PASS",
+  "independent": "R02: M01/M02 closed in inspected static scope; V01 actual playback incomplete; overall not accepted",
+  "actual_playback": "blocked: Mac locked",
+  "installed": false,
+  "production_assets_replaced": false,
+  "approved_R08_inputs_unchanged": true,
+  "independent_report": "../qianxia-independent-review/motion-R02/independent-review.md"
+}

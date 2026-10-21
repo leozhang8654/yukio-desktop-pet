@@ -1,0 +1,46 @@
+{
+  "verified_at": "2026-10-21T05:08:10.406403+00:00",
+  "scope": "Local live project progress website with plain-language stage disclosures; no desktop app changes in this increment",
+  "implemented": [
+    "9 stages with four plain-language explanation sections each",
+    "native accessible expand/collapse controls",
+    "current-stage shortcut",
+    "expanded state retained across filters and status refresh",
+    "loopback read-only progress service"
+  ],
+  "verified": {
+    "http_checks_passed": 10,
+    "javascript_syntax": "node --check passed",
+    "browser_checks": [
+      "expand and collapse details",
+      "keyboard Enter collapse",
+      "filter planned then all preserves history disclosure",
+      "current-stage shortcut opens correct stage",
+      "actual progress-file update refreshes content without closing disclosures",
+      "9 stages each render four explanation sections",
+      "no horizontal overflow in current viewport"
+    ]
+  },
+  "unverified": [
+    "automatic multi-session collector is not implemented or connected yet",
+    "mobile and all viewport combinations",
+    "Windows native operation"
+  ],
+  "issues": [
+    "progress milestones are manually maintained from actual work, not automatically derived from code",
+    "local service must remain running; no boot autostart installed"
+  ],
+  "next_steps": [
+    "implement and verify automatic multi-session collection",
+    "connect actual aggregate collector status without exposing raw chat content"
+  ],
+  "files": {
+    "tools/activity-progress/README.md": "0cebb2749887e84436a01b2edbd5e632bece94b610ebd8371612457606cc7231",
+    "tools/activity-progress/dist/app.js": "a984e39428ed3d63bf6fe1ebdee52d575ee6b1924a87ff11713971c6782e59a0",
+    "tools/activity-progress/dist/index.html": "675379bf4fca875d3578a62758aeadbef1f1fb4bc5bd5c49f29120452b70a51d",
+    "tools/activity-progress/dist/style.css": "4084dac508c4502c27500f36c4887dd8256b73e89c92d1075d138b21e58f3b8b",
+    "tools/activity-progress/progress.json": "17cbc9c17626c2b9f3aa9559e1eba9b1d38ffb0a556788c02de2be846a33428b",
+    "tools/activity-progress/server.py": "35673ef3211571ac728fe3b18991f9548dfb374893063a8d0741fe571686d8ed",
+    "tools/activity-progress/update.py": "0c73970e867dd7b7d1740a2f8de28519df328e300332b329a524cb7a47c07060"
+  }
+}

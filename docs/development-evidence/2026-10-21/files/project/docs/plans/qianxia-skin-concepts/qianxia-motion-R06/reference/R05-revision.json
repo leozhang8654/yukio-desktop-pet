@@ -1,0 +1,17 @@
+{
+  "parent": "R04",
+  "changed_animation_states": [
+    "write_file",
+    "verify",
+    "failed"
+  ],
+  "changes": [
+    "Typing now uses rigid 6.8/7.5 degree wrist-side rotations from lifted pose to original contact pose; no graded finger stretch. Staggered timing unchanged.",
+    "Probe lower wrist anchor moved to actual cuff connection; expanded stationary transition; tool side remains rigid translation.",
+    "Failure card wrist anchored at cuff; pink halo extension excluded below card to prevent sleeve movement."
+  ],
+  "unchanged": "R08 approved input images and cutout masks; other nine states encoded assets byte-identical to R04.",
+  "candidate_only": true,
+  "runtime": "R04 native preview encountered Screen Time limit. R05 not launched; preview bundle identity kept unchanged. No workaround for system restriction.",
+  "continuous_visual_review": "unavailable via current image-only tools; required tests remain unmeasured."
+}

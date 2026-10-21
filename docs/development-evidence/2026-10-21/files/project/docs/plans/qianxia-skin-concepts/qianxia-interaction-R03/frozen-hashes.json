@@ -1,0 +1,16 @@
+{
+  "generation-prompt.txt": "03d787bba018bbad6e825bc6f1da0a684290e71a1d1001484f64fbee96c16b6a",
+  "inspection-hands-sleeves-200.png": "0e1db25eafac5ec56a766d096d4422f8a81d5473a9e572d390fd5f7048409a1b",
+  "alpha-components.json": "b341c4268de73979a46cf95183e8702c369f076a677350b023a7dfaf9583b3b3",
+  "inspection-shoes-200.png": "f5a4960321776de47c6005865b850df9279c74d5799c2394ba7d84611933bd18",
+  "inspection-alpha-support.png": "2c3ef3234b68571c6ad3dbc1336129282227bf549b8329b3adaa25456547be8c",
+  "inspection-bow-200.png": "f615b48dc1a40998ad4cbfbf3dde0e73870530e882736e0fca42746f334c6a1d",
+  "body-support-mask.png": "7cb2a7bfd577341e17e97c0b687178a3a3a7a24ef259dad26afd1724259b394f",
+  "inspection-white.png": "b9abd4d081eb0de5546daf63a7a481a9da2642f2c4425cbf2349739829721f25",
+  "held-generated.png": "2a1442db2b451efefffc14da77d7e4c4934b45b4b803d7832aa1634c3c89c767",
+  "qa/report.json": "fa2e3e3f74b94d472789cede404cf754c7608b7b61a4ad9d853a3c10ac08615e",
+  "reference/user-character-sheet.png": "90172cc49c7f73c09fb7a2e12e6d065f319cbe8d8fe9c627473c57db26824721",
+  "qa/01-body-support-mask/contours.png": "4a62fdf3fa1aefc627c2f01d01c4b88b3215d67b68727feaffa6c1d4102b3f00",
+  "qa/01-body-support-mask/cutouts-four-backgrounds.png": "9d33da0726a36d71c64fae5ce16bd4207bb467809900cdfb3a298ed920be7113",
+  "qa/01-body-support-mask/mask-overlay.png": "4f5628ff375339f3ded251112e512f30531aedbbaf376a26e630997ac1e6ecb9"
+}

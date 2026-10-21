@@ -1,0 +1,693 @@
+{
+  "model": "SAM2.1 hiera tiny",
+  "checkpoint_sha256": "7402e0d864fa82708a20fbd15bc84245c2f26dff0eb43a4b5b93452deb34be69",
+  "config": "configs/sam2.1/sam2.1_hiera_t.yaml",
+  "device": "mps",
+  "torch": "2.14.0",
+  "status": "initial selections only, not approved rigs",
+  "parts": [
+    {
+      "state": "idle",
+      "part": "touching-hand",
+      "input_file": "source/01-idle.png",
+      "input_sha256": "9c7769ab20bf96f77e8de0d6b6e78ee8e061ed5eb311b87575774df4f12be0b0",
+      "box": [
+        386,
+        727,
+        535,
+        835
+      ],
+      "positive_points": [
+        [
+          447,
+          774
+        ],
+        [
+          496,
+          751
+        ]
+      ],
+      "negative_points": [
+        [
+          350,
+          780
+        ],
+        [
+          564,
+          764
+        ],
+        [
+          563,
+          841
+        ]
+      ],
+      "sam_scores": [
+        0.7864753007888794,
+        0.9208006262779236,
+        0.9205007553100586
+      ],
+      "chosen_option": 1,
+      "selected_pixels": 6563,
+      "removed_fully_transparent_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        6563
+      ],
+      "visual_review": "pending",
+      "status": "initial_candidate"
+    },
+    {
+      "state": "idle",
+      "part": "orb",
+      "input_file": "source/01-idle.png",
+      "input_sha256": "9c7769ab20bf96f77e8de0d6b6e78ee8e061ed5eb311b87575774df4f12be0b0",
+      "box": [
+        516,
+        713,
+        620,
+        814
+      ],
+      "positive_points": [
+        [
+          565,
+          765
+        ]
+      ],
+      "negative_points": [
+        [
+          501,
+          752
+        ],
+        [
+          569,
+          843
+        ]
+      ],
+      "sam_scores": [
+        0.9274145364761353,
+        0.9425538778305054,
+        0.952265739440918
+      ],
+      "chosen_option": 2,
+      "selected_pixels": 6347,
+      "removed_fully_transparent_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        6347
+      ],
+      "visual_review": "pending",
+      "status": "initial_candidate"
+    },
+    {
+      "state": "thinking",
+      "part": "resting-hand",
+      "input_file": "source/02-thinking.png",
+      "input_sha256": "7309dd9974173c4976588387feef61241470e058cb2c3580c4976bff41377536",
+      "box": [
+        516,
+        790,
+        635,
+        876
+      ],
+      "positive_points": [
+        [
+          566,
+          831
+        ]
+      ],
+      "negative_points": [
+        [
+          493,
+          822
+        ],
+        [
+          642,
+          829
+        ]
+      ],
+      "sam_scores": [
+        0.8296617865562439,
+        0.9463961124420166,
+        0.9494404196739197
+      ],
+      "chosen_option": 2,
+      "selected_pixels": 5617,
+      "removed_fully_transparent_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        5617
+      ],
+      "visual_review": "pending",
+      "status": "initial_candidate"
+    },
+    {
+      "state": "read_file",
+      "part": "crossed-hands-visible",
+      "input_file": "source/03-read_file.png",
+      "input_sha256": "61fbd3f92f9beae25e14fde406d4b1cf5e5a34f61c0a59c6bc366b405e95671e",
+      "box": [
+        523,
+        788,
+        654,
+        834
+      ],
+      "positive_points": [
+        [
+          577,
+          814
+        ]
+      ],
+      "negative_points": [
+        [
+          571,
+          765
+        ],
+        [
+          580,
+          854
+        ]
+      ],
+      "sam_scores": [
+        0.7467923760414124,
+        0.883580207824707,
+        0.909410297870636
+      ],
+      "chosen_option": 2,
+      "selected_pixels": 4409,
+      "removed_fully_transparent_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        4409
+      ],
+      "visual_review": "pending",
+      "status": "initial_candidate"
+    },
+    {
+      "state": "view_image",
+      "part": "hand-and-stylus",
+      "input_file": "source/04-view_image.png",
+      "input_sha256": "2b5b3c8e23c672f9286e0c77e62c4f53f96ae522b9efc92b3b2b48c9d7d7dfd5",
+      "box": [
+        368,
+        655,
+        524,
+        819
+      ],
+      "positive_points": [
+        [
+          421,
+          741
+        ],
+        [
+          472,
+          756
+        ],
+        [
+          500,
+          790
+        ]
+      ],
+      "negative_points": [
+        [
+          338,
+          765
+        ],
+        [
+          531,
+          831
+        ],
+        [
+          529,
+          694
+        ]
+      ],
+      "sam_scores": [
+        0.6493355631828308,
+        0.8322685956954956,
+        0.8323460221290588
+      ],
+      "chosen_option": 2,
+      "selected_pixels": 10573,
+      "removed_fully_transparent_pixels": 0,
+      "components": 4,
+      "component_areas": [
+        10458,
+        1,
+        16,
+        98
+      ],
+      "visual_review": "pending",
+      "status": "initial_candidate"
+    },
+    {
+      "state": "write_file",
+      "part": "left-hand",
+      "input_file": "source/05-write_file.png",
+      "input_sha256": "01ce56bb94e11e39844e803c2062cc2e273c7135d3349134e9a3b1cc1647e17e",
+      "box": [
+        347,
+        735,
+        485,
+        814
+      ],
+      "positive_points": [
+        [
+          403,
+          775
+        ]
+      ],
+      "negative_points": [
+        [
+          330,
+          765
+        ],
+        [
+          398,
+          828
+        ]
+      ],
+      "sam_scores": [
+        0.7653570771217346,
+        0.9169238209724426,
+        0.9177802801132202
+      ],
+      "chosen_option": 2,
+      "selected_pixels": 5788,
+      "removed_fully_transparent_pixels": 0,
+      "components": 4,
+      "component_areas": [
+        5647,
+        27,
+        2,
+        112
+      ],
+      "visual_review": "pending",
+      "status": "initial_candidate"
+    },
+    {
+      "state": "write_file",
+      "part": "right-hand",
+      "input_file": "source/05-write_file.png",
+      "input_sha256": "01ce56bb94e11e39844e803c2062cc2e273c7135d3349134e9a3b1cc1647e17e",
+      "box": [
+        733,
+        741,
+        856,
+        821
+      ],
+      "positive_points": [
+        [
+          792,
+          781
+        ]
+      ],
+      "negative_points": [
+        [
+          877,
+          780
+        ],
+        [
+          799,
+          834
+        ]
+      ],
+      "sam_scores": [
+        0.39916008710861206,
+        0.901841938495636,
+        0.8924379348754883
+      ],
+      "chosen_option": 1,
+      "selected_pixels": 4217,
+      "removed_fully_transparent_pixels": 0,
+      "components": 2,
+      "component_areas": [
+        4215,
+        2
+      ],
+      "visual_review": "pending",
+      "status": "initial_candidate"
+    },
+    {
+      "state": "verify",
+      "part": "hand-and-probe",
+      "input_file": "source/06-verify.png",
+      "input_sha256": "cbe31ee0637734af510385b69c876e9cf4969023c9e84fbecc65e8fd115274fc",
+      "box": [
+        363,
+        590,
+        517,
+        785
+      ],
+      "positive_points": [
+        [
+          412,
+          683
+        ],
+        [
+          474,
+          680
+        ],
+        [
+          492,
+          751
+        ]
+      ],
+      "negative_points": [
+        [
+          345,
+          725
+        ],
+        [
+          534,
+          640
+        ],
+        [
+          524,
+          794
+        ]
+      ],
+      "sam_scores": [
+        0.70469069480896,
+        0.8337897658348083,
+        0.8399340510368347
+      ],
+      "chosen_option": 2,
+      "selected_pixels": 15168,
+      "removed_fully_transparent_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        15168
+      ],
+      "visual_review": "pending",
+      "status": "initial_candidate"
+    },
+    {
+      "state": "read_web",
+      "part": "pointing-hand",
+      "input_file": "source/07-read_web.png",
+      "input_sha256": "ce8655468092eafa020efd186e56d5e02849d54bd4eed10781cc40e78d7cb233",
+      "box": [
+        318,
+        620,
+        452,
+        700
+      ],
+      "positive_points": [
+        [
+          375,
+          656
+        ],
+        [
+          402,
+          677
+        ]
+      ],
+      "negative_points": [
+        [
+          307,
+          691
+        ],
+        [
+          466,
+          698
+        ],
+        [
+          381,
+          731
+        ]
+      ],
+      "sam_scores": [
+        0.7456584572792053,
+        0.8381818532943726,
+        0.8509198427200317
+      ],
+      "chosen_option": 2,
+      "selected_pixels": 4567,
+      "removed_fully_transparent_pixels": 0,
+      "components": 2,
+      "component_areas": [
+        4562,
+        5
+      ],
+      "visual_review": "pending",
+      "status": "initial_candidate"
+    },
+    {
+      "state": "default_work",
+      "part": "trackball-hand",
+      "input_file": "source/08-default_work.png",
+      "input_sha256": "bb3e21215e279b1e41403c384c4f5f586237ecdf4f6eaea81f283f0a10118d21",
+      "box": [
+        344,
+        735,
+        462,
+        820
+      ],
+      "positive_points": [
+        [
+          391,
+          777
+        ],
+        [
+          420,
+          763
+        ]
+      ],
+      "negative_points": [
+        [
+          328,
+          771
+        ],
+        [
+          438,
+          805
+        ],
+        [
+          443,
+          837
+        ]
+      ],
+      "sam_scores": [
+        0.7667815685272217,
+        0.9041211009025574,
+        0.9062862396240234
+      ],
+      "chosen_option": 2,
+      "selected_pixels": 4590,
+      "removed_fully_transparent_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        4590
+      ],
+      "visual_review": "pending",
+      "status": "initial_candidate"
+    },
+    {
+      "state": "respond",
+      "part": "hand-and-card",
+      "input_file": "source/09-respond.png",
+      "input_sha256": "7b6a19de9a355e3dabac281edf2ce8654ea29c9477453625b8f02441a32536fd",
+      "box": [
+        295,
+        582,
+        543,
+        782
+      ],
+      "positive_points": [
+        [
+          403,
+          669
+        ],
+        [
+          351,
+          728
+        ]
+      ],
+      "negative_points": [
+        [
+          303,
+          809
+        ],
+        [
+          562,
+          672
+        ],
+        [
+          420,
+          756
+        ]
+      ],
+      "sam_scores": [
+        0.6922836899757385,
+        0.7922278046607971,
+        0.8406226634979248
+      ],
+      "chosen_option": 2,
+      "selected_pixels": 27254,
+      "removed_fully_transparent_pixels": 0,
+      "components": 7,
+      "component_areas": [
+        27110,
+        105,
+        2,
+        8,
+        5,
+        1,
+        23
+      ],
+      "visual_review": "pending",
+      "status": "initial_candidate"
+    },
+    {
+      "state": "task_complete",
+      "part": "resting-sleeves",
+      "input_file": "source/10-task_complete.png",
+      "input_sha256": "f9c76a01b402a43e0f6ca46a1f3ec621a93684acf9dcc8eb8b720e98be0b53c1",
+      "box": [
+        301,
+        717,
+        892,
+        851
+      ],
+      "positive_points": [
+        [
+          415,
+          790
+        ],
+        [
+          715,
+          790
+        ]
+      ],
+      "negative_points": [
+        [
+          600,
+          695
+        ],
+        [
+          600,
+          858
+        ],
+        [
+          951,
+          790
+        ]
+      ],
+      "sam_scores": [
+        0.8749310374259949,
+        0.85076504945755,
+        0.9136475324630737
+      ],
+      "chosen_option": 2,
+      "selected_pixels": 59606,
+      "removed_fully_transparent_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        59606
+      ],
+      "visual_review": "pending",
+      "status": "initial_candidate"
+    },
+    {
+      "state": "question_for_user",
+      "part": "pressing-hand",
+      "input_file": "source/11-question_for_user.png",
+      "input_sha256": "7dd9ffbf1600e954ed5718c970cf8648d4fe3695d82634355ac3054f8b9f6172",
+      "box": [
+        710,
+        715,
+        811,
+        798
+      ],
+      "positive_points": [
+        [
+          751,
+          752
+        ],
+        [
+          784,
+          773
+        ]
+      ],
+      "negative_points": [
+        [
+          701,
+          781
+        ],
+        [
+          805,
+          811
+        ],
+        [
+          848,
+          744
+        ]
+      ],
+      "sam_scores": [
+        0.7683225870132446,
+        0.8777878880500793,
+        0.8878011703491211
+      ],
+      "chosen_option": 2,
+      "selected_pixels": 4666,
+      "removed_fully_transparent_pixels": 0,
+      "components": 2,
+      "component_areas": [
+        4625,
+        41
+      ],
+      "visual_review": "pending",
+      "status": "initial_candidate"
+    },
+    {
+      "state": "failed",
+      "part": "hand-and-card",
+      "input_file": "source/12-failed.png",
+      "input_sha256": "970cda2adf757e5320f202b93f1bf86f7c88d6bde303e8e7ccdb3dd553e37ace",
+      "box": [
+        329,
+        582,
+        527,
+        763
+      ],
+      "positive_points": [
+        [
+          435,
+          651
+        ],
+        [
+          374,
+          701
+        ]
+      ],
+      "negative_points": [
+        [
+          294,
+          765
+        ],
+        [
+          548,
+          695
+        ],
+        [
+          414,
+          780
+        ]
+      ],
+      "sam_scores": [
+        0.7650519609451294,
+        0.767559289932251,
+        0.8417274951934814
+      ],
+      "chosen_option": 2,
+      "selected_pixels": 19194,
+      "removed_fully_transparent_pixels": 0,
+      "components": 1,
+      "component_areas": [
+        19194
+      ],
+      "visual_review": "pending",
+      "status": "initial_candidate"
+    }
+  ]
+}

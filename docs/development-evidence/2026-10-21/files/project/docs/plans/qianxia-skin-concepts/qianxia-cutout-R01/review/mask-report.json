@@ -1,0 +1,784 @@
+[
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      3405
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      439,
+      507,
+      500,
+      574
+    ],
+    "state": "default_work",
+    "part": "iris-left",
+    "source_sha256": "bb3e21215e279b1e41403c384c4f5f586237ecdf4f6eaea81f283f0a10118d21",
+    "mask_sha256": "e333a8194e18adc6cd45adf17a31567801e60b2004b383eaa8a5036fa79e5cc5",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      3620
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      627,
+      516,
+      695,
+      580
+    ],
+    "state": "default_work",
+    "part": "iris-right",
+    "source_sha256": "bb3e21215e279b1e41403c384c4f5f586237ecdf4f6eaea81f283f0a10118d21",
+    "mask_sha256": "c6186d4f1bb3d81f1303272d1b110c24d4cabff9a817c8ac3db4bfe2b37c87aa",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      5259
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 432,
+    "bbox": [
+      345,
+      737,
+      453,
+      818
+    ],
+    "state": "default_work",
+    "part": "trackball-hand",
+    "source_sha256": "bb3e21215e279b1e41403c384c4f5f586237ecdf4f6eaea81f283f0a10118d21",
+    "mask_sha256": "64da2799b8189c9676f28d9f07e8471a7a0b1c34257344fd7c8abf1835c35a86",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      21052
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 625,
+    "bbox": [
+      330,
+      581,
+      516,
+      758
+    ],
+    "state": "failed",
+    "part": "hand-and-card",
+    "source_sha256": "970cda2adf757e5320f202b93f1bf86f7c88d6bde303e8e7ccdb3dd553e37ace",
+    "mask_sha256": "38072fe7ce4f6995f1be9a30a2042e7ebb91a8d6bf0665b628384abec548b877",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      2931
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      435,
+      501,
+      497,
+      559
+    ],
+    "state": "failed",
+    "part": "iris-left",
+    "source_sha256": "970cda2adf757e5320f202b93f1bf86f7c88d6bde303e8e7ccdb3dd553e37ace",
+    "mask_sha256": "de7ead4741824462828555bd1aac81fd703040f39230563b0dca4ea5c816a04b",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      3242
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      620,
+      511,
+      688,
+      566
+    ],
+    "state": "failed",
+    "part": "iris-right",
+    "source_sha256": "970cda2adf757e5320f202b93f1bf86f7c88d6bde303e8e7ccdb3dd553e37ace",
+    "mask_sha256": "026158030b6b02fe0e53ce4a7b9eaafe543b7f65b36b6310890c6ac4ddf7fbf9",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      3406
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      441,
+      507,
+      506,
+      573
+    ],
+    "state": "idle",
+    "part": "iris-left",
+    "source_sha256": "9c7769ab20bf96f77e8de0d6b6e78ee8e061ed5eb311b87575774df4f12be0b0",
+    "mask_sha256": "b92499c79a30fbcbacb6e897ba471ab08b9b289cd6c8e89922dfb78e3478d47a",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      3582
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      629,
+      517,
+      698,
+      577
+    ],
+    "state": "idle",
+    "part": "iris-right",
+    "source_sha256": "9c7769ab20bf96f77e8de0d6b6e78ee8e061ed5eb311b87575774df4f12be0b0",
+    "mask_sha256": "6211430d19f54c7e0a715fd60e3c5c53736e8f83457c45486532a98a97c80b6b",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      6946
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 317,
+    "bbox": [
+      519,
+      717,
+      614,
+      811
+    ],
+    "state": "idle",
+    "part": "orb",
+    "source_sha256": "9c7769ab20bf96f77e8de0d6b6e78ee8e061ed5eb311b87575774df4f12be0b0",
+    "mask_sha256": "672edf22eb071eaf178f949fe422be7c28524c817744e2d869f8855106986122",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      7894
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 428,
+    "bbox": [
+      384,
+      734,
+      528,
+      828
+    ],
+    "state": "idle",
+    "part": "touching-hand",
+    "source_sha256": "9c7769ab20bf96f77e8de0d6b6e78ee8e061ed5eb311b87575774df4f12be0b0",
+    "mask_sha256": "af53f9646626c5f062a069b90517afdde9056887498934931a96cff6eec052c1",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      3404
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 210,
+    "bbox": [
+      759,
+      784,
+      843,
+      834
+    ],
+    "state": "question_for_user",
+    "part": "button-cap",
+    "source_sha256": "7dd9ffbf1600e954ed5718c970cf8648d4fe3695d82634355ac3054f8b9f6172",
+    "mask_sha256": "86ccc238fc8cbb38644a70be0d4a6c6ac2e233431b273cb2c2d5f37c262a3684",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      3923
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      439,
+      496,
+      505,
+      568
+    ],
+    "state": "question_for_user",
+    "part": "iris-left",
+    "source_sha256": "7dd9ffbf1600e954ed5718c970cf8648d4fe3695d82634355ac3054f8b9f6172",
+    "mask_sha256": "c4b99a7bf3ef3c601cc755fd05e62b5f08cbaf76c1f4ac33e5f6c5d6b8507e92",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      4255
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      626,
+      505,
+      696,
+      575
+    ],
+    "state": "question_for_user",
+    "part": "iris-right",
+    "source_sha256": "7dd9ffbf1600e954ed5718c970cf8648d4fe3695d82634355ac3054f8b9f6172",
+    "mask_sha256": "6508054a19c481468cfa8f9fff4b583f74dba323220e01a9e33b794b6306ed59",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      5301
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 287,
+    "bbox": [
+      712,
+      718,
+      804,
+      791
+    ],
+    "state": "question_for_user",
+    "part": "pressing-hand",
+    "source_sha256": "7dd9ffbf1600e954ed5718c970cf8648d4fe3695d82634355ac3054f8b9f6172",
+    "mask_sha256": "588a430a3f79348aa51ff75f229db59af560fe6a3c3ed4c7c1d4677f1a482c7c",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      3423
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      447,
+      506,
+      509,
+      573
+    ],
+    "state": "read_file",
+    "part": "iris-left",
+    "source_sha256": "61fbd3f92f9beae25e14fde406d4b1cf5e5a34f61c0a59c6bc366b405e95671e",
+    "mask_sha256": "bdeaad1644624768caf2b70558cb3e866e3f2b6e227132deff242fa9a1784740",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      3661
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      637,
+      516,
+      705,
+      577
+    ],
+    "state": "read_file",
+    "part": "iris-right",
+    "source_sha256": "61fbd3f92f9beae25e14fde406d4b1cf5e5a34f61c0a59c6bc366b405e95671e",
+    "mask_sha256": "d5bb5ff675010e505048fd39609ca17f0eabcb3cf9cbcffe21e7c6cc81e277e0",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      3256
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      434,
+      499,
+      494,
+      563
+    ],
+    "state": "read_web",
+    "part": "iris-left",
+    "source_sha256": "ce8655468092eafa020efd186e56d5e02849d54bd4eed10781cc40e78d7cb233",
+    "mask_sha256": "55514dbd787583c72d92f066ba94da1944ab750a14a942aea0a64f2c4f907db3",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      3570
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      621,
+      509,
+      687,
+      572
+    ],
+    "state": "read_web",
+    "part": "iris-right",
+    "source_sha256": "ce8655468092eafa020efd186e56d5e02849d54bd4eed10781cc40e78d7cb233",
+    "mask_sha256": "cfed9314a1fcde0c102932166e36e8b55250aacb5f160784e5b9e5ecca2f3c01",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      4746
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 296,
+    "bbox": [
+      325,
+      621,
+      432,
+      691
+    ],
+    "state": "read_web",
+    "part": "pointing-hand",
+    "source_sha256": "ce8655468092eafa020efd186e56d5e02849d54bd4eed10781cc40e78d7cb233",
+    "mask_sha256": "02255e92610a18fb1f145638922b3d1feec82fd919de7e1f427a92113acf8f94",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      29371
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 747,
+    "bbox": [
+      302,
+      588,
+      532,
+      778
+    ],
+    "state": "respond",
+    "part": "hand-and-card",
+    "source_sha256": "7b6a19de9a355e3dabac281edf2ce8654ea29c9477453625b8f02441a32536fd",
+    "mask_sha256": "b0c6141bc07b4b7a2a261205f15b154655112cf06883c5153f49fef3ba876f95",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      3144
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      440,
+      499,
+      504,
+      558
+    ],
+    "state": "respond",
+    "part": "iris-left",
+    "source_sha256": "7b6a19de9a355e3dabac281edf2ce8654ea29c9477453625b8f02441a32536fd",
+    "mask_sha256": "3d53e53428ed42b2ff63de9f24d37d0a4f7edcf11ef2c6e3e89cdcd2c36c9b0b",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      3437
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      628,
+      508,
+      699,
+      565
+    ],
+    "state": "respond",
+    "part": "iris-right",
+    "source_sha256": "7b6a19de9a355e3dabac281edf2ce8654ea29c9477453625b8f02441a32536fd",
+    "mask_sha256": "6196e75aab2f876eb1ae53a3752abbc34321716ef7b22037855cec13e26e088e",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      3097
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      416,
+      502,
+      475,
+      567
+    ],
+    "state": "thinking",
+    "part": "iris-left",
+    "source_sha256": "7309dd9974173c4976588387feef61241470e058cb2c3580c4976bff41377536",
+    "mask_sha256": "d36dc02c572deea9b31288714b26a8cefb1e3122e56fc01f12d2eb19878379a7",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      3286
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      594,
+      523,
+      660,
+      583
+    ],
+    "state": "thinking",
+    "part": "iris-right",
+    "source_sha256": "7309dd9974173c4976588387feef61241470e058cb2c3580c4976bff41377536",
+    "mask_sha256": "70dd967d01ccda618ffea2786fb60bc121db02fd41e3e590de414f7bb4f325ad",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      16204
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 634,
+    "bbox": [
+      370,
+      589,
+      504,
+      779
+    ],
+    "state": "verify",
+    "part": "hand-and-probe",
+    "source_sha256": "cbe31ee0637734af510385b69c876e9cf4969023c9e84fbecc65e8fd115274fc",
+    "mask_sha256": "c521789d52d81d9cd73d2ab528136afdd200b167faa4b8b02a8b8b478de02fd4",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      3272
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      437,
+      511,
+      501,
+      574
+    ],
+    "state": "verify",
+    "part": "iris-left",
+    "source_sha256": "cbe31ee0637734af510385b69c876e9cf4969023c9e84fbecc65e8fd115274fc",
+    "mask_sha256": "8a74217fdf57d70b020a86c6ece947332af910dbbfc5fcca9677d7d3106b1956",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      3573
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      623,
+      520,
+      695,
+      578
+    ],
+    "state": "verify",
+    "part": "iris-right",
+    "source_sha256": "cbe31ee0637734af510385b69c876e9cf4969023c9e84fbecc65e8fd115274fc",
+    "mask_sha256": "4baf6ce544f711768696b8e58c4dd1627d23e647d0852e651970a525ae2c0782",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      11214
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 586,
+    "bbox": [
+      372,
+      657,
+      520,
+      811
+    ],
+    "state": "view_image",
+    "part": "hand-and-stylus",
+    "source_sha256": "2b5b3c8e23c672f9286e0c77e62c4f53f96ae522b9efc92b3b2b48c9d7d7dfd5",
+    "mask_sha256": "d9c8cc526d91c49b53e8e459c3584573cd6846073c06a4d697eed53dcd6ad73d",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      3457
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      440,
+      504,
+      504,
+      570
+    ],
+    "state": "view_image",
+    "part": "iris-left",
+    "source_sha256": "2b5b3c8e23c672f9286e0c77e62c4f53f96ae522b9efc92b3b2b48c9d7d7dfd5",
+    "mask_sha256": "5087a7ba342165d36ff9a76499d3b122ad038a7afc64476e0422783a15d2cebb",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      3542
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      630,
+      514,
+      698,
+      576
+    ],
+    "state": "view_image",
+    "part": "iris-right",
+    "source_sha256": "2b5b3c8e23c672f9286e0c77e62c4f53f96ae522b9efc92b3b2b48c9d7d7dfd5",
+    "mask_sha256": "eb0ece7678c4b2e03e7dfb2381f3cf5b903163d4b547cb58d1aee9a343e84052",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      3103
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      440,
+      507,
+      499,
+      570
+    ],
+    "state": "write_file",
+    "part": "iris-left",
+    "source_sha256": "01ce56bb94e11e39844e803c2062cc2e273c7135d3349134e9a3b1cc1647e17e",
+    "mask_sha256": "e9ee33db45e24dd90b74a96485052f66b822e3142959ea0b4a6dc9027a8e0dba",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      3309
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 0,
+    "bbox": [
+      619,
+      516,
+      687,
+      574
+    ],
+    "state": "write_file",
+    "part": "iris-right",
+    "source_sha256": "01ce56bb94e11e39844e803c2062cc2e273c7135d3349134e9a3b1cc1647e17e",
+    "mask_sha256": "bb142faaef0cc7a56ddcd5c3ce0e9213a724b8e9a94060137ebd2fd3eba33f87",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      6248
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 445,
+    "bbox": [
+      354,
+      739,
+      469,
+      813
+    ],
+    "state": "write_file",
+    "part": "left-hand",
+    "source_sha256": "01ce56bb94e11e39844e803c2062cc2e273c7135d3349134e9a3b1cc1647e17e",
+    "mask_sha256": "a26f499fff317495c14d05bf9ef1c9856769cd00a9cc05a6e1e1ce536cc5858e",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  },
+  {
+    "passed": true,
+    "components": 1,
+    "component_areas": [
+      5009
+    ],
+    "opaque_hole_pixels": 0,
+    "background_pixels": 0,
+    "soft_mask_pixels": 406,
+    "bbox": [
+      741,
+      747,
+      849,
+      812
+    ],
+    "state": "write_file",
+    "part": "right-hand",
+    "source_sha256": "01ce56bb94e11e39844e803c2062cc2e273c7135d3349134e9a3b1cc1647e17e",
+    "mask_sha256": "932c8d4c0b9261e130b6dc028b3dbe39419c6f15e31de9b6766fa608585cdd25",
+    "visual_review": "static candidate inspected; user approval pending",
+    "user_approval": "pending",
+    "dynamic_review": "not started"
+  }
+]

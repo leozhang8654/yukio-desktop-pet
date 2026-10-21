@@ -1,0 +1,9 @@
+{
+  "source": "installed Desktop/Yukio.app native question card",
+  "questionCallID": "call_public_dbac1f0cc44a81bd",
+  "answer": "AUTO_TEST_REPLY: sent by the diagnostic, not user feedback.",
+  "receivedInCurrentChat": true,
+  "questionCardDismissed": true,
+  "accessibilityPromptObserved": false,
+  "performedBy": "assistant via Computer Use; not user confirmation"
+}

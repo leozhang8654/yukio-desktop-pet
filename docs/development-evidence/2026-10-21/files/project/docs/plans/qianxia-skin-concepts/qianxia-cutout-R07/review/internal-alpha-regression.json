@@ -1,0 +1,20 @@
+[
+  {
+    "part": "write_file/left-hand",
+    "changed_mask_pixels": 32,
+    "outside_declared_regions_changed": 0,
+    "enclosed_nonopaque_pixels_before_after": [
+      22,
+      0
+    ]
+  },
+  {
+    "part": "respond/hand-and-card",
+    "changed_mask_pixels": 14,
+    "outside_declared_regions_changed": 0,
+    "enclosed_nonopaque_pixels_before_after": [
+      14,
+      0
+    ]
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "state": "read_file",
+  "unique_body_frames": 23,
+  "steps": 24,
+  "outside_allowed_changed": 0,
+  "maximum_displacement_display_px": 0,
+  "loop_seam_equal": true,
+  "fully_static": null,
+  "decoded_exact": true,
+  "visual": "pending",
+  "independent": "pending"
+}
