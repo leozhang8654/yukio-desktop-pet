@@ -1,11 +1,11 @@
 {
   "project": {
-    "updated_at": "2026-10-21T23:33:21.587180+00:00",
+    "updated_at": "2026-10-23T00:06:20.895209+00:00",
     "focus_id": "coverage",
     "boundary": "Codex、Claude、Deep Code 的基础活动记录已在本机分步实现；完整交接、活动工作台和千问解释仍待完成。Deep Code 日常使用与 Windows 实机尚未验收，桌面 App 未替换。",
     "schema_version": 1,
-    "current_note": "Deep Code 的基础记录已完成：45 种专门测试通过，重启能接着记，后台启动和等待回答不会被误写成完成。原 Codex 和 Claude 检查仍通过。下一步补任务和助手之间的联系。",
-    "work_state": "Deep Code 这一小步已完成 · 第 5 阶段继续",
+    "current_note": "三种客户端的基础记录已完成。现在继续分清主助手和协助助手，记录能核对的创建与聊天分支关系；检查结束后公布结果。",
+    "work_state": "正在补任务与助手之间的联系",
     "stages": [
       {
         "id": "audit",
@@ -473,6 +473,6 @@
   "collector": null,
   "publication": {
     "mode": "published",
-    "exported_at": "2026-10-21T23:33:21.742860+00:00"
+    "exported_at": "2026-10-23T00:06:20.993870+00:00"
   }
 }
