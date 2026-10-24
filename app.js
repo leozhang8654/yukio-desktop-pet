@@ -51,13 +51,17 @@ function renderStages(){
 }
 function renderProject(p){
   project=p;const current=p.stages.find(s=>s.id===p.focus_id)||p.stages[0];
-  const next=p.stages.find((s,i)=>i>p.stages.indexOf(current)&&s.status!=='complete');
+  const next=p.stages.find((s,i)=>i>p.stages.indexOf(current)&&s.status!=='complete')
+    ||(current.status!=='complete'?current:p.stages.find(s=>s.status!=='complete'));
   byId('updated').textContent=time(p.updated_at);byId('work-state').textContent=p.work_state;
   byId('focus-tag').textContent=current.status==='complete'?'本轮已完成':'当前步骤';
   byId('stage-position').textContent=`第 ${p.stages.indexOf(current)+1} / ${p.stages.length} 阶段`;
   byId('focus-title').textContent=current.title;byId('focus-description').textContent=p.current_note;
   byId('focus-outcome').textContent=current.outcome;byId('boundary').textContent=p.boundary;
-  byId('next-title').textContent=next?.title||'本轮计划已交付';byId('next-description').textContent=next?.summary||'继续根据实际使用情况完善。';
+  byId('next-title').textContent=next===current?'完成当前步骤的剩余检查':next?.title||'本轮计划已交付';
+  byId('next-description').textContent=next===current
+    ?(current.checks||[]).filter(c=>!c.done).map(c=>c.label).join('；')||current.summary
+    :next?.summary||'继续根据实际使用情况完善。';
   byId('acceptance').replaceChildren();
   for(const item of current.checks||[]){const c=el('span',`check ${item.done?'done':''}`);c.append(el('span','circle',item.done?'✓':'·'),el('span','',item.label));byId('acceptance').append(c);}
   byId('milestones').textContent=`${p.stages.filter(s=>s.status==='complete').length} / ${p.stages.length} 个阶段已完成`;
