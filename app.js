@@ -73,9 +73,11 @@ function renderRuntime(r){
   const stale=r?.state&&!['unavailable','stopped','failed'].includes(r.state)&&(!Number.isFinite(heartbeat)||Date.now()-heartbeat>15000);
   const state=stale?'stale':r?.state||'unavailable';
   const states={active:['正在记录','complete','正在查找最近一天有活动的 Codex 会话，轮流保存发现的记录。'],waiting:['等待新活动','neutral','记录器正在运行。目前已读到可保存的末尾；新活动或写完的记录出现后会继续。'],degraded:['部分需要检查','active','部分文件暂时无法记录；其他文件继续处理，之后会重试。'],paused_capacity:['已暂停保存','blocked','保存空间不足或已达到设置的上限。旧记录会保留，不会自动删除；处理空间问题后可重新启动。'],source_unavailable:['未找到会话目录','active','记录器会继续等待。找到 Codex 的本地记录后再开始。'],stopped:['已经停止','neutral','记录器已停止。保存过的历史仍然保留。'],stale:['状态暂未更新','active','记录器超过 15 秒没有报告状态，可能正在处理较大的记录，也可能已中断；现在无法确认。'],unavailable:['尚未连接','neutral','自动记录器尚未连接。接入后，这里显示实际运行数字。'],starting:['正在启动','neutral','正在准备本地记录器。'],failed:['需要检查','blocked','记录器遇到问题。历史保留，修复后可以继续。']};
+  states.partial_history=['正在记录，历史有缺口','active','过大的单条内容已标为未读取，后面的记录继续处理。缺口不会被当成成功，也不会自动把两边的操作接在一起。'];
   const [label,cls,description]=states[state]||states.unavailable;
   const pill=byId('runtime-state');pill.textContent=label;pill.className=`status ${cls}`;
   byId('runtime-description').textContent=state==='degraded'&&r?.scan_complete===false?'这次未能完整检查指定范围，可能遇到数量限制或无法读取的目录。已找到的会话仍会继续处理，不能把这里当成全部聊天。':description;
+  if(Number.isSafeInteger(r?.observation_gaps)&&r.observation_gaps>0)byId('runtime-description').textContent+=` 已保存的历史中标出了 ${r.observation_gaps.toLocaleString()} 处缺口；同一处即使分几次处理，也只计一次。`;
   byId('metric-found').textContent=typeof r?.discovered_files==='number'?r.discovered_files.toLocaleString():'—';
   byId('metric-events').textContent=typeof r?.events_saved_this_run==='number'?r.events_saved_this_run.toLocaleString():'—';
   byId('metric-errors').textContent=typeof r?.error_files==='number'?r.error_files.toLocaleString():'—';
